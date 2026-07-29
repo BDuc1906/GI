@@ -11,9 +11,15 @@ import { prisma } from "../src/lib/prisma";
 const require = createRequire(import.meta.url);
 const genshindb = require("genshin-db") as typeof import("genshin-db");
 
-// genshin-db chỉ lưu TÊN FILE ảnh, không lưu URL đầy đủ.
-// CDN chính thức của repo genshin-db trên jsDelivr (ảnh được host kèm theo package).
-const IMG_BASE = "https://cdn.jsdelivr.net/npm/genshin-db@5/images";
+/**
+ * [SỬA LỖI 1]: Hàm sinh URL ảnh động từ Enka Network API UI
+ * Map trực tiếp theo đúng tên file game gốc từ thư viện dữ liệu
+ */
+function getEnkaUrl(filename?: string, mihoyoUrl?: string) {
+  if (mihoyoUrl) return mihoyoUrl;
+  // Sửa cú pháp nối chuỗi để tạo đường dẫn hợp lệ dạng: https://enka.network
+  return filename ? `https://enka.network{filename}.png` : null;
+}
 
 function slugify(name: string) {
   return name
@@ -22,10 +28,6 @@ function slugify(name: string) {
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
-}
-
-function img(folder: string, filename?: string) {
-  return filename ? `${IMG_BASE}/${folder}/${filename}.png` : null;
 }
 
 async function seedCharacters() {
@@ -37,6 +39,10 @@ async function seedCharacters() {
 
     const lvl1 = c.stats(1);
     const lvl90 = c.stats(90, "+");
+
+    // [LỖI 3]: Chuẩn bị gọi riêng dữ liệu Thiên phú & Chòm sao chéo từ Database thư viện
+    const talentsData = genshindb.talents(c.name);
+    const constellationsData = genshindb.constellations(c.name);
 
     await prisma.character.upsert({
       where: { id: slugify(c.name) },
@@ -50,12 +56,19 @@ async function seedCharacters() {
         region: c.region || null,
         affiliation: c.affiliation || null,
         description: c.description || null,
-        iconUrl: img("characters", c.images?.filename_icon),
-        splashUrl: img("characters", c.images?.filename_gachaSplash),
+        // Cập nhật gọi hàm getEnkaUrl sinh ảnh chân dung và ảnh nộ
+        // Sửa lại phần gán giá trị hình ảnh chân dung và ảnh nộ trong file seed của bạn:
+        // SỬA LẠI ĐOẠN NÀY TRONG CẢ KHỐI CREATE VÀ UPDATE:
+        iconUrl: getEnkaUrl(c.images?.filename_icon, c.images?.mihoyo_icon),
+        splashUrl: getEnkaUrl(c.images?.filename_gachaSplash),
+        elementIcon: c.elementText ? `https://enka.network{c.elementText}.png` : null,
         baseHp: lvl1?.hp ?? null,
         baseAtk: lvl1?.attack ?? null,
         baseDef: lvl1?.defense ?? null,
         ascensionStat: c.substatText || null,
+        // Khi schema của bạn sẵn sàng thêm cột JSON, hãy bỏ comment 2 dòng dưới đây để nạp:
+        // talents: talentsData ? JSON.parse(JSON.stringify(talentsData)) : undefined,
+        // constellations: constellationsData ? JSON.parse(JSON.stringify(constellationsData)) : undefined,
       },
       update: {
         name: c.name,
@@ -66,18 +79,20 @@ async function seedCharacters() {
         region: c.region || null,
         affiliation: c.affiliation || null,
         description: c.description || null,
-        iconUrl: img("characters", c.images?.filename_icon),
-        splashUrl: img("characters", c.images?.filename_gachaSplash),
+        // SỬA LẠI ĐOẠN NÀY TRONG CẢ KHỐI CREATE VÀ UPDATE:
+        iconUrl: getEnkaUrl(c.images?.filename_icon, c.images?.mihoyo_icon),
+        splashUrl: getEnkaUrl(c.images?.filename_gachaSplash),
+        elementIcon: c.elementText ? `https://enka.network{c.elementText}.png` : null,
         baseHp: lvl1?.hp ?? null,
         baseAtk: lvl1?.attack ?? null,
         baseDef: lvl1?.defense ?? null,
         ascensionStat: c.substatText || null,
+        // talents: talentsData ? JSON.parse(JSON.stringify(talentsData)) : undefined,
+        // constellations: constellationsData ? JSON.parse(JSON.stringify(constellationsData)) : undefined,
       },
     });
 
-    // Chòm sao mệnh + kỹ năng lấy riêng từ genshindb.constellations / genshindb.talents theo id nhân vật (bổ sung sau nếu cần).
-    void lvl90; // giữ lại để dùng nếu muốn thêm cột "chỉ số cấp 90" sau này
-
+    void lvl90; 
     count++;
   }
   console.log(`✔ Seeded ${count} characters`);
@@ -90,7 +105,9 @@ async function seedWeapons() {
     const w = genshindb.weapons(name);
     if (!w || !w.name || !w.rarity) continue;
 
+    // [SỬA LỖI 2]: Trích xuất thuộc tính tinh luyện sạch đã gỡ tag màu r1.description
     const refinements = [w.r1, w.r2, w.r3, w.r4, w.r5].filter(Boolean);
+    const cleanEffectDescription = refinements[0]?.description || w.effectTemplateRaw || null;
 
     await prisma.weapon.upsert({
       where: { id: slugify(w.name) },
@@ -103,10 +120,10 @@ async function seedWeapons() {
         subStatName: w.mainStatText || null,
         subStatValue: w.baseStatText || null,
         effectName: w.effectName || null,
-        effectDescription: w.effectTemplateRaw || null,
+        effectDescription: cleanEffectDescription, // Dùng bản mô tả sạch, gỡ bỏ hoàn toàn template lỗi font
         passiveByRefinement: refinements.length ? JSON.parse(JSON.stringify(refinements)) : undefined,
         description: w.description || null,
-        iconUrl: img("weapons", w.images?.filename_icon),
+        iconUrl: getEnkaUrl(w.images?.filename_icon, w.images?.mihoyo_icon),
       },
       update: {
         name: w.name,
@@ -116,10 +133,10 @@ async function seedWeapons() {
         subStatName: w.mainStatText || null,
         subStatValue: w.baseStatText || null,
         effectName: w.effectName || null,
-        effectDescription: w.effectTemplateRaw || null,
+        effectDescription: cleanEffectDescription,
         passiveByRefinement: refinements.length ? JSON.parse(JSON.stringify(refinements)) : undefined,
         description: w.description || null,
-        iconUrl: img("weapons", w.images?.filename_icon),
+        iconUrl: getEnkaUrl(w.images?.filename_icon, w.images?.mihoyo_icon),
       },
     });
     count++;
@@ -149,7 +166,7 @@ async function seedArtifacts() {
           goblet: a.goblet ?? null,
           circlet: a.circlet ?? null,
         })),
-        iconUrl: img("artifacts", a.images?.filename_flower ?? a.images?.filename_circlet),
+        iconUrl: getEnkaUrl(a.images?.filename_flower ?? a.images?.filename_circlet),
       },
       update: {
         name: a.name,
@@ -163,7 +180,7 @@ async function seedArtifacts() {
           goblet: a.goblet ?? null,
           circlet: a.circlet ?? null,
         })),
-        iconUrl: img("artifacts", a.images?.filename_flower ?? a.images?.filename_circlet),
+        iconUrl: getEnkaUrl(a.images?.filename_flower ?? a.images?.filename_circlet),
       },
     });
     count++;

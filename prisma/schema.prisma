@@ -20,6 +20,7 @@ model Character {
   description String?  @db.Text
   iconUrl     String?
   splashUrl   String?
+  elementIcon    String?
   // Base stats ở cấp 1 / cấp 90 (nguồn: genshin-db, dữ liệu game thật)
   baseHp      Float?
   baseAtk     Float?
