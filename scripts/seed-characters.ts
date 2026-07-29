@@ -61,7 +61,7 @@ async function seedCharacters() {
         // SỬA LẠI ĐOẠN NÀY TRONG CẢ KHỐI CREATE VÀ UPDATE:
         iconUrl: getEnkaUrl(c.images?.filename_icon, c.images?.mihoyo_icon),
         splashUrl: getEnkaUrl(c.images?.filename_gachaSplash),
-        elementIcon: c.elementText ? `https://enka.network{c.elementText}.png` : null,
+        elementIcon: c.elementText ? `https://enka.network${c.elementText}.png` : null,
         baseHp: lvl1?.hp ?? null,
         baseAtk: lvl1?.attack ?? null,
         baseDef: lvl1?.defense ?? null,
@@ -82,7 +82,7 @@ async function seedCharacters() {
         // SỬA LẠI ĐOẠN NÀY TRONG CẢ KHỐI CREATE VÀ UPDATE:
         iconUrl: getEnkaUrl(c.images?.filename_icon, c.images?.mihoyo_icon),
         splashUrl: getEnkaUrl(c.images?.filename_gachaSplash),
-        elementIcon: c.elementText ? `https://enka.network{c.elementText}.png` : null,
+        elementIcon: c.elementText ? `https://enka.network${c.elementText}.png` : null,
         baseHp: lvl1?.hp ?? null,
         baseAtk: lvl1?.attack ?? null,
         baseDef: lvl1?.defense ?? null,
