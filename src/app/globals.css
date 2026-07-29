@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+:root {
+  --ink: #12141c;
+  --ink-raised: #1a1d29;
+  --gold: #C9A66B;
+  --gold-bright: #F4D03F;
+  --parchment: #EDE6D6;
+  --parchment-dim: #9a9484;
+  --purple-glow: #B57EDC;
+
+  --el-anemo: #6FC6A3;
+  --el-geo: #CFA83E;
+  --el-electro: #B98FE0;
+  --el-dendro: #A2C93B;
+  --el-hydro: #4CC2F1;
+  --el-pyro: #EF7938;
+  --el-cryo: #8FE0E0;
+}
+
+body {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,166,107,0.08), transparent),
+    var(--ink);
+  color: var(--parchment);
+  font-family: 'Inter', sans-serif;
+}
+
+.font-display {
+  font-family: 'Cinzel', serif;
+}
+
+/* Khung phong cách di vật: viền vàng mảnh, góc bo nhẹ, nền lớp thẻ */
+.relic-frame {
+  background: var(--ink-raised);
+  border: 1px solid rgba(201,166,107,0.35);
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+}
+.relic-frame:hover {
+  transform: translateY(-2px);
+}
+
+/* Viền phát sáng theo độ hiếm - quy ước màu đúng như trong game */
+.rarity-glow-5 {
+  border-color: rgba(244,208,63,0.55);
+  box-shadow: 0 0 0 1px rgba(244,208,63,0.15), 0 8px 24px -8px rgba(244,208,63,0.35);
+}
+.rarity-glow-5:hover {
+  border-color: var(--gold-bright);
+  box-shadow: 0 0 0 1px rgba(244,208,63,0.4), 0 12px 32px -8px rgba(244,208,63,0.5);
+}
+.rarity-glow-4 {
+  border-color: rgba(181,126,220,0.5);
+  box-shadow: 0 0 0 1px rgba(181,126,220,0.12), 0 8px 24px -8px rgba(181,126,220,0.3);
+}
+.rarity-glow-4:hover {
+  border-color: var(--purple-glow);
+  box-shadow: 0 0 0 1px rgba(181,126,220,0.35), 0 12px 32px -8px rgba(181,126,220,0.45);
+}
+.rarity-glow-3 {
+  border-color: rgba(201,166,107,0.3);
+}
+
+.divider-gold {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,166,107,0.6), transparent);
+}

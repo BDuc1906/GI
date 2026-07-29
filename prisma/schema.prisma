@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ---- Nhân vật (Characters) ----
+model Character {
+  id          String   @id            // slug, vd: "kazuha"
+  name        String
+  title       String?
+  vision      String                  // nguyên tố: Anemo, Pyro, ...
+  weaponType  String                  // Sword, Claymore, Polearm, Bow, Catalyst
+  rarity      Int                     // 4 hoặc 5 sao
+  region      String?
+  affiliation String?
+  releaseDate DateTime?
+  description String?  @db.Text
+  iconUrl     String?
+  splashUrl   String?
+  // Base stats ở cấp 1 / cấp 90 (nguồn: genshin-db, dữ liệu game thật)
+  baseHp      Float?
+  baseAtk     Float?
+  baseDef     Float?
+  ascensionStat String?               // chỉ số bị động cộng thêm lúc đột phá (Crit Rate, EM, ...)
+  constellations Json?                // mảng 6 chòm sao: {name, description}
+  talents        Json?                // mảng kỹ năng: {name, type, description}
+  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now())
+
+  @@index([vision])
+  @@index([weaponType])
+  @@index([rarity])
+}
+
+// ---- Vũ khí (Weapons) ----
+model Weapon {
+  id          String   @id
+  name        String
+  type        String                  // Sword, Claymore, Polearm, Bow, Catalyst
+  rarity      Int
+  baseAtk     Float?
+  subStatName String?                 // vd: Crit DMG, Energy Recharge
+  subStatValue String?
+  effectName  String?
+  effectDescription String? @db.Text
+  passiveByRefinement Json?           // giá trị hiệu ứng theo cấp tinh luyện 1-5
+  description String?  @db.Text
+  iconUrl     String?
+  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now())
+
+  @@index([type])
+  @@index([rarity])
+}
+
+// ---- Thánh di vật (Artifact Sets) ----
+model ArtifactSet {
+  id          String   @id
+  name        String
+  rarityRange Int[]                   // vd: [4,5]
+  twoPieceBonus String? @db.Text
+  fourPieceBonus String? @db.Text
+  pieces      Json?                   // {flower, plume, sands, goblet, circlet}: {name, description}
+  iconUrl     String?
+  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now())
+}
