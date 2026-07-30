@@ -16,18 +16,21 @@ model Character {
   rarity      Int                     // 4 hoặc 5 sao
   region      String?
   affiliation String?
+  // releaseDate: genshin-db KHÔNG cung cấp ngày ra mắt thật ngoài đời
+  // (đây là ngày trong game/banner, không có sẵn trong package này).
+  // Giữ field lại nhưng để null cho tới khi có nguồn dữ liệu khác
+  // (vd HoYoLAB changelog hoặc fandom wiki scrape riêng).
   releaseDate DateTime?
   description String?  @db.Text
   iconUrl     String?
   splashUrl   String?
   elementIcon    String?
-  // Base stats ở cấp 1 / cấp 90 (nguồn: genshin-db, dữ liệu game thật)
   baseHp      Float?
   baseAtk     Float?
   baseDef     Float?
-  ascensionStat String?               // chỉ số bị động cộng thêm lúc đột phá (Crit Rate, EM, ...)
-  constellations Json?                // mảng 6 chòm sao: {name, description}
-  talents        Json?                // mảng kỹ năng: {name, type, description}
+  ascensionStat String?
+  constellations Json?                // [{ name, description }] x6 — nay đã được seed thật
+  talents        Json?                // { normalAttack, skill, burst, passives[] } — nay đã được seed thật
   updatedAt   DateTime @updatedAt
   createdAt   DateTime @default(now())
 
@@ -40,14 +43,17 @@ model Character {
 model Weapon {
   id          String   @id
   name        String
-  type        String                  // Sword, Claymore, Polearm, Bow, Catalyst
+  type        String
   rarity      Int
   baseAtk     Float?
-  subStatName String?                 // vd: Crit DMG, Energy Recharge
+  subStatName String?
   subStatValue String?
   effectName  String?
-  effectDescription String? @db.Text
-  passiveByRefinement Json?           // giá trị hiệu ứng theo cấp tinh luyện 1-5
+  // Thay cho effectDescription duy nhất (trước đây chỉ lưu refine 1,
+  // âm thầm bỏ refine 5 = mạnh nhất). Giờ lưu rõ cả hai mốc.
+  effectDescriptionR1 String? @db.Text
+  effectDescriptionR5 String? @db.Text
+  passiveByRefinement Json?
   description String?  @db.Text
   iconUrl     String?
   updatedAt   DateTime @updatedAt
@@ -61,11 +67,18 @@ model Weapon {
 model ArtifactSet {
   id          String   @id
   name        String
-  rarityRange Int[]                   // vd: [4,5]
-  twoPieceBonus String? @db.Text
+  rarityRange Int[]
+  // Trước đây thiếu field 1pc riêng -> code cũ nhét nhầm effect1Pc
+  // vào fourPieceBonus cho các set cũ chỉ có 1pc+2pc (Berserker, Instructor...).
+  onePieceBonus  String? @db.Text
+  twoPieceBonus  String? @db.Text
   fourPieceBonus String? @db.Text
-  pieces      Json?                   // {flower, plume, sands, goblet, circlet}: {name, description}
+  // true = set kiểu cũ chỉ có 1pc+2pc, không có bonus 4pc thật sự
+  isLegacyTwoPieceOnlySet Boolean @default(false)
+  pieces      Json?
   iconUrl     String?
   updatedAt   DateTime @updatedAt
   createdAt   DateTime @default(now())
+
+  @@index([rarityRange])
 }

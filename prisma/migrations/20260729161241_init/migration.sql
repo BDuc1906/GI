@@ -12,6 +12,7 @@ CREATE TABLE "Character" (
     "description" TEXT,
     "iconUrl" TEXT,
     "splashUrl" TEXT,
+    "elementIcon" TEXT,
     "baseHp" DOUBLE PRECISION,
     "baseAtk" DOUBLE PRECISION,
     "baseDef" DOUBLE PRECISION,
@@ -34,7 +35,8 @@ CREATE TABLE "Weapon" (
     "subStatName" TEXT,
     "subStatValue" TEXT,
     "effectName" TEXT,
-    "effectDescription" TEXT,
+    "effectDescriptionR1" TEXT,
+    "effectDescriptionR5" TEXT,
     "passiveByRefinement" JSONB,
     "description" TEXT,
     "iconUrl" TEXT,
@@ -49,8 +51,10 @@ CREATE TABLE "ArtifactSet" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "rarityRange" INTEGER[],
+    "onePieceBonus" TEXT,
     "twoPieceBonus" TEXT,
     "fourPieceBonus" TEXT,
+    "isLegacyTwoPieceOnlySet" BOOLEAN NOT NULL DEFAULT false,
     "pieces" JSONB,
     "iconUrl" TEXT,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -73,3 +77,6 @@ CREATE INDEX "Weapon_type_idx" ON "Weapon"("type");
 
 -- CreateIndex
 CREATE INDEX "Weapon_rarity_idx" ON "Weapon"("rarity");
+
+-- CreateIndex
+CREATE INDEX "ArtifactSet_rarityRange_idx" ON "ArtifactSet"("rarityRange");
