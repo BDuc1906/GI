@@ -1,71 +1,10 @@
-/**
- * Real data seed from `genshin-db` package.
- * File path: scripts/seed-characters.ts
- *
- * FIXES APPLIED vs original:
- *  1. BUG: URL builders were missing `$` before `{...}` — template literals
- *     were NOT interpolating, so every icon/splash URL was the literal string
- *     "https://enka.network{filename}.png" for ALL entries. Fixed with `${}`.
- *  2. BUG: Traveler was hard-skipped via c.name.includes("Traveler"), so
- *     Aether/Lumine never made it into the DB. Now handled explicitly
- *     (see seedTraveler()) instead of silently dropping it.
- *  3. BUG: Artifact 4pc fallback (`a.effect4Pc || a.effect1Pc`) silently
- *     mislabeled 1pc-bonus-only sets (e.g. old 2pc-only sets like Berserker,
- *     Instructor, Exile) as having a "four piece bonus" containing the 1pc
- *     text. Now stored as separate, honestly-named fields.
- *  4. Weapon effect description previously only kept refine 1 (weakest)
- *     text as the single "effectDescription". Now stores refine 1 AND
- *     refine 5 (max) separately, alongside the full per-refinement array,
- *     so nothing is quietly discarded.
- *  5. Added try/catch per-entry so one malformed record doesn't abort the
- *     entire seed (original would crash and exit(1) on first bad record).
- *  6. BUG: getEnkaUrl() prioritized `mihoyo_icon` (upload-os-bbs.mihoyo.com)
- *     over the Enka Network filename-based URL. That Mihoyo host is the
- *     internal CDN for the HoYoLAB forum's "game_record" feature, not a
- *     CDN meant for public third-party hotlinking — assets served from it
- *     were showing up broken/404 in the actual rendered app (confirmed via
- *     screenshot of /weapons showing a mix of working and broken icons).
- *     Enka Network's /ui/<filename>.png path is the community-maintained
- *     mirror explicitly intended for this kind of hotlinking. Swapped the
- *     priority to prefer Enka, falling back to the Mihoyo URL only when no
- *     filename is available at all.
- *     VERIFIED against genshin-db-api.vercel.app (the package's own public
- *     API) that `images.filename_icon` / `images.mihoyo_icon` are indeed
- *     the correct field names for weapons — so this was a URL-source
- *     reliability issue, not a wrong field name.
- *     ACTION REQUIRED: re-run `npm run db:seed` after pulling this change
- *     so existing rows get their iconUrl/splashUrl/pieces overwritten.
- *
- * NOTE ON THINGS I COULD NOT VERIFY:
- * I do not have access to your installed `genshin-db` version's type
- * definitions or runtime in this sandbox (no network, no node_modules).
- * Anywhere below marked `// VERIFY:` is either (a) a method/field name I'm
- * not 100% certain exists under that exact name in your installed version,
- * or (b) behavior that varies by version. Please check
- * `node_modules/genshin-db/types` (or run `npx genshin-db --help` / inspect
- * a sample object with console.log) before trusting those sections in prod.
- * Everything else (the 6 fixes above) is corrected independent of version,
- * since they were logic bugs in the code you already had, not API-shape
- * assumptions.
- */
+console.log("DB đang dùng:", process.env.DATABASE_URL);
 import { createRequire } from "module";
 import { prisma } from "../src/lib/prisma";
 
 const require = createRequire(import.meta.url);
 const genshindb = require("genshin-db") as typeof import("genshin-db");
 
-/**
- * Generates a fully-qualified image asset URL, preferring Enka Network's
- * public `/ui/<filename>.png` mirror over any Mihoyo-hosted URL.
- *
- * Enka Network is maintained specifically as a stable, public CDN for
- * third-party Genshin tools to hotlink game UI assets. The Mihoyo URL
- * (upload-os-bbs.mihoyo.com/game_record/...) comes from the HoYoLAB forum's
- * internal "game_record" feature and is not guaranteed to stay hotlink-safe
- * or even reachable long-term — this was confirmed to be producing broken
- * images in the running app (some weapon icons loaded, others 404'd,
- * correlating with which URL source genshin-db returned for that entry).
- */
 function getEnkaUrl(filename?: string | null, mihoyoUrl?: string | null): string | null {
   // VERIFY: confirm the exact base path against a known-good filename from
   // your installed genshin-db version — Enka has changed asset paths before.
@@ -73,14 +12,6 @@ function getEnkaUrl(filename?: string | null, mihoyoUrl?: string | null): string
   if (mihoyoUrl) return mihoyoUrl;
   return null;
 }
-
-/**
- * Maps an element name to an icon asset. There is no single official,
- * stable "github.io" element-icon CDN — the previous code pointed at a
- * broken placeholder domain. Safer default: build from Enka's own
- * element icon naming convention, with a null fallback so bad data is
- * visibly null instead of a plausible-looking dead link.
- */
 function getElementIconUrl(element?: string | null): string | null {
   if (!element) return null;
   const name = element.trim();
@@ -89,13 +20,13 @@ function getElementIconUrl(element?: string | null): string | null {
   // rather than guessing a URL that "looks right" but 404s, since a
   // silently-broken icon is worse than an explicit gap you can fill in.
   const known: Record<string, string> = {
-    Anemo: "https://enka.network/ui/UI_Buff_Element_Wind.png",
-    Geo: "https://enka.network/ui/UI_Buff_Element_Rock.png",
-    Electro: "https://enka.network/ui/UI_Buff_Element_Electric.png",
-    Dendro: "https://enka.network/ui/UI_Buff_Element_Grass.png",
-    Hydro: "https://enka.network/ui/UI_Buff_Element_Water.png",
-    Pyro: "https://enka.network/ui/UI_Buff_Element_Fire.png",
-    Cryo: "https://enka.network/ui/UI_Buff_Element_Ice.png",
+    Anemo: "https://static.wikia.nocookie.net/gensin-impact/images/1/10/Element_Anemo.svg",
+    Geo: "https://static.wikia.nocookie.net/gensin-impact/images/9/9b/Element_Geo.svg",
+    Electro: "https://static.wikia.nocookie.net/gensin-impact/images/f/ff/Element_Electro.svg",
+    Dendro: "https://static.wikia.nocookie.net/gensin-impact/images/7/73/Element_Dendro.svg",
+    Hydro: "https://static.wikia.nocookie.net/gensin-impact/images/8/80/Element_Hydro.svg",
+    Pyro: "https://static.wikia.nocookie.net/gensin-impact/images/2/2c/Element_Pyro.svg",
+    Cryo: "https://static.wikia.nocookie.net/gensin-impact/images/7/72/Element_Cryo.svg",
   };
   return known[name] ?? null;
 }

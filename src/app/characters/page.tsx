@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import { elementColor, rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
+import { rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
+import { ElementIcon } from "@/components/ElementIcon";
 
 interface PageProps {
   searchParams: Promise<{ vision?: string; weapon?: string; rarity?: string }>;
@@ -18,8 +19,11 @@ export default async function CharactersPage({ searchParams }: PageProps) {
     },
     orderBy: [{ rarity: "desc" }, { name: "asc" }],
   });
-
-  const visions = ["Anemo", "Geo", "Electro", "Dendro", "Hydro", "Pyro", "Cryo"];
+// thay vì chỉ lấy tên nguyên tố, lấy luôn 1 elementIcon đại diện mỗi nguyên tố
+  const visionRows = await prisma.character.findMany({
+    distinct: ["vision"],
+    select: { vision: true, elementIcon: true },
+  });
   const weapons = ["Sword", "Claymore", "Polearm", "Bow", "Catalyst"];
 
   return (
@@ -39,13 +43,13 @@ export default async function CharactersPage({ searchParams }: PageProps) {
         {/* Bộ lọc nguyên tố */}
         <div className="flex flex-wrap items-center gap-2 text-xs">
           <span className="text-neutral-400 font-medium mr-2">Nguyên tố (Vision):</span>
-          {visions.map((v) => (
+          {visionRows.map(({ vision: v, elementIcon }) => (
             <Link
               key={v}
               href={`/characters?vision=${v}${weapon ? `&weapon=${weapon}` : ""}${rarity ? `&rarity=${rarity}` : ""}`}
               className="px-3 py-1.5 rounded-full border border-neutral-800 bg-neutral-950/60 hover:border-neutral-500 transition-all flex items-center gap-1.5"
             >
-              <span className="w-2.5 h-2.5 rounded-full shadow-sm" style={{ background: elementColor(v) }} />
+              <ElementIcon vision={v} iconUrl={elementIcon} size={16} />
               {v}
             </Link>
           ))}
@@ -113,10 +117,9 @@ export default async function CharactersPage({ searchParams }: PageProps) {
                 </div>
               )}
               {/* Huy hiệu nguyên tố góc trên bên trái */}
-              <span 
-                className="absolute top-2 left-2 w-3.5 h-3.5 rounded-full border border-white/20 shadow-md" 
-                style={{ background: elementColor(c.vision) }} 
-              />
+              <div className="absolute top-2 left-2 bg-black/50 backdrop-blur-sm rounded-full p-1 shadow-md">
+                <ElementIcon vision={c.vision} iconUrl={c.elementIcon} size={16} />
+              </div>
             </div>
 
             {/* Chi tiết văn bản chân thẻ */}

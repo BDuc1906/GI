@@ -174,98 +174,6 @@ CREATE INDEX "ArtifactSet_rarityRange_idx" ON "ArtifactSet"("rarityRange");
 provider = "postgresql"
 </file>
 
-<file path="src/app/artifacts/[id]/page.tsx">
-import { prisma } from "@/lib/prisma";
-import { notFound } from "next/navigation";
-
-export default async function ArtifactDetail({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  const a = await prisma.artifactSet.findUnique({ where: { id } });
-  if (!a) return notFound();
-
-  const pieces = (a.pieces as Record<string, any>) ?? {};
-  const pieceLabels: Record<string, string> = {
-    flower: "Hoa",
-    plume: "Lông vũ",
-    sands: "Đồng hồ cát",
-    goblet: "Ly",
-    circlet: "Vương miện",
-  };
-
-  return (
-    <div className="max-w-4xl mx-auto px-4 py-12 text-neutral-100">
-      <div className="flex flex-col sm:flex-row gap-6 mb-8">
-        {a.iconUrl && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={a.iconUrl} alt={a.name} className="w-40 h-40 rounded-xl border border-neutral-800 bg-neutral-900 object-contain" />
-        )}
-        <div>
-          <h1 className="text-3xl font-bold text-amber-400">{a.name}</h1>
-          <p className="text-sm text-neutral-400 mb-4">{a.rarityRange.join("/")}★</p>
-        </div>
-      </div>
-
-      <section className="mb-8 space-y-3">
-        {a.twoPieceBonus && (
-          <div className="border border-neutral-800 rounded-lg p-3 bg-neutral-900">
-            <div className="font-medium">Hiệu ứng 2 món</div>
-            <p className="text-sm text-neutral-400">{a.twoPieceBonus}</p>
-          </div>
-        )}
-        {a.fourPieceBonus && (
-          <div className="border border-neutral-800 rounded-lg p-3 bg-neutral-900">
-            <div className="font-medium">Hiệu ứng 4 món</div>
-            <p className="text-sm text-neutral-400">{a.fourPieceBonus}</p>
-          </div>
-        )}
-      </section>
-
-      <section>
-        <h2 className="text-xl font-semibold mb-4 text-amber-400">Các món trong bộ</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 text-sm">
-          {Object.entries(pieces).map(([key, val]: [string, any]) => {
-            if (!val) return null;
-
-            // Bóc tách an toàn: Nếu val là một Object từ cấu trúc seed mới thì lấy filename, 
-            // Nếu val là chuỗi URL hoặc text thô từ seed cũ thì trích xuất chuỗi dự phòng.
-            const pieceName = val.name || (typeof val === "string" && !val.startsWith("http") ? val : pieceLabels[key]);
-            
-            // Hàm phân giải sinh link ảnh Enka trực tiếp tại tầng hiển thị giao diện
-            let imageFilename = val.filename || "";
-            if (!imageFilename && typeof val === "string" && val.includes("/ui/")) {
-              const matches = val.match(/\/ui\/(.+)\.png/);
-              if (matches) imageFilename = matches[1];
-            }
-
-            const imgUrl = imageFilename 
-              ? `https://enka.network{imageFilename}.png` 
-              : "https://enka.network"; // Fallback mẫu nếu trống file
-
-            return (
-              <div key={key} className="border border-neutral-800 rounded-xl p-4 bg-neutral-900/60 flex flex-col items-center text-center group hover:border-amber-400/50 transition-all duration-300">
-                {/* KHỐI CHỨA THẺ <img> HIỂN THỊ HÌNH ẢNH MẢNH DI VẬT SẮC NÉT */}
-                <div className="w-16 h-16 mb-3 bg-neutral-950 rounded-lg overflow-hidden flex items-center justify-center p-1 group-hover:scale-105 transition-transform">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img 
-                    src={imgUrl} 
-                    alt={pieceName} 
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <div className="text-xs text-neutral-500 font-medium mb-1">{pieceLabels[key] ?? key}</div>
-                <div className="font-semibold text-neutral-200 line-clamp-2 text-xs" title={pieceName}>
-                  {pieceName}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-    </div>
-  );
-}
-</file>
-
 <file path="src/app/artifacts/page.tsx">
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
@@ -622,48 +530,6 @@ export default async function CharactersPage({ searchParams }: PageProps) {
           </Link>
         ))}
       </div>
-    </div>
-  );
-}
-</file>
-
-<file path="src/app/weapons/[id]/page.tsx">
-import { prisma } from "@/lib/prisma";
-import { notFound } from "next/navigation";
-
-export default async function WeaponDetail({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  const w = await prisma.weapon.findUnique({ where: { id } });
-  if (!w) return notFound();
-
-  return (
-    <div>
-      <div className="flex flex-col sm:flex-row gap-6 mb-8">
-        {w.iconUrl && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={w.iconUrl} alt={w.name} className="w-40 h-40 rounded-xl border border-neutral-800 bg-neutral-900 object-contain" />
-        )}
-        <div>
-          <h1 className="text-3xl font-bold text-amber-400">{w.name}</h1>
-          <p className="text-sm text-neutral-400 mb-4">{w.type} · {w.rarity}★</p>
-          {w.description && <p className="text-neutral-300 italic max-w-xl">{w.description}</p>}
-        </div>
-      </div>
-
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">Chỉ số cơ bản</h2>
-        <div className="flex gap-6 text-sm text-neutral-300">
-          <div>ATK nền: {w.baseAtk ?? "—"}</div>
-          <div>{w.subStatName ?? "Chỉ số phụ"}: {w.subStatValue ?? "—"}</div>
-        </div>
-      </section>
-
-      {w.effectName && (
-        <section>
-          <h2 className="text-xl font-semibold mb-2">{w.effectName}</h2>
-          <p className="text-sm text-neutral-400">{w.effectDescription}</p>
-        </section>
-      )}
     </div>
   );
 }
@@ -1735,6 +1601,186 @@ vì tool trong sandbox này không có quyền truy cập mạng để cài đ�
 }
 </file>
 
+<file path="src/app/artifacts/[id]/page.tsx">
+import { prisma } from "@/lib/prisma";
+import { notFound } from "next/navigation";
+
+const PIECE_LABELS: Record<string, string> = {
+  flower: "Hoa",
+  plume: "Lông vũ",
+  sands: "Đồng hồ cát",
+  goblet: "Ly",
+  circlet: "Vương miện",
+};
+
+/**
+ * Trả về URL ảnh Enka hợp lệ cho 1 mảnh di vật.
+ *
+ * Data hiện tại (từ seed-characters.ts bản đã sửa) luôn lưu `val` là
+ * URL string đầy đủ (vd "https://enka.network/ui/UI_RelicIcon_xxx.png")
+ * hoặc null. Nhánh xử lý object {name, filename} chỉ còn để tương thích
+ * ngược với bản ghi cũ (trước khi seed script được sửa) — nếu re-seed
+ * (`npm run db:seed`) thì toàn bộ record sẽ về đúng shape string và
+ * nhánh object không bao giờ chạy nữa.
+ */
+function resolvePieceImage(val: unknown): string | null {
+  if (typeof val === "string") {
+    // Shape hiện tại: val chính là URL đầy đủ, dùng thẳng.
+    return val || null;
+  }
+
+  if (val && typeof val === "object") {
+    // Shape cũ (legacy): { name, filename }
+    const filename = (val as Record<string, unknown>).filename;
+    if (typeof filename === "string" && filename) {
+      return `https://enka.network/ui/${filename}.png`;
+    }
+  }
+
+  return null;
+}
+
+function resolvePieceName(val: unknown, key: string): string {
+  if (val && typeof val === "object") {
+    const name = (val as Record<string, unknown>).name;
+    if (typeof name === "string" && name) return name;
+  }
+  // genshin-db không cung cấp tên riêng cho từng mảnh trong bộ,
+  // nên dùng nhãn chung (Hoa/Lông vũ/...) làm tên hiển thị.
+  return PIECE_LABELS[key] ?? key;
+}
+
+export default async function ArtifactDetail({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const a = await prisma.artifactSet.findUnique({ where: { id } });
+  if (!a) return notFound();
+
+  const pieces = (a.pieces as Record<string, unknown>) ?? {};
+
+  return (
+    <div className="max-w-4xl mx-auto px-4 py-12 text-neutral-100">
+      <div className="flex flex-col sm:flex-row gap-6 mb-8">
+        {a.iconUrl && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={a.iconUrl} alt={a.name} className="w-40 h-40 rounded-xl border border-neutral-800 bg-neutral-900 object-contain" />
+        )}
+        <div>
+          <h1 className="text-3xl font-bold text-amber-400">{a.name}</h1>
+          <p className="text-sm text-neutral-400 mb-4">{a.rarityRange.join("/")}★</p>
+        </div>
+      </div>
+
+      <section className="mb-8 space-y-3">
+        {a.twoPieceBonus && (
+          <div className="border border-neutral-800 rounded-lg p-3 bg-neutral-900">
+            <div className="font-medium">Hiệu ứng 2 món</div>
+            <p className="text-sm text-neutral-400">{a.twoPieceBonus}</p>
+          </div>
+        )}
+        {a.fourPieceBonus && (
+          <div className="border border-neutral-800 rounded-lg p-3 bg-neutral-900">
+            <div className="font-medium">Hiệu ứng 4 món</div>
+            <p className="text-sm text-neutral-400">{a.fourPieceBonus}</p>
+          </div>
+        )}
+      </section>
+
+      <section>
+        <h2 className="text-xl font-semibold mb-4 text-amber-400">Các món trong bộ</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 text-sm">
+          {Object.entries(pieces).map(([key, val]) => {
+            if (!val) return null;
+
+            const imgUrl = resolvePieceImage(val);
+            const pieceName = resolvePieceName(val, key);
+
+            return (
+              <div key={key} className="border border-neutral-800 rounded-xl p-4 bg-neutral-900/60 flex flex-col items-center text-center group hover:border-amber-400/50 transition-all duration-300">
+                <div className="w-16 h-16 mb-3 bg-neutral-950 rounded-lg overflow-hidden flex items-center justify-center p-1 group-hover:scale-105 transition-transform">
+                  {imgUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={imgUrl}
+                      alt={pieceName}
+                      className="w-full h-full object-contain"
+                    />
+                  ) : (
+                    <div className="text-neutral-600 text-[10px]">No Image</div>
+                  )}
+                </div>
+                <div className="text-xs text-neutral-500 font-medium mb-1">{PIECE_LABELS[key] ?? key}</div>
+                <div className="font-semibold text-neutral-200 line-clamp-2 text-xs" title={pieceName}>
+                  {pieceName}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+    </div>
+  );
+}
+</file>
+
+<file path="src/app/weapons/[id]/page.tsx">
+import { prisma } from "@/lib/prisma";
+import { notFound } from "next/navigation";
+
+export default async function WeaponDetail({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const w = await prisma.weapon.findUnique({ where: { id } });
+  if (!w) return notFound();
+
+  // passiveByRefinement được seed dưới dạng mảng [r1, r2, r3, r4, r5] (đã filter bỏ phần tử rỗng)
+  const refinements = (w.passiveByRefinement as any[]) ?? [];
+
+  return (
+    <div>
+      <div className="flex flex-col sm:flex-row gap-6 mb-8">
+        {w.iconUrl && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={w.iconUrl} alt={w.name} className="w-40 h-40 rounded-xl border border-neutral-800 bg-neutral-900 object-contain" />
+        )}
+        <div>
+          <h1 className="text-3xl font-bold text-amber-400">{w.name}</h1>
+          <p className="text-sm text-neutral-400 mb-4">{w.type} · {w.rarity}★</p>
+          {w.description && <p className="text-neutral-300 italic max-w-xl">{w.description}</p>}
+        </div>
+      </div>
+
+      <section className="mb-8">
+        <h2 className="text-xl font-semibold mb-2">Chỉ số cơ bản</h2>
+        <div className="flex gap-6 text-sm text-neutral-300">
+          <div>ATK nền: {w.baseAtk ?? "—"}</div>
+          <div>{w.subStatName ?? "Chỉ số phụ"}: {w.subStatValue ?? "—"}</div>
+        </div>
+      </section>
+
+      {w.effectName && refinements.length > 0 && (
+        <section>
+          <h2 className="text-xl font-semibold mb-4">{w.effectName}</h2>
+          <div className="space-y-3">
+            {refinements.map((r: any, i: number) => (
+              <div
+                key={i}
+                className="border border-neutral-800 rounded-lg p-3 bg-neutral-900"
+              >
+                <div className="font-medium text-amber-400 mb-1">
+                  Tinh luyện {i + 1}
+                </div>
+                <p className="text-sm text-neutral-400 whitespace-pre-line">
+                  {r?.description ?? "—"}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  );
+}
+</file>
+
 <file path="src/app/page.tsx">
 import Link from "next/link";
 import { prisma } from "../lib/prisma";
@@ -2005,6 +2051,22 @@ model ArtifactSet {
  *     so nothing is quietly discarded.
  *  5. Added try/catch per-entry so one malformed record doesn't abort the
  *     entire seed (original would crash and exit(1) on first bad record).
+ *  6. BUG: getEnkaUrl() prioritized `mihoyo_icon` (upload-os-bbs.mihoyo.com)
+ *     over the Enka Network filename-based URL. That Mihoyo host is the
+ *     internal CDN for the HoYoLAB forum's "game_record" feature, not a
+ *     CDN meant for public third-party hotlinking — assets served from it
+ *     were showing up broken/404 in the actual rendered app (confirmed via
+ *     screenshot of /weapons showing a mix of working and broken icons).
+ *     Enka Network's /ui/<filename>.png path is the community-maintained
+ *     mirror explicitly intended for this kind of hotlinking. Swapped the
+ *     priority to prefer Enka, falling back to the Mihoyo URL only when no
+ *     filename is available at all.
+ *     VERIFIED against genshin-db-api.vercel.app (the package's own public
+ *     API) that `images.filename_icon` / `images.mihoyo_icon` are indeed
+ *     the correct field names for weapons — so this was a URL-source
+ *     reliability issue, not a wrong field name.
+ *     ACTION REQUIRED: re-run `npm run db:seed` after pulling this change
+ *     so existing rows get their iconUrl/splashUrl/pieces overwritten.
  *
  * NOTE ON THINGS I COULD NOT VERIFY:
  * I do not have access to your installed `genshin-db` version's type
@@ -2014,7 +2076,7 @@ model ArtifactSet {
  * or (b) behavior that varies by version. Please check
  * `node_modules/genshin-db/types` (or run `npx genshin-db --help` / inspect
  * a sample object with console.log) before trusting those sections in prod.
- * Everything else (the 5 fixes above) is corrected independent of version,
+ * Everything else (the 6 fixes above) is corrected independent of version,
  * since they were logic bugs in the code you already had, not API-shape
  * assumptions.
  */
@@ -2025,16 +2087,23 @@ const require = createRequire(import.meta.url);
 const genshindb = require("genshin-db") as typeof import("genshin-db");
 
 /**
- * Generates a fully-qualified Enka Network asset URL, or the direct
- * Mihoyo-hosted URL if one was already supplied.
+ * Generates a fully-qualified image asset URL, preferring Enka Network's
+ * public `/ui/<filename>.png` mirror over any Mihoyo-hosted URL.
+ *
+ * Enka Network is maintained specifically as a stable, public CDN for
+ * third-party Genshin tools to hotlink game UI assets. The Mihoyo URL
+ * (upload-os-bbs.mihoyo.com/game_record/...) comes from the HoYoLAB forum's
+ * internal "game_record" feature and is not guaranteed to stay hotlink-safe
+ * or even reachable long-term — this was confirmed to be producing broken
+ * images in the running app (some weapon icons loaded, others 404'd,
+ * correlating with which URL source genshin-db returned for that entry).
  */
 function getEnkaUrl(filename?: string | null, mihoyoUrl?: string | null): string | null {
-  if (mihoyoUrl) return mihoyoUrl;
-  if (!filename) return null;
-  // Enka Network serves raw game UI textures under /ui/<filename>.png
   // VERIFY: confirm the exact base path against a known-good filename from
   // your installed genshin-db version — Enka has changed asset paths before.
-  return `https://enka.network/ui/${filename}.png`;
+  if (filename) return `https://enka.network/ui/${filename}.png`;
+  if (mihoyoUrl) return mihoyoUrl;
+  return null;
 }
 
 /**

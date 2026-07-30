@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
-import { elementColor, rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
+import { rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
+import { ElementIcon } from "@/components/ElementIcon";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -19,7 +20,6 @@ export default async function CharacterDetail({ params }: PageProps) {
   // 2. Chuyển đổi an toàn dữ liệu kiểu Json phức tạp từ Prisma 7
   const constellations = (c.constellations as any[]) ?? [];
   const talents = (c.talents as any[]) ?? [];
-  const color = elementColor(c.vision);
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
@@ -36,10 +36,7 @@ export default async function CharacterDetail({ params }: PageProps) {
         )}
         <div className="flex flex-col justify-center">
           <div className="flex items-center gap-2 mb-2">
-            <span 
-              className="w-3 h-3 rounded-full transition-all duration-300" 
-              style={{ background: color, boxShadow: `0 0 10px ${color}` }} 
-            />
+            <ElementIcon vision={c.vision} iconUrl={c.elementIcon} size={24} />
             <span className="text-xs font-bold uppercase tracking-widest text-[color:var(--parchment-dim)]">
               {c.vision} &middot; {c.weaponType}
             </span>
