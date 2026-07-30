@@ -1,5 +1,21 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { SafeImage } from "@/components/SafeImage";
+
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id } = await params;
+  const a = await prisma.artifactSet.findUnique({ where: { id } });
+  if (!a) return { title: "Không tìm thấy thánh di vật — LEIBO" };
+  return {
+    title: `${a.name} — LEIBO`,
+    description: a.fourPieceBonus ?? a.twoPieceBonus ?? `Bộ thánh di vật ${a.rarityRange.join("/")}★.`,
+  };
+}
 
 const PIECE_LABELS: Record<string, string> = {
   flower: "Hoa",
@@ -46,7 +62,7 @@ function resolvePieceName(val: unknown, key: string): string {
   return PIECE_LABELS[key] ?? key;
 }
 
-export default async function ArtifactDetail({ params }: { params: Promise<{ id: string }> }) {
+export default async function ArtifactDetail({ params }: PageProps) {
   const { id } = await params;
   const a = await prisma.artifactSet.findUnique({ where: { id } });
   if (!a) return notFound();
@@ -57,8 +73,15 @@ export default async function ArtifactDetail({ params }: { params: Promise<{ id:
     <div className="max-w-4xl mx-auto px-4 py-12 text-neutral-100">
       <div className="flex flex-col sm:flex-row gap-6 mb-8">
         {a.iconUrl && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={a.iconUrl} alt={a.name} className="w-40 h-40 rounded-xl border border-neutral-800 bg-neutral-900 object-contain" />
+          <div className="relative w-40 h-40 rounded-xl border border-neutral-800 bg-neutral-900 shrink-0">
+            <SafeImage
+              src={a.iconUrl}
+              alt={a.name}
+              fill
+              className="object-contain p-2"
+              fallbackClassName="w-full h-full flex items-center justify-center text-neutral-600 text-[10px]"
+            />
+          </div>
         )}
         <div>
           <h1 className="text-3xl font-bold text-amber-400">{a.name}</h1>
@@ -92,13 +115,14 @@ export default async function ArtifactDetail({ params }: { params: Promise<{ id:
 
             return (
               <div key={key} className="border border-neutral-800 rounded-xl p-4 bg-neutral-900/60 flex flex-col items-center text-center group hover:border-amber-400/50 transition-all duration-300">
-                <div className="w-16 h-16 mb-3 bg-neutral-950 rounded-lg overflow-hidden flex items-center justify-center p-1 group-hover:scale-105 transition-transform">
+                <div className="relative w-16 h-16 mb-3 bg-neutral-950 rounded-lg overflow-hidden flex items-center justify-center p-1 group-hover:scale-105 transition-transform">
                   {imgUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
+                    <SafeImage
                       src={imgUrl}
                       alt={pieceName}
-                      className="w-full h-full object-contain"
+                      fill
+                      className="object-contain"
+                      fallbackClassName="w-full h-full flex items-center justify-center text-neutral-600 text-[10px]"
                     />
                   ) : (
                     <div className="text-neutral-600 text-[10px]">No Image</div>

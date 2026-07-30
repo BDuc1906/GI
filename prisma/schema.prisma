@@ -23,14 +23,26 @@ model Character {
   releaseDate DateTime?
   description String?  @db.Text
   iconUrl     String?
+  sideIconUrl String?                 // icon nhỏ (filename_sideIcon) — dùng cho danh sách party, avatar nhỏ...
   splashUrl   String?
   elementIcon    String?
   baseHp      Float?
   baseAtk     Float?
   baseDef     Float?
   ascensionStat String?
-  constellations Json?                // [{ name, description }] x6 — nay đã được seed thật
-  talents        Json?                // { normalAttack, skill, burst, passives[] } — nay đã được seed thật
+  // Nguyên liệu đột phá 6 giai đoạn: [{ phase, materials: [{ name, count }] }]
+  ascensionMaterials Json?
+  // Chỉ số HP/ATK/DEF/chỉ số phụ ở các mốc cấp + trước/sau đột phá:
+  // [{ level, ascension, hp, attack, defense, specialized }]
+  statsByLevel Json?
+  birthday    String?                 // vd "October 29"
+  // Tên "chòm sao bản mệnh" (flavor, khác 6 cung mệnh kỹ năng bên dưới), vd "Acer Palmatum"
+  constellationName String?
+  voiceActors Json?                   // { english, chinese, japanese, korean }
+  gameVersion String?                 // phiên bản game nhân vật ra mắt, vd "1.6"
+  wikiUrl     String?
+  constellations Json?                // [{ level, name, description }] x6 — cung mệnh kỹ năng
+  talents        Json?                // [{ key, name, description }] — đòn thường/kỹ năng/trọng kích/passive
   updatedAt   DateTime @updatedAt
   createdAt   DateTime @default(now())
 

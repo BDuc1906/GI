@@ -44,6 +44,8 @@ prisma/
   migrations/
     20260729161241_init/
       migration.sql
+    20260730095254_character_enrichment/
+      migration.sql
     migration_lock.toml
   schema.prisma
 scripts/
@@ -65,6 +67,8 @@ src/
     globals.css
     layout.tsx
     page.tsx
+  components/
+    ElementIcon.tsx
   lib/
     prisma.ts
     theme.ts
@@ -82,6 +86,18 @@ tsconfig.json
 
 <files>
 This section contains the contents of the repository's files.
+
+<file path="prisma/migrations/20260730095254_character_enrichment/migration.sql">
+-- AlterTable
+ALTER TABLE "Character" ADD COLUMN     "ascensionMaterials" JSONB,
+ADD COLUMN     "birthday" TEXT,
+ADD COLUMN     "constellationName" TEXT,
+ADD COLUMN     "gameVersion" TEXT,
+ADD COLUMN     "sideIconUrl" TEXT,
+ADD COLUMN     "statsByLevel" JSONB,
+ADD COLUMN     "voiceActors" JSONB,
+ADD COLUMN     "wikiUrl" TEXT;
+</file>
 
 <file path="prisma/migrations/20260729161241_init/migration.sql">
 -- CreateTable
@@ -239,297 +255,6 @@ export default async function ArtifactsPage() {
         })}
       </div>
 
-    </div>
-  );
-}
-</file>
-
-<file path="src/app/characters/[id]/page.tsx">
-import { prisma } from "@/lib/prisma";
-import { notFound } from "next/navigation";
-import { elementColor, rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
-
-interface PageProps {
-  params: Promise<{ id: string }>;
-}
-
-export default async function CharacterDetail({ params }: PageProps) {
-  const { id } = await params;
-
-  // 1. Tìm kiếm thực thể lữ hành duy nhất dựa trên ID từ Supabase
-  const c = await prisma.character.findUnique({ 
-    where: { id } 
-  });
-
-  if (!c) return notFound();
-
-  // 2. Chuyển đổi an toàn dữ liệu kiểu Json phức tạp từ Prisma 7
-  const constellations = (c.constellations as any[]) ?? [];
-  const talents = (c.talents as any[]) ?? [];
-  const color = elementColor(c.vision);
-
-  return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
-      
-      {/* Khối thẻ thông tin chính (Hero Banner Card) */}
-      <div className={`relic-frame ${rarityGlowClass(c.rarity)} bg-neutral-900/30 backdrop-blur-md rounded-xl p-6 flex flex-col sm:flex-row gap-6 mb-8 border border-neutral-800/60`}>
-        {c.splashUrl && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img 
-            src={c.splashUrl} 
-            alt={c.name} 
-            className="w-full sm:w-56 h-auto rounded-lg object-cover border border-[color:rgba(201,166,107,0.3)] bg-neutral-950/40" 
-          />
-        )}
-        <div className="flex flex-col justify-center">
-          <div className="flex items-center gap-2 mb-2">
-            <span 
-              className="w-3 h-3 rounded-full transition-all duration-300" 
-              style={{ background: color, boxShadow: `0 0 10px ${color}` }} 
-            />
-            <span className="text-xs font-bold uppercase tracking-widest text-[color:var(--parchment-dim)]">
-              {c.vision} &middot; {c.weaponType}
-            </span>
-          </div>
-
-          <h1 className="font-display text-4xl font-extrabold text-[color:var(--gold-bright)] mb-1 tracking-wide">
-            {c.name}
-          </h1>
-
-          {c.title && (
-            <p className="text-sm text-[color:var(--parchment-dim)] italic mb-3">
-              &ldquo;{c.title}&rdquo;
-            </p>
-          )}
-
-          <p className={`text-xl mb-4 ${rarityTextClass(c.rarity)}`}>
-            {rarityStars(c.rarity)}
-          </p>
-
-          {c.region && (
-            <p className="text-xs text-[color:var(--parchment-dim)] mb-4 font-medium uppercase tracking-wider">
-              Vùng đất: <span className="text-neutral-200">{c.region}</span>
-            </p>
-          )}
-
-          {c.description && (
-            <p className="text-sm text-neutral-300 max-w-xl leading-relaxed bg-neutral-950/20 p-3 rounded-lg border border-neutral-800/40 italic">
-              {c.description}
-            </p>
-          )}
-        </div>
-      </div>
-
-      {/* Khối thuộc tính cơ bản (Base Stats Grid) */}
-      <section className="mb-8">
-        <h2 className="font-display text-xl font-bold mb-4 text-[color:var(--gold)] uppercase tracking-wide border-b border-neutral-800 pb-2">
-          Thuộc Tính Căn Bản (Cấp 1)
-        </h2>
-        <div className="relic-frame bg-neutral-950/40 border border-neutral-800/80 rounded-xl p-5 grid grid-cols-2 sm:grid-cols-4 gap-6 text-sm text-neutral-200">
-          <div>
-            <span className="text-[color:var(--parchment-dim)] font-medium block mb-1">Sinh Mệnh (HP)</span> 
-            <span className="text-lg font-semibold">{c.baseHp ?? "—"}</span>
-          </div>
-          <div>
-            <span className="text-[color:var(--parchment-dim)] font-medium block mb-1">Tấn Công (ATK)</span> 
-            <span className="text-lg font-semibold">{c.baseAtk ?? "—"}</span>
-          </div>
-          <div>
-            <span className="text-[color:var(--parchment-dim)] font-medium block mb-1">Phòng Ngự (DEF)</span> 
-            <span className="text-lg font-semibold">{c.baseDef ?? "—"}</span>
-          </div>
-          <div>
-            <span className="text-[color:var(--parchment-dim)] font-medium block mb-1">Đột Phá Tăng</span> 
-            <span className="text-md font-semibold text-[color:var(--gold-bright)] truncate block">{c.ascensionStat ?? "—"}</span>
-          </div>
-        </div>
-      </section>
-
-      {/* Khối danh sách kỹ năng thiên phú (Talents) */}
-      {talents.length > 0 && (
-        <section className="mb-8">
-          <h2 className="font-display text-xl font-bold mb-4 text-[color:var(--gold)] uppercase tracking-wide border-b border-neutral-800 pb-2">
-            Hệ Thống Thiên Phú Kỹ Năng
-          </h2>
-          <div className="space-y-4">
-            {talents.map((t: any, i: number) => (
-              <div key={i} className="relic-frame bg-neutral-900/20 border border-neutral-800 rounded-xl p-5 hover:bg-neutral-900/40 transition-colors">
-                <div className="font-bold text-base text-neutral-100 mb-2 flex items-center gap-2">
-                  <span className="text-xs bg-neutral-800 px-2 py-0.5 rounded text-neutral-400">T{i+1}</span>
-                  {t.name}
-                </div>
-                <p className="text-sm text-[color:var(--parchment-dim)] leading-relaxed whitespace-pre-line">
-                  {t.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Khối hệ thống cung mệnh chòm sao (Constellations) */}
-      {constellations.length > 0 && (
-        <section className="mb-8">
-          <h2 className="font-display text-xl font-bold mb-4 text-[color:var(--gold)] uppercase tracking-wide border-b border-neutral-800 pb-2">
-            Hệ Thống Cung Mệnh Chòm Sao
-          </h2>
-          <div className="space-y-4">
-            {constellations.map((cs: any, i: number) => (
-              <div key={i} className="relic-frame bg-neutral-900/10 border border-neutral-800/80 rounded-xl p-5 hover:border-purple-900/40 transition-all">
-                <div className="font-bold text-base mb-2 text-[color:var(--purple-glow)] drop-shadow-[0_0_6px_rgba(168,85,247,0.2)]">
-                  C{i + 1} &middot; {cs.name}
-                </div>
-                <p className="text-sm text-[color:var(--parchment-dim)] leading-relaxed whitespace-pre-line">
-                  {cs.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-    </div>
-  );
-}
-</file>
-
-<file path="src/app/characters/page.tsx">
-import Link from "next/link";
-import { prisma } from "@/lib/prisma";
-import { elementColor, rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
-
-interface PageProps {
-  searchParams: Promise<{ vision?: string; weapon?: string; rarity?: string }>;
-}
-
-export default async function CharactersPage({ searchParams }: PageProps) {
-  const { vision, weapon, rarity } = await searchParams;
-
-  // 1. Truy vấn dữ liệu từ Supabase kết hợp bộ lọc (Filter)
-  const characters = await prisma.character.findMany({
-    where: {
-      vision: vision ? { equals: vision, mode: "insensitive" } : undefined,
-      weaponType: weapon ? { equals: weapon, mode: "insensitive" } : undefined,
-      rarity: rarity ? Number(rarity) : undefined,
-    },
-    orderBy: [{ rarity: "desc" }, { name: "asc" }],
-  });
-
-  const visions = ["Anemo", "Geo", "Electro", "Dendro", "Hydro", "Pyro", "Cryo"];
-  const weapons = ["Sword", "Claymore", "Polearm", "Bow", "Catalyst"];
-
-  return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* Khối tiêu đề */}
-      <div className="mb-8">
-        <h1 className="font-display text-4xl font-bold tracking-wide text-neutral-100 uppercase mb-2">
-          Học Viện Nhân Vật
-        </h1>
-        <p className="text-sm text-[color:var(--parchment-dim)]">
-          Tìm thấy <span className="text-[color:var(--gold-bright)] font-semibold">{characters.length}</span> đại hiệp lữ hành
-        </p>
-      </div>
-
-      {/* Khối bộ lọc dữ liệu chuyên nghiệp (Filter Bar) */}
-      <div className="bg-neutral-900/40 backdrop-blur-md border border-neutral-800 p-4 rounded-xl mb-8 flex flex-col gap-4">
-        {/* Bộ lọc nguyên tố */}
-        <div className="flex flex-wrap items-center gap-2 text-xs">
-          <span className="text-neutral-400 font-medium mr-2">Nguyên tố (Vision):</span>
-          {visions.map((v) => (
-            <Link
-              key={v}
-              href={`/characters?vision=${v}${weapon ? `&weapon=${weapon}` : ""}${rarity ? `&rarity=${rarity}` : ""}`}
-              className="px-3 py-1.5 rounded-full border border-neutral-800 bg-neutral-950/60 hover:border-neutral-500 transition-all flex items-center gap-1.5"
-            >
-              <span className="w-2.5 h-2.5 rounded-full shadow-sm" style={{ background: elementColor(v) }} />
-              {v}
-            </Link>
-          ))}
-        </div>
-
-        {/* Bộ lọc loại vũ khí */}
-        <div className="flex flex-wrap items-center gap-2 text-xs">
-          <span className="text-neutral-400 font-medium mr-2">Loại Vũ Khí:</span>
-          {weapons.map((w) => (
-            <Link
-              key={w}
-              href={`/characters?weapon=${w}${vision ? `&vision=${vision}` : ""}${rarity ? `&rarity=${rarity}` : ""}`}
-              className="px-3 py-1.5 rounded-full border border-neutral-800 bg-neutral-950/60 hover:border-neutral-500 transition-all"
-            >
-              {w}
-            </Link>
-          ))}
-        </div>
-
-        {/* Bộ lọc độ hiếm sao */}
-        <div className="flex flex-wrap items-center gap-2 text-xs">
-          <span className="text-neutral-400 font-medium mr-2">Phẩm cấp (Rarity):</span>
-          {[4, 5].map((r) => (
-            <Link
-              key={r}
-              href={`/characters?rarity=${r}${vision ? `&vision=${vision}` : ""}${weapon ? `&weapon=${weapon}` : ""}`}
-              className={`px-3 py-1.5 rounded-full border border-neutral-800 bg-neutral-950/60 hover:border-neutral-500 transition-all ${rarityTextClass(r)}`}
-            >
-              {rarityStars(r)}
-            </Link>
-          ))}
-
-          {/* Nút xóa bộ lọc */}
-          {(vision || weapon || rarity) && (
-            <Link
-              href="/characters"
-              className="ml-auto px-4 py-1.5 rounded-full bg-red-950/40 border border-red-900/60 text-red-400 hover:bg-red-900/40 transition-colors text-xs font-semibold"
-            >
-              Xóa Bộ Lọc &times;
-            </Link>
-          )}
-        </div>
-      </div>
-
-      {/* Danh sách hiển thị dạng Lưới (Character Cards Grid) */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-        {characters.map((c) => (
-          <Link
-            key={c.id}
-            href={`/characters/${c.id}`}
-            className={`relic-frame ${rarityGlowClass(c.rarity)} bg-neutral-950/60 border border-neutral-800/80 rounded-xl overflow-hidden block group transition-all duration-300 hover:-translate-y-2`}
-          >
-            {/* Khung ảnh đại diện */}
-            <div className="relative aspect-square w-full overflow-hidden bg-neutral-900/50">
-              {c.iconUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={c.iconUrl}
-                  alt={c.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-neutral-600 text-xs">
-                  No Image
-                </div>
-              )}
-              {/* Huy hiệu nguyên tố góc trên bên trái */}
-              <span 
-                className="absolute top-2 left-2 w-3.5 h-3.5 rounded-full border border-white/20 shadow-md" 
-                style={{ background: elementColor(c.vision) }} 
-              />
-            </div>
-
-            {/* Chi tiết văn bản chân thẻ */}
-            <div className="p-4 border-t border-neutral-900 bg-neutral-900/20">
-              <div className="font-semibold truncate text-neutral-100 group-hover:text-[color:var(--gold-bright)] transition-colors mb-1">
-                {c.name}
-              </div>
-              <div className="flex justify-between items-center mt-1">
-                <span className="text-xs text-neutral-500 uppercase tracking-wider">{c.weaponType}</span>
-                <span className={`text-[10px] tracking-tighter ${rarityTextClass(c.rarity)}`}>
-                  {rarityStars(c.rarity)}
-                </span>
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
     </div>
   );
 }
@@ -748,6 +473,47 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="max-w-6xl mx-auto px-4 py-8">{children}</main>
       </body>
     </html>
+  );
+}
+</file>
+
+<file path="src/components/ElementIcon.tsx">
+"use client";
+
+import { useState } from "react";
+
+/**
+ * Chỉ hiển thị icon nguyên tố CHUẨN lấy từ DB (iconUrl).
+ * Nếu không có hoặc ảnh lỗi -> không hiện gì cả (không dùng hình/chấm dự phòng
+ * nào khác để tránh gây hiểu nhầm là icon thật).
+ */
+export function ElementIcon({
+  vision,
+  iconUrl,
+  size = 20,
+  className = "",
+}: {
+  vision: string;
+  iconUrl?: string | null;
+  size?: number;
+  className?: string;
+}) {
+  const [broken, setBroken] = useState(false);
+
+  if (!iconUrl || broken) return null;
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={iconUrl}
+      alt={vision}
+      width={size}
+      height={size}
+      className={`inline-block object-contain ${className}`}
+      style={{ filter: "drop-shadow(0 0 3px rgba(0,0,0,0.5))" }}
+      loading="lazy"
+      onError={() => setBroken(true)}
+    />
   );
 }
 </file>
@@ -1722,6 +1488,595 @@ export default async function ArtifactDetail({ params }: { params: Promise<{ id:
 }
 </file>
 
+<file path="src/app/characters/[id]/page.tsx">
+// src/app/characters/[id]/page.tsx
+import { prisma } from "@/lib/prisma";
+import { notFound } from "next/navigation";
+import { rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
+import { ElementIcon } from "@/components/ElementIcon";
+
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
+
+type AscensionMaterialPhase = {
+  phase: number;
+  materials: Array<{ name: string | null; count: number | null }>;
+};
+
+type StatByLevelRow = {
+  level: number;
+  ascension: number | null;
+  hp: number | null;
+  attack: number | null;
+  defense: number | null;
+  specialized: number | null;
+};
+
+type VoiceActors = {
+  english?: string | null;
+  chinese?: string | null;
+  japanese?: string | null;
+  korean?: string | null;
+};
+
+function formatNumber(n: number | null | undefined): string {
+  if (n === null || n === undefined) return "—";
+  return Math.round(n).toLocaleString("vi-VN");
+}
+
+export default async function CharacterDetail({ params }: PageProps) {
+  const { id } = await params;
+
+  // 1. Tìm kiếm thực thể lữ hành duy nhất dựa trên ID từ Supabase
+  const c = await prisma.character.findUnique({
+    where: { id },
+  });
+
+  if (!c) return notFound();
+
+  // Nếu đây là 1 biến thể Traveler (id "traveler-boy-<element>" /
+  // "traveler-girl-<element>"), lấy thêm biến thể giới tính còn lại CÙNG
+  // nguyên tố (dữ liệu thật đã seed sẵn) để ghép ảnh nửa Nam / nửa Nữ ở
+  // banner đầu trang — làm ngay tại đây, không tách file/component riêng.
+  const isTraveler = c.id.startsWith("traveler-");
+  let sibling: typeof c | null = null;
+  if (isTraveler) {
+    const siblingId = c.id.startsWith("traveler-boy-")
+      ? c.id.replace("traveler-boy-", "traveler-girl-")
+      : c.id.replace("traveler-girl-", "traveler-boy-");
+    sibling = await prisma.character.findUnique({ where: { id: siblingId } });
+  }
+  const boy = isTraveler ? (c.id.startsWith("traveler-boy-") ? c : sibling) : null;
+  const girl = isTraveler ? (c.id.startsWith("traveler-girl-") ? c : sibling) : null;
+  const boySplash = boy?.splashUrl || boy?.iconUrl || null;
+  const girlSplash = girl?.splashUrl || girl?.iconUrl || null;
+
+  // 2. Chuyển đổi an toàn dữ liệu kiểu Json phức tạp từ Prisma 7
+  const constellations = (c.constellations as any[]) ?? [];
+  const talents = (c.talents as any[]) ?? [];
+  const ascensionMaterials = (c.ascensionMaterials as unknown as AscensionMaterialPhase[]) ?? [];
+  const statsByLevel = (c.statsByLevel as unknown as StatByLevelRow[]) ?? [];
+  const voiceActors = (c.voiceActors as unknown as VoiceActors) ?? null;
+
+  const TALENT_LABEL_VI: Record<string, string> = {
+    normalAttack: "Đòn Thường / Trọng Kích / Bổ Nhào",
+    elementalSkill: "Kỹ Năng Nguyên Tố",
+    elementalBurst: "Trọng Kích Nguyên Tố (Cực Kỹ)",
+    alternateSprint: "Kỹ Năng Di Chuyển Đặc Biệt",
+    passive1: "Thiên Phú Bị Động 1",
+    passive2: "Thiên Phú Bị Động 2",
+    passive3: "Thiên Phú Bị Động 3",
+    passive4: "Thiên Phú Bị Động 4",
+  };
+
+  return (
+    <div className="max-w-5xl mx-auto px-4 py-8">
+      
+      {/* Khối thẻ thông tin chính (Hero Banner Card) */}
+      <div className={`relic-frame ${rarityGlowClass(c.rarity)} bg-neutral-900/30 backdrop-blur-md rounded-xl p-6 flex flex-col sm:flex-row gap-6 mb-8 border border-neutral-800/60`}>
+        {isTraveler ? (
+          // Ảnh ghép nửa Nam / nửa Nữ — chỉ áp dụng cho Traveler, dùng
+          // đúng splashUrl/iconUrl thật của cả 2 biến thể giới tính.
+          <div className="relative w-full sm:w-56 aspect-[3/4] rounded-lg overflow-hidden border border-[color:rgba(201,166,107,0.3)] bg-neutral-950/40 shrink-0">
+            <div className="absolute inset-0" style={{ clipPath: "polygon(0 0, 50% 0, 50% 100%, 0 100%)" }}>
+              {boySplash ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={boySplash} alt={`${c.name} - Nam`} className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-neutral-600 text-[10px]">—</div>
+              )}
+            </div>
+            <div className="absolute inset-0" style={{ clipPath: "polygon(50% 0, 100% 0, 100% 100%, 50% 100%)" }}>
+              {girlSplash ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={girlSplash} alt={`${c.name} - Nữ`} className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-neutral-600 text-[10px]">—</div>
+              )}
+            </div>
+            <div className="absolute top-0 bottom-0 left-1/2 w-px bg-black/40 -translate-x-1/2" />
+          </div>
+        ) : (
+          c.splashUrl && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img 
+              src={c.splashUrl} 
+              alt={c.name} 
+              className="w-full sm:w-56 h-auto rounded-lg object-cover border border-[color:rgba(201,166,107,0.3)] bg-neutral-950/40" 
+            />
+          )
+        )}
+        <div className="flex flex-col justify-center">
+          <div className="flex items-center gap-2 mb-2">
+            <ElementIcon vision={c.vision} iconUrl={c.elementIcon} size={24} />
+            <span className="text-xs font-bold uppercase tracking-widest text-[color:var(--parchment-dim)]">
+              {c.vision} &middot; {c.weaponType}
+            </span>
+          </div>
+
+          <h1 className="font-display text-4xl font-extrabold text-[color:var(--gold-bright)] mb-1 tracking-wide">
+            {isTraveler ? `Traveler (${c.vision})` : c.name}
+          </h1>
+
+          {c.title && (
+            <p className="text-sm text-[color:var(--parchment-dim)] italic mb-3">
+              &ldquo;{c.title}&rdquo;
+            </p>
+          )}
+
+          <p className={`text-xl mb-4 ${rarityTextClass(c.rarity)}`}>
+            {rarityStars(c.rarity)}
+          </p>
+
+          {c.region && (
+            <p className="text-xs text-[color:var(--parchment-dim)] mb-2 font-medium uppercase tracking-wider">
+              Vùng đất: <span className="text-neutral-200">{c.region}</span>
+            </p>
+          )}
+
+          {/* Thông tin phụ: sinh nhật, chòm sao bản mệnh, phiên bản ra mắt */}
+          {(c.birthday || c.constellationName || c.gameVersion) && (
+            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-[color:var(--parchment-dim)] mb-3">
+              {c.birthday && (
+                <span>
+                  Sinh nhật: <span className="text-neutral-200">{c.birthday}</span>
+                </span>
+              )}
+              {c.constellationName && (
+                <span>
+                  Chòm sao: <span className="text-neutral-200">{c.constellationName}</span>
+                </span>
+              )}
+              {c.gameVersion && (
+                <span>
+                  Ra mắt phiên bản: <span className="text-neutral-200">{c.gameVersion}</span>
+                </span>
+              )}
+            </div>
+          )}
+
+          {c.description && (
+            <p className="text-sm text-neutral-300 max-w-xl leading-relaxed bg-neutral-950/20 p-3 rounded-lg border border-neutral-800/40 italic mb-3">
+              {c.description}
+            </p>
+          )}
+
+          {/* Seiyuu / lồng tiếng */}
+          {voiceActors && (voiceActors.japanese || voiceActors.english || voiceActors.chinese || voiceActors.korean) && (
+            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-[color:var(--parchment-dim)] mb-2">
+              {voiceActors.japanese && <span>🇯🇵 {voiceActors.japanese}</span>}
+              {voiceActors.english && <span>🇬🇧 {voiceActors.english}</span>}
+              {voiceActors.chinese && <span>🇨🇳 {voiceActors.chinese}</span>}
+              {voiceActors.korean && <span>🇰🇷 {voiceActors.korean}</span>}
+            </div>
+          )}
+
+          {c.wikiUrl && (
+            <a
+              href={c.wikiUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-[color:var(--gold)] hover:text-[color:var(--gold-bright)] underline underline-offset-2 w-fit"
+            >
+              Xem thêm trên Wiki &rarr;
+            </a>
+          )}
+        </div>
+      </div>
+
+      {/* Khối thuộc tính cơ bản (Base Stats Grid) */}
+      <section className="mb-8">
+        <h2 className="font-display text-xl font-bold mb-4 text-[color:var(--gold)] uppercase tracking-wide border-b border-neutral-800 pb-2">
+          Thuộc Tính Căn Bản (Cấp 1)
+        </h2>
+        <div className="relic-frame bg-neutral-950/40 border border-neutral-800/80 rounded-xl p-5 grid grid-cols-2 sm:grid-cols-4 gap-6 text-sm text-neutral-200">
+          <div>
+            <span className="text-[color:var(--parchment-dim)] font-medium block mb-1">Sinh Mệnh (HP)</span> 
+            <span className="text-lg font-semibold">{c.baseHp ?? "—"}</span>
+          </div>
+          <div>
+            <span className="text-[color:var(--parchment-dim)] font-medium block mb-1">Tấn Công (ATK)</span> 
+            <span className="text-lg font-semibold">{c.baseAtk ?? "—"}</span>
+          </div>
+          <div>
+            <span className="text-[color:var(--parchment-dim)] font-medium block mb-1">Phòng Ngự (DEF)</span> 
+            <span className="text-lg font-semibold">{c.baseDef ?? "—"}</span>
+          </div>
+          <div>
+            <span className="text-[color:var(--parchment-dim)] font-medium block mb-1">Đột Phá Tăng</span> 
+            <span className="text-md font-semibold text-[color:var(--gold-bright)] truncate block">{c.ascensionStat ?? "—"}</span>
+          </div>
+        </div>
+      </section>
+
+      {/* Khối bảng chỉ số theo cấp / mốc đột phá */}
+      {statsByLevel.length > 0 && (
+        <section className="mb-8">
+          <h2 className="font-display text-xl font-bold mb-4 text-[color:var(--gold)] uppercase tracking-wide border-b border-neutral-800 pb-2">
+            Chỉ Số Theo Cấp Độ
+          </h2>
+          <div className="relic-frame bg-neutral-950/40 border border-neutral-800/80 rounded-xl overflow-x-auto">
+            <table className="w-full text-sm text-neutral-200 min-w-[560px]">
+              <thead>
+                <tr className="text-left text-[color:var(--parchment-dim)] text-xs uppercase tracking-wider border-b border-neutral-800">
+                  <th className="p-3 font-medium">Cấp</th>
+                  <th className="p-3 font-medium">Đột Phá</th>
+                  <th className="p-3 font-medium">HP</th>
+                  <th className="p-3 font-medium">ATK</th>
+                  <th className="p-3 font-medium">DEF</th>
+                  <th className="p-3 font-medium">{c.ascensionStat ?? "Chỉ số phụ"}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {statsByLevel.map((row, i) => (
+                  <tr key={i} className="border-b border-neutral-900/80 last:border-0 hover:bg-neutral-900/30">
+                    <td className="p-3">{row.level}</td>
+                    <td className="p-3 text-[color:var(--parchment-dim)]">{row.ascension ?? "—"}</td>
+                    <td className="p-3">{formatNumber(row.hp)}</td>
+                    <td className="p-3">{formatNumber(row.attack)}</td>
+                    <td className="p-3">{formatNumber(row.defense)}</td>
+                    <td className="p-3 text-[color:var(--gold-bright)]">
+                      {row.specialized ? formatNumber(row.specialized) : "—"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+
+      {/* Khối nguyên liệu đột phá */}
+      {ascensionMaterials.length > 0 && (
+        <section className="mb-8">
+          <h2 className="font-display text-xl font-bold mb-4 text-[color:var(--gold)] uppercase tracking-wide border-b border-neutral-800 pb-2">
+            Nguyên Liệu Đột Phá
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {ascensionMaterials.map((phase) => (
+              <div
+                key={phase.phase}
+                className="relic-frame bg-neutral-900/20 border border-neutral-800 rounded-xl p-4"
+              >
+                <div className="text-xs font-bold uppercase tracking-wider text-[color:var(--gold)] mb-3">
+                  Giai Đoạn {phase.phase}
+                </div>
+                <ul className="space-y-1.5 text-sm text-neutral-200">
+                  {phase.materials.map((m, j) => (
+                    <li key={j} className="flex justify-between gap-3">
+                      <span className="text-[color:var(--parchment-dim)] truncate">{m.name}</span>
+                      <span className="font-semibold shrink-0">
+                        {m.count ? `x${m.count.toLocaleString("vi-VN")}` : ""}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Khối danh sách kỹ năng thiên phú (Talents) */}
+      {talents.length > 0 && (
+        <section className="mb-8">
+          <h2 className="font-display text-xl font-bold mb-4 text-[color:var(--gold)] uppercase tracking-wide border-b border-neutral-800 pb-2">
+            Hệ Thống Thiên Phú Kỹ Năng
+          </h2>
+          <div className="space-y-4">
+            {talents.map((t: any, i: number) => (
+              <div key={i} className="relic-frame bg-neutral-900/20 border border-neutral-800 rounded-xl p-5 hover:bg-neutral-900/40 transition-colors">
+                <div className="font-bold text-base text-neutral-100 mb-2 flex flex-col gap-0.5">
+                  <span className="text-[10px] uppercase tracking-wider text-neutral-500">
+                    {TALENT_LABEL_VI[t.key] ?? t.key}
+                  </span>
+                  {t.name}
+                </div>
+                <p className="text-sm text-[color:var(--parchment-dim)] leading-relaxed whitespace-pre-line">
+                  {t.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Khối hệ thống cung mệnh chòm sao (Constellations) */}
+      {constellations.length > 0 && (
+        <section className="mb-8">
+          <h2 className="font-display text-xl font-bold mb-4 text-[color:var(--gold)] uppercase tracking-wide border-b border-neutral-800 pb-2">
+            Hệ Thống Cung Mệnh Chòm Sao
+          </h2>
+          <div className="space-y-4">
+            {constellations.map((cs: any, i: number) => (
+              <div key={i} className="relic-frame bg-neutral-900/10 border border-neutral-800/80 rounded-xl p-5 hover:border-purple-900/40 transition-all">
+                <div className="font-bold text-base mb-2 text-[color:var(--purple-glow)] drop-shadow-[0_0_6px_rgba(168,85,247,0.2)]">
+                  C{i + 1} &middot; {cs.name}
+                </div>
+                <p className="text-sm text-[color:var(--parchment-dim)] leading-relaxed whitespace-pre-line">
+                  {cs.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+    </div>
+  );
+}
+</file>
+
+<file path="src/app/characters/page.tsx">
+// src/app/characters/page.tsx
+import Link from "next/link";
+import { prisma } from "@/lib/prisma";
+import { rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
+import { ElementIcon } from "@/components/ElementIcon";
+
+interface PageProps {
+  searchParams: Promise<{ vision?: string; weapon?: string; rarity?: string }>;
+}
+
+export default async function CharactersPage({ searchParams }: PageProps) {
+  const { vision, weapon, rarity } = await searchParams;
+
+  // 1. Truy vấn dữ liệu từ Supabase kết hợp bộ lọc (Filter)
+  const characters = await prisma.character.findMany({
+    where: {
+      vision: vision ? { equals: vision, mode: "insensitive" } : undefined,
+      weaponType: weapon ? { equals: weapon, mode: "insensitive" } : undefined,
+      rarity: rarity ? Number(rarity) : undefined,
+    },
+    orderBy: [{ rarity: "desc" }, { name: "asc" }],
+  });
+
+  // Traveler có 2 biến thể giới tính cho mỗi nguyên tố (đã seed thật trong DB:
+  // "traveler-boy-<element>" / "traveler-girl-<element>"). Giống các web
+  // Genshin database khác, ta chỉ hiện 1 thẻ / nguyên tố — nhưng thay vì chọn
+  // đại 1 giới tính, ảnh đại diện của thẻ đó ghép nửa icon Boy + nửa icon Girl
+  // (đúng ảnh thật lấy từ DB, không tạo ảnh mới). Click vào thẻ sẽ vào trang
+  // detail của biến thể Boy (mặc định), từ đó vẫn xem được đầy đủ stat/talent
+  // thật của biến thể đó như mọi nhân vật khác.
+  const travelerByElement = new Map<
+    string,
+    { boy?: (typeof characters)[number]; girl?: (typeof characters)[number] }
+  >();
+  const nonTraveler: typeof characters = [];
+
+  for (const c of characters) {
+    if (c.id.startsWith("traveler-boy-")) {
+      const bucket = travelerByElement.get(c.vision) ?? {};
+      bucket.boy = c;
+      travelerByElement.set(c.vision, bucket);
+    } else if (c.id.startsWith("traveler-girl-")) {
+      const bucket = travelerByElement.get(c.vision) ?? {};
+      bucket.girl = c;
+      travelerByElement.set(c.vision, bucket);
+    } else {
+      nonTraveler.push(c);
+    }
+  }
+
+  // thay vì chỉ lấy tên nguyên tố, lấy luôn 1 elementIcon đại diện mỗi nguyên tố
+  const visionRows = await prisma.character.findMany({
+    distinct: ["vision"],
+    select: { vision: true, elementIcon: true },
+  });
+  const weapons = ["Sword", "Claymore", "Polearm", "Bow", "Catalyst"];
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      {/* Khối tiêu đề */}
+      <div className="mb-8">
+        <h1 className="font-display text-4xl font-bold tracking-wide text-neutral-100 uppercase mb-2">
+          Học Viện Nhân Vật
+        </h1>
+        <p className="text-sm text-[color:var(--parchment-dim)]">
+          Tìm thấy{" "}
+          <span className="text-[color:var(--gold-bright)] font-semibold">
+            {nonTraveler.length + travelerByElement.size}
+          </span>{" "}
+          đại hiệp lữ hành
+        </p>
+      </div>
+
+      {/* Khối bộ lọc dữ liệu chuyên nghiệp (Filter Bar) */}
+      <div className="bg-neutral-900/40 backdrop-blur-md border border-neutral-800 p-4 rounded-xl mb-8 flex flex-col gap-4">
+        {/* Bộ lọc nguyên tố */}
+        <div className="flex flex-wrap items-center gap-2 text-xs">
+          <span className="text-neutral-400 font-medium mr-2">Nguyên tố (Vision):</span>
+          {visionRows.map(({ vision: v, elementIcon }) => (
+            <Link
+              key={v}
+              href={`/characters?vision=${v}${weapon ? `&weapon=${weapon}` : ""}${rarity ? `&rarity=${rarity}` : ""}`}
+              className="px-3 py-1.5 rounded-full border border-neutral-800 bg-neutral-950/60 hover:border-neutral-500 transition-all flex items-center gap-1.5"
+            >
+              <ElementIcon vision={v} iconUrl={elementIcon} size={16} />
+              {v}
+            </Link>
+          ))}
+        </div>
+
+        {/* Bộ lọc loại vũ khí */}
+        <div className="flex flex-wrap items-center gap-2 text-xs">
+          <span className="text-neutral-400 font-medium mr-2">Loại Vũ Khí:</span>
+          {weapons.map((w) => (
+            <Link
+              key={w}
+              href={`/characters?weapon=${w}${vision ? `&vision=${vision}` : ""}${rarity ? `&rarity=${rarity}` : ""}`}
+              className="px-3 py-1.5 rounded-full border border-neutral-800 bg-neutral-950/60 hover:border-neutral-500 transition-all"
+            >
+              {w}
+            </Link>
+          ))}
+        </div>
+
+        {/* Bộ lọc độ hiếm sao */}
+        <div className="flex flex-wrap items-center gap-2 text-xs">
+          <span className="text-neutral-400 font-medium mr-2">Phẩm cấp (Rarity):</span>
+          {[4, 5].map((r) => (
+            <Link
+              key={r}
+              href={`/characters?rarity=${r}${vision ? `&vision=${vision}` : ""}${weapon ? `&weapon=${weapon}` : ""}`}
+              className={`px-3 py-1.5 rounded-full border border-neutral-800 bg-neutral-950/60 hover:border-neutral-500 transition-all ${rarityTextClass(r)}`}
+            >
+              {rarityStars(r)}
+            </Link>
+          ))}
+
+          {/* Nút xóa bộ lọc */}
+          {(vision || weapon || rarity) && (
+            <Link
+              href="/characters"
+              className="ml-auto px-4 py-1.5 rounded-full bg-red-950/40 border border-red-900/60 text-red-400 hover:bg-red-900/40 transition-colors text-xs font-semibold"
+            >
+              Xóa Bộ Lọc &times;
+            </Link>
+          )}
+        </div>
+      </div>
+
+      {/* Danh sách hiển thị dạng Lưới (Character Cards Grid) */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+        {/* 1 thẻ / nguyên tố cho Traveler — ảnh ghép nửa Nam / nửa Nữ */}
+        {Array.from(travelerByElement.entries()).map(([el, { boy, girl }]) => {
+          const target = boy ?? girl!;
+          const boyImg = boy?.iconUrl ?? null;
+          const girlImg = girl?.iconUrl ?? null;
+
+          return (
+            <Link
+              key={`traveler-${el}`}
+              href={`/characters/${target.id}`}
+              className={`relic-frame ${rarityGlowClass(target.rarity)} bg-neutral-950/60 border border-neutral-800/80 rounded-xl overflow-hidden block group transition-all duration-300 hover:-translate-y-2`}
+            >
+              <div className="relative aspect-square w-full overflow-hidden bg-neutral-900/50">
+                {/* Nửa trái: icon Boy */}
+                <div
+                  className="absolute inset-0"
+                  style={{ clipPath: "polygon(0 0, 50% 0, 50% 100%, 0 100%)" }}
+                >
+                  {boyImg ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={boyImg}
+                      alt={`Traveler (${el}) - Nam`}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-neutral-600 text-[10px]">
+                      —
+                    </div>
+                  )}
+                </div>
+                {/* Nửa phải: icon Girl */}
+                <div
+                  className="absolute inset-0"
+                  style={{ clipPath: "polygon(50% 0, 100% 0, 100% 100%, 50% 100%)" }}
+                >
+                  {girlImg ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={girlImg}
+                      alt={`Traveler (${el}) - Nữ`}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-neutral-600 text-[10px]">
+                      —
+                    </div>
+                  )}
+                </div>
+                {/* Đường chia giữa */}
+                <div className="absolute top-0 bottom-0 left-1/2 w-px bg-black/40 -translate-x-1/2" />
+                <div className="absolute top-2 left-2 bg-black/50 backdrop-blur-sm rounded-full p-1 shadow-md">
+                  <ElementIcon vision={el} iconUrl={target.elementIcon} size={16} />
+                </div>
+              </div>
+
+              <div className="p-4 border-t border-neutral-900 bg-neutral-900/20">
+                <div className="font-semibold truncate text-neutral-100 group-hover:text-[color:var(--gold-bright)] transition-colors mb-1">
+                  Traveler ({el})
+                </div>
+                <div className="flex justify-between items-center mt-1">
+                  <span className="text-xs text-neutral-500 uppercase tracking-wider">Sword</span>
+                  <span className={`text-[10px] tracking-tighter ${rarityTextClass(target.rarity)}`}>
+                    {rarityStars(target.rarity)}
+                  </span>
+                </div>
+              </div>
+            </Link>
+          );
+        })}
+
+        {nonTraveler.map((c) => (
+          <Link
+            key={c.id}
+            href={`/characters/${c.id}`}
+            className={`relic-frame ${rarityGlowClass(c.rarity)} bg-neutral-950/60 border border-neutral-800/80 rounded-xl overflow-hidden block group transition-all duration-300 hover:-translate-y-2`}
+          >
+            {/* Khung ảnh đại diện */}
+            <div className="relative aspect-square w-full overflow-hidden bg-neutral-900/50">
+              {c.iconUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={c.iconUrl}
+                  alt={c.name}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-neutral-600 text-xs">
+                  No Image
+                </div>
+              )}
+              {/* Huy hiệu nguyên tố góc trên bên trái */}
+              <div className="absolute top-2 left-2 bg-black/50 backdrop-blur-sm rounded-full p-1 shadow-md">
+                <ElementIcon vision={c.vision} iconUrl={c.elementIcon} size={16} />
+              </div>
+            </div>
+
+            {/* Chi tiết văn bản chân thẻ */}
+            <div className="p-4 border-t border-neutral-900 bg-neutral-900/20">
+              <div className="font-semibold truncate text-neutral-100 group-hover:text-[color:var(--gold-bright)] transition-colors mb-1">
+                {c.name}
+              </div>
+              <div className="flex justify-between items-center mt-1">
+                <span className="text-xs text-neutral-500 uppercase tracking-wider">{c.weaponType}</span>
+                <span className={`text-[10px] tracking-tighter ${rarityTextClass(c.rarity)}`}>
+                  {rarityStars(c.rarity)}
+                </span>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+</file>
+
 <file path="src/app/weapons/[id]/page.tsx">
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
@@ -1968,14 +2323,26 @@ model Character {
   releaseDate DateTime?
   description String?  @db.Text
   iconUrl     String?
+  sideIconUrl String?                 // icon nhỏ (filename_sideIcon) — dùng cho danh sách party, avatar nhỏ...
   splashUrl   String?
   elementIcon    String?
   baseHp      Float?
   baseAtk     Float?
   baseDef     Float?
   ascensionStat String?
-  constellations Json?                // [{ name, description }] x6 — nay đã được seed thật
-  talents        Json?                // { normalAttack, skill, burst, passives[] } — nay đã được seed thật
+  // Nguyên liệu đột phá 6 giai đoạn: [{ phase, materials: [{ name, count }] }]
+  ascensionMaterials Json?
+  // Chỉ số HP/ATK/DEF/chỉ số phụ ở các mốc cấp + trước/sau đột phá:
+  // [{ level, ascension, hp, attack, defense, specialized }]
+  statsByLevel Json?
+  birthday    String?                 // vd "October 29"
+  // Tên "chòm sao bản mệnh" (flavor, khác 6 cung mệnh kỹ năng bên dưới), vd "Acer Palmatum"
+  constellationName String?
+  voiceActors Json?                   // { english, chinese, japanese, korean }
+  gameVersion String?                 // phiên bản game nhân vật ra mắt, vd "1.6"
+  wikiUrl     String?
+  constellations Json?                // [{ level, name, description }] x6 — cung mệnh kỹ năng
+  talents        Json?                // [{ key, name, description }] — đòn thường/kỹ năng/trọng kích/passive
   updatedAt   DateTime @updatedAt
   createdAt   DateTime @default(now())
 
@@ -2030,74 +2397,13 @@ model ArtifactSet {
 </file>
 
 <file path="scripts/seed-characters.ts">
-/**
- * Real data seed from `genshin-db` package.
- * File path: scripts/seed-characters.ts
- *
- * FIXES APPLIED vs original:
- *  1. BUG: URL builders were missing `$` before `{...}` — template literals
- *     were NOT interpolating, so every icon/splash URL was the literal string
- *     "https://enka.network{filename}.png" for ALL entries. Fixed with `${}`.
- *  2. BUG: Traveler was hard-skipped via c.name.includes("Traveler"), so
- *     Aether/Lumine never made it into the DB. Now handled explicitly
- *     (see seedTraveler()) instead of silently dropping it.
- *  3. BUG: Artifact 4pc fallback (`a.effect4Pc || a.effect1Pc`) silently
- *     mislabeled 1pc-bonus-only sets (e.g. old 2pc-only sets like Berserker,
- *     Instructor, Exile) as having a "four piece bonus" containing the 1pc
- *     text. Now stored as separate, honestly-named fields.
- *  4. Weapon effect description previously only kept refine 1 (weakest)
- *     text as the single "effectDescription". Now stores refine 1 AND
- *     refine 5 (max) separately, alongside the full per-refinement array,
- *     so nothing is quietly discarded.
- *  5. Added try/catch per-entry so one malformed record doesn't abort the
- *     entire seed (original would crash and exit(1) on first bad record).
- *  6. BUG: getEnkaUrl() prioritized `mihoyo_icon` (upload-os-bbs.mihoyo.com)
- *     over the Enka Network filename-based URL. That Mihoyo host is the
- *     internal CDN for the HoYoLAB forum's "game_record" feature, not a
- *     CDN meant for public third-party hotlinking — assets served from it
- *     were showing up broken/404 in the actual rendered app (confirmed via
- *     screenshot of /weapons showing a mix of working and broken icons).
- *     Enka Network's /ui/<filename>.png path is the community-maintained
- *     mirror explicitly intended for this kind of hotlinking. Swapped the
- *     priority to prefer Enka, falling back to the Mihoyo URL only when no
- *     filename is available at all.
- *     VERIFIED against genshin-db-api.vercel.app (the package's own public
- *     API) that `images.filename_icon` / `images.mihoyo_icon` are indeed
- *     the correct field names for weapons — so this was a URL-source
- *     reliability issue, not a wrong field name.
- *     ACTION REQUIRED: re-run `npm run db:seed` after pulling this change
- *     so existing rows get their iconUrl/splashUrl/pieces overwritten.
- *
- * NOTE ON THINGS I COULD NOT VERIFY:
- * I do not have access to your installed `genshin-db` version's type
- * definitions or runtime in this sandbox (no network, no node_modules).
- * Anywhere below marked `// VERIFY:` is either (a) a method/field name I'm
- * not 100% certain exists under that exact name in your installed version,
- * or (b) behavior that varies by version. Please check
- * `node_modules/genshin-db/types` (or run `npx genshin-db --help` / inspect
- * a sample object with console.log) before trusting those sections in prod.
- * Everything else (the 6 fixes above) is corrected independent of version,
- * since they were logic bugs in the code you already had, not API-shape
- * assumptions.
- */
+console.log("DB đang dùng:", process.env.DATABASE_URL);
 import { createRequire } from "module";
 import { prisma } from "../src/lib/prisma";
 
 const require = createRequire(import.meta.url);
 const genshindb = require("genshin-db") as typeof import("genshin-db");
 
-/**
- * Generates a fully-qualified image asset URL, preferring Enka Network's
- * public `/ui/<filename>.png` mirror over any Mihoyo-hosted URL.
- *
- * Enka Network is maintained specifically as a stable, public CDN for
- * third-party Genshin tools to hotlink game UI assets. The Mihoyo URL
- * (upload-os-bbs.mihoyo.com/game_record/...) comes from the HoYoLAB forum's
- * internal "game_record" feature and is not guaranteed to stay hotlink-safe
- * or even reachable long-term — this was confirmed to be producing broken
- * images in the running app (some weapon icons loaded, others 404'd,
- * correlating with which URL source genshin-db returned for that entry).
- */
 function getEnkaUrl(filename?: string | null, mihoyoUrl?: string | null): string | null {
   // VERIFY: confirm the exact base path against a known-good filename from
   // your installed genshin-db version — Enka has changed asset paths before.
@@ -2105,14 +2411,6 @@ function getEnkaUrl(filename?: string | null, mihoyoUrl?: string | null): string
   if (mihoyoUrl) return mihoyoUrl;
   return null;
 }
-
-/**
- * Maps an element name to an icon asset. There is no single official,
- * stable "github.io" element-icon CDN — the previous code pointed at a
- * broken placeholder domain. Safer default: build from Enka's own
- * element icon naming convention, with a null fallback so bad data is
- * visibly null instead of a plausible-looking dead link.
- */
 function getElementIconUrl(element?: string | null): string | null {
   if (!element) return null;
   const name = element.trim();
@@ -2121,13 +2419,13 @@ function getElementIconUrl(element?: string | null): string | null {
   // rather than guessing a URL that "looks right" but 404s, since a
   // silently-broken icon is worse than an explicit gap you can fill in.
   const known: Record<string, string> = {
-    Anemo: "https://enka.network/ui/UI_Buff_Element_Wind.png",
-    Geo: "https://enka.network/ui/UI_Buff_Element_Rock.png",
-    Electro: "https://enka.network/ui/UI_Buff_Element_Electric.png",
-    Dendro: "https://enka.network/ui/UI_Buff_Element_Grass.png",
-    Hydro: "https://enka.network/ui/UI_Buff_Element_Water.png",
-    Pyro: "https://enka.network/ui/UI_Buff_Element_Fire.png",
-    Cryo: "https://enka.network/ui/UI_Buff_Element_Ice.png",
+    Anemo: "https://static.wikia.nocookie.net/gensin-impact/images/1/10/Element_Anemo.svg",
+    Geo: "https://static.wikia.nocookie.net/gensin-impact/images/9/9b/Element_Geo.svg",
+    Electro: "https://static.wikia.nocookie.net/gensin-impact/images/f/ff/Element_Electro.svg",
+    Dendro: "https://static.wikia.nocookie.net/gensin-impact/images/7/73/Element_Dendro.svg",
+    Hydro: "https://static.wikia.nocookie.net/gensin-impact/images/8/80/Element_Hydro.svg",
+    Pyro: "https://static.wikia.nocookie.net/gensin-impact/images/2/2c/Element_Pyro.svg",
+    Cryo: "https://static.wikia.nocookie.net/gensin-impact/images/7/72/Element_Cryo.svg",
   };
   return known[name] ?? null;
 }
@@ -2142,46 +2440,223 @@ function slugify(name: string): string {
 }
 
 /**
- * Traveler has multiple elemental variants and a different data shape than
- * regular playable characters in most genshin-db versions. Rather than
- * dropping it (original behavior), we seed each known variant explicitly.
- * VERIFY: the exact lookup names genshin-db expects for Traveler variants
- * differ by version — some expose "Traveler", others expose element-specific
- * keys. Log `genshindb.characters("names", { matchCategories: true })`
- * and grep for "Traveler" in your actual installed package to confirm the
- * real keys before relying on this list.
+ * Traveler có nhiều biến thể nguyên tố, nhưng genshin-db KHÔNG lưu key
+ * "Traveler (Boy)" / "Traveler (Girl)" trong characters() — đã verify trực
+ * tiếp bằng cách cài genshin-db thật và chạy:
+ *
+ *   db.characters('names', { matchCategories: true })
+ *     .filter(n => /traveler|aether|lumine/i.test(n))
+ *   // -> [ 'Aether', 'Lumine' ]
+ *   db.characters('Traveler (Boy)') // -> undefined
+ *
+ * Tên thật để tra THÔNG TIN NHÂN VẬT (stat/ảnh/mô tả) là "Aether"/"Lumine".
+ *
+ * NHƯNG thiên phú + cung mệnh lại nằm ở một namespace KHÁC hẳn trong
+ * genshin-db — talents()/constellations() không nhận "Aether"/"Lumine"
+ * (trả về undefined) mà nhận đúng "Traveler (Anemo)", "Traveler (Pyro)"...
+ * (đã verify bằng db.talents('names',{matchCategories:true}) ra đúng 7 tên
+ * theo nguyên tố). Vì vậy 2 loại dữ liệu này phải tra bằng 2 tên khác nhau.
+ *
+ * Nguyên liệu đột phá (costs) của Traveler dùng chung 1 bộ nguyên liệu cho
+ * mọi nguyên tố trong game thật (đá "Brilliant Diamond" + "Windwheel
+ * Aster", không đổi theo vision) — đã verify qua characters('Aether').costs
+ * — nên lấy từ Aether/Lumine áp dụng chung cho cả 7 biến thể là chính xác,
+ * không phải giới hạn/xấp xỉ.
  */
 const TRAVELER_ELEMENTS = ["Anemo", "Geo", "Electro", "Dendro", "Hydro", "Pyro", "Cryo"] as const;
+
+const TRAVELER_QUERY_NAME: Record<"Traveler (Boy)" | "Traveler (Girl)", string> = {
+  "Traveler (Boy)": "Aether",
+  "Traveler (Girl)": "Lumine",
+};
+
+/**
+ * Tên field thiên phú THẬT trong genshin-db (verify bằng
+ * `db.talents('Kaeya')` -> keys: combat1, combat2, combat3, passive1..3;
+ * một số nhân vật như Mona có thêm combatsp = kỹ năng di chuyển đặc biệt).
+ * Bản cũ dùng "normalAttack"/"elementalSkill"/"elementalBurst"/
+ * "alternateSprint" — các key này KHÔNG tồn tại trong dữ liệu thật nên
+ * luôn match rỗng, chỉ vô tình vớt được passive1-3.
+ */
+const TALENT_FIELD_ORDER = [
+  "combat1",
+  "combat2",
+  "combatsp",
+  "combat3",
+  "passive1",
+  "passive2",
+  "passive3",
+  "passive4",
+] as const;
+const TALENT_LABELS: Record<string, string> = {
+  combat1: "normalAttack",
+  combat2: "elementalSkill",
+  combatsp: "alternateSprint",
+  combat3: "elementalBurst",
+  passive1: "passive1",
+  passive2: "passive2",
+  passive3: "passive3",
+  passive4: "passive4",
+};
+
+async function getTalentsAndConstellations(
+  characterName: string
+): Promise<{ talents: unknown; constellations: unknown }> {
+  try {
+    const hasTalentsFn = typeof (genshindb as any).talents === "function";
+    const hasConstellationsFn = typeof (genshindb as any).constellations === "function";
+    if (!hasTalentsFn && !hasConstellationsFn) {
+      console.warn(`⚠ genshindb.talents()/constellations() không có trong version này — bỏ qua "${characterName}"`);
+      return { talents: null, constellations: null };
+    }
+
+    const rawTalents = hasTalentsFn ? (genshindb as any).talents(characterName) : null;
+    // QUAN TRỌNG: cung mệnh nằm ở hàm RIÊNG genshindb.constellations(), với
+    // key c1..c6 — KHÔNG nằm bên trong kết quả của talents() như bản cũ
+    // từng giả định (raw['constellation1'..'constellation6'] không tồn
+    // tại trong talents(), nên trước đây constellations luôn rỗng cho
+    // MỌI nhân vật, không riêng Traveler).
+    const rawConstellations = hasConstellationsFn ? (genshindb as any).constellations(characterName) : null;
+
+    const talents = rawTalents
+      ? TALENT_FIELD_ORDER
+          .map((rawKey) =>
+            rawTalents[rawKey]
+              ? { key: TALENT_LABELS[rawKey], name: rawTalents[rawKey].name ?? null, description: rawTalents[rawKey].description ?? null }
+              : null
+          )
+          .filter(Boolean)
+      : [];
+
+    const constellations = rawConstellations
+      ? Array.from({ length: 6 }, (_, i) => {
+          const cst = rawConstellations[`c${i + 1}`];
+          return cst ? { level: i + 1, name: cst.name ?? null, description: cst.description ?? null } : null;
+        }).filter(Boolean)
+      : [];
+
+    return {
+      talents: talents.length ? JSON.parse(JSON.stringify(talents)) : null,
+      constellations: constellations.length ? JSON.parse(JSON.stringify(constellations)) : null,
+    };
+  } catch (err) {
+    console.warn(`⚠ Could not fetch talents/constellations for "${characterName}":`, (err as Error).message);
+    return { talents: null, constellations: null };
+  }
+}
+
+/**
+ * Nguyên liệu đột phá — genshin-db trả về ở `characters(name).costs`, dạng
+ * { ascend1: [{name,count}...], ascend2: [...], ..., ascend6: [...] }.
+ * Chưa từng được lưu vào DB trước đây (schema không có field tương ứng).
+ */
+function getAscensionMaterials(costs: unknown): unknown {
+  if (!costs || typeof costs !== "object") return null;
+  const raw = costs as Record<string, Array<{ name?: string; count?: number }>>;
+
+  const phases = [1, 2, 3, 4, 5, 6]
+    .map((phase) => {
+      const items = raw[`ascend${phase}`];
+      if (!Array.isArray(items) || items.length === 0) return null;
+      return {
+        phase,
+        materials: items
+          .filter((m) => m && m.name)
+          .map((m) => ({ name: m.name ?? null, count: m.count ?? null })),
+      };
+    })
+    .filter(Boolean);
+
+  return phases.length ? JSON.parse(JSON.stringify(phases)) : null;
+}
+
+/**
+ * Bảng chỉ số HP/ATK/DEF theo cấp — lấy ở các mốc chuẩn mà người chơi thật
+ * sự quan tâm: cấp 1, và trước/sau đột phá ở mỗi mốc 20/40/50/60/70/80,
+ * kết thúc ở cấp 90. `specialized` là giá trị chỉ số phụ đột phá
+ * (ascensionStat) tại mốc đó.
+ */
+const STAT_BREAKPOINTS: Array<[number, "-" | "+" | undefined]> = [
+  [1, undefined],
+  [20, "-"],
+  [20, "+"],
+  [40, "-"],
+  [40, "+"],
+  [50, "-"],
+  [50, "+"],
+  [60, "-"],
+  [60, "+"],
+  [70, "-"],
+  [70, "+"],
+  [80, "-"],
+  [80, "+"],
+  [90, undefined],
+];
+
+function getStatsByLevel(statsFn: unknown): unknown {
+  if (typeof statsFn !== "function") return null;
+  try {
+    const rows = STAT_BREAKPOINTS.map(([level, ascension]) => {
+      const s = ascension ? (statsFn as any)(level, ascension) : (statsFn as any)(level);
+      if (!s) return null;
+      return {
+        level: s.level ?? level,
+        ascension: s.ascension ?? null,
+        hp: s.hp ?? null,
+        attack: s.attack ?? null,
+        defense: s.defense ?? null,
+        specialized: s.specialized ?? null,
+      };
+    }).filter(Boolean);
+    return rows.length ? JSON.parse(JSON.stringify(rows)) : null;
+  } catch {
+    return null;
+  }
+}
 
 async function seedTraveler(): Promise<number> {
   let count = 0;
   for (const element of TRAVELER_ELEMENTS) {
     for (const genderId of ["Traveler (Boy)", "Traveler (Girl)"] as const) {
       try {
-        const c = genshindb.characters(genderId) as any;
-        if (!c || !c.name) continue;
+        const queryName = TRAVELER_QUERY_NAME[genderId]; // "Aether" / "Lumine" — thông tin nhân vật cơ bản
+        const talentQueryName = `Traveler (${element})`; // tên riêng cho thiên phú/cung mệnh theo nguyên tố
+
+        const c = genshindb.characters(queryName) as any;
+        if (!c || !c.name) {
+          console.warn(`⚠ genshindb không có dữ liệu cho "${queryName}" — bỏ qua ${genderId}/${element}`);
+          continue;
+        }
 
         const lvl1 = typeof c.stats === "function" ? c.stats(1) : null;
         const id = slugify(`${genderId}-${element}`);
-        const { talents, constellations } = await getTalentsAndConstellations(genderId);
+        const { talents, constellations } = await getTalentsAndConstellations(talentQueryName);
 
         const payload = {
           name: `${c.name} (${element})`,
           title: c.title || null,
           vision: element, // element luôn là string ("Anemo", "Geo",...) -> Hợp lệ
-          weaponType: c.weaponText || "Sword", // CÁCH 2: Thay null bằng "Sword" (Nhà lữ hành luôn dùng Kiếm)
+          weaponType: c.weaponText || "Sword", // Nhà lữ hành luôn dùng Kiếm
           rarity: 5,
           region: c.region || null,
           affiliation: c.affiliation || null,
           description: c.description || null,
           iconUrl: getEnkaUrl(c.images?.filename_icon, c.images?.mihoyo_icon),
+          sideIconUrl: getEnkaUrl(c.images?.filename_sideIcon, c.images?.mihoyo_sideIcon),
           splashUrl: getEnkaUrl(c.images?.filename_gachaSplash, c.images?.mihoyo_gachaSplash),
           elementIcon: getElementIconUrl(element),
           baseHp: lvl1?.hp ?? null,
           baseAtk: lvl1?.attack ?? null,
           baseDef: lvl1?.defense ?? null,
           ascensionStat: c.substatText || null,
-          talents: talents as any, // ép kiểu Json để tránh TypeScript phàn nàn
+          ascensionMaterials: getAscensionMaterials(c.costs) as any,
+          statsByLevel: getStatsByLevel(c.stats) as any,
+          birthday: c.birthday || null,
+          constellationName: c.constellation || null,
+          voiceActors: c.cv ? (JSON.parse(JSON.stringify(c.cv)) as any) : null,
+          gameVersion: c.version || null,
+          wikiUrl: c.url?.fandom || null,
+          talents: talents as any,
           constellations: constellations as any,
         };
 
@@ -2199,46 +2674,19 @@ async function seedTraveler(): Promise<number> {
   return count;
 }
 
-const TALENT_KEYS = ["normalAttack", "elementalSkill", "elementalBurst", "passive1", "passive2", "passive3", "alternateSprint"] as const;
-const CONSTELLATION_PREFIX = "constellation"; // constellation1..constellation6
-
-async function getTalentsAndConstellations(
-  characterName: string
-): Promise<{ talents: unknown; constellations: unknown }> {
-  try {
-    if (typeof (genshindb as any).talents !== "function") {
-      console.warn(`⚠ genshindb.talents() not available in this package version — skipping for "${characterName}"`);
-      return { talents: null, constellations: null };
-    }
-
-    const raw = (genshindb as any).talents(characterName);
-    if (!raw) return { talents: null, constellations: null };
-
-    const talents = TALENT_KEYS
-      .map((key) => raw[key] ? { key, name: raw[key].name ?? null, description: raw[key].description ?? null } : null)
-      .filter(Boolean);
-
-    const constellations = Array.from({ length: 6 }, (_, i) => {
-      const c = raw[`${CONSTELLATION_PREFIX}${i + 1}`];
-      return c ? { level: i + 1, name: c.name ?? null, description: c.description ?? null } : null;
-    }).filter(Boolean);
-
-    return {
-      talents: talents.length ? JSON.parse(JSON.stringify(talents)) : null,
-      constellations: constellations.length ? JSON.parse(JSON.stringify(constellations)) : null,
-    };
-  } catch (err) {
-    console.warn(`⚠ Could not fetch talents/constellations for "${characterName}":`, (err as Error).message);
-    return { talents: null, constellations: null };
-  }
-}
-
 async function seedCharacters(): Promise<void> {
   const names = genshindb.characters("names", { matchCategories: true }) as string[];
   let count = 0;
 
   for (const name of names) {
-    if (name.includes("Traveler")) continue;
+    // "Aether"/"Lumine" là tên riêng của Traveler (Nam/Nữ, mặc định Anemo)
+    // trong danh sách names của genshin-db — KHÔNG chứa chữ "Traveler" nên
+    // check includes("Traveler") không lọc được, gây trùng với record
+    // "traveler-boy-anemo"/"traveler-girl-anemo" do seedTraveler() tạo ra
+    // (cùng 1 nhân vật nhưng bị lưu thành 2 id khác nhau). Chặn thẳng theo
+    // tên để tránh trùng — toàn bộ biến thể Traveler (kể cả Anemo) chỉ đi
+    // qua seedTraveler() duy nhất.
+    if (name.includes("Traveler") || name === "Aether" || name === "Lumine") continue;
 
     try {
       const c = genshindb.characters(name) as any;
@@ -2257,12 +2705,20 @@ async function seedCharacters(): Promise<void> {
         affiliation: c.affiliation || null,
         description: c.description || null,
         iconUrl: getEnkaUrl(c.images?.filename_icon, c.images?.mihoyo_icon),
+        sideIconUrl: getEnkaUrl(c.images?.filename_sideIcon, c.images?.mihoyo_sideIcon),
         splashUrl: getEnkaUrl(c.images?.filename_gachaSplash, c.images?.mihoyo_gachaSplash),
         elementIcon: getElementIconUrl(c.elementText),
         baseHp: lvl1?.hp ?? null,
         baseAtk: lvl1?.attack ?? null,
         baseDef: lvl1?.defense ?? null,
         ascensionStat: c.substatText || null,
+        ascensionMaterials: getAscensionMaterials(c.costs) as any,
+        statsByLevel: getStatsByLevel(c.stats) as any,
+        birthday: c.birthday || null,
+        constellationName: c.constellation || null,
+        voiceActors: c.cv ? (JSON.parse(JSON.stringify(c.cv)) as any) : null,
+        gameVersion: c.version || null,
+        wikiUrl: c.url?.fandom || null,
         talents: talents as any,
         constellations: constellations as any,
       };

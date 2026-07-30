@@ -1,14 +1,17 @@
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { assertEnv } from "./env";
+
+assertEnv();
 
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL,
-  // Bắt buộc SSL khi kết nối Supabase. Strict ở production, cho phép self-signed ở dev
-  // (Supabase dùng chứng chỉ hợp lệ nên rejectUnauthorized: true vẫn chạy tốt trong hầu hết trường hợp,
-  // đổi thành false chỉ khi bạn gặp lỗi self-signed certificate cụ thể từ pooler).
-  ssl: { rejectUnauthorized: process.env.NODE_ENV === "production" },
+  // Neon (như hầu hết managed Postgres) luôn dùng chứng chỉ SSL hợp lệ, kể cả
+  // qua pooler — không có tình huống self-signed cần tắt verify ở dev như
+  // một số nhà cung cấp khác, nên bật rejectUnauthorized ở mọi môi trường.
+  ssl: { rejectUnauthorized: true },
 });
 
 export const prisma =
