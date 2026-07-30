@@ -6,6 +6,9 @@ export default async function WeaponDetail({ params }: { params: Promise<{ id: s
   const w = await prisma.weapon.findUnique({ where: { id } });
   if (!w) return notFound();
 
+  // passiveByRefinement được seed dưới dạng mảng [r1, r2, r3, r4, r5] (đã filter bỏ phần tử rỗng)
+  const refinements = (w.passiveByRefinement as any[]) ?? [];
+
   return (
     <div>
       <div className="flex flex-col sm:flex-row gap-6 mb-8">
@@ -28,10 +31,24 @@ export default async function WeaponDetail({ params }: { params: Promise<{ id: s
         </div>
       </section>
 
-      {w.effectName && (
+      {w.effectName && refinements.length > 0 && (
         <section>
-          <h2 className="text-xl font-semibold mb-2">{w.effectName}</h2>
-          <p className="text-sm text-neutral-400">{w.effectDescription}</p>
+          <h2 className="text-xl font-semibold mb-4">{w.effectName}</h2>
+          <div className="space-y-3">
+            {refinements.map((r: any, i: number) => (
+              <div
+                key={i}
+                className="border border-neutral-800 rounded-lg p-3 bg-neutral-900"
+              >
+                <div className="font-medium text-amber-400 mb-1">
+                  Tinh luyện {i + 1}
+                </div>
+                <p className="text-sm text-neutral-400 whitespace-pre-line">
+                  {r?.description ?? "—"}
+                </p>
+              </div>
+            ))}
+          </div>
         </section>
       )}
     </div>
