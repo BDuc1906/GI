@@ -1,3 +1,4 @@
+
 // src/app/characters/[id]/page.tsx
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
@@ -5,6 +6,16 @@ import { rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
 import { ElementIcon } from "@/components/ElementIcon";
 import { SafeImage } from "@/components/SafeImage";
 import type { Metadata } from "next";
+import {
+  TALENT_LABEL_VI,
+  formatNumber,
+  formatSpecialized,
+  getMaterialIconMap,
+  resolveTravelerSibling,
+  type AscensionMaterialPhase,
+  type StatByLevelRow,
+  type VoiceActors,
+} from "@/lib/character-helpers";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -20,56 +31,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-type AscensionMaterialPhase = {
-  phase: number;
-  materials: Array<{ materialId?: string | null; name: string | null; count: number | null }>;
-};
-
-type StatByLevelRow = {
-  level: number;
-  ascension: number | null;
-  hp: number | null;
-  attack: number | null;
-  defense: number | null;
-  specialized: number | null;
-};
-
-type VoiceActors = {
-  english?: string | null;
-  chinese?: string | null;
-  japanese?: string | null;
-  korean?: string | null;
-};
-
-function formatNumber(n: number | null | undefined): string {
-  if (n === null || n === undefined) return "—";
-  return Math.round(n).toLocaleString("vi-VN");
-}
-
-/**
- * genshin-db trả về chỉ số phụ đột phá (specialized) dưới dạng số thô:
- * - Elemental Mastery: số nguyên thật (vd 187) -> hiển thị như formatNumber.
- * - Mọi chỉ số còn lại (Crit Rate/DMG, Energy Recharge, DMG Bonus theo hệ...)
- *   là % và genshin-db trả về dạng thập phân (vd 0.288 = 28.8%), KHÔNG phải
- *   số nguyên. Trước đây formatNumber() làm tròn thẳng -> mọi giá trị < 1
- *   bị hiển thị thành "0". Nhận biết loại chỉ số qua chuỗi ascensionStat
- *   (vd "CRIT Rate", "Energy Recharge", "Pyro DMG Bonus") có chứa "%" hay
- *   không (genshin-db luôn có "%" trong substatText cho các chỉ số dạng %).
- */
-function formatSpecialized(
-  n: number | null | undefined,
-  ascensionStatLabel: string | null | undefined
-): string {
-  if (n === null || n === undefined) return "—";
-  const isFlatElementalMastery = (ascensionStatLabel ?? "")
-    .toLowerCase()
-    .includes("elemental mastery");
-  if (isFlatElementalMastery) {
-    return formatNumber(n);
-  }
-  return `${(n * 100).toLocaleString("vi-VN", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`;
-}
-
 export default async function CharacterDetail({ params }: PageProps) {
   const { id } = await params;
 
@@ -80,22 +41,7 @@ export default async function CharacterDetail({ params }: PageProps) {
 
   if (!c) return notFound();
 
-  // Nếu đây là 1 biến thể Traveler (id "traveler-boy-<element>" /
-  // "traveler-girl-<element>"), lấy thêm biến thể giới tính còn lại CÙNG
-  // nguyên tố (dữ liệu thật đã seed sẵn) để ghép ảnh nửa Nam / nửa Nữ ở
-  // banner đầu trang — làm ngay tại đây, không tách file/component riêng.
-  const isTraveler = c.id.startsWith("traveler-");
-  let sibling: typeof c | null = null;
-  if (isTraveler) {
-    const siblingId = c.id.startsWith("traveler-boy-")
-      ? c.id.replace("traveler-boy-", "traveler-girl-")
-      : c.id.replace("traveler-girl-", "traveler-boy-");
-    sibling = await prisma.character.findUnique({ where: { id: siblingId } });
-  }
-  const boy = isTraveler ? (c.id.startsWith("traveler-boy-") ? c : sibling) : null;
-  const girl = isTraveler ? (c.id.startsWith("traveler-girl-") ? c : sibling) : null;
-  const boySplash = boy?.splashUrl || boy?.iconUrl || null;
-  const girlSplash = girl?.splashUrl || girl?.iconUrl || null;
+  const { isTraveler, boySplash, girlSplash } = await resolveTravelerSibling(c);
 
   // 2. Chuyển đổi an toàn dữ liệu kiểu Json phức tạp từ Prisma 7
   const constellations = (c.constellations as any[]) ?? [];
@@ -121,17 +67,6 @@ export default async function CharacterDetail({ params }: PageProps) {
       })
     : [];
   const materialIconById = new Map(materialIcons.map((m) => [m.id, m.iconUrl]));
-
-  const TALENT_LABEL_VI: Record<string, string> = {
-    normalAttack: "Đòn Thường / Trọng Kích / Bổ Nhào",
-    elementalSkill: "Kỹ Năng Nguyên Tố",
-    elementalBurst: "Trọng Kích Nguyên Tố (Cực Kỹ)",
-    alternateSprint: "Kỹ Năng Di Chuyển Đặc Biệt",
-    passive1: "Thiên Phú Bị Động 1",
-    passive2: "Thiên Phú Bị Động 2",
-    passive3: "Thiên Phú Bị Động 3",
-    passive4: "Thiên Phú Bị Động 4",
-  };
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">

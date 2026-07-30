@@ -1,5 +1,6 @@
 import "./globals.css";
 import Link from "next/link";
+import { SearchBar } from "../components/SearchBar";
 
 export const metadata = {
   title: "LEIBO — Genshin Impact Database",
@@ -18,6 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Link href="/characters" className="hover:text-amber-300">Nhân vật</Link>
             <Link href="/weapons" className="hover:text-amber-300">Vũ khí</Link>
             <Link href="/artifacts" className="hover:text-amber-300">Thánh di vật</Link>
+            <SearchBar />
           </nav>
         </header>
         <main className="max-w-6xl mx-auto px-4 py-8">{children}</main>
