@@ -39,3 +39,54 @@ export function slugify(name: string): string {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 }
+
+/**
+ * VERIFY: genshin-db expose `materials(name)` (đã xác nhận có tồn tại qua
+ * `folders/materials.d.ts` được reference trong types), nhưng type file đó
+ * KHÔNG có trong bundle types đã cung cấp nên chưa xác nhận được tên field
+ * ảnh chính xác trong `images` của Material — Character/Weapon/Artifact đều
+ * dùng `filename_icon`, giả định Material cũng theo pattern này, nhưng cần
+ * chạy thử `console.log(genshindb.materials('<tên nguyên liệu>'))` để xác
+ * nhận trước khi seed thật, phòng khi tên field khác (vd `filename_full`).
+ */
+export function getMaterialIconFilename(material: unknown): string | null {
+  const m = material as { images?: Record<string, string | undefined> } | null | undefined;
+  if (!m?.images) return null;
+  return (
+    m.images.filename_icon ??
+    m.images.filename_full ??
+    m.images.filename ??
+    null
+  );
+}
+
+/**
+ * Upsert 1 Material vào bảng riêng (idempotent — an toàn gọi lặp lại nhiều
+ * lần cho cùng 1 nguyên liệu khi seed nhiều nhân vật dùng chung nó).
+ * Trả về materialId (slug) để lưu vào JSON ascensionMaterials của Character.
+ * `prisma` và `genshindb` được truyền vào (dependency injection) thay vì
+ * import trực tiếp ở đây, để file helper này không phụ thuộc cứng vào
+ * PrismaClient instance nào — seed-weapons.ts sau này có thể tái dùng y
+ * hệt hàm này cho nguyên liệu cường hóa vũ khí.
+ */
+export async function upsertMaterial(
+  prisma: { material: { upsert: (args: any) => Promise<unknown> } },
+  genshindb: { materials: (name: string) => unknown },
+  materialName: string
+): Promise<string> {
+  const id = slugify(materialName);
+  let iconUrl: string | null = null;
+  try {
+    const raw = genshindb.materials(materialName);
+    iconUrl = getEnkaUrl(getMaterialIconFilename(raw), null);
+  } catch {
+    // Không tìm thấy trong genshin-db (vd nguyên liệu Mora không nằm trong
+    // materials()) — vẫn tạo record với iconUrl null, UI fallback về text.
+  }
+  await prisma.material.upsert({
+    where: { id },
+    create: { id, name: materialName, iconUrl },
+    update: { iconUrl },
+  });
+  return id;
+}

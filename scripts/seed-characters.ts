@@ -1,6 +1,6 @@
 import { createRequire } from "module";
 import { prisma } from "../src/lib/prisma";
-import { getEnkaUrl, getElementIconUrl, slugify } from "./lib/seed-helpers";
+import { getEnkaUrl, getElementIconUrl, slugify, upsertMaterial } from "./lib/seed-helpers";
 
 const require = createRequire(import.meta.url);
 const genshindb = require("genshin-db") as typeof import("genshin-db");
@@ -101,23 +101,29 @@ async function getTalentsAndConstellations(
 /**
  * Nguyên liệu đột phá — genshin-db trả về ở `characters(name).costs`, dạng
  * { ascend1: [{name,count}...], ..., ascend6: [...] }.
+ *
+ * Giờ upsert từng nguyên liệu vào bảng Material riêng (xem seed-helpers.ts:
+ * upsertMaterial) và lưu kèm materialId trong JSON — trang chi tiết nhân
+ * vật sẽ join sang Material để lấy icon, thay vì chỉ hiện tên chữ như cũ.
+ * Hàm này phải là async vì upsertMaterial gọi DB.
  */
-function getAscensionMaterials(costs: unknown): unknown {
+async function getAscensionMaterials(costs: unknown): Promise<unknown> {
   if (!costs || typeof costs !== "object") return null;
   const raw = costs as Record<string, Array<{ name?: string; count?: number }>>;
 
-  const phases = [1, 2, 3, 4, 5, 6]
-    .map((phase) => {
-      const items = raw[`ascend${phase}`];
-      if (!Array.isArray(items) || items.length === 0) return null;
-      return {
-        phase,
-        materials: items
-          .filter((m) => m && m.name)
-          .map((m) => ({ name: m.name ?? null, count: m.count ?? null })),
-      };
-    })
-    .filter(Boolean);
+  const phases = [];
+  for (const phase of [1, 2, 3, 4, 5, 6]) {
+    const items = raw[`ascend${phase}`];
+    if (!Array.isArray(items) || items.length === 0) continue;
+
+    const materials = [];
+    for (const m of items) {
+      if (!m || !m.name) continue;
+      const materialId = await upsertMaterial(prisma, genshindb, m.name);
+      materials.push({ materialId, name: m.name, count: m.count ?? null });
+    }
+    if (materials.length > 0) phases.push({ phase, materials });
+  }
 
   return phases.length ? JSON.parse(JSON.stringify(phases)) : null;
 }
@@ -193,7 +199,7 @@ async function seedTraveler(): Promise<number> {
           baseAtk: lvl1?.attack ?? null,
           baseDef: lvl1?.defense ?? null,
           ascensionStat: c.substatText || null,
-          ascensionMaterials: getAscensionMaterials(c.costs) as any,
+          ascensionMaterials: (await getAscensionMaterials(c.costs)) as any,
           statsByLevel: getStatsByLevel(c.stats) as any,
           birthday: c.birthday || null,
           constellationName: c.constellation || null,
@@ -251,7 +257,7 @@ export async function seedCharacters(): Promise<void> {
         baseAtk: lvl1?.attack ?? null,
         baseDef: lvl1?.defense ?? null,
         ascensionStat: c.substatText || null,
-        ascensionMaterials: getAscensionMaterials(c.costs) as any,
+        ascensionMaterials: (await getAscensionMaterials(c.costs)) as any,
         statsByLevel: getStatsByLevel(c.stats) as any,
         birthday: c.birthday || null,
         constellationName: c.constellation || null,

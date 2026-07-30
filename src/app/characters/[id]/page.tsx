@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 type AscensionMaterialPhase = {
   phase: number;
-  materials: Array<{ name: string | null; count: number | null }>;
+  materials: Array<{ materialId?: string | null; name: string | null; count: number | null }>;
 };
 
 type StatByLevelRow = {
@@ -44,6 +44,30 @@ type VoiceActors = {
 function formatNumber(n: number | null | undefined): string {
   if (n === null || n === undefined) return "—";
   return Math.round(n).toLocaleString("vi-VN");
+}
+
+/**
+ * genshin-db trả về chỉ số phụ đột phá (specialized) dưới dạng số thô:
+ * - Elemental Mastery: số nguyên thật (vd 187) -> hiển thị như formatNumber.
+ * - Mọi chỉ số còn lại (Crit Rate/DMG, Energy Recharge, DMG Bonus theo hệ...)
+ *   là % và genshin-db trả về dạng thập phân (vd 0.288 = 28.8%), KHÔNG phải
+ *   số nguyên. Trước đây formatNumber() làm tròn thẳng -> mọi giá trị < 1
+ *   bị hiển thị thành "0". Nhận biết loại chỉ số qua chuỗi ascensionStat
+ *   (vd "CRIT Rate", "Energy Recharge", "Pyro DMG Bonus") có chứa "%" hay
+ *   không (genshin-db luôn có "%" trong substatText cho các chỉ số dạng %).
+ */
+function formatSpecialized(
+  n: number | null | undefined,
+  ascensionStatLabel: string | null | undefined
+): string {
+  if (n === null || n === undefined) return "—";
+  const isFlatElementalMastery = (ascensionStatLabel ?? "")
+    .toLowerCase()
+    .includes("elemental mastery");
+  if (isFlatElementalMastery) {
+    return formatNumber(n);
+  }
+  return `${(n * 100).toLocaleString("vi-VN", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`;
 }
 
 export default async function CharacterDetail({ params }: PageProps) {
@@ -79,6 +103,24 @@ export default async function CharacterDetail({ params }: PageProps) {
   const ascensionMaterials = (c.ascensionMaterials as unknown as AscensionMaterialPhase[]) ?? [];
   const statsByLevel = (c.statsByLevel as unknown as StatByLevelRow[]) ?? [];
   const voiceActors = (c.voiceActors as unknown as VoiceActors) ?? null;
+
+  // Icon nguyên liệu đột phá được lưu ở bảng Material riêng (không lặp lại
+  // trong JSON của từng nhân vật) — gom hết materialId xuất hiện trong 6
+  // giai đoạn rồi query 1 lần duy nhất, tránh N+1 query trong lúc render.
+  const materialIds = Array.from(
+    new Set(
+      ascensionMaterials
+        .flatMap((phase) => phase.materials.map((m) => m.materialId))
+        .filter((id): id is string => !!id)
+    )
+  );
+  const materialIcons = materialIds.length
+    ? await prisma.material.findMany({
+        where: { id: { in: materialIds } },
+        select: { id: true, iconUrl: true },
+      })
+    : [];
+  const materialIconById = new Map(materialIcons.map((m) => [m.id, m.iconUrl]));
 
   const TALENT_LABEL_VI: Record<string, string> = {
     normalAttack: "Đòn Thường / Trọng Kích / Bổ Nhào",
@@ -188,16 +230,9 @@ export default async function CharacterDetail({ params }: PageProps) {
             </div>
           )}
 
-          {c.wikiUrl && (
-            <a
-              href={c.wikiUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs text-[color:var(--gold)] hover:text-[color:var(--gold-bright)] underline underline-offset-2 w-fit"
-            >
-              Xem thêm trên Wiki &rarr;
-            </a>
-          )}
+         {c.wikiUrl && (
+  <a href={c.wikiUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-[color:var(--gold)] hover:text-[color:var(--gold-bright)] underline underline-offset-2 w-fit">Xem thêm trên Wiki &rarr;</a>
+)}
         </div>
       </div>
 
@@ -253,7 +288,7 @@ export default async function CharacterDetail({ params }: PageProps) {
                     <td className="p-3">{formatNumber(row.attack)}</td>
                     <td className="p-3">{formatNumber(row.defense)}</td>
                     <td className="p-3 text-[color:var(--gold-bright)]">
-                      {row.specialized ? formatNumber(row.specialized) : "—"}
+                      {row.specialized ? formatSpecialized(row.specialized, c.ascensionStat) : "—"}
                     </td>
                   </tr>
                 ))}
@@ -279,14 +314,24 @@ export default async function CharacterDetail({ params }: PageProps) {
                   Giai Đoạn {phase.phase}
                 </div>
                 <ul className="space-y-1.5 text-sm text-neutral-200">
-                  {phase.materials.map((m, j) => (
-                    <li key={j} className="flex justify-between gap-3">
-                      <span className="text-[color:var(--parchment-dim)] truncate">{m.name}</span>
-                      <span className="font-semibold shrink-0">
-                        {m.count ? `x${m.count.toLocaleString("vi-VN")}` : ""}
-                      </span>
-                    </li>
-                  ))}
+                  {phase.materials.map((m, j) => {
+                    const iconUrl = m.materialId ? materialIconById.get(m.materialId) : null;
+                    return (
+                      <li key={j} className="flex items-center justify-between gap-3">
+                        <span className="flex items-center gap-2 min-w-0">
+                          <span className="relative w-6 h-6 shrink-0 rounded bg-neutral-950/50 border border-neutral-800/60 overflow-hidden">
+                            {iconUrl ? (
+                              <SafeImage src={iconUrl} alt={m.name ?? ""} fill className="object-contain" />
+                            ) : null}
+                          </span>
+                          <span className="text-[color:var(--parchment-dim)] truncate">{m.name}</span>
+                        </span>
+                        <span className="font-semibold shrink-0">
+                          {m.count ? `x${m.count.toLocaleString("vi-VN")}` : ""}
+                        </span>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             ))}

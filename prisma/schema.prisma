@@ -30,7 +30,10 @@ model Character {
   baseAtk     Float?
   baseDef     Float?
   ascensionStat String?
-  // Nguyên liệu đột phá 6 giai đoạn: [{ phase, materials: [{ name, count }] }]
+  // Nguyên liệu đột phá 6 giai đoạn:
+  // [{ phase, materials: [{ materialId, name, count }] }]
+  // materialId trỏ tới Material.id — join lúc render để lấy iconUrl,
+  // "name" giữ lại làm fallback hiển thị nếu Material chưa/không seed được.
   ascensionMaterials Json?
   // Chỉ số HP/ATK/DEF/chỉ số phụ ở các mốc cấp + trước/sau đột phá:
   // [{ level, ascension, hp, attack, defense, specialized }]
@@ -49,6 +52,19 @@ model Character {
   @@index([vision])
   @@index([weaponType])
   @@index([rarity])
+}
+
+// ---- Nguyên liệu (dùng chung: đột phá nhân vật, sau này cả cường hóa vũ khí) ----
+// Tách bảng riêng thay vì nhét iconUrl vào JSON của từng Character để tránh
+// lặp lại URL ảnh (hàng trăm nhân vật dùng chung một số loại nguyên liệu).
+// Character.ascensionMaterials chỉ lưu { materialId, name, count } — icon
+// join từ đây lúc render.
+model Material {
+  id        String   @id // slug tên nguyên liệu, vd "vayuda-turquoise-sliver"
+  name      String   @unique
+  iconUrl   String?
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
 }
 
 // ---- Vũ khí (Weapons) ----
