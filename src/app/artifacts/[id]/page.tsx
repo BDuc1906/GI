@@ -60,6 +60,7 @@ export default async function ArtifactDetail({ params }: PageProps) {
               src={a.iconUrl}
               alt={a.name}
               fill
+              sizes="160px"
               className="object-contain p-2"
               fallbackClassName="w-full h-full flex items-center justify-center text-muted text-[10px]"
             />
@@ -103,6 +104,7 @@ export default async function ArtifactDetail({ params }: PageProps) {
                       src={imgUrl}
                       alt={pieceName}
                       fill
+                      sizes="64px"
                       className="object-contain"
                       fallbackClassName="w-full h-full flex items-center justify-center text-muted text-[10px]"
                     />

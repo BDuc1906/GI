@@ -47,6 +47,7 @@ export default async function WeaponDetail({ params }: PageProps) {
               src={w.iconUrl}
               alt={w.name}
               fill
+              sizes="160px"
               className="object-contain p-2"
               fallbackClassName="w-full h-full flex items-center justify-center text-muted text-[10px]"
             />
@@ -86,7 +87,7 @@ export default async function WeaponDetail({ params }: PageProps) {
                         <span className="flex items-center gap-2 min-w-0">
                           <span className="relative w-6 h-6 shrink-0 rounded bg-secondary border border-border overflow-hidden">
                             {iconUrl ? (
-                              <SafeImage src={iconUrl} alt={m.name ?? ""} fill className="object-contain" />
+                              <SafeImage src={iconUrl} alt={m.name ?? ""} fill sizes="24px" className="object-contain" />
                             ) : null}
                           </span>
                           <span className="text-secondary truncate">{m.name}</span>

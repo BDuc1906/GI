@@ -108,6 +108,7 @@ export default async function SearchPage({ searchParams }: PageProps) {
                       src={c.iconUrl}
                       alt={c.name}
                       fill
+                      sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 213px"
                       className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                   ) : (
@@ -156,6 +157,7 @@ export default async function SearchPage({ searchParams }: PageProps) {
                       src={w.iconUrl}
                       alt={w.name}
                       fill
+                      sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 213px"
                       className="object-contain p-2 group-hover:scale-110 transition-transform duration-300"
                     />
                   ) : (
@@ -202,6 +204,7 @@ export default async function SearchPage({ searchParams }: PageProps) {
                         src={a.iconUrl}
                         alt={a.name}
                         fill
+                        sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 213px"
                         className="object-contain p-2 group-hover:scale-110 transition-transform duration-300"
                       />
                     ) : (

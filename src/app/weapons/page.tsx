@@ -114,7 +114,7 @@ export default async function WeaponsPage({ searchParams }: PageProps) {
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-        {weapons.map((w) => (
+        {weapons.map((w, index) => (
           <Link
             key={w.id}
             href={`/weapons/${w.id}`}
@@ -126,6 +126,8 @@ export default async function WeaponsPage({ searchParams }: PageProps) {
                   src={w.iconUrl}
                   alt={w.name}
                   fill
+                  priority={index < 6}
+                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 213px"
                   className="object-contain p-2 group-hover:scale-110 transition-transform duration-300"
                 />
               ) : (

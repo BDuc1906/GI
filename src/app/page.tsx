@@ -71,11 +71,11 @@ export default async function Home() {
             </Link>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {latestCharacters.map((c) => (
+            {latestCharacters.map((c, index) => (
               <Link key={c.id} href={`/characters/${c.id}`} className={`relic-frame ${rarityGlowClass(c.rarity)} overflow-hidden group`}>
                 <div className="relative aspect-square w-full overflow-hidden bg-secondary/50">
                   {c.iconUrl ? (
-                    <SafeImage src={c.iconUrl} alt={c.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                    <SafeImage src={c.iconUrl} alt={c.name} fill priority={index < 6} sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 213px" className="object-cover group-hover:scale-110 transition-transform duration-500" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-muted text-xs">No Image</div>
                   )}
@@ -112,7 +112,7 @@ export default async function Home() {
               <Link key={w.id} href={`/weapons/${w.id}`} className={`relic-frame ${rarityGlowClass(w.rarity)} overflow-hidden group`}>
                 <div className="relative aspect-square w-full bg-secondary/40 p-4 flex items-center justify-center overflow-hidden">
                   {w.iconUrl ? (
-                    <SafeImage src={w.iconUrl} alt={w.name} fill className="object-contain p-2 group-hover:scale-110 transition-transform duration-500" />
+                    <SafeImage src={w.iconUrl} alt={w.name} fill sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 213px" className="object-contain p-2 group-hover:scale-110 transition-transform duration-500" />
                   ) : (
                     <div className="text-muted text-xs">No Image</div>
                   )}

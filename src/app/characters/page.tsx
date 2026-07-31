@@ -174,7 +174,7 @@ export default async function CharactersPage({ searchParams }: PageProps) {
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-        {Array.from(travelerByElement.entries()).map(([el, { boy, girl }]) => {
+        {Array.from(travelerByElement.entries()).map(([el, { boy, girl }], index) => {
           const target = boy ?? girl!;
           const boyImg = boy?.iconUrl ?? null;
           const girlImg = girl?.iconUrl ?? null;
@@ -190,7 +190,7 @@ export default async function CharactersPage({ searchParams }: PageProps) {
                   style={{ clipPath: "polygon(0 0, 50% 0, 50% 100%, 0 100%)" }}
                 >
                   {boyImg ? (
-                    <SafeImage src={boyImg} alt={`Traveler (${el}) - Nam`} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                    <SafeImage src={boyImg} alt={`Traveler (${el}) - Nam`} fill priority={index < 6} sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 213px" className="object-cover group-hover:scale-110 transition-transform duration-500" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-muted text-[10px]">—</div>
                   )}
@@ -200,7 +200,7 @@ export default async function CharactersPage({ searchParams }: PageProps) {
                   style={{ clipPath: "polygon(50% 0, 100% 0, 100% 100%, 50% 100%)" }}
                 >
                   {girlImg ? (
-                    <SafeImage src={girlImg} alt={`Traveler (${el}) - Nữ`} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                    <SafeImage src={girlImg} alt={`Traveler (${el}) - Nữ`} fill priority={index < 6} sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 213px" className="object-cover group-hover:scale-110 transition-transform duration-500" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-muted text-[10px]">—</div>
                   )}
@@ -225,7 +225,7 @@ export default async function CharactersPage({ searchParams }: PageProps) {
           );
         })}
 
-        {nonTraveler.map((c) => (
+        {nonTraveler.map((c, index) => (
           <Link
             key={c.id}
             href={`/characters/${c.id}`}
@@ -233,7 +233,7 @@ export default async function CharactersPage({ searchParams }: PageProps) {
           >
             <div className="relative aspect-square w-full overflow-hidden bg-secondary/50">
               {c.iconUrl ? (
-                <SafeImage src={c.iconUrl} alt={c.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                <SafeImage src={c.iconUrl} alt={c.name} fill priority={index < 6} sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 213px" className="object-cover group-hover:scale-110 transition-transform duration-500" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-muted text-xs">No Image</div>
               )}
