@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
 import { ElementIcon } from "@/components/ElementIcon";
@@ -28,7 +29,11 @@ interface PageProps {
 export default async function CharactersPage({ searchParams }: PageProps) {
   const { vision, weapon, rarity, q } = await searchParams;
 
-  const where: any = {};
+  // Trước đây: `const where: any = {}` — không có kiểm tra kiểu nào cả, một
+  // lỗi gõ nhầm tên field (vd "visons" thay vì "vision") sẽ chỉ vỡ lúc chạy
+  // (runtime), không báo ngay lúc build. Dùng đúng type sinh ra từ schema
+  // Prisma để TypeScript bắt lỗi field/kiểu dữ liệu sai ngay khi biên dịch.
+  const where: Prisma.CharacterWhereInput = {};
   if (vision) where.vision = { equals: vision, mode: "insensitive" };
   if (weapon) where.weaponType = { equals: weapon, mode: "insensitive" };
   if (rarity) where.rarity = Number(rarity);

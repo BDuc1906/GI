@@ -110,10 +110,9 @@ export default async function Home() {
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {latestWeapons.map((w) => (
               <Link key={w.id} href={`/weapons/${w.id}`} className={`relic-frame ${rarityGlowClass(w.rarity)} overflow-hidden group`}>
-                <div className="relative aspect-square w-full overflow-hidden bg-secondary/50 p-4 flex items-center justify-center">
+                <div className="relative aspect-square w-full bg-secondary/40 p-4 flex items-center justify-center overflow-hidden">
                   {w.iconUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={w.iconUrl} alt={w.name} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" />
+                    <SafeImage src={w.iconUrl} alt={w.name} fill className="object-contain p-2 group-hover:scale-110 transition-transform duration-500" />
                   ) : (
                     <div className="text-muted text-xs">No Image</div>
                   )}

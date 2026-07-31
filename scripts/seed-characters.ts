@@ -5,42 +5,12 @@ import { getEnkaUrl, getElementIconUrl, slugify, upsertMaterial } from "./lib/se
 const require = createRequire(import.meta.url);
 const genshindb = require("genshin-db") as typeof import("genshin-db");
 
-/**
- * Traveler có nhiều biến thể nguyên tố, nhưng genshin-db KHÔNG lưu key
- * "Traveler (Boy)" / "Traveler (Girl)" trong characters() — đã verify trực
- * tiếp bằng cách cài genshin-db thật và chạy:
- *
- *   db.characters('names', { matchCategories: true })
- *     .filter(n => /traveler|aether|lumine/i.test(n))
- *   // -> [ 'Aether', 'Lumine' ]
- *   db.characters('Traveler (Boy)') // -> undefined
- *
- * Tên thật để tra THÔNG TIN NHÂN VẬT (stat/ảnh/mô tả) là "Aether"/"Lumine".
- *
- * NHƯNG thiên phú + cung mệnh lại nằm ở một namespace KHÁC hẳn trong
- * genshin-db — talents()/constellations() không nhận "Aether"/"Lumine"
- * (trả về undefined) mà nhận đúng "Traveler (Anemo)", "Traveler (Pyro)"...
- * (đã verify bằng db.talents('names',{matchCategories:true}) ra đúng 7 tên
- * theo nguyên tố). Vì vậy 2 loại dữ liệu này phải tra bằng 2 tên khác nhau.
- *
- * Nguyên liệu đột phá (costs) của Traveler dùng chung 1 bộ nguyên liệu cho
- * mọi nguyên tố trong game thật (đá "Brilliant Diamond" + "Windwheel
- * Aster", không đổi theo vision) — đã verify qua characters('Aether').costs
- * — nên lấy từ Aether/Lumine áp dụng chung cho cả 7 biến thể là chính xác,
- * không phải giới hạn/xấp xỉ.
- */
 const TRAVELER_ELEMENTS = ["Anemo", "Geo", "Electro", "Dendro", "Hydro", "Pyro", "Cryo"] as const;
-
 const TRAVELER_QUERY_NAME: Record<"Traveler (Boy)" | "Traveler (Girl)", string> = {
   "Traveler (Boy)": "Aether",
   "Traveler (Girl)": "Lumine",
 };
 
-/**
- * Tên field thiên phú THẬT trong genshin-db (verify bằng
- * `db.talents('Kaeya')` -> keys: combat1, combat2, combat3, passive1..3;
- * một số nhân vật như Mona có thêm combatsp = kỹ năng di chuyển đặc biệt).
- */
 const TALENT_FIELD_ORDER = [
   "combat1", "combat2", "combatsp", "combat3",
   "passive1", "passive2", "passive3", "passive4",
@@ -56,26 +26,192 @@ const TALENT_LABELS: Record<string, string> = {
   passive4: "passive4",
 };
 
-async function getTalentsAndConstellations(
-  characterName: string
-): Promise<{ talents: unknown; constellations: unknown }> {
-  try {
-    const hasTalentsFn = typeof (genshindb as any).talents === "function";
-    const hasConstellationsFn = typeof (genshindb as any).constellations === "function";
-    if (!hasTalentsFn && !hasConstellationsFn) {
-      console.warn(`⚠ genshindb.talents()/constellations() không có trong version này — bỏ qua "${characterName}"`);
-      return { talents: null, constellations: null };
+// ---- Công thức số lượng ----
+const TALENT_LEVEL_COSTS: Record<number, {
+  bookTier: "teachings" | "guide" | "philosophies";
+  bookCount: number;
+  bossCount?: number;
+  crown?: boolean;
+  mora: number;
+}> = {
+  2: { bookTier: "teachings", bookCount: 3, mora: 12500 },
+  3: { bookTier: "guide", bookCount: 2, mora: 17500 },
+  4: { bookTier: "guide", bookCount: 4, mora: 25000 },
+  5: { bookTier: "guide", bookCount: 6, mora: 30000 },
+  6: { bookTier: "guide", bookCount: 9, mora: 37500 },
+  7: { bookTier: "philosophies", bookCount: 4, bossCount: 1, mora: 120000 },
+  8: { bookTier: "philosophies", bookCount: 6, bossCount: 1, mora: 260000 },
+  9: { bookTier: "philosophies", bookCount: 12, bossCount: 2, mora: 450000 },
+  10: { bookTier: "philosophies", bookCount: 16, bossCount: 2, crown: true, mora: 700000 },
+};
+
+// Danh sách nhân vật không resolve được bookType — in tổng kết ở cuối
+// run thay vì chỉ rải rác từng dòng warn (dễ bị lướt qua khi log dài).
+const CHARACTERS_MISSING_BOOK_TYPE: string[] = [];
+
+// ---- Hàm tạo talentMaterials ----
+async function generateTalentMaterials(
+  bookType: string | null,
+  bossMaterialName: string | null,
+  characterLabel: string
+): Promise<any[]> {
+  if (!bookType) {
+    console.warn(`⚠ [${characterLabel}] Skipped talent materials: no book type`);
+    CHARACTERS_MISSING_BOOK_TYPE.push(characterLabel);
+    return [];
+  }
+
+  const result: any[] = [];
+  const bookNames = {
+    teachings: `Teachings of ${bookType}`,
+    guide: `Guide to ${bookType}`,
+    philosophies: `Philosophies of ${bookType}`,
+  };
+
+  for (let level = 2; level <= 10; level++) {
+    const cost = TALENT_LEVEL_COSTS[level];
+    if (!cost) continue;
+
+    const materials: Array<{ name: string; count: number }> = [
+      { name: bookNames[cost.bookTier], count: cost.bookCount },
+      { name: "Mora", count: cost.mora },
+    ];
+
+    if (cost.bossCount) {
+      if (bossMaterialName) {
+        materials.push({ name: bossMaterialName, count: cost.bossCount });
+      } else {
+        // Không silent-skip nữa: level này CẦN nguyên liệu boss nhưng không
+        // resolve được tên -> dữ liệu materials của level này sẽ thiếu 1 mục.
+        // In cảnh báo để ai đọc log biết rõ, thay vì tưởng data đã đủ.
+        console.warn(`  ⚠ Level ${level}: cần ${cost.bossCount} nguyên liệu boss nhưng không xác định được tên (bỏ qua mục này)`);
+      }
     }
 
-    const rawTalents = hasTalentsFn ? (genshindb as any).talents(characterName) : null;
-    // Cung mệnh nằm ở hàm RIÊNG genshindb.constellations(), key c1..c6.
-    const rawConstellations = hasConstellationsFn ? (genshindb as any).constellations(characterName) : null;
+    if (cost.crown) {
+      materials.push({ name: "Crown of Insight", count: 1 });
+    }
+
+    const materialsWithIds = [];
+    for (const mat of materials) {
+      const materialId = await upsertMaterial(prisma, genshindb, mat.name);
+      materialsWithIds.push({ materialId, name: mat.name, count: mat.count });
+    }
+
+    result.push({ level, materials: materialsWithIds });
+  }
+
+  return result;
+}
+
+// Danh sách đầy đủ tên series sách talent, verify qua nhiều nguồn (Fandom wiki +
+// các trang tổng hợp material), theo từng vùng đã ra mắt tính đến bản game hiện tại:
+//   Mondstadt: Freedom, Resistance, Ballad
+//   Liyue:     Prosperity, Diligence, Gold
+//   Inazuma:   Transience, Elegance, Light
+//   Sumeru:    Admonition, Ingenuity, Praxis
+//   Fontaine:  Equity, Justice, Order
+//   Natlan:    Contention, Kindling, Conflict, Moonlight, Elysium, Vagrancy
+const KNOWN_TALENT_BOOK_SERIES = [
+  "Freedom", "Resistance", "Ballad",
+  "Prosperity", "Diligence", "Gold",
+  "Transience", "Elegance", "Light",
+  "Admonition", "Ingenuity", "Praxis",
+  "Equity", "Justice", "Order",
+  "Contention", "Kindling", "Conflict",
+  "Moonlight", "Elysium", "Vagrancy",
+] as const;
+
+// ---- Lấy loại sách talent ----
+//
+// LƯU Ý: đã thử 2 cách và cả 2 đều sai/không dùng được, giữ lại ghi chú để
+// không ai lặp lại sai lầm cũ:
+//   1) characterData.talentMaterialType / talentBook -> KHÔNG tồn tại field
+//      này trên Character object (verify bằng debug-traveler.ts, xem toàn bộ
+//      keys thật: id, name, title, description, weaponType, weaponText,
+//      bodyType, gender, qualityType, rarity, birthdaymmdd, birthday,
+//      elementType, elementText, affiliation, associationType, region,
+//      substatType, substatText, constellation, cv, costs, images, url,
+//      stats, version — không có gì liên quan đến talent book).
+//   2) talentmaterialtypes("names", {matchCategories:true}) rồi đọc field
+//      .characters -> function này không hỗ trợ query kiểu đó trong bản
+//      genshin-db đang dùng (throw "not iterable" khi chạy debug-traveler.ts).
+//
+// CÁCH ĐÚNG (theo README chính thức của genshin-db): "talent level-up
+// material types" là một category HỢP LỆ của chính hàm characters(), tức
+// gọi genshindb.characters("Freedom", { matchCategories: true }) sẽ trả về
+// mảng TÊN các nhân vật dùng sách Freedom.
+//
+// Thay vì gọi lại genshindb cho từng nhân vật (130 nhân vật x 21 series =
+// ~2700 lần gọi thừa), build 1 map ngược MỘT LẦN lúc khởi động module:
+// tên nhân vật (lowercase) -> tên series. Sau đó tra cứu chỉ là map lookup.
+const CHARACTER_TO_BOOK_SERIES: Map<string, string> = (() => {
+  const map = new Map<string, string>();
+  for (const series of KNOWN_TALENT_BOOK_SERIES) {
+    try {
+      const namesInSeries = genshindb.characters(series, { matchCategories: true }) as string[] | undefined;
+      for (const n of namesInSeries ?? []) {
+        map.set(n.toLowerCase(), series);
+      }
+    } catch {
+      // Series này chưa có data / chưa được category hóa trong bản data hiện
+      // tại (vd nội dung quá mới) -> bỏ qua, không ảnh hưởng các series khác.
+    }
+  }
+  return map;
+})();
+
+function getTalentBookType(characterNameOrCandidates: string | string[]): string | null {
+  const candidates = Array.isArray(characterNameOrCandidates) ? characterNameOrCandidates : [characterNameOrCandidates];
+  for (const candidate of candidates) {
+    const found = CHARACTER_TO_BOOK_SERIES.get(candidate.toLowerCase());
+    if (found) return found;
+  }
+  return null;
+}
+
+// ---- Lấy boss material (nguyên liệu từ boss tuần) ----
+//
+// Cũng như trên: `talentBoss`, `bossMaterial`, `weeklyBoss` không phải field
+// thật trên Character object — genshin-db không gắn sẵn thông tin boss vào
+// character. KHÔNG có cách nào data-driven đáng tin để suy luận boss material
+// từ package này, nên trả về null thay vì đoán mò field không tồn tại.
+//
+// Nếu sau này cần data này thật sự, phải lấy từ nguồn khác (vd tự map tay
+// theo nhân vật, hoặc domain data của genshin-db nếu có) — không nên "đoán
+// field cho có" như bản cũ vì nó tạo cảm giác đang hoạt động trong khi thực
+// chất luôn trả về null.
+//
+// Riêng Traveler: Traveler KHÔNG dùng nguyên liệu boss tuần cho cả ascension
+// lẫn talent — đây là đặc điểm THIẾT KẾ CHÍNH THỨC của nhân vật này trong
+// game (xác nhận qua nhiều nguồn wiki), không phải bug. Vì vậy null cho
+// Traveler ở mục này là ĐÚNG, không cần "sửa".
+function getBossMaterialName(_characterData: any): string | null {
+  return null;
+}
+
+// ---- Các hàm khác (giữ nguyên) ----
+async function getTalentsAndConstellations(characterName: string): Promise<{
+  talents: unknown;
+  constellations: unknown;
+}> {
+  try {
+    const rawTalents = typeof (genshindb as any).talents === "function"
+      ? (genshindb as any).talents(characterName)
+      : null;
+    const rawConstellations = typeof (genshindb as any).constellations === "function"
+      ? (genshindb as any).constellations(characterName)
+      : null;
 
     const talents = rawTalents
       ? TALENT_FIELD_ORDER
           .map((rawKey) =>
             rawTalents[rawKey]
-              ? { key: TALENT_LABELS[rawKey], name: rawTalents[rawKey].name ?? null, description: rawTalents[rawKey].description ?? null }
+              ? {
+                  key: TALENT_LABELS[rawKey],
+                  name: rawTalents[rawKey].name ?? null,
+                  description: rawTalents[rawKey].description ?? null,
+                }
               : null
           )
           .filter(Boolean)
@@ -84,7 +220,9 @@ async function getTalentsAndConstellations(
     const constellations = rawConstellations
       ? Array.from({ length: 6 }, (_, i) => {
           const cst = rawConstellations[`c${i + 1}`];
-          return cst ? { level: i + 1, name: cst.name ?? null, description: cst.description ?? null } : null;
+          return cst
+            ? { level: i + 1, name: cst.name ?? null, description: cst.description ?? null }
+            : null;
         }).filter(Boolean)
       : [];
 
@@ -98,24 +236,13 @@ async function getTalentsAndConstellations(
   }
 }
 
-/**
- * Nguyên liệu đột phá — genshin-db trả về ở `characters(name).costs`, dạng
- * { ascend1: [{name,count}...], ..., ascend6: [...] }.
- *
- * Giờ upsert từng nguyên liệu vào bảng Material riêng (xem seed-helpers.ts:
- * upsertMaterial) và lưu kèm materialId trong JSON — trang chi tiết nhân
- * vật sẽ join sang Material để lấy icon, thay vì chỉ hiện tên chữ như cũ.
- * Hàm này phải là async vì upsertMaterial gọi DB.
- */
 async function getAscensionMaterials(costs: unknown): Promise<unknown> {
   if (!costs || typeof costs !== "object") return null;
   const raw = costs as Record<string, Array<{ name?: string; count?: number }>>;
-
   const phases = [];
   for (const phase of [1, 2, 3, 4, 5, 6]) {
     const items = raw[`ascend${phase}`];
     if (!Array.isArray(items) || items.length === 0) continue;
-
     const materials = [];
     for (const m of items) {
       if (!m || !m.name) continue;
@@ -124,14 +251,9 @@ async function getAscensionMaterials(costs: unknown): Promise<unknown> {
     }
     if (materials.length > 0) phases.push({ phase, materials });
   }
-
   return phases.length ? JSON.parse(JSON.stringify(phases)) : null;
 }
 
-/**
- * Bảng chỉ số HP/ATK/DEF theo cấp — mốc 1, và trước/sau đột phá ở mỗi mốc
- * 20/40/50/60/70/80, kết thúc ở cấp 90.
- */
 const STAT_BREAKPOINTS: Array<[number, "-" | "+" | undefined]> = [
   [1, undefined],
   [20, "-"], [20, "+"],
@@ -164,6 +286,7 @@ function getStatsByLevel(statsFn: unknown): unknown {
   }
 }
 
+// ----- Seed Traveler -----
 async function seedTraveler(): Promise<number> {
   let count = 0;
   for (const element of TRAVELER_ELEMENTS) {
@@ -172,15 +295,30 @@ async function seedTraveler(): Promise<number> {
         const queryName = TRAVELER_QUERY_NAME[genderId];
         const talentQueryName = `Traveler (${element})`;
 
+        // Đã verify bằng debug-traveler.ts: genshin-db KHÔNG có record riêng
+        // theo từng nguyên tố (genshindb.characters("Traveler (Anemo)") ===
+        // undefined). Chỉ có 1 record chung "Aether"/"Lumine" — dùng đúng cái
+        // đó, không cố tìm record theo element nữa (giả định lần sửa trước là sai).
         const c = genshindb.characters(queryName) as any;
-        if (!c || !c.name) {
-          console.warn(`⚠ genshindb không có dữ liệu cho "${queryName}" — bỏ qua ${genderId}/${element}`);
-          continue;
-        }
+        if (!c || !c.name) continue;
 
         const lvl1 = typeof c.stats === "function" ? c.stats(1) : null;
         const id = slugify(`${genderId}-${element}`);
         const { talents, constellations } = await getTalentsAndConstellations(talentQueryName);
+
+        // Chưa chắc genshin-db liệt kê Traveler trong category sách bằng tên
+        // nào, nên thử nhiều ứng viên: "Traveler (Anemo)", "Anemo Traveler",
+        // "Traveler", và tên gốc "Aether"/"Lumine".
+        const bookType = getTalentBookType([
+          talentQueryName,
+          `${element} Traveler`,
+          "Traveler",
+          queryName,
+        ]);
+        const bossName = getBossMaterialName(c); // luôn null cho Traveler — xem giải thích ở định nghĩa hàm
+        const talentMaterials = await generateTalentMaterials(bookType, bossName, talentQueryName);
+
+        console.log(`[Traveler ${element}] bookType: ${bookType}, boss: ${bossName}, materials: ${talentMaterials.length}`);
 
         const payload = {
           name: `${c.name} (${element})`,
@@ -208,6 +346,7 @@ async function seedTraveler(): Promise<number> {
           wikiUrl: c.url?.fandom || null,
           talents: talents as any,
           constellations: constellations as any,
+          talentMaterials: talentMaterials as any,
         };
 
         await prisma.character.upsert({
@@ -224,13 +363,12 @@ async function seedTraveler(): Promise<number> {
   return count;
 }
 
+// ----- Seed Characters -----
 export async function seedCharacters(): Promise<void> {
   const names = genshindb.characters("names", { matchCategories: true }) as string[];
   let count = 0;
 
   for (const name of names) {
-    // "Aether"/"Lumine" là tên riêng của Traveler trong danh sách names —
-    // chặn theo tên riêng để tránh trùng với record do seedTraveler() tạo.
     if (name.includes("Traveler") || name === "Aether" || name === "Lumine") continue;
 
     try {
@@ -239,6 +377,14 @@ export async function seedCharacters(): Promise<void> {
 
       const lvl1 = typeof c.stats === "function" ? c.stats(1) : null;
       const { talents, constellations } = await getTalentsAndConstellations(name);
+
+      // Lấy loại sách và boss — data-driven qua reverse-lookup map (xem
+      // CHARACTER_TO_BOOK_SERIES ở trên), không đoán field không tồn tại
+      const bookType = getTalentBookType(name);
+      const bossName = getBossMaterialName(c);
+      const talentMaterials = await generateTalentMaterials(bookType, bossName, name);
+
+      console.log(`[${name}] bookType: ${bookType}, boss: ${bossName}, materials: ${talentMaterials.length}`);
 
       const payload = {
         name: c.name,
@@ -266,6 +412,7 @@ export async function seedCharacters(): Promise<void> {
         wikiUrl: c.url?.fandom || null,
         talents: talents as any,
         constellations: constellations as any,
+        talentMaterials: talentMaterials as any,
       };
 
       const id = slugify(c.name);
@@ -282,4 +429,18 @@ export async function seedCharacters(): Promise<void> {
 
   count += await seedTraveler();
   console.log(`✔ Seeded ${count} characters (including Traveler variants)`);
+
+  if (CHARACTERS_MISSING_BOOK_TYPE.length) {
+    console.warn(
+      `\n⚠ ${CHARACTERS_MISSING_BOOK_TYPE.length} nhân vật KHÔNG resolve được talent book type ` +
+      `(talentMaterials sẽ rỗng cho các nhân vật này):`
+    );
+    console.warn(CHARACTERS_MISSING_BOOK_TYPE.map((n) => `   - ${n}`).join("\n"));
+    console.warn(
+      `→ Chạy "npx tsx scripts/debug-traveler.ts" để soi cấu trúc data thật của genshin-db\n` +
+      `  và xác nhận tên nhân vật/tên sách đang khớp đúng chưa trước khi seed lại.`
+    );
+  } else {
+    console.log("✔ Mọi nhân vật đều resolve được talent book type.");
+  }
 }

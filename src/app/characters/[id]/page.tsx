@@ -8,7 +8,6 @@ import {
   TALENT_LABEL_VI,
   formatNumber,
   formatSpecialized,
-  getMaterialIconMap,
   resolveTravelerSibling,
   type AscensionMaterialPhase,
   type StatByLevelRow,
@@ -45,26 +44,43 @@ export default async function CharacterDetail({ params }: PageProps) {
   const ascensionMaterials = (c.ascensionMaterials as unknown as AscensionMaterialPhase[]) ?? [];
   const statsByLevel = (c.statsByLevel as unknown as StatByLevelRow[]) ?? [];
   const voiceActors = (c.voiceActors as unknown as VoiceActors) ?? null;
+  const talentMaterials = (c.talentMaterials as any[]) ?? [];
 
-  const materialIconMap = await getMaterialIconMap(ascensionMaterials);
+  // Gom tất cả materialId để lấy icon
+  const materialIds = new Set<string>();
+  for (const phase of ascensionMaterials) {
+    for (const m of phase.materials) {
+      if (m.materialId) materialIds.add(m.materialId);
+    }
+  }
+  for (const levelData of talentMaterials) {
+    for (const m of levelData.materials) {
+      if (m.materialId) materialIds.add(m.materialId);
+    }
+  }
+  const materialIcons = await prisma.material.findMany({
+    where: { id: { in: Array.from(materialIds) } },
+    select: { id: true, iconUrl: true },
+  });
+  const materialIconMap = new Map(materialIcons.map((m) => [m.id, m.iconUrl]));
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
-      
+
       {/* Hero Banner */}
       <div className={`relic-frame ${rarityGlowClass(c.rarity)} bg-card backdrop-blur-md rounded-xl p-6 flex flex-col sm:flex-row gap-6 mb-8 border border-border`}>
         {isTraveler ? (
           <div className="relative w-full sm:w-56 aspect-[3/4] rounded-lg overflow-hidden border border-gold/30 bg-secondary/40 shrink-0">
             <div className="absolute inset-0" style={{ clipPath: "polygon(0 0, 50% 0, 50% 100%, 0 100%)" }}>
               {boySplash ? (
-                <SafeImage src={boySplash} alt={`${c.name} - Nam`} fill className="object-cover" />
+                <SafeImage src={boySplash} alt={`${c.name} - Nam`} fill className="object-cover" sizes="(max-width: 640px) 100vw, 224px" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-muted text-[10px]">—</div>
               )}
             </div>
             <div className="absolute inset-0" style={{ clipPath: "polygon(50% 0, 100% 0, 100% 100%, 50% 100%)" }}>
               {girlSplash ? (
-                <SafeImage src={girlSplash} alt={`${c.name} - Nữ`} fill className="object-cover" />
+                <SafeImage src={girlSplash} alt={`${c.name} - Nữ`} fill className="object-cover" sizes="(max-width: 640px) 100vw, 224px" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-muted text-[10px]">—</div>
               )}
@@ -74,7 +90,14 @@ export default async function CharacterDetail({ params }: PageProps) {
         ) : (
           c.splashUrl && (
             <div className="relative w-full sm:w-56 aspect-[3/4] rounded-lg overflow-hidden border border-gold/30 bg-secondary/40 shrink-0">
-              <SafeImage src={c.splashUrl} alt={c.name} fill className="object-cover" />
+              <SafeImage
+                src={c.splashUrl}
+                alt={c.name}
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, 224px"
+                priority={true}
+              />
             </div>
           )
         )}
@@ -217,10 +240,7 @@ export default async function CharacterDetail({ params }: PageProps) {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {ascensionMaterials.map((phase) => (
-              <div
-                key={phase.phase}
-                className="relic-frame bg-card border border-border rounded-xl p-4"
-              >
+              <div key={phase.phase} className="relic-frame bg-card border border-border rounded-xl p-4">
                 <div className="text-xs font-bold uppercase tracking-wider text-gold mb-3">
                   Giai Đoạn {phase.phase}
                 </div>
@@ -232,7 +252,7 @@ export default async function CharacterDetail({ params }: PageProps) {
                         <span className="flex items-center gap-2 min-w-0">
                           <span className="relative w-6 h-6 shrink-0 rounded bg-secondary border border-border overflow-hidden">
                             {iconUrl ? (
-                              <SafeImage src={iconUrl} alt={m.name ?? ""} fill className="object-contain" />
+                              <SafeImage src={iconUrl} alt={m.name ?? ""} fill className="object-contain" sizes="24px" />
                             ) : null}
                           </span>
                           <span className="text-secondary truncate">{m.name}</span>
@@ -246,6 +266,58 @@ export default async function CharacterDetail({ params }: PageProps) {
                 </ul>
               </div>
             ))}
+          </div>
+        </section>
+      )}
+
+      {/* Talent Level-Up Materials - Bảng chi tiết */}
+      {talentMaterials.length > 0 && (
+        <section className="mb-8">
+          <h2 className="font-display text-xl font-bold mb-4 text-gold uppercase tracking-wide border-b border-border pb-2">
+            Nguyên Liệu Nâng Cấp Thiên Phú
+          </h2>
+          <div className="relic-frame bg-card border border-border rounded-xl overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr>
+                  <th className="w-20">Cấp</th>
+                  <th>Nguyên liệu</th>
+                </tr>
+              </thead>
+              <tbody>
+                {talentMaterials.map((levelData: any) => {
+                  const materials = levelData.materials || [];
+                  return (
+                    <tr key={levelData.level}>
+                      <td className="font-medium text-primary">Cấp {levelData.level}</td>
+                      <td>
+                        <div className="flex flex-wrap gap-2 py-1">
+                          {materials.map((m: any, idx: number) => {
+                            const iconUrl = m.materialId ? materialIconMap.get(m.materialId) : null;
+                            // Định dạng số với dấu chấm phân cách hàng nghìn
+                            const formattedCount = m.count ? m.count.toLocaleString("vi-VN") : "";
+                            return (
+                              <span
+                                key={idx}
+                                className="flex items-center gap-1.5 bg-secondary/40 px-2.5 py-1 rounded-full border border-border text-xs"
+                              >
+                                <span className="relative w-5 h-5 shrink-0">
+                                  {iconUrl ? (
+                                    <SafeImage src={iconUrl} alt={m.name || ""} fill className="object-contain" sizes="20px" />
+                                  ) : null}
+                                </span>
+                                <span className="text-secondary">{m.name}</span>
+                                <span className="text-primary font-medium">×{formattedCount}</span>
+                              </span>
+                            );
+                          })}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         </section>
       )}

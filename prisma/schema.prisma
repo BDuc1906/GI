@@ -37,6 +37,7 @@ model Character {
   ascensionMaterials Json?
   // Chỉ số HP/ATK/DEF/chỉ số phụ ở các mốc cấp + trước/sau đột phá:
   // [{ level, ascension, hp, attack, defense, specialized }]
+  talentMaterials Json?
   statsByLevel Json?
   birthday    String?                 // vd "October 29"
   // Tên "chòm sao bản mệnh" (flavor, khác 6 cung mệnh kỹ năng bên dưới), vd "Acer Palmatum"
@@ -84,6 +85,7 @@ model Weapon {
   passiveByRefinement Json?
   description String?  @db.Text
   iconUrl     String?
+  ascensionMaterials Json?
   updatedAt   DateTime @updatedAt
   createdAt   DateTime @default(now())
 

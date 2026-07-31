@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
+import { SafeImage } from "@/components/SafeImage";
 
 interface PageProps {
   searchParams: Promise<{ type?: string; rarity?: string; q?: string }>;
@@ -9,7 +11,9 @@ interface PageProps {
 export default async function WeaponsPage({ searchParams }: PageProps) {
   const { type, rarity, q } = await searchParams;
 
-  const where: any = {};
+  // Trước đây: `const where: any = {}`. Dùng type Prisma sinh sẵn để tránh
+  // lỗi field/kiểu dữ liệu sai chỉ lộ ra lúc chạy thay vì lúc build.
+  const where: Prisma.WeaponWhereInput = {};
   if (type) where.type = { equals: type, mode: "insensitive" };
   if (rarity) where.rarity = Number(rarity);
   if (q) where.name = { contains: q, mode: "insensitive" };
@@ -118,8 +122,12 @@ export default async function WeaponsPage({ searchParams }: PageProps) {
           >
             <div className="relative aspect-square w-full bg-secondary/40 p-4 flex items-center justify-center overflow-hidden">
               {w.iconUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={w.iconUrl} alt={w.name} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300 p-2" />
+                <SafeImage
+                  src={w.iconUrl}
+                  alt={w.name}
+                  fill
+                  className="object-contain p-2 group-hover:scale-110 transition-transform duration-300"
+                />
               ) : (
                 <div className="text-muted text-xs">No Image</div>
               )}

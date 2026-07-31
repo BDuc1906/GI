@@ -48,11 +48,16 @@ prisma/
       migration.sql
     20260730120000_material_table/
       migration.sql
+    20260731013941_add_weapon_ascension/
+      migration.sql
+    20260731020109_add_talent_materials/
+      migration.sql
     migration_lock.toml
   schema.prisma
 scripts/
   lib/
     seed-helpers.ts
+  debug-traveler.ts
   seed-artifacts.ts
   seed-characters.ts
   seed-weapons.ts
@@ -83,6 +88,8 @@ src/
     ElementIcon.tsx
     SafeImage.tsx
     SearchBar.tsx
+    ThemeProvider.tsx
+    ThemeToggle.tsx
   lib/
     character-helpers.ts
     env.ts
@@ -102,6 +109,89 @@ tsconfig.json
 
 <files>
 This section contains the contents of the repository's files.
+
+<file path="prisma/migrations/20260731013941_add_weapon_ascension/migration.sql">
+-- AlterTable
+ALTER TABLE "Weapon" ADD COLUMN     "ascensionMaterials" JSONB;
+</file>
+
+<file path="prisma/migrations/20260731020109_add_talent_materials/migration.sql">
+-- AlterTable
+ALTER TABLE "Character" ADD COLUMN     "talentMaterials" JSONB;
+</file>
+
+<file path="scripts/debug-traveler.ts">
+/**
+ * Script debug độc lập — KHÔNG đụng vào DB, chỉ in ra để mắt thường kiểm tra.
+ *
+ * Chạy: npx tsx scripts/debug-traveler.ts
+ *
+ * Vòng 2: verify cách tra "nhân vật nào dùng sách nào" bằng chính
+ * genshindb.characters(seriesName, { matchCategories: true }) — theo README
+ * chính thức, "talent level-up material types" là category hợp lệ của hàm
+ * characters(). Script này in xem Traveler xuất hiện trong các series nào,
+ * và bằng tên gọi nào (để seed-characters.ts match đúng).
+ */
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const genshindb = require("genshin-db") as typeof import("genshin-db");
+
+function section(title: string) {
+  console.log("\n" + "=".repeat(60));
+  console.log(title);
+  console.log("=".repeat(60));
+}
+
+const KNOWN_TALENT_BOOK_SERIES = [
+  "Freedom", "Resistance", "Ballad",
+  "Prosperity", "Diligence", "Gold",
+  "Transience", "Elegance", "Light",
+  "Admonition", "Ingenuity", "Praxis",
+  "Equity", "Justice", "Order",
+  "Contention", "Kindling", "Conflict",
+  "Moonlight", "Elysium", "Vagrancy",
+];
+
+section("Test: genshindb.characters(seriesName, { matchCategories: true })");
+console.log("Kiểm tra từng series sách có hoạt động không, và Traveler (nếu có) được liệt kê bằng tên gì.\n");
+
+let anyTravelerFound = false;
+
+for (const series of KNOWN_TALENT_BOOK_SERIES) {
+  try {
+    const names = genshindb.characters(series, { matchCategories: true }) as string[] | undefined;
+    if (!names) {
+      console.log(`[${series}] -> undefined (series này không tồn tại/không có data trong bản hiện tại)`);
+      continue;
+    }
+    const travelerLike = names.filter(
+      (n) => n.toLowerCase().includes("traveler") || n === "Aether" || n === "Lumine"
+    );
+    if (travelerLike.length) {
+      anyTravelerFound = true;
+      console.log(`[${series}] (${names.length} nhân vật) — có Traveler:`, travelerLike);
+    } else {
+      console.log(`[${series}] (${names.length} nhân vật) — không thấy Traveler/Aether/Lumine`);
+    }
+  } catch (err) {
+    console.log(`[${series}] -> LỖI:`, (err as Error).message);
+  }
+}
+
+section("Kết luận");
+if (anyTravelerFound) {
+  console.log("✔ Traveler CÓ được liệt kê trong ít nhất 1 series — xem tên chính xác ở trên,");
+  console.log("  đối chiếu với mảng candidates trong seed-characters.ts (seedTraveler) để đảm bảo khớp.");
+} else {
+  console.log("✘ Traveler KHÔNG xuất hiện trong bất kỳ series sách nào qua matchCategories.");
+  console.log("  => genshin-db (bản đang cài) không phân loại Traveler theo category sách talent.");
+  console.log("  => bookType sẽ tiếp tục là null cho Traveler một cách CHÍNH ĐÁNG (không phải bug),");
+  console.log("     vì không có nguồn data-driven nào trong thư viện này để suy luận nó.");
+  console.log("  => Nếu muốn có số liệu chính xác cho Traveler, cách khả thi duy nhất là hardcode");
+  console.log("     bằng tay theo dữ liệu công khai đã verify (mình đã gửi kèm gợi ý trong chat),");
+  console.log("     KHÔNG nên tiếp tục đoán field/API của genshin-db nữa.");
+}
+</file>
 
 <file path="prisma/migrations/20260729161241_init/migration.sql">
 -- CreateTable
@@ -296,10 +386,35 @@ export async function seedArtifacts(): Promise<void> {
 <file path="scripts/seed-weapons.ts">
 import { createRequire } from "module";
 import { prisma } from "../src/lib/prisma";
-import { getEnkaUrl, slugify } from "./lib/seed-helpers";
+import { getEnkaUrl, slugify, upsertMaterial } from "./lib/seed-helpers";
 
 const require = createRequire(import.meta.url);
 const genshindb = require("genshin-db") as typeof import("genshin-db");
+
+/**
+ * Lấy nguyên liệu đột phá từ costs của vũ khí (ascend1..ascend6)
+ * và upsert vào bảng Material, trả về JSON phù hợp với schema.
+ */
+async function getWeaponAscensionMaterials(costs: unknown): Promise<unknown> {
+  if (!costs || typeof costs !== "object") return null;
+  const raw = costs as Record<string, Array<{ name?: string; count?: number }>>;
+
+  const phases = [];
+  for (const phase of [1, 2, 3, 4, 5, 6]) {
+    const items = raw[`ascend${phase}`];
+    if (!Array.isArray(items) || items.length === 0) continue;
+
+    const materials = [];
+    for (const m of items) {
+      if (!m || !m.name) continue;
+      const materialId = await upsertMaterial(prisma, genshindb, m.name);
+      materials.push({ materialId, name: m.name, count: m.count ?? null });
+    }
+    if (materials.length > 0) phases.push({ phase, materials });
+  }
+
+  return phases.length ? JSON.parse(JSON.stringify(phases)) : null;
+}
 
 export async function seedWeapons(): Promise<void> {
   const names = genshindb.weapons("names", { matchCategories: true }) as string[];
@@ -313,6 +428,9 @@ export async function seedWeapons(): Promise<void> {
       const raw = w as Record<string, any>;
       const refinements = [raw.r1, raw.r2, raw.r3, raw.r4, raw.r5].filter(Boolean);
 
+      // Lấy nguyên liệu đột phá
+      const ascensionMaterials = await getWeaponAscensionMaterials(w.costs);
+
       const payload = {
         name: w.name,
         type: w.weaponText || null,
@@ -321,13 +439,12 @@ export async function seedWeapons(): Promise<void> {
         subStatName: w.mainStatText || null,
         subStatValue: w.baseStatText || null,
         effectName: w.effectName || null,
-        // Full text at refine 1 (base).
         effectDescriptionR1: refinements[0]?.description || w.effectTemplateRaw || null,
-        // Full text at refine 5 (max).
         effectDescriptionR5: refinements[4]?.description || w.effectTemplateRaw || null,
         passiveByRefinement: refinements.length ? JSON.parse(JSON.stringify(refinements)) : null,
         description: w.description || null,
         iconUrl: getEnkaUrl(w.images?.filename_icon, w.images?.mihoyo_icon),
+        ascensionMaterials: ascensionMaterials as any,
       };
 
       const id = slugify(w.name);
@@ -341,7 +458,7 @@ export async function seedWeapons(): Promise<void> {
       console.warn(`⚠ Skipped weapon "${name}":`, (err as Error).message);
     }
   }
-  console.log(`✔ Seeded ${count} weapons`);
+  console.log(`✔ Seeded ${count} weapons with ascension materials`);
 }
 </file>
 
@@ -383,192 +500,6 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
-</file>
-
-<file path="src/app/artifacts/page.tsx">
-import Link from "next/link";
-import { prisma } from "@/lib/prisma";
-import { rarityGlowClass } from "@/lib/theme";
-
-export default async function ArtifactsPage() {
-  // 1. Truy vấn danh sách toàn bộ các bộ thánh di vật xếp theo thứ tự bảng chữ cái alphabet
-  const sets = await prisma.artifactSet.findMany({ 
-    orderBy: { name: "asc" } 
-  });
-
-  return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      
-      {/* Khối tiêu đề chính */}
-      <div className="mb-8">
-        <h1 className="font-display text-4xl font-bold tracking-wide text-neutral-100 uppercase mb-2">
-          Bảo Vật Thánh Di Vật
-        </h1>
-        <p className="text-sm text-[color:var(--parchment-dim)]">
-          Khám phá bộ bí bảo tàng tích cổ đại gia tăng chiến lực
-        </p>
-      </div>
-
-      {/* Lưới danh sách các bộ Thánh di vật (Artifacts Card Grid) */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-        {sets.map((a) => {
-          // Tính toán cấp độ hiếm sao lớn nhất trong mảng để phủ hiệu ứng hào quang phát sáng tương ứng
-          const maxRarity = Math.max(...(a.rarityRange as number[]), 4);
-          
-          return (
-            <Link 
-              key={a.id} 
-              href={`/artifacts/${a.id}`} 
-              className={`relic-frame ${rarityGlowClass(maxRarity)} bg-neutral-950/60 border border-neutral-800 rounded-xl overflow-hidden block group transition-all duration-300 hover:-translate-y-2`}
-            >
-              {/* Khung ảnh thánh di vật */}
-              <div className="relative aspect-square w-full bg-neutral-900/40 p-4 flex items-center justify-center overflow-hidden">
-                {a.iconUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img 
-                    src={a.iconUrl} 
-                    alt={a.name} 
-                    className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110 p-2" 
-                  />
-                ) : (
-                  <div className="text-neutral-600 text-xs">No Image</div>
-                )}
-              </div>
-
-              {/* Chi tiết văn bản chân thẻ */}
-              <div className="p-4 border-t border-neutral-900 bg-neutral-900/10">
-                <div className="font-bold truncate text-neutral-100 group-hover:text-[color:var(--gold-bright)] transition-colors text-sm mb-1">
-                  {a.name}
-                </div>
-                <div className="text-xs text-[color:var(--parchment-dim)] font-medium mt-2 flex items-center gap-1">
-                  <span className="w-1 h-1 rounded-full bg-[color:var(--gold-bright)]" />
-                  Phẩm cấp: {(a.rarityRange as number[]).join("–")}★
-                </div>
-              </div>
-            </Link>
-          );
-        })}
-      </div>
-
-    </div>
-  );
-}
-</file>
-
-<file path="src/app/weapons/page.tsx">
-import Link from "next/link";
-import { prisma } from "@/lib/prisma";
-import { rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
-
-interface PageProps {
-  searchParams: Promise<{ type?: string; rarity?: string }>;
-}
-
-export default async function WeaponsPage({ searchParams }: PageProps) {
-  const { type, rarity } = await searchParams;
-
-  // 1. Truy vấn dữ liệu vũ khí từ Supabase kết hợp bộ lọc động
-  const weapons = await prisma.weapon.findMany({
-    where: {
-      type: type ? { equals: type, mode: "insensitive" } : undefined,
-      rarity: rarity ? Number(rarity) : undefined,
-    },
-    orderBy: [{ rarity: "desc" }, { name: "asc" }],
-  });
-
-  const types = ["Sword", "Claymore", "Polearm", "Bow", "Catalyst"];
-
-  return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* Khối tiêu đề */}
-      <div className="mb-8">
-        <h1 className="font-display text-4xl font-bold tracking-wide text-neutral-100 uppercase mb-2">
-          Kho Tàng Vũ Khí
-        </h1>
-        <p className="text-sm text-[color:var(--parchment-dim)]">
-          Tìm thấy <span className="text-[color:var(--gold-bright)] font-semibold">{weapons.length}</span> thần binh tàng bảo
-        </p>
-      </div>
-
-      {/* Khối thanh bộ lọc dữ liệu chuyên nghiệp (Filter Bar) */}
-      <div className="bg-neutral-900/40 backdrop-blur-md border border-neutral-800 p-4 rounded-xl mb-8 flex flex-wrap gap-4 text-xs items-center">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-neutral-400 font-medium mr-2">Phân loại dòng:</span>
-          {types.map((t) => (
-            <Link
-              key={t}
-              href={`/weapons?type=${t}${rarity ? `&rarity=${rarity}` : ""}`}
-              className="px-3 py-1.5 rounded-full border border-neutral-800 bg-neutral-950/60 hover:border-neutral-500 transition-all font-medium text-neutral-200"
-            >
-              {t}
-            </Link>
-          ))}
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-neutral-400 font-medium mr-2 ml-2">Phẩm sao:</span>
-          {[3, 4, 5].map((r) => (
-            <Link
-              key={r}
-              href={`/weapons?rarity=${r}${type ? `&type=${type}` : ""}`}
-              className={`px-3 py-1.5 rounded-full border border-neutral-800 bg-neutral-950/60 hover:border-neutral-500 transition-all ${rarityTextClass(r)}`}
-            >
-              {rarityStars(r)}
-            </Link>
-          ))}
-        </div>
-
-        {/* Nút xóa bộ lọc */}
-        {(type || rarity) && (
-          <Link
-            href="/weapons"
-            className="ml-auto px-4 py-1.5 rounded-full bg-red-950/40 border border-red-900/60 text-red-400 hover:bg-red-900/40 transition-colors font-semibold"
-          >
-            Xóa Lọc &times;
-          </Link>
-        )}
-      </div>
-
-      {/* Grid danh sách hiển thị vũ khí (Weapons Card Grid) */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-        {weapons.map((w) => (
-          <Link
-            key={w.id}
-            href={`/weapons/${w.id}`}
-            className={`relic-frame ${rarityGlowClass(w.rarity)} bg-neutral-950/60 border border-neutral-800 rounded-xl overflow-hidden block group transition-all duration-300 hover:-translate-y-2`}
-          >
-            {/* Khung ảnh vũ khí */}
-            <div className="relative aspect-square w-full bg-neutral-900/40 p-4 flex items-center justify-center overflow-hidden">
-              {w.iconUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={w.iconUrl}
-                  alt={w.name}
-                  className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110 p-2"
-                />
-              ) : (
-                <div className="text-neutral-600 text-xs">No Image</div>
-              )}
-            </div>
-
-            {/* Chi tiết văn bản chân thẻ */}
-            <div className="p-4 border-t border-neutral-900 bg-neutral-900/10">
-              <div className="font-bold truncate text-neutral-100 group-hover:text-[color:var(--gold-bright)] transition-colors text-sm mb-1">
-                {w.name}
-              </div>
-              <div className="flex justify-between items-center mt-2">
-                <span className="text-[10px] text-neutral-500 tracking-wider uppercase font-medium">{w.type}</span>
-                <span className={`text-[10px] tracking-tighter ${rarityTextClass(w.rarity)}`}>
-                  {rarityStars(w.rarity)}
-                </span>
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
-    </div>
-  );
-}
 </file>
 
 <file path="src/app/error.tsx">
@@ -632,77 +563,6 @@ export default function ErrorBoundary({
       </div>
     </div>
   );
-}
-</file>
-
-<file path="src/app/globals.css">
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
-@import "tailwindcss";
-
-:root {
-  --ink: #12141c;
-  --ink-raised: #1a1d29;
-  --gold: #C9A66B;
-  --gold-bright: #F4D03F;
-  --parchment: #EDE6D6;
-  --parchment-dim: #9a9484;
-  --purple-glow: #B57EDC;
-
-  --el-anemo: #6FC6A3;
-  --el-geo: #CFA83E;
-  --el-electro: #B98FE0;
-  --el-dendro: #A2C93B;
-  --el-hydro: #4CC2F1;
-  --el-pyro: #EF7938;
-  --el-cryo: #8FE0E0;
-}
-
-body {
-  background:
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,166,107,0.08), transparent),
-    var(--ink);
-  color: var(--parchment);
-  font-family: 'Inter', sans-serif;
-}
-
-.font-display {
-  font-family: 'Cinzel', serif;
-}
-
-/* Khung phong cách di vật: viền vàng mảnh, góc bo nhẹ, nền lớp thẻ */
-.relic-frame {
-  background: var(--ink-raised);
-  border: 1px solid rgba(201,166,107,0.35);
-  transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
-}
-.relic-frame:hover {
-  transform: translateY(-2px);
-}
-
-/* Viền phát sáng theo độ hiếm - quy ước màu đúng như trong game */
-.rarity-glow-5 {
-  border-color: rgba(244,208,63,0.55);
-  box-shadow: 0 0 0 1px rgba(244,208,63,0.15), 0 8px 24px -8px rgba(244,208,63,0.35);
-}
-.rarity-glow-5:hover {
-  border-color: var(--gold-bright);
-  box-shadow: 0 0 0 1px rgba(244,208,63,0.4), 0 12px 32px -8px rgba(244,208,63,0.5);
-}
-.rarity-glow-4 {
-  border-color: rgba(181,126,220,0.5);
-  box-shadow: 0 0 0 1px rgba(181,126,220,0.12), 0 8px 24px -8px rgba(181,126,220,0.3);
-}
-.rarity-glow-4:hover {
-  border-color: var(--purple-glow);
-  box-shadow: 0 0 0 1px rgba(181,126,220,0.35), 0 12px 32px -8px rgba(181,126,220,0.45);
-}
-.rarity-glow-3 {
-  border-color: rgba(201,166,107,0.3);
-}
-
-.divider-gold {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(201,166,107,0.6), transparent);
 }
 </file>
 
@@ -870,20 +730,15 @@ import { useState } from "react";
 import Image, { type ImageProps } from "next/image";
 
 /**
- * Wrapper quanh next/image cho ảnh hotlink từ nguồn ngoài (Enka Network,
- * Fandom Wikia...). Hai lý do dùng next/image thay vì <img> thô:
- *  1. next/image tự resize/cache/lazy-load ảnh qua server Next, giảm phụ
- *     thuộc trực tiếp vào băng thông của domain ngoài mỗi lần user tải trang.
- *  2. Có onError để ẩn ảnh gọn gàng khi hotlink hỏng (thay vì hiện icon vỡ
- *     ảnh mặc định của trình duyệt) — cùng pattern đã dùng ở ElementIcon.
- *
- * fill=true dùng cho container có kích thước cố định qua CSS (aspect-ratio,
- * width/height của thẻ cha); không set width/height trực tiếp trên props.
+ * Wrapper cho next/image với fallback khi ảnh lỗi.
+ * - Hỗ trợ `sizes` để tối ưu responsive.
+ * - Hỗ trợ `priority` cho LCP.
  */
 export function SafeImage({
   fallbackClassName,
+  sizes = "100vw",
   ...props
-}: ImageProps & { fallbackClassName?: string }) {
+}: ImageProps & { fallbackClassName?: string; sizes?: string }) {
   const [broken, setBroken] = useState(false);
 
   if (broken) {
@@ -891,7 +746,7 @@ export function SafeImage({
       <div
         className={
           fallbackClassName ??
-          "w-full h-full flex items-center justify-center text-neutral-600 text-[10px] bg-neutral-950/40"
+          "w-full h-full flex items-center justify-center text-muted text-[10px] bg-secondary/30"
         }
       >
         —
@@ -899,7 +754,7 @@ export function SafeImage({
     );
   }
 
-  return <Image {...props} onError={() => setBroken(true)} unoptimized={false} />;
+  return <Image {...props} onError={() => setBroken(true)} sizes={sizes} />;
 }
 </file>
 
@@ -937,6 +792,54 @@ export function SearchBar() {
         className="w-full rounded-lg border border-neutral-800 bg-neutral-900/60 px-3 py-1.5 text-sm text-neutral-200 placeholder:text-neutral-500 focus:outline-none focus:border-[color:var(--gold)]/50 transition-colors"
       />
     </form>
+  );
+}
+</file>
+
+<file path="src/components/ThemeProvider.tsx">
+"use client";
+
+import { ThemeProvider as NextThemeProvider } from "next-themes";
+
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  return (
+    <NextThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem>
+      {children}
+    </NextThemeProvider>
+  );
+}
+</file>
+
+<file path="src/components/ThemeToggle.tsx">
+"use client";
+
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+
+export function ThemeToggle() {
+  const [mounted, setMounted] = useState(false);
+  const { theme, setTheme } = useTheme();
+
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) return null;
+
+  return (
+    <button
+      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      className="p-2 rounded-full border border-border bg-card text-secondary hover:border-gold hover:text-gold-bright transition-all"
+      aria-label="Chuyển đổi chế độ sáng/tối"
+    >
+      {theme === "dark" ? (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+      ) : (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+      )}
+    </button>
   );
 }
 </file>
@@ -1106,53 +1009,6 @@ export function assertEnv(): void {
 
   for (const name of REQUIRED_ENV_VARS) {
     assertUrlLike(name, process.env[name] as string);
-  }
-}
-</file>
-
-<file path="src/lib/theme.ts">
-// Định nghĩa mã màu phát sáng cho các Nguyên tố trong Genshin Impact
-export const ELEMENT_COLORS: Record<string, string> = {
-  Anemo: "#72e2c4",
-  Geo: "#eec34b",
-  Electro: "#bc8fe6",
-  Dendro: "#a5c83b",
-  Hydro: "#4cc3f1",
-  Pyro: "#ec6646",
-  Cryo: "#a0e8ef",
-};
-
-// Hàm lấy màu sắc nguyên tố nhanh
-export function elementColor(vision: string): string {
-  return ELEMENT_COLORS[vision] || "#999999";
-}
-
-// Hàm chuyển đổi số lượng sao thành ký tự biểu tượng ngôi sao hiển thị (★)
-export function rarityStars(rarity: number): string {
-  return "★".repeat(rarity);
-}
-
-// Định nghĩa Class Tailwind phát sáng theo phẩm cấp vật phẩm (3 sao, 4 sao, 5 sao)
-export function rarityGlowClass(rarity: number): string {
-  switch (rarity) {
-    case 5:
-      return "shadow-[0_0_15px_rgba(236,143,36,0.25)] border-amber-500/30";
-    case 4:
-      return "shadow-[0_0_15px_rgba(168,85,247,0.25)] border-purple-500/30";
-    default:
-      return "shadow-[0_0_15px_rgba(59,130,246,0.20)] border-blue-500/20";
-  }
-}
-
-// Định nghĩa màu chữ cho số lượng sao hiển thị
-export function rarityTextClass(rarity: number): string {
-  switch (rarity) {
-    case 5:
-      return "text-amber-400 font-bold";
-    case 4:
-      return "text-purple-400 font-bold";
-    default:
-      return "text-blue-400 font-bold";
   }
 }
 </file>
@@ -1829,14 +1685,10 @@ export { }
 
 <file path="scripts/lib/seed-helpers.ts">
 /**
- * Helper dùng chung cho toàn bộ script seed (nhân vật/vũ khí/thánh di vật).
- * Tách riêng ra đây để 3 file seed-*.ts không phải copy-paste lại logic
- * build URL ảnh hay slugify — sửa 1 chỗ, áp dụng cho cả 3.
+ * Helper dùng chung cho toàn bộ script seed.
  */
 
 export function getEnkaUrl(filename?: string | null, mihoyoUrl?: string | null): string | null {
-  // VERIFY: confirm the exact base path against a known-good filename from
-  // your installed genshin-db version — Enka has changed asset paths before.
   if (filename) return `https://enka.network/ui/${filename}.png`;
   if (mihoyoUrl) return mihoyoUrl;
   return null;
@@ -1844,11 +1696,6 @@ export function getEnkaUrl(filename?: string | null, mihoyoUrl?: string | null):
 
 export function getElementIconUrl(element?: string | null): string | null {
   if (!element) return null;
-  const name = element.trim();
-  if (!name) return null;
-  // VERIFY: replace with your actual asset source. Left as null-safe
-  // rather than guessing a URL that "looks right" but 404s, since a
-  // silently-broken icon is worse than an explicit gap you can fill in.
   const known: Record<string, string> = {
     Anemo: "https://static.wikia.nocookie.net/gensin-impact/images/1/10/Element_Anemo.svg",
     Geo: "https://static.wikia.nocookie.net/gensin-impact/images/9/9b/Element_Geo.svg",
@@ -1858,7 +1705,7 @@ export function getElementIconUrl(element?: string | null): string | null {
     Pyro: "https://static.wikia.nocookie.net/gensin-impact/images/2/2c/Element_Pyro.svg",
     Cryo: "https://static.wikia.nocookie.net/gensin-impact/images/7/72/Element_Cryo.svg",
   };
-  return known[name] ?? null;
+  return known[element.trim()] ?? null;
 }
 
 export function slugify(name: string): string {
@@ -1870,35 +1717,12 @@ export function slugify(name: string): string {
     .replace(/(^-|-$)/g, "");
 }
 
-/**
- * VERIFY: genshin-db expose `materials(name)` (đã xác nhận có tồn tại qua
- * `folders/materials.d.ts` được reference trong types), nhưng type file đó
- * KHÔNG có trong bundle types đã cung cấp nên chưa xác nhận được tên field
- * ảnh chính xác trong `images` của Material — Character/Weapon/Artifact đều
- * dùng `filename_icon`, giả định Material cũng theo pattern này, nhưng cần
- * chạy thử `console.log(genshindb.materials('<tên nguyên liệu>'))` để xác
- * nhận trước khi seed thật, phòng khi tên field khác (vd `filename_full`).
- */
 export function getMaterialIconFilename(material: unknown): string | null {
   const m = material as { images?: Record<string, string | undefined> } | null | undefined;
   if (!m?.images) return null;
-  return (
-    m.images.filename_icon ??
-    m.images.filename_full ??
-    m.images.filename ??
-    null
-  );
+  return m.images.filename_icon ?? m.images.filename_full ?? m.images.filename ?? null;
 }
 
-/**
- * Upsert 1 Material vào bảng riêng (idempotent — an toàn gọi lặp lại nhiều
- * lần cho cùng 1 nguyên liệu khi seed nhiều nhân vật dùng chung nó).
- * Trả về materialId (slug) để lưu vào JSON ascensionMaterials của Character.
- * `prisma` và `genshindb` được truyền vào (dependency injection) thay vì
- * import trực tiếp ở đây, để file helper này không phụ thuộc cứng vào
- * PrismaClient instance nào — seed-weapons.ts sau này có thể tái dùng y
- * hệt hàm này cho nguyên liệu cường hóa vũ khí.
- */
 export async function upsertMaterial(
   prisma: { material: { upsert: (args: any) => Promise<unknown> } },
   genshindb: { materials: (name: string) => unknown },
@@ -1907,11 +1731,24 @@ export async function upsertMaterial(
   const id = slugify(materialName);
   let iconUrl: string | null = null;
   try {
-    const raw = genshindb.materials(materialName);
-    iconUrl = getEnkaUrl(getMaterialIconFilename(raw), null);
+    // 1. Lấy trực tiếp
+    let raw = genshindb.materials(materialName);
+    if (!raw) {
+      // 2. Chuẩn hóa tên (bỏ dấu, viết thường)
+      const normalized = materialName.replace(/[^a-zA-Z0-9 ]/g, "").trim();
+      raw = genshindb.materials(normalized);
+    }
+    if (!raw) {
+      // 3. Tìm trong danh sách tên
+      const allNames = genshindb.materials("names", { matchCategories: true }) as string[];
+      const match = allNames.find(n => n.toLowerCase() === materialName.toLowerCase());
+      if (match) raw = genshindb.materials(match);
+    }
+    if (raw) {
+      iconUrl = getEnkaUrl(getMaterialIconFilename(raw), null);
+    }
   } catch {
-    // Không tìm thấy trong genshin-db (vd nguyên liệu Mora không nằm trong
-    // materials()) — vẫn tạo record với iconUrl null, UI fallback về text.
+    // Không tìm thấy, iconUrl vẫn null
   }
   await prisma.material.upsert({
     where: { id },
@@ -1922,182 +1759,415 @@ export async function upsertMaterial(
 }
 </file>
 
-<file path="src/app/layout.tsx">
-import "./globals.css";
+<file path="src/app/artifacts/page.tsx">
 import Link from "next/link";
-import { SearchBar } from "../components/SearchBar";
+import { prisma } from "@/lib/prisma";
+import { rarityGlowClass } from "@/lib/theme";
 
-export const metadata = {
-  title: "LEIBO — Genshin Impact Database",
-  description: "Dữ liệu Genshin Impact: nhân vật, vũ khí, thánh di vật.",
-};
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="vi">
-      <body className="min-h-screen bg-neutral-950 text-neutral-100">
-        <header className="border-b border-neutral-800 sticky top-0 bg-neutral-950/90 backdrop-blur z-10">
-          <nav className="max-w-6xl mx-auto flex items-center gap-6 px-4 py-3">
-            <Link href="/" className="font-bold text-xl tracking-wide text-amber-400">
-              LEIBO
-            </Link>
-            <Link href="/characters" className="hover:text-amber-300">Nhân vật</Link>
-            <Link href="/weapons" className="hover:text-amber-300">Vũ khí</Link>
-            <Link href="/artifacts" className="hover:text-amber-300">Thánh di vật</Link>
-            <SearchBar />
-          </nav>
-        </header>
-        <main className="max-w-6xl mx-auto px-4 py-8">{children}</main>
-      </body>
-    </html>
-  );
+interface PageProps {
+  searchParams: Promise<{ q?: string }>;
 }
-</file>
 
-<file path="src/app/page.tsx">
-import Link from "next/link";
-import { prisma } from "../lib/prisma";
-import { ELEMENT_COLORS } from "../lib/theme";
+export default async function ArtifactsPage({ searchParams }: PageProps) {
+  const { q } = await searchParams;
 
-export default async function Home() {
-  // 1. Fetch record counts simultaneously from the database
-  const [charCount, weaponCount, artifactCount] = await Promise.all([
-    prisma.character.count(),
-    prisma.weapon.count(),
-    prisma.artifactSet.count(),
-  ]);
+  const where: any = {};
+  if (q) where.name = { contains: q, mode: "insensitive" };
 
-  // 2. Structured data for grid cards (100% English & Official Game Terms)
-  const cards = [
-    {
-      href: "/characters",
-      label: "Characters",
-      subLabel: "ROSTER ARCHIVE",
-      count: charCount,
-      desc: "Detailed stats, combat talents, constellation configurations, and ascension materials.",
-      gradient: "from-amber-500/20 to-orange-500/5",
-    },
-    {
-      href: "/weapons",
-      label: "Weapons",
-      subLabel: "ARMORY DATABASE",
-      count: weaponCount,
-      desc: "Base attributes, passive abilities, and upgrade scaling across elite ascension tiers.",
-      gradient: "from-blue-500/20 to-indigo-500/5",
-    },
-    {
-      href: "/artifacts",
-      label: "Artifacts",
-      subLabel: "REPLICAS & SETS",
-      count: artifactCount,
-      desc: "Set activation bonuses for 2-piece and 4-piece combinations to optimize builds.",
-      gradient: "from-purple-500/20 to-pink-500/5",
-    },
-  ];
+  const sets = await prisma.artifactSet.findMany({
+    where,
+    orderBy: { name: "asc" },
+  });
+
+  const buildQuery = (params: Record<string, string | undefined>) => {
+    const sp = new URLSearchParams();
+    if (q) sp.set("q", q);
+    Object.entries(params).forEach(([k, v]) => {
+      if (v) sp.set(k, v);
+      else sp.delete(k);
+    });
+    return sp.toString();
+  };
 
   return (
-    <div className="relative min-h-screen bg-neutral-950 text-neutral-100 flex flex-col justify-center items-center px-4 py-16 overflow-hidden">
-      
-      {/* BACKGROUND DECORATIONS (Atmospheric mist/glow effects) */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-amber-500/10 blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-10 left-10 w-[300px] h-[300px] bg-blue-500/5 blur-[100px] rounded-full pointer-events-none" />
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="mb-8">
+        <h1 className="font-display text-4xl font-bold tracking-wide text-primary uppercase mb-2">
+          Bảo Vật Thánh Di Vật
+        </h1>
+        <p className="text-sm text-secondary">
+          Khám phá bộ bí bảo tàng tích cổ đại gia tăng chiến lực
+        </p>
+      </div>
 
-      <div className="relative z-10 max-w-5xl w-full mx-auto">
-        
-        {/* ELEMENTAL NAV BAR (Glow-in-the-dark elemental matrix) */}
-        <div className="flex justify-center flex-wrap gap-5 mb-14">
-          {Object.entries(ELEMENT_COLORS).map(([name, color]) => (
-            <div
-              key={name}
-              title={name}
-              className="relative w-12 h-12 rounded-full border flex items-center justify-center font-bold text-xs uppercase tracking-tighter transition-all duration-500 hover:scale-125 hover:rotate-12 cursor-help group backdrop-blur-sm"
-              style={{
-                borderColor: `${color}60`,
-                boxShadow: `0 0 20px -3px ${color}40, inset 0 0 12px ${color}20`,
-                backgroundColor: `${color}10`,
-                color: color
-              }}
-            >
-              {/* Short elemental code prefix */}
-              <span className="opacity-80 group-hover:opacity-100 transition-opacity">
-                {name.substring(0, 2)}
-              </span>
-              {/* Radial glow overlay on hover */}
-              <div 
-                className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-md"
-                style={{ backgroundColor: `${color}30` }}
-              />
-            </div>
-          ))}
-        </div>
-
-        {/* HERO SECTION (Classic Teyvat cinematic typography) */}
-        <div className="text-center mb-20 relative">
-          {/* Elegant geometric divider wire */}
-          <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[1px] bg-gradient-to-r from-transparent via-neutral-800 to-transparent pointer-events-none" />
-          
-          <div className="relative inline-block bg-neutral-950 px-8">
-            <h1 className="text-6xl md:text-7xl font-extrabold tracking-[0.2em] uppercase mb-4 text-transparent bg-clip-text bg-gradient-to-b from-amber-200 via-amber-400 to-amber-600 drop-shadow-[0_4px_12px_rgba(217,119,6,0.3)] font-serif">
-              LEIBO
-            </h1>
-            <div className="w-24 h-[2px] bg-amber-400 mx-auto mb-4 shadow-[0_0_8px_#fbbf24]" />
-          </div>
-          
-          <p className="text-sm md:text-base text-neutral-400 max-w-xl mx-auto tracking-widest uppercase font-light mt-2">
-            Genshin Impact Database 
-            <span className="block text-xs text-neutral-500 mt-1 font-sans italic tracking-normal normal-case">
-              A static tracking archive synced directly from the core game structure data.
-            </span>
-          </p>
-        </div>
-
-        {/* DASHBOARD GRID CARDS (Fantasy UI container slots) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {cards.map((c) => (
+      <div className="mb-6">
+        <form method="GET" className="flex gap-2">
+          <input
+            type="text"
+            name="q"
+            defaultValue={q || ""}
+            placeholder="Tìm tên bộ thánh di vật..."
+            className="flex-1 rounded-lg border border-border bg-input px-3 py-2 text-sm text-primary placeholder:text-muted focus:outline-none focus:border-gold/50 transition-colors"
+          />
+          <button
+            type="submit"
+            className="rounded-lg bg-gold/10 border border-gold/40 px-4 py-2 text-sm font-medium text-gold-bright hover:bg-gold/20 transition-colors"
+          >
+            Tìm kiếm
+          </button>
+          {q && (
             <Link
-              key={c.href}
-              href={c.href}
-              className="relative bg-neutral-900/60 border border-neutral-800/80 backdrop-blur-md rounded-2xl p-8 transition-all duration-500 hover:-translate-y-3 hover:border-amber-500/50 block group overflow-hidden shadow-2xl"
+              href={`/artifacts?${buildQuery({ q: undefined })}`}
+              className="rounded-lg border border-red-900/60 bg-red-950/40 px-4 py-2 text-sm text-red-400 hover:bg-red-900/40 transition-colors"
             >
-              {/* Dynamic aura blend backdrop */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${c.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-              
-              {/* Metallic corner brackets replicating the game UI */}
-              <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-neutral-700 group-hover:border-amber-400 transition-colors" />
-              <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-neutral-700 group-hover:border-amber-400 transition-colors" />
-              <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-neutral-700 group-hover:border-amber-400 transition-colors" />
-              <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-neutral-700 group-hover:border-amber-400 transition-colors" />
+              Xóa
+            </Link>
+          )}
+        </form>
+      </div>
 
-              {/* Record counter indicator */}
-              <div className="relative text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-amber-500 mb-4 tracking-tight transition-transform duration-500 group-hover:scale-110 origin-left drop-shadow-[0_2px_10px_rgba(251,191,36,0.2)]">
-                {c.count}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+        {sets.map((a) => {
+          const maxRarity = Math.max(...(a.rarityRange as number[]), 4);
+          return (
+            <Link
+              key={a.id}
+              href={`/artifacts/${a.id}`}
+              className={`relic-frame ${rarityGlowClass(maxRarity)} overflow-hidden group`}
+            >
+              <div className="relative aspect-square w-full bg-secondary/40 p-4 flex items-center justify-center overflow-hidden">
+                {a.iconUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={a.iconUrl} alt={a.name} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300 p-2" />
+                ) : (
+                  <div className="text-muted text-xs">No Image</div>
+                )}
               </div>
-
-              {/* Category core title */}
-              <div className="relative text-xl font-bold text-neutral-100 tracking-wide flex items-center gap-2 group-hover:text-amber-400 transition-colors">
-                {c.label}
-                <span className="transform translate-x-0 opacity-0 group-hover:translate-x-2 group-hover:opacity-100 transition-all duration-300 text-amber-400">
-                  &rarr;
-                </span>
-              </div>
-
-              {/* Technical sub-header label */}
-              <div className="relative text-[10px] text-amber-500/60 font-mono tracking-widest uppercase mb-4">
-                {c.subLabel}
-              </div>
-
-              {/* Summary details specification */}
-              <div className="relative text-xs text-neutral-400 leading-relaxed font-light group-hover:text-neutral-300 transition-colors">
-                {c.desc}
+              <div className="p-3 border-t border-border bg-card/80">
+                <div className="font-bold truncate text-primary group-hover:text-gold-bright transition-colors text-sm">
+                  {a.name}
+                </div>
+                <div className="text-xs text-secondary font-medium mt-2 flex items-center gap-1">
+                  <span className="w-1 h-1 rounded-full bg-gold-bright" />
+                  Phẩm cấp: {(a.rarityRange as number[]).join("–")}★
+                </div>
               </div>
             </Link>
-          ))}
-        </div>
-
+          );
+        })}
       </div>
     </div>
   );
 }
+</file>
+
+<file path="src/app/weapons/page.tsx">
+import Link from "next/link";
+import { prisma } from "@/lib/prisma";
+import { rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
+
+interface PageProps {
+  searchParams: Promise<{ type?: string; rarity?: string; q?: string }>;
+}
+
+export default async function WeaponsPage({ searchParams }: PageProps) {
+  const { type, rarity, q } = await searchParams;
+
+  const where: any = {};
+  if (type) where.type = { equals: type, mode: "insensitive" };
+  if (rarity) where.rarity = Number(rarity);
+  if (q) where.name = { contains: q, mode: "insensitive" };
+
+  const weapons = await prisma.weapon.findMany({
+    where,
+    orderBy: [{ rarity: "desc" }, { name: "asc" }],
+  });
+
+  const types = ["Sword", "Claymore", "Polearm", "Bow", "Catalyst"];
+
+  const buildQuery = (params: Record<string, string | undefined>) => {
+    const sp = new URLSearchParams();
+    if (type) sp.set("type", type);
+    if (rarity) sp.set("rarity", rarity);
+    if (q) sp.set("q", q);
+    Object.entries(params).forEach(([k, v]) => {
+      if (v) sp.set(k, v);
+      else sp.delete(k);
+    });
+    return sp.toString();
+  };
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="mb-8">
+        <h1 className="font-display text-4xl font-bold tracking-wide text-primary uppercase mb-2">
+          Kho Tàng Vũ Khí
+        </h1>
+        <p className="text-sm text-secondary">
+          Tìm thấy <span className="text-gold-bright font-semibold">{weapons.length}</span> thần binh tàng bảo
+        </p>
+      </div>
+
+      <div className="mb-6">
+        <form method="GET" className="flex gap-2">
+          {type && <input type="hidden" name="type" value={type} />}
+          {rarity && <input type="hidden" name="rarity" value={rarity} />}
+          <input
+            type="text"
+            name="q"
+            defaultValue={q || ""}
+            placeholder="Tìm tên vũ khí..."
+            className="flex-1 rounded-lg border border-border bg-input px-3 py-2 text-sm text-primary placeholder:text-muted focus:outline-none focus:border-gold/50 transition-colors"
+          />
+          <button
+            type="submit"
+            className="rounded-lg bg-gold/10 border border-gold/40 px-4 py-2 text-sm font-medium text-gold-bright hover:bg-gold/20 transition-colors"
+          >
+            Tìm kiếm
+          </button>
+          {q && (
+            <Link
+              href={`/weapons?${buildQuery({ q: undefined })}`}
+              className="rounded-lg border border-red-900/60 bg-red-950/40 px-4 py-2 text-sm text-red-400 hover:bg-red-900/40 transition-colors"
+            >
+              Xóa
+            </Link>
+          )}
+        </form>
+      </div>
+
+      <div className="bg-card/40 backdrop-blur-md border border-border p-4 rounded-xl mb-8 flex flex-wrap gap-4 text-xs items-center">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-secondary font-medium mr-2">Phân loại dòng:</span>
+          {types.map((t) => (
+            <Link
+              key={t}
+              href={`/weapons?${buildQuery({ type: t })}`}
+              className="px-3 py-1.5 rounded-full border border-border bg-card/60 hover:border-gold/50 transition-all font-medium text-primary"
+            >
+              {t}
+            </Link>
+          ))}
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-secondary font-medium mr-2 ml-2">Phẩm sao:</span>
+          {[3, 4, 5].map((r) => (
+            <Link
+              key={r}
+              href={`/weapons?${buildQuery({ rarity: String(r) })}`}
+              className={`px-3 py-1.5 rounded-full border border-border bg-card/60 hover:border-gold/50 transition-all ${rarityTextClass(r)}`}
+            >
+              {rarityStars(r)}
+            </Link>
+          ))}
+        </div>
+
+        {(type || rarity || q) && (
+          <Link
+            href="/weapons"
+            className="ml-auto px-4 py-1.5 rounded-full bg-red-950/40 border border-red-900/60 text-red-400 hover:bg-red-900/40 transition-colors font-semibold"
+          >
+            Xóa Lọc &times;
+          </Link>
+        )}
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+        {weapons.map((w) => (
+          <Link
+            key={w.id}
+            href={`/weapons/${w.id}`}
+            className={`relic-frame ${rarityGlowClass(w.rarity)} overflow-hidden group`}
+          >
+            <div className="relative aspect-square w-full bg-secondary/40 p-4 flex items-center justify-center overflow-hidden">
+              {w.iconUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={w.iconUrl} alt={w.name} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300 p-2" />
+              ) : (
+                <div className="text-muted text-xs">No Image</div>
+              )}
+            </div>
+            <div className="p-3 border-t border-border bg-card/80">
+              <div className="font-bold truncate text-primary group-hover:text-gold-bright transition-colors text-sm">
+                {w.name}
+              </div>
+              <div className="flex justify-between items-center mt-1">
+                <span className="text-[10px] text-secondary tracking-wider uppercase font-medium">{w.type}</span>
+                <span className={`text-[10px] tracking-tighter ${rarityTextClass(w.rarity)}`}>
+                  {rarityStars(w.rarity)}
+                </span>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+</file>
+
+<file path="src/app/globals.css">
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+:root {
+  /* DARK MODE */
+  --bg-primary: #0d0d0d;
+  --bg-secondary: #161618;
+  --bg-card: #1e1e22;
+  --bg-input: #252528;
+  --bg-table: #1a1a1e;
+  --bg-table-alt: #222226;
+  --text-primary: #f0ece4;
+  --text-secondary: #a8a4a0;
+  --text-muted: #6b6865;
+  --text-inverted: #0d0d0d;
+  --border-color: #2a2a2e;
+  --gold: #C9A66B;
+  --gold-bright: #F4D03F;
+  --shadow-glow: 0 0 20px rgba(201, 166, 107, 0.08);
+  --shadow-card: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+[data-theme="light"] {
+  /* LIGHT MODE – tương phản cao */
+  --bg-primary: #f5f3f0;
+  --bg-secondary: #ffffff;
+  --bg-card: #faf8f5;
+  --bg-input: #edeae6;
+  --bg-table: #f0ede8;
+  --bg-table-alt: #e8e5e0;
+  --text-primary: #1a1a1a;
+  --text-secondary: #4a4744;
+  --text-muted: #7a7672;
+  --text-inverted: #f0ece4;
+  --border-color: #c8c4bf;
+  --gold: #b8944a;
+  --gold-bright: #c9a03a;
+  --shadow-glow: 0 0 20px rgba(184, 148, 74, 0.10);
+  --shadow-card: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+* {
+  transition: background-color 0.25s ease, color 0.2s ease, border-color 0.25s ease;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+}
+
+.font-display {
+  font-family: 'Cinzel', serif;
+}
+
+/* ===== Các lớp dùng chung ===== */
+.relic-frame {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+.relic-frame:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-glow), var(--shadow-card);
+  border-color: var(--gold);
+}
+
+/* Rarity glow */
+.rarity-glow-5 {
+  border-color: rgba(244, 208, 63, 0.45);
+}
+[data-theme="light"] .rarity-glow-5 {
+  border-color: #b8944a;
+  box-shadow: 0 0 12px rgba(184, 148, 74, 0.15);
+}
+
+.rarity-glow-4 {
+  border-color: rgba(181, 126, 220, 0.4);
+}
+[data-theme="light"] .rarity-glow-4 {
+  border-color: #9a6bb8;
+  box-shadow: 0 0 12px rgba(154, 107, 184, 0.15);
+}
+
+.rarity-glow-3 {
+  border-color: rgba(201, 166, 107, 0.25);
+}
+[data-theme="light"] .rarity-glow-3 {
+  border-color: #b8944a;
+  box-shadow: 0 0 12px rgba(184, 148, 74, 0.10);
+}
+
+/* Input & Button */
+input, button {
+  background: var(--bg-input);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+input::placeholder {
+  color: var(--text-muted);
+}
+button:hover {
+  border-color: var(--gold);
+}
+
+/* Divider */
+.divider-gold {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+/* Links */
+a {
+  color: var(--text-primary);
+  transition: color 0.2s;
+}
+a:hover {
+  color: var(--gold-bright);
+}
+
+/* Table */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+th, td {
+  border-color: var(--border-color);
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+th {
+  background: var(--bg-table);
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+tr {
+  border-bottom: 1px solid var(--border-color);
+}
+tr:nth-child(even) {
+  background: var(--bg-table-alt);
+}
+
+/* Utility classes */
+.bg-primary { background-color: var(--bg-primary); }
+.bg-secondary { background-color: var(--bg-secondary); }
+.bg-card { background-color: var(--bg-card); }
+.bg-table { background-color: var(--bg-table); }
+.bg-table-alt { background-color: var(--bg-table-alt); }
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); }
+.text-inverted { color: var(--text-inverted); }
+.border-border { border-color: var(--border-color); }
+.shadow-card { box-shadow: var(--shadow-card); }
 </file>
 
 <file path="src/lib/prisma.ts">
@@ -2123,6 +2193,44 @@ export const prisma =
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 </file>
 
+<file path="src/lib/theme.ts">
+// Định nghĩa mã màu phát sáng cho các Nguyên tố trong Genshin Impact
+export const ELEMENT_COLORS: Record<string, string> = {
+  Anemo: "#6FC6A3",
+  Geo: "#CFA83E",
+  Electro: "#B98FE0",
+  Dendro: "#A2C93B",
+  Hydro: "#4CC2F1",
+  Pyro: "#EF7938",
+  Cryo: "#8FE0E0",
+};
+
+export function elementColor(vision: string): string {
+  return ELEMENT_COLORS[vision] || "#999999";
+}
+
+export function rarityStars(rarity: number): string {
+  return "★".repeat(rarity);
+}
+
+// Sử dụng class từ globals.css – tự động thích ứng dark/light
+export function rarityGlowClass(rarity: number): string {
+  switch (rarity) {
+    case 5: return "rarity-glow-5";
+    case 4: return "rarity-glow-4";
+    default: return "rarity-glow-3";
+  }
+}
+
+export function rarityTextClass(rarity: number): string {
+  switch (rarity) {
+    case 5: return "text-amber-400 font-bold";
+    case 4: return "text-purple-400 font-bold";
+    default: return "text-blue-400 font-bold";
+  }
+}
+</file>
+
 <file path="next.config.ts">
 import type { NextConfig } from "next";
 
@@ -2142,51 +2250,6 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-</file>
-
-<file path="package.json">
-{
-  "name": "kazuha",
-  "version": "0.1.0",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint .",
-    "postinstall": "prisma generate",
-    "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate dev",
-    "db:studio": "prisma studio",
-    "db:seed": "tsx --env-file=.env scripts/seed.ts"
-  },
-  "dependencies": {
-    "@prisma/adapter-pg": "^7.9.1",
-    "@prisma/client": "^7.9.1",
-    "dotenv": "^16.4.5",
-    "next": "^15.1.0",
-    "pg": "^8.13.1",
-    "postcss": "^8.5.24",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
-  },
-  "devDependencies": {
-    "@eslint/eslintrc": "^3.2.0",
-    "@tailwindcss/postcss": "^4.3.3",
-    "@types/node": "^20",
-    "@types/pg": "^8.11.10",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "^15.1.0",
-    "genshin-db": "^5.2.12",
-    "prisma": "^7.9.1",
-    "tailwindcss": "^4",
-    "tsx": "^4.23.1",
-    "typescript": "^5"
-  }
-}
 </file>
 
 <file path="prisma.config.ts">
@@ -2281,6 +2344,237 @@ rồi đối chiếu tên field thực tế (vd `elementText`, `weaponText`, `ba
 vì tool trong sandbox này không có quyền truy cập mạng để cài đặt và kiểm tra trực tiếp package.
 </file>
 
+<file path="src/app/layout.tsx">
+import "./globals.css";
+import Link from "next/link";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { ThemeToggle } from "@/components/ThemeToggle";
+
+export const metadata = {
+  title: "LEIBO — Genshin Impact Database",
+  description: "Dữ liệu Genshin Impact: nhân vật, vũ khí, thánh di vật.",
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="vi" suppressHydrationWarning>
+      <body>
+        <ThemeProvider>
+          <header className="border-b border-border sticky top-0 bg-primary/80 backdrop-blur-md z-10">
+            <nav className="flex items-center justify-between px-4 md:px-8 py-3 max-w-7xl mx-auto">
+              <div className="flex items-center gap-6">
+                <Link href="/" className="font-display text-xl font-bold tracking-wide text-amber-500">
+                  LEIBO
+                </Link>
+                <Link href="/characters" className="hover:text-amber-400 transition-colors">Nhân vật</Link>
+                <Link href="/weapons" className="hover:text-amber-400 transition-colors">Vũ khí</Link>
+                <Link href="/artifacts" className="hover:text-amber-400 transition-colors">Thánh di vật</Link>
+              </div>
+              <ThemeToggle />
+            </nav>
+          </header>
+          <main className="max-w-7xl mx-auto px-4 md:px-8 py-8">
+            {children}
+          </main>
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}
+</file>
+
+<file path="src/app/page.tsx">
+import Link from "next/link";
+import { prisma } from "../lib/prisma";
+import { rarityGlowClass, rarityStars, rarityTextClass } from "../lib/theme";
+import { ElementIcon } from "../components/ElementIcon";
+import { SafeImage } from "../components/SafeImage";
+
+export default async function Home() {
+  const [charCount, weaponCount, artifactCount] = await Promise.all([
+    prisma.character.count(),
+    prisma.weapon.count(),
+    prisma.artifactSet.count(),
+  ]);
+
+  const latestCharacters = await prisma.character.findMany({
+    take: 6,
+    orderBy: { updatedAt: "desc" },
+    select: { id: true, name: true, vision: true, weaponType: true, rarity: true, iconUrl: true, elementIcon: true },
+  });
+
+  const latestWeapons = await prisma.weapon.findMany({
+    take: 6,
+    orderBy: { updatedAt: "desc" },
+    select: { id: true, name: true, type: true, rarity: true, iconUrl: true },
+  });
+
+  return (
+    <div className="relative min-h-screen">
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-amber-900/5 via-transparent to-transparent" />
+      <div className="relative z-10">
+        {/* Hero */}
+        <section className="text-center py-16 md:py-24">
+          <h1 className="font-display text-5xl md:text-7xl font-bold bg-gradient-to-r from-amber-300 via-amber-500 to-amber-600 bg-clip-text text-transparent drop-shadow-sm">
+            LEIBO
+          </h1>
+          <p className="text-lg md:text-xl text-secondary max-w-2xl mx-auto mt-4 font-light">
+            Cẩm nang Genshin Impact toàn diện
+          </p>
+          <p className="text-sm text-muted max-w-xl mx-auto mt-2">
+            Khám phá dữ liệu chi tiết về nhân vật, vũ khí và thánh di vật – được cập nhật từ nguồn chính thức.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4 mt-8">
+            <Link href="/characters" className="px-8 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-full shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50 transition-all hover:scale-105">
+              Khám phá nhân vật
+            </Link>
+            <Link href="/weapons" className="px-8 py-3 border border-border text-secondary font-semibold rounded-full hover:border-amber-400 hover:text-amber-400 transition-all">
+              Kho vũ khí
+            </Link>
+          </div>
+        </section>
+
+        {/* Stats */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-16">
+          {[
+            { label: "Nhân vật", count: charCount },
+            { label: "Vũ khí", count: weaponCount },
+            { label: "Thánh di vật", count: artifactCount },
+          ].map((stat) => (
+            <div key={stat.label} className="bg-card border border-border rounded-2xl p-6 text-center hover:border-gold transition-colors shadow-card">
+              <div className="text-4xl font-bold text-amber-500">{stat.count}</div>
+              <div className="text-sm text-secondary uppercase tracking-wider mt-1">{stat.label}</div>
+            </div>
+          ))}
+        </section>
+
+        {/* Latest Characters */}
+        <section className="mb-16">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="font-display text-2xl font-semibold text-primary">Nhân vật mới cập nhật</h2>
+            <Link href="/characters" className="text-sm text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1">
+              Xem tất cả <span className="text-lg">→</span>
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {latestCharacters.map((c) => (
+              <Link key={c.id} href={`/characters/${c.id}`} className={`relic-frame ${rarityGlowClass(c.rarity)} overflow-hidden group`}>
+                <div className="relative aspect-square w-full overflow-hidden bg-secondary/50">
+                  {c.iconUrl ? (
+                    <SafeImage src={c.iconUrl} alt={c.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-muted text-xs">No Image</div>
+                  )}
+                  <div className="absolute top-2 left-2 bg-black/40 backdrop-blur-sm rounded-full p-1">
+                    <ElementIcon vision={c.vision} iconUrl={c.elementIcon} size={16} />
+                  </div>
+                </div>
+                <div className="p-3 border-t border-border bg-card/80">
+                  <div className="font-semibold truncate text-primary group-hover:text-amber-400 transition-colors text-sm">
+                    {c.name}
+                  </div>
+                  <div className="flex justify-between items-center mt-1">
+                    <span className="text-[10px] text-secondary uppercase tracking-wider">{c.weaponType}</span>
+                    <span className={`text-[10px] tracking-tighter ${rarityTextClass(c.rarity)}`}>
+                      {rarityStars(c.rarity)}
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* Latest Weapons */}
+        <section>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="font-display text-2xl font-semibold text-primary">Vũ khí mới cập nhật</h2>
+            <Link href="/weapons" className="text-sm text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1">
+              Xem tất cả <span className="text-lg">→</span>
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {latestWeapons.map((w) => (
+              <Link key={w.id} href={`/weapons/${w.id}`} className={`relic-frame ${rarityGlowClass(w.rarity)} overflow-hidden group`}>
+                <div className="relative aspect-square w-full overflow-hidden bg-secondary/50 p-4 flex items-center justify-center">
+                  {w.iconUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={w.iconUrl} alt={w.name} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" />
+                  ) : (
+                    <div className="text-muted text-xs">No Image</div>
+                  )}
+                </div>
+                <div className="p-3 border-t border-border bg-card/80">
+                  <div className="font-semibold truncate text-primary group-hover:text-amber-400 transition-colors text-sm">
+                    {w.name}
+                  </div>
+                  <div className="flex justify-between items-center mt-1">
+                    <span className="text-[10px] text-secondary uppercase tracking-wider">{w.type}</span>
+                    <span className={`text-[10px] tracking-tighter ${rarityTextClass(w.rarity)}`}>
+                      {rarityStars(w.rarity)}
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <footer className="mt-20 pt-8 border-t border-border text-center text-xs text-muted">
+          <p>Dữ liệu được lấy từ genshin-db và Enka Network. LEIBO không thuộc sở hữu của miHoYo.</p>
+        </footer>
+      </div>
+    </div>
+  );
+}
+</file>
+
+<file path="package.json">
+{
+  "name": "kazuha",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "postinstall": "prisma generate",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:studio": "prisma studio",
+    "db:seed": "tsx --env-file=.env scripts/seed.ts"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.9.1",
+    "@prisma/client": "^7.9.1",
+    "dotenv": "^16.4.5",
+    "next": "^15.1.0",
+    "next-themes": "^0.4.6",
+    "pg": "^8.13.1",
+    "postcss": "^8.5.24",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.2.0",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^20",
+    "@types/pg": "^8.11.10",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "^15.1.0",
+    "genshin-db": "^5.2.12",
+    "prisma": "^7.9.1",
+    "tailwindcss": "^4",
+    "tsx": "^4.23.1",
+    "typescript": "^5"
+  }
+}
+</file>
+
 <file path="src/app/artifacts/[id]/page.tsx">
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
@@ -2309,30 +2603,14 @@ const PIECE_LABELS: Record<string, string> = {
   circlet: "Vương miện",
 };
 
-/**
- * Trả về URL ảnh Enka hợp lệ cho 1 mảnh di vật.
- *
- * Data hiện tại (từ seed-characters.ts bản đã sửa) luôn lưu `val` là
- * URL string đầy đủ (vd "https://enka.network/ui/UI_RelicIcon_xxx.png")
- * hoặc null. Nhánh xử lý object {name, filename} chỉ còn để tương thích
- * ngược với bản ghi cũ (trước khi seed script được sửa) — nếu re-seed
- * (`npm run db:seed`) thì toàn bộ record sẽ về đúng shape string và
- * nhánh object không bao giờ chạy nữa.
- */
 function resolvePieceImage(val: unknown): string | null {
-  if (typeof val === "string") {
-    // Shape hiện tại: val chính là URL đầy đủ, dùng thẳng.
-    return val || null;
-  }
-
+  if (typeof val === "string") return val || null;
   if (val && typeof val === "object") {
-    // Shape cũ (legacy): { name, filename }
     const filename = (val as Record<string, unknown>).filename;
     if (typeof filename === "string" && filename) {
       return `https://enka.network/ui/${filename}.png`;
     }
   }
-
   return null;
 }
 
@@ -2341,8 +2619,6 @@ function resolvePieceName(val: unknown, key: string): string {
     const name = (val as Record<string, unknown>).name;
     if (typeof name === "string" && name) return name;
   }
-  // genshin-db không cung cấp tên riêng cho từng mảnh trong bộ,
-  // nên dùng nhãn chung (Hoa/Lông vũ/...) làm tên hiển thị.
   return PIECE_LABELS[key] ?? key;
 }
 
@@ -2354,42 +2630,42 @@ export default async function ArtifactDetail({ params }: PageProps) {
   const pieces = (a.pieces as Record<string, unknown>) ?? {};
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12 text-neutral-100">
+    <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="flex flex-col sm:flex-row gap-6 mb-8">
         {a.iconUrl && (
-          <div className="relative w-40 h-40 rounded-xl border border-neutral-800 bg-neutral-900 shrink-0">
+          <div className="relative w-40 h-40 rounded-xl border border-border bg-card shrink-0">
             <SafeImage
               src={a.iconUrl}
               alt={a.name}
               fill
               className="object-contain p-2"
-              fallbackClassName="w-full h-full flex items-center justify-center text-neutral-600 text-[10px]"
+              fallbackClassName="w-full h-full flex items-center justify-center text-muted text-[10px]"
             />
           </div>
         )}
         <div>
-          <h1 className="text-3xl font-bold text-amber-400">{a.name}</h1>
-          <p className="text-sm text-neutral-400 mb-4">{a.rarityRange.join("/")}★</p>
+          <h1 className="text-3xl font-bold text-gold-bright">{a.name}</h1>
+          <p className="text-sm text-muted mb-4">{a.rarityRange.join("/")}★</p>
         </div>
       </div>
 
       <section className="mb-8 space-y-3">
         {a.twoPieceBonus && (
-          <div className="border border-neutral-800 rounded-lg p-3 bg-neutral-900">
-            <div className="font-medium">Hiệu ứng 2 món</div>
-            <p className="text-sm text-neutral-400">{a.twoPieceBonus}</p>
+          <div className="border border-border rounded-lg p-3 bg-card">
+            <div className="font-medium text-primary">Hiệu ứng 2 món</div>
+            <p className="text-sm text-secondary">{a.twoPieceBonus}</p>
           </div>
         )}
         {a.fourPieceBonus && (
-          <div className="border border-neutral-800 rounded-lg p-3 bg-neutral-900">
-            <div className="font-medium">Hiệu ứng 4 món</div>
-            <p className="text-sm text-neutral-400">{a.fourPieceBonus}</p>
+          <div className="border border-border rounded-lg p-3 bg-card">
+            <div className="font-medium text-primary">Hiệu ứng 4 món</div>
+            <p className="text-sm text-secondary">{a.fourPieceBonus}</p>
           </div>
         )}
       </section>
 
       <section>
-        <h2 className="text-xl font-semibold mb-4 text-amber-400">Các món trong bộ</h2>
+        <h2 className="font-display text-xl font-semibold mb-4 text-gold border-b border-border pb-2">Các món trong bộ</h2>
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 text-sm">
           {Object.entries(pieces).map(([key, val]) => {
             if (!val) return null;
@@ -2398,22 +2674,22 @@ export default async function ArtifactDetail({ params }: PageProps) {
             const pieceName = resolvePieceName(val, key);
 
             return (
-              <div key={key} className="border border-neutral-800 rounded-xl p-4 bg-neutral-900/60 flex flex-col items-center text-center group hover:border-amber-400/50 transition-all duration-300">
-                <div className="relative w-16 h-16 mb-3 bg-neutral-950 rounded-lg overflow-hidden flex items-center justify-center p-1 group-hover:scale-105 transition-transform">
+              <div key={key} className="border border-border rounded-xl p-4 bg-card flex flex-col items-center text-center group hover:border-gold transition-all">
+                <div className="relative w-16 h-16 mb-3 bg-secondary rounded-lg overflow-hidden flex items-center justify-center p-1 group-hover:scale-105 transition-transform">
                   {imgUrl ? (
                     <SafeImage
                       src={imgUrl}
                       alt={pieceName}
                       fill
                       className="object-contain"
-                      fallbackClassName="w-full h-full flex items-center justify-center text-neutral-600 text-[10px]"
+                      fallbackClassName="w-full h-full flex items-center justify-center text-muted text-[10px]"
                     />
                   ) : (
-                    <div className="text-neutral-600 text-[10px]">No Image</div>
+                    <div className="text-muted text-[10px]">No Image</div>
                   )}
                 </div>
-                <div className="text-xs text-neutral-500 font-medium mb-1">{PIECE_LABELS[key] ?? key}</div>
-                <div className="font-semibold text-neutral-200 line-clamp-2 text-xs" title={pieceName}>
+                <div className="text-xs text-muted font-medium mb-1">{PIECE_LABELS[key] ?? key}</div>
+                <div className="font-semibold text-primary line-clamp-2 text-xs" title={pieceName}>
                   {pieceName}
                 </div>
               </div>
@@ -2427,7 +2703,6 @@ export default async function ArtifactDetail({ params }: PageProps) {
 </file>
 
 <file path="src/app/characters/page.tsx">
-// src/app/characters/page.tsx
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
@@ -2441,11 +2716,6 @@ export const metadata: Metadata = {
   description: "Danh sách toàn bộ nhân vật Genshin Impact: nguyên tố, vũ khí, độ hiếm.",
 };
 
-// Trang này đọc searchParams (bộ lọc) nên Next luôn render động — không thể
-// cache toàn trang bằng `export const revalidate`. Nhưng danh sách nguyên
-// tố (visionRows) KHÔNG phụ thuộc filter, giống nhau ở mọi lượt truy cập,
-// nên tách riêng ra cache 1 giờ bằng unstable_cache thay vì query lại DB
-// mỗi request — đỡ 1 round-trip DB không cần thiết cho phần không đổi.
 const getVisionRows = unstable_cache(
   async () =>
     prisma.character.findMany({
@@ -2457,35 +2727,28 @@ const getVisionRows = unstable_cache(
 );
 
 interface PageProps {
-  searchParams: Promise<{ vision?: string; weapon?: string; rarity?: string }>;
+  searchParams: Promise<{ vision?: string; weapon?: string; rarity?: string; q?: string }>;
 }
 
 export default async function CharactersPage({ searchParams }: PageProps) {
-  const { vision, weapon, rarity } = await searchParams;
+  const { vision, weapon, rarity, q } = await searchParams;
 
-  // 1. Truy vấn dữ liệu từ Supabase kết hợp bộ lọc (Filter)
+  const where: any = {};
+  if (vision) where.vision = { equals: vision, mode: "insensitive" };
+  if (weapon) where.weaponType = { equals: weapon, mode: "insensitive" };
+  if (rarity) where.rarity = Number(rarity);
+  if (q) where.name = { contains: q, mode: "insensitive" };
+
   const characters = await prisma.character.findMany({
-    where: {
-      vision: vision ? { equals: vision, mode: "insensitive" } : undefined,
-      weaponType: weapon ? { equals: weapon, mode: "insensitive" } : undefined,
-      rarity: rarity ? Number(rarity) : undefined,
-    },
+    where,
     orderBy: [{ rarity: "desc" }, { name: "asc" }],
   });
 
-  // Traveler có 2 biến thể giới tính cho mỗi nguyên tố (đã seed thật trong DB:
-  // "traveler-boy-<element>" / "traveler-girl-<element>"). Giống các web
-  // Genshin database khác, ta chỉ hiện 1 thẻ / nguyên tố — nhưng thay vì chọn
-  // đại 1 giới tính, ảnh đại diện của thẻ đó ghép nửa icon Boy + nửa icon Girl
-  // (đúng ảnh thật lấy từ DB, không tạo ảnh mới). Click vào thẻ sẽ vào trang
-  // detail của biến thể Boy (mặc định), từ đó vẫn xem được đầy đủ stat/talent
-  // thật của biến thể đó như mọi nhân vật khác.
   const travelerByElement = new Map<
     string,
     { boy?: (typeof characters)[number]; girl?: (typeof characters)[number] }
   >();
   const nonTraveler: typeof characters = [];
-
   for (const c of characters) {
     if (c.id.startsWith("traveler-boy-")) {
       const bucket = travelerByElement.get(c.vision) ?? {};
@@ -2500,36 +2763,74 @@ export default async function CharactersPage({ searchParams }: PageProps) {
     }
   }
 
-  // thay vì chỉ lấy tên nguyên tố, lấy luôn 1 elementIcon đại diện mỗi nguyên tố
   const visionRows = await getVisionRows();
   const weapons = ["Sword", "Claymore", "Polearm", "Bow", "Catalyst"];
 
+  const buildQuery = (params: Record<string, string | undefined>) => {
+    const sp = new URLSearchParams();
+    if (vision) sp.set("vision", vision);
+    if (weapon) sp.set("weapon", weapon);
+    if (rarity) sp.set("rarity", rarity);
+    if (q) sp.set("q", q);
+    Object.entries(params).forEach(([k, v]) => {
+      if (v) sp.set(k, v);
+      else sp.delete(k);
+    });
+    return sp.toString();
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* Khối tiêu đề */}
       <div className="mb-8">
-        <h1 className="font-display text-4xl font-bold tracking-wide text-neutral-100 uppercase mb-2">
+        <h1 className="font-display text-4xl font-bold tracking-wide text-primary uppercase mb-2">
           Học Viện Nhân Vật
         </h1>
-        <p className="text-sm text-[color:var(--parchment-dim)]">
+        <p className="text-sm text-secondary">
           Tìm thấy{" "}
-          <span className="text-[color:var(--gold-bright)] font-semibold">
+          <span className="text-gold-bright font-semibold">
             {nonTraveler.length + travelerByElement.size}
           </span>{" "}
           đại hiệp lữ hành
         </p>
       </div>
 
-      {/* Khối bộ lọc dữ liệu chuyên nghiệp (Filter Bar) */}
-      <div className="bg-neutral-900/40 backdrop-blur-md border border-neutral-800 p-4 rounded-xl mb-8 flex flex-col gap-4">
-        {/* Bộ lọc nguyên tố */}
+      <div className="mb-6">
+        <form method="GET" className="flex gap-2">
+          {vision && <input type="hidden" name="vision" value={vision} />}
+          {weapon && <input type="hidden" name="weapon" value={weapon} />}
+          {rarity && <input type="hidden" name="rarity" value={rarity} />}
+          <input
+            type="text"
+            name="q"
+            defaultValue={q || ""}
+            placeholder="Tìm tên nhân vật..."
+            className="flex-1 rounded-lg border border-border bg-input px-3 py-2 text-sm text-primary placeholder:text-muted focus:outline-none focus:border-gold/50 transition-colors"
+          />
+          <button
+            type="submit"
+            className="rounded-lg bg-gold/10 border border-gold/40 px-4 py-2 text-sm font-medium text-gold-bright hover:bg-gold/20 transition-colors"
+          >
+            Tìm kiếm
+          </button>
+          {q && (
+            <Link
+              href={`/characters?${buildQuery({ q: undefined })}`}
+              className="rounded-lg border border-red-900/60 bg-red-950/40 px-4 py-2 text-sm text-red-400 hover:bg-red-900/40 transition-colors"
+            >
+              Xóa
+            </Link>
+          )}
+        </form>
+      </div>
+
+      <div className="bg-card/40 backdrop-blur-md border border-border p-4 rounded-xl mb-8 flex flex-col gap-4">
         <div className="flex flex-wrap items-center gap-2 text-xs">
-          <span className="text-neutral-400 font-medium mr-2">Nguyên tố (Vision):</span>
+          <span className="text-secondary font-medium mr-2">Nguyên tố (Vision):</span>
           {visionRows.map(({ vision: v, elementIcon }) => (
             <Link
               key={v}
-              href={`/characters?vision=${v}${weapon ? `&weapon=${weapon}` : ""}${rarity ? `&rarity=${rarity}` : ""}`}
-              className="px-3 py-1.5 rounded-full border border-neutral-800 bg-neutral-950/60 hover:border-neutral-500 transition-all flex items-center gap-1.5"
+              href={`/characters?${buildQuery({ vision: v })}`}
+              className="px-3 py-1.5 rounded-full border border-border bg-card/60 hover:border-gold/50 transition-all flex items-center gap-1.5 text-primary"
             >
               <ElementIcon vision={v} iconUrl={elementIcon} size={16} />
               {v}
@@ -2537,35 +2838,31 @@ export default async function CharactersPage({ searchParams }: PageProps) {
           ))}
         </div>
 
-        {/* Bộ lọc loại vũ khí */}
         <div className="flex flex-wrap items-center gap-2 text-xs">
-          <span className="text-neutral-400 font-medium mr-2">Loại Vũ Khí:</span>
+          <span className="text-secondary font-medium mr-2">Loại Vũ Khí:</span>
           {weapons.map((w) => (
             <Link
               key={w}
-              href={`/characters?weapon=${w}${vision ? `&vision=${vision}` : ""}${rarity ? `&rarity=${rarity}` : ""}`}
-              className="px-3 py-1.5 rounded-full border border-neutral-800 bg-neutral-950/60 hover:border-neutral-500 transition-all"
+              href={`/characters?${buildQuery({ weapon: w })}`}
+              className="px-3 py-1.5 rounded-full border border-border bg-card/60 hover:border-gold/50 transition-all text-primary"
             >
               {w}
             </Link>
           ))}
         </div>
 
-        {/* Bộ lọc độ hiếm sao */}
         <div className="flex flex-wrap items-center gap-2 text-xs">
-          <span className="text-neutral-400 font-medium mr-2">Phẩm cấp (Rarity):</span>
+          <span className="text-secondary font-medium mr-2">Phẩm cấp (Rarity):</span>
           {[4, 5].map((r) => (
             <Link
               key={r}
-              href={`/characters?rarity=${r}${vision ? `&vision=${vision}` : ""}${weapon ? `&weapon=${weapon}` : ""}`}
-              className={`px-3 py-1.5 rounded-full border border-neutral-800 bg-neutral-950/60 hover:border-neutral-500 transition-all ${rarityTextClass(r)}`}
+              href={`/characters?${buildQuery({ rarity: String(r) })}`}
+              className={`px-3 py-1.5 rounded-full border border-border bg-card/60 hover:border-gold/50 transition-all ${rarityTextClass(r)}`}
             >
               {rarityStars(r)}
             </Link>
           ))}
-
-          {/* Nút xóa bộ lọc */}
-          {(vision || weapon || rarity) && (
+          {(vision || weapon || rarity || q) && (
             <Link
               href="/characters"
               className="ml-auto px-4 py-1.5 rounded-full bg-red-950/40 border border-red-900/60 text-red-400 hover:bg-red-900/40 transition-colors text-xs font-semibold"
@@ -2576,70 +2873,49 @@ export default async function CharactersPage({ searchParams }: PageProps) {
         </div>
       </div>
 
-      {/* Danh sách hiển thị dạng Lưới (Character Cards Grid) */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-        {/* 1 thẻ / nguyên tố cho Traveler — ảnh ghép nửa Nam / nửa Nữ */}
         {Array.from(travelerByElement.entries()).map(([el, { boy, girl }]) => {
           const target = boy ?? girl!;
           const boyImg = boy?.iconUrl ?? null;
           const girlImg = girl?.iconUrl ?? null;
-
           return (
             <Link
               key={`traveler-${el}`}
               href={`/characters/${target.id}`}
-              className={`relic-frame ${rarityGlowClass(target.rarity)} bg-neutral-950/60 border border-neutral-800/80 rounded-xl overflow-hidden block group transition-all duration-300 hover:-translate-y-2`}
+              className={`relic-frame ${rarityGlowClass(target.rarity)} overflow-hidden group`}
             >
-              <div className="relative aspect-square w-full overflow-hidden bg-neutral-900/50">
-                {/* Nửa trái: icon Boy */}
+              <div className="relative aspect-square w-full overflow-hidden bg-secondary/50">
                 <div
                   className="absolute inset-0"
                   style={{ clipPath: "polygon(0 0, 50% 0, 50% 100%, 0 100%)" }}
                 >
                   {boyImg ? (
-                    <SafeImage
-                      src={boyImg}
-                      alt={`Traveler (${el}) - Nam`}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
+                    <SafeImage src={boyImg} alt={`Traveler (${el}) - Nam`} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-neutral-600 text-[10px]">
-                      —
-                    </div>
+                    <div className="w-full h-full flex items-center justify-center text-muted text-[10px]">—</div>
                   )}
                 </div>
-                {/* Nửa phải: icon Girl */}
                 <div
                   className="absolute inset-0"
                   style={{ clipPath: "polygon(50% 0, 100% 0, 100% 100%, 50% 100%)" }}
                 >
                   {girlImg ? (
-                    <SafeImage
-                      src={girlImg}
-                      alt={`Traveler (${el}) - Nữ`}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
+                    <SafeImage src={girlImg} alt={`Traveler (${el}) - Nữ`} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-neutral-600 text-[10px]">
-                      —
-                    </div>
+                    <div className="w-full h-full flex items-center justify-center text-muted text-[10px]">—</div>
                   )}
                 </div>
-                {/* Đường chia giữa */}
                 <div className="absolute top-0 bottom-0 left-1/2 w-px bg-black/40 -translate-x-1/2" />
-                <div className="absolute top-2 left-2 bg-black/50 backdrop-blur-sm rounded-full p-1 shadow-md">
+                <div className="absolute top-2 left-2 bg-black/40 backdrop-blur-sm rounded-full p-1">
                   <ElementIcon vision={el} iconUrl={target.elementIcon} size={16} />
                 </div>
               </div>
-
-              <div className="p-4 border-t border-neutral-900 bg-neutral-900/20">
-                <div className="font-semibold truncate text-neutral-100 group-hover:text-[color:var(--gold-bright)] transition-colors mb-1">
+              <div className="p-3 border-t border-border bg-card/80">
+                <div className="font-semibold truncate text-primary group-hover:text-gold-bright transition-colors text-sm">
                   Traveler ({el})
                 </div>
                 <div className="flex justify-between items-center mt-1">
-                  <span className="text-xs text-neutral-500 uppercase tracking-wider">Sword</span>
+                  <span className="text-[10px] text-secondary uppercase tracking-wider">Sword</span>
                   <span className={`text-[10px] tracking-tighter ${rarityTextClass(target.rarity)}`}>
                     {rarityStars(target.rarity)}
                   </span>
@@ -2653,36 +2929,24 @@ export default async function CharactersPage({ searchParams }: PageProps) {
           <Link
             key={c.id}
             href={`/characters/${c.id}`}
-            className={`relic-frame ${rarityGlowClass(c.rarity)} bg-neutral-950/60 border border-neutral-800/80 rounded-xl overflow-hidden block group transition-all duration-300 hover:-translate-y-2`}
+            className={`relic-frame ${rarityGlowClass(c.rarity)} overflow-hidden group`}
           >
-            {/* Khung ảnh đại diện */}
-            <div className="relative aspect-square w-full overflow-hidden bg-neutral-900/50">
+            <div className="relative aspect-square w-full overflow-hidden bg-secondary/50">
               {c.iconUrl ? (
-                <SafeImage
-                  src={c.iconUrl}
-                  alt={c.name}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  fallbackClassName="w-full h-full flex items-center justify-center text-neutral-600 text-xs"
-                />
+                <SafeImage src={c.iconUrl} alt={c.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-neutral-600 text-xs">
-                  No Image
-                </div>
+                <div className="w-full h-full flex items-center justify-center text-muted text-xs">No Image</div>
               )}
-              {/* Huy hiệu nguyên tố góc trên bên trái */}
-              <div className="absolute top-2 left-2 bg-black/50 backdrop-blur-sm rounded-full p-1 shadow-md">
+              <div className="absolute top-2 left-2 bg-black/40 backdrop-blur-sm rounded-full p-1">
                 <ElementIcon vision={c.vision} iconUrl={c.elementIcon} size={16} />
               </div>
             </div>
-
-            {/* Chi tiết văn bản chân thẻ */}
-            <div className="p-4 border-t border-neutral-900 bg-neutral-900/20">
-              <div className="font-semibold truncate text-neutral-100 group-hover:text-[color:var(--gold-bright)] transition-colors mb-1">
+            <div className="p-3 border-t border-border bg-card/80">
+              <div className="font-semibold truncate text-primary group-hover:text-gold-bright transition-colors text-sm">
                 {c.name}
               </div>
               <div className="flex justify-between items-center mt-1">
-                <span className="text-xs text-neutral-500 uppercase tracking-wider">{c.weaponType}</span>
+                <span className="text-[10px] text-secondary uppercase tracking-wider">{c.weaponType}</span>
                 <span className={`text-[10px] tracking-tighter ${rarityTextClass(c.rarity)}`}>
                   {rarityStars(c.rarity)}
                 </span>
@@ -2721,51 +2985,99 @@ export default async function WeaponDetail({ params }: PageProps) {
   const w = await prisma.weapon.findUnique({ where: { id } });
   if (!w) return notFound();
 
-  // passiveByRefinement được seed dưới dạng mảng [r1, r2, r3, r4, r5] (đã filter bỏ phần tử rỗng)
   const refinements = (w.passiveByRefinement as unknown[]) ?? [];
+  const ascensionMaterials = (w.ascensionMaterials as any[]) ?? [];
+
+  // Lấy icon nguyên liệu từ bảng Material
+  const materialIds = new Set<string>();
+  for (const phase of ascensionMaterials) {
+    for (const m of phase.materials) {
+      if (m.materialId) materialIds.add(m.materialId);
+    }
+  }
+  const materialIcons = await prisma.material.findMany({
+    where: { id: { in: Array.from(materialIds) } },
+    select: { id: true, iconUrl: true },
+  });
+  const materialIconMap = new Map(materialIcons.map((m) => [m.id, m.iconUrl]));
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8 text-neutral-100">
+    <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="flex flex-col sm:flex-row gap-6 mb-8">
         {w.iconUrl && (
-          <div className="relative w-40 h-40 rounded-xl border border-neutral-800 bg-neutral-900 shrink-0">
+          <div className="relative w-40 h-40 rounded-xl border border-border bg-card shrink-0">
             <SafeImage
               src={w.iconUrl}
               alt={w.name}
               fill
               className="object-contain p-2"
-              fallbackClassName="w-full h-full flex items-center justify-center text-neutral-600 text-[10px]"
+              fallbackClassName="w-full h-full flex items-center justify-center text-muted text-[10px]"
             />
           </div>
         )}
         <div>
-          <h1 className="text-3xl font-bold text-amber-400">{w.name}</h1>
-          <p className="text-sm text-neutral-400 mb-4">{w.type} · {w.rarity}★</p>
-          {w.description && <p className="text-neutral-300 italic max-w-xl">{w.description}</p>}
+          <h1 className="text-3xl font-bold text-gold-bright">{w.name}</h1>
+          <p className="text-sm text-muted mb-4">{w.type} · {w.rarity}★</p>
+          {w.description && <p className="text-primary italic max-w-xl">{w.description}</p>}
         </div>
       </div>
 
+      {/* Chỉ số cơ bản */}
       <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">Chỉ số cơ bản</h2>
-        <div className="flex gap-6 text-sm text-neutral-300">
+        <h2 className="font-display text-xl font-bold mb-2 text-gold border-b border-border pb-2">Chỉ số cơ bản</h2>
+        <div className="flex gap-6 text-sm text-secondary">
           <div>ATK nền: {w.baseAtk ?? "—"}</div>
           <div>{w.subStatName ?? "Chỉ số phụ"}: {w.subStatValue ?? "—"}</div>
         </div>
       </section>
 
+      {/* Nguyên liệu đột phá */}
+      {ascensionMaterials.length > 0 && (
+        <section className="mb-8">
+          <h2 className="font-display text-xl font-bold mb-4 text-gold border-b border-border pb-2">Nguyên liệu đột phá</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {ascensionMaterials.map((phase) => (
+              <div key={phase.phase} className="relic-frame bg-card border border-border rounded-xl p-4">
+                <div className="text-xs font-bold uppercase tracking-wider text-gold mb-3">
+                  Giai đoạn {phase.phase}
+                </div>
+                <ul className="space-y-1.5 text-sm">
+                  {phase.materials.map((m: any, j: number) => {
+                    const iconUrl = m.materialId ? materialIconMap.get(m.materialId) : null;
+                    return (
+                      <li key={j} className="flex items-center justify-between gap-3">
+                        <span className="flex items-center gap-2 min-w-0">
+                          <span className="relative w-6 h-6 shrink-0 rounded bg-secondary border border-border overflow-hidden">
+                            {iconUrl ? (
+                              <SafeImage src={iconUrl} alt={m.name ?? ""} fill className="object-contain" />
+                            ) : null}
+                          </span>
+                          <span className="text-secondary truncate">{m.name}</span>
+                        </span>
+                        <span className="font-semibold text-primary shrink-0">
+                          {m.count ? `x${m.count.toLocaleString("vi-VN")}` : ""}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Hiệu ứng tinh luyện */}
       {w.effectName && refinements.length > 0 && (
         <section>
-          <h2 className="text-xl font-semibold mb-4">{w.effectName}</h2>
+          <h2 className="font-display text-xl font-bold mb-4 text-gold border-b border-border pb-2">{w.effectName}</h2>
           <div className="space-y-3">
             {refinements.map((r, i) => (
-              <div
-                key={i}
-                className="border border-neutral-800 rounded-lg p-3 bg-neutral-900"
-              >
-                <div className="font-medium text-amber-400 mb-1">
+              <div key={i} className="relic-frame bg-card border border-border rounded-lg p-3">
+                <div className="font-medium text-gold-bright mb-1">
                   Tinh luyện {i + 1}
                 </div>
-                <p className="text-sm text-neutral-400 whitespace-pre-line">
+                <p className="text-sm text-secondary whitespace-pre-line">
                   {(r as { description?: string } | null)?.description ?? "—"}
                 </p>
               </div>
@@ -2818,6 +3130,7 @@ model Character {
   ascensionMaterials Json?
   // Chỉ số HP/ATK/DEF/chỉ số phụ ở các mốc cấp + trước/sau đột phá:
   // [{ level, ascension, hp, attack, defense, specialized }]
+  talentMaterials Json?
   statsByLevel Json?
   birthday    String?                 // vd "October 29"
   // Tên "chòm sao bản mệnh" (flavor, khác 6 cung mệnh kỹ năng bên dưới), vd "Acer Palmatum"
@@ -2865,6 +3178,7 @@ model Weapon {
   passiveByRefinement Json?
   description String?  @db.Text
   iconUrl     String?
+  ascensionMaterials Json?
   updatedAt   DateTime @updatedAt
   createdAt   DateTime @default(now())
 
@@ -2894,7 +3208,6 @@ model ArtifactSet {
 </file>
 
 <file path="src/app/characters/[id]/page.tsx">
-// src/app/characters/[id]/page.tsx
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
@@ -2905,7 +3218,6 @@ import {
   TALENT_LABEL_VI,
   formatNumber,
   formatSpecialized,
-  getMaterialIconMap,
   resolveTravelerSibling,
   type AscensionMaterialPhase,
   type StatByLevelRow,
@@ -2929,7 +3241,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function CharacterDetail({ params }: PageProps) {
   const { id } = await params;
 
-  // 1. Tìm kiếm thực thể lữ hành duy nhất dựa trên ID từ Supabase
   const c = await prisma.character.findUnique({
     where: { id },
   });
@@ -2938,77 +3249,82 @@ export default async function CharacterDetail({ params }: PageProps) {
 
   const { isTraveler, boySplash, girlSplash } = await resolveTravelerSibling(c);
 
-  // 2. Chuyển đổi an toàn dữ liệu kiểu Json phức tạp từ Prisma 7
   const constellations = (c.constellations as any[]) ?? [];
   const talents = (c.talents as any[]) ?? [];
   const ascensionMaterials = (c.ascensionMaterials as unknown as AscensionMaterialPhase[]) ?? [];
   const statsByLevel = (c.statsByLevel as unknown as StatByLevelRow[]) ?? [];
   const voiceActors = (c.voiceActors as unknown as VoiceActors) ?? null;
+  const talentMaterials = (c.talentMaterials as any[]) ?? [];
 
-  // Icon nguyên liệu đột phá được lưu ở bảng Material riêng (không lặp lại
-  // trong JSON của từng nhân vật) — gom hết materialId xuất hiện trong 6
-  // giai đoạn rồi query 1 lần duy nhất, tránh N+1 query trong lúc render.
-  const materialIds = Array.from(
-    new Set(
-      ascensionMaterials
-        .flatMap((phase) => phase.materials.map((m) => m.materialId))
-        .filter((id): id is string => !!id)
-    )
-  );
-  const materialIcons = materialIds.length
-    ? await prisma.material.findMany({
-        where: { id: { in: materialIds } },
-        select: { id: true, iconUrl: true },
-      })
-    : [];
-  const materialIconById = new Map(materialIcons.map((m) => [m.id, m.iconUrl]));
+  // Gom tất cả materialId để lấy icon
+  const materialIds = new Set<string>();
+  for (const phase of ascensionMaterials) {
+    for (const m of phase.materials) {
+      if (m.materialId) materialIds.add(m.materialId);
+    }
+  }
+  for (const levelData of talentMaterials) {
+    for (const m of levelData.materials) {
+      if (m.materialId) materialIds.add(m.materialId);
+    }
+  }
+  const materialIcons = await prisma.material.findMany({
+    where: { id: { in: Array.from(materialIds) } },
+    select: { id: true, iconUrl: true },
+  });
+  const materialIconMap = new Map(materialIcons.map((m) => [m.id, m.iconUrl]));
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
-      
-      {/* Khối thẻ thông tin chính (Hero Banner Card) */}
-      <div className={`relic-frame ${rarityGlowClass(c.rarity)} bg-neutral-900/30 backdrop-blur-md rounded-xl p-6 flex flex-col sm:flex-row gap-6 mb-8 border border-neutral-800/60`}>
+
+      {/* Hero Banner */}
+      <div className={`relic-frame ${rarityGlowClass(c.rarity)} bg-card backdrop-blur-md rounded-xl p-6 flex flex-col sm:flex-row gap-6 mb-8 border border-border`}>
         {isTraveler ? (
-          // Ảnh ghép nửa Nam / nửa Nữ — chỉ áp dụng cho Traveler, dùng
-          // đúng splashUrl/iconUrl thật của cả 2 biến thể giới tính.
-          <div className="relative w-full sm:w-56 aspect-[3/4] rounded-lg overflow-hidden border border-[color:rgba(201,166,107,0.3)] bg-neutral-950/40 shrink-0">
+          <div className="relative w-full sm:w-56 aspect-[3/4] rounded-lg overflow-hidden border border-gold/30 bg-secondary/40 shrink-0">
             <div className="absolute inset-0" style={{ clipPath: "polygon(0 0, 50% 0, 50% 100%, 0 100%)" }}>
               {boySplash ? (
-                <SafeImage src={boySplash} alt={`${c.name} - Nam`} fill className="object-cover" />
+                <SafeImage src={boySplash} alt={`${c.name} - Nam`} fill className="object-cover" sizes="(max-width: 640px) 100vw, 224px" />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-neutral-600 text-[10px]">—</div>
+                <div className="w-full h-full flex items-center justify-center text-muted text-[10px]">—</div>
               )}
             </div>
             <div className="absolute inset-0" style={{ clipPath: "polygon(50% 0, 100% 0, 100% 100%, 50% 100%)" }}>
               {girlSplash ? (
-                <SafeImage src={girlSplash} alt={`${c.name} - Nữ`} fill className="object-cover" />
+                <SafeImage src={girlSplash} alt={`${c.name} - Nữ`} fill className="object-cover" sizes="(max-width: 640px) 100vw, 224px" />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-neutral-600 text-[10px]">—</div>
+                <div className="w-full h-full flex items-center justify-center text-muted text-[10px]">—</div>
               )}
             </div>
             <div className="absolute top-0 bottom-0 left-1/2 w-px bg-black/40 -translate-x-1/2" />
           </div>
         ) : (
           c.splashUrl && (
-            <div className="relative w-full sm:w-56 aspect-[3/4] rounded-lg overflow-hidden border border-[color:rgba(201,166,107,0.3)] bg-neutral-950/40 shrink-0">
-              <SafeImage src={c.splashUrl} alt={c.name} fill className="object-cover" />
+            <div className="relative w-full sm:w-56 aspect-[3/4] rounded-lg overflow-hidden border border-gold/30 bg-secondary/40 shrink-0">
+              <SafeImage
+                src={c.splashUrl}
+                alt={c.name}
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, 224px"
+                priority={true}
+              />
             </div>
           )
         )}
         <div className="flex flex-col justify-center">
           <div className="flex items-center gap-2 mb-2">
             <ElementIcon vision={c.vision} iconUrl={c.elementIcon} size={24} />
-            <span className="text-xs font-bold uppercase tracking-widest text-[color:var(--parchment-dim)]">
+            <span className="text-xs font-bold uppercase tracking-widest text-muted">
               {c.vision} &middot; {c.weaponType}
             </span>
           </div>
 
-          <h1 className="font-display text-4xl font-extrabold text-[color:var(--gold-bright)] mb-1 tracking-wide">
+          <h1 className="font-display text-4xl font-extrabold text-gold-bright mb-1 tracking-wide">
             {isTraveler ? `Traveler (${c.vision})` : c.name}
           </h1>
 
           {c.title && (
-            <p className="text-sm text-[color:var(--parchment-dim)] italic mb-3">
+            <p className="text-sm text-muted italic mb-3">
               &ldquo;{c.title}&rdquo;
             </p>
           )}
@@ -3018,41 +3334,39 @@ export default async function CharacterDetail({ params }: PageProps) {
           </p>
 
           {c.region && (
-            <p className="text-xs text-[color:var(--parchment-dim)] mb-2 font-medium uppercase tracking-wider">
-              Vùng đất: <span className="text-neutral-200">{c.region}</span>
+            <p className="text-xs text-muted mb-2 font-medium uppercase tracking-wider">
+              Vùng đất: <span className="text-primary">{c.region}</span>
             </p>
           )}
 
-          {/* Thông tin phụ: sinh nhật, chòm sao bản mệnh, phiên bản ra mắt */}
           {(c.birthday || c.constellationName || c.gameVersion) && (
-            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-[color:var(--parchment-dim)] mb-3">
+            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted mb-3">
               {c.birthday && (
                 <span>
-                  Sinh nhật: <span className="text-neutral-200">{c.birthday}</span>
+                  Sinh nhật: <span className="text-primary">{c.birthday}</span>
                 </span>
               )}
               {c.constellationName && (
                 <span>
-                  Chòm sao: <span className="text-neutral-200">{c.constellationName}</span>
+                  Chòm sao: <span className="text-primary">{c.constellationName}</span>
                 </span>
               )}
               {c.gameVersion && (
                 <span>
-                  Ra mắt phiên bản: <span className="text-neutral-200">{c.gameVersion}</span>
+                  Ra mắt phiên bản: <span className="text-primary">{c.gameVersion}</span>
                 </span>
               )}
             </div>
           )}
 
           {c.description && (
-            <p className="text-sm text-neutral-300 max-w-xl leading-relaxed bg-neutral-950/20 p-3 rounded-lg border border-neutral-800/40 italic mb-3">
+            <p className="text-sm text-primary max-w-xl leading-relaxed bg-card/50 p-3 rounded-lg border border-border italic mb-3">
               {c.description}
             </p>
           )}
 
-          {/* Seiyuu / lồng tiếng */}
           {voiceActors && (voiceActors.japanese || voiceActors.english || voiceActors.chinese || voiceActors.korean) && (
-            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-[color:var(--parchment-dim)] mb-2">
+            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted mb-2">
               {voiceActors.japanese && <span>🇯🇵 {voiceActors.japanese}</span>}
               {voiceActors.english && <span>🇬🇧 {voiceActors.english}</span>}
               {voiceActors.chinese && <span>🇨🇳 {voiceActors.chinese}</span>}
@@ -3060,64 +3374,64 @@ export default async function CharacterDetail({ params }: PageProps) {
             </div>
           )}
 
-         {c.wikiUrl && (
-  <a href={c.wikiUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-[color:var(--gold)] hover:text-[color:var(--gold-bright)] underline underline-offset-2 w-fit">Xem thêm trên Wiki &rarr;</a>
-)}
+          {c.wikiUrl && (
+            <a href={c.wikiUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-gold hover:text-gold-bright underline underline-offset-2 w-fit">Xem thêm trên Wiki &rarr;</a>
+          )}
         </div>
       </div>
 
-      {/* Khối thuộc tính cơ bản (Base Stats Grid) */}
+      {/* Base Stats */}
       <section className="mb-8">
-        <h2 className="font-display text-xl font-bold mb-4 text-[color:var(--gold)] uppercase tracking-wide border-b border-neutral-800 pb-2">
+        <h2 className="font-display text-xl font-bold mb-4 text-gold uppercase tracking-wide border-b border-border pb-2">
           Thuộc Tính Căn Bản (Cấp 1)
         </h2>
-        <div className="relic-frame bg-neutral-950/40 border border-neutral-800/80 rounded-xl p-5 grid grid-cols-2 sm:grid-cols-4 gap-6 text-sm text-neutral-200">
+        <div className="relic-frame bg-card border border-border rounded-xl p-5 grid grid-cols-2 sm:grid-cols-4 gap-6 text-sm">
           <div>
-            <span className="text-[color:var(--parchment-dim)] font-medium block mb-1">Sinh Mệnh (HP)</span> 
-            <span className="text-lg font-semibold">{formatNumber(c.baseHp)}</span>
+            <span className="text-muted font-medium block mb-1">Sinh Mệnh (HP)</span> 
+            <span className="text-lg font-semibold text-primary">{formatNumber(c.baseHp)}</span>
           </div>
           <div>
-            <span className="text-[color:var(--parchment-dim)] font-medium block mb-1">Tấn Công (ATK)</span> 
-            <span className="text-lg font-semibold">{formatNumber(c.baseAtk)}</span>
+            <span className="text-muted font-medium block mb-1">Tấn Công (ATK)</span> 
+            <span className="text-lg font-semibold text-primary">{formatNumber(c.baseAtk)}</span>
           </div>
           <div>
-            <span className="text-[color:var(--parchment-dim)] font-medium block mb-1">Phòng Ngự (DEF)</span> 
-            <span className="text-lg font-semibold">{formatNumber(c.baseDef)}</span>
+            <span className="text-muted font-medium block mb-1">Phòng Ngự (DEF)</span> 
+            <span className="text-lg font-semibold text-primary">{formatNumber(c.baseDef)}</span>
           </div>
           <div>
-            <span className="text-[color:var(--parchment-dim)] font-medium block mb-1">Đột Phá Tăng</span> 
-            <span className="text-md font-semibold text-[color:var(--gold-bright)] truncate block">{c.ascensionStat ?? "—"}</span>
+            <span className="text-muted font-medium block mb-1">Đột Phá Tăng</span> 
+            <span className="text-md font-semibold text-gold-bright truncate block">{c.ascensionStat ?? "—"}</span>
           </div>
         </div>
       </section>
 
-      {/* Khối bảng chỉ số theo cấp / mốc đột phá */}
+      {/* Stats Table */}
       {statsByLevel.length > 0 && (
         <section className="mb-8">
-          <h2 className="font-display text-xl font-bold mb-4 text-[color:var(--gold)] uppercase tracking-wide border-b border-neutral-800 pb-2">
+          <h2 className="font-display text-xl font-bold mb-4 text-gold uppercase tracking-wide border-b border-border pb-2">
             Chỉ Số Theo Cấp Độ
           </h2>
-          <div className="relic-frame bg-neutral-950/40 border border-neutral-800/80 rounded-xl overflow-x-auto">
-            <table className="w-full text-sm text-neutral-200 min-w-[560px]">
+          <div className="relic-frame bg-card border border-border rounded-xl overflow-x-auto">
+            <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-[color:var(--parchment-dim)] text-xs uppercase tracking-wider border-b border-neutral-800">
-                  <th className="p-3 font-medium">Cấp</th>
-                  <th className="p-3 font-medium">Đột Phá</th>
-                  <th className="p-3 font-medium">HP</th>
-                  <th className="p-3 font-medium">ATK</th>
-                  <th className="p-3 font-medium">DEF</th>
-                  <th className="p-3 font-medium">{c.ascensionStat ?? "Chỉ số phụ"}</th>
+                <tr>
+                  <th>Cấp</th>
+                  <th>Đột Phá</th>
+                  <th>HP</th>
+                  <th>ATK</th>
+                  <th>DEF</th>
+                  <th>{c.ascensionStat ?? "Chỉ số phụ"}</th>
                 </tr>
               </thead>
               <tbody>
                 {statsByLevel.map((row, i) => (
-                  <tr key={i} className="border-b border-neutral-900/80 last:border-0 hover:bg-neutral-900/30">
-                    <td className="p-3">{row.level}</td>
-                    <td className="p-3 text-[color:var(--parchment-dim)]">{row.ascension ?? "—"}</td>
-                    <td className="p-3">{formatNumber(row.hp)}</td>
-                    <td className="p-3">{formatNumber(row.attack)}</td>
-                    <td className="p-3">{formatNumber(row.defense)}</td>
-                    <td className="p-3 text-[color:var(--gold-bright)]">
+                  <tr key={i}>
+                    <td>{row.level}</td>
+                    <td className="text-muted">{row.ascension ?? "—"}</td>
+                    <td>{formatNumber(row.hp)}</td>
+                    <td>{formatNumber(row.attack)}</td>
+                    <td>{formatNumber(row.defense)}</td>
+                    <td className="text-gold-bright">
                       {row.specialized ? formatSpecialized(row.specialized, c.ascensionStat) : "—"}
                     </td>
                   </tr>
@@ -3128,35 +3442,32 @@ export default async function CharacterDetail({ params }: PageProps) {
         </section>
       )}
 
-      {/* Khối nguyên liệu đột phá */}
+      {/* Ascension Materials */}
       {ascensionMaterials.length > 0 && (
         <section className="mb-8">
-          <h2 className="font-display text-xl font-bold mb-4 text-[color:var(--gold)] uppercase tracking-wide border-b border-neutral-800 pb-2">
+          <h2 className="font-display text-xl font-bold mb-4 text-gold uppercase tracking-wide border-b border-border pb-2">
             Nguyên Liệu Đột Phá
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {ascensionMaterials.map((phase) => (
-              <div
-                key={phase.phase}
-                className="relic-frame bg-neutral-900/20 border border-neutral-800 rounded-xl p-4"
-              >
-                <div className="text-xs font-bold uppercase tracking-wider text-[color:var(--gold)] mb-3">
+              <div key={phase.phase} className="relic-frame bg-card border border-border rounded-xl p-4">
+                <div className="text-xs font-bold uppercase tracking-wider text-gold mb-3">
                   Giai Đoạn {phase.phase}
                 </div>
-                <ul className="space-y-1.5 text-sm text-neutral-200">
+                <ul className="space-y-1.5 text-sm">
                   {phase.materials.map((m, j) => {
-                    const iconUrl = m.materialId ? materialIconById.get(m.materialId) : null;
+                    const iconUrl = m.materialId ? materialIconMap.get(m.materialId) : null;
                     return (
                       <li key={j} className="flex items-center justify-between gap-3">
                         <span className="flex items-center gap-2 min-w-0">
-                          <span className="relative w-6 h-6 shrink-0 rounded bg-neutral-950/50 border border-neutral-800/60 overflow-hidden">
+                          <span className="relative w-6 h-6 shrink-0 rounded bg-secondary border border-border overflow-hidden">
                             {iconUrl ? (
-                              <SafeImage src={iconUrl} alt={m.name ?? ""} fill className="object-contain" />
+                              <SafeImage src={iconUrl} alt={m.name ?? ""} fill className="object-contain" sizes="24px" />
                             ) : null}
                           </span>
-                          <span className="text-[color:var(--parchment-dim)] truncate">{m.name}</span>
+                          <span className="text-secondary truncate">{m.name}</span>
                         </span>
-                        <span className="font-semibold shrink-0">
+                        <span className="font-semibold text-primary shrink-0">
                           {m.count ? `x${m.count.toLocaleString("vi-VN")}` : ""}
                         </span>
                       </li>
@@ -3169,22 +3480,74 @@ export default async function CharacterDetail({ params }: PageProps) {
         </section>
       )}
 
-      {/* Khối danh sách kỹ năng thiên phú (Talents) */}
+      {/* Talent Level-Up Materials - Bảng chi tiết */}
+      {talentMaterials.length > 0 && (
+        <section className="mb-8">
+          <h2 className="font-display text-xl font-bold mb-4 text-gold uppercase tracking-wide border-b border-border pb-2">
+            Nguyên Liệu Nâng Cấp Thiên Phú
+          </h2>
+          <div className="relic-frame bg-card border border-border rounded-xl overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr>
+                  <th className="w-20">Cấp</th>
+                  <th>Nguyên liệu</th>
+                </tr>
+              </thead>
+              <tbody>
+                {talentMaterials.map((levelData: any) => {
+                  const materials = levelData.materials || [];
+                  return (
+                    <tr key={levelData.level}>
+                      <td className="font-medium text-primary">Cấp {levelData.level}</td>
+                      <td>
+                        <div className="flex flex-wrap gap-2 py-1">
+                          {materials.map((m: any, idx: number) => {
+                            const iconUrl = m.materialId ? materialIconMap.get(m.materialId) : null;
+                            // Định dạng số với dấu chấm phân cách hàng nghìn
+                            const formattedCount = m.count ? m.count.toLocaleString("vi-VN") : "";
+                            return (
+                              <span
+                                key={idx}
+                                className="flex items-center gap-1.5 bg-secondary/40 px-2.5 py-1 rounded-full border border-border text-xs"
+                              >
+                                <span className="relative w-5 h-5 shrink-0">
+                                  {iconUrl ? (
+                                    <SafeImage src={iconUrl} alt={m.name || ""} fill className="object-contain" sizes="20px" />
+                                  ) : null}
+                                </span>
+                                <span className="text-secondary">{m.name}</span>
+                                <span className="text-primary font-medium">×{formattedCount}</span>
+                              </span>
+                            );
+                          })}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+
+      {/* Talents */}
       {talents.length > 0 && (
         <section className="mb-8">
-          <h2 className="font-display text-xl font-bold mb-4 text-[color:var(--gold)] uppercase tracking-wide border-b border-neutral-800 pb-2">
+          <h2 className="font-display text-xl font-bold mb-4 text-gold uppercase tracking-wide border-b border-border pb-2">
             Hệ Thống Thiên Phú Kỹ Năng
           </h2>
           <div className="space-y-4">
             {talents.map((t: any, i: number) => (
-              <div key={i} className="relic-frame bg-neutral-900/20 border border-neutral-800 rounded-xl p-5 hover:bg-neutral-900/40 transition-colors">
-                <div className="font-bold text-base text-neutral-100 mb-2 flex flex-col gap-0.5">
-                  <span className="text-[10px] uppercase tracking-wider text-neutral-500">
+              <div key={i} className="relic-frame bg-card border border-border rounded-xl p-5 hover:bg-card/80 transition-colors">
+                <div className="font-bold text-base text-primary mb-2 flex flex-col gap-0.5">
+                  <span className="text-[10px] uppercase tracking-wider text-muted">
                     {TALENT_LABEL_VI[t.key] ?? t.key}
                   </span>
                   {t.name}
                 </div>
-                <p className="text-sm text-[color:var(--parchment-dim)] leading-relaxed whitespace-pre-line">
+                <p className="text-sm text-secondary leading-relaxed whitespace-pre-line">
                   {t.description}
                 </p>
               </div>
@@ -3193,19 +3556,19 @@ export default async function CharacterDetail({ params }: PageProps) {
         </section>
       )}
 
-      {/* Khối hệ thống cung mệnh chòm sao (Constellations) */}
+      {/* Constellations */}
       {constellations.length > 0 && (
         <section className="mb-8">
-          <h2 className="font-display text-xl font-bold mb-4 text-[color:var(--gold)] uppercase tracking-wide border-b border-neutral-800 pb-2">
+          <h2 className="font-display text-xl font-bold mb-4 text-gold uppercase tracking-wide border-b border-border pb-2">
             Hệ Thống Cung Mệnh Chòm Sao
           </h2>
           <div className="space-y-4">
             {constellations.map((cs: any, i: number) => (
-              <div key={i} className="relic-frame bg-neutral-900/10 border border-neutral-800/80 rounded-xl p-5 hover:border-purple-900/40 transition-all">
-                <div className="font-bold text-base mb-2 text-[color:var(--purple-glow)] drop-shadow-[0_0_6px_rgba(168,85,247,0.2)]">
+              <div key={i} className="relic-frame bg-card border border-border rounded-xl p-5 hover:border-purple-400/40 transition-all">
+                <div className="font-bold text-base mb-2 text-purple-400 drop-shadow-[0_0_6px_rgba(168,85,247,0.2)]">
                   C{i + 1} &middot; {cs.name}
                 </div>
-                <p className="text-sm text-[color:var(--parchment-dim)] leading-relaxed whitespace-pre-line">
+                <p className="text-sm text-secondary leading-relaxed whitespace-pre-line">
                   {cs.description}
                 </p>
               </div>
@@ -3227,42 +3590,12 @@ import { getEnkaUrl, getElementIconUrl, slugify, upsertMaterial } from "./lib/se
 const require = createRequire(import.meta.url);
 const genshindb = require("genshin-db") as typeof import("genshin-db");
 
-/**
- * Traveler có nhiều biến thể nguyên tố, nhưng genshin-db KHÔNG lưu key
- * "Traveler (Boy)" / "Traveler (Girl)" trong characters() — đã verify trực
- * tiếp bằng cách cài genshin-db thật và chạy:
- *
- *   db.characters('names', { matchCategories: true })
- *     .filter(n => /traveler|aether|lumine/i.test(n))
- *   // -> [ 'Aether', 'Lumine' ]
- *   db.characters('Traveler (Boy)') // -> undefined
- *
- * Tên thật để tra THÔNG TIN NHÂN VẬT (stat/ảnh/mô tả) là "Aether"/"Lumine".
- *
- * NHƯNG thiên phú + cung mệnh lại nằm ở một namespace KHÁC hẳn trong
- * genshin-db — talents()/constellations() không nhận "Aether"/"Lumine"
- * (trả về undefined) mà nhận đúng "Traveler (Anemo)", "Traveler (Pyro)"...
- * (đã verify bằng db.talents('names',{matchCategories:true}) ra đúng 7 tên
- * theo nguyên tố). Vì vậy 2 loại dữ liệu này phải tra bằng 2 tên khác nhau.
- *
- * Nguyên liệu đột phá (costs) của Traveler dùng chung 1 bộ nguyên liệu cho
- * mọi nguyên tố trong game thật (đá "Brilliant Diamond" + "Windwheel
- * Aster", không đổi theo vision) — đã verify qua characters('Aether').costs
- * — nên lấy từ Aether/Lumine áp dụng chung cho cả 7 biến thể là chính xác,
- * không phải giới hạn/xấp xỉ.
- */
 const TRAVELER_ELEMENTS = ["Anemo", "Geo", "Electro", "Dendro", "Hydro", "Pyro", "Cryo"] as const;
-
 const TRAVELER_QUERY_NAME: Record<"Traveler (Boy)" | "Traveler (Girl)", string> = {
   "Traveler (Boy)": "Aether",
   "Traveler (Girl)": "Lumine",
 };
 
-/**
- * Tên field thiên phú THẬT trong genshin-db (verify bằng
- * `db.talents('Kaeya')` -> keys: combat1, combat2, combat3, passive1..3;
- * một số nhân vật như Mona có thêm combatsp = kỹ năng di chuyển đặc biệt).
- */
 const TALENT_FIELD_ORDER = [
   "combat1", "combat2", "combatsp", "combat3",
   "passive1", "passive2", "passive3", "passive4",
@@ -3278,26 +3611,192 @@ const TALENT_LABELS: Record<string, string> = {
   passive4: "passive4",
 };
 
-async function getTalentsAndConstellations(
-  characterName: string
-): Promise<{ talents: unknown; constellations: unknown }> {
-  try {
-    const hasTalentsFn = typeof (genshindb as any).talents === "function";
-    const hasConstellationsFn = typeof (genshindb as any).constellations === "function";
-    if (!hasTalentsFn && !hasConstellationsFn) {
-      console.warn(`⚠ genshindb.talents()/constellations() không có trong version này — bỏ qua "${characterName}"`);
-      return { talents: null, constellations: null };
+// ---- Công thức số lượng ----
+const TALENT_LEVEL_COSTS: Record<number, {
+  bookTier: "teachings" | "guide" | "philosophies";
+  bookCount: number;
+  bossCount?: number;
+  crown?: boolean;
+  mora: number;
+}> = {
+  2: { bookTier: "teachings", bookCount: 3, mora: 12500 },
+  3: { bookTier: "guide", bookCount: 2, mora: 17500 },
+  4: { bookTier: "guide", bookCount: 4, mora: 25000 },
+  5: { bookTier: "guide", bookCount: 6, mora: 30000 },
+  6: { bookTier: "guide", bookCount: 9, mora: 37500 },
+  7: { bookTier: "philosophies", bookCount: 4, bossCount: 1, mora: 120000 },
+  8: { bookTier: "philosophies", bookCount: 6, bossCount: 1, mora: 260000 },
+  9: { bookTier: "philosophies", bookCount: 12, bossCount: 2, mora: 450000 },
+  10: { bookTier: "philosophies", bookCount: 16, bossCount: 2, crown: true, mora: 700000 },
+};
+
+// Danh sách nhân vật không resolve được bookType — in tổng kết ở cuối
+// run thay vì chỉ rải rác từng dòng warn (dễ bị lướt qua khi log dài).
+const CHARACTERS_MISSING_BOOK_TYPE: string[] = [];
+
+// ---- Hàm tạo talentMaterials ----
+async function generateTalentMaterials(
+  bookType: string | null,
+  bossMaterialName: string | null,
+  characterLabel: string
+): Promise<any[]> {
+  if (!bookType) {
+    console.warn(`⚠ [${characterLabel}] Skipped talent materials: no book type`);
+    CHARACTERS_MISSING_BOOK_TYPE.push(characterLabel);
+    return [];
+  }
+
+  const result: any[] = [];
+  const bookNames = {
+    teachings: `Teachings of ${bookType}`,
+    guide: `Guide to ${bookType}`,
+    philosophies: `Philosophies of ${bookType}`,
+  };
+
+  for (let level = 2; level <= 10; level++) {
+    const cost = TALENT_LEVEL_COSTS[level];
+    if (!cost) continue;
+
+    const materials: Array<{ name: string; count: number }> = [
+      { name: bookNames[cost.bookTier], count: cost.bookCount },
+      { name: "Mora", count: cost.mora },
+    ];
+
+    if (cost.bossCount) {
+      if (bossMaterialName) {
+        materials.push({ name: bossMaterialName, count: cost.bossCount });
+      } else {
+        // Không silent-skip nữa: level này CẦN nguyên liệu boss nhưng không
+        // resolve được tên -> dữ liệu materials của level này sẽ thiếu 1 mục.
+        // In cảnh báo để ai đọc log biết rõ, thay vì tưởng data đã đủ.
+        console.warn(`  ⚠ Level ${level}: cần ${cost.bossCount} nguyên liệu boss nhưng không xác định được tên (bỏ qua mục này)`);
+      }
     }
 
-    const rawTalents = hasTalentsFn ? (genshindb as any).talents(characterName) : null;
-    // Cung mệnh nằm ở hàm RIÊNG genshindb.constellations(), key c1..c6.
-    const rawConstellations = hasConstellationsFn ? (genshindb as any).constellations(characterName) : null;
+    if (cost.crown) {
+      materials.push({ name: "Crown of Insight", count: 1 });
+    }
+
+    const materialsWithIds = [];
+    for (const mat of materials) {
+      const materialId = await upsertMaterial(prisma, genshindb, mat.name);
+      materialsWithIds.push({ materialId, name: mat.name, count: mat.count });
+    }
+
+    result.push({ level, materials: materialsWithIds });
+  }
+
+  return result;
+}
+
+// Danh sách đầy đủ tên series sách talent, verify qua nhiều nguồn (Fandom wiki +
+// các trang tổng hợp material), theo từng vùng đã ra mắt tính đến bản game hiện tại:
+//   Mondstadt: Freedom, Resistance, Ballad
+//   Liyue:     Prosperity, Diligence, Gold
+//   Inazuma:   Transience, Elegance, Light
+//   Sumeru:    Admonition, Ingenuity, Praxis
+//   Fontaine:  Equity, Justice, Order
+//   Natlan:    Contention, Kindling, Conflict, Moonlight, Elysium, Vagrancy
+const KNOWN_TALENT_BOOK_SERIES = [
+  "Freedom", "Resistance", "Ballad",
+  "Prosperity", "Diligence", "Gold",
+  "Transience", "Elegance", "Light",
+  "Admonition", "Ingenuity", "Praxis",
+  "Equity", "Justice", "Order",
+  "Contention", "Kindling", "Conflict",
+  "Moonlight", "Elysium", "Vagrancy",
+] as const;
+
+// ---- Lấy loại sách talent ----
+//
+// LƯU Ý: đã thử 2 cách và cả 2 đều sai/không dùng được, giữ lại ghi chú để
+// không ai lặp lại sai lầm cũ:
+//   1) characterData.talentMaterialType / talentBook -> KHÔNG tồn tại field
+//      này trên Character object (verify bằng debug-traveler.ts, xem toàn bộ
+//      keys thật: id, name, title, description, weaponType, weaponText,
+//      bodyType, gender, qualityType, rarity, birthdaymmdd, birthday,
+//      elementType, elementText, affiliation, associationType, region,
+//      substatType, substatText, constellation, cv, costs, images, url,
+//      stats, version — không có gì liên quan đến talent book).
+//   2) talentmaterialtypes("names", {matchCategories:true}) rồi đọc field
+//      .characters -> function này không hỗ trợ query kiểu đó trong bản
+//      genshin-db đang dùng (throw "not iterable" khi chạy debug-traveler.ts).
+//
+// CÁCH ĐÚNG (theo README chính thức của genshin-db): "talent level-up
+// material types" là một category HỢP LỆ của chính hàm characters(), tức
+// gọi genshindb.characters("Freedom", { matchCategories: true }) sẽ trả về
+// mảng TÊN các nhân vật dùng sách Freedom.
+//
+// Thay vì gọi lại genshindb cho từng nhân vật (130 nhân vật x 21 series =
+// ~2700 lần gọi thừa), build 1 map ngược MỘT LẦN lúc khởi động module:
+// tên nhân vật (lowercase) -> tên series. Sau đó tra cứu chỉ là map lookup.
+const CHARACTER_TO_BOOK_SERIES: Map<string, string> = (() => {
+  const map = new Map<string, string>();
+  for (const series of KNOWN_TALENT_BOOK_SERIES) {
+    try {
+      const namesInSeries = genshindb.characters(series, { matchCategories: true }) as string[] | undefined;
+      for (const n of namesInSeries ?? []) {
+        map.set(n.toLowerCase(), series);
+      }
+    } catch {
+      // Series này chưa có data / chưa được category hóa trong bản data hiện
+      // tại (vd nội dung quá mới) -> bỏ qua, không ảnh hưởng các series khác.
+    }
+  }
+  return map;
+})();
+
+function getTalentBookType(characterNameOrCandidates: string | string[]): string | null {
+  const candidates = Array.isArray(characterNameOrCandidates) ? characterNameOrCandidates : [characterNameOrCandidates];
+  for (const candidate of candidates) {
+    const found = CHARACTER_TO_BOOK_SERIES.get(candidate.toLowerCase());
+    if (found) return found;
+  }
+  return null;
+}
+
+// ---- Lấy boss material (nguyên liệu từ boss tuần) ----
+//
+// Cũng như trên: `talentBoss`, `bossMaterial`, `weeklyBoss` không phải field
+// thật trên Character object — genshin-db không gắn sẵn thông tin boss vào
+// character. KHÔNG có cách nào data-driven đáng tin để suy luận boss material
+// từ package này, nên trả về null thay vì đoán mò field không tồn tại.
+//
+// Nếu sau này cần data này thật sự, phải lấy từ nguồn khác (vd tự map tay
+// theo nhân vật, hoặc domain data của genshin-db nếu có) — không nên "đoán
+// field cho có" như bản cũ vì nó tạo cảm giác đang hoạt động trong khi thực
+// chất luôn trả về null.
+//
+// Riêng Traveler: Traveler KHÔNG dùng nguyên liệu boss tuần cho cả ascension
+// lẫn talent — đây là đặc điểm THIẾT KẾ CHÍNH THỨC của nhân vật này trong
+// game (xác nhận qua nhiều nguồn wiki), không phải bug. Vì vậy null cho
+// Traveler ở mục này là ĐÚNG, không cần "sửa".
+function getBossMaterialName(_characterData: any): string | null {
+  return null;
+}
+
+// ---- Các hàm khác (giữ nguyên) ----
+async function getTalentsAndConstellations(characterName: string): Promise<{
+  talents: unknown;
+  constellations: unknown;
+}> {
+  try {
+    const rawTalents = typeof (genshindb as any).talents === "function"
+      ? (genshindb as any).talents(characterName)
+      : null;
+    const rawConstellations = typeof (genshindb as any).constellations === "function"
+      ? (genshindb as any).constellations(characterName)
+      : null;
 
     const talents = rawTalents
       ? TALENT_FIELD_ORDER
           .map((rawKey) =>
             rawTalents[rawKey]
-              ? { key: TALENT_LABELS[rawKey], name: rawTalents[rawKey].name ?? null, description: rawTalents[rawKey].description ?? null }
+              ? {
+                  key: TALENT_LABELS[rawKey],
+                  name: rawTalents[rawKey].name ?? null,
+                  description: rawTalents[rawKey].description ?? null,
+                }
               : null
           )
           .filter(Boolean)
@@ -3306,7 +3805,9 @@ async function getTalentsAndConstellations(
     const constellations = rawConstellations
       ? Array.from({ length: 6 }, (_, i) => {
           const cst = rawConstellations[`c${i + 1}`];
-          return cst ? { level: i + 1, name: cst.name ?? null, description: cst.description ?? null } : null;
+          return cst
+            ? { level: i + 1, name: cst.name ?? null, description: cst.description ?? null }
+            : null;
         }).filter(Boolean)
       : [];
 
@@ -3320,24 +3821,13 @@ async function getTalentsAndConstellations(
   }
 }
 
-/**
- * Nguyên liệu đột phá — genshin-db trả về ở `characters(name).costs`, dạng
- * { ascend1: [{name,count}...], ..., ascend6: [...] }.
- *
- * Giờ upsert từng nguyên liệu vào bảng Material riêng (xem seed-helpers.ts:
- * upsertMaterial) và lưu kèm materialId trong JSON — trang chi tiết nhân
- * vật sẽ join sang Material để lấy icon, thay vì chỉ hiện tên chữ như cũ.
- * Hàm này phải là async vì upsertMaterial gọi DB.
- */
 async function getAscensionMaterials(costs: unknown): Promise<unknown> {
   if (!costs || typeof costs !== "object") return null;
   const raw = costs as Record<string, Array<{ name?: string; count?: number }>>;
-
   const phases = [];
   for (const phase of [1, 2, 3, 4, 5, 6]) {
     const items = raw[`ascend${phase}`];
     if (!Array.isArray(items) || items.length === 0) continue;
-
     const materials = [];
     for (const m of items) {
       if (!m || !m.name) continue;
@@ -3346,14 +3836,9 @@ async function getAscensionMaterials(costs: unknown): Promise<unknown> {
     }
     if (materials.length > 0) phases.push({ phase, materials });
   }
-
   return phases.length ? JSON.parse(JSON.stringify(phases)) : null;
 }
 
-/**
- * Bảng chỉ số HP/ATK/DEF theo cấp — mốc 1, và trước/sau đột phá ở mỗi mốc
- * 20/40/50/60/70/80, kết thúc ở cấp 90.
- */
 const STAT_BREAKPOINTS: Array<[number, "-" | "+" | undefined]> = [
   [1, undefined],
   [20, "-"], [20, "+"],
@@ -3386,6 +3871,7 @@ function getStatsByLevel(statsFn: unknown): unknown {
   }
 }
 
+// ----- Seed Traveler -----
 async function seedTraveler(): Promise<number> {
   let count = 0;
   for (const element of TRAVELER_ELEMENTS) {
@@ -3394,15 +3880,30 @@ async function seedTraveler(): Promise<number> {
         const queryName = TRAVELER_QUERY_NAME[genderId];
         const talentQueryName = `Traveler (${element})`;
 
+        // Đã verify bằng debug-traveler.ts: genshin-db KHÔNG có record riêng
+        // theo từng nguyên tố (genshindb.characters("Traveler (Anemo)") ===
+        // undefined). Chỉ có 1 record chung "Aether"/"Lumine" — dùng đúng cái
+        // đó, không cố tìm record theo element nữa (giả định lần sửa trước là sai).
         const c = genshindb.characters(queryName) as any;
-        if (!c || !c.name) {
-          console.warn(`⚠ genshindb không có dữ liệu cho "${queryName}" — bỏ qua ${genderId}/${element}`);
-          continue;
-        }
+        if (!c || !c.name) continue;
 
         const lvl1 = typeof c.stats === "function" ? c.stats(1) : null;
         const id = slugify(`${genderId}-${element}`);
         const { talents, constellations } = await getTalentsAndConstellations(talentQueryName);
+
+        // Chưa chắc genshin-db liệt kê Traveler trong category sách bằng tên
+        // nào, nên thử nhiều ứng viên: "Traveler (Anemo)", "Anemo Traveler",
+        // "Traveler", và tên gốc "Aether"/"Lumine".
+        const bookType = getTalentBookType([
+          talentQueryName,
+          `${element} Traveler`,
+          "Traveler",
+          queryName,
+        ]);
+        const bossName = getBossMaterialName(c); // luôn null cho Traveler — xem giải thích ở định nghĩa hàm
+        const talentMaterials = await generateTalentMaterials(bookType, bossName, talentQueryName);
+
+        console.log(`[Traveler ${element}] bookType: ${bookType}, boss: ${bossName}, materials: ${talentMaterials.length}`);
 
         const payload = {
           name: `${c.name} (${element})`,
@@ -3430,6 +3931,7 @@ async function seedTraveler(): Promise<number> {
           wikiUrl: c.url?.fandom || null,
           talents: talents as any,
           constellations: constellations as any,
+          talentMaterials: talentMaterials as any,
         };
 
         await prisma.character.upsert({
@@ -3446,13 +3948,12 @@ async function seedTraveler(): Promise<number> {
   return count;
 }
 
+// ----- Seed Characters -----
 export async function seedCharacters(): Promise<void> {
   const names = genshindb.characters("names", { matchCategories: true }) as string[];
   let count = 0;
 
   for (const name of names) {
-    // "Aether"/"Lumine" là tên riêng của Traveler trong danh sách names —
-    // chặn theo tên riêng để tránh trùng với record do seedTraveler() tạo.
     if (name.includes("Traveler") || name === "Aether" || name === "Lumine") continue;
 
     try {
@@ -3461,6 +3962,14 @@ export async function seedCharacters(): Promise<void> {
 
       const lvl1 = typeof c.stats === "function" ? c.stats(1) : null;
       const { talents, constellations } = await getTalentsAndConstellations(name);
+
+      // Lấy loại sách và boss — data-driven qua reverse-lookup map (xem
+      // CHARACTER_TO_BOOK_SERIES ở trên), không đoán field không tồn tại
+      const bookType = getTalentBookType(name);
+      const bossName = getBossMaterialName(c);
+      const talentMaterials = await generateTalentMaterials(bookType, bossName, name);
+
+      console.log(`[${name}] bookType: ${bookType}, boss: ${bossName}, materials: ${talentMaterials.length}`);
 
       const payload = {
         name: c.name,
@@ -3488,6 +3997,7 @@ export async function seedCharacters(): Promise<void> {
         wikiUrl: c.url?.fandom || null,
         talents: talents as any,
         constellations: constellations as any,
+        talentMaterials: talentMaterials as any,
       };
 
       const id = slugify(c.name);
@@ -3504,6 +4014,20 @@ export async function seedCharacters(): Promise<void> {
 
   count += await seedTraveler();
   console.log(`✔ Seeded ${count} characters (including Traveler variants)`);
+
+  if (CHARACTERS_MISSING_BOOK_TYPE.length) {
+    console.warn(
+      `\n⚠ ${CHARACTERS_MISSING_BOOK_TYPE.length} nhân vật KHÔNG resolve được talent book type ` +
+      `(talentMaterials sẽ rỗng cho các nhân vật này):`
+    );
+    console.warn(CHARACTERS_MISSING_BOOK_TYPE.map((n) => `   - ${n}`).join("\n"));
+    console.warn(
+      `→ Chạy "npx tsx scripts/debug-traveler.ts" để soi cấu trúc data thật của genshin-db\n` +
+      `  và xác nhận tên nhân vật/tên sách đang khớp đúng chưa trước khi seed lại.`
+    );
+  } else {
+    console.log("✔ Mọi nhân vật đều resolve được talent book type.");
+  }
 }
 </file>
 
