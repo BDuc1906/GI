@@ -28,5 +28,8 @@ export function SafeImage({
     );
   }
 
+  // `alt` is required by `ImageProps` and spread in via `...props`, but
+  // jsx-a11y can't see through the spread to confirm it's present.
+  // eslint-disable-next-line jsx-a11y/alt-text
   return <Image {...props} onError={() => setBroken(true)} sizes={sizes} />;
 }

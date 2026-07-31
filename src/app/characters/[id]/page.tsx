@@ -10,7 +10,10 @@ import {
   formatSpecialized,
   resolveTravelerSibling,
   type AscensionMaterialPhase,
+  type Constellation,
   type StatByLevelRow,
+  type Talent,
+  type TalentMaterialLevel,
   type VoiceActors,
 } from "@/lib/character-helpers";
 
@@ -39,12 +42,12 @@ export default async function CharacterDetail({ params }: PageProps) {
 
   const { isTraveler, boySplash, girlSplash } = await resolveTravelerSibling(c);
 
-  const constellations = (c.constellations as any[]) ?? [];
-  const talents = (c.talents as any[]) ?? [];
+  const constellations = (c.constellations as unknown as Constellation[]) ?? [];
+  const talents = (c.talents as unknown as Talent[]) ?? [];
   const ascensionMaterials = (c.ascensionMaterials as unknown as AscensionMaterialPhase[]) ?? [];
   const statsByLevel = (c.statsByLevel as unknown as StatByLevelRow[]) ?? [];
   const voiceActors = (c.voiceActors as unknown as VoiceActors) ?? null;
-  const talentMaterials = (c.talentMaterials as any[]) ?? [];
+  const talentMaterials = (c.talentMaterials as unknown as TalentMaterialLevel[]) ?? [];
 
   // Gom tất cả materialId để lấy icon
   const materialIds = new Set<string>();
@@ -285,14 +288,14 @@ export default async function CharacterDetail({ params }: PageProps) {
                 </tr>
               </thead>
               <tbody>
-                {talentMaterials.map((levelData: any) => {
+                {talentMaterials.map((levelData) => {
                   const materials = levelData.materials || [];
                   return (
                     <tr key={levelData.level}>
                       <td className="font-medium text-primary">Cấp {levelData.level}</td>
                       <td>
                         <div className="flex flex-wrap gap-2 py-1">
-                          {materials.map((m: any, idx: number) => {
+                          {materials.map((m, idx: number) => {
                             const iconUrl = m.materialId ? materialIconMap.get(m.materialId) : null;
                             // Định dạng số với dấu chấm phân cách hàng nghìn
                             const formattedCount = m.count ? m.count.toLocaleString("vi-VN") : "";
@@ -329,7 +332,7 @@ export default async function CharacterDetail({ params }: PageProps) {
             Hệ Thống Thiên Phú Kỹ Năng
           </h2>
           <div className="space-y-4">
-            {talents.map((t: any, i: number) => (
+            {talents.map((t, i: number) => (
               <div key={i} className="relic-frame bg-card border border-border rounded-xl p-5 hover:bg-card/80 transition-colors">
                 <div className="font-bold text-base text-primary mb-2 flex flex-col gap-0.5">
                   <span className="text-[10px] uppercase tracking-wider text-muted">
@@ -353,7 +356,7 @@ export default async function CharacterDetail({ params }: PageProps) {
             Hệ Thống Cung Mệnh Chòm Sao
           </h2>
           <div className="space-y-4">
-            {constellations.map((cs: any, i: number) => (
+            {constellations.map((cs, i: number) => (
               <div key={i} className="relic-frame bg-card border border-border rounded-xl p-5 hover:border-purple-400/40 transition-all">
                 <div className="font-bold text-base mb-2 text-purple-400 drop-shadow-[0_0_6px_rgba(168,85,247,0.2)]">
                   C{i + 1} &middot; {cs.name}

@@ -132,6 +132,7 @@ src/
 debug-talent-book-2.txt
 debug-talent-book-output.txt
 debug-talent-book.txt
+eslint.config.mjs
 next.config.ts
 package.json
 postcss.config.mjs
@@ -143,230 +144,33 @@ tsconfig.json
 <files>
 This section contains the contents of the repository's files.
 
-<file path="src/lib/api/errors.ts">
-import { Prisma } from "@prisma/client";
-import type { NextRequest } from "next/server";
-import { fail } from "./response";
+<file path="eslint.config.mjs">
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import { FlatCompat } from "@eslint/eslintrc";
 
-/**
- * Lỗi nghiệp vụ có chủ đích (validate input, không tìm thấy record...).
- * Khác với lỗi hệ thống (Prisma, network...) — được withErrorHandling bắt
- * riêng để không lộ chi tiết nội bộ ra ngoài.
- */
-export class ApiError extends Error {
-  readonly status: number;
-  readonly code: string;
-  readonly details?: unknown;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-  constructor(status: number, code: string, message: string, details?: unknown) {
-    super(message);
-    this.name = "ApiError";
-    this.status = status;
-    this.code = code;
-    this.details = details;
-  }
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+});
 
-  static badRequest(message: string, details?: unknown) {
-    return new ApiError(400, "BAD_REQUEST", message, details);
-  }
+const eslintConfig = [
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    // scripts/** đọc dữ liệu thô từ package `genshin-db`, vốn không có type
+    // definitions chính thức (dữ liệu trả về gần như "any" thật sự). Ép kiểu
+    // chặt ở đây chỉ tạo ra các type giả (fake) không phản ánh đúng thực tế,
+    // nên nới lỏng riêng cho thư mục này thay vì tắt rule toàn cục.
+    files: ["scripts/**/*.ts"],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+    },
+  },
+];
 
-  static notFound(message = "Không tìm thấy tài nguyên") {
-    return new ApiError(404, "NOT_FOUND", message);
-  }
-}
-
-type RouteContext = { params: Promise<Record<string, string>> };
-type Handler = (req: NextRequest, ctx: RouteContext) => Promise<Response>;
-
-/**
- * Bọc quanh mọi route handler để:
- * 1. Đảm bảo LUÔN trả về đúng envelope { success, ... } kể cả khi crash bất
- *    ngờ, thay vì để Next.js trả HTML lỗi 500 mặc định (client parse JSON sẽ
- *    hỏng nếu vậy).
- * 2. Map các lỗi Prisma quen thuộc (P2025 not found, P2021 bảng chưa tồn
- *    tại...) sang status code đúng chuẩn REST thay vì luôn luôn 500.
- * 3. Không leak thông tin nội bộ (stack trace, connection string...) ra
- *    response — chỉ log ở server, trả message an toàn cho client.
- */
-export function withErrorHandling(handler: Handler): Handler {
-  return async (req, ctx) => {
-    try {
-      return await handler(req, ctx);
-    } catch (err) {
-      if (err instanceof ApiError) {
-        return fail(err.status, err.code, err.message, err.details);
-      }
-
-      if (err instanceof Prisma.PrismaClientKnownRequestError) {
-        if (err.code === "P2025") {
-          return fail(404, "NOT_FOUND", "Không tìm thấy tài nguyên");
-        }
-        console.error(`[API] Prisma error ${err.code}:`, err.message);
-        return fail(500, "DATABASE_ERROR", "Lỗi truy vấn cơ sở dữ liệu");
-      }
-
-      if (err instanceof Prisma.PrismaClientInitializationError) {
-        console.error("[API] Prisma init error:", err.message);
-        return fail(503, "DATABASE_UNAVAILABLE", "Không thể kết nối cơ sở dữ liệu");
-      }
-
-      console.error("[API] Unhandled error:", err);
-      return fail(500, "INTERNAL_ERROR", "Đã xảy ra lỗi không xác định");
-    }
-  };
-}
-</file>
-
-<file path="src/lib/api/query.ts">
-import type { ApiMeta } from "./response";
-import { ApiError } from "./errors";
-
-export const DEFAULT_LIMIT = 24;
-export const MAX_LIMIT = 100;
-
-export interface Pagination {
-  page: number;
-  limit: number;
-  skip: number;
-  take: number;
-}
-
-/**
- * Parse `page`/`limit` từ query string với validate chặt: từ chối giá trị
- * không phải số nguyên dương, và clamp limit về MAX_LIMIT thay vì cho phép
- * client kéo toàn bộ bảng trong 1 request (DoS vector đơn giản nhất của một
- * API public không auth).
- */
-export function parsePagination(searchParams: URLSearchParams): Pagination {
-  const page = parsePositiveInt(searchParams.get("page"), "page", 1);
-  const rawLimit = parsePositiveInt(searchParams.get("limit"), "limit", DEFAULT_LIMIT);
-  const limit = Math.min(rawLimit, MAX_LIMIT);
-
-  return { page, limit, skip: (page - 1) * limit, take: limit };
-}
-
-function parsePositiveInt(raw: string | null, field: string, fallback: number): number {
-  if (raw === null || raw === "") return fallback;
-  const n = Number(raw);
-  if (!Number.isInteger(n) || n < 1) {
-    throw ApiError.badRequest(`Tham số "${field}" phải là số nguyên dương`, { field, value: raw });
-  }
-  return n;
-}
-
-export function buildMeta(pagination: Pagination, total: number): ApiMeta {
-  return {
-    page: pagination.page,
-    limit: pagination.limit,
-    total,
-    totalPages: total === 0 ? 0 : Math.ceil(total / pagination.limit),
-  };
-}
-
-/**
- * Parse tham số `sort` dạng "field" (asc) hoặc "-field" (desc), chỉ chấp
- * nhận field nằm trong whitelist của từng resource — tránh cho client sort
- * theo field bất kỳ (leak cấu trúc DB, hoặc gây lỗi Prisma khó hiểu).
- */
-export function parseSort<T extends string>(
-  raw: string | null,
-  allowed: readonly T[],
-  fallback: { field: T; dir: "asc" | "desc" }
-): { field: T; dir: "asc" | "desc" } {
-  if (!raw) return fallback;
-
-  const dir: "asc" | "desc" = raw.startsWith("-") ? "desc" : "asc";
-  const field = (raw.startsWith("-") ? raw.slice(1) : raw) as T;
-
-  if (!allowed.includes(field)) {
-    throw ApiError.badRequest(`Tham số "sort" không hợp lệ: "${raw}"`, {
-      allowed: allowed.flatMap((f) => [f, `-${f}`]),
-    });
-  }
-
-  return { field, dir };
-}
-
-/** Parse `rarity` (số nguyên đơn) hoặc `rarity=4,5` (danh sách) thành mảng số. */
-export function parseRarityList(raw: string | null): number[] | undefined {
-  if (!raw) return undefined;
-  const values = raw.split(",").map((v) => v.trim());
-  const parsed = values.map((v) => {
-    const n = Number(v);
-    if (!Number.isInteger(n) || n < 1 || n > 5) {
-      throw ApiError.badRequest(`Tham số "rarity" không hợp lệ: "${v}" (chỉ nhận 1–5)`, { value: v });
-    }
-    return n;
-  });
-  return parsed;
-}
-</file>
-
-<file path="src/lib/api/response.ts">
-import { NextResponse } from "next/server";
-
-/**
- * Envelope chuẩn cho MỌI response của API — client chỉ cần xử lý đúng 1 hình
- * dạng duy nhất thay vì đoán field theo từng endpoint.
- *
- * Success: { success: true, data, meta? }
- * Error:   { success: false, error: { code, message, details? } }
- */
-export interface ApiMeta {
-  page: number;
-  limit: number;
-  total: number;
-  totalPages: number;
-}
-
-export interface ApiSuccessBody<T> {
-  success: true;
-  data: T;
-  meta?: ApiMeta;
-}
-
-export interface ApiErrorBody {
-  success: false;
-  error: {
-    code: string;
-    message: string;
-    details?: unknown;
-  };
-}
-
-const DEFAULT_HEADERS = {
-  // Danh sách công khai, ít thay đổi trong ngắn hạn -> cho phép cache ở CDN
-  // 60s, phục vụ thêm 5 phút "stale" trong lúc revalidate nền.
-  "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
-} as const;
-
-export function ok<T>(
-  data: T,
-  init?: { meta?: ApiMeta; status?: number; noCache?: boolean }
-): NextResponse<ApiSuccessBody<T>> {
-  const body: ApiSuccessBody<T> = { success: true, data };
-  if (init?.meta) body.meta = init.meta;
-
-  return NextResponse.json(body, {
-    status: init?.status ?? 200,
-    headers: init?.noCache ? undefined : DEFAULT_HEADERS,
-  });
-}
-
-export function fail(
-  status: number,
-  code: string,
-  message: string,
-  details?: unknown
-): NextResponse<ApiErrorBody> {
-  const body: ApiErrorBody = { success: false, error: { code, message } };
-  if (details !== undefined) body.error.details = details;
-
-  return NextResponse.json(body, {
-    status,
-    headers: { "Cache-Control": "no-store" },
-  });
-}
+export default eslintConfig;
 </file>
 
 <file path=".github/workflows/ci.yml">
@@ -1427,200 +1231,6 @@ export function ElementIcon({
 }
 </file>
 
-<file path="src/components/SearchBar.tsx">
-"use client";
-
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
-
-interface SearchResultItem {
-  id: string;
-  name: string;
-  iconUrl: string | null;
-}
-
-interface SearchApiData {
-  query: string;
-  total: number;
-  characters: SearchResultItem[];
-  weapons: SearchResultItem[];
-  artifacts: SearchResultItem[];
-}
-
-const MIN_QUERY_LENGTH = 2;
-const DEBOUNCE_MS = 250;
-const SUGGESTIONS_PER_TYPE = 4;
-
-/**
- * Ô tìm kiếm trên header — gợi ý trực tiếp (autocomplete) qua /api/search
- * thay vì chỉ submit-and-reload như trước. Debounce 250ms để không gọi API
- * mỗi phím gõ, và bỏ qua request cũ nếu người dùng đã gõ tiếp (tránh
- * "race condition" hiển thị kết quả lỗi thời khi request trước về sau).
- */
-export function SearchBar() {
-  const router = useRouter();
-  const containerRef = useRef<HTMLDivElement>(null);
-  const abortRef = useRef<AbortController | null>(null);
-
-  const [value, setValue] = useState("");
-  const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<SearchApiData | null>(null);
-
-  useEffect(() => {
-    const query = value.trim();
-    abortRef.current?.abort();
-
-    if (query.length < MIN_QUERY_LENGTH) {
-      setData(null);
-      setLoading(false);
-      return;
-    }
-
-    setLoading(true);
-    const controller = new AbortController();
-    abortRef.current = controller;
-
-    const timer = setTimeout(async () => {
-      try {
-        const res = await fetch(
-          `/api/search?q=${encodeURIComponent(query)}&limit=${SUGGESTIONS_PER_TYPE}`,
-          { signal: controller.signal }
-        );
-        const body = await res.json();
-        if (body.success) setData(body.data);
-      } catch (err) {
-        if ((err as Error).name !== "AbortError") console.error("Search suggestion failed:", err);
-      } finally {
-        setLoading(false);
-      }
-    }, DEBOUNCE_MS);
-
-    return () => {
-      clearTimeout(timer);
-      controller.abort();
-    };
-  }, [value]);
-
-  // Đóng dropdown khi click ra ngoài.
-  useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  function goToSearchPage() {
-    const q = value.trim();
-    if (!q) return;
-    setOpen(false);
-    router.push(`/search?q=${encodeURIComponent(q)}`);
-  }
-
-  function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    goToSearchPage();
-  }
-
-  function handleKeyDown(e: KeyboardEvent) {
-    if (e.key === "Escape") setOpen(false);
-  }
-
-  const hasResults = !!data && data.total > 0;
-  const showDropdown = open && value.trim().length >= MIN_QUERY_LENGTH;
-
-  return (
-    <div ref={containerRef} className="relative flex-1 max-w-xs ml-auto">
-      <form onSubmit={handleSubmit}>
-        <input
-          type="search"
-          autoComplete="off"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          onFocus={() => setOpen(true)}
-          onKeyDown={handleKeyDown}
-          placeholder="Tìm nhân vật, vũ khí, thánh di vật..."
-          aria-label="Tìm kiếm"
-          className="w-full rounded-lg border border-neutral-800 bg-neutral-900/60 px-3 py-1.5 text-sm text-neutral-200 placeholder:text-neutral-500 focus:outline-none focus:border-[color:var(--gold)]/50 transition-colors"
-        />
-      </form>
-
-      {showDropdown && (
-        <div className="absolute left-0 right-0 top-full mt-2 rounded-lg border border-neutral-800 bg-neutral-900 shadow-xl overflow-hidden z-50 max-h-[70vh] overflow-y-auto">
-          {loading && !data && (
-            <div className="px-3 py-3 text-xs text-neutral-500">Đang tìm...</div>
-          )}
-
-          {!loading && data && !hasResults && (
-            <div className="px-3 py-3 text-xs text-neutral-500">
-              Không tìm thấy kết quả cho &ldquo;{value.trim()}&rdquo;
-            </div>
-          )}
-
-          {hasResults && (
-            <>
-              <SuggestionGroup title="Nhân vật" items={data!.characters} basePath="/characters" onNavigate={() => setOpen(false)} />
-              <SuggestionGroup title="Vũ khí" items={data!.weapons} basePath="/weapons" onNavigate={() => setOpen(false)} />
-              <SuggestionGroup title="Thánh di vật" items={data!.artifacts} basePath="/artifacts" onNavigate={() => setOpen(false)} />
-
-              <button
-                type="button"
-                onClick={goToSearchPage}
-                className="w-full text-left px-3 py-2.5 text-xs text-gold-bright hover:bg-neutral-800 transition-colors border-t border-neutral-800"
-              >
-                Xem tất cả {data!.total} kết quả cho &ldquo;{value.trim()}&rdquo; →
-              </button>
-            </>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function SuggestionGroup({
-  title,
-  items,
-  basePath,
-  onNavigate,
-}: {
-  title: string;
-  items: SearchResultItem[];
-  basePath: string;
-  onNavigate: () => void;
-}) {
-  if (items.length === 0) return null;
-
-  return (
-    <div className="py-1">
-      <div className="px-3 pt-1.5 pb-1 text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
-        {title}
-      </div>
-      {items.map((item) => (
-        <Link
-          key={item.id}
-          href={`${basePath}/${item.id}`}
-          onClick={onNavigate}
-          className="flex items-center gap-2.5 px-3 py-2 hover:bg-neutral-800 transition-colors"
-        >
-          <span className="relative w-7 h-7 shrink-0 rounded bg-neutral-800 overflow-hidden">
-            {item.iconUrl && (
-              <Image src={item.iconUrl} alt={item.name} fill sizes="28px" className="object-cover" />
-            )}
-          </span>
-          <span className="text-sm text-neutral-200 truncate">{item.name}</span>
-        </Link>
-      ))}
-    </div>
-  );
-}
-</file>
-
 <file path="src/components/ThemeProvider.tsx">
 "use client";
 
@@ -1669,6 +1279,232 @@ export function ThemeToggle() {
 }
 </file>
 
+<file path="src/lib/api/errors.ts">
+import { Prisma } from "@prisma/client";
+import type { NextRequest } from "next/server";
+import { fail } from "./response";
+
+/**
+ * Lỗi nghiệp vụ có chủ đích (validate input, không tìm thấy record...).
+ * Khác với lỗi hệ thống (Prisma, network...) — được withErrorHandling bắt
+ * riêng để không lộ chi tiết nội bộ ra ngoài.
+ */
+export class ApiError extends Error {
+  readonly status: number;
+  readonly code: string;
+  readonly details?: unknown;
+
+  constructor(status: number, code: string, message: string, details?: unknown) {
+    super(message);
+    this.name = "ApiError";
+    this.status = status;
+    this.code = code;
+    this.details = details;
+  }
+
+  static badRequest(message: string, details?: unknown) {
+    return new ApiError(400, "BAD_REQUEST", message, details);
+  }
+
+  static notFound(message = "Không tìm thấy tài nguyên") {
+    return new ApiError(404, "NOT_FOUND", message);
+  }
+}
+
+type RouteContext = { params: Promise<Record<string, string>> };
+type Handler = (req: NextRequest, ctx: RouteContext) => Promise<Response>;
+
+/**
+ * Bọc quanh mọi route handler để:
+ * 1. Đảm bảo LUÔN trả về đúng envelope { success, ... } kể cả khi crash bất
+ *    ngờ, thay vì để Next.js trả HTML lỗi 500 mặc định (client parse JSON sẽ
+ *    hỏng nếu vậy).
+ * 2. Map các lỗi Prisma quen thuộc (P2025 not found, P2021 bảng chưa tồn
+ *    tại...) sang status code đúng chuẩn REST thay vì luôn luôn 500.
+ * 3. Không leak thông tin nội bộ (stack trace, connection string...) ra
+ *    response — chỉ log ở server, trả message an toàn cho client.
+ */
+export function withErrorHandling(handler: Handler): Handler {
+  return async (req, ctx) => {
+    try {
+      return await handler(req, ctx);
+    } catch (err) {
+      if (err instanceof ApiError) {
+        return fail(err.status, err.code, err.message, err.details);
+      }
+
+      if (err instanceof Prisma.PrismaClientKnownRequestError) {
+        if (err.code === "P2025") {
+          return fail(404, "NOT_FOUND", "Không tìm thấy tài nguyên");
+        }
+        console.error(`[API] Prisma error ${err.code}:`, err.message);
+        return fail(500, "DATABASE_ERROR", "Lỗi truy vấn cơ sở dữ liệu");
+      }
+
+      if (err instanceof Prisma.PrismaClientInitializationError) {
+        console.error("[API] Prisma init error:", err.message);
+        return fail(503, "DATABASE_UNAVAILABLE", "Không thể kết nối cơ sở dữ liệu");
+      }
+
+      console.error("[API] Unhandled error:", err);
+      return fail(500, "INTERNAL_ERROR", "Đã xảy ra lỗi không xác định");
+    }
+  };
+}
+</file>
+
+<file path="src/lib/api/query.ts">
+import type { ApiMeta } from "./response";
+import { ApiError } from "./errors";
+
+export const DEFAULT_LIMIT = 24;
+export const MAX_LIMIT = 100;
+
+export interface Pagination {
+  page: number;
+  limit: number;
+  skip: number;
+  take: number;
+}
+
+/**
+ * Parse `page`/`limit` từ query string với validate chặt: từ chối giá trị
+ * không phải số nguyên dương, và clamp limit về MAX_LIMIT thay vì cho phép
+ * client kéo toàn bộ bảng trong 1 request (DoS vector đơn giản nhất của một
+ * API public không auth).
+ */
+export function parsePagination(searchParams: URLSearchParams): Pagination {
+  const page = parsePositiveInt(searchParams.get("page"), "page", 1);
+  const rawLimit = parsePositiveInt(searchParams.get("limit"), "limit", DEFAULT_LIMIT);
+  const limit = Math.min(rawLimit, MAX_LIMIT);
+
+  return { page, limit, skip: (page - 1) * limit, take: limit };
+}
+
+function parsePositiveInt(raw: string | null, field: string, fallback: number): number {
+  if (raw === null || raw === "") return fallback;
+  const n = Number(raw);
+  if (!Number.isInteger(n) || n < 1) {
+    throw ApiError.badRequest(`Tham số "${field}" phải là số nguyên dương`, { field, value: raw });
+  }
+  return n;
+}
+
+export function buildMeta(pagination: Pagination, total: number): ApiMeta {
+  return {
+    page: pagination.page,
+    limit: pagination.limit,
+    total,
+    totalPages: total === 0 ? 0 : Math.ceil(total / pagination.limit),
+  };
+}
+
+/**
+ * Parse tham số `sort` dạng "field" (asc) hoặc "-field" (desc), chỉ chấp
+ * nhận field nằm trong whitelist của từng resource — tránh cho client sort
+ * theo field bất kỳ (leak cấu trúc DB, hoặc gây lỗi Prisma khó hiểu).
+ */
+export function parseSort<T extends string>(
+  raw: string | null,
+  allowed: readonly T[],
+  fallback: { field: T; dir: "asc" | "desc" }
+): { field: T; dir: "asc" | "desc" } {
+  if (!raw) return fallback;
+
+  const dir: "asc" | "desc" = raw.startsWith("-") ? "desc" : "asc";
+  const field = (raw.startsWith("-") ? raw.slice(1) : raw) as T;
+
+  if (!allowed.includes(field)) {
+    throw ApiError.badRequest(`Tham số "sort" không hợp lệ: "${raw}"`, {
+      allowed: allowed.flatMap((f) => [f, `-${f}`]),
+    });
+  }
+
+  return { field, dir };
+}
+
+/** Parse `rarity` (số nguyên đơn) hoặc `rarity=4,5` (danh sách) thành mảng số. */
+export function parseRarityList(raw: string | null): number[] | undefined {
+  if (!raw) return undefined;
+  const values = raw.split(",").map((v) => v.trim());
+  const parsed = values.map((v) => {
+    const n = Number(v);
+    if (!Number.isInteger(n) || n < 1 || n > 5) {
+      throw ApiError.badRequest(`Tham số "rarity" không hợp lệ: "${v}" (chỉ nhận 1–5)`, { value: v });
+    }
+    return n;
+  });
+  return parsed;
+}
+</file>
+
+<file path="src/lib/api/response.ts">
+import { NextResponse } from "next/server";
+
+/**
+ * Envelope chuẩn cho MỌI response của API — client chỉ cần xử lý đúng 1 hình
+ * dạng duy nhất thay vì đoán field theo từng endpoint.
+ *
+ * Success: { success: true, data, meta? }
+ * Error:   { success: false, error: { code, message, details? } }
+ */
+export interface ApiMeta {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface ApiSuccessBody<T> {
+  success: true;
+  data: T;
+  meta?: ApiMeta;
+}
+
+export interface ApiErrorBody {
+  success: false;
+  error: {
+    code: string;
+    message: string;
+    details?: unknown;
+  };
+}
+
+const DEFAULT_HEADERS = {
+  // Danh sách công khai, ít thay đổi trong ngắn hạn -> cho phép cache ở CDN
+  // 60s, phục vụ thêm 5 phút "stale" trong lúc revalidate nền.
+  "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+} as const;
+
+export function ok<T>(
+  data: T,
+  init?: { meta?: ApiMeta; status?: number; noCache?: boolean }
+): NextResponse<ApiSuccessBody<T>> {
+  const body: ApiSuccessBody<T> = { success: true, data };
+  if (init?.meta) body.meta = init.meta;
+
+  return NextResponse.json(body, {
+    status: init?.status ?? 200,
+    headers: init?.noCache ? undefined : DEFAULT_HEADERS,
+  });
+}
+
+export function fail(
+  status: number,
+  code: string,
+  message: string,
+  details?: unknown
+): NextResponse<ApiErrorBody> {
+  const body: ApiErrorBody = { success: false, error: { code, message } };
+  if (details !== undefined) body.error.details = details;
+
+  return NextResponse.json(body, {
+    status,
+    headers: { "Cache-Control": "no-store" },
+  });
+}
+</file>
+
 <file path="src/lib/character-helpers.ts">
 import { prisma } from "@/lib/prisma";
 import type { Character } from "@prisma/client";
@@ -1696,6 +1532,27 @@ export type VoiceActors = {
   chinese?: string | null;
   japanese?: string | null;
   korean?: string | null;
+};
+
+export type Talent = {
+  key: string;
+  name: string;
+  description: string;
+};
+
+export type Constellation = {
+  level?: number;
+  name: string;
+  description: string;
+};
+
+export type TalentMaterialLevel = {
+  level: number;
+  materials: Array<{
+    materialId?: string | null;
+    name: string | null;
+    count: number | null;
+  }>;
 };
 
 export const TALENT_LABEL_VI: Record<string, string> = {
@@ -1812,7 +1669,6 @@ const REQUIRED_ENV_VARS = ["DATABASE_URL"] as const;
 
 function assertUrlLike(name: string, value: string): void {
   try {
-    // eslint-disable-next-line no-new
     new URL(value);
   } catch {
     throw new Error(
@@ -2692,7 +2548,204 @@ export function SafeImage({
     );
   }
 
+  // `alt` is required by `ImageProps` and spread in via `...props`, but
+  // jsx-a11y can't see through the spread to confirm it's present.
+  // eslint-disable-next-line jsx-a11y/alt-text
   return <Image {...props} onError={() => setBroken(true)} sizes={sizes} />;
+}
+</file>
+
+<file path="src/components/SearchBar.tsx">
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
+
+interface SearchResultItem {
+  id: string;
+  name: string;
+  iconUrl: string | null;
+}
+
+interface SearchApiData {
+  query: string;
+  total: number;
+  characters: SearchResultItem[];
+  weapons: SearchResultItem[];
+  artifacts: SearchResultItem[];
+}
+
+const MIN_QUERY_LENGTH = 2;
+const DEBOUNCE_MS = 250;
+const SUGGESTIONS_PER_TYPE = 4;
+
+/**
+ * Ô tìm kiếm trên header — gợi ý trực tiếp (autocomplete) qua /api/search
+ * thay vì chỉ submit-and-reload như trước. Debounce 250ms để không gọi API
+ * mỗi phím gõ, và bỏ qua request cũ nếu người dùng đã gõ tiếp (tránh
+ * "race condition" hiển thị kết quả lỗi thời khi request trước về sau).
+ */
+export function SearchBar() {
+  const router = useRouter();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const abortRef = useRef<AbortController | null>(null);
+
+  const [value, setValue] = useState("");
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState<SearchApiData | null>(null);
+
+  useEffect(() => {
+    const query = value.trim();
+    abortRef.current?.abort();
+
+    if (query.length < MIN_QUERY_LENGTH) {
+      setData(null);
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+    const controller = new AbortController();
+    abortRef.current = controller;
+
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch(
+          `/api/search?q=${encodeURIComponent(query)}&limit=${SUGGESTIONS_PER_TYPE}`,
+          { signal: controller.signal }
+        );
+        const body = await res.json();
+        if (body.success) setData(body.data);
+      } catch (err) {
+        if ((err as Error).name !== "AbortError") console.error("Search suggestion failed:", err);
+      } finally {
+        setLoading(false);
+      }
+    }, DEBOUNCE_MS);
+
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [value]);
+
+  // Đóng dropdown khi click ra ngoài.
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  function goToSearchPage() {
+    const q = value.trim();
+    if (!q) return;
+    setOpen(false);
+    router.push(`/search?q=${encodeURIComponent(q)}`);
+  }
+
+  function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    goToSearchPage();
+  }
+
+  function handleKeyDown(e: KeyboardEvent) {
+    if (e.key === "Escape") setOpen(false);
+  }
+
+  const hasResults = !!data && data.total > 0;
+  const showDropdown = open && value.trim().length >= MIN_QUERY_LENGTH;
+
+  return (
+    <div ref={containerRef} className="relative flex-1 max-w-xs ml-auto">
+      <form onSubmit={handleSubmit}>
+        <input
+          type="search"
+          autoComplete="off"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onFocus={() => setOpen(true)}
+          onKeyDown={handleKeyDown}
+          placeholder="Tìm nhân vật, vũ khí, thánh di vật..."
+          aria-label="Tìm kiếm"
+          className="w-full rounded-lg border border-neutral-800 bg-neutral-900/60 px-3 py-1.5 text-sm text-neutral-200 placeholder:text-neutral-500 focus:outline-none focus:border-[color:var(--gold)]/50 transition-colors"
+        />
+      </form>
+
+      {showDropdown && (
+        <div className="absolute left-0 right-0 top-full mt-2 rounded-lg border border-neutral-800 bg-neutral-900 shadow-xl overflow-hidden z-50 max-h-[70vh] overflow-y-auto">
+          {loading && !data && (
+            <div className="px-3 py-3 text-xs text-neutral-500">Đang tìm...</div>
+          )}
+
+          {!loading && data && !hasResults && (
+            <div className="px-3 py-3 text-xs text-neutral-500">
+              Không tìm thấy kết quả cho &ldquo;{value.trim()}&rdquo;
+            </div>
+          )}
+
+          {hasResults && (
+            <>
+              <SuggestionGroup title="Nhân vật" items={data!.characters} basePath="/characters" onNavigate={() => setOpen(false)} />
+              <SuggestionGroup title="Vũ khí" items={data!.weapons} basePath="/weapons" onNavigate={() => setOpen(false)} />
+              <SuggestionGroup title="Thánh di vật" items={data!.artifacts} basePath="/artifacts" onNavigate={() => setOpen(false)} />
+
+              <button
+                type="button"
+                onClick={goToSearchPage}
+                className="w-full text-left px-3 py-2.5 text-xs text-gold-bright hover:bg-neutral-800 transition-colors border-t border-neutral-800"
+              >
+                Xem tất cả {data!.total} kết quả cho &ldquo;{value.trim()}&rdquo; →
+              </button>
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function SuggestionGroup({
+  title,
+  items,
+  basePath,
+  onNavigate,
+}: {
+  title: string;
+  items: SearchResultItem[];
+  basePath: string;
+  onNavigate: () => void;
+}) {
+  if (items.length === 0) return null;
+
+  return (
+    <div className="py-1">
+      <div className="px-3 pt-1.5 pb-1 text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
+        {title}
+      </div>
+      {items.map((item) => (
+        <Link
+          key={item.id}
+          href={`${basePath}/${item.id}`}
+          onClick={onNavigate}
+          className="flex items-center gap-2.5 px-3 py-2 hover:bg-neutral-800 transition-colors"
+        >
+          <span className="relative w-7 h-7 shrink-0 rounded bg-neutral-800 overflow-hidden">
+            {item.iconUrl && (
+              <Image src={item.iconUrl} alt={item.name} fill sizes="28px" className="object-cover" />
+            )}
+          </span>
+          <span className="text-sm text-neutral-200 truncate">{item.name}</span>
+        </Link>
+      ))}
+    </div>
+  );
 }
 </file>
 
@@ -2730,83 +2783,6 @@ export default defineConfig({
     seed: "npx tsx ./scripts/seed-characters.ts",
   },
 });
-</file>
-
-<file path="README.md">
-# LEIBO — Genshin Impact Database
-
-Web dữ liệu Genshin Impact (nhân vật / vũ khí / thánh di vật) dùng Next.js + Prisma + Postgres (Neon).
-Toàn bộ dữ liệu game lấy từ package `genshin-db` (trích xuất từ dữ liệu chính thức của game, cộng đồng cập nhật theo mỗi bản mới).
-
-## Cài đặt (chuẩn, có bảo mật)
-
-1. `npm install`
-2. Trong [Neon Console](https://console.neon.tech) → project của bạn → **Connect**:
-   - Nếu đây là project bạn từng dùng chung với thông tin đã dán ra ngoài (chat, log công khai...) trước đây — đổi mật khẩu database ngay (Neon Console → Settings → Reset password).
-   - Lấy connection string **"Pooled connection"** (host có hậu tố `-pooler`) cho `DATABASE_URL` — dùng cho app runtime, đi qua PgBouncer nên chịu được nhiều connection đồng thời (quan trọng vì serverless/edge có thể mở nhiều connection song song).
-   - Lấy connection string **"Direct connection"** (host KHÔNG có `-pooler`) cho `DIRECT_URL` — chỉ dùng riêng cho `prisma migrate`, không dùng cho app runtime.
-3. Copy `.env.example` → `.env`, điền `DATABASE_URL`/`DIRECT_URL`. File `.env` đã có trong `.gitignore`, không commit lên Git.
-   `NEXT_PUBLIC_SITE_URL` chỉ cần điền khi deploy thật (dùng để sinh `sitemap.xml`/`robots.txt` đúng domain) — bỏ qua khi chạy local.
-4. Tạo bảng bằng migration có lịch sử (không dùng `db push` cho dự án thật):
-   ```bash
-   npx prisma migrate dev --name init
-   ```
-5. Seed dữ liệu thật: `npm run db:seed`
-6. Chạy dev: `npm run dev`
-
-## Deploy production
-
-Không chạy `migrate dev` trên production. Dùng:
-```bash
-npx prisma migrate deploy
-```
-Lệnh này chỉ áp các migration đã có sẵn trong `prisma/migrations/`, không tạo shadow DB, an toàn cho CI/CD.
-
-## Bảo mật
-
-- `.env` không bao giờ được commit — đã cấu hình trong `.gitignore`.
-- Kết nối bắt buộc SSL (`src/lib/prisma.ts`) — Neon luôn dùng chứng chỉ hợp lệ nên `rejectUnauthorized: true` ở mọi môi trường.
-- `src/lib/env.ts` validate biến môi trường bắt buộc ngay khi app khởi động (`assertEnv()` được gọi từ `src/lib/prisma.ts`) — thiếu `DATABASE_URL` hoặc sai định dạng URL sẽ báo lỗi rõ ràng ngay lập tức, thay vì crash mơ hồ ở request đầu tiên.
-- Khuyến nghị: dùng Neon **Roles** để tạo Postgres role riêng cho app runtime (least privilege) thay vì role owner mặc định, nếu chạy production lâu dài.
-- Neon có **branching** (tạo nhánh DB riêng cho môi trường dev/preview, tách khỏi production) — cân nhắc dùng khi có nhiều người cùng phát triển, tránh seed/test đè lên dữ liệu production.
-- `scripts/seed.ts` chỉ log host/port của DB, không log full connection string (tránh lộ mật khẩu ra log CI).
-- Ảnh nhân vật/vũ khí/di vật hotlink trực tiếp từ Enka Network & Fandom Wikia. `next.config.ts` whitelist đúng các host đang dùng (không dùng wildcard `**`) để tránh next/image bị lợi dụng proxy ảnh từ domain bất kỳ.
-
-## SEO
-
-- `src/app/sitemap.ts` và `src/app/robots.ts` (file-based, Next.js tự generate `/sitemap.xml` và `/robots.txt`) — sitemap liệt kê toàn bộ nhân vật/vũ khí/thánh di vật hiện có trong DB, tự cập nhật theo dữ liệu.
-- Mỗi trang chi tiết (`characters/[id]`, `weapons/[id]`, `artifacts/[id]`) có `generateMetadata` riêng (title/description theo đúng tên) — quan trọng khi chia sẻ link lên mạng xã hội/Discord.
-- Cần set `NEXT_PUBLIC_SITE_URL` đúng domain thật khi deploy production, nếu không sitemap/robots sẽ trỏ về `localhost:3000`.
-
-## Nguồn dữ liệu & giới hạn
-
-Toàn bộ dữ liệu game lấy từ package `genshin-db`, dữ liệu thật (không tự bịa), nhưng có vài giới hạn cần biết khi maintain:
-
-- **`releaseDate` luôn `null`** — `genshin-db` không cung cấp ngày ra mắt ngoài đời thật, chỉ có ngày trong game/banner. Đây là quyết định có chủ đích (để trống thay vì đoán), không phải bug.
-- **Ảnh (`iconUrl`, `splashUrl`, `sideIconUrl`)** hotlink trực tiếp từ Enka Network. Nếu Enka đổi cấu trúc URL, ảnh sẽ vỡ hàng loạt — `SafeImage` component (`src/components/SafeImage.tsx`) tự ẩn ảnh lỗi thay vì hiện icon vỡ, nhưng không tự sửa được nguồn. Cân nhắc tự host ảnh (S3/R2) nếu dự án chạy production lâu dài.
-- **Script seed được tách theo domain** (`scripts/seed.ts` là điểm vào, gọi lần lượt `seed-characters.ts` → `seed-weapons.ts` → `seed-artifacts.ts`; helper dùng chung nằm ở `scripts/lib/seed-helpers.ts`). Trước đây cả 3 loại dữ liệu bị gộp chung vào 1 file tên `seed-characters.ts` — dễ gây nhầm khi tìm chỗ sửa logic vũ khí/di vật.
-- **Tên field thiên phú thật của `genshin-db`** là `combat1/combat2/combatsp/combat3/passive1..4` (xem `scripts/seed-characters.ts`), khác với field name trực quan `elementalSkill`/`elementalBurst`... Nếu update `genshin-db` lên major version mới, kiểm tra lại field name bằng lệnh ở mục dưới trước khi seed, tránh lặp lại lỗi field-mismatch từng khiến thiên phú/cung mệnh rỗng toàn bộ.
-- **Traveler (Aether/Lumine)** cần tra 2 tên khác nhau tuỳ loại dữ liệu: `"Aether"/"Lumine"` cho thông tin nhân vật, `"Traveler (<Element>)"` cho thiên phú/cung mệnh — xem comment chi tiết trong `seedTraveler()`.
-
-
-## Cập nhật dữ liệu khi có bản mới của game
-
-```bash
-npm update genshin-db
-npm run db:seed
-```
-
-## Lưu ý quan trọng
-
-Tên field chính xác từ `genshin-db` (v5.2.12) trong `scripts/seed-characters.ts` được viết dựa trên
-cấu trúc phổ biến của package này, nhưng **bạn nên kiểm tra lại 1 lần bằng cách chạy**:
-
-```bash
-node -e "const db=require('genshin-db'); console.log(JSON.stringify(db.characters('Kazuha'), null, 2))"
-```
-
-rồi đối chiếu tên field thực tế (vd `elementText`, `weaponText`, `baseStats`, `images`...) với script seed,
-vì tool trong sandbox này không có quyền truy cập mạng để cài đặt và kiểm tra trực tiếp package.
 </file>
 
 <file path="scripts/seed-weapons.ts">
@@ -4001,6 +3977,7 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { SafeImage } from "@/components/SafeImage";
+import type { AscensionMaterialPhase } from "@/lib/character-helpers";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -4022,7 +3999,7 @@ export default async function WeaponDetail({ params }: PageProps) {
   if (!w) return notFound();
 
   const refinements = (w.passiveByRefinement as unknown[]) ?? [];
-  const ascensionMaterials = (w.ascensionMaterials as any[]) ?? [];
+  const ascensionMaterials = (w.ascensionMaterials as unknown as AscensionMaterialPhase[]) ?? [];
 
   // Lấy icon nguyên liệu từ bảng Material
   const materialIds = new Set<string>();
@@ -4079,7 +4056,7 @@ export default async function WeaponDetail({ params }: PageProps) {
                   Giai đoạn {phase.phase}
                 </div>
                 <ul className="space-y-1.5 text-sm">
-                  {phase.materials.map((m: any, j: number) => {
+                  {phase.materials.map((m, j: number) => {
                     const iconUrl = m.materialId ? materialIconMap.get(m.materialId) : null;
                     return (
                       <li key={j} className="flex items-center justify-between gap-3">
@@ -4253,7 +4230,10 @@ import {
   formatSpecialized,
   resolveTravelerSibling,
   type AscensionMaterialPhase,
+  type Constellation,
   type StatByLevelRow,
+  type Talent,
+  type TalentMaterialLevel,
   type VoiceActors,
 } from "@/lib/character-helpers";
 
@@ -4282,12 +4262,12 @@ export default async function CharacterDetail({ params }: PageProps) {
 
   const { isTraveler, boySplash, girlSplash } = await resolveTravelerSibling(c);
 
-  const constellations = (c.constellations as any[]) ?? [];
-  const talents = (c.talents as any[]) ?? [];
+  const constellations = (c.constellations as unknown as Constellation[]) ?? [];
+  const talents = (c.talents as unknown as Talent[]) ?? [];
   const ascensionMaterials = (c.ascensionMaterials as unknown as AscensionMaterialPhase[]) ?? [];
   const statsByLevel = (c.statsByLevel as unknown as StatByLevelRow[]) ?? [];
   const voiceActors = (c.voiceActors as unknown as VoiceActors) ?? null;
-  const talentMaterials = (c.talentMaterials as any[]) ?? [];
+  const talentMaterials = (c.talentMaterials as unknown as TalentMaterialLevel[]) ?? [];
 
   // Gom tất cả materialId để lấy icon
   const materialIds = new Set<string>();
@@ -4528,14 +4508,14 @@ export default async function CharacterDetail({ params }: PageProps) {
                 </tr>
               </thead>
               <tbody>
-                {talentMaterials.map((levelData: any) => {
+                {talentMaterials.map((levelData) => {
                   const materials = levelData.materials || [];
                   return (
                     <tr key={levelData.level}>
                       <td className="font-medium text-primary">Cấp {levelData.level}</td>
                       <td>
                         <div className="flex flex-wrap gap-2 py-1">
-                          {materials.map((m: any, idx: number) => {
+                          {materials.map((m, idx: number) => {
                             const iconUrl = m.materialId ? materialIconMap.get(m.materialId) : null;
                             // Định dạng số với dấu chấm phân cách hàng nghìn
                             const formattedCount = m.count ? m.count.toLocaleString("vi-VN") : "";
@@ -4572,7 +4552,7 @@ export default async function CharacterDetail({ params }: PageProps) {
             Hệ Thống Thiên Phú Kỹ Năng
           </h2>
           <div className="space-y-4">
-            {talents.map((t: any, i: number) => (
+            {talents.map((t, i: number) => (
               <div key={i} className="relic-frame bg-card border border-border rounded-xl p-5 hover:bg-card/80 transition-colors">
                 <div className="font-bold text-base text-primary mb-2 flex flex-col gap-0.5">
                   <span className="text-[10px] uppercase tracking-wider text-muted">
@@ -4596,7 +4576,7 @@ export default async function CharacterDetail({ params }: PageProps) {
             Hệ Thống Cung Mệnh Chòm Sao
           </h2>
           <div className="space-y-4">
-            {constellations.map((cs: any, i: number) => (
+            {constellations.map((cs, i: number) => (
               <div key={i} className="relic-frame bg-card border border-border rounded-xl p-5 hover:border-purple-400/40 transition-all">
                 <div className="font-bold text-base mb-2 text-purple-400 drop-shadow-[0_0_6px_rgba(168,85,247,0.2)]">
                   C{i + 1} &middot; {cs.name}

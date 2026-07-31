@@ -62,7 +62,7 @@ Dự án được thiết kế theo hướng **production-ready**: có migration
 | **Cơ sở dữ liệu** | ![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white) ![Neon](https://img.shields.io/badge/-Neon-00E599?style=flat-square&logo=neon&logoColor=white) | Postgres serverless, có pooling & branching |
 | **Data source** | ![npm](https://img.shields.io/badge/-genshin--db-CB3837?style=flat-square&logo=npm&logoColor=white) | Nguồn dữ liệu gốc của game |
 | **CI/CD** | ![GitHub Actions](https://img.shields.io/badge/-GitHub%20Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white) | Lint, typecheck, migrate, build, smoke test |
-| **Chất lượng code** | ![ESLint](https://img.shields.io/badge/-ESLint-4B32C3?style=flat-square&logo=eslint&logoColor=white) | Kiểm tra style & lỗi tĩnh |
+| **Chất lượng code** | ![ESLint](https://img.shields.io/badge/-ESLint-4B32C3?style=flat-square&logo=eslint&logoColor=white) | Flat config (`eslint.config.mjs`), kiểm tra style & lỗi tĩnh |
 | **Runtime scripts** | ![tsx](https://img.shields.io/badge/-tsx-3178C6?style=flat-square&logo=typescript&logoColor=white) | Chạy script seed TypeScript trực tiếp |
 
 ---
@@ -97,6 +97,7 @@ leibo/
 │       ├── prisma.ts               # Khởi tạo Prisma Client + adapter pg + SSL
 │       └── env.ts                  # Validate biến môi trường bắt buộc
 ├── next.config.ts                  # Whitelist domain ảnh (chống SSRF)
+├── eslint.config.mjs                # Flat config (bắt buộc từ ESLint v9) — kế thừa next/core-web-vitals + next/typescript
 └── package.json
 ```
 
@@ -222,6 +223,28 @@ Toàn bộ dữ liệu game lấy từ `genshin-db` — dữ liệu thật, khô
 ```bash
 npm update genshin-db
 npm run db:seed
+```
+
+---
+
+## 🔄 CI/CD
+
+Pipeline `.github/workflows/ci.yml` chạy tuần tự trên mỗi push/PR vào `main`:
+
+1. **Lint & Typecheck** — `npm run lint` (ESLint) rồi `npx tsc --noEmit`.
+2. **Migrate & Build** — dựng service Postgres tạm, `npx prisma migrate deploy`, sau đó `next build` (build có query DB thật vì dùng ISR).
+3. **API smoke test** — gọi thử các endpoint chính sau khi build để phát hiện lỗi runtime sớm.
+
+Job nào fail thì các job phía sau (`needs: ...`) sẽ không chạy — nên nếu thấy CI đỏ ở bước đầu, hãy sửa xong bước đó trước khi lo các bước sau.
+
+> ⚠️ Dự án dùng **ESLint v9 flat config** (`eslint.config.mjs` ở thư mục gốc) — đây là *bắt buộc*, không phải tuỳ chọn. Thiếu file này khiến `npm run lint` fail ngay lập tức với lỗi `ESLint couldn't find an eslint.config.(js|mjs|cjs) file`, khiến toàn bộ pipeline dừng lại ở bước đầu tiên. Rule `@typescript-eslint/no-explicit-any` được bật nghiêm ở `src/**` nhưng tắt riêng cho `scripts/**` (script seed làm việc với dữ liệu thô từ `genshin-db`, một package không có type definitions chính thức).
+
+Chạy đúng những gì CI chạy trước khi push, để tránh phải chờ CI báo lỗi:
+
+```bash
+npm run lint
+npx tsc --noEmit
+npm run build
 ```
 
 ---

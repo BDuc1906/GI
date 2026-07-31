@@ -10,7 +10,6 @@ const REQUIRED_ENV_VARS = ["DATABASE_URL"] as const;
 
 function assertUrlLike(name: string, value: string): void {
   try {
-    // eslint-disable-next-line no-new
     new URL(value);
   } catch {
     throw new Error(

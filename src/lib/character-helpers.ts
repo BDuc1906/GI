@@ -26,6 +26,27 @@ export type VoiceActors = {
   korean?: string | null;
 };
 
+export type Talent = {
+  key: string;
+  name: string;
+  description: string;
+};
+
+export type Constellation = {
+  level?: number;
+  name: string;
+  description: string;
+};
+
+export type TalentMaterialLevel = {
+  level: number;
+  materials: Array<{
+    materialId?: string | null;
+    name: string | null;
+    count: number | null;
+  }>;
+};
+
 export const TALENT_LABEL_VI: Record<string, string> = {
   normalAttack: "Đòn Thường / Trọng Kích / Bổ Nhào",
   elementalSkill: "Kỹ Năng Nguyên Tố",

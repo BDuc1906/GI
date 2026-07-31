@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { SafeImage } from "@/components/SafeImage";
+import type { AscensionMaterialPhase } from "@/lib/character-helpers";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -23,7 +24,7 @@ export default async function WeaponDetail({ params }: PageProps) {
   if (!w) return notFound();
 
   const refinements = (w.passiveByRefinement as unknown[]) ?? [];
-  const ascensionMaterials = (w.ascensionMaterials as any[]) ?? [];
+  const ascensionMaterials = (w.ascensionMaterials as unknown as AscensionMaterialPhase[]) ?? [];
 
   // Lấy icon nguyên liệu từ bảng Material
   const materialIds = new Set<string>();
@@ -80,7 +81,7 @@ export default async function WeaponDetail({ params }: PageProps) {
                   Giai đoạn {phase.phase}
                 </div>
                 <ul className="space-y-1.5 text-sm">
-                  {phase.materials.map((m: any, j: number) => {
+                  {phase.materials.map((m, j: number) => {
                     const iconUrl = m.materialId ? materialIconMap.get(m.materialId) : null;
                     return (
                       <li key={j} className="flex items-center justify-between gap-3">
