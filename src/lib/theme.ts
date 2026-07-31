@@ -1,18 +1,3 @@
-// Định nghĩa mã màu phát sáng cho các Nguyên tố trong Genshin Impact
-export const ELEMENT_COLORS: Record<string, string> = {
-  Anemo: "#6FC6A3",
-  Geo: "#CFA83E",
-  Electro: "#B98FE0",
-  Dendro: "#A2C93B",
-  Hydro: "#4CC2F1",
-  Pyro: "#EF7938",
-  Cryo: "#8FE0E0",
-};
-
-export function elementColor(vision: string): string {
-  return ELEMENT_COLORS[vision] || "#999999";
-}
-
 export function rarityStars(rarity: number): string {
   return "★".repeat(rarity);
 }

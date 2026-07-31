@@ -23,7 +23,6 @@ model Character {
   releaseDate DateTime?
   description String?  @db.Text
   iconUrl     String?
-  sideIconUrl String?                 // icon nhỏ (filename_sideIcon) — dùng cho danh sách party, avatar nhỏ...
   splashUrl   String?
   elementIcon    String?
   baseHp      Float?
@@ -78,10 +77,9 @@ model Weapon {
   subStatName String?
   subStatValue String?
   effectName  String?
-  // Thay cho effectDescription duy nhất (trước đây chỉ lưu refine 1,
-  // âm thầm bỏ refine 5 = mạnh nhất). Giờ lưu rõ cả hai mốc.
-  effectDescriptionR1 String? @db.Text
-  effectDescriptionR5 String? @db.Text
+  // Toàn bộ 5 mốc tinh luyện: [{ description }, ...] — đây là nguồn hiển thị
+  // duy nhất trên trang chi tiết vũ khí (đã bỏ effectDescriptionR1/R5 vì
+  // trùng lặp dữ liệu và không được UI dùng tới).
   passiveByRefinement Json?
   description String?  @db.Text
   iconUrl     String?
@@ -103,8 +101,6 @@ model ArtifactSet {
   onePieceBonus  String? @db.Text
   twoPieceBonus  String? @db.Text
   fourPieceBonus String? @db.Text
-  // true = set kiểu cũ chỉ có 1pc+2pc, không có bonus 4pc thật sự
-  isLegacyTwoPieceOnlySet Boolean @default(false)
   pieces      Json?
   iconUrl     String?
   updatedAt   DateTime @updatedAt

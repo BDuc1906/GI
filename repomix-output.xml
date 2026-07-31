@@ -57,7 +57,6 @@ prisma/
 scripts/
   lib/
     seed-helpers.ts
-  debug-traveler.ts
   seed-artifacts.ts
   seed-characters.ts
   seed-weapons.ts
@@ -72,11 +71,14 @@ src/
       [id]/
         page.tsx
       page.tsx
+    search/
+      page.tsx
     weapons/
       [id]/
         page.tsx
       page.tsx
     error.tsx
+    global-error.tsx
     globals.css
     layout.tsx
     loading.tsx
@@ -97,11 +99,12 @@ src/
     theme.ts
 .env.example
 .gitignore
-genshin_types_dump.txt
+debug-talent-book-2.txt
+debug-talent-book-output.txt
+debug-talent-book.txt
 next.config.ts
 package.json
 postcss.config.mjs
-prisma_config_types.txt
 prisma.config.ts
 README.md
 tsconfig.json
@@ -110,87 +113,253 @@ tsconfig.json
 <files>
 This section contains the contents of the repository's files.
 
-<file path="prisma/migrations/20260731013941_add_weapon_ascension/migration.sql">
--- AlterTable
-ALTER TABLE "Weapon" ADD COLUMN     "ascensionMaterials" JSONB;
+<file path="debug-talent-book-2.txt">
+========== Albedo ==========
+characters() keys: [
+  'id',           'name',
+  'title',        'description',
+  'weaponType',   'weaponText',
+  'bodyType',     'gender',
+  'qualityType',  'rarity',
+  'birthdaymmdd', 'birthday',
+  'elementType',  'elementText',
+  'affiliation',  'associationType',
+  'region',       'substatType',
+  'substatText',  'constellation',
+  'cv',           'costs',
+  'images',       'url',
+  'stats',        'version'
+]
+  c.costs = {"ascend1":[{"id":202,"name":"Mora","count":20000},{"id":104171,"name":"Prithiva Topaz Sliver","count":1},{"id":100023,"name":"Cecilia","count":3},{"id":112008,"name":"Divining Scroll","count":3}],"ascend2":[{"id":202,"name":"Mora","count":40000},{"id":104172,"name":"Prithiva Topaz Fragment","count":3},{"id":113009,"name":"Basalt Pillar","count":2},{"id":100023,"name":"Cecilia","count":10},{"id":112008,"name":"Divining Scroll","count":15}],"ascend3":[{"id":202,"name":"Mora","count":60000},{"id":104172,"name":"Prithiva Topaz Fragment","count":6},{"id":113009,"name":"Basalt Pillar","count":4},{"id":100023,"name":"Cecilia","count":20},{"id":112009,"name":"Sealed Scroll","count":12}],"ascend4":[{"id":202,"name":"Mora","count":80000},{"id":104173,"name":"Prithiva Topaz Chunk","count":3},{"id":113009,"name":"Basalt Pillar","count":8},{"id":100023,"name":"Cecilia","count":30},{"id":112009,"name":"Sealed Scroll","count":18}],"ascend5":[{"id":202,"name":"Mora","count":100000},{"id":104173,"name":"Prithiva Topaz Chunk","count":6},{"id":113009,"name":"Basalt Pillar","count":12},{"id":100023,"name":"Cecilia","count":45},{"id":112010,"name":"Forbidden Curse Scroll","count":12}],"ascend6":[{"id":202,"name":"Mora","count":120000},{"id":104174,"name":"Prithiva Topaz Gemstone","count":6},{"id":113009,"name":"Basalt Pillar","count":20},{"id":100023,"name":"Cecilia","count":60},{"id":112010,"name":"Forbidden Curse Scroll","count":24}]}
+talentmaterialtypes(name) = undefined
+talentmaterialtype(name) = undefined
+
+========== Amber ==========
+characters() keys: [
+  'id',           'name',
+  'title',        'description',
+  'weaponType',   'weaponText',
+  'bodyType',     'gender',
+  'qualityType',  'rarity',
+  'birthdaymmdd', 'birthday',
+  'elementType',  'elementText',
+  'affiliation',  'associationType',
+  'region',       'substatType',
+  'substatText',  'constellation',
+  'cv',           'costs',
+  'images',       'url',
+  'stats',        'version'
+]
+  c.costs = {"ascend1":[{"id":202,"name":"Mora","count":20000},{"id":104111,"name":"Agnidus Agate Sliver","count":1},{"id":100055,"name":"Small Lamp Grass","count":3},{"id":112011,"name":"Firm Arrowhead","count":3}],"ascend2":[{"id":202,"name":"Mora","count":40000},{"id":104112,"name":"Agnidus Agate Fragment","count":3},{"id":113011,"name":"Everflame Seed","count":2},{"id":100055,"name":"Small Lamp Grass","count":10},{"id":112011,"name":"Firm Arrowhead","count":15}],"ascend3":[{"id":202,"name":"Mora","count":60000},{"id":104112,"name":"Agnidus Agate Fragment","count":6},{"id":113011,"name":"Everflame Seed","count":4},{"id":100055,"name":"Small Lamp Grass","count":20},{"id":112012,"name":"Sharp Arrowhead","count":12}],"ascend4":[{"id":202,"name":"Mora","count":80000},{"id":104113,"name":"Agnidus Agate Chunk","count":3},{"id":113011,"name":"Everflame Seed","count":8},{"id":100055,"name":"Small Lamp Grass","count":30},{"id":112012,"name":"Sharp Arrowhead","count":18}],"ascend5":[{"id":202,"name":"Mora","count":100000},{"id":104113,"name":"Agnidus Agate Chunk","count":6},{"id":113011,"name":"Everflame Seed","count":12},{"id":100055,"name":"Small Lamp Grass","count":45},{"id":112013,"name":"Weathered Arrowhead","count":12}],"ascend6":[{"id":202,"name":"Mora","count":120000},{"id":104114,"name":"Agnidus Agate Gemstone","count":6},{"id":113011,"name":"Everflame Seed","count":20},{"id":100055,"name":"Small Lamp Grass","count":60},{"id":112013,"name":"Weathered Arrowhead","count":24}]}
+talentmaterialtypes(name) = undefined
+talentmaterialtype(name) = undefined
+
+========== Alhaitham ==========
+characters() keys: [
+  'id',           'name',
+  'title',        'description',
+  'weaponType',   'weaponText',
+  'bodyType',     'gender',
+  'qualityType',  'rarity',
+  'birthdaymmdd', 'birthday',
+  'elementType',  'elementText',
+  'affiliation',  'associationType',
+  'region',       'substatType',
+  'substatText',  'constellation',
+  'cv',           'costs',
+  'images',       'url',
+  'stats',        'version'
+]
+  c.costs = {"ascend1":[{"id":202,"name":"Mora","count":20000},{"id":104131,"name":"Nagadus Emerald Sliver","count":1},{"id":101222,"name":"Sand Grease Pupa","count":3},{"id":112065,"name":"Faded Red Satin","count":3}],"ascend2":[{"id":202,"name":"Mora","count":40000},{"id":104132,"name":"Nagadus Emerald Fragment","count":3},{"id":113044,"name":"Pseudo-Stamens","count":2},{"id":101222,"name":"Sand Grease Pupa","count":10},{"id":112065,"name":"Faded Red Satin","count":15}],"ascend3":[{"id":202,"name":"Mora","count":60000},{"id":104132,"name":"Nagadus Emerald Fragment","count":6},{"id":113044,"name":"Pseudo-Stamens","count":4},{"id":101222,"name":"Sand Grease Pupa","count":20},{"id":112066,"name":"Trimmed Red Silk","count":12}],"ascend4":[{"id":202,"name":"Mora","count":80000},{"id":104133,"name":"Nagadus Emerald Chunk","count":3},{"id":113044,"name":"Pseudo-Stamens","count":8},{"id":101222,"name":"Sand Grease Pupa","count":30},{"id":112066,"name":"Trimmed Red Silk","count":18}],"ascend5":[{"id":202,"name":"Mora","count":100000},{"id":104133,"name":"Nagadus Emerald Chunk","count":6},{"id":113044,"name":"Pseudo-Stamens","count":12},{"id":101222,"name":"Sand Grease Pupa","count":45},{"id":112067,"name":"Rich Red Brocade","count":12}],"ascend6":[{"id":202,"name":"Mora","count":120000},{"id":104134,"name":"Nagadus Emerald Gemstone","count":6},{"id":113044,"name":"Pseudo-Stamens","count":20},{"id":101222,"name":"Sand Grease Pupa","count":60},{"id":112067,"name":"Rich Red Brocade","count":24}]}
+talentmaterialtypes(name) = undefined
+talentmaterialtype(name) = undefined
+
+========== Arataki Itto ==========
+characters() keys: [
+  'id',           'name',
+  'title',        'description',
+  'weaponType',   'weaponText',
+  'bodyType',     'gender',
+  'qualityType',  'rarity',
+  'birthdaymmdd', 'birthday',
+  'elementType',  'elementText',
+  'affiliation',  'associationType',
+  'region',       'substatType',
+  'substatText',  'constellation',
+  'cv',           'costs',
+  'images',       'url',
+  'stats',        'version'
+]
+  c.costs = {"ascend1":[{"id":202,"name":"Mora","count":20000},{"id":104171,"name":"Prithiva Topaz Sliver","count":1},{"id":101201,"name":"Onikabuto","count":3},{"id":112002,"name":"Slime Condensate","count":3}],"ascend2":[{"id":202,"name":"Mora","count":40000},{"id":104172,"name":"Prithiva Topaz Fragment","count":3},{"id":113030,"name":"Riftborn Regalia","count":2},{"id":101201,"name":"Onikabuto","count":10},{"id":112002,"name":"Slime Condensate","count":15}],"ascend3":[{"id":202,"name":"Mora","count":60000},{"id":104172,"name":"Prithiva Topaz Fragment","count":6},{"id":113030,"name":"Riftborn Regalia","count":4},{"id":101201,"name":"Onikabuto","count":20},{"id":112003,"name":"Slime Secretions","count":12}],"ascend4":[{"id":202,"name":"Mora","count":80000},{"id":104173,"name":"Prithiva Topaz Chunk","count":3},{"id":113030,"name":"Riftborn Regalia","count":8},{"id":101201,"name":"Onikabuto","count":30},{"id":112003,"name":"Slime Secretions","count":18}],"ascend5":[{"id":202,"name":"Mora","count":100000},{"id":104173,"name":"Prithiva Topaz Chunk","count":6},{"id":113030,"name":"Riftborn Regalia","count":12},{"id":101201,"name":"Onikabuto","count":45},{"id":112004,"name":"Slime Concentrate","count":12}],"ascend6":[{"id":202,"name":"Mora","count":120000},{"id":104174,"name":"Prithiva Topaz Gemstone","count":6},{"id":113030,"name":"Riftborn Regalia","count":20},{"id":101201,"name":"Onikabuto","count":60},{"id":112004,"name":"Slime Concentrate","count":24}]}
+talentmaterialtypes(name) = undefined
+talentmaterialtype(name) = undefined
+
+========== Tß║ñT Cß║ó H├ÇM package genshin-db export ==========
+[
+  'Options',             'achievement',           'achievementgroup',
+  'achievementgroups',   'achievements',          'addAltName',
+  'addData',             'adventurerank',         'adventureranks',
+  'animal',              'animals',               'artifact',
+  'artifacts',           'categories',            'category',
+  'character',           'characters',            'constellation',
+  'constellations',      'craft',                 'crafts',
+  'domain',              'domains',               'element',
+  'elements',            'emoji',                 'emojis',
+  'enemies',             'enemy',                 'food',
+  'foods',               'geographies',           'geography',
+  'getOptions',          'material',              'materials',
+  'namecard',            'namecards',             'outfit',
+  'outfits',             'rarity',                'removeAltNames',
+  'searchFolder',        'searchMultipleFolders', 'setAltNameLimits',
+  'setOptions',          'talent',                'talentmaterialtype',
+  'talentmaterialtypes', 'talents',               'tcgactioncard',
+  'tcgactioncards',      'tcgcardback',           'tcgcardbacks',
+  'tcgcardbox',          'tcgcardboxes',          'tcgcharactercard',
+  'tcgcharactercards',   'tcgdetailedrule',       'tcgdetailedrules',
+  'tcgenemycard',        'tcgenemycards',         'tcgkeyword',
+  'tcgkeywords',         'tcglevelreward',        'tcglevelrewards',
+  'tcgstatuseffect',     'tcgstatuseffects',      'tcgsummon',
+  'tcgsummons',          'viewpoint',             'viewpoints',
+  'voiceover',           'voiceovers',            'weapon',
+  'weaponmaterialtype',  'weaponmaterialtypes',   'weapons',
+  'wildlife',            'windglider',            'windgliders'
+]
 </file>
 
-<file path="prisma/migrations/20260731020109_add_talent_materials/migration.sql">
--- AlterTable
-ALTER TABLE "Character" ADD COLUMN     "talentMaterials" JSONB;
+<file path="debug-talent-book-output.txt">
+== talentmaterialtypes('names', {matchCategories:true}) ==
+
+
+== talentmaterialtypes() không tham số ==
+
+
+== talentmaterialtype('Freedom') ==
+
+
+== talentmaterialtype('Teachings of Freedom') ==
+
+
+== material('Teachings of Freedom') ==
+{"id":104301,"name":"Teachings of Freedom","rarity":2,"sortRank":13101,"description":"Talent Level-Up material.\nFreedom is the spirit of the land of the wind.\nThe freedom to live is one of such. It is the freedom to live freely and healthily without concerns of one's own safety.","category":"AVATAR_MATERIAL","typeText":"Character Talent Material","dropDomainId":4210,"dropDomainName":"Domain of Mastery: Frosted Altar","daysOfWeek":["Monday","Thursday","Sunday"],"sources":["Exchanged in the Gift Shop"],"images":{"filename_icon":"UI_ItemIcon_104301"},"version":""}
+
+== domains('names', {matchCategories:true}) ==
+["Domain of Blessing: Autumn Hunt I","Domain of Blessing: Autumn Hunt II","Domain of Blessing: Autumn Hunt III","Domain of Blessing: Autumn Hunt IV","Domain of Blessing: Crumbling Assembly I","Domain of Blessing: Crumbling Assembly II","Domain of Blessing: Crumbling Assembly III","Domain of Blessing: Crumbling Assembly IV","Domain of Blessing: Dance of Steel I","Domain of Blessing: Dance of Steel II","Domain of Blessing: Dance of Steel III","Domain of Blessing: Dance of Steel IV","Domain of Blessing: Dance of Steel V","Domain of Blessing: Deepfire Construct I","Domain of Blessing: Deepfire Construct II","Domain of Blessing: Deepfire Construct III","Domain of Blessing: Deepfire Construct IV","Domain of Blessing: Derivations From the Deep I","Domain of Blessing: Derivations From the Deep II","Domain of Blessing: Derivations From the Deep III","Domain of Blessing: Derivations From the Deep IV","Domain of Blessing: Desert Citadel I","Domain of Blessing: Desert Citadel II","Domain of Blessing: Desert Citadel III","Domain of Blessing: Desert Citadel IV","Domain of Blessing: Elegiac Rime I","Domain of Blessing: Elegiac Rime II","Domain of Blessing: Elegiac Rime III","Domain of Blessing: Elegiac Rime IV","Domain of Blessing: Fires of Purification I","Domain of Blessing: Fires of Purification II","Domain of Blessing: Fires of Purification III","Domain of Blessing: Fires of Purification IV","Domain of Blessing: Fires of Purification V","Domain of Blessing: Fires of Purification VI","Domain of Blessing: Flower Feast I","Domain of Blessing: Flower Feast II","Domain of Blessing: Flower Feast III","Domain of Blessing: Flower Feast IV","Domain of Blessing: Forsaken Rampart I","Domain of Blessing: Forsaken Rampart II","Domain of Blessing: Forsaken Rampart III","Domain of Blessing: Forsaken Rampart IV","Domain of Blessing: Harmony I","Domain of Blessing: Harmony II","Domain of Blessing: Harmony III","Domain of Blessing: Harmony IV","Domain of Blessing: Machine Nest I","Domain of Blessing: Machine Nest II","Domain of Blessing: Machine Nest III","Domain of Blessing: Machine Nest IV","Domain of Blessing: Necropolis I","Domain of Blessing: Necropolis II","Domain of Blessing: Necropolis III","Domain of Blessing: Necropolis IV","Domain of Blessing: Roaring Fire I","Domain of Blessing: Roaring Fire II","Domain of Blessing: Roaring Fire III","Domain of Blessing: Roaring Fire IV","Domain of Blessing: Sacred Vault I","Domain of Blessing: Sacred Vault II","Domain of Blessing: Sacred Vault III","Domain of Blessing: Sacred Vault IV","Domain of Blessing: Seven Senses I","Domain of Blessing: Seven Senses II","Domain of Blessing: Seven Senses III","Domain of Blessing: Seven Senses IV","Domain of Blessing: Spring I","Domain of Blessing: Spring II","Domain of Blessing: Spring III","Domain of Blessing: Spring IV","Domain of Blessing: Spring V","Domain of Blessing: Spring VI","Domain of Blessing: Stone Chamber I","Domain of Blessing: Stone Chamber II","Domain of Blessing: Stone Chamber III","Domain of Blessing: The Burning Gauntlet I","Domain of Blessing: The Burning Gauntlet II","Domain of Blessing: The Burning Gauntlet III","Domain of Blessing: The Burning Gauntlet IV","Domain of Blessing: Unyielding I","Domain of Blessing: Unyielding II","Domain of Blessing: Unyielding III","Domain of Blessing: Unyielding IV","Domain of Blessing: Variation I","Domain of Blessing: Variation II","Domain of Blessing: Variation III","Domain of Blessing: Variation IV","Domain of Forgery: Altar of Sands I","Domain of Forgery: Altar of Sands II","Domain of Forgery: Altar of Sands III","Domain of Forgery: Altar of Sands IV","Domain of Forgery: Artisanship I","Domain of Forgery: Artisanship II","Domain of Forgery: Artisanship III","Domain of Forgery: Artisanship IV","Domain of Forgery: Attentive Observation I","Domain of Forgery: Attentive Observation II","Domain of Forgery: Attentive Observation III","Domain of Forgery: Attentive Observation IV","Domain of Forgery: City of Reflections I","Domain of Forgery: City of Reflections II","Domain of Forgery: City of Reflections III","Domain of Forgery: City of Reflections IV","Domain of Forgery: Curious Contraptions I","Domain of Forgery: Curious Contraptions II","Domain of Forgery: Curious Contraptions III","Domain of Forgery: Curious Contraptions IV","Domain of Forgery: Estimation I","Domain of Forgery: Estimation II","Domain of Forgery: Estimation III","Domain of Forgery: Estimation IV","Domain of Forgery: Leading Karma I","Domain of Forgery: Leading Karma II","Domain of Forgery: Leading Karma III","Domain of Forgery: Leading Karma IV","Domain of Forgery: Lunar Oblation I","Domain of Forgery: Lunar Oblation II","Domain of Forgery: Lunar Oblation III","Domain of Forgery: Lunar Oblation IV","Domain of Forgery: Obsession I","Domain of Forgery: Obsession II","Domain of Forgery: Obsession III","Domain of Forgery: Obsession IV","Domain of Forgery: Prayers Sung I","Domain of Forgery: Prayers Sung II","Domain of Forgery: Prayers Sung III","Domain of Forgery: Prayers Sung IV","Domain of Forgery: Radiant Splendor I","Domain of Forgery: Radiant Splendor II","Domain of Forgery: Radiant Splendor III","Domain of Forgery: Radiant Splendor IV","Domain of Forgery: Robotic Ruse I","Domain of Forgery: Robotic Ruse II","Domain of Forgery: Robotic Ruse III","Domain of Forgery: Robotic Ruse IV","Domain of Forgery: Ruins of Thirsting Capital I","Domain of Forgery: Ruins of Thirsting Capital II","Domain of Forgery: Ruins of Thirsting Capital III","Domain of Forgery: Ruins of Thirsting Capital IV","Domain of Forgery: Sand Burial I","Domain of Forgery: Sand Burial II","Domain of Forgery: Sand Burial III","Domain of Forgery: Sand Burial IV","Domain of Forgery: Scrying Shadows I","Domain of Forgery: Scrying Shadows II","Domain of Forgery: Scrying Shadows III","Domain of Forgery: Scrying Shadows IV","Domain of Forgery: Submerged Valley I","Domain of Forgery: Submerged Valley II","Domain of Forgery: Submerged Valley III","Domain of Forgery: Submerged Valley IV","Domain of Forgery: Sunken Sands I","Domain of Forgery: Sunken Sands II","Domain of Forgery: Sunken Sands III","Domain of Forgery: Sunken Sands IV","Domain of Forgery: Tainted Clouds I","Domain of Forgery: Tainted Clouds II","Domain of Forgery: Tainted Clouds III","Domain of Forgery: Tainted Clouds IV","Domain of Forgery: Thundercloud Altar I","Domain of Forgery: Thundercloud Altar II","Domain of Forgery: Thundercloud Altar III","Domain of Forgery: Thundercloud Altar IV","Domain of Forgery: Thundering Ruins I","Domain of Forgery: Thundering Ruins II","Domain of Forgery: Thundering Ruins III","Domain of Forgery: Thundering Ruins IV","Domain of Forgery: Trial Grounds of Thunder I","Domain of Forgery: Trial Grounds of Thunder II","Domain of Forgery: Trial Grounds of Thunder III","Domain of Forgery: Trial Grounds of Thunder IV","Domain of Mastery: Admonishing Engraving I","Domain of Mastery: Admonishing Engraving II","Domain of Mastery: Admonishing Engraving III","Domain of Mastery: Admonishing Engraving IV","Domain of Mastery: Altar of Flames I","Domain of Mastery: Altar of Flames II","Domain of Mastery: Altar of Flames III","Domain of Mastery: Altar of Flames IV","Domain of Mastery: Basket of Discipline I","Domain of Mastery: Basket of Discipline II","Domain of Mastery: Basket of Discipline III","Domain of Mastery: Basket of Discipline IV","Domain of Mastery: Chiming Recitation I","Domain of Mastery: Chiming Recitation II","Domain of Mastery: Chiming Recitation III","Domain of Mastery: Chiming Recitation IV","Domain of Mastery: Circle of Embers I","Domain of Mastery: Circle of Embers II","Domain of Mastery: Circle of Embers III","Domain of Mastery: Circle of Embers IV","Domain of Mastery: Fallen City I","Domain of Mastery: Fallen City II","Domain of Mastery: Fallen City III","Domain of Mastery: Fallen City IV","Domain of Mastery: Frosted Altar I","Domain of Mastery: Frosted Altar II","Domain of Mastery: Frosted Altar III","Domain of Mastery: Frosted Altar IV","Domain of Mastery: Frozen Abyss I","Domain of Mastery: Frozen Abyss II","Domain of Mastery: Frozen Abyss III","Domain of Mastery: Frozen Abyss IV","Domain of Mastery: Full Moon I","Domain of Mastery: Full Moon II","Domain of Mastery: Full Moon III","Domain of Mastery: Full Moon IV","Domain of Mastery: Heart of the Flames I","Domain of Mastery: Heart of the Flames II","Domain of Mastery: Heart of the Flames III","Domain of Mastery: Heart of the Flames IV","Domain of Mastery: Myriad Illusions I","Domain of Mastery: Myriad Illusions II","Domain of Mastery: Myriad Illusions III","Domain of Mastery: Myriad Illusions IV","Domain of Mastery: Overturned Roost I","Domain of Mastery: Overturned Roost II","Domain of Mastery: Overturned Roost III","Domain of Mastery: Overturned Roost IV","Domain of Mastery: Realm of Slumber I","Domain of Mastery: Realm of Slumber II","Domain of Mastery: Realm of Slumber III","Domain of Mastery: Realm of Slumber IV","Domain of Mastery: Reign of Violet I","Domain of Mastery: Reign of Violet II","Domain of Mastery: Reign of Violet III","Domain of Mastery: Reign of Violet IV","Domain of Mastery: Return I","Domain of Mastery: Return II","Domain of Mastery: Return III","Domain of Mastery: Return IV","Domain of Mastery: Rhyming Rhythm I","Domain of Mastery: Rhyming Rhythm II","Domain of Mastery: Rhyming Rhythm III","Domain of Mastery: Rhyming Rhythm IV","Domain of Mastery: Shadowed Legacy I","Domain of Mastery: Shadowed Legacy II","Domain of Mastery: Shadowed Legacy III","Domain of Mastery: Shadowed Legacy IV","Domain of Mastery: Sublime Turning I","Domain of Mastery: Sublime Turning II","Domain of Mastery: Sublime Turning III","Domain of Mastery: Sublime Turning IV","Domain of Mastery: Thundering Valley I","Domain of Mastery: Thundering Valley II","Domain of Mastery: Thundering Valley III","Domain of Mastery: Thundering Valley IV","Domain of Mastery: Vine-Infested Ruins I","Domain of Mastery: Vine-Infested Ruins II","Domain of Mastery: Vine-Infested Ruins III","Domain of Mastery: Vine-Infested Ruins IV","Domain of Mastery: Witticism I","Domain of Mastery: Witticism II","Domain of Mastery: Witticism III","Domain of Mastery: Witticism IV"]
+
+== domain(<tên domain đầu tiên>) ==
+{"id":5200,"name":"Domain of Blessing: Autumn Hunt I","regionId":3,"regionName":"Inazuma","entranceId":361,"entranceName":"Momiji-Dyed Court","domainType":"UI_ABYSSUS_RELIC","domainText":"Artifacts","description":"At this altar where red leaves flutter in the wind, summer and autumn are separated into two spheres, one where Cryo is enhanced, the other where Pyro is enhanced.\nThose of profound skill who can master the trial within have a chance to obtain precious artifacts and receive help in their pursuit of that which may otherwise be untraceable.","recommendedLevel":59,"recommendedElements":["Pyro","Cryo"],"unlockRank":30,"rewardPreview":[{"id":102,"name":"Adventure EXP","count":100},{"id":202,"name":"Mora","count":1850},{"id":105,"name":"Companionship EXP","count":15},{"id":400178,"name":"Shimenawa's Reminiscence","rarity":4},{"id":400183,"name":"Emblem of Severed Fate","rarity":4},{"id":400003,"name":"Resolution of Sojourner","rarity":4},{"id":400018,"name":"Tiny Miracle","rarity":4},{"id":400002,"name":"Resolution of Sojourner","rarity":3},{"id":400017,"name":"Tiny Miracle","rarity":3}],"disorder":["The platforms in this challenge will intermittently switch between the Flame Boon and Frost Boon statuses. Characters will obtain different effects depending on the status of the platform they are on.","Flame Boon: active characters will gain a 60% Pyro DMG Bonus.","Frost Boon: active characters will gain a 60% Cryo DMG Bonus."],"monsterList":[{"id":21010701,"name":"Hilichurl Berserker"},{"id":21011601,"name":"Electro Hilichurl Grenadier"},{"id":21011001,"name":"Electro Hilichurl Shooter"},{"id":20010501,"name":"Electro Slime"},{"id":21020701,"name":"Crackling Axe Mitachurl"}],"images":{"filename_image":"UI_DungeonPic_ThunderCave_Dq"},"version":""}
 </file>
 
-<file path="scripts/debug-traveler.ts">
-/**
- * Script debug độc lập — KHÔNG đụng vào DB, chỉ in ra để mắt thường kiểm tra.
- *
- * Chạy: npx tsx scripts/debug-traveler.ts
- *
- * Vòng 2: verify cách tra "nhân vật nào dùng sách nào" bằng chính
- * genshindb.characters(seriesName, { matchCategories: true }) — theo README
- * chính thức, "talent level-up material types" là category hợp lệ của hàm
- * characters(). Script này in xem Traveler xuất hiện trong các series nào,
- * và bằng tên gọi nào (để seed-characters.ts match đúng).
- */
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const genshindb = require("genshin-db") as typeof import("genshin-db");
+<file path="debug-talent-book.txt">
+========== Albedo ==========
+characters() keys: [
+  'id',           'name',
+  'title',        'description',
+  'weaponType',   'weaponText',
+  'bodyType',     'gender',
+  'qualityType',  'rarity',
+  'birthdaymmdd', 'birthday',
+  'elementType',  'elementText',
+  'affiliation',  'associationType',
+  'region',       'substatType',
+  'substatText',  'constellation',
+  'cv',           'costs',
+  'images',       'url',
+  'stats',        'version'
+]
+  c.costs = {"ascend1":[{"id":202,"name":"Mora","count":20000},{"id":104171,"name":"Prithiva Topaz Sliver","count":1},{"id":100023,"name":"Cecilia","count":3},{"id":112008,"name":"Divining Scroll","count":3}],"ascend2":[{"id":202,"name":"Mora","count":40000},{"id":104172,"name":"Prithiva Topaz Fragment","count":3},{"id":113009,"name":"Basalt Pillar","count":2},{"id":100023,"name":"Cecilia","count":10},{"id":112008,"name":"Divining Scroll","count":15}],"ascend3":[{"id":202,"name":"Mora","count":60000},{"id":104172,"name":"Prithiva Topaz Fragment","count":6},{"id":113009,"name":"Basalt Pillar","count":4},{"id":100023,"name":"Cecilia","count":20},{"id":112009,"name":"Sealed Scroll","count":12}],"ascend4":[{"id":202,"name":"Mora","count":80000},{"id":104173,"name":"Prithiva Topaz Chunk","count":3},{"id":113009,"name":"Basalt Pillar","count":8},{"id":100023,"name":"Cecilia","count":30},{"id":112009,"name":"Sealed Scroll","count":18}],"ascend5":[{"id":202,"name":"Mora","count":100000},{"id":104173,"name":"Prithiva Topaz Chunk","count":6},{"id":113009,"name":"Basalt Pillar","count":12},{"id":100023,"name":"Cecilia","count":45},{"id":112010,"name":"Forbidden Curse Scroll","count":12}],"ascend6":[{"id":202,"name":"Mora","count":120000},{"id":104174,"name":"Prithiva Topaz Gemstone","count":6},{"id":113009,"name":"Basalt Pillar","count":20},{"id":100023,"name":"Cecilia","count":60},{"id":112010,"name":"Forbidden Curse Scroll","count":24}]}
+talentmaterialtypes(name) = undefined
+talentmaterialtype(name) = undefined
 
-function section(title: string) {
-  console.log("\n" + "=".repeat(60));
-  console.log(title);
-  console.log("=".repeat(60));
-}
+========== Amber ==========
+characters() keys: [
+  'id',           'name',
+  'title',        'description',
+  'weaponType',   'weaponText',
+  'bodyType',     'gender',
+  'qualityType',  'rarity',
+  'birthdaymmdd', 'birthday',
+  'elementType',  'elementText',
+  'affiliation',  'associationType',
+  'region',       'substatType',
+  'substatText',  'constellation',
+  'cv',           'costs',
+  'images',       'url',
+  'stats',        'version'
+]
+  c.costs = {"ascend1":[{"id":202,"name":"Mora","count":20000},{"id":104111,"name":"Agnidus Agate Sliver","count":1},{"id":100055,"name":"Small Lamp Grass","count":3},{"id":112011,"name":"Firm Arrowhead","count":3}],"ascend2":[{"id":202,"name":"Mora","count":40000},{"id":104112,"name":"Agnidus Agate Fragment","count":3},{"id":113011,"name":"Everflame Seed","count":2},{"id":100055,"name":"Small Lamp Grass","count":10},{"id":112011,"name":"Firm Arrowhead","count":15}],"ascend3":[{"id":202,"name":"Mora","count":60000},{"id":104112,"name":"Agnidus Agate Fragment","count":6},{"id":113011,"name":"Everflame Seed","count":4},{"id":100055,"name":"Small Lamp Grass","count":20},{"id":112012,"name":"Sharp Arrowhead","count":12}],"ascend4":[{"id":202,"name":"Mora","count":80000},{"id":104113,"name":"Agnidus Agate Chunk","count":3},{"id":113011,"name":"Everflame Seed","count":8},{"id":100055,"name":"Small Lamp Grass","count":30},{"id":112012,"name":"Sharp Arrowhead","count":18}],"ascend5":[{"id":202,"name":"Mora","count":100000},{"id":104113,"name":"Agnidus Agate Chunk","count":6},{"id":113011,"name":"Everflame Seed","count":12},{"id":100055,"name":"Small Lamp Grass","count":45},{"id":112013,"name":"Weathered Arrowhead","count":12}],"ascend6":[{"id":202,"name":"Mora","count":120000},{"id":104114,"name":"Agnidus Agate Gemstone","count":6},{"id":113011,"name":"Everflame Seed","count":20},{"id":100055,"name":"Small Lamp Grass","count":60},{"id":112013,"name":"Weathered Arrowhead","count":24}]}
+talentmaterialtypes(name) = undefined
+talentmaterialtype(name) = undefined
 
-const KNOWN_TALENT_BOOK_SERIES = [
-  "Freedom", "Resistance", "Ballad",
-  "Prosperity", "Diligence", "Gold",
-  "Transience", "Elegance", "Light",
-  "Admonition", "Ingenuity", "Praxis",
-  "Equity", "Justice", "Order",
-  "Contention", "Kindling", "Conflict",
-  "Moonlight", "Elysium", "Vagrancy",
-];
+========== Alhaitham ==========
+characters() keys: [
+  'id',           'name',
+  'title',        'description',
+  'weaponType',   'weaponText',
+  'bodyType',     'gender',
+  'qualityType',  'rarity',
+  'birthdaymmdd', 'birthday',
+  'elementType',  'elementText',
+  'affiliation',  'associationType',
+  'region',       'substatType',
+  'substatText',  'constellation',
+  'cv',           'costs',
+  'images',       'url',
+  'stats',        'version'
+]
+  c.costs = {"ascend1":[{"id":202,"name":"Mora","count":20000},{"id":104131,"name":"Nagadus Emerald Sliver","count":1},{"id":101222,"name":"Sand Grease Pupa","count":3},{"id":112065,"name":"Faded Red Satin","count":3}],"ascend2":[{"id":202,"name":"Mora","count":40000},{"id":104132,"name":"Nagadus Emerald Fragment","count":3},{"id":113044,"name":"Pseudo-Stamens","count":2},{"id":101222,"name":"Sand Grease Pupa","count":10},{"id":112065,"name":"Faded Red Satin","count":15}],"ascend3":[{"id":202,"name":"Mora","count":60000},{"id":104132,"name":"Nagadus Emerald Fragment","count":6},{"id":113044,"name":"Pseudo-Stamens","count":4},{"id":101222,"name":"Sand Grease Pupa","count":20},{"id":112066,"name":"Trimmed Red Silk","count":12}],"ascend4":[{"id":202,"name":"Mora","count":80000},{"id":104133,"name":"Nagadus Emerald Chunk","count":3},{"id":113044,"name":"Pseudo-Stamens","count":8},{"id":101222,"name":"Sand Grease Pupa","count":30},{"id":112066,"name":"Trimmed Red Silk","count":18}],"ascend5":[{"id":202,"name":"Mora","count":100000},{"id":104133,"name":"Nagadus Emerald Chunk","count":6},{"id":113044,"name":"Pseudo-Stamens","count":12},{"id":101222,"name":"Sand Grease Pupa","count":45},{"id":112067,"name":"Rich Red Brocade","count":12}],"ascend6":[{"id":202,"name":"Mora","count":120000},{"id":104134,"name":"Nagadus Emerald Gemstone","count":6},{"id":113044,"name":"Pseudo-Stamens","count":20},{"id":101222,"name":"Sand Grease Pupa","count":60},{"id":112067,"name":"Rich Red Brocade","count":24}]}
+talentmaterialtypes(name) = undefined
+talentmaterialtype(name) = undefined
 
-section("Test: genshindb.characters(seriesName, { matchCategories: true })");
-console.log("Kiểm tra từng series sách có hoạt động không, và Traveler (nếu có) được liệt kê bằng tên gì.\n");
+========== Arataki Itto ==========
+characters() keys: [
+  'id',           'name',
+  'title',        'description',
+  'weaponType',   'weaponText',
+  'bodyType',     'gender',
+  'qualityType',  'rarity',
+  'birthdaymmdd', 'birthday',
+  'elementType',  'elementText',
+  'affiliation',  'associationType',
+  'region',       'substatType',
+  'substatText',  'constellation',
+  'cv',           'costs',
+  'images',       'url',
+  'stats',        'version'
+]
+  c.costs = {"ascend1":[{"id":202,"name":"Mora","count":20000},{"id":104171,"name":"Prithiva Topaz Sliver","count":1},{"id":101201,"name":"Onikabuto","count":3},{"id":112002,"name":"Slime Condensate","count":3}],"ascend2":[{"id":202,"name":"Mora","count":40000},{"id":104172,"name":"Prithiva Topaz Fragment","count":3},{"id":113030,"name":"Riftborn Regalia","count":2},{"id":101201,"name":"Onikabuto","count":10},{"id":112002,"name":"Slime Condensate","count":15}],"ascend3":[{"id":202,"name":"Mora","count":60000},{"id":104172,"name":"Prithiva Topaz Fragment","count":6},{"id":113030,"name":"Riftborn Regalia","count":4},{"id":101201,"name":"Onikabuto","count":20},{"id":112003,"name":"Slime Secretions","count":12}],"ascend4":[{"id":202,"name":"Mora","count":80000},{"id":104173,"name":"Prithiva Topaz Chunk","count":3},{"id":113030,"name":"Riftborn Regalia","count":8},{"id":101201,"name":"Onikabuto","count":30},{"id":112003,"name":"Slime Secretions","count":18}],"ascend5":[{"id":202,"name":"Mora","count":100000},{"id":104173,"name":"Prithiva Topaz Chunk","count":6},{"id":113030,"name":"Riftborn Regalia","count":12},{"id":101201,"name":"Onikabuto","count":45},{"id":112004,"name":"Slime Concentrate","count":12}],"ascend6":[{"id":202,"name":"Mora","count":120000},{"id":104174,"name":"Prithiva Topaz Gemstone","count":6},{"id":113030,"name":"Riftborn Regalia","count":20},{"id":101201,"name":"Onikabuto","count":60},{"id":112004,"name":"Slime Concentrate","count":24}]}
+talentmaterialtypes(name) = undefined
+talentmaterialtype(name) = undefined
 
-let anyTravelerFound = false;
-
-for (const series of KNOWN_TALENT_BOOK_SERIES) {
-  try {
-    const names = genshindb.characters(series, { matchCategories: true }) as string[] | undefined;
-    if (!names) {
-      console.log(`[${series}] -> undefined (series này không tồn tại/không có data trong bản hiện tại)`);
-      continue;
-    }
-    const travelerLike = names.filter(
-      (n) => n.toLowerCase().includes("traveler") || n === "Aether" || n === "Lumine"
-    );
-    if (travelerLike.length) {
-      anyTravelerFound = true;
-      console.log(`[${series}] (${names.length} nhân vật) — có Traveler:`, travelerLike);
-    } else {
-      console.log(`[${series}] (${names.length} nhân vật) — không thấy Traveler/Aether/Lumine`);
-    }
-  } catch (err) {
-    console.log(`[${series}] -> LỖI:`, (err as Error).message);
-  }
-}
-
-section("Kết luận");
-if (anyTravelerFound) {
-  console.log("✔ Traveler CÓ được liệt kê trong ít nhất 1 series — xem tên chính xác ở trên,");
-  console.log("  đối chiếu với mảng candidates trong seed-characters.ts (seedTraveler) để đảm bảo khớp.");
-} else {
-  console.log("✘ Traveler KHÔNG xuất hiện trong bất kỳ series sách nào qua matchCategories.");
-  console.log("  => genshin-db (bản đang cài) không phân loại Traveler theo category sách talent.");
-  console.log("  => bookType sẽ tiếp tục là null cho Traveler một cách CHÍNH ĐÁNG (không phải bug),");
-  console.log("     vì không có nguồn data-driven nào trong thư viện này để suy luận nó.");
-  console.log("  => Nếu muốn có số liệu chính xác cho Traveler, cách khả thi duy nhất là hardcode");
-  console.log("     bằng tay theo dữ liệu công khai đã verify (mình đã gửi kèm gợi ý trong chat),");
-  console.log("     KHÔNG nên tiếp tục đoán field/API của genshin-db nữa.");
-}
+========== Tß║ñT Cß║ó H├ÇM package genshin-db export ==========
+[
+  'Options',             'achievement',           'achievementgroup',
+  'achievementgroups',   'achievements',          'addAltName',
+  'addData',             'adventurerank',         'adventureranks',
+  'animal',              'animals',               'artifact',
+  'artifacts',           'categories',            'category',
+  'character',           'characters',            'constellation',
+  'constellations',      'craft',                 'crafts',
+  'domain',              'domains',               'element',
+  'elements',            'emoji',                 'emojis',
+  'enemies',             'enemy',                 'food',
+  'foods',               'geographies',           'geography',
+  'getOptions',          'material',              'materials',
+  'namecard',            'namecards',             'outfit',
+  'outfits',             'rarity',                'removeAltNames',
+  'searchFolder',        'searchMultipleFolders', 'setAltNameLimits',
+  'setOptions',          'talent',                'talentmaterialtype',
+  'talentmaterialtypes', 'talents',               'tcgactioncard',
+  'tcgactioncards',      'tcgcardback',           'tcgcardbacks',
+  'tcgcardbox',          'tcgcardboxes',          'tcgcharactercard',
+  'tcgcharactercards',   'tcgdetailedrule',       'tcgdetailedrules',
+  'tcgenemycard',        'tcgenemycards',         'tcgkeyword',
+  'tcgkeywords',         'tcglevelreward',        'tcglevelrewards',
+  'tcgstatuseffect',     'tcgstatuseffects',      'tcgsummon',
+  'tcgsummons',          'viewpoint',             'viewpoints',
+  'voiceover',           'voiceovers',            'weapon',
+  'weaponmaterialtype',  'weaponmaterialtypes',   'weapons',
+  'wildlife',            'windglider',            'windgliders'
+]
 </file>
 
 <file path="prisma/migrations/20260729161241_init/migration.sql">
@@ -313,6 +482,16 @@ CREATE TABLE "Material" (
 CREATE UNIQUE INDEX "Material_name_key" ON "Material"("name");
 </file>
 
+<file path="prisma/migrations/20260731013941_add_weapon_ascension/migration.sql">
+-- AlterTable
+ALTER TABLE "Weapon" ADD COLUMN     "ascensionMaterials" JSONB;
+</file>
+
+<file path="prisma/migrations/20260731020109_add_talent_materials/migration.sql">
+-- AlterTable
+ALTER TABLE "Character" ADD COLUMN     "talentMaterials" JSONB;
+</file>
+
 <file path="prisma/migrations/migration_lock.toml">
 # Please do not edit this file manually
 # It should be added in your version-control system (e.g., Git)
@@ -347,7 +526,6 @@ export async function seedArtifacts(): Promise<void> {
       const onePieceBonus = a.effect1Pc || a["1pc"] || null;
       const twoPieceBonus = a.effect2Pc || a["2pc"] || null;
       const fourPieceBonus = a.effect4Pc || a["4pc"] || null;
-      const isLegacyTwoPieceOnlySet = !fourPieceBonus && !!onePieceBonus;
 
       const pieces = {
         flower: a.images?.filename_flower ? getEnkaUrl(a.images.filename_flower) : null,
@@ -362,7 +540,6 @@ export async function seedArtifacts(): Promise<void> {
         onePieceBonus,
         twoPieceBonus,
         fourPieceBonus,
-        isLegacyTwoPieceOnlySet,
         pieces: pieces as any,
         iconUrl: getEnkaUrl(a.images?.filename_flower || a.images?.filename_circlet),
       };
@@ -383,85 +560,6 @@ export async function seedArtifacts(): Promise<void> {
 }
 </file>
 
-<file path="scripts/seed-weapons.ts">
-import { createRequire } from "module";
-import { prisma } from "../src/lib/prisma";
-import { getEnkaUrl, slugify, upsertMaterial } from "./lib/seed-helpers";
-
-const require = createRequire(import.meta.url);
-const genshindb = require("genshin-db") as typeof import("genshin-db");
-
-/**
- * Lấy nguyên liệu đột phá từ costs của vũ khí (ascend1..ascend6)
- * và upsert vào bảng Material, trả về JSON phù hợp với schema.
- */
-async function getWeaponAscensionMaterials(costs: unknown): Promise<unknown> {
-  if (!costs || typeof costs !== "object") return null;
-  const raw = costs as Record<string, Array<{ name?: string; count?: number }>>;
-
-  const phases = [];
-  for (const phase of [1, 2, 3, 4, 5, 6]) {
-    const items = raw[`ascend${phase}`];
-    if (!Array.isArray(items) || items.length === 0) continue;
-
-    const materials = [];
-    for (const m of items) {
-      if (!m || !m.name) continue;
-      const materialId = await upsertMaterial(prisma, genshindb, m.name);
-      materials.push({ materialId, name: m.name, count: m.count ?? null });
-    }
-    if (materials.length > 0) phases.push({ phase, materials });
-  }
-
-  return phases.length ? JSON.parse(JSON.stringify(phases)) : null;
-}
-
-export async function seedWeapons(): Promise<void> {
-  const names = genshindb.weapons("names", { matchCategories: true }) as string[];
-  let count = 0;
-
-  for (const name of names) {
-    try {
-      const w = genshindb.weapons(name) as any;
-      if (!w || !w.name || !w.rarity) continue;
-
-      const raw = w as Record<string, any>;
-      const refinements = [raw.r1, raw.r2, raw.r3, raw.r4, raw.r5].filter(Boolean);
-
-      // Lấy nguyên liệu đột phá
-      const ascensionMaterials = await getWeaponAscensionMaterials(w.costs);
-
-      const payload = {
-        name: w.name,
-        type: w.weaponText || null,
-        rarity: typeof w.rarity === "string" ? parseInt(w.rarity, 10) : w.rarity,
-        baseAtk: w.baseAtkValue ?? null,
-        subStatName: w.mainStatText || null,
-        subStatValue: w.baseStatText || null,
-        effectName: w.effectName || null,
-        effectDescriptionR1: refinements[0]?.description || w.effectTemplateRaw || null,
-        effectDescriptionR5: refinements[4]?.description || w.effectTemplateRaw || null,
-        passiveByRefinement: refinements.length ? JSON.parse(JSON.stringify(refinements)) : null,
-        description: w.description || null,
-        iconUrl: getEnkaUrl(w.images?.filename_icon, w.images?.mihoyo_icon),
-        ascensionMaterials: ascensionMaterials as any,
-      };
-
-      const id = slugify(w.name);
-      await prisma.weapon.upsert({
-        where: { id },
-        create: { id, ...payload },
-        update: payload,
-      });
-      count++;
-    } catch (err) {
-      console.warn(`⚠ Skipped weapon "${name}":`, (err as Error).message);
-    }
-  }
-  console.log(`✔ Seeded ${count} weapons with ascension materials`);
-}
-</file>
-
 <file path="scripts/seed.ts">
 import { assertEnv } from "../src/lib/env";
 
@@ -477,6 +575,7 @@ import { prisma } from "../src/lib/prisma";
 import { seedCharacters } from "./seed-characters";
 import { seedWeapons } from "./seed-weapons";
 import { seedArtifacts } from "./seed-artifacts";
+import { printMissingIconSummary } from "./lib/seed-helpers";
 
 async function main(): Promise<void> {
   console.log("Seeding database with real Genshin Impact data (genshin-db)...");
@@ -484,6 +583,7 @@ async function main(): Promise<void> {
     await seedCharacters();
     await seedWeapons();
     await seedArtifacts();
+    printMissingIconSummary();
     console.log("=== ALL DATA SEEDED SUCCESSFULLY ===");
   } catch (error) {
     console.error("❌ Seeding halted due to critical error:");
@@ -500,6 +600,237 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
+</file>
+
+<file path="src/app/search/page.tsx">
+import Link from "next/link";
+import type { Metadata } from "next";
+import { prisma } from "@/lib/prisma";
+import { rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
+import { ElementIcon } from "@/components/ElementIcon";
+import { SafeImage } from "@/components/SafeImage";
+
+interface PageProps {
+  searchParams: Promise<{ q?: string }>;
+}
+
+const MAX_RESULTS_PER_TYPE = 24;
+
+export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
+  const { q } = await searchParams;
+  const query = (q ?? "").trim();
+  return {
+    title: query ? `Tìm kiếm "${query}" — LEIBO` : "Tìm kiếm — LEIBO",
+    description: "Tìm kiếm nhân vật, vũ khí và thánh di vật Genshin Impact trên LEIBO.",
+    // Trang kết quả tìm kiếm không cần index — tránh trùng nội dung với
+    // /characters, /weapons, /artifacts trên Google.
+    robots: { index: false, follow: true },
+  };
+}
+
+export default async function SearchPage({ searchParams }: PageProps) {
+  const { q } = await searchParams;
+  const query = (q ?? "").trim();
+
+  if (!query) {
+    return (
+      <div className="max-w-3xl mx-auto px-4 py-16 text-center">
+        <h1 className="font-display text-3xl font-bold text-primary mb-3">Tìm Kiếm</h1>
+        <p className="text-sm text-secondary">
+          Nhập tên nhân vật, vũ khí hoặc thánh di vật ở ô tìm kiếm phía trên để bắt đầu.
+        </p>
+      </div>
+    );
+  }
+
+  const [characters, weapons, artifacts] = await Promise.all([
+    prisma.character.findMany({
+      where: { name: { contains: query, mode: "insensitive" } },
+      orderBy: [{ rarity: "desc" }, { name: "asc" }],
+      take: MAX_RESULTS_PER_TYPE,
+      select: {
+        id: true,
+        name: true,
+        vision: true,
+        weaponType: true,
+        rarity: true,
+        iconUrl: true,
+        elementIcon: true,
+      },
+    }),
+    prisma.weapon.findMany({
+      where: { name: { contains: query, mode: "insensitive" } },
+      orderBy: [{ rarity: "desc" }, { name: "asc" }],
+      take: MAX_RESULTS_PER_TYPE,
+      select: { id: true, name: true, type: true, rarity: true, iconUrl: true },
+    }),
+    prisma.artifactSet.findMany({
+      where: { name: { contains: query, mode: "insensitive" } },
+      orderBy: { name: "asc" },
+      take: MAX_RESULTS_PER_TYPE,
+      select: { id: true, name: true, rarityRange: true, iconUrl: true },
+    }),
+  ]);
+
+  const totalResults = characters.length + weapons.length + artifacts.length;
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="mb-8">
+        <h1 className="font-display text-4xl font-bold tracking-wide text-primary uppercase mb-2">
+          Kết Quả Tìm Kiếm
+        </h1>
+        <p className="text-sm text-secondary">
+          {totalResults > 0 ? (
+            <>
+              Tìm thấy <span className="text-gold-bright font-semibold">{totalResults}</span> kết quả cho{" "}
+              <span className="text-gold-bright font-semibold">&ldquo;{query}&rdquo;</span>
+            </>
+          ) : (
+            <>
+              Không tìm thấy kết quả nào cho{" "}
+              <span className="text-gold-bright font-semibold">&ldquo;{query}&rdquo;</span>
+            </>
+          )}
+        </p>
+      </div>
+
+      {characters.length > 0 && (
+        <section className="mb-12">
+          <h2 className="font-display text-xl font-semibold text-primary mb-4">
+            Nhân Vật ({characters.length})
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {characters.map((c) => (
+              <Link
+                key={c.id}
+                href={`/characters/${c.id}`}
+                className={`relic-frame ${rarityGlowClass(c.rarity)} overflow-hidden group`}
+              >
+                <div className="relative aspect-square w-full overflow-hidden bg-secondary/50">
+                  {c.iconUrl ? (
+                    <SafeImage
+                      src={c.iconUrl}
+                      alt={c.name}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-muted text-xs">
+                      No Image
+                    </div>
+                  )}
+                  <div className="absolute top-2 left-2 bg-black/40 backdrop-blur-sm rounded-full p-1">
+                    <ElementIcon vision={c.vision} iconUrl={c.elementIcon} size={16} />
+                  </div>
+                </div>
+                <div className="p-3 border-t border-border bg-card/80">
+                  <div className="font-semibold truncate text-primary group-hover:text-amber-400 transition-colors text-sm">
+                    {c.name}
+                  </div>
+                  <div className="flex justify-between items-center mt-1">
+                    <span className="text-[10px] text-secondary uppercase tracking-wider">
+                      {c.weaponType}
+                    </span>
+                    <span className={`text-[10px] tracking-tighter ${rarityTextClass(c.rarity)}`}>
+                      {rarityStars(c.rarity)}
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {weapons.length > 0 && (
+        <section className="mb-12">
+          <h2 className="font-display text-xl font-semibold text-primary mb-4">
+            Vũ Khí ({weapons.length})
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {weapons.map((w) => (
+              <Link
+                key={w.id}
+                href={`/weapons/${w.id}`}
+                className={`relic-frame ${rarityGlowClass(w.rarity)} overflow-hidden group`}
+              >
+                <div className="relative aspect-square w-full bg-secondary/40 p-4 flex items-center justify-center overflow-hidden">
+                  {w.iconUrl ? (
+                    <SafeImage
+                      src={w.iconUrl}
+                      alt={w.name}
+                      fill
+                      className="object-contain p-2 group-hover:scale-110 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="text-muted text-xs">No Image</div>
+                  )}
+                </div>
+                <div className="p-3 border-t border-border bg-card/80">
+                  <div className="font-bold truncate text-primary group-hover:text-gold-bright transition-colors text-sm">
+                    {w.name}
+                  </div>
+                  <div className="flex justify-between items-center mt-1">
+                    <span className="text-[10px] text-secondary tracking-wider uppercase font-medium">
+                      {w.type}
+                    </span>
+                    <span className={`text-[10px] tracking-tighter ${rarityTextClass(w.rarity)}`}>
+                      {rarityStars(w.rarity)}
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {artifacts.length > 0 && (
+        <section>
+          <h2 className="font-display text-xl font-semibold text-primary mb-4">
+            Thánh Di Vật ({artifacts.length})
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {artifacts.map((a) => {
+              const rarityRange = a.rarityRange as number[];
+              const maxRarity = rarityRange.length ? Math.max(...rarityRange) : 4;
+              return (
+                <Link
+                  key={a.id}
+                  href={`/artifacts/${a.id}`}
+                  className={`relic-frame ${rarityGlowClass(maxRarity)} overflow-hidden group`}
+                >
+                  <div className="relative aspect-square w-full bg-secondary/40 p-4 flex items-center justify-center overflow-hidden">
+                    {a.iconUrl ? (
+                      <SafeImage
+                        src={a.iconUrl}
+                        alt={a.name}
+                        fill
+                        className="object-contain p-2 group-hover:scale-110 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="text-muted text-xs">No Image</div>
+                    )}
+                  </div>
+                  <div className="p-3 border-t border-border bg-card/80">
+                    <div className="font-bold truncate text-primary group-hover:text-gold-bright transition-colors text-sm">
+                      {a.name}
+                    </div>
+                    <div className="text-xs text-secondary font-medium mt-2 flex items-center gap-1">
+                      <span className="w-1 h-1 rounded-full bg-gold-bright" />
+                      Phẩm cấp: {rarityRange.join("–")}★
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+      )}
+    </div>
+  );
+}
 </file>
 
 <file path="src/app/error.tsx">
@@ -562,6 +893,93 @@ export default function ErrorBoundary({
         </Link>
       </div>
     </div>
+  );
+}
+</file>
+
+<file path="src/app/global-error.tsx">
+"use client";
+
+import { useEffect } from "react";
+
+/**
+ * error.tsx chỉ bắt lỗi từ các Server Component NẰM TRONG layout.tsx,
+ * không bắt được lỗi ném ra từ chính layout.tsx (vd ThemeProvider crash,
+ * lỗi trong <head>, v.v.). global-error.tsx là cấp bắt lỗi cao nhất của
+ * Next.js App Router cho đúng trường hợp này.
+ *
+ * Vì lỗi có thể xảy ra ngay trong layout, file này phải tự render lại
+ * toàn bộ <html>/<body> — không thể chỉ render children như error.tsx.
+ * Cũng không phụ thuộc vào ThemeProvider/globals.css vì chính những thứ đó
+ * có thể là nguyên nhân gây lỗi.
+ */
+export default function GlobalError({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
+  useEffect(() => {
+    // Khi có Sentry (giai đoạn vận hành) thay dòng này bằng
+    // Sentry.captureException(error).
+    console.error("[LEIBO] Lỗi ở tầng root layout:", error);
+  }, [error]);
+
+  return (
+    <html lang="vi">
+      <body style={{ margin: 0, background: "#0a0a0a", color: "#e5e5e5" }}>
+        <div
+          style={{
+            minHeight: "100vh",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+            padding: "1.5rem",
+            fontFamily: "system-ui, sans-serif",
+          }}
+        >
+          <p style={{ fontSize: "3rem", marginBottom: "1rem", color: "#f87171cc" }}>⚠</p>
+          <h1 style={{ fontSize: "1.5rem", fontWeight: 700, textTransform: "uppercase", marginBottom: "0.75rem" }}>
+            Lỗi Nghiêm Trọng
+          </h1>
+          <p style={{ fontSize: "0.875rem", color: "#a3a3a3", maxWidth: "28rem", marginBottom: "1.5rem" }}>
+            Đã có lỗi xảy ra ở tầng gốc của trang. Vui lòng thử lại hoặc tải lại trang.
+          </p>
+          {process.env.NODE_ENV !== "production" && (
+            <p
+              style={{
+                fontSize: "0.75rem",
+                color: "#f8717199",
+                maxWidth: "32rem",
+                marginBottom: "1.5rem",
+                fontFamily: "monospace",
+                wordBreak: "break-word",
+              }}
+            >
+              {error.message}
+            </p>
+          )}
+          <button
+            onClick={() => reset()}
+            style={{
+              borderRadius: "0.5rem",
+              border: "1px solid #404040",
+              background: "#171717",
+              padding: "0.5rem 1.25rem",
+              fontSize: "0.875rem",
+              fontWeight: 500,
+              color: "#e5e5e5",
+              cursor: "pointer",
+            }}
+          >
+            Thử Lại
+          </button>
+        </div>
+      </body>
+    </html>
   );
 }
 </file>
@@ -720,41 +1138,6 @@ export function ElementIcon({
       onError={() => setBroken(true)}
     />
   );
-}
-</file>
-
-<file path="src/components/SafeImage.tsx">
-"use client";
-
-import { useState } from "react";
-import Image, { type ImageProps } from "next/image";
-
-/**
- * Wrapper cho next/image với fallback khi ảnh lỗi.
- * - Hỗ trợ `sizes` để tối ưu responsive.
- * - Hỗ trợ `priority` cho LCP.
- */
-export function SafeImage({
-  fallbackClassName,
-  sizes = "100vw",
-  ...props
-}: ImageProps & { fallbackClassName?: string; sizes?: string }) {
-  const [broken, setBroken] = useState(false);
-
-  if (broken) {
-    return (
-      <div
-        className={
-          fallbackClassName ??
-          "w-full h-full flex items-center justify-center text-muted text-[10px] bg-secondary/30"
-        }
-      >
-        —
-      </div>
-    );
-  }
-
-  return <Image {...props} onError={() => setBroken(true)} sizes={sizes} />;
 }
 </file>
 
@@ -1052,369 +1435,6 @@ Thumbs.db
 next-env.d.ts
 </file>
 
-<file path="genshin_types_dump.txt">
-/// <reference path="./folders/achievements.d.ts" />
-/// <reference path="./folders/achievementgroups.d.ts" />
-/// <reference path="./folders/adventureranks.d.ts" />
-/// <reference path="./folders/animals.d.ts" />
-/// <reference path="./folders/artifacts.d.ts" />
-/// <reference path="./folders/characters.d.ts" />
-/// <reference path="./folders/constellations.d.ts" />
-/// <reference path="./folders/domains.d.ts" />
-/// <reference path="./folders/elements.d.ts" />
-/// <reference path="./folders/enemies.d.ts" />
-/// <reference path="./folders/foods.d.ts" />
-/// <reference path="./folders/geographies.d.ts" />
-/// <reference path="./folders/materials.d.ts" />
-/// <reference path="./folders/namecards.d.ts" />
-/// <reference path="./folders/outfits.d.ts" />
-/// <reference path="./folders/rarity.d.ts" />
-/// <reference path="./folders/talentmaterialtypes.d.ts" />
-/// <reference path="./folders/talents.d.ts" />
-// <reference path="./folders/weaponmaterialtypes.d.ts" />
-/// <reference path="./folders/weapons.d.ts" />
-/// <reference path="./folders/windgliders.d.ts" />
-/// <reference path="./folders/crafts.d.ts" />
-/// <reference path="./folders/emojis.d.ts" />
-/// <reference path="./folders/voiceovers.d.ts" />
-
-/// <reference path="./folders/tcgactioncards.d.ts" />
-/// <reference path="./folders/tcgcardbacks.d.ts" />
-/// <reference path="./folders/tcgcardboxes.d.ts" />
-/// <reference path="./folders/tcgcharactercards.d.ts" />
-/// <reference path="./folders/tcgdetailedrules.d.ts" />
-/// <reference path="./folders/tcgenemycards.d.ts" />
-/// <reference path="./folders/tcgkeywords.d.ts" />
-/// <reference path="./folders/tcglevelrewards.d.ts" />
-/// <reference path="./folders/tcgstatuseffects.d.ts" />
-/// <reference path="./folders/tcgsummons.d.ts" />
-
-/// <reference path="./enums.d.ts" />
-
-declare module "genshin-db" {
-	export interface QueryFunction<R> {
-		<Q extends string, O extends QueryOptions>(query: Q, opts?: O):
-			(O extends { dumpResult: true }
-			?
-				DumpResult<R, O, Q>
-			:
-				(O extends { matchCategories: true } ? (O extends { verboseCategories: true } ? R[] : string[]) : never) | 
-				(Q extends "names" ? (O extends { matchCategories: true } ? never : R | undefined) : R | undefined)
-			)
-	}
-
-	export interface DumpResult<R, O extends QueryOptions, Q extends string> {
-		query: Q;
-		folder: Folder | Folder[];
-		match: string | undefined;
-		matchfolder: Folder;
-		matchtype: MatchType | undefined;
-		options: QueryOptions;
-		filename: (O extends { matchCategories: true } ? string[] : undefined) | string | undefined;
-		result: (O extends { matchCategories: true } ? (O extends { verboseCategories: true } ? R[] : string[]) : never) | 
-				(Q extends "names" ? (O extends { matchCategories: true } ? never : R | undefined) : R | undefined);
-	}
-
-	/* Logic
-	if matchCategories
-	  if verboseCategories
-		add R[];
-	  else
-		add string[];
-	else
-	  add never
-
-	if "names"
-	  if matchCategories
-		add never
-	  else
-		add R | undefined;
-	else
-	  add R | undefined;
-	*/
-
-	/* Test examples
-	characters("names", { matchCategories: true }); // string[]
-	characters("names", { matchCategories: true, verboseCategories: true }); // Character[]
-
-	characters("names"); // Character | undefined
-	characters("names", { matchCategories: false }); // Character | undefined
-	characters("foobar"); // Character | undefined
-	characters("foobar", { matchCategories: false }); // Character | undefined
-	characters("foobar", { verboseCategories: false }); // Character | undefined
-
-	characters("foobar", { matchCategories: true }); // Character | string[] | undefined
-	characters("foobar", { matchCategories: true, verboseCategories: true }); // Character | Character[] | undefined
-	*/
-
-	export interface StatFunction {
-		(level: number, ascension?: number | '+' | '-'): StatResult;
-	}
-
-	export interface StatResult {
-		level: number;
-		ascension: number;
-		hp?: number;
-		attack?: number;
-		defense?: number;
-		specialized?: number;
-	}
-
-	export interface QueryOptions {
-		dumpResult?: boolean;
-		matchNames?: boolean;
-		matchAltNames?: boolean;
-		matchAliases?: boolean;
-		matchCategories?: boolean;
-		verboseCategories?: boolean;
-		queryLanguages?: Language[];
-		resultLanguage?: Language;
-	}
-
-	export const achievementgroups: QueryFunction<AchievementGroup>;
-	export const achievements: QueryFunction<Achievement>;
-	export const adventureranks: QueryFunction<AdventureRank>;
-	export const animals: QueryFunction<Animal>;
-	export const artifacts: QueryFunction<Artifact>;
-	export const characters: QueryFunction<Character>;
-	export const constellations: QueryFunction<Constellation>;
-	export const crafts: QueryFunction<Craft>;
-	export const domains: QueryFunction<Domain>;
-	export const elements: QueryFunction<Element>; 
-	export const enemies: QueryFunction<Enemy>;
-	export const foods: QueryFunction<Food>;
-	export const geographies: QueryFunction<Geography>;
-	export const materials: QueryFunction<Material>;
-	export const namecards: QueryFunction<Namecard>;
-	export const outfits: QueryFunction<Outfit>;
-	/** @deprecated */
-	export const rarity: QueryFunction<Rarity>;
-	export const talentmaterialtypes: QueryFunction<TalentMaterial>;
-	export const talents: QueryFunction<Talent>;
-	// export const weaponmaterialtypes: QueryFunction<WeaponMaterial>;
-	export const weapons: QueryFunction<Weapon>;
-	export const windgliders: QueryFunction<WindGlider>;
-
-	export const emojis: QueryFunction<Emoji>;
-	export const voiceovers: QueryFunction<Voiceover>;
-
-	export const tcgactioncards: QueryFunction<TcgActionCards>;
-	export const tcgcardbacks: QueryFunction<TcgCardBacks>;
-	export const tcgcardboxes: QueryFunction<TcgCardBoxes>;
-	export const tcgcharactercards: QueryFunction<TcgCharacterCards>;
-	export const tcgdetailedrules: QueryFunction<TcgDetailedRules>;
-	export const tcgenemycards: QueryFunction<TcgEnemyCards>;
-	export const tcgkeywords: QueryFunction<TcgKeywords>;
-	export const tcglevelrewards: QueryFunction<TcgLevelRewards>;
-	export const tcgstatuseffects: QueryFunction<TcgStatusEffects>;
-	export const tcgsummons: QueryFunction<TcgSummons>;
-
-
-
-	export interface categories {
-		(query: string, folder: Folder, opts: QueryOptions): undefined | string[];
-	}
-
-
-	export interface Items {
-		id: string;
-		name: string;
-		count: number;
-	}
-
-	export interface Rewards {
-		id: number;
-		name: string;
-		rarity?: 1 | 2 | 3 | 4 | 5; // only used for artifacts
-		count?: number; // only used for adventure exp, mora, and companionship exp
-		countmax?: number; // upper range. used for enhancement ore which can be shown as "0~1"
-	}
-
-
-	// export interface Commission {
-	//     name: string;
-	//     description: string;
-	//     target: string;
-	//     city: string;
-	// }
-
-
-	//#region Altnames
-
-	export function addAltName(language: Language, folder: Folder, altname: string, query: string): boolean;
-	export function removeAltNames(language: Language, folder: Folder, altname: string): boolean;
-	export function setAltNameLimits(limit: { maxLength?: number, maxCount?: number }): void;
-
-	//#endregion
-
-	// not sure how to add default true to "overwrite" param
-	export function addData(data: ArrayBuffer | any, overwrite? : boolean): void;
-	export function searchFolder(folder: string, query: string, opts?: QueryOptions): any;
-	export function searchMultipleFolders(folders: string[], query: string, opts?: QueryOptions): any;
-
-	//#region Options
-
-	/**
-	 * Set options by providing the values you want to change.
-	 */
-	export function setOptions(opts: QueryOptions): void;
-
-	/**
-	 * Returns a cloned copy of the options.
-	 */
-	export function getOptions(): QueryOptions;
-
-	//#endregion
-}
-declare module "genshin-db" {
-	export interface Weapon {
-		id: number;
-		name: string;
-		dupealias?: string; // Prized Isshin Blade (which isn't obtainable)
-
-		description: string;
-		descriptionRaw: string;
-
-		weaponType: 'WEAPON_BOW' | 'WEAPON_CATALYST' | 'WEAPON_CLAYMORE' | 'WEAPON_POLE' | 'WEAPON_SWORD_ONE_HAND'; // enum
-		weaponText: string; // translated
-
-		rarity: 1 | 2 | 3 | 4 | 5;
-		story: string; // empty string if no story
-
-		baseAtkValue: number; // not rounded
-		mainStatType?: 'FIGHT_PROP_ATTACK_PERCENT' | 'FIGHT_PROP_CHARGE_EFFICIENCY' | 'FIGHT_PROP_CRITICAL' | 'FIGHT_PROP_CRITICAL_HURT' | 'FIGHT_PROP_DEFENSE_PERCENT' | 'FIGHT_PROP_ELEMENT_MASTERY' | 'FIGHT_PROP_HP_PERCENT' | 'FIGHT_PROP_PHYSICAL_ADD_HURT'; // enum. low rarity weapons dont have this
-		mainStatText?: string; // translated. low rarity weapons dont have this
-		baseStatText: string; // as shown in-game. low rarity weapons dont have this
-
-		effectName?: string; // low rarity weapons dont have this
-		effectTemplateRaw?: string; // low rarity weapons dont have this
-		r1?: WeaponRefine; // for example dull blade doesn't have any refinement
-		r2?: WeaponRefine;
-		r3?: WeaponRefine;
-		r4?: WeaponRefine;
-		r5?: WeaponRefine;
-
-		costs: {
-			"ascend1": Items[];
-			"ascend2": Items[];
-			"ascend3": Items[];
-			"ascend4": Items[];
-			"ascend5"?: Items[]; // 1 and 2 star weapons only have 4 ascensions
-			"ascend6"?: Items[]; // 1 and 2 star weapons only have 4 ascensions
-		};
-		images: {
-			filename_icon: string;
-			filename_awakenIcon: string;
-			filename_gacha: string;
-			mihoyo_icon?: string; // hoyolab. they're missing some images unfortunately.
-			mihoyo_awakenIcon?: string; // hoyolab. they're missing some images unfortunately.
-		};
-		// url: { // deprecated
-		// 	fandom: string;
-		// };
-		stats: StatFunction;
-		version: string;
-	}
-
-	export interface WeaponRefine {
-		description: string; // sanitized with removeColorHTML, replaceNonBreakSpace, removeHashtag, replaceGenderM
-		values: string[];
-	}
-
-	//#endregion
-
-	//#region WeaponMaterial
-	//deprecated
-	// export interface WeaponMaterial { // English only
-	// 	name: string;
-	// 	"2starname": string;
-	// 	"3starname": string;
-	// 	"4starname": string;
-	// 	"5starname": string;
-	// 	day: string[];
-	// 	location: string;
-	// 	region: string;
-	// 	domainofforgery: string;
-	// }
-}
-declare module "genshin-db" {
-	export interface Artifact {
-		id: number;
-		name: string;
-		rarityList: (1 | 2 | 3 | 4 | 5)[];
-		effect1Pc?: string; // for circlets only
-		effect2Pc?: string;
-		effect4Pc?: string;
-		flower?: ArtifactDetail;
-		plume?: ArtifactDetail;
-		sands?: ArtifactDetail;
-		goblet?: ArtifactDetail;
-		circlet?: ArtifactDetail;
-		images: {
-			filename_flower?: string;
-			filename_plume?: string;
-			filename_sands?: string;
-			filename_goblet?: string;
-			filename_circlet?: string;
-			mihoyo_flower?: string;
-			mihoyo_plume?: string;
-			mihoyo_sands?: string;
-			mihoyo_goblet?: string;
-			mihoyo_circlet?: string;
-		};
-
-		version: string;
-	}
-
-	export interface ArtifactDetail {
-		name: string;
-		relicType: 'EQUIP_BRACER' | 'EQUIP_NECKLACE' | 'EQUIP_SHOES' | 'EQUIP_RING' | 'EQUIP_DRESS'; // enum
-		relicText: string; // translated
-		description: string;
-		story: string;
-	}
-}
-
-// UNUSED. FOR REFERENCE ONLY.
-// artifacts with 2pc and 4pc set effects
-// export interface ArtifactNormal {
-//     name: string;
-//     rarity: string[];
-//     "2pc": string;
-//     "4pc": string;
-//     flower: ArtifactDetail;
-//     plume: ArtifactDetail;
-//     sands: ArtifactDetail;
-//     goblet: ArtifactDetail;
-//     circlet: ArtifactDetail;
-//     images: {
-//         flower: string;
-//         plume: string;
-//         sands: string;
-//         goblet: string;
-//         circlet: string;
-//     };
-//     url: {
-//         fandom: string;
-//     };
-// }
-
-// // UNUSED. FOR REFERENCE ONLY.
-// // circlet artifacts
-// export interface ArtifactHeadSingle {
-//     name: string;
-//     rarity: string[];
-//     "1pc": string;
-//     circlet: ArtifactDetail;
-//     images: {
-//         circlet: string;
-//     };
-//     url: {
-//         fandom: string;
-//     };
-// }
-</file>
-
 <file path="postcss.config.mjs">
 const config = {
   plugins: {
@@ -1423,240 +1443,6 @@ const config = {
 };
 
 export default config;
-</file>
-
-<file path="prisma_config_types.txt">
-export declare type ConfigDiagnostic = {
-    _tag: 'log';
-    value: (formatters: InjectFormatters) => () => void;
-} | {
-    _tag: 'warn';
-    value: (formatters: InjectFormatters) => () => void;
-};
-
-export declare type ConfigFromFile = {
-    resolvedPath: string;
-    config: PrismaConfigInternal;
-    error?: never;
-    diagnostics: ConfigDiagnostic[];
-} | {
-    resolvedPath: string;
-    config?: never;
-    error: LoadConfigFromFileError;
-    diagnostics: ConfigDiagnostic[];
-} | {
-    resolvedPath: null;
-    config: PrismaConfigInternal;
-    error?: never;
-    diagnostics: ConfigDiagnostic[];
-};
-
-export declare type Datasource = {
-    url?: string;
-    shadowDatabaseUrl?: string;
-};
-
-/**
- * All default values for the config shall be set here.
- * Modules should not have to deal with missing config values and determining a default themselves as far as possible.
- * => Consistent defaults and centralized top-level control of configuration via the CLI.
- */
-export declare function defaultConfig(): PrismaConfigInternal;
-
-/**
- * This default config can be used as basis for unit and integration tests.
- */
-export declare function defaultTestConfig(): PrismaConfigInternal;
-
-/**
- * Define the configuration for the Prisma Development Kit.
- */
-export declare function defineConfig(configInput: PrismaConfig): PrismaConfigInternal;
-
-declare type EnumsConfigShape = {
-    /**
-     * List of enums that are externally managed.
-     * Prisma will not modify the structure of these enums and not generate migrations for those enums.
-     * These enums will still be represented in schema.prisma file and be available in the client API.
-     */
-    external?: string[];
-};
-
-export declare function env(name: string): string;
-
-export declare function env<Env>(name: EnvKey<Env> & string): string;
-
-declare type EnvKey<Env> = keyof {
-    [K in keyof Env as Env[K] extends string | undefined ? K : never]: Env[K];
-};
-
-declare type ExperimentalConfig = {
-    /**
-     * Enable experimental external tables support.
-     */
-    externalTables?: boolean;
-    /**
-     * Enable experimental extensions support. This is required to use the `extensions` config option.
-     */
-    extensions?: boolean;
-};
-
-export declare type InjectFormatters = {
-    dim: (data: string) => string;
-    log: (data: string) => void;
-    warn: (data: string) => void;
-    link: (data: string) => string;
-};
-
-/**
- * Load a Prisma config file from the given directory.
- * This function may fail, but it will never throw.
- * The possible error is returned in the result object, so the caller can handle it as needed.
- */
-export declare function loadConfigFromFile({ configFile, configRoot, }: LoadConfigFromFileInput): Promise<ConfigFromFile>;
-
-export declare type LoadConfigFromFileError = {
-    /**
-     * The config file was not found at the specified path.
-     */
-    _tag: 'ConfigFileNotFound';
-} | {
-    _tag: 'ConfigLoadError';
-    error: Error;
-} | {
-    _tag: 'ConfigFileSyntaxError';
-    error: Error;
-} | {
-    _tag: 'UnknownError';
-    error: Error;
-};
-
-declare type LoadConfigFromFileInput = {
-    /**
-     * The path to the config file to load. If not provided, we will attempt to find a config file in the `configRoot` directory.
-     */
-    configFile?: string;
-    /**
-     * The directory to search for the config file in. Defaults to the current working directory.
-     */
-    configRoot?: string;
-};
-
-declare type MigrationsConfigShape = {
-    /**
-     * The path to the directory where Prisma should store migration files, and look for them.
-     */
-    path?: string;
-    /**
-     * Provide a SQL script that will be used to setup external tables and enums during migration diffing.
-     * Also see `tables.external` and `enums.external`.
-     */
-    initShadowDb?: string;
-    /**
-     * The command to run to seed the database after schema migrations are applied.
-     */
-    seed?: string;
-};
-
-declare const PRISMA_CONFIG_INTERNAL_BRAND: unique symbol;
-
-/**
- * The configuration for the Prisma Development Kit, before it is passed to the `defineConfig` function.
- * Thanks to the branding, this type is opaque and cannot be constructed directly.
- */
-export declare type PrismaConfig = {
-    /**
-     * Experimental feature gates. Each experimental feature must be explicitly enabled.
-     */
-    experimental?: Simplify<ExperimentalConfig>;
-    /**
-     * The datasource configuration. Optional for most cases, but required for migration / introspection commands.
-     */
-    datasource?: Simplify<Datasource>;
-    /**
-     * The path to the schema file, or path to a folder that shall be recursively searched for *.prisma files.
-     */
-    schema?: string;
-    /**
-     * Configuration for Prisma migrations.
-     */
-    migrations?: Simplify<MigrationsConfigShape>;
-    /**
-     * Configuration for the database table entities.
-     */
-    tables?: Simplify<TablesConfigShape>;
-    /**
-     * Configuration for the database enum entities.
-     */
-    enums?: Simplify<EnumsConfigShape>;
-    /**
-     * Configuration for the database view entities.
-     */
-    views?: Simplify<ViewsConfigShape>;
-    /**
-     * Configuration for the `typedSql` preview feature.
-     */
-    typedSql?: Simplify<TypedSqlConfigShape>;
-};
-
-export declare class PrismaConfigEnvError extends Error {
-    constructor(name: string);
-}
-
-/**
- * The configuration for the Prisma Development Kit, after it has been parsed and processed
- * by the `defineConfig` function.
- * Thanks to the branding, this type is opaque and cannot be constructed directly.
- */
-export declare type PrismaConfigInternal = _PrismaConfigInternal & {
-    __brand: typeof PRISMA_CONFIG_INTERNAL_BRAND;
-};
-
-declare type _PrismaConfigInternal = PrismaConfig & {
-    loadedFromFile: string | null;
-};
-
-export declare type SchemaEngineConfigInternal = {
-    datasource?: Datasource;
-};
-
-/**
- * Simplifies the type signature of a type.
- * Re-exported from `effect/Types`.
- *
- * @example
- * ```ts
- * type Res = Simplify<{ a: number } & { b: number }> // { a: number; b: number; }
- * ```
- */
-declare type Simplify<A> = {
-    [K in keyof A]: A[K];
-} extends infer B ? B : never;
-
-declare type TablesConfigShape = {
-    /**
-     * List of tables that are externally managed.
-     * Prisma will not modify the structure of these tables and not generate migrations for those tables.
-     * These tables will still be represented in schema.prisma file and be available in the client API.
-     */
-    external?: string[];
-};
-
-declare type TypedSqlConfigShape = {
-    /**
-     * The path to the directory where Prisma should look for the `typedSql` queries, where *.sql files will be loaded.
-     */
-    path?: string;
-};
-
-declare type ViewsConfigShape = {
-    /**
-     * The path to the directory where Prisma should look for the view definitions, where *.sql files will be loaded.
-     */
-    path?: string;
-};
-
-export { }
 </file>
 
 <file path="tsconfig.json">
@@ -1683,327 +1469,80 @@ export { }
 }
 </file>
 
-<file path="scripts/lib/seed-helpers.ts">
+<file path="scripts/seed-weapons.ts">
+import { createRequire } from "module";
+import { prisma } from "../src/lib/prisma";
+import { getEnkaUrl, slugify, upsertMaterial } from "./lib/seed-helpers";
+
+const require = createRequire(import.meta.url);
+const genshindb = require("genshin-db") as typeof import("genshin-db");
+
 /**
- * Helper dùng chung cho toàn bộ script seed.
+ * Lấy nguyên liệu đột phá từ costs của vũ khí (ascend1..ascend6)
+ * và upsert vào bảng Material, trả về JSON phù hợp với schema.
  */
+async function getWeaponAscensionMaterials(costs: unknown): Promise<unknown> {
+  if (!costs || typeof costs !== "object") return null;
+  const raw = costs as Record<string, Array<{ name?: string; count?: number }>>;
 
-export function getEnkaUrl(filename?: string | null, mihoyoUrl?: string | null): string | null {
-  if (filename) return `https://enka.network/ui/${filename}.png`;
-  if (mihoyoUrl) return mihoyoUrl;
-  return null;
-}
+  const phases = [];
+  for (const phase of [1, 2, 3, 4, 5, 6]) {
+    const items = raw[`ascend${phase}`];
+    if (!Array.isArray(items) || items.length === 0) continue;
 
-export function getElementIconUrl(element?: string | null): string | null {
-  if (!element) return null;
-  const known: Record<string, string> = {
-    Anemo: "https://static.wikia.nocookie.net/gensin-impact/images/1/10/Element_Anemo.svg",
-    Geo: "https://static.wikia.nocookie.net/gensin-impact/images/9/9b/Element_Geo.svg",
-    Electro: "https://static.wikia.nocookie.net/gensin-impact/images/f/ff/Element_Electro.svg",
-    Dendro: "https://static.wikia.nocookie.net/gensin-impact/images/7/73/Element_Dendro.svg",
-    Hydro: "https://static.wikia.nocookie.net/gensin-impact/images/8/80/Element_Hydro.svg",
-    Pyro: "https://static.wikia.nocookie.net/gensin-impact/images/2/2c/Element_Pyro.svg",
-    Cryo: "https://static.wikia.nocookie.net/gensin-impact/images/7/72/Element_Cryo.svg",
-  };
-  return known[element.trim()] ?? null;
-}
-
-export function slugify(name: string): string {
-  return name
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-}
-
-export function getMaterialIconFilename(material: unknown): string | null {
-  const m = material as { images?: Record<string, string | undefined> } | null | undefined;
-  if (!m?.images) return null;
-  return m.images.filename_icon ?? m.images.filename_full ?? m.images.filename ?? null;
-}
-
-export async function upsertMaterial(
-  prisma: { material: { upsert: (args: any) => Promise<unknown> } },
-  genshindb: { materials: (name: string) => unknown },
-  materialName: string
-): Promise<string> {
-  const id = slugify(materialName);
-  let iconUrl: string | null = null;
-  try {
-    // 1. Lấy trực tiếp
-    let raw = genshindb.materials(materialName);
-    if (!raw) {
-      // 2. Chuẩn hóa tên (bỏ dấu, viết thường)
-      const normalized = materialName.replace(/[^a-zA-Z0-9 ]/g, "").trim();
-      raw = genshindb.materials(normalized);
+    const materials = [];
+    for (const m of items) {
+      if (!m || !m.name) continue;
+      const materialId = await upsertMaterial(prisma, genshindb, m.name);
+      materials.push({ materialId, name: m.name, count: m.count ?? null });
     }
-    if (!raw) {
-      // 3. Tìm trong danh sách tên
-      const allNames = genshindb.materials("names", { matchCategories: true }) as string[];
-      const match = allNames.find(n => n.toLowerCase() === materialName.toLowerCase());
-      if (match) raw = genshindb.materials(match);
-    }
-    if (raw) {
-      iconUrl = getEnkaUrl(getMaterialIconFilename(raw), null);
-    }
-  } catch {
-    // Không tìm thấy, iconUrl vẫn null
+    if (materials.length > 0) phases.push({ phase, materials });
   }
-  await prisma.material.upsert({
-    where: { id },
-    create: { id, name: materialName, iconUrl },
-    update: { iconUrl },
-  });
-  return id;
-}
-</file>
 
-<file path="src/app/artifacts/page.tsx">
-import Link from "next/link";
-import { prisma } from "@/lib/prisma";
-import { rarityGlowClass } from "@/lib/theme";
-
-interface PageProps {
-  searchParams: Promise<{ q?: string }>;
+  return phases.length ? JSON.parse(JSON.stringify(phases)) : null;
 }
 
-export default async function ArtifactsPage({ searchParams }: PageProps) {
-  const { q } = await searchParams;
+export async function seedWeapons(): Promise<void> {
+  const names = genshindb.weapons("names", { matchCategories: true }) as string[];
+  let count = 0;
 
-  const where: any = {};
-  if (q) where.name = { contains: q, mode: "insensitive" };
+  for (const name of names) {
+    try {
+      const w = genshindb.weapons(name) as any;
+      if (!w || !w.name || !w.rarity) continue;
 
-  const sets = await prisma.artifactSet.findMany({
-    where,
-    orderBy: { name: "asc" },
-  });
+      const raw = w as Record<string, any>;
+      const refinements = [raw.r1, raw.r2, raw.r3, raw.r4, raw.r5].filter(Boolean);
 
-  const buildQuery = (params: Record<string, string | undefined>) => {
-    const sp = new URLSearchParams();
-    if (q) sp.set("q", q);
-    Object.entries(params).forEach(([k, v]) => {
-      if (v) sp.set(k, v);
-      else sp.delete(k);
-    });
-    return sp.toString();
-  };
+      // Lấy nguyên liệu đột phá
+      const ascensionMaterials = await getWeaponAscensionMaterials(w.costs);
 
-  return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="font-display text-4xl font-bold tracking-wide text-primary uppercase mb-2">
-          Bảo Vật Thánh Di Vật
-        </h1>
-        <p className="text-sm text-secondary">
-          Khám phá bộ bí bảo tàng tích cổ đại gia tăng chiến lực
-        </p>
-      </div>
+      const payload = {
+        name: w.name,
+        type: w.weaponText || null,
+        rarity: typeof w.rarity === "string" ? parseInt(w.rarity, 10) : w.rarity,
+        baseAtk: w.baseAtkValue ?? null,
+        subStatName: w.mainStatText || null,
+        subStatValue: w.baseStatText || null,
+        effectName: w.effectName || null,
+        passiveByRefinement: refinements.length ? JSON.parse(JSON.stringify(refinements)) : null,
+        description: w.description || null,
+        iconUrl: getEnkaUrl(w.images?.filename_icon, w.images?.mihoyo_icon),
+        ascensionMaterials: ascensionMaterials as any,
+      };
 
-      <div className="mb-6">
-        <form method="GET" className="flex gap-2">
-          <input
-            type="text"
-            name="q"
-            defaultValue={q || ""}
-            placeholder="Tìm tên bộ thánh di vật..."
-            className="flex-1 rounded-lg border border-border bg-input px-3 py-2 text-sm text-primary placeholder:text-muted focus:outline-none focus:border-gold/50 transition-colors"
-          />
-          <button
-            type="submit"
-            className="rounded-lg bg-gold/10 border border-gold/40 px-4 py-2 text-sm font-medium text-gold-bright hover:bg-gold/20 transition-colors"
-          >
-            Tìm kiếm
-          </button>
-          {q && (
-            <Link
-              href={`/artifacts?${buildQuery({ q: undefined })}`}
-              className="rounded-lg border border-red-900/60 bg-red-950/40 px-4 py-2 text-sm text-red-400 hover:bg-red-900/40 transition-colors"
-            >
-              Xóa
-            </Link>
-          )}
-        </form>
-      </div>
-
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-        {sets.map((a) => {
-          const maxRarity = Math.max(...(a.rarityRange as number[]), 4);
-          return (
-            <Link
-              key={a.id}
-              href={`/artifacts/${a.id}`}
-              className={`relic-frame ${rarityGlowClass(maxRarity)} overflow-hidden group`}
-            >
-              <div className="relative aspect-square w-full bg-secondary/40 p-4 flex items-center justify-center overflow-hidden">
-                {a.iconUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={a.iconUrl} alt={a.name} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300 p-2" />
-                ) : (
-                  <div className="text-muted text-xs">No Image</div>
-                )}
-              </div>
-              <div className="p-3 border-t border-border bg-card/80">
-                <div className="font-bold truncate text-primary group-hover:text-gold-bright transition-colors text-sm">
-                  {a.name}
-                </div>
-                <div className="text-xs text-secondary font-medium mt-2 flex items-center gap-1">
-                  <span className="w-1 h-1 rounded-full bg-gold-bright" />
-                  Phẩm cấp: {(a.rarityRange as number[]).join("–")}★
-                </div>
-              </div>
-            </Link>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-</file>
-
-<file path="src/app/weapons/page.tsx">
-import Link from "next/link";
-import { prisma } from "@/lib/prisma";
-import { rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
-
-interface PageProps {
-  searchParams: Promise<{ type?: string; rarity?: string; q?: string }>;
-}
-
-export default async function WeaponsPage({ searchParams }: PageProps) {
-  const { type, rarity, q } = await searchParams;
-
-  const where: any = {};
-  if (type) where.type = { equals: type, mode: "insensitive" };
-  if (rarity) where.rarity = Number(rarity);
-  if (q) where.name = { contains: q, mode: "insensitive" };
-
-  const weapons = await prisma.weapon.findMany({
-    where,
-    orderBy: [{ rarity: "desc" }, { name: "asc" }],
-  });
-
-  const types = ["Sword", "Claymore", "Polearm", "Bow", "Catalyst"];
-
-  const buildQuery = (params: Record<string, string | undefined>) => {
-    const sp = new URLSearchParams();
-    if (type) sp.set("type", type);
-    if (rarity) sp.set("rarity", rarity);
-    if (q) sp.set("q", q);
-    Object.entries(params).forEach(([k, v]) => {
-      if (v) sp.set(k, v);
-      else sp.delete(k);
-    });
-    return sp.toString();
-  };
-
-  return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="font-display text-4xl font-bold tracking-wide text-primary uppercase mb-2">
-          Kho Tàng Vũ Khí
-        </h1>
-        <p className="text-sm text-secondary">
-          Tìm thấy <span className="text-gold-bright font-semibold">{weapons.length}</span> thần binh tàng bảo
-        </p>
-      </div>
-
-      <div className="mb-6">
-        <form method="GET" className="flex gap-2">
-          {type && <input type="hidden" name="type" value={type} />}
-          {rarity && <input type="hidden" name="rarity" value={rarity} />}
-          <input
-            type="text"
-            name="q"
-            defaultValue={q || ""}
-            placeholder="Tìm tên vũ khí..."
-            className="flex-1 rounded-lg border border-border bg-input px-3 py-2 text-sm text-primary placeholder:text-muted focus:outline-none focus:border-gold/50 transition-colors"
-          />
-          <button
-            type="submit"
-            className="rounded-lg bg-gold/10 border border-gold/40 px-4 py-2 text-sm font-medium text-gold-bright hover:bg-gold/20 transition-colors"
-          >
-            Tìm kiếm
-          </button>
-          {q && (
-            <Link
-              href={`/weapons?${buildQuery({ q: undefined })}`}
-              className="rounded-lg border border-red-900/60 bg-red-950/40 px-4 py-2 text-sm text-red-400 hover:bg-red-900/40 transition-colors"
-            >
-              Xóa
-            </Link>
-          )}
-        </form>
-      </div>
-
-      <div className="bg-card/40 backdrop-blur-md border border-border p-4 rounded-xl mb-8 flex flex-wrap gap-4 text-xs items-center">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-secondary font-medium mr-2">Phân loại dòng:</span>
-          {types.map((t) => (
-            <Link
-              key={t}
-              href={`/weapons?${buildQuery({ type: t })}`}
-              className="px-3 py-1.5 rounded-full border border-border bg-card/60 hover:border-gold/50 transition-all font-medium text-primary"
-            >
-              {t}
-            </Link>
-          ))}
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-secondary font-medium mr-2 ml-2">Phẩm sao:</span>
-          {[3, 4, 5].map((r) => (
-            <Link
-              key={r}
-              href={`/weapons?${buildQuery({ rarity: String(r) })}`}
-              className={`px-3 py-1.5 rounded-full border border-border bg-card/60 hover:border-gold/50 transition-all ${rarityTextClass(r)}`}
-            >
-              {rarityStars(r)}
-            </Link>
-          ))}
-        </div>
-
-        {(type || rarity || q) && (
-          <Link
-            href="/weapons"
-            className="ml-auto px-4 py-1.5 rounded-full bg-red-950/40 border border-red-900/60 text-red-400 hover:bg-red-900/40 transition-colors font-semibold"
-          >
-            Xóa Lọc &times;
-          </Link>
-        )}
-      </div>
-
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-        {weapons.map((w) => (
-          <Link
-            key={w.id}
-            href={`/weapons/${w.id}`}
-            className={`relic-frame ${rarityGlowClass(w.rarity)} overflow-hidden group`}
-          >
-            <div className="relative aspect-square w-full bg-secondary/40 p-4 flex items-center justify-center overflow-hidden">
-              {w.iconUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={w.iconUrl} alt={w.name} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300 p-2" />
-              ) : (
-                <div className="text-muted text-xs">No Image</div>
-              )}
-            </div>
-            <div className="p-3 border-t border-border bg-card/80">
-              <div className="font-bold truncate text-primary group-hover:text-gold-bright transition-colors text-sm">
-                {w.name}
-              </div>
-              <div className="flex justify-between items-center mt-1">
-                <span className="text-[10px] text-secondary tracking-wider uppercase font-medium">{w.type}</span>
-                <span className={`text-[10px] tracking-tighter ${rarityTextClass(w.rarity)}`}>
-                  {rarityStars(w.rarity)}
-                </span>
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
-    </div>
-  );
+      const id = slugify(w.name);
+      await prisma.weapon.upsert({
+        where: { id },
+        create: { id, ...payload },
+        update: payload,
+      });
+      count++;
+    } catch (err) {
+      console.warn(`⚠ Skipped weapon "${name}":`, (err as Error).message);
+    }
+  }
+  console.log(`✔ Seeded ${count} weapons with ascension materials`);
 }
 </file>
 
@@ -2170,6 +1709,41 @@ tr:nth-child(even) {
 .shadow-card { box-shadow: var(--shadow-card); }
 </file>
 
+<file path="src/components/SafeImage.tsx">
+"use client";
+
+import { useState } from "react";
+import Image, { type ImageProps } from "next/image";
+
+/**
+ * Wrapper cho next/image với fallback khi ảnh lỗi.
+ * - Hỗ trợ `sizes` để tối ưu responsive.
+ * - Hỗ trợ `priority` cho LCP.
+ */
+export function SafeImage({
+  fallbackClassName,
+  sizes = "100vw",
+  ...props
+}: ImageProps & { fallbackClassName?: string; sizes?: string }) {
+  const [broken, setBroken] = useState(false);
+
+  if (broken) {
+    return (
+      <div
+        className={
+          fallbackClassName ??
+          "w-full h-full flex items-center justify-center text-muted text-[10px] bg-secondary/30"
+        }
+      >
+        —
+      </div>
+    );
+  }
+
+  return <Image {...props} onError={() => setBroken(true)} sizes={sizes} />;
+}
+</file>
+
 <file path="src/lib/prisma.ts">
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
@@ -2194,21 +1768,6 @@ if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 </file>
 
 <file path="src/lib/theme.ts">
-// Định nghĩa mã màu phát sáng cho các Nguyên tố trong Genshin Impact
-export const ELEMENT_COLORS: Record<string, string> = {
-  Anemo: "#6FC6A3",
-  Geo: "#CFA83E",
-  Electro: "#B98FE0",
-  Dendro: "#A2C93B",
-  Hydro: "#4CC2F1",
-  Pyro: "#EF7938",
-  Cryo: "#8FE0E0",
-};
-
-export function elementColor(vision: string): string {
-  return ELEMENT_COLORS[vision] || "#999999";
-}
-
 export function rarityStars(rarity: number): string {
   return "★".repeat(rarity);
 }
@@ -2344,185 +1903,421 @@ rồi đối chiếu tên field thực tế (vd `elementText`, `weaponText`, `ba
 vì tool trong sandbox này không có quyền truy cập mạng để cài đặt và kiểm tra trực tiếp package.
 </file>
 
-<file path="src/app/layout.tsx">
-import "./globals.css";
-import Link from "next/link";
-import { ThemeProvider } from "@/components/ThemeProvider";
-import { ThemeToggle } from "@/components/ThemeToggle";
+<file path="scripts/lib/seed-helpers.ts">
+/**
+ * Helper dùng chung cho toàn bộ script seed.
+ */
 
-export const metadata = {
-  title: "LEIBO — Genshin Impact Database",
-  description: "Dữ liệu Genshin Impact: nhân vật, vũ khí, thánh di vật.",
+export function getEnkaUrl(filename?: string | null, mihoyoUrl?: string | null): string | null {
+  if (filename) return `https://enka.network/ui/${filename}.png`;
+  if (mihoyoUrl) return mihoyoUrl;
+  return null;
+}
+
+export function getElementIconUrl(element?: string | null): string | null {
+  if (!element) return null;
+  const known: Record<string, string> = {
+    Anemo: "https://static.wikia.nocookie.net/gensin-impact/images/1/10/Element_Anemo.svg",
+    Geo: "https://static.wikia.nocookie.net/gensin-impact/images/9/9b/Element_Geo.svg",
+    Electro: "https://static.wikia.nocookie.net/gensin-impact/images/f/ff/Element_Electro.svg",
+    Dendro: "https://static.wikia.nocookie.net/gensin-impact/images/7/73/Element_Dendro.svg",
+    Hydro: "https://static.wikia.nocookie.net/gensin-impact/images/8/80/Element_Hydro.svg",
+    Pyro: "https://static.wikia.nocookie.net/gensin-impact/images/2/2c/Element_Pyro.svg",
+    Cryo: "https://static.wikia.nocookie.net/gensin-impact/images/7/72/Element_Cryo.svg",
+  };
+  return known[element.trim()] ?? null;
+}
+
+export function slugify(name: string): string {
+  return name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+export function getMaterialIconFilename(material: unknown): string | null {
+  const m = material as { images?: Record<string, string | undefined> } | null | undefined;
+  if (!m?.images) return null;
+  return m.images.filename_icon ?? m.images.filename_full ?? m.images.filename ?? null;
+}
+
+/**
+ * Kiểu thật của genshindb.materials(): hỗ trợ cả dạng tra 1 tên
+ * ("Vayuda Turquoise Sliver") lẫn dạng liệt kê tên ("names", { matchCategories }).
+ * Bản trước đây khai báo chỉ nhận 1 tham số nhưng code bên dưới lại gọi với
+ * 2 tham số -> lỗi biên dịch "Expected 1 arguments, but got 2" khi build với
+ * tsconfig "strict": true. Khai báo lại đúng chữ ký để khớp cách gọi thật.
+ */
+type MaterialsFn = (
+  name: string,
+  options?: { matchCategories?: boolean }
+) => unknown;
+
+// Danh sách tên nguyên liệu KHÔNG tra được icon — in tổng kết ở cuối run
+// (cùng cách làm với CHARACTERS_MISSING_BOOK_TYPE bên seed-characters.ts)
+// thay vì im lặng bỏ qua như trước. Trước đây nếu cả 3 bước lookup đều thất
+// bại, hàm chỉ đơn giản để iconUrl = null mà không log gì -> không ai biết
+// material nào bị thiếu cho tới khi thấy icon "-" trên web.
+export const MATERIALS_MISSING_ICON: string[] = [];
+
+export function printMissingIconSummary(): void {
+  if (MATERIALS_MISSING_ICON.length === 0) {
+    console.log("✔ Mọi nguyên liệu đều tra được icon.");
+    return;
+  }
+  const unique = Array.from(new Set(MATERIALS_MISSING_ICON));
+  console.warn(
+    `\n⚠ ${unique.length} nguyên liệu KHÔNG tra được icon (sẽ hiện "-" trên web):`
+  );
+  console.warn(unique.map((n) => `   - ${n}`).join("\n"));
+  console.warn(
+    `→ Nguyên nhân thường gặp: bản "genshin-db" đang cài chưa có data cho nguyên liệu ` +
+    `vùng mới ra (vd Natlan). Thử "npm install genshin-db@latest" rồi seed lại.\n` +
+    `  Nếu vẫn thiếu sau khi update, package cộng đồng đó chưa kịp cập nhật —\n` +
+    `  cần map icon tay tạm thời cho các tên này (xem MANUAL_ICON_OVERRIDES).`
+  );
+}
+
+// Fallback tay cho nguyên liệu mà genshin-db chưa có data (vd nội dung vùng
+// mới ra mắt). Điền thủ công filename icon từ enka.network khi phát hiện
+// qua MATERIALS_MISSING_ICON, để không phải đợi package cộng đồng cập nhật.
+// Key: tên nguyên liệu (đúng chính tả trong game), value: filename trên enka
+// (không gồm .png), dùng lại getEnkaUrl() bên dưới.
+const MANUAL_ICON_OVERRIDES: Record<string, string> = {
+  // "Frostlamp Flower": "UI_ItemIcon_...",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+
+/**
+ * upsert 1 nguyên liệu vào bảng Material, tra icon từ genshin-db theo 3 bước
+ * dự phòng (trực tiếp -> chuẩn hóa tên -> dò trong danh sách tên).
+ *
+ * Quan trọng: mỗi bước tra cứu được bọc try/catch RIÊNG (qua `tryLookup`).
+ * Trước đây cả 3 bước nằm chung 1 try/catch duy nhất -> nếu bước 1 ném lỗi
+ * (một số version của genshin-db throw thay vì trả về giá trị rỗng khi
+ * không khớp tên), toàn bộ hàm nhảy thẳng ra catch và bỏ qua luôn bước 2 + 3,
+ * dù đó chính là lý do các bước dự phòng này tồn tại.
+ */
+export async function upsertMaterial(
+  prisma: { material: { upsert: (args: any) => Promise<unknown> } },
+  genshindb: { materials: MaterialsFn },
+  materialName: string
+): Promise<string> {
+  const id = slugify(materialName);
+  let iconUrl: string | null = null;
+
+  const tryLookup = (name: string): unknown => {
+    try {
+      return genshindb.materials(name);
+    } catch {
+      return null;
+    }
+  };
+
+  // 1. Lấy trực tiếp
+  let raw = tryLookup(materialName);
+
+  // 2. Chuẩn hóa tên (bỏ dấu, viết thường) — chỉ chạy nếu bước 1 không ra kết quả
+  if (!raw) {
+    const normalized = materialName.replace(/[^a-zA-Z0-9 ]/g, "").trim();
+    if (normalized) raw = tryLookup(normalized);
+  }
+
+  // 3. Tìm trong danh sách tên — chỉ chạy nếu 2 bước trên đều không ra kết quả
+  if (!raw) {
+    try {
+      const allNames = genshindb.materials("names", { matchCategories: true }) as string[];
+      const match = allNames.find((n) => n.toLowerCase() === materialName.toLowerCase());
+      if (match) raw = tryLookup(match);
+    } catch {
+      // Không lấy được danh sách tên -> bỏ qua, iconUrl vẫn null
+    }
+  }
+
+  if (raw) {
+    iconUrl = getEnkaUrl(getMaterialIconFilename(raw), null);
+  }
+
+  // Vẫn không có icon sau cả 3 bước tra genshin-db -> thử override tay,
+  // rồi ghi nhận vào danh sách thiếu để in cảnh báo tổng kết cuối run.
+  if (!iconUrl) {
+    const override = MANUAL_ICON_OVERRIDES[materialName];
+    if (override) {
+      iconUrl = getEnkaUrl(override, null);
+    } else {
+      MATERIALS_MISSING_ICON.push(materialName);
+    }
+  }
+
+  await prisma.material.upsert({
+    where: { id },
+    create: { id, name: materialName, iconUrl },
+    update: { iconUrl },
+  });
+  return id;
+}
+</file>
+
+<file path="src/app/artifacts/page.tsx">
+import Link from "next/link";
+import { Prisma } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
+import { rarityGlowClass } from "@/lib/theme";
+import { SafeImage } from "@/components/SafeImage";
+
+interface PageProps {
+  searchParams: Promise<{ q?: string }>;
+}
+
+export default async function ArtifactsPage({ searchParams }: PageProps) {
+  const { q } = await searchParams;
+
+  // Trước đây: `const where: any = {}`. Dùng type Prisma sinh sẵn để tránh
+  // lỗi field/kiểu dữ liệu sai chỉ lộ ra lúc chạy thay vì lúc build.
+  const where: Prisma.ArtifactSetWhereInput = {};
+  if (q) where.name = { contains: q, mode: "insensitive" };
+
+  const sets = await prisma.artifactSet.findMany({
+    where,
+    orderBy: { name: "asc" },
+  });
+
+  const buildQuery = (params: Record<string, string | undefined>) => {
+    const sp = new URLSearchParams();
+    if (q) sp.set("q", q);
+    Object.entries(params).forEach(([k, v]) => {
+      if (v) sp.set(k, v);
+      else sp.delete(k);
+    });
+    return sp.toString();
+  };
+
   return (
-    <html lang="vi" suppressHydrationWarning>
-      <body>
-        <ThemeProvider>
-          <header className="border-b border-border sticky top-0 bg-primary/80 backdrop-blur-md z-10">
-            <nav className="flex items-center justify-between px-4 md:px-8 py-3 max-w-7xl mx-auto">
-              <div className="flex items-center gap-6">
-                <Link href="/" className="font-display text-xl font-bold tracking-wide text-amber-500">
-                  LEIBO
-                </Link>
-                <Link href="/characters" className="hover:text-amber-400 transition-colors">Nhân vật</Link>
-                <Link href="/weapons" className="hover:text-amber-400 transition-colors">Vũ khí</Link>
-                <Link href="/artifacts" className="hover:text-amber-400 transition-colors">Thánh di vật</Link>
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="mb-8">
+        <h1 className="font-display text-4xl font-bold tracking-wide text-primary uppercase mb-2">
+          Bảo Vật Thánh Di Vật
+        </h1>
+        <p className="text-sm text-secondary">
+          Khám phá bộ bí bảo tàng tích cổ đại gia tăng chiến lực
+        </p>
+      </div>
+
+      <div className="mb-6">
+        <form method="GET" className="flex gap-2">
+          <input
+            type="text"
+            name="q"
+            defaultValue={q || ""}
+            placeholder="Tìm tên bộ thánh di vật..."
+            className="flex-1 rounded-lg border border-border bg-input px-3 py-2 text-sm text-primary placeholder:text-muted focus:outline-none focus:border-gold/50 transition-colors"
+          />
+          <button
+            type="submit"
+            className="rounded-lg bg-gold/10 border border-gold/40 px-4 py-2 text-sm font-medium text-gold-bright hover:bg-gold/20 transition-colors"
+          >
+            Tìm kiếm
+          </button>
+          {q && (
+            <Link
+              href={`/artifacts?${buildQuery({ q: undefined })}`}
+              className="rounded-lg border border-red-900/60 bg-red-950/40 px-4 py-2 text-sm text-red-400 hover:bg-red-900/40 transition-colors"
+            >
+              Xóa
+            </Link>
+          )}
+        </form>
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+        {sets.map((a) => {
+          const maxRarity = Math.max(...(a.rarityRange as number[]), 4);
+          return (
+            <Link
+              key={a.id}
+              href={`/artifacts/${a.id}`}
+              className={`relic-frame ${rarityGlowClass(maxRarity)} overflow-hidden group`}
+            >
+              <div className="relative aspect-square w-full bg-secondary/40 p-4 flex items-center justify-center overflow-hidden">
+                {a.iconUrl ? (
+                  <SafeImage
+                    src={a.iconUrl}
+                    alt={a.name}
+                    fill
+                    className="object-contain p-2 group-hover:scale-110 transition-transform duration-300"
+                  />
+                ) : (
+                  <div className="text-muted text-xs">No Image</div>
+                )}
               </div>
-              <ThemeToggle />
-            </nav>
-          </header>
-          <main className="max-w-7xl mx-auto px-4 md:px-8 py-8">
-            {children}
-          </main>
-        </ThemeProvider>
-      </body>
-    </html>
+              <div className="p-3 border-t border-border bg-card/80">
+                <div className="font-bold truncate text-primary group-hover:text-gold-bright transition-colors text-sm">
+                  {a.name}
+                </div>
+                <div className="text-xs text-secondary font-medium mt-2 flex items-center gap-1">
+                  <span className="w-1 h-1 rounded-full bg-gold-bright" />
+                  Phẩm cấp: {(a.rarityRange as number[]).join("–")}★
+                </div>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 </file>
 
-<file path="src/app/page.tsx">
+<file path="src/app/weapons/page.tsx">
 import Link from "next/link";
-import { prisma } from "../lib/prisma";
-import { rarityGlowClass, rarityStars, rarityTextClass } from "../lib/theme";
-import { ElementIcon } from "../components/ElementIcon";
-import { SafeImage } from "../components/SafeImage";
+import { Prisma } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
+import { rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
+import { SafeImage } from "@/components/SafeImage";
 
-export default async function Home() {
-  const [charCount, weaponCount, artifactCount] = await Promise.all([
-    prisma.character.count(),
-    prisma.weapon.count(),
-    prisma.artifactSet.count(),
-  ]);
+interface PageProps {
+  searchParams: Promise<{ type?: string; rarity?: string; q?: string }>;
+}
 
-  const latestCharacters = await prisma.character.findMany({
-    take: 6,
-    orderBy: { updatedAt: "desc" },
-    select: { id: true, name: true, vision: true, weaponType: true, rarity: true, iconUrl: true, elementIcon: true },
+export default async function WeaponsPage({ searchParams }: PageProps) {
+  const { type, rarity, q } = await searchParams;
+
+  // Trước đây: `const where: any = {}`. Dùng type Prisma sinh sẵn để tránh
+  // lỗi field/kiểu dữ liệu sai chỉ lộ ra lúc chạy thay vì lúc build.
+  const where: Prisma.WeaponWhereInput = {};
+  if (type) where.type = { equals: type, mode: "insensitive" };
+  if (rarity) where.rarity = Number(rarity);
+  if (q) where.name = { contains: q, mode: "insensitive" };
+
+  const weapons = await prisma.weapon.findMany({
+    where,
+    orderBy: [{ rarity: "desc" }, { name: "asc" }],
   });
 
-  const latestWeapons = await prisma.weapon.findMany({
-    take: 6,
-    orderBy: { updatedAt: "desc" },
-    select: { id: true, name: true, type: true, rarity: true, iconUrl: true },
-  });
+  const types = ["Sword", "Claymore", "Polearm", "Bow", "Catalyst"];
+
+  const buildQuery = (params: Record<string, string | undefined>) => {
+    const sp = new URLSearchParams();
+    if (type) sp.set("type", type);
+    if (rarity) sp.set("rarity", rarity);
+    if (q) sp.set("q", q);
+    Object.entries(params).forEach(([k, v]) => {
+      if (v) sp.set(k, v);
+      else sp.delete(k);
+    });
+    return sp.toString();
+  };
 
   return (
-    <div className="relative min-h-screen">
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-amber-900/5 via-transparent to-transparent" />
-      <div className="relative z-10">
-        {/* Hero */}
-        <section className="text-center py-16 md:py-24">
-          <h1 className="font-display text-5xl md:text-7xl font-bold bg-gradient-to-r from-amber-300 via-amber-500 to-amber-600 bg-clip-text text-transparent drop-shadow-sm">
-            LEIBO
-          </h1>
-          <p className="text-lg md:text-xl text-secondary max-w-2xl mx-auto mt-4 font-light">
-            Cẩm nang Genshin Impact toàn diện
-          </p>
-          <p className="text-sm text-muted max-w-xl mx-auto mt-2">
-            Khám phá dữ liệu chi tiết về nhân vật, vũ khí và thánh di vật – được cập nhật từ nguồn chính thức.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4 mt-8">
-            <Link href="/characters" className="px-8 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-full shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50 transition-all hover:scale-105">
-              Khám phá nhân vật
-            </Link>
-            <Link href="/weapons" className="px-8 py-3 border border-border text-secondary font-semibold rounded-full hover:border-amber-400 hover:text-amber-400 transition-all">
-              Kho vũ khí
-            </Link>
-          </div>
-        </section>
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="mb-8">
+        <h1 className="font-display text-4xl font-bold tracking-wide text-primary uppercase mb-2">
+          Kho Tàng Vũ Khí
+        </h1>
+        <p className="text-sm text-secondary">
+          Tìm thấy <span className="text-gold-bright font-semibold">{weapons.length}</span> thần binh tàng bảo
+        </p>
+      </div>
 
-        {/* Stats */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-16">
-          {[
-            { label: "Nhân vật", count: charCount },
-            { label: "Vũ khí", count: weaponCount },
-            { label: "Thánh di vật", count: artifactCount },
-          ].map((stat) => (
-            <div key={stat.label} className="bg-card border border-border rounded-2xl p-6 text-center hover:border-gold transition-colors shadow-card">
-              <div className="text-4xl font-bold text-amber-500">{stat.count}</div>
-              <div className="text-sm text-secondary uppercase tracking-wider mt-1">{stat.label}</div>
-            </div>
+      <div className="mb-6">
+        <form method="GET" className="flex gap-2">
+          {type && <input type="hidden" name="type" value={type} />}
+          {rarity && <input type="hidden" name="rarity" value={rarity} />}
+          <input
+            type="text"
+            name="q"
+            defaultValue={q || ""}
+            placeholder="Tìm tên vũ khí..."
+            className="flex-1 rounded-lg border border-border bg-input px-3 py-2 text-sm text-primary placeholder:text-muted focus:outline-none focus:border-gold/50 transition-colors"
+          />
+          <button
+            type="submit"
+            className="rounded-lg bg-gold/10 border border-gold/40 px-4 py-2 text-sm font-medium text-gold-bright hover:bg-gold/20 transition-colors"
+          >
+            Tìm kiếm
+          </button>
+          {q && (
+            <Link
+              href={`/weapons?${buildQuery({ q: undefined })}`}
+              className="rounded-lg border border-red-900/60 bg-red-950/40 px-4 py-2 text-sm text-red-400 hover:bg-red-900/40 transition-colors"
+            >
+              Xóa
+            </Link>
+          )}
+        </form>
+      </div>
+
+      <div className="bg-card/40 backdrop-blur-md border border-border p-4 rounded-xl mb-8 flex flex-wrap gap-4 text-xs items-center">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-secondary font-medium mr-2">Phân loại dòng:</span>
+          {types.map((t) => (
+            <Link
+              key={t}
+              href={`/weapons?${buildQuery({ type: t })}`}
+              className="px-3 py-1.5 rounded-full border border-border bg-card/60 hover:border-gold/50 transition-all font-medium text-primary"
+            >
+              {t}
+            </Link>
           ))}
-        </section>
+        </div>
 
-        {/* Latest Characters */}
-        <section className="mb-16">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="font-display text-2xl font-semibold text-primary">Nhân vật mới cập nhật</h2>
-            <Link href="/characters" className="text-sm text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1">
-              Xem tất cả <span className="text-lg">→</span>
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-secondary font-medium mr-2 ml-2">Phẩm sao:</span>
+          {[3, 4, 5].map((r) => (
+            <Link
+              key={r}
+              href={`/weapons?${buildQuery({ rarity: String(r) })}`}
+              className={`px-3 py-1.5 rounded-full border border-border bg-card/60 hover:border-gold/50 transition-all ${rarityTextClass(r)}`}
+            >
+              {rarityStars(r)}
             </Link>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {latestCharacters.map((c) => (
-              <Link key={c.id} href={`/characters/${c.id}`} className={`relic-frame ${rarityGlowClass(c.rarity)} overflow-hidden group`}>
-                <div className="relative aspect-square w-full overflow-hidden bg-secondary/50">
-                  {c.iconUrl ? (
-                    <SafeImage src={c.iconUrl} alt={c.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-muted text-xs">No Image</div>
-                  )}
-                  <div className="absolute top-2 left-2 bg-black/40 backdrop-blur-sm rounded-full p-1">
-                    <ElementIcon vision={c.vision} iconUrl={c.elementIcon} size={16} />
-                  </div>
-                </div>
-                <div className="p-3 border-t border-border bg-card/80">
-                  <div className="font-semibold truncate text-primary group-hover:text-amber-400 transition-colors text-sm">
-                    {c.name}
-                  </div>
-                  <div className="flex justify-between items-center mt-1">
-                    <span className="text-[10px] text-secondary uppercase tracking-wider">{c.weaponType}</span>
-                    <span className={`text-[10px] tracking-tighter ${rarityTextClass(c.rarity)}`}>
-                      {rarityStars(c.rarity)}
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
+          ))}
+        </div>
 
-        {/* Latest Weapons */}
-        <section>
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="font-display text-2xl font-semibold text-primary">Vũ khí mới cập nhật</h2>
-            <Link href="/weapons" className="text-sm text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1">
-              Xem tất cả <span className="text-lg">→</span>
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {latestWeapons.map((w) => (
-              <Link key={w.id} href={`/weapons/${w.id}`} className={`relic-frame ${rarityGlowClass(w.rarity)} overflow-hidden group`}>
-                <div className="relative aspect-square w-full overflow-hidden bg-secondary/50 p-4 flex items-center justify-center">
-                  {w.iconUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={w.iconUrl} alt={w.name} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" />
-                  ) : (
-                    <div className="text-muted text-xs">No Image</div>
-                  )}
-                </div>
-                <div className="p-3 border-t border-border bg-card/80">
-                  <div className="font-semibold truncate text-primary group-hover:text-amber-400 transition-colors text-sm">
-                    {w.name}
-                  </div>
-                  <div className="flex justify-between items-center mt-1">
-                    <span className="text-[10px] text-secondary uppercase tracking-wider">{w.type}</span>
-                    <span className={`text-[10px] tracking-tighter ${rarityTextClass(w.rarity)}`}>
-                      {rarityStars(w.rarity)}
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
+        {(type || rarity || q) && (
+          <Link
+            href="/weapons"
+            className="ml-auto px-4 py-1.5 rounded-full bg-red-950/40 border border-red-900/60 text-red-400 hover:bg-red-900/40 transition-colors font-semibold"
+          >
+            Xóa Lọc &times;
+          </Link>
+        )}
+      </div>
 
-        <footer className="mt-20 pt-8 border-t border-border text-center text-xs text-muted">
-          <p>Dữ liệu được lấy từ genshin-db và Enka Network. LEIBO không thuộc sở hữu của miHoYo.</p>
-        </footer>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+        {weapons.map((w) => (
+          <Link
+            key={w.id}
+            href={`/weapons/${w.id}`}
+            className={`relic-frame ${rarityGlowClass(w.rarity)} overflow-hidden group`}
+          >
+            <div className="relative aspect-square w-full bg-secondary/40 p-4 flex items-center justify-center overflow-hidden">
+              {w.iconUrl ? (
+                <SafeImage
+                  src={w.iconUrl}
+                  alt={w.name}
+                  fill
+                  className="object-contain p-2 group-hover:scale-110 transition-transform duration-300"
+                />
+              ) : (
+                <div className="text-muted text-xs">No Image</div>
+              )}
+            </div>
+            <div className="p-3 border-t border-border bg-card/80">
+              <div className="font-bold truncate text-primary group-hover:text-gold-bright transition-colors text-sm">
+                {w.name}
+              </div>
+              <div className="flex justify-between items-center mt-1">
+                <span className="text-[10px] text-secondary tracking-wider uppercase font-medium">{w.type}</span>
+                <span className={`text-[10px] tracking-tighter ${rarityTextClass(w.rarity)}`}>
+                  {rarityStars(w.rarity)}
+                </span>
+              </div>
+            </div>
+          </Link>
+        ))}
       </div>
     </div>
   );
@@ -2702,8 +2497,197 @@ export default async function ArtifactDetail({ params }: PageProps) {
 }
 </file>
 
+<file path="src/app/layout.tsx">
+import "./globals.css";
+import Link from "next/link";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { SearchBar } from "@/components/SearchBar";
+
+export const metadata = {
+  title: "LEIBO — Genshin Impact Database",
+  description: "Dữ liệu Genshin Impact: nhân vật, vũ khí, thánh di vật.",
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="vi" suppressHydrationWarning>
+      <body>
+        <ThemeProvider>
+          <header className="border-b border-border sticky top-0 bg-primary/80 backdrop-blur-md z-10">
+            <nav className="flex items-center gap-4 px-4 md:px-8 py-3 max-w-7xl mx-auto">
+              <div className="flex items-center gap-6 shrink-0">
+                <Link href="/" className="font-display text-xl font-bold tracking-wide text-amber-500">
+                  LEIBO
+                </Link>
+                <Link href="/characters" className="hover:text-amber-400 transition-colors">Nhân vật</Link>
+                <Link href="/weapons" className="hover:text-amber-400 transition-colors">Vũ khí</Link>
+                <Link href="/artifacts" className="hover:text-amber-400 transition-colors">Thánh di vật</Link>
+              </div>
+              {/* SearchBar tự có class "ml-auto" nên đẩy nó + ThemeToggle sang phải,
+                  không cần justify-between trên <nav> nữa. */}
+              <SearchBar />
+              <ThemeToggle />
+            </nav>
+          </header>
+          <main className="max-w-7xl mx-auto px-4 md:px-8 py-8">
+            {children}
+          </main>
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}
+</file>
+
+<file path="src/app/page.tsx">
+import Link from "next/link";
+import { prisma } from "../lib/prisma";
+import { rarityGlowClass, rarityStars, rarityTextClass } from "../lib/theme";
+import { ElementIcon } from "../components/ElementIcon";
+import { SafeImage } from "../components/SafeImage";
+
+export default async function Home() {
+  const [charCount, weaponCount, artifactCount] = await Promise.all([
+    prisma.character.count(),
+    prisma.weapon.count(),
+    prisma.artifactSet.count(),
+  ]);
+
+  const latestCharacters = await prisma.character.findMany({
+    take: 6,
+    orderBy: { updatedAt: "desc" },
+    select: { id: true, name: true, vision: true, weaponType: true, rarity: true, iconUrl: true, elementIcon: true },
+  });
+
+  const latestWeapons = await prisma.weapon.findMany({
+    take: 6,
+    orderBy: { updatedAt: "desc" },
+    select: { id: true, name: true, type: true, rarity: true, iconUrl: true },
+  });
+
+  return (
+    <div className="relative min-h-screen">
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-amber-900/5 via-transparent to-transparent" />
+      <div className="relative z-10">
+        {/* Hero */}
+        <section className="text-center py-16 md:py-24">
+          <h1 className="font-display text-5xl md:text-7xl font-bold bg-gradient-to-r from-amber-300 via-amber-500 to-amber-600 bg-clip-text text-transparent drop-shadow-sm">
+            LEIBO
+          </h1>
+          <p className="text-lg md:text-xl text-secondary max-w-2xl mx-auto mt-4 font-light">
+            Cẩm nang Genshin Impact toàn diện
+          </p>
+          <p className="text-sm text-muted max-w-xl mx-auto mt-2">
+            Khám phá dữ liệu chi tiết về nhân vật, vũ khí và thánh di vật – được cập nhật từ nguồn chính thức.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4 mt-8">
+            <Link href="/characters" className="px-8 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-full shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50 transition-all hover:scale-105">
+              Khám phá nhân vật
+            </Link>
+            <Link href="/weapons" className="px-8 py-3 border border-border text-secondary font-semibold rounded-full hover:border-amber-400 hover:text-amber-400 transition-all">
+              Kho vũ khí
+            </Link>
+          </div>
+        </section>
+
+        {/* Stats */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-16">
+          {[
+            { label: "Nhân vật", count: charCount },
+            { label: "Vũ khí", count: weaponCount },
+            { label: "Thánh di vật", count: artifactCount },
+          ].map((stat) => (
+            <div key={stat.label} className="bg-card border border-border rounded-2xl p-6 text-center hover:border-gold transition-colors shadow-card">
+              <div className="text-4xl font-bold text-amber-500">{stat.count}</div>
+              <div className="text-sm text-secondary uppercase tracking-wider mt-1">{stat.label}</div>
+            </div>
+          ))}
+        </section>
+
+        {/* Latest Characters */}
+        <section className="mb-16">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="font-display text-2xl font-semibold text-primary">Nhân vật mới cập nhật</h2>
+            <Link href="/characters" className="text-sm text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1">
+              Xem tất cả <span className="text-lg">→</span>
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {latestCharacters.map((c) => (
+              <Link key={c.id} href={`/characters/${c.id}`} className={`relic-frame ${rarityGlowClass(c.rarity)} overflow-hidden group`}>
+                <div className="relative aspect-square w-full overflow-hidden bg-secondary/50">
+                  {c.iconUrl ? (
+                    <SafeImage src={c.iconUrl} alt={c.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-muted text-xs">No Image</div>
+                  )}
+                  <div className="absolute top-2 left-2 bg-black/40 backdrop-blur-sm rounded-full p-1">
+                    <ElementIcon vision={c.vision} iconUrl={c.elementIcon} size={16} />
+                  </div>
+                </div>
+                <div className="p-3 border-t border-border bg-card/80">
+                  <div className="font-semibold truncate text-primary group-hover:text-amber-400 transition-colors text-sm">
+                    {c.name}
+                  </div>
+                  <div className="flex justify-between items-center mt-1">
+                    <span className="text-[10px] text-secondary uppercase tracking-wider">{c.weaponType}</span>
+                    <span className={`text-[10px] tracking-tighter ${rarityTextClass(c.rarity)}`}>
+                      {rarityStars(c.rarity)}
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* Latest Weapons */}
+        <section>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="font-display text-2xl font-semibold text-primary">Vũ khí mới cập nhật</h2>
+            <Link href="/weapons" className="text-sm text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1">
+              Xem tất cả <span className="text-lg">→</span>
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {latestWeapons.map((w) => (
+              <Link key={w.id} href={`/weapons/${w.id}`} className={`relic-frame ${rarityGlowClass(w.rarity)} overflow-hidden group`}>
+                <div className="relative aspect-square w-full bg-secondary/40 p-4 flex items-center justify-center overflow-hidden">
+                  {w.iconUrl ? (
+                    <SafeImage src={w.iconUrl} alt={w.name} fill className="object-contain p-2 group-hover:scale-110 transition-transform duration-500" />
+                  ) : (
+                    <div className="text-muted text-xs">No Image</div>
+                  )}
+                </div>
+                <div className="p-3 border-t border-border bg-card/80">
+                  <div className="font-semibold truncate text-primary group-hover:text-amber-400 transition-colors text-sm">
+                    {w.name}
+                  </div>
+                  <div className="flex justify-between items-center mt-1">
+                    <span className="text-[10px] text-secondary uppercase tracking-wider">{w.type}</span>
+                    <span className={`text-[10px] tracking-tighter ${rarityTextClass(w.rarity)}`}>
+                      {rarityStars(w.rarity)}
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <footer className="mt-20 pt-8 border-t border-border text-center text-xs text-muted">
+          <p>Dữ liệu được lấy từ genshin-db và Enka Network. LEIBO không thuộc sở hữu của miHoYo.</p>
+        </footer>
+      </div>
+    </div>
+  );
+}
+</file>
+
 <file path="src/app/characters/page.tsx">
 import Link from "next/link";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
 import { ElementIcon } from "@/components/ElementIcon";
@@ -2733,7 +2717,11 @@ interface PageProps {
 export default async function CharactersPage({ searchParams }: PageProps) {
   const { vision, weapon, rarity, q } = await searchParams;
 
-  const where: any = {};
+  // Trước đây: `const where: any = {}` — không có kiểm tra kiểu nào cả, một
+  // lỗi gõ nhầm tên field (vd "visons" thay vì "vision") sẽ chỉ vỡ lúc chạy
+  // (runtime), không báo ngay lúc build. Dùng đúng type sinh ra từ schema
+  // Prisma để TypeScript bắt lỗi field/kiểu dữ liệu sai ngay khi biên dịch.
+  const where: Prisma.CharacterWhereInput = {};
   if (vision) where.vision = { equals: vision, mode: "insensitive" };
   if (weapon) where.weaponType = { equals: weapon, mode: "insensitive" };
   if (rarity) where.rarity = Number(rarity);
@@ -3116,7 +3104,6 @@ model Character {
   releaseDate DateTime?
   description String?  @db.Text
   iconUrl     String?
-  sideIconUrl String?                 // icon nhỏ (filename_sideIcon) — dùng cho danh sách party, avatar nhỏ...
   splashUrl   String?
   elementIcon    String?
   baseHp      Float?
@@ -3171,10 +3158,9 @@ model Weapon {
   subStatName String?
   subStatValue String?
   effectName  String?
-  // Thay cho effectDescription duy nhất (trước đây chỉ lưu refine 1,
-  // âm thầm bỏ refine 5 = mạnh nhất). Giờ lưu rõ cả hai mốc.
-  effectDescriptionR1 String? @db.Text
-  effectDescriptionR5 String? @db.Text
+  // Toàn bộ 5 mốc tinh luyện: [{ description }, ...] — đây là nguồn hiển thị
+  // duy nhất trên trang chi tiết vũ khí (đã bỏ effectDescriptionR1/R5 vì
+  // trùng lặp dữ liệu và không được UI dùng tới).
   passiveByRefinement Json?
   description String?  @db.Text
   iconUrl     String?
@@ -3196,8 +3182,6 @@ model ArtifactSet {
   onePieceBonus  String? @db.Text
   twoPieceBonus  String? @db.Text
   fourPieceBonus String? @db.Text
-  // true = set kiểu cũ chỉ có 1pc+2pc, không có bonus 4pc thật sự
-  isLegacyTwoPieceOnlySet Boolean @default(false)
   pieces      Json?
   iconUrl     String?
   updatedAt   DateTime @updatedAt
@@ -3689,89 +3673,184 @@ async function generateTalentMaterials(
   return result;
 }
 
-// Danh sách đầy đủ tên series sách talent, verify qua nhiều nguồn (Fandom wiki +
-// các trang tổng hợp material), theo từng vùng đã ra mắt tính đến bản game hiện tại:
-//   Mondstadt: Freedom, Resistance, Ballad
-//   Liyue:     Prosperity, Diligence, Gold
-//   Inazuma:   Transience, Elegance, Light
-//   Sumeru:    Admonition, Ingenuity, Praxis
-//   Fontaine:  Equity, Justice, Order
-//   Natlan:    Contention, Kindling, Conflict, Moonlight, Elysium, Vagrancy
-const KNOWN_TALENT_BOOK_SERIES = [
-  "Freedom", "Resistance", "Ballad",
-  "Prosperity", "Diligence", "Gold",
-  "Transience", "Elegance", "Light",
-  "Admonition", "Ingenuity", "Praxis",
-  "Equity", "Justice", "Order",
-  "Contention", "Kindling", "Conflict",
-  "Moonlight", "Elysium", "Vagrancy",
-] as const;
+// (Danh sách 21 series sách talent — giữ trong comment của
+// TALENT_BOOK_SERIES_BY_CHARACTER bên dưới, không cần mảng riêng nữa vì đã
+// chuyển sang map tĩnh theo từng nhân vật.)
 
 // ---- Lấy loại sách talent ----
 //
-// LƯU Ý: đã thử 2 cách và cả 2 đều sai/không dùng được, giữ lại ghi chú để
-// không ai lặp lại sai lầm cũ:
-//   1) characterData.talentMaterialType / talentBook -> KHÔNG tồn tại field
-//      này trên Character object (verify bằng debug-traveler.ts, xem toàn bộ
-//      keys thật: id, name, title, description, weaponType, weaponText,
-//      bodyType, gender, qualityType, rarity, birthdaymmdd, birthday,
-//      elementType, elementText, affiliation, associationType, region,
-//      substatType, substatText, constellation, cv, costs, images, url,
-//      stats, version — không có gì liên quan đến talent book).
-//   2) talentmaterialtypes("names", {matchCategories:true}) rồi đọc field
-//      .characters -> function này không hỗ trợ query kiểu đó trong bản
-//      genshin-db đang dùng (throw "not iterable" khi chạy debug-traveler.ts).
+// ĐÃ KIỂM CHỨNG QUA 3 LẦN THỬ (xem debug-talent-book*.ts và lịch sử sửa lỗi):
+// genshin-db KHÔNG có bất kỳ field/hàm nào map "nhân vật -> series sách
+// talent". Đã thử: characterData.talentBook (không tồn tại field),
+// genshindb.characters(series, {matchCategories:true}) (chạy được nhưng
+// CHO KẾT QUẢ SAI — ví dụ trả "Order" cho Albedo, đúng ra phải là "Ballad"),
+// và genshindb.talentmaterialtype(s) (luôn trả undefined khi gọi bằng tên
+// nhân vật — hàm này không hoạt động theo cách đó trong bản data hiện tại).
 //
-// CÁCH ĐÚNG (theo README chính thức của genshin-db): "talent level-up
-// material types" là một category HỢP LỆ của chính hàm characters(), tức
-// gọi genshindb.characters("Freedom", { matchCategories: true }) sẽ trả về
-// mảng TÊN các nhân vật dùng sách Freedom.
+// GIẢI PHÁP: bảng tĩnh, tra cứu và đối chiếu tay từng nhân vật qua Genshin
+// Impact Fandom Wiki (trang "<Series> Book" của từng series, vd
+// https://genshin-impact.fandom.com/wiki/Freedom_Book — các trang này liệt
+// kê đầy đủ, có đếm số lượng nhân vật để tự kiểm tra chéo). Dữ liệu này
+// KHÔNG đổi theo thời gian (nhân vật ra mắt dùng sách nào thì dùng mãi sách
+// đó), chỉ cần bổ sung dòng mới khi có nhân vật mới ra mắt.
 //
-// Thay vì gọi lại genshindb cho từng nhân vật (130 nhân vật x 21 series =
-// ~2700 lần gọi thừa), build 1 map ngược MỘT LẦN lúc khởi động module:
-// tên nhân vật (lowercase) -> tên series. Sau đó tra cứu chỉ là map lookup.
-const CHARACTER_TO_BOOK_SERIES: Map<string, string> = (() => {
-  const map = new Map<string, string>();
-  for (const series of KNOWN_TALENT_BOOK_SERIES) {
-    try {
-      const namesInSeries = genshindb.characters(series, { matchCategories: true }) as string[] | undefined;
-      for (const n of namesInSeries ?? []) {
-        map.set(n.toLowerCase(), series);
-      }
-    } catch {
-      // Series này chưa có data / chưa được category hóa trong bản data hiện
-      // tại (vd nội dung quá mới) -> bỏ qua, không ảnh hưởng các series khác.
-    }
-  }
-  return map;
-})();
+// Bảng dưới đây đã đối chiếu ngày viết code, nhưng vẫn có thể thiếu nhân vật
+// rất mới hoặc nhân vật Natlan/Nod-Krai chưa đủ dữ liệu công khai — những
+// nhân vật không có trong bảng sẽ hiện trong CHARACTERS_MISSING_BOOK_TYPE ở
+// cuối log seed, KHÔNG bị âm thầm bỏ qua.
+const TALENT_BOOK_SERIES_BY_CHARACTER: Record<string, string> = {
+  // Mondstadt — Freedom / Resistance / Ballad
+  "Amber": "Freedom", "Barbara": "Freedom", "Sucrose": "Freedom", "Klee": "Freedom",
+  "Diona": "Freedom", "Tartaglia": "Freedom", "Aloy": "Freedom", "Varka": "Freedom",
+  "Bennett": "Resistance", "Diluc": "Resistance", "Eula": "Resistance", "Jean": "Resistance",
+  "Mona": "Resistance", "Noelle": "Resistance", "Razor": "Resistance",
+  "Albedo": "Ballad", "Dahlia": "Ballad", "Durin": "Ballad", "Fischl": "Ballad",
+  "Kaeya": "Ballad", "Lisa": "Ballad", "Mika": "Ballad", "Rosaria": "Ballad", "Venti": "Ballad",
+
+  // Liyue — Prosperity / Diligence / Gold
+  "Gaming": "Prosperity", "Keqing": "Prosperity", "Ningguang": "Prosperity", "Qiqi": "Prosperity",
+  "Shenhe": "Prosperity", "Xiao": "Prosperity", "Yelan": "Prosperity",
+  "Chongyun": "Diligence", "Ganyu": "Diligence", "Hu Tao": "Diligence",
+  "Kaedehara Kazuha": "Diligence", "Lan Yan": "Diligence", "Xiangling": "Diligence",
+  "Yaoyao": "Diligence", "Yun Jin": "Diligence",
+  "Beidou": "Gold", "Xingqiu": "Gold", "Zhongli": "Gold", "Xinyan": "Gold",
+  "Yanfei": "Gold", "Baizhu": "Gold", "Xianyun": "Gold",
+
+  // Inazuma — Transience / Elegance / Light
+  "Kirara": "Transience", "Sangonomiya Kokomi": "Transience", "Shikanoin Heizou": "Transience",
+  "Thoma": "Transience", "Yoimiya": "Transience", "Yumemizuki Mizuki": "Transience",
+  "Arataki Itto": "Elegance", "Kamisato Ayaka": "Elegance", "Kamisato Ayato": "Elegance",
+  "Kujou Sara": "Elegance", "Kuki Shinobu": "Elegance",
+  "Chiori": "Light", "Gorou": "Light", "Raiden Shogun": "Light", "Sayu": "Light", "Yae Miko": "Light",
+
+  // Sumeru — Admonition / Ingenuity / Praxis
+  "Candace": "Admonition", "Cyno": "Admonition", "Faruzan": "Admonition", "Tighnari": "Admonition",
+  "Alhaitham": "Ingenuity", "Dori": "Ingenuity", "Kaveh": "Ingenuity", "Layla": "Ingenuity", "Nahida": "Ingenuity",
+  "Collei": "Praxis", "Dehya": "Praxis", "Nilou": "Praxis", "Sethos": "Praxis", "Wanderer": "Praxis",
+
+  // Fontaine — Equity / Justice / Order
+  "Lyney": "Equity", "Navia": "Equity", "Neuvillette": "Equity", "Sigewinne": "Equity",
+  "Charlotte": "Justice", "Clorinde": "Justice", "Escoffier": "Justice", "Freminet": "Justice", "Furina": "Justice",
+  "Wriothesley": "Order", "Chevreuse": "Order", "Emilie": "Order", "Arlecchino": "Order",
+
+  // Natlan — Contention / Kindling / Conflict
+  "Skirk": "Contention", "Mualani": "Contention", "Mavuika": "Contention",
+  "Kinich": "Kindling", "Xilonen": "Kindling", "Ororon": "Kindling",
+  "Chasca": "Conflict", "Citlali": "Conflict", "Iansan": "Conflict",
+
+  // Nod-Krai — Moonlight / Elysium / Vagrancy (domain "Lightless Capital",
+  // xác nhận qua Fandom + Game8, tháng 7/2026). Nefer dùng Elysium — xác
+  // nhận qua gamerant.com. CHƯA thêm Flins/Aino/Jahoda vì tại thời điểm viết
+  // chưa tìm được nguồn CHÍNH THỨC (không phải leak) xác nhận series sách
+  // của họ — xem CHARACTERS_MISSING_BOOK_TYPE ở cuối log seed để biết nhân
+  // vật nào còn thiếu, rồi bổ sung tay vào đây khi có nguồn đáng tin cậy.
+  "Columbina": "Moonlight", "Lauma": "Moonlight",
+  "Nefer": "Elysium",
+
+  // Traveler & Aloy được xử lý riêng (Traveler qua getTalentBookType([...]),
+  // Aloy đã có ở trên) — Traveler KHÔNG map ở đây vì tên trong DB khác theo
+  // từng nguyên tố, xem seedTraveler() bên dưới.
+};
+
+// So sánh trực tiếp theo key nguyên văn (TALENT_BOOK_SERIES_BY_CHARACTER[candidate])
+// từng khiến TOÀN BỘ nhân vật rơi vào "no book type" dù tên đã có trong bảng,
+// mỗi khi tên do genshin-db trả về lệch với key dù chỉ 1 ký tự (thừa khoảng
+// trắng đầu/cuối, khác hoa/thường, hoặc dấu câu unicode khác dạng — ví dụ
+// package chuẩn hóa dấu nháy đơn). So sánh nguyên văn không tha thứ bất kỳ
+// sai khác nào trong khi mục tiêu chỉ là khớp ĐÚNG NHÂN VẬT.
+// -> chuẩn hóa cả 2 phía (bỏ khoảng trắng thừa, viết thường, bỏ dấu) trước
+// khi so khớp, dựng 1 lần duy nhất lúc module load để không tốn chi phí mỗi
+// lần gọi hàm.
+function normalizeCharacterName(name: string): string {
+  return name
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // bỏ dấu (diacritics)
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+}
+
+const TALENT_BOOK_SERIES_BY_NORMALIZED_NAME: Record<string, string> = Object.fromEntries(
+  Object.entries(TALENT_BOOK_SERIES_BY_CHARACTER).map(([name, series]) => [
+    normalizeCharacterName(name),
+    series,
+  ])
+);
 
 function getTalentBookType(characterNameOrCandidates: string | string[]): string | null {
   const candidates = Array.isArray(characterNameOrCandidates) ? characterNameOrCandidates : [characterNameOrCandidates];
   for (const candidate of candidates) {
-    const found = CHARACTER_TO_BOOK_SERIES.get(candidate.toLowerCase());
-    if (found) return found;
+    const match = TALENT_BOOK_SERIES_BY_NORMALIZED_NAME[normalizeCharacterName(candidate)];
+    if (match) return match;
+  }
+  // Traveler: mỗi nguyên tố dùng đúng bộ sách của vùng tương ứng (Anemo/Geo
+  // dùng Mondstadt "Freedom", Dendro dùng Sumeru "Praxis", v.v.) — nhưng
+  // KHÔNG map theo tên "Aether"/"Lumine" vì đó là tên chung cho mọi nguyên tố.
+  const TRAVELER_ELEMENT_TO_BOOK: Record<string, string> = {
+    Anemo: "Freedom", Geo: "Prosperity", Electro: "Elegance",
+    Dendro: "Praxis", Hydro: "Equity", Pyro: "Contention", Cryo: "Ballad",
+  };
+  for (const candidate of candidates) {
+    const match = candidate.match(/Traveler \(([A-Za-z]+)\)/);
+    if (match && TRAVELER_ELEMENT_TO_BOOK[match[1]]) return TRAVELER_ELEMENT_TO_BOOK[match[1]];
   }
   return null;
 }
 
 // ---- Lấy boss material (nguyên liệu từ boss tuần) ----
 //
-// Cũng như trên: `talentBoss`, `bossMaterial`, `weeklyBoss` không phải field
-// thật trên Character object — genshin-db không gắn sẵn thông tin boss vào
-// character. KHÔNG có cách nào data-driven đáng tin để suy luận boss material
-// từ package này, nên trả về null thay vì đoán mò field không tồn tại.
+// `talentBoss`/`bossMaterial` KHÔNG phải field trên Character object — đúng
+// như ghi chú cũ. Nhưng bản cũ dừng lại ở đó và trả null cho MỌI nhân vật,
+// trong khi dữ liệu thật đã nằm sẵn trong `costs.ascend4/5/6` (cùng nguồn
+// đang dùng cho getAscensionMaterials) — chỉ là chưa ai lọc nó ra.
 //
-// Nếu sau này cần data này thật sự, phải lấy từ nguồn khác (vd tự map tay
-// theo nhân vật, hoặc domain data của genshin-db nếu có) — không nên "đoán
-// field cho có" như bản cũ vì nó tạo cảm giác đang hoạt động trong khi thực
-// chất luôn trả về null.
+// Cách nhận diện: genshin-db phân loại material theo category thật qua
+// materials(category, { matchCategories: true }). Build 1 lần tập hợp tên
+// thuộc category "Boss Material" lúc khởi động module, sau đó với từng nhân
+// vật, quét costs từ ascend6 xuống ascend1 và trả về material đầu tiên khớp
+// tập hợp đó. Data-driven hoàn toàn, không hard-code theo tên nhân vật ->
+// vẫn đúng khi game ra nhân vật mới.
 //
-// Riêng Traveler: Traveler KHÔNG dùng nguyên liệu boss tuần cho cả ascension
-// lẫn talent — đây là đặc điểm THIẾT KẾ CHÍNH THỨC của nhân vật này trong
-// game (xác nhận qua nhiều nguồn wiki), không phải bug. Vì vậy null cho
-// Traveler ở mục này là ĐÚNG, không cần "sửa".
-function getBossMaterialName(_characterData: any): string | null {
+// Nếu bản genshin-db đang dùng đổi tên category (khác "Boss Material"), set
+// này sẽ rỗng -> cảnh báo ngay lúc khởi động thay vì âm thầm trả null cho
+// tất cả như bản cũ.
+const BOSS_MATERIAL_CATEGORY_CANDIDATES = ["Boss Material", "Boss Materials"];
+const BOSS_MATERIAL_NAMES: Set<string> = (() => {
+  const set = new Set<string>();
+  for (const category of BOSS_MATERIAL_CATEGORY_CANDIDATES) {
+    try {
+      const names = genshindb.materials(category, { matchCategories: true }) as string[] | undefined;
+      for (const n of names ?? []) set.add(n.toLowerCase());
+    } catch {
+      // Tên category này không khớp bản data hiện tại -> thử candidate tiếp theo
+    }
+  }
+  if (set.size === 0) {
+    console.warn(
+      `⚠ Không tìm được category "Boss Material" trong genshin-db (đã thử: ${BOSS_MATERIAL_CATEGORY_CANDIDATES.join(", ")}). ` +
+      `Chạy "npx tsx scripts/debug-traveler.ts" hoặc kiểm tra genshindb.materials("names", {matchCategories:true}) ` +
+      `để tìm tên category đúng trong bản package đang cài, rồi cập nhật BOSS_MATERIAL_CATEGORY_CANDIDATES.`
+    );
+  }
+  return set;
+})();
+
+// Riêng Traveler: không dùng nguyên liệu boss tuần cho cả ascension lẫn
+// talent — đây là thiết kế chính thức của nhân vật (xác nhận qua nhiều
+// nguồn wiki). Với Traveler, costs sẽ không chứa material nào khớp
+// BOSS_MATERIAL_NAMES nên hàm dưới tự nhiên trả null, không cần case riêng.
+function getBossMaterialName(costs: unknown): string | null {
+  if (!costs || typeof costs !== "object") return null;
+  const raw = costs as Record<string, Array<{ name?: string }>>;
+  for (const phase of [6, 5, 4, 3, 2, 1]) {
+    const items = raw[`ascend${phase}`];
+    if (!Array.isArray(items)) continue;
+    for (const item of items) {
+      if (item?.name && BOSS_MATERIAL_NAMES.has(item.name.toLowerCase())) {
+        return item.name;
+      }
+    }
+  }
   return null;
 }
 
@@ -3900,7 +3979,7 @@ async function seedTraveler(): Promise<number> {
           "Traveler",
           queryName,
         ]);
-        const bossName = getBossMaterialName(c); // luôn null cho Traveler — xem giải thích ở định nghĩa hàm
+        const bossName = getBossMaterialName(c.costs); // luôn null cho Traveler — xem giải thích ở định nghĩa hàm
         const talentMaterials = await generateTalentMaterials(bookType, bossName, talentQueryName);
 
         console.log(`[Traveler ${element}] bookType: ${bookType}, boss: ${bossName}, materials: ${talentMaterials.length}`);
@@ -3966,7 +4045,7 @@ export async function seedCharacters(): Promise<void> {
       // Lấy loại sách và boss — data-driven qua reverse-lookup map (xem
       // CHARACTER_TO_BOOK_SERIES ở trên), không đoán field không tồn tại
       const bookType = getTalentBookType(name);
-      const bossName = getBossMaterialName(c);
+      const bossName = getBossMaterialName(c.costs);
       const talentMaterials = await generateTalentMaterials(bookType, bossName, name);
 
       console.log(`[${name}] bookType: ${bookType}, boss: ${bossName}, materials: ${talentMaterials.length}`);

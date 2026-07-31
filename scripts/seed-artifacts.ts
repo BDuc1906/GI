@@ -25,7 +25,6 @@ export async function seedArtifacts(): Promise<void> {
       const onePieceBonus = a.effect1Pc || a["1pc"] || null;
       const twoPieceBonus = a.effect2Pc || a["2pc"] || null;
       const fourPieceBonus = a.effect4Pc || a["4pc"] || null;
-      const isLegacyTwoPieceOnlySet = !fourPieceBonus && !!onePieceBonus;
 
       const pieces = {
         flower: a.images?.filename_flower ? getEnkaUrl(a.images.filename_flower) : null,
@@ -40,7 +39,6 @@ export async function seedArtifacts(): Promise<void> {
         onePieceBonus,
         twoPieceBonus,
         fourPieceBonus,
-        isLegacyTwoPieceOnlySet,
         pieces: pieces as any,
         iconUrl: getEnkaUrl(a.images?.filename_flower || a.images?.filename_circlet),
       };

@@ -49,6 +49,41 @@ type MaterialsFn = (
   options?: { matchCategories?: boolean }
 ) => unknown;
 
+// Danh sách tên nguyên liệu KHÔNG tra được icon — in tổng kết ở cuối run
+// (cùng cách làm với CHARACTERS_MISSING_BOOK_TYPE bên seed-characters.ts)
+// thay vì im lặng bỏ qua như trước. Trước đây nếu cả 3 bước lookup đều thất
+// bại, hàm chỉ đơn giản để iconUrl = null mà không log gì -> không ai biết
+// material nào bị thiếu cho tới khi thấy icon "-" trên web.
+export const MATERIALS_MISSING_ICON: string[] = [];
+
+export function printMissingIconSummary(): void {
+  if (MATERIALS_MISSING_ICON.length === 0) {
+    console.log("✔ Mọi nguyên liệu đều tra được icon.");
+    return;
+  }
+  const unique = Array.from(new Set(MATERIALS_MISSING_ICON));
+  console.warn(
+    `\n⚠ ${unique.length} nguyên liệu KHÔNG tra được icon (sẽ hiện "-" trên web):`
+  );
+  console.warn(unique.map((n) => `   - ${n}`).join("\n"));
+  console.warn(
+    `→ Nguyên nhân thường gặp: bản "genshin-db" đang cài chưa có data cho nguyên liệu ` +
+    `vùng mới ra (vd Natlan). Thử "npm install genshin-db@latest" rồi seed lại.\n` +
+    `  Nếu vẫn thiếu sau khi update, package cộng đồng đó chưa kịp cập nhật —\n` +
+    `  cần map icon tay tạm thời cho các tên này (xem MANUAL_ICON_OVERRIDES).`
+  );
+}
+
+// Fallback tay cho nguyên liệu mà genshin-db chưa có data (vd nội dung vùng
+// mới ra mắt). Điền thủ công filename icon từ enka.network khi phát hiện
+// qua MATERIALS_MISSING_ICON, để không phải đợi package cộng đồng cập nhật.
+// Key: tên nguyên liệu (đúng chính tả trong game), value: filename trên enka
+// (không gồm .png), dùng lại getEnkaUrl() bên dưới.
+const MANUAL_ICON_OVERRIDES: Record<string, string> = {
+  // "Frostlamp Flower": "UI_ItemIcon_...",
+};
+
+
 /**
  * upsert 1 nguyên liệu vào bảng Material, tra icon từ genshin-db theo 3 bước
  * dự phòng (trực tiếp -> chuẩn hóa tên -> dò trong danh sách tên).
@@ -97,6 +132,17 @@ export async function upsertMaterial(
 
   if (raw) {
     iconUrl = getEnkaUrl(getMaterialIconFilename(raw), null);
+  }
+
+  // Vẫn không có icon sau cả 3 bước tra genshin-db -> thử override tay,
+  // rồi ghi nhận vào danh sách thiếu để in cảnh báo tổng kết cuối run.
+  if (!iconUrl) {
+    const override = MANUAL_ICON_OVERRIDES[materialName];
+    if (override) {
+      iconUrl = getEnkaUrl(override, null);
+    } else {
+      MATERIALS_MISSING_ICON.push(materialName);
+    }
   }
 
   await prisma.material.upsert({

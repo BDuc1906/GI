@@ -53,8 +53,6 @@ export async function seedWeapons(): Promise<void> {
         subStatName: w.mainStatText || null,
         subStatValue: w.baseStatText || null,
         effectName: w.effectName || null,
-        effectDescriptionR1: refinements[0]?.description || w.effectTemplateRaw || null,
-        effectDescriptionR5: refinements[4]?.description || w.effectTemplateRaw || null,
         passiveByRefinement: refinements.length ? JSON.parse(JSON.stringify(refinements)) : null,
         description: w.description || null,
         iconUrl: getEnkaUrl(w.images?.filename_icon, w.images?.mihoyo_icon),

@@ -104,89 +104,184 @@ async function generateTalentMaterials(
   return result;
 }
 
-// Danh sách đầy đủ tên series sách talent, verify qua nhiều nguồn (Fandom wiki +
-// các trang tổng hợp material), theo từng vùng đã ra mắt tính đến bản game hiện tại:
-//   Mondstadt: Freedom, Resistance, Ballad
-//   Liyue:     Prosperity, Diligence, Gold
-//   Inazuma:   Transience, Elegance, Light
-//   Sumeru:    Admonition, Ingenuity, Praxis
-//   Fontaine:  Equity, Justice, Order
-//   Natlan:    Contention, Kindling, Conflict, Moonlight, Elysium, Vagrancy
-const KNOWN_TALENT_BOOK_SERIES = [
-  "Freedom", "Resistance", "Ballad",
-  "Prosperity", "Diligence", "Gold",
-  "Transience", "Elegance", "Light",
-  "Admonition", "Ingenuity", "Praxis",
-  "Equity", "Justice", "Order",
-  "Contention", "Kindling", "Conflict",
-  "Moonlight", "Elysium", "Vagrancy",
-] as const;
+// (Danh sách 21 series sách talent — giữ trong comment của
+// TALENT_BOOK_SERIES_BY_CHARACTER bên dưới, không cần mảng riêng nữa vì đã
+// chuyển sang map tĩnh theo từng nhân vật.)
 
 // ---- Lấy loại sách talent ----
 //
-// LƯU Ý: đã thử 2 cách và cả 2 đều sai/không dùng được, giữ lại ghi chú để
-// không ai lặp lại sai lầm cũ:
-//   1) characterData.talentMaterialType / talentBook -> KHÔNG tồn tại field
-//      này trên Character object (verify bằng debug-traveler.ts, xem toàn bộ
-//      keys thật: id, name, title, description, weaponType, weaponText,
-//      bodyType, gender, qualityType, rarity, birthdaymmdd, birthday,
-//      elementType, elementText, affiliation, associationType, region,
-//      substatType, substatText, constellation, cv, costs, images, url,
-//      stats, version — không có gì liên quan đến talent book).
-//   2) talentmaterialtypes("names", {matchCategories:true}) rồi đọc field
-//      .characters -> function này không hỗ trợ query kiểu đó trong bản
-//      genshin-db đang dùng (throw "not iterable" khi chạy debug-traveler.ts).
+// ĐÃ KIỂM CHỨNG QUA 3 LẦN THỬ (xem debug-talent-book*.ts và lịch sử sửa lỗi):
+// genshin-db KHÔNG có bất kỳ field/hàm nào map "nhân vật -> series sách
+// talent". Đã thử: characterData.talentBook (không tồn tại field),
+// genshindb.characters(series, {matchCategories:true}) (chạy được nhưng
+// CHO KẾT QUẢ SAI — ví dụ trả "Order" cho Albedo, đúng ra phải là "Ballad"),
+// và genshindb.talentmaterialtype(s) (luôn trả undefined khi gọi bằng tên
+// nhân vật — hàm này không hoạt động theo cách đó trong bản data hiện tại).
 //
-// CÁCH ĐÚNG (theo README chính thức của genshin-db): "talent level-up
-// material types" là một category HỢP LỆ của chính hàm characters(), tức
-// gọi genshindb.characters("Freedom", { matchCategories: true }) sẽ trả về
-// mảng TÊN các nhân vật dùng sách Freedom.
+// GIẢI PHÁP: bảng tĩnh, tra cứu và đối chiếu tay từng nhân vật qua Genshin
+// Impact Fandom Wiki (trang "<Series> Book" của từng series, vd
+// https://genshin-impact.fandom.com/wiki/Freedom_Book — các trang này liệt
+// kê đầy đủ, có đếm số lượng nhân vật để tự kiểm tra chéo). Dữ liệu này
+// KHÔNG đổi theo thời gian (nhân vật ra mắt dùng sách nào thì dùng mãi sách
+// đó), chỉ cần bổ sung dòng mới khi có nhân vật mới ra mắt.
 //
-// Thay vì gọi lại genshindb cho từng nhân vật (130 nhân vật x 21 series =
-// ~2700 lần gọi thừa), build 1 map ngược MỘT LẦN lúc khởi động module:
-// tên nhân vật (lowercase) -> tên series. Sau đó tra cứu chỉ là map lookup.
-const CHARACTER_TO_BOOK_SERIES: Map<string, string> = (() => {
-  const map = new Map<string, string>();
-  for (const series of KNOWN_TALENT_BOOK_SERIES) {
-    try {
-      const namesInSeries = genshindb.characters(series, { matchCategories: true }) as string[] | undefined;
-      for (const n of namesInSeries ?? []) {
-        map.set(n.toLowerCase(), series);
-      }
-    } catch {
-      // Series này chưa có data / chưa được category hóa trong bản data hiện
-      // tại (vd nội dung quá mới) -> bỏ qua, không ảnh hưởng các series khác.
-    }
-  }
-  return map;
-})();
+// Bảng dưới đây đã đối chiếu ngày viết code, nhưng vẫn có thể thiếu nhân vật
+// rất mới hoặc nhân vật Natlan/Nod-Krai chưa đủ dữ liệu công khai — những
+// nhân vật không có trong bảng sẽ hiện trong CHARACTERS_MISSING_BOOK_TYPE ở
+// cuối log seed, KHÔNG bị âm thầm bỏ qua.
+const TALENT_BOOK_SERIES_BY_CHARACTER: Record<string, string> = {
+  // Mondstadt — Freedom / Resistance / Ballad
+  "Amber": "Freedom", "Barbara": "Freedom", "Sucrose": "Freedom", "Klee": "Freedom",
+  "Diona": "Freedom", "Tartaglia": "Freedom", "Aloy": "Freedom", "Varka": "Freedom",
+  "Bennett": "Resistance", "Diluc": "Resistance", "Eula": "Resistance", "Jean": "Resistance",
+  "Mona": "Resistance", "Noelle": "Resistance", "Razor": "Resistance",
+  "Albedo": "Ballad", "Dahlia": "Ballad", "Durin": "Ballad", "Fischl": "Ballad",
+  "Kaeya": "Ballad", "Lisa": "Ballad", "Mika": "Ballad", "Rosaria": "Ballad", "Venti": "Ballad",
+
+  // Liyue — Prosperity / Diligence / Gold
+  "Gaming": "Prosperity", "Keqing": "Prosperity", "Ningguang": "Prosperity", "Qiqi": "Prosperity",
+  "Shenhe": "Prosperity", "Xiao": "Prosperity", "Yelan": "Prosperity",
+  "Chongyun": "Diligence", "Ganyu": "Diligence", "Hu Tao": "Diligence",
+  "Kaedehara Kazuha": "Diligence", "Lan Yan": "Diligence", "Xiangling": "Diligence",
+  "Yaoyao": "Diligence", "Yun Jin": "Diligence",
+  "Beidou": "Gold", "Xingqiu": "Gold", "Zhongli": "Gold", "Xinyan": "Gold",
+  "Yanfei": "Gold", "Baizhu": "Gold", "Xianyun": "Gold",
+
+  // Inazuma — Transience / Elegance / Light
+  "Kirara": "Transience", "Sangonomiya Kokomi": "Transience", "Shikanoin Heizou": "Transience",
+  "Thoma": "Transience", "Yoimiya": "Transience", "Yumemizuki Mizuki": "Transience",
+  "Arataki Itto": "Elegance", "Kamisato Ayaka": "Elegance", "Kamisato Ayato": "Elegance",
+  "Kujou Sara": "Elegance", "Kuki Shinobu": "Elegance",
+  "Chiori": "Light", "Gorou": "Light", "Raiden Shogun": "Light", "Sayu": "Light", "Yae Miko": "Light",
+
+  // Sumeru — Admonition / Ingenuity / Praxis
+  "Candace": "Admonition", "Cyno": "Admonition", "Faruzan": "Admonition", "Tighnari": "Admonition",
+  "Alhaitham": "Ingenuity", "Dori": "Ingenuity", "Kaveh": "Ingenuity", "Layla": "Ingenuity", "Nahida": "Ingenuity",
+  "Collei": "Praxis", "Dehya": "Praxis", "Nilou": "Praxis", "Sethos": "Praxis", "Wanderer": "Praxis",
+
+  // Fontaine — Equity / Justice / Order
+  "Lyney": "Equity", "Navia": "Equity", "Neuvillette": "Equity", "Sigewinne": "Equity",
+  "Charlotte": "Justice", "Clorinde": "Justice", "Escoffier": "Justice", "Freminet": "Justice", "Furina": "Justice",
+  "Wriothesley": "Order", "Chevreuse": "Order", "Emilie": "Order", "Arlecchino": "Order",
+
+  // Natlan — Contention / Kindling / Conflict
+  "Skirk": "Contention", "Mualani": "Contention", "Mavuika": "Contention",
+  "Kinich": "Kindling", "Xilonen": "Kindling", "Ororon": "Kindling",
+  "Chasca": "Conflict", "Citlali": "Conflict", "Iansan": "Conflict",
+
+  // Nod-Krai — Moonlight / Elysium / Vagrancy (domain "Lightless Capital",
+  // xác nhận qua Fandom + Game8, tháng 7/2026). Nefer dùng Elysium — xác
+  // nhận qua gamerant.com. CHƯA thêm Flins/Aino/Jahoda vì tại thời điểm viết
+  // chưa tìm được nguồn CHÍNH THỨC (không phải leak) xác nhận series sách
+  // của họ — xem CHARACTERS_MISSING_BOOK_TYPE ở cuối log seed để biết nhân
+  // vật nào còn thiếu, rồi bổ sung tay vào đây khi có nguồn đáng tin cậy.
+  "Columbina": "Moonlight", "Lauma": "Moonlight",
+  "Nefer": "Elysium",
+
+  // Traveler & Aloy được xử lý riêng (Traveler qua getTalentBookType([...]),
+  // Aloy đã có ở trên) — Traveler KHÔNG map ở đây vì tên trong DB khác theo
+  // từng nguyên tố, xem seedTraveler() bên dưới.
+};
+
+// So sánh trực tiếp theo key nguyên văn (TALENT_BOOK_SERIES_BY_CHARACTER[candidate])
+// từng khiến TOÀN BỘ nhân vật rơi vào "no book type" dù tên đã có trong bảng,
+// mỗi khi tên do genshin-db trả về lệch với key dù chỉ 1 ký tự (thừa khoảng
+// trắng đầu/cuối, khác hoa/thường, hoặc dấu câu unicode khác dạng — ví dụ
+// package chuẩn hóa dấu nháy đơn). So sánh nguyên văn không tha thứ bất kỳ
+// sai khác nào trong khi mục tiêu chỉ là khớp ĐÚNG NHÂN VẬT.
+// -> chuẩn hóa cả 2 phía (bỏ khoảng trắng thừa, viết thường, bỏ dấu) trước
+// khi so khớp, dựng 1 lần duy nhất lúc module load để không tốn chi phí mỗi
+// lần gọi hàm.
+function normalizeCharacterName(name: string): string {
+  return name
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // bỏ dấu (diacritics)
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+}
+
+const TALENT_BOOK_SERIES_BY_NORMALIZED_NAME: Record<string, string> = Object.fromEntries(
+  Object.entries(TALENT_BOOK_SERIES_BY_CHARACTER).map(([name, series]) => [
+    normalizeCharacterName(name),
+    series,
+  ])
+);
 
 function getTalentBookType(characterNameOrCandidates: string | string[]): string | null {
   const candidates = Array.isArray(characterNameOrCandidates) ? characterNameOrCandidates : [characterNameOrCandidates];
   for (const candidate of candidates) {
-    const found = CHARACTER_TO_BOOK_SERIES.get(candidate.toLowerCase());
-    if (found) return found;
+    const match = TALENT_BOOK_SERIES_BY_NORMALIZED_NAME[normalizeCharacterName(candidate)];
+    if (match) return match;
+  }
+  // Traveler: mỗi nguyên tố dùng đúng bộ sách của vùng tương ứng (Anemo/Geo
+  // dùng Mondstadt "Freedom", Dendro dùng Sumeru "Praxis", v.v.) — nhưng
+  // KHÔNG map theo tên "Aether"/"Lumine" vì đó là tên chung cho mọi nguyên tố.
+  const TRAVELER_ELEMENT_TO_BOOK: Record<string, string> = {
+    Anemo: "Freedom", Geo: "Prosperity", Electro: "Elegance",
+    Dendro: "Praxis", Hydro: "Equity", Pyro: "Contention", Cryo: "Ballad",
+  };
+  for (const candidate of candidates) {
+    const match = candidate.match(/Traveler \(([A-Za-z]+)\)/);
+    if (match && TRAVELER_ELEMENT_TO_BOOK[match[1]]) return TRAVELER_ELEMENT_TO_BOOK[match[1]];
   }
   return null;
 }
 
 // ---- Lấy boss material (nguyên liệu từ boss tuần) ----
 //
-// Cũng như trên: `talentBoss`, `bossMaterial`, `weeklyBoss` không phải field
-// thật trên Character object — genshin-db không gắn sẵn thông tin boss vào
-// character. KHÔNG có cách nào data-driven đáng tin để suy luận boss material
-// từ package này, nên trả về null thay vì đoán mò field không tồn tại.
+// `talentBoss`/`bossMaterial` KHÔNG phải field trên Character object — đúng
+// như ghi chú cũ. Nhưng bản cũ dừng lại ở đó và trả null cho MỌI nhân vật,
+// trong khi dữ liệu thật đã nằm sẵn trong `costs.ascend4/5/6` (cùng nguồn
+// đang dùng cho getAscensionMaterials) — chỉ là chưa ai lọc nó ra.
 //
-// Nếu sau này cần data này thật sự, phải lấy từ nguồn khác (vd tự map tay
-// theo nhân vật, hoặc domain data của genshin-db nếu có) — không nên "đoán
-// field cho có" như bản cũ vì nó tạo cảm giác đang hoạt động trong khi thực
-// chất luôn trả về null.
+// Cách nhận diện: genshin-db phân loại material theo category thật qua
+// materials(category, { matchCategories: true }). Build 1 lần tập hợp tên
+// thuộc category "Boss Material" lúc khởi động module, sau đó với từng nhân
+// vật, quét costs từ ascend6 xuống ascend1 và trả về material đầu tiên khớp
+// tập hợp đó. Data-driven hoàn toàn, không hard-code theo tên nhân vật ->
+// vẫn đúng khi game ra nhân vật mới.
 //
-// Riêng Traveler: Traveler KHÔNG dùng nguyên liệu boss tuần cho cả ascension
-// lẫn talent — đây là đặc điểm THIẾT KẾ CHÍNH THỨC của nhân vật này trong
-// game (xác nhận qua nhiều nguồn wiki), không phải bug. Vì vậy null cho
-// Traveler ở mục này là ĐÚNG, không cần "sửa".
-function getBossMaterialName(_characterData: any): string | null {
+// Nếu bản genshin-db đang dùng đổi tên category (khác "Boss Material"), set
+// này sẽ rỗng -> cảnh báo ngay lúc khởi động thay vì âm thầm trả null cho
+// tất cả như bản cũ.
+const BOSS_MATERIAL_CATEGORY_CANDIDATES = ["Boss Material", "Boss Materials"];
+const BOSS_MATERIAL_NAMES: Set<string> = (() => {
+  const set = new Set<string>();
+  for (const category of BOSS_MATERIAL_CATEGORY_CANDIDATES) {
+    try {
+      const names = genshindb.materials(category, { matchCategories: true }) as string[] | undefined;
+      for (const n of names ?? []) set.add(n.toLowerCase());
+    } catch {
+      // Tên category này không khớp bản data hiện tại -> thử candidate tiếp theo
+    }
+  }
+  if (set.size === 0) {
+    console.warn(
+      `⚠ Không tìm được category "Boss Material" trong genshin-db (đã thử: ${BOSS_MATERIAL_CATEGORY_CANDIDATES.join(", ")}). ` +
+      `Chạy "npx tsx scripts/debug-traveler.ts" hoặc kiểm tra genshindb.materials("names", {matchCategories:true}) ` +
+      `để tìm tên category đúng trong bản package đang cài, rồi cập nhật BOSS_MATERIAL_CATEGORY_CANDIDATES.`
+    );
+  }
+  return set;
+})();
+
+// Riêng Traveler: không dùng nguyên liệu boss tuần cho cả ascension lẫn
+// talent — đây là thiết kế chính thức của nhân vật (xác nhận qua nhiều
+// nguồn wiki). Với Traveler, costs sẽ không chứa material nào khớp
+// BOSS_MATERIAL_NAMES nên hàm dưới tự nhiên trả null, không cần case riêng.
+function getBossMaterialName(costs: unknown): string | null {
+  if (!costs || typeof costs !== "object") return null;
+  const raw = costs as Record<string, Array<{ name?: string }>>;
+  for (const phase of [6, 5, 4, 3, 2, 1]) {
+    const items = raw[`ascend${phase}`];
+    if (!Array.isArray(items)) continue;
+    for (const item of items) {
+      if (item?.name && BOSS_MATERIAL_NAMES.has(item.name.toLowerCase())) {
+        return item.name;
+      }
+    }
+  }
   return null;
 }
 
@@ -315,7 +410,7 @@ async function seedTraveler(): Promise<number> {
           "Traveler",
           queryName,
         ]);
-        const bossName = getBossMaterialName(c); // luôn null cho Traveler — xem giải thích ở định nghĩa hàm
+        const bossName = getBossMaterialName(c.costs); // luôn null cho Traveler — xem giải thích ở định nghĩa hàm
         const talentMaterials = await generateTalentMaterials(bookType, bossName, talentQueryName);
 
         console.log(`[Traveler ${element}] bookType: ${bookType}, boss: ${bossName}, materials: ${talentMaterials.length}`);
@@ -381,7 +476,7 @@ export async function seedCharacters(): Promise<void> {
       // Lấy loại sách và boss — data-driven qua reverse-lookup map (xem
       // CHARACTER_TO_BOOK_SERIES ở trên), không đoán field không tồn tại
       const bookType = getTalentBookType(name);
-      const bossName = getBossMaterialName(c);
+      const bossName = getBossMaterialName(c.costs);
       const talentMaterials = await generateTalentMaterials(bookType, bossName, name);
 
       console.log(`[${name}] bookType: ${bookType}, boss: ${bossName}, materials: ${talentMaterials.length}`);

@@ -12,6 +12,7 @@ import { prisma } from "../src/lib/prisma";
 import { seedCharacters } from "./seed-characters";
 import { seedWeapons } from "./seed-weapons";
 import { seedArtifacts } from "./seed-artifacts";
+import { printMissingIconSummary } from "./lib/seed-helpers";
 
 async function main(): Promise<void> {
   console.log("Seeding database with real Genshin Impact data (genshin-db)...");
@@ -19,6 +20,7 @@ async function main(): Promise<void> {
     await seedCharacters();
     await seedWeapons();
     await seedArtifacts();
+    printMissingIconSummary();
     console.log("=== ALL DATA SEEDED SUCCESSFULLY ===");
   } catch (error) {
     console.error("❌ Seeding halted due to critical error:");
