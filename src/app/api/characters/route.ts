@@ -7,6 +7,13 @@ import { buildMeta, parsePagination, parseRarityList, parseSort } from "@/lib/ap
 
 export const revalidate = 60;
 
+// Route đọc query string (`new URL(req.url)`) để lọc/phân trang/sắp xếp, nên
+// không thể prerender tĩnh. Khai báo tường minh thay vì để Next.js tự dò ra
+// bằng cách ném lỗi nội bộ "DYNAMIC_SERVER_USAGE" lúc build — cách dò ngầm
+// đó bị `withErrorHandling` bắt luôn (log nhầm thành "[API] Unhandled error"
+// mỗi lần build dù route vẫn hoạt động đúng).
+export const dynamic = "force-dynamic";
+
 const SORT_FIELDS = ["name", "rarity", "createdAt"] as const;
 
 const LIST_SELECT = {

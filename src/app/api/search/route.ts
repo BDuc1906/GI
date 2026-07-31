@@ -5,6 +5,11 @@ import { ApiError, withErrorHandling } from "@/lib/api/errors";
 
 export const revalidate = 30;
 
+// Xem giải thích chi tiết trong src/app/api/characters/route.ts — route đọc
+// query string nên phải khai báo dynamic tường minh, tránh Next.js phải tự
+// dò bằng cách ném lỗi nội bộ lúc build.
+export const dynamic = "force-dynamic";
+
 const MAX_PER_TYPE = 50;
 const DEFAULT_PER_TYPE = 12;
 

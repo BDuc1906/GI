@@ -7,6 +7,11 @@ import { buildMeta, parsePagination, parseRarityList, parseSort } from "@/lib/ap
 
 export const revalidate = 60;
 
+// Xem giải thích chi tiết trong src/app/api/characters/route.ts — route đọc
+// query string nên phải khai báo dynamic tường minh, tránh Next.js phải tự
+// dò bằng cách ném lỗi nội bộ lúc build.
+export const dynamic = "force-dynamic";
+
 const SORT_FIELDS = ["name", "rarity", "baseAtk", "createdAt"] as const;
 
 const LIST_SELECT = {

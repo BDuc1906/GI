@@ -7,6 +7,11 @@ import { buildMeta, parsePagination } from "@/lib/api/query";
 
 export const revalidate = 300;
 
+// Xem giải thích chi tiết trong src/app/api/characters/route.ts — route đọc
+// query string nên phải khai báo dynamic tường minh, tránh Next.js phải tự
+// dò bằng cách ném lỗi nội bộ lúc build.
+export const dynamic = "force-dynamic";
+
 /**
  * GET /api/materials
  *
