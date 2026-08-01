@@ -14,6 +14,10 @@ function req(url: string): NextRequest {
   return new NextRequest(new URL(url, "http://localhost"));
 }
 
+// Route danh sách không có tham số động, nhưng kiểu Handler (từ
+// withErrorHandling) luôn yêu cầu đủ (req, ctx) — truyền ctx rỗng cho khớp.
+const listCtx = { params: Promise.resolve({}) };
+
 beforeEach(() => {
   vi.clearAllMocks();
 });
@@ -23,7 +27,7 @@ describe("GET /api/artifacts", () => {
     mockPrisma.artifactSet.findMany.mockResolvedValue([{ id: "gladiators-finale", name: "Gladiator's Finale" }]);
     mockPrisma.artifactSet.count.mockResolvedValue(1);
 
-    const res = await listArtifacts(req("http://localhost/api/artifacts"));
+    const res = await listArtifacts(req("http://localhost/api/artifacts"), listCtx);
     const body = await res.json();
 
     expect(res.status).toBe(200);
@@ -34,14 +38,14 @@ describe("GET /api/artifacts", () => {
     mockPrisma.artifactSet.findMany.mockResolvedValue([]);
     mockPrisma.artifactSet.count.mockResolvedValue(0);
 
-    await listArtifacts(req("http://localhost/api/artifacts?rarity=5"));
+    await listArtifacts(req("http://localhost/api/artifacts?rarity=5"), listCtx);
 
     const [[args]] = mockPrisma.artifactSet.findMany.mock.calls;
     expect(args.where.rarityRange).toEqual({ has: 5 });
   });
 
   it("400 khi rarity không hợp lệ", async () => {
-    const res = await listArtifacts(req("http://localhost/api/artifacts?rarity=abc"));
+    const res = await listArtifacts(req("http://localhost/api/artifacts?rarity=abc"), listCtx);
     expect(res.status).toBe(400);
   });
 });

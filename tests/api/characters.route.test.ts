@@ -18,6 +18,10 @@ function req(url: string): NextRequest {
   return new NextRequest(new URL(url, "http://localhost"));
 }
 
+// Route danh sách không có tham số động, nhưng kiểu Handler (từ
+// withErrorHandling) luôn yêu cầu đủ (req, ctx) — truyền ctx rỗng cho khớp.
+const listCtx = { params: Promise.resolve({}) };
+
 beforeEach(() => {
   vi.clearAllMocks();
 });
@@ -29,7 +33,7 @@ describe("GET /api/characters", () => {
     ]);
     mockPrisma.character.count.mockResolvedValue(1);
 
-    const res = await listCharacters(req("http://localhost/api/characters"));
+    const res = await listCharacters(req("http://localhost/api/characters"), listCtx);
     const body = await res.json();
 
     expect(res.status).toBe(200);
@@ -42,7 +46,7 @@ describe("GET /api/characters", () => {
     mockPrisma.character.findMany.mockResolvedValue([]);
     mockPrisma.character.count.mockResolvedValue(0);
 
-    await listCharacters(req("http://localhost/api/characters?q=kaze&vision=Anemo,Pyro&rarity=5"));
+    await listCharacters(req("http://localhost/api/characters?q=kaze&vision=Anemo,Pyro&rarity=5"), listCtx);
 
     const [[findManyArgs]] = mockPrisma.character.findMany.mock.calls;
     expect(findManyArgs.where).toMatchObject({
@@ -53,14 +57,14 @@ describe("GET /api/characters", () => {
   });
 
   it("400 khi sort field không nằm trong whitelist (không phải 500)", async () => {
-    const res = await listCharacters(req("http://localhost/api/characters?sort=password"));
+    const res = await listCharacters(req("http://localhost/api/characters?sort=password"), listCtx);
     expect(res.status).toBe(400);
     const body = await res.json();
     expect(body.error.code).toBe("BAD_REQUEST");
   });
 
   it("400 khi limit không hợp lệ", async () => {
-    const res = await listCharacters(req("http://localhost/api/characters?limit=-5"));
+    const res = await listCharacters(req("http://localhost/api/characters?limit=-5"), listCtx);
     expect(res.status).toBe(400);
   });
 });

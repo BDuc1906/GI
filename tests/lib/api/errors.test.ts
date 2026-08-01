@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import type { NextRequest } from "next/server";
-import { PrismaClientInitializationError, PrismaClientKnownRequestError } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { ApiError, withErrorHandling } from "@/lib/api/errors";
 
 const dummyReq = {} as NextRequest;
@@ -39,7 +39,10 @@ describe("withErrorHandling", () => {
 
   it("map Prisma P2025 (record not found) sang 404, không phải 500", async () => {
     const handler = withErrorHandling(async () => {
-      throw new PrismaClientKnownRequestError("An operation failed", { code: "P2025" });
+      throw new Prisma.PrismaClientKnownRequestError("An operation failed", {
+        code: "P2025",
+        clientVersion: "7.9.1",
+      });
     });
     const res = await handler(dummyReq, dummyCtx);
     expect(res.status).toBe(404);
@@ -47,8 +50,9 @@ describe("withErrorHandling", () => {
 
   it("map lỗi Prisma khác (vd P2002 unique constraint) sang 500 DATABASE_ERROR, không leak message Prisma gốc", async () => {
     const handler = withErrorHandling(async () => {
-      throw new PrismaClientKnownRequestError("Unique constraint failed on fields: (`id`)", {
+      throw new Prisma.PrismaClientKnownRequestError("Unique constraint failed on fields: (`id`)", {
         code: "P2002",
+        clientVersion: "7.9.1",
       });
     });
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
@@ -62,7 +66,7 @@ describe("withErrorHandling", () => {
 
   it("map PrismaClientInitializationError sang 503 (DB không kết nối được)", async () => {
     const handler = withErrorHandling(async () => {
-      throw new PrismaClientInitializationError("Can't reach database server");
+      throw new Prisma.PrismaClientInitializationError("Can't reach database server", "7.9.1");
     });
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const res = await handler(dummyReq, dummyCtx);

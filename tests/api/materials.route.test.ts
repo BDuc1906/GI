@@ -14,6 +14,10 @@ function req(url: string): NextRequest {
   return new NextRequest(new URL(url, "http://localhost"));
 }
 
+// Route danh sách không có tham số động, nhưng kiểu Handler (từ
+// withErrorHandling) luôn yêu cầu đủ (req, ctx) — truyền ctx rỗng cho khớp.
+const listCtx = { params: Promise.resolve({}) };
+
 beforeEach(() => {
   vi.clearAllMocks();
 });
@@ -23,7 +27,7 @@ describe("GET /api/materials", () => {
     mockPrisma.material.findMany.mockResolvedValue([{ id: "mora", name: "Mora" }]);
     mockPrisma.material.count.mockResolvedValue(1);
 
-    const res = await listMaterials(req("http://localhost/api/materials?q=mora"));
+    const res = await listMaterials(req("http://localhost/api/materials?q=mora"), listCtx);
     const body = await res.json();
 
     expect(res.status).toBe(200);

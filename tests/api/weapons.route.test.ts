@@ -14,6 +14,10 @@ function req(url: string): NextRequest {
   return new NextRequest(new URL(url, "http://localhost"));
 }
 
+// Route danh sách không có tham số động, nhưng kiểu Handler (từ
+// withErrorHandling) luôn yêu cầu đủ (req, ctx) — truyền ctx rỗng cho khớp.
+const listCtx = { params: Promise.resolve({}) };
+
 beforeEach(() => {
   vi.clearAllMocks();
 });
@@ -23,7 +27,7 @@ describe("GET /api/weapons", () => {
     mockPrisma.weapon.findMany.mockResolvedValue([{ id: "aquila-favonia", name: "Aquila Favonia" }]);
     mockPrisma.weapon.count.mockResolvedValue(1);
 
-    const res = await listWeapons(req("http://localhost/api/weapons"));
+    const res = await listWeapons(req("http://localhost/api/weapons"), listCtx);
     const body = await res.json();
 
     expect(res.status).toBe(200);
@@ -35,14 +39,14 @@ describe("GET /api/weapons", () => {
     mockPrisma.weapon.findMany.mockResolvedValue([]);
     mockPrisma.weapon.count.mockResolvedValue(0);
 
-    await listWeapons(req("http://localhost/api/weapons?type=Sword,Claymore"));
+    await listWeapons(req("http://localhost/api/weapons?type=Sword,Claymore"), listCtx);
 
     const [[args]] = mockPrisma.weapon.findMany.mock.calls;
     expect(args.where.type).toEqual({ in: ["Sword", "Claymore"], mode: "insensitive" });
   });
 
   it("400 khi rarity ngoài khoảng 1-5", async () => {
-    const res = await listWeapons(req("http://localhost/api/weapons?rarity=9"));
+    const res = await listWeapons(req("http://localhost/api/weapons?rarity=9"), listCtx);
     expect(res.status).toBe(400);
   });
 });

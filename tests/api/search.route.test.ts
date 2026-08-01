@@ -15,6 +15,10 @@ function req(url: string): NextRequest {
   return new NextRequest(new URL(url, "http://localhost"));
 }
 
+// Route search không có tham số động, nhưng kiểu Handler (từ
+// withErrorHandling) luôn yêu cầu đủ (req, ctx) — truyền ctx rỗng cho khớp.
+const listCtx = { params: Promise.resolve({}) };
+
 beforeEach(() => {
   vi.clearAllMocks();
   mockPrisma.character.findMany.mockResolvedValue([]);
@@ -24,14 +28,14 @@ beforeEach(() => {
 
 describe("GET /api/search", () => {
   it("400 khi thiếu q", async () => {
-    const res = await search(req("http://localhost/api/search"));
+    const res = await search(req("http://localhost/api/search"), listCtx);
     expect(res.status).toBe(400);
     const body = await res.json();
     expect(body.error.code).toBe("BAD_REQUEST");
   });
 
   it("400 khi q chỉ toàn khoảng trắng", async () => {
-    const res = await search(req("http://localhost/api/search?q=%20%20"));
+    const res = await search(req("http://localhost/api/search?q=%20%20"), listCtx);
     expect(res.status).toBe(400);
   });
 
@@ -39,7 +43,7 @@ describe("GET /api/search", () => {
     mockPrisma.character.findMany.mockResolvedValue([{ id: "kazuha" }]);
     mockPrisma.weapon.findMany.mockResolvedValue([{ id: "aquila" }, { id: "wolfs-gravestone" }]);
 
-    const res = await search(req("http://localhost/api/search?q=a"));
+    const res = await search(req("http://localhost/api/search?q=a"), listCtx);
     const body = await res.json();
 
     expect(res.status).toBe(200);
@@ -50,13 +54,13 @@ describe("GET /api/search", () => {
   });
 
   it("clamp limit vượt MAX_PER_TYPE (50)", async () => {
-    await search(req("http://localhost/api/search?q=a&limit=999"));
+    await search(req("http://localhost/api/search?q=a&limit=999"), listCtx);
     const [[args]] = mockPrisma.character.findMany.mock.calls;
     expect(args.take).toBe(50);
   });
 
   it("400 khi limit không phải số nguyên dương", async () => {
-    const res = await search(req("http://localhost/api/search?q=a&limit=-1"));
+    const res = await search(req("http://localhost/api/search?q=a&limit=-1"), listCtx);
     expect(res.status).toBe(400);
   });
 });
