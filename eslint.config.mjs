@@ -1,25 +1,21 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTypescript from "eslint-config-next/typescript";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const eslintConfig = defineConfig([
+  ...nextVitals,
+  ...nextTypescript,
 
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-const eslintConfig = [
-  {
-    ignores: [".next/**", "node_modules/**", "next-env.d.ts"],
-  },
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  // Script seed làm việc với dữ liệu thô từ `genshin-db`, một package
+  // không có type definitions chính thức — tắt riêng rule này cho scripts/**.
   {
     files: ["scripts/**/*.ts"],
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
     },
   },
-];
+
+  globalIgnores([".next/**", "node_modules/**", "next-env.d.ts"]),
+]);
 
 export default eslintConfig;
