@@ -3,6 +3,7 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { ok } from "@/lib/api/response";
 import { withErrorHandling } from "@/lib/api/errors";
+import { withRateLimit } from "@/lib/api/rate-limit";
 import { buildMeta, parsePagination } from "@/lib/api/query";
 
 export const revalidate = 300;
@@ -19,22 +20,27 @@ export const dynamic = "force-dynamic";
  *  - q  tìm theo tên
  *  - page, limit
  */
-export const GET = withErrorHandling(async (req: NextRequest) => {
-  const { searchParams } = new URL(req.url);
-  const pagination = parsePagination(searchParams);
-  const q = searchParams.get("q")?.trim();
+export const GET = withErrorHandling(
+  withRateLimit(
+    async (req: NextRequest) => {
+      const { searchParams } = new URL(req.url);
+      const pagination = parsePagination(searchParams);
+      const q = searchParams.get("q")?.trim();
 
-  const where: Prisma.MaterialWhereInput = q ? { name: { contains: q, mode: "insensitive" } } : {};
+      const where: Prisma.MaterialWhereInput = q ? { name: { contains: q, mode: "insensitive" } } : {};
 
-  const [items, total] = await Promise.all([
-    prisma.material.findMany({
-      where,
-      orderBy: { name: "asc" },
-      skip: pagination.skip,
-      take: pagination.take,
-    }),
-    prisma.material.count({ where }),
-  ]);
+      const [items, total] = await Promise.all([
+        prisma.material.findMany({
+          where,
+          orderBy: { name: "asc" },
+          skip: pagination.skip,
+          take: pagination.take,
+        }),
+        prisma.material.count({ where }),
+      ]);
 
-  return ok(items, { meta: buildMeta(pagination, total) });
-});
+      return ok(items, { meta: buildMeta(pagination, total) });
+    },
+    { prefix: "materials" }
+  )
+);

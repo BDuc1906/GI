@@ -3,6 +3,7 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { ok } from "@/lib/api/response";
 import { ApiError, withErrorHandling } from "@/lib/api/errors";
+import { withRateLimit } from "@/lib/api/rate-limit";
 import { buildMeta, parsePagination, parseSort } from "@/lib/api/query";
 
 export const revalidate = 300;
@@ -30,33 +31,38 @@ const LIST_SELECT = {
  *  - sort    "name" | "-name" | "createdAt" | "-createdAt" (mặc định "name")
  *  - page, limit
  */
-export const GET = withErrorHandling(async (req: NextRequest) => {
-  const { searchParams } = new URL(req.url);
-  const pagination = parsePagination(searchParams);
-  const sort = parseSort(searchParams.get("sort"), SORT_FIELDS, { field: "name", dir: "asc" });
+export const GET = withErrorHandling(
+  withRateLimit(
+    async (req: NextRequest) => {
+      const { searchParams } = new URL(req.url);
+      const pagination = parsePagination(searchParams);
+      const sort = parseSort(searchParams.get("sort"), SORT_FIELDS, { field: "name", dir: "asc" });
 
-  const q = searchParams.get("q")?.trim();
-  const rarityRaw = searchParams.get("rarity");
-  const rarity = rarityRaw ? parseRarity(rarityRaw) : undefined;
+      const q = searchParams.get("q")?.trim();
+      const rarityRaw = searchParams.get("rarity");
+      const rarity = rarityRaw ? parseRarity(rarityRaw) : undefined;
 
-  const where: Prisma.ArtifactSetWhereInput = {
-    ...(q ? { name: { contains: q, mode: "insensitive" } } : {}),
-    ...(rarity ? { rarityRange: { has: rarity } } : {}),
-  };
+      const where: Prisma.ArtifactSetWhereInput = {
+        ...(q ? { name: { contains: q, mode: "insensitive" } } : {}),
+        ...(rarity ? { rarityRange: { has: rarity } } : {}),
+      };
 
-  const [items, total] = await Promise.all([
-    prisma.artifactSet.findMany({
-      where,
-      orderBy: [{ [sort.field]: sort.dir }],
-      skip: pagination.skip,
-      take: pagination.take,
-      select: LIST_SELECT,
-    }),
-    prisma.artifactSet.count({ where }),
-  ]);
+      const [items, total] = await Promise.all([
+        prisma.artifactSet.findMany({
+          where,
+          orderBy: [{ [sort.field]: sort.dir }],
+          skip: pagination.skip,
+          take: pagination.take,
+          select: LIST_SELECT,
+        }),
+        prisma.artifactSet.count({ where }),
+      ]);
 
-  return ok(items, { meta: buildMeta(pagination, total) });
-});
+      return ok(items, { meta: buildMeta(pagination, total) });
+    },
+    { prefix: "artifacts" }
+  )
+);
 
 function parseRarity(raw: string): number {
   const n = Number(raw);
