@@ -3,6 +3,12 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
 import { SafeImage } from "@/components/SafeImage";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Vũ khí — LEIBO",
+  description: "Danh sách toàn bộ vũ khí Genshin Impact: loại vũ khí, độ hiếm, chỉ số cơ bản.",
+};
 
 interface PageProps {
   searchParams: Promise<{ type?: string; rarity?: string; q?: string }>;

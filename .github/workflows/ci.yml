@@ -36,6 +36,12 @@ jobs:
       - name: Typecheck
         run: npx tsc --noEmit
 
+      - name: Test
+        # Vitest mock hoàn toàn "@prisma/client" (xem tests/setup.ts) nên
+        # không cần DB thật hay `prisma generate` chạy xong — an toàn để
+        # chạy ngay trong job này, không cần service container Postgres.
+        run: npm run test
+
   build:
     name: Migrate & Build
     runs-on: ubuntu-latest

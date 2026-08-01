@@ -15,6 +15,10 @@ export async function GET() {
       search: { combined: "GET /api/search?q=..." },
       health: { check: "GET /api/health" },
     },
-    docs: "/docs/API.md",
+    // "docs/api.md" trong repo KHÔNG được Next.js serve như route web (chỉ
+    // "public/" mới được) — trỏ tới bản copy tĩnh ở public/docs/api.md
+    // (giữ đồng bộ thủ công với docs/api.md, xem ghi chú trong file đó)
+    // để link này thực sự resolve được, thay vì trả về 404.
+    docs: "/docs/api.md",
   });
 }

@@ -2,9 +2,12 @@
   "name": "kazuha",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "scripts": {
+    "predev": "node scripts/sync-docs.mjs",
     "dev": "next dev --turbopack",
+    "prebuild": "node scripts/sync-docs.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",

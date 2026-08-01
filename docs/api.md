@@ -1,5 +1,9 @@
 # LEIBO API — Tài liệu API
 
+> File này là **nguồn thật duy nhất**. `public/docs/api.md` là bản copy tự
+> sinh (chạy `scripts/sync-docs.mjs` qua hook `predev`/`prebuild`) để phục
+> vụ ở `/docs/api.md` — sửa tài liệu thì luôn sửa ở đây, không sửa bản copy.
+
 Cơ sở dữ liệu Genshin Impact (nhân vật, vũ khí, thánh di vật, nguyên liệu) —
 API public, chỉ đọc (read-only), không cần xác thực (API key).
 

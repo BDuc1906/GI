@@ -3,6 +3,12 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { rarityGlowClass } from "@/lib/theme";
 import { SafeImage } from "@/components/SafeImage";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Thánh di vật — LEIBO",
+  description: "Danh sách toàn bộ bộ thánh di vật Genshin Impact: hiệu ứng 1/2/4 mảnh.",
+};
 
 interface PageProps {
   searchParams: Promise<{ q?: string }>;

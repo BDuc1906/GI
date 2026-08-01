@@ -44,7 +44,7 @@ Dự án được thiết kế theo hướng **production-ready**: có migration
 | ⚔️ **Vũ khí** | Chỉ số cơ bản, hiệu ứng theo 5 mốc tinh luyện, nguyên liệu đột phá |
 | 💠 **Thánh di vật** | Hiệu ứng 1/2/4 mảnh, danh sách các mảnh trong bộ |
 | 🧪 **Nguyên liệu** | Bảng nguyên liệu dùng chung, tránh lặp dữ liệu ảnh giữa các nhân vật/vũ khí |
-| 🔍 **Tìm kiếm tổng hợp** | Tìm kiếm xuyên suốt cả 4 loại dữ liệu trong một endpoint |
+| 🔍 **Tìm kiếm tổng hợp** | Tìm kiếm xuyên suốt 3 loại dữ liệu (nhân vật, vũ khí, thánh di vật) trong một endpoint |
 | 🌗 **Dark / Light mode** | Chuyển giao diện mượt mà bằng `next-themes` |
 | 🗺️ **SEO tự động** | `sitemap.xml` / `robots.txt` sinh động theo dữ liệu thật trong DB |
 | 🛡️ **API an toàn** | Envelope response chuẩn hoá, phân trang có giới hạn, xử lý lỗi tập trung |
@@ -135,6 +135,13 @@ npm install
    DIRECT_URL="postgresql://<user>:<password>@<host>.neon.tech/<db>?sslmode=require"
    # Chỉ cần khi deploy thật (sinh sitemap.xml / robots.txt đúng domain)
    NEXT_PUBLIC_SITE_URL="https://your-domain.com"
+
+   # Bắt buộc khi deploy production — thiếu 2 biến này, rate limiting sẽ
+   # TỰ TẮT (API vẫn chạy bình thường, chỉ log 1 dòng cảnh báo), tức là
+   # API public không còn được chặn lạm dụng/scraping. Tạo miễn phí tại
+   # https://console.upstash.com (Redis database → tab "REST API").
+   UPSTASH_REDIS_REST_URL="https://<your-db>.upstash.io"
+   UPSTASH_REDIS_REST_TOKEN="<your-token>"
    ```
 
    > `.env` đã nằm trong `.gitignore` — **không bao giờ commit file này**.
@@ -164,6 +171,8 @@ Mở [http://localhost:3000](http://localhost:3000).
 | `npm run build` | Build production |
 | `npm run start` | Chạy bản build production |
 | `npm run lint` | Kiểm tra lint (ESLint) |
+| `npm run test` | Chạy toàn bộ unit test (Vitest, mock Prisma — không cần DB thật) |
+| `npm run test:watch` | Chạy test ở chế độ watch |
 | `npm run db:generate` | Sinh lại Prisma Client |
 | `npm run db:migrate` | Tạo/áp migration mới (dev) |
 | `npm run db:studio` | Mở Prisma Studio để xem/sửa dữ liệu |
@@ -187,7 +196,7 @@ Base URL: `/api` — mọi response đều theo envelope chuẩn `{ success, dat
 | `GET` | `/api/artifacts/:id` | Chi tiết một bộ thánh di vật |
 | `GET` | `/api/materials` | Danh sách nguyên liệu |
 | `GET` | `/api/materials/:id` | Chi tiết một nguyên liệu |
-| `GET` | `/api/search?q=...` | Tìm kiếm tổng hợp trên cả 4 loại dữ liệu |
+| `GET` | `/api/search?q=...` | Tìm kiếm tổng hợp trên 3 loại dữ liệu (không gồm materials — xem `docs/api.md`) |
 
 > Phân trang mặc định `limit=24`, tối đa `limit=100` — chặn client kéo toàn bộ bảng trong 1 request.
 
@@ -199,6 +208,7 @@ Base URL: `/api` — mọi response đều theo envelope chuẩn `{ success, dat
 - Kết nối DB luôn bắt buộc SSL (`rejectUnauthorized: true`) tại `src/lib/prisma.ts`.
 - `src/lib/env.ts` validate biến môi trường **ngay khi khởi động app** — thiếu/sai `DATABASE_URL` sẽ báo lỗi rõ ràng thay vì crash mơ hồ ở request đầu tiên.
 - `next.config.ts` chỉ whitelist đúng các domain ảnh đang dùng (Enka Network, Fandom Wikia, miHoYo BBS) — không dùng wildcard `**`, tránh next/image bị lợi dụng làm proxy ảnh (SSRF).
+- **Rate limit theo IP** (`src/lib/api/rate-limit.ts`, Upstash Redis sliding window): mặc định 60 request/phút cho mỗi resource, 30 req/phút cho `/api/search`. Đây là lớp chống scraping/lạm dụng chính của một API public không cần auth — **bắt buộc** set `UPSTASH_REDIS_REST_URL`/`UPSTASH_REDIS_REST_TOKEN` khi deploy production (xem mục Cấu hình môi trường), nếu không sẽ tự tắt và chỉ log cảnh báo.
 - Khuyến nghị dùng **Neon Roles** để tạo Postgres role riêng cho runtime (least privilege) thay vì role owner mặc định khi chạy production lâu dài.
 - Có thể tận dụng **Neon Branching** để tách DB dev/preview khỏi production khi nhiều người cùng phát triển.
 - `scripts/seed.ts` chỉ log host/port của DB, **không** log full connection string.
@@ -231,7 +241,7 @@ npm run db:seed
 
 Pipeline `.github/workflows/ci.yml` chạy tuần tự trên mỗi push/PR vào `main`:
 
-1. **Lint & Typecheck** — `npm run lint` (ESLint) rồi `npx tsc --noEmit`.
+1. **Lint, Typecheck & Test** — `npm run lint` (ESLint), `npx tsc --noEmit`, rồi `npm run test` (Vitest — mock Prisma hoàn toàn, không cần DB thật nên chạy được ngay trong job này).
 2. **Migrate & Build** — dựng service Postgres tạm, `npx prisma migrate deploy`, sau đó `next build` (build có query DB thật vì dùng ISR).
 3. **API smoke test** — gọi thử các endpoint chính sau khi build để phát hiện lỗi runtime sớm.
 
@@ -244,6 +254,7 @@ Chạy đúng những gì CI chạy trước khi push, để tránh phải chờ
 ```bash
 npm run lint
 npx tsc --noEmit
+npm run test
 npm run build
 ```
 
@@ -268,6 +279,7 @@ Mọi đóng góp đều được hoan nghênh! Vui lòng tạo issue hoặc pul
 ```bash
 npm run lint
 npx tsc --noEmit
+npm run test
 npm run build
 ```
 
