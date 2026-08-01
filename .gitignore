@@ -39,3 +39,5 @@ repomix-output.xml
 # Bản copy tự sinh của docs/api.md (xem scripts/sync-docs.mjs) — docs/api.md
 # là nguồn thật duy nhất, không commit bản copy để tránh sửa nhầm chỗ.
 /public/docs/
+.vercel
+.env*

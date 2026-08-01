@@ -12,6 +12,12 @@ env:
   DATABASE_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
   DIRECT_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
 
+# Hủy các run cũ hơn của cùng 1 branch/PR khi có push mới — tránh chạy
+# song song nhiều lần cho cùng 1 chuỗi commit, tốn phút GitHub Actions.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint-and-typecheck:
     name: Lint & Typecheck
@@ -152,3 +158,61 @@ jobs:
           status=$(curl -s -o /tmp/notfound.json -w "%{http_code}" "http://localhost:3000/api/characters/khong-ton-tai")
           cat /tmp/notfound.json
           test "$status" = "404"
+
+  # ────────────────────────────────────────────────────────────────────
+  # CD — chỉ chạy khi push thẳng vào main (không chạy cho PR) và chỉ sau
+  # khi lint/typecheck/test + migrate/build + smoke-test API đều pass.
+  # Đây là job duy nhất chạm vào DB production thật và deploy thật lên
+  # Vercel — Vercel Git integration đã bị tắt qua ignoreCommand trong
+  # vercel.json, nên job này là con đường DUY NHẤT đưa code lên production.
+  # ────────────────────────────────────────────────────────────────────
+  deploy-production:
+    name: Deploy to Vercel (Production)
+    runs-on: ubuntu-latest
+    needs: api-smoke-test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: production
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Apply migrations to production database
+        # QUAN TRỌNG: khác với DATABASE_URL/DIRECT_URL giả ở đầu file (chỉ
+        # dùng cho job test ở trên) — đây là DIRECT_URL THẬT của Neon
+        # production, lấy từ GitHub Secrets. prisma.config.ts đọc
+        # DIRECT_URL cho mọi lệnh `prisma migrate`, nên KHÔNG cần set
+        # DATABASE_URL ở bước này.
+        run: npx prisma migrate deploy
+        env:
+          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL }}
+
+      - name: Pull Vercel environment info
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Build project artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy to Vercel
+        id: deploy
+        run: |
+          url=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Summary
+        run: echo "Deployed to production: ${{ steps.deploy.outputs.url }}" >> "$GITHUB_STEP_SUMMARY"

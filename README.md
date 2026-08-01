@@ -239,13 +239,14 @@ npm run db:seed
 
 ## 🔄 CI/CD
 
-Pipeline `.github/workflows/ci.yml` chạy tuần tự trên mỗi push/PR vào `main`:
+Pipeline `.github/workflows/ci.yml` có 4 job chạy tuần tự (`needs: ...`), job nào fail thì các job phía sau **không chạy**:
 
-1. **Lint, Typecheck & Test** — `npm run lint` (ESLint), `npx tsc --noEmit`, rồi `npm run test` (Vitest — mock Prisma hoàn toàn, không cần DB thật nên chạy được ngay trong job này).
-2. **Migrate & Build** — dựng service Postgres tạm, `npx prisma migrate deploy`, sau đó `next build` (build có query DB thật vì dùng ISR).
-3. **API smoke test** — gọi thử các endpoint chính sau khi build để phát hiện lỗi runtime sớm.
+1. **Lint, Typecheck & Test** (mọi push/PR) — `npm run lint` (ESLint), `npx tsc --noEmit`, rồi `npm run test` (Vitest — mock Prisma hoàn toàn, không cần DB thật nên chạy được ngay trong job này).
+2. **Migrate & Build** (mọi push/PR) — dựng service Postgres tạm, `npx prisma migrate deploy`, sau đó `next build` (build có query DB thật vì dùng ISR).
+3. **API smoke test** (mọi push/PR) — gọi thử các endpoint chính sau khi build để phát hiện lỗi runtime sớm.
+4. **Deploy to Vercel (Production)** — **chỉ chạy khi push thẳng vào `main`** (không chạy cho PR), và chỉ sau khi 3 job trên đều pass. Job này áp migration lên **database production thật** (`prisma migrate deploy` với `DIRECT_URL` production, khác với `DIRECT_URL` giả dùng để test ở job 1–3), rồi `vercel build --prod` + `vercel deploy --prebuilt --prod`.
 
-Job nào fail thì các job phía sau (`needs: ...`) sẽ không chạy — nên nếu thấy CI đỏ ở bước đầu, hãy sửa xong bước đó trước khi lo các bước sau.
+Workflow còn có `concurrency` (hủy run cũ hơn của cùng nhánh khi có push mới, tránh chạy trùng) và job cuối gắn với GitHub Environment `production` — bạn có thể bật [required reviewers](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment) trong **Settings → Environments → production** nếu muốn có bước duyệt thủ công trước khi lên production.
 
 > ⚠️ Dự án dùng **ESLint v9 flat config** (`eslint.config.mjs` ở thư mục gốc) — đây là *bắt buộc*, không phải tuỳ chọn. Thiếu file này khiến `npm run lint` fail ngay lập tức với lỗi `ESLint couldn't find an eslint.config.(js|mjs|cjs) file`, khiến toàn bộ pipeline dừng lại ở bước đầu tiên. Rule `@typescript-eslint/no-explicit-any` được bật nghiêm ở `src/**` nhưng tắt riêng cho `scripts/**` (script seed làm việc với dữ liệu thô từ `genshin-db`, một package không có type definitions chính thức).
 
@@ -258,17 +259,37 @@ npm run test
 npm run build
 ```
 
+### Vercel: chỉ hosting, không tự deploy
+
+`vercel.json` đặt `"ignoreCommand": "exit 0"` — điều này **tắt tính năng tự build/deploy của Vercel Git integration**. Vercel vẫn giữ project (domain, SSL, env var, Image Optimization, ISR runtime...) nhưng không tự trigger deploy khi có push nữa. Việc build + deploy hoàn toàn do job `deploy-production` trong Actions gọi vào qua Vercel CLI (`vercel build` + `vercel deploy --prebuilt`) — tránh tình trạng 2 hệ thống (Vercel và Actions) cùng tự deploy song song, gây build trùng và race condition giữa 2 bản deploy.
+
+Cần cấu hình các **GitHub Secrets** sau (Settings → Secrets and variables → Actions) để job `deploy-production` chạy được:
+
+| Secret | Lấy ở đâu | Dùng để |
+|---|---|---|
+| `VERCEL_TOKEN` | Vercel → Account Settings → Tokens | Xác thực Vercel CLI |
+| `VERCEL_ORG_ID` | File `.vercel/project.json` sau khi chạy `npx vercel link` ở local | `vercel pull`/`vercel build` biết đúng project |
+| `VERCEL_PROJECT_ID` | File `.vercel/project.json` sau khi chạy `npx vercel link` ở local | Như trên |
+| `PROD_DIRECT_URL` | Neon Console → connection string **không** có hậu tố `-pooler` | `prisma migrate deploy` lên DB production thật |
+
+Biến môi trường runtime của app (`DATABASE_URL`, `UPSTASH_REDIS_REST_URL`/`TOKEN`, `NEXT_PUBLIC_SITE_URL`...) **không** đặt trong GitHub Secrets — vẫn khai báo trong **Vercel Project Settings → Environment Variables** như trước, vì `vercel pull` sẽ tự kéo các biến đó về lúc build.
+
 ---
 
 ## 🌍 Deploy production
 
+Deploy production diễn ra **tự động** qua job `deploy-production` trong `.github/workflows/ci.yml` mỗi khi push vào `main` và pass hết lint/typecheck/test/build/smoke-test — xem chi tiết ở mục [CI/CD](#-cicd) phía trên. Không cần chạy tay.
+
+Các lệnh dưới đây chỉ dùng khi cần deploy thủ công từ máy local (ví dụ Actions đang gặp sự cố, cần khắc phục khẩn cấp):
+
 ```bash
 npx prisma migrate deploy   # Chỉ áp migration có sẵn, không tạo shadow DB — an toàn cho CI/CD
-npm run build
-npm run start
+                             # (cần DIRECT_URL trỏ đúng DB production)
+vercel build --prod
+vercel deploy --prebuilt --prod
 ```
 
-Nhớ set `NEXT_PUBLIC_SITE_URL` đúng domain thật, nếu không `sitemap.xml`/`robots.txt` sẽ trỏ về `localhost:3000`.
+Nhớ set `NEXT_PUBLIC_SITE_URL` đúng domain thật trong Vercel Project Settings, nếu không `sitemap.xml`/`robots.txt` sẽ trỏ về `localhost:3000`.
 
 ---
 
