@@ -19,12 +19,25 @@ function connectionStringWithoutSslMode(raw: string): string {
   return url.toString();
 }
 
+// Postgres cục bộ dùng trong CI/test (service container trong
+// .github/workflows/ci.yml) và khi chạy `db:migrate`/`db:seed` ở máy dev không
+// hỗ trợ TLS — chỉ Neon (production) mới luôn có SSL hợp lệ. Phân biệt theo
+// hostname thay vì hardcode 1 cấu hình cho mọi môi trường.
+function isLocalDatabase(raw: string): boolean {
+  const { hostname } = new URL(raw);
+  return hostname === "localhost" || hostname === "127.0.0.1";
+}
+
+const rawDatabaseUrl = process.env.DATABASE_URL as string;
+
 const adapter = new PrismaPg({
-  connectionString: connectionStringWithoutSslMode(process.env.DATABASE_URL as string),
+  connectionString: connectionStringWithoutSslMode(rawDatabaseUrl),
   // Neon (như hầu hết managed Postgres) luôn dùng chứng chỉ SSL hợp lệ, kể cả
   // qua pooler — không có tình huống self-signed cần tắt verify ở dev như
-  // một số nhà cung cấp khác, nên bật rejectUnauthorized ở mọi môi trường.
-  ssl: { rejectUnauthorized: true },
+  // một số nhà cung cấp khác, nên bật rejectUnauthorized khi không phải DB
+  // local. DB local (CI, docker, dev máy) không hỗ trợ TLS nên tắt hẳn SSL
+  // trong trường hợp đó.
+  ssl: isLocalDatabase(rawDatabaseUrl) ? false : { rejectUnauthorized: true },
 });
 
 export const prisma =
