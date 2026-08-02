@@ -38,6 +38,16 @@ const adapter = new PrismaPg({
   // local. DB local (CI, docker, dev máy) không hỗ trợ TLS nên tắt hẳn SSL
   // trong trường hợp đó.
   ssl: isLocalDatabase(rawDatabaseUrl) ? false : { rejectUnauthorized: true },
+  // Next.js build chạy static generation song song trong NHIỀU worker
+  // process (dựa theo số CPU của máy build) — mỗi worker require lại module
+  // này và tạo 1 PrismaClient riêng (cache `globalForPrisma` bên dưới chỉ có
+  // tác dụng NGOÀI production, để sống sót qua hot-reload lúc dev, không che
+  // được trường hợp nhiều process này). Không giới hạn, mỗi client tự mở tối
+  // đa `num_cpus*2+1` connection — nhân với số worker sẽ vượt pool Neon cho
+  // phép, khiến pooler từ chối kết nối (ECONNREFUSED) đúng lúc build/prerender.
+  // Giới hạn nhỏ ở đây, vì lúc build/prerender chỉ cần few connection tuần
+  // tự, không cần pool lớn như lúc phục vụ traffic thật.
+  max: 3,
 });
 
 export const prisma =
