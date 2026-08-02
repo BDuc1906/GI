@@ -4,6 +4,19 @@ import { rarityGlowClass, rarityStars, rarityTextClass } from "../lib/theme";
 import { ElementIcon } from "../components/ElementIcon";
 import { SafeImage } from "../components/SafeImage";
 
+export const revalidate = 60;
+
+// Trang chủ hiển thị "mới cập nhật" (orderBy updatedAt desc) — nếu để
+// Next.js prerender tĩnh mặc định (không đọc searchParams như các trang
+// list khác nên Next.js không tự nhận ra là dynamic), build sẽ cần kết
+// nối DB NGAY trong lúc `next build`/`vercel build`, khiến mọi lần deploy
+// phụ thuộc cứng vào việc DB production reachable đúng thời điểm build
+// (dẫn tới ECONNREFUSED nếu nhiều worker build song song làm nghẽn pool —
+// xem comment trong src/lib/prisma.ts). Khai báo tường minh dynamic, giống
+// mọi route API trong dự án (xem src/app/api/characters/route.ts), để
+// trang này render lúc có request thay vì lúc build.
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const [charCount, weaponCount, artifactCount] = await Promise.all([
     prisma.character.count(),
