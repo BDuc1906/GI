@@ -1,14 +1,17 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
+import { withDbRetry } from "@/lib/db-retry";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [characters, weapons, artifacts] = await Promise.all([
-    prisma.character.findMany({ select: { id: true, updatedAt: true } }),
-    prisma.weapon.findMany({ select: { id: true, updatedAt: true } }),
-    prisma.artifactSet.findMany({ select: { id: true, updatedAt: true } }),
-  ]);
+  const [characters, weapons, artifacts] = await withDbRetry(() =>
+    Promise.all([
+      prisma.character.findMany({ select: { id: true, updatedAt: true } }),
+      prisma.weapon.findMany({ select: { id: true, updatedAt: true } }),
+      prisma.artifactSet.findMany({ select: { id: true, updatedAt: true } }),
+    ])
+  );
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${SITE_URL}/`, changeFrequency: "weekly", priority: 1 },
