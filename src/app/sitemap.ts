@@ -4,6 +4,19 @@ import { withDbRetry } from "@/lib/db-retry";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
+// QUAN TRỌNG: `sitemap.ts` được Next.js biên dịch thành 1 route riêng
+// (`/sitemap.xml/route.js`) và mặc định bị prerender TĨNH lúc build —
+// giống hệt vấn đề đã gặp ở `src/app/page.tsx`. Khai báo `dynamic` tường
+// minh để route này chạy lúc có request (crawler gọi /sitemap.xml) thay
+// vì lúc `next build`/`vercel build`, loại bỏ phụ thuộc "DB phải sống
+// đúng lúc build" — nguyên nhân trực tiếp gây ECONNREFUSED khi build.
+//
+// `withDbRetry` bên dưới vẫn được giữ lại: dù không còn chạy lúc build,
+// request thật tới /sitemap.xml lúc runtime vẫn có thể trúng đúng lúc
+// Neon compute mới suspend xong, nên retry ngắn ở tầng này vẫn có giá trị.
+export const dynamic = "force-dynamic";
+export const revalidate = 3600;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [characters, weapons, artifacts] = await withDbRetry(() =>
     Promise.all([
