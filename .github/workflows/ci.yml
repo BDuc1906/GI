@@ -206,7 +206,17 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Build project artifacts
+        # Ép Node ưu tiên IPv4 khi resolve DNS. Nghi vấn: GitHub Actions
+        # runner có route IPv6 không hoạt động tới Neon — Prisma migrate
+        # (dùng Rust engine gốc, tự ưu tiên IPv4) chạy được bình thường,
+        # nhưng @prisma/adapter-pg (dùng thư viện `pg` viết bằng JS, ưu tiên
+        # kết quả DNS đầu tiên trả về — có thể là AAAA/IPv6) bị từ chối kết
+        # nối ngay lập tức (ECONNREFUSED) khi build/prerender gọi Prisma qua
+        # code ứng dụng. Cờ này là giải pháp chính thức của Node.js cho đúng
+        # nhóm lỗi này.
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          NODE_OPTIONS: --dns-result-order=ipv4first
 
       - name: Deploy to Vercel
         id: deploy
