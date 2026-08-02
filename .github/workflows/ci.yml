@@ -195,7 +195,20 @@ jobs:
         # production, lấy từ GitHub Secrets. prisma.config.ts đọc
         # DIRECT_URL cho mọi lệnh `prisma migrate`, nên KHÔNG cần set
         # DATABASE_URL ở bước này.
-        run: npx prisma migrate deploy
+        #
+        # Retry 3 lần: đã xác nhận bằng tay là lỗi P1001/ECONNREFUSED ở bước
+        # này chỉ thoáng qua (kết nối trực tiếp từ máy khác thành công cùng
+        # thời điểm CI báo lỗi) — nhiều khả năng do độ trễ/nghẽn mạng ngẫu
+        # nhiên giữa GitHub Actions runner và Neon, không phải lỗi ổn định
+        # cần sửa cấu hình hay code.
+        run: |
+          for attempt in 1 2 3; do
+            npx prisma migrate deploy && exit 0
+            echo "Lần $attempt thất bại, thử lại sau $((attempt * 10))s..."
+            sleep $((attempt * 10))
+          done
+          echo "Đã thử 3 lần đều thất bại."
+          exit 1
         env:
           DIRECT_URL: ${{ secrets.PROD_DIRECT_URL }}
 
@@ -206,15 +219,18 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Build project artifacts
-        # Ép Node ưu tiên IPv4 khi resolve DNS. Nghi vấn: GitHub Actions
-        # runner có route IPv6 không hoạt động tới Neon — Prisma migrate
-        # (dùng Rust engine gốc, tự ưu tiên IPv4) chạy được bình thường,
-        # nhưng @prisma/adapter-pg (dùng thư viện `pg` viết bằng JS, ưu tiên
-        # kết quả DNS đầu tiên trả về — có thể là AAAA/IPv6) bị từ chối kết
-        # nối ngay lập tức (ECONNREFUSED) khi build/prerender gọi Prisma qua
-        # code ứng dụng. Cờ này là giải pháp chính thức của Node.js cho đúng
-        # nhóm lỗi này.
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        # Ép Node ưu tiên IPv4 khi resolve DNS (đề phòng khác biệt IPv4/IPv6
+        # giữa Prisma Rust engine và thư viện `pg`). Retry 3 lần cho cùng lý
+        # do đã xác nhận ở bước migrate — lỗi P1001/ECONNREFUSED giữa GitHub
+        # Actions runner và Neon là thoáng qua, không ổn định.
+        run: |
+          for attempt in 1 2 3; do
+            vercel build --prod --token=${{ secrets.VERCEL_TOKEN }} && exit 0
+            echo "Lần $attempt thất bại, thử lại sau $((attempt * 10))s..."
+            sleep $((attempt * 10))
+          done
+          echo "Đã thử 3 lần đều thất bại."
+          exit 1
         env:
           NODE_OPTIONS: --dns-result-order=ipv4first
 
