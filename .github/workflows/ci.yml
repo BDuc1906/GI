@@ -129,9 +129,25 @@ jobs:
         run: npm run build
 
       - name: Start server
-        run: npm run start -- -p 3000 &
+        id: server
+        # Dùng `background: true` — cơ chế GỐC của GitHub Actions (không
+        # phải shell hack, không phải action bên thứ ba) dành riêng cho
+        # đúng use case này: chạy một tiến trình dài hạn (server, DB...)
+        # sống xuyên suốt các step tiếp theo trong cùng job. Runner tự
+        # quản lý lifecycle của tiến trình này (start, log, dừng đúng
+        # cách) thay vì để mình tự chế bằng `&`/`nohup`, vốn phụ thuộc
+        # vào chi tiết triển khai không được đảm bảo ổn định.
+        run: npm run start -- -p 3000
+        background: true
 
-      - name: Wait for server
+      - name: Wait for server to be ready
+        # LƯU Ý: đây là step bình thường (poll bằng wait-on), KHÔNG dùng
+        # từ khoá `wait:`. `wait: server` nghĩa là "chờ tiến trình nền đó
+        # tự KẾT THÚC" — với 1 server thì nó không bao giờ tự thoát, nên
+        # dùng `wait:` ở đây sẽ treo job mãi mãi. `wait:`/`wait-all` chỉ
+        # dùng để đồng bộ SAU KHI đã xong việc với tiến trình nền (ví dụ
+        # để lấy log/outputs hoặc phát hiện nó có lỡ crash hay không),
+        # không phải để chờ nó "sẵn sàng".
         run: npx wait-on http://localhost:3000/api/health -t 60000
 
       - name: Check /api index
@@ -158,6 +174,15 @@ jobs:
           status=$(curl -s -o /tmp/notfound.json -w "%{http_code}" "http://localhost:3000/api/characters/khong-ton-tai")
           cat /tmp/notfound.json
           test "$status" = "404"
+
+      - name: Stop server
+        # Dừng tiến trình nền một cách "sạch" (SIGTERM, sau đó SIGKILL
+        # nếu không thoát kịp) thay vì để job kết thúc rồi runner tự dọn
+        # ngầm — rõ ràng, tường minh, đúng tinh thần quản lý lifecycle
+        # thay vì trông chờ vào hành vi ngầm định. Step `cancel` luôn tự
+        # chạy mặc định (kể cả khi step trước đó fail), không cần/không
+        # hỗ trợ `if:`.
+        cancel: server
 
   # ────────────────────────────────────────────────────────────────────
   # CD — chỉ chạy khi push thẳng vào main (không chạy cho PR) và chỉ sau
