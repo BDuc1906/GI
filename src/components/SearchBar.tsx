@@ -105,7 +105,7 @@ export function SearchBar() {
   const showDropdown = open && value.trim().length >= MIN_QUERY_LENGTH;
 
   return (
-    <div ref={containerRef} className="relative flex-1 max-w-xs ml-auto">
+    <div ref={containerRef} className="relative w-full">
       <form onSubmit={handleSubmit}>
         <input
           type="search"
@@ -116,18 +116,18 @@ export function SearchBar() {
           onKeyDown={handleKeyDown}
           placeholder="Tìm nhân vật, vũ khí, thánh di vật..."
           aria-label="Tìm kiếm"
-          className="w-full rounded-lg border border-neutral-800 bg-neutral-900/60 px-3 py-1.5 text-sm text-neutral-200 placeholder:text-neutral-500 focus:outline-none focus:border-[color:var(--gold)]/50 transition-colors"
+          className="w-full rounded-lg border border-border bg-[color:var(--bg-input)] px-3 py-1.5 text-sm text-primary placeholder:text-muted focus:outline-none focus:border-[color:var(--gold)]/50 transition-colors"
         />
       </form>
 
       {showDropdown && (
-        <div className="absolute left-0 right-0 top-full mt-2 rounded-lg border border-neutral-800 bg-neutral-900 shadow-xl overflow-hidden z-50 max-h-[70vh] overflow-y-auto">
+        <div className="absolute left-0 right-0 top-full mt-2 rounded-lg border border-border bg-card shadow-xl overflow-hidden z-50 max-h-[70vh] overflow-y-auto">
           {loading && !data && (
-            <div className="px-3 py-3 text-xs text-neutral-500">Đang tìm...</div>
+            <div className="px-3 py-3 text-xs text-muted">Đang tìm...</div>
           )}
 
           {!loading && data && !hasResults && (
-            <div className="px-3 py-3 text-xs text-neutral-500">
+            <div className="px-3 py-3 text-xs text-muted">
               Không tìm thấy kết quả cho &ldquo;{value.trim()}&rdquo;
             </div>
           )}
@@ -141,7 +141,7 @@ export function SearchBar() {
               <button
                 type="button"
                 onClick={goToSearchPage}
-                className="w-full text-left px-3 py-2.5 text-xs text-gold-bright hover:bg-neutral-800 transition-colors border-t border-neutral-800"
+                className="w-full text-left px-3 py-2.5 text-xs text-[color:var(--gold-bright)] hover:bg-[color:var(--bg-table-alt)] transition-colors border-t border-border"
               >
                 Xem tất cả {data!.total} kết quả cho &ldquo;{value.trim()}&rdquo; →
               </button>
@@ -168,7 +168,7 @@ function SuggestionGroup({
 
   return (
     <div className="py-1">
-      <div className="px-3 pt-1.5 pb-1 text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
+      <div className="px-3 pt-1.5 pb-1 text-[10px] uppercase tracking-wider text-muted font-semibold">
         {title}
       </div>
       {items.map((item) => (
@@ -176,14 +176,14 @@ function SuggestionGroup({
           key={item.id}
           href={`${basePath}/${item.id}`}
           onClick={onNavigate}
-          className="flex items-center gap-2.5 px-3 py-2 hover:bg-neutral-800 transition-colors"
+          className="flex items-center gap-2.5 px-3 py-2 hover:bg-[color:var(--bg-table-alt)] transition-colors"
         >
-          <span className="relative w-7 h-7 shrink-0 rounded bg-neutral-800 overflow-hidden">
+          <span className="relative w-7 h-7 shrink-0 rounded bg-[color:var(--bg-table-alt)] overflow-hidden">
             {item.iconUrl && (
               <Image src={item.iconUrl} alt={item.name} fill sizes="28px" className="object-cover" />
             )}
           </span>
-          <span className="text-sm text-neutral-200 truncate">{item.name}</span>
+          <span className="text-sm text-primary truncate">{item.name}</span>
         </Link>
       ))}
     </div>

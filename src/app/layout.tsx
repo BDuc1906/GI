@@ -1,9 +1,7 @@
 import "./globals.css";
-import Link from "next/link";
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import { ThemeToggle } from "@/components/ThemeToggle";
-import { SearchBar } from "@/components/SearchBar";
+import { SiteNav } from "@/components/SiteNav";
 
 // Cùng biến/fallback với sitemap.ts và robots.ts — một nguồn duy nhất cho
 // domain thật, tránh lệch nhau giữa các file.
@@ -40,22 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="vi" suppressHydrationWarning>
       <body>
         <ThemeProvider>
-          <header className="border-b border-border sticky top-0 bg-primary/80 backdrop-blur-md z-10">
-            <nav className="flex items-center gap-4 px-4 md:px-8 py-3 max-w-7xl mx-auto">
-              <div className="flex items-center gap-6 shrink-0">
-                <Link href="/" className="font-display text-xl font-bold tracking-wide text-amber-500">
-                  LEIBO
-                </Link>
-                <Link href="/characters" className="hover:text-amber-400 transition-colors">Nhân vật</Link>
-                <Link href="/weapons" className="hover:text-amber-400 transition-colors">Vũ khí</Link>
-                <Link href="/artifacts" className="hover:text-amber-400 transition-colors">Thánh di vật</Link>
-              </div>
-              {/* SearchBar tự có class "ml-auto" nên đẩy nó + ThemeToggle sang phải,
-                  không cần justify-between trên <nav> nữa. */}
-              <SearchBar />
-              <ThemeToggle />
-            </nav>
-          </header>
+          <SiteNav />
           <main className="max-w-7xl mx-auto px-4 md:px-8 py-8">
             {children}
           </main>

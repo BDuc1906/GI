@@ -40,4 +40,4 @@ repomix-output.xml
 # là nguồn thật duy nhất, không commit bản copy để tránh sửa nhầm chỗ.
 /public/docs/
 .vercel
-.env*
+
