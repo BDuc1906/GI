@@ -5,6 +5,7 @@ import { ok } from "@/lib/api/response";
 import { ApiError, withErrorHandling } from "@/lib/api/errors";
 import { withRateLimit } from "@/lib/api/rate-limit";
 import { buildMeta, parsePagination, parseSort } from "@/lib/api/query";
+import { genshinServerWeekdayName } from "@/lib/genshin-server-time";
 
 export const revalidate = 3600; // Bí cảnh gần như không đổi giữa các lần deploy trong tuần
 
@@ -30,7 +31,8 @@ const WEEKDAYS = [
  *  - category   "artifact" | "weapon" | "talent" (nhiều giá trị: cách nhau dấu phẩy)
  *  - day        lọc theo ngày mở trong tuần, vd "Monday" — domain "artifact"
  *               (mở hằng ngày, daysOfWeek rỗng) LUÔN khớp mọi giá trị day.
- *  - today      "true" — rút gọn cho "day=<thứ hôm nay theo giờ server>"
+ *  - today      "true" — rút gọn cho "day=<thứ hôm nay theo giờ server Châu
+ *               Á UTC+8, đổi ngày lúc 4:00 sáng — xem src/lib/genshin-server-time.ts>"
  *  - sort, page, limit
  */
 export const GET = withErrorHandling(
@@ -53,7 +55,7 @@ export const GET = withErrorHandling(
       const today = searchParams.get("today") === "true";
       let day = searchParams.get("day")?.trim();
       if (today) {
-        day = WEEKDAYS[new Date().getUTCDay()];
+        day = genshinServerWeekdayName();
       }
       if (day && !WEEKDAYS.includes(day as (typeof WEEKDAYS)[number])) {
         throw ApiError.badRequest(`Tham số "day" không hợp lệ: "${day}"`, { allowed: WEEKDAYS });

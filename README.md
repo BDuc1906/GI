@@ -84,19 +84,27 @@ leibo/
 │   ├── seed-weapons.ts
 │   ├── seed-artifacts.ts
 │   ├── seed-domains.ts
-│   └── lib/seed-helpers.ts         # Helper dùng chung: slugify, upsertMaterial, resolve icon URL...
+│   ├── verify-seed-integrity.ts    # Kiểm tra toàn vẹn dữ liệu sau seed (npm run db:verify)
+│   ├── mirror-images-to-r2.ts      # Tự host ảnh sang Cloudflare R2 (npm run images:mirror)
+│   └── lib/
+│       ├── seed-helpers.ts         # Helper dùng chung: slugify, upsertMaterial, resolve icon URL...
+│       └── r2-client.ts            # S3Client cấu hình cho Cloudflare R2
+├── middleware.ts                   # CORS cho toàn bộ /api/*
 ├── src/
 │   ├── app/
 │   │   ├── api/                    # REST API (route handlers)
 │   │   │   ├── characters | weapons | artifacts | materials | domains
 │   │   │   ├── search/              # Tìm kiếm tổng hợp
-│   │   │   ├── health/              # Health check
+│   │   │   ├── health/              # Health check (?counts=true để xem số dòng mỗi bảng)
 │   │   │   └── route.ts             # Mục lục API (GET /api)
 │   │   ├── characters | weapons | artifacts | domains | search   # Trang giao diện (SSR)
+│   │   ├── icon.tsx / opengraph-image.tsx   # Favicon + ảnh chia sẻ, sinh bằng code
+│   │   ├── characters/[id]/opengraph-image.tsx   # Ảnh chia sẻ riêng từng nhân vật
 │   │   ├── sitemap.ts / robots.ts   # SEO tự sinh theo dữ liệu DB
 │   │   └── layout.tsx / error.tsx / not-found.tsx
 │   ├── components/                 # ElementIcon, SafeImage, SearchBar, ThemeToggle...
 │   └── lib/
+│       ├── genshin-server-time.ts  # Tính "hôm nay" theo đúng giờ server Genshin (reset 4h sáng)
 │       ├── api/                    # errors.ts, query.ts, response.ts — chuẩn hoá API
 │       ├── prisma.ts               # Khởi tạo Prisma Client + adapter pg + SSL
 │       └── env.ts                  # Validate biến môi trường bắt buộc
@@ -213,7 +221,9 @@ Base URL: `/api` — mọi response đều theo envelope chuẩn `{ success, dat
 - `.env` không bao giờ commit — kiểm soát qua `.gitignore`.
 - Kết nối DB luôn bắt buộc SSL (`rejectUnauthorized: true`) tại `src/lib/prisma.ts`.
 - `src/lib/env.ts` validate biến môi trường **ngay khi khởi động app** — thiếu/sai `DATABASE_URL` sẽ báo lỗi rõ ràng thay vì crash mơ hồ ở request đầu tiên.
-- `next.config.ts` chỉ whitelist đúng các domain ảnh đang dùng (Enka Network, Fandom Wikia, miHoYo BBS) — không dùng wildcard `**`, tránh next/image bị lợi dụng làm proxy ảnh (SSRF).
+- `next.config.ts` chỉ whitelist đúng các domain ảnh đang dùng (Enka Network, Fandom Wikia, miHoYo BBS, và domain R2 nếu đã cấu hình `R2_PUBLIC_URL` — tự thêm động, xem mục Nguồn dữ liệu) — không dùng wildcard `**`, tránh next/image bị lợi dụng làm proxy ảnh (SSRF).
+- `middleware.ts`: CORS cho toàn bộ `/api/*` (`Access-Control-Allow-Origin: *`) — phù hợp vì đây là API public chỉ đọc (GET), không cookie/session.
+- `next.config.ts` (`headers()`): security headers cơ bản theo khuyến nghị OWASP (`X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`) cho mọi response.
 - **Rate limit theo IP** (`src/lib/api/rate-limit.ts`, Upstash Redis sliding window): mặc định 60 request/phút cho mỗi resource, 30 req/phút cho `/api/search`. Đây là lớp chống scraping/lạm dụng chính của một API public không cần auth — **bắt buộc** set `UPSTASH_REDIS_REST_URL`/`UPSTASH_REDIS_REST_TOKEN` khi deploy production (xem mục Cấu hình môi trường), nếu không sẽ tự tắt và chỉ log cảnh báo.
 - Khuyến nghị dùng **Neon Roles** để tạo Postgres role riêng cho runtime (least privilege) thay vì role owner mặc định khi chạy production lâu dài.
 - Có thể tận dụng **Neon Branching** để tách DB dev/preview khỏi production khi nhiều người cùng phát triển.
@@ -226,7 +236,19 @@ Base URL: `/api` — mọi response đều theo envelope chuẩn `{ success, dat
 Toàn bộ dữ liệu game lấy từ `genshin-db` — dữ liệu thật, không tự bịa — nhưng có vài điểm cần lưu ý khi bảo trì:
 
 - **`releaseDate` luôn là `null`**: `genshin-db` không cung cấp ngày ra mắt ngoài đời thật, chỉ có ngày trong game. Đây là quyết định có chủ đích, không phải lỗi.
-- **Ảnh hotlink trực tiếp** từ Enka Network/Fandom Wikia. `SafeImage` tự ẩn ảnh lỗi thay vì hiển thị icon vỡ; cân nhắc tự host ảnh (S3/R2) nếu chạy production lâu dài.
+- **Ảnh tự host trên Cloudflare R2** (khuyến nghị, tùy chọn) — mặc định ảnh vẫn hotlink trực tiếp từ Enka Network/Fandom Wikia/miHoYo BBS; `SafeImage` tự ẩn ảnh lỗi thay vì hiển thị icon vỡ, nhưng nếu 1 trong 3 nguồn đổi cấu trúc URL hoặc chặn hotlink, ảnh vỡ hàng loạt không có cách tự phục hồi. Để tự host:
+
+  ```bash
+  # 1. Điền R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY,
+  #    R2_BUCKET_NAME, R2_PUBLIC_URL trong .env — xem hướng dẫn lấy giá trị
+  #    ngay trong .env.example.
+  # 2. Chạy thử trước, KHÔNG upload/sửa DB gì cả:
+  npm run images:mirror -- --dry-run
+  # 3. Chạy thật — idempotent, chạy lại nhiều lần an toàn (bỏ qua ảnh đã mirror):
+  npm run images:mirror
+  ```
+
+  Sau khi chạy, `next.config.ts` tự thêm domain R2 vào whitelist ảnh nếu thấy `R2_PUBLIC_URL` — không cần sửa gì thêm. Chạy lại `images:mirror` sau mỗi lần `db:seed` để mirror nốt ảnh của dữ liệu mới (script tự bỏ qua ảnh đã mirror từ trước, không tải/upload lại).
 - **Traveler (Aether/Lumine)** cần tra cứu 2 tên khác nhau tuỳ loại dữ liệu — xem chi tiết trong `resolveTravelerSibling()`.
 - Khi nâng cấp `genshin-db` lên major version mới, cần kiểm tra lại tên field trước khi seed:
 

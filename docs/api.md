@@ -217,7 +217,7 @@ sách từng món trong bộ).
 | `q`        | `forgery`  | Tìm theo tên                                                          |
 | `category` | `weapon`   | `artifact` \| `weapon` \| `talent` (nhiều giá trị: `weapon,talent`)   |
 | `day`      | `Monday`   | Lọc bí cảnh mở vào ngày này (`Sunday`..`Saturday`); bí cảnh thánh di vật (mở hằng ngày) luôn khớp mọi `day` |
-| `today`    | `true`     | Rút gọn cho `day=<thứ hôm nay theo giờ server>`                     |
+| `today`    | `true`     | Rút gọn cho `day=<thứ hôm nay theo giờ server Châu Á UTC+8, đổi ngày lúc 4:00 sáng — xem src/lib/genshin-server-time.ts>` |
 | `sort`     | `name`     | `name` \| `recommendedLevel` \| `createdAt` (mặc định `name`)       |
 | `page`,`limit` |        |                                                                        |
 

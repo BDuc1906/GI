@@ -27,7 +27,11 @@ export const metadata: Metadata = {
     type: "website",
   },
   twitter: {
-    card: "summary",
+    // "summary_large_image" đúng chuẩn khi đã có ảnh 1200x630 thật (xem
+    // app/opengraph-image.tsx, app/characters/[id]/opengraph-image.tsx) —
+    // trước đây để "summary" (card nhỏ, không cần ảnh) vì lúc đó chưa có
+    // ảnh OG nào để hiển thị.
+    card: "summary_large_image",
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
   },
