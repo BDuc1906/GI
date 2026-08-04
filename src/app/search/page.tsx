@@ -38,7 +38,7 @@ export default async function SearchPage({ searchParams }: PageProps) {
     );
   }
 
-  const [characters, weapons, artifacts] = await Promise.all([
+  const [characters, weapons, artifacts, domains] = await Promise.all([
     prisma.character.findMany({
       where: { name: { contains: query, mode: "insensitive" } },
       orderBy: [{ rarity: "desc" }, { name: "asc" }],
@@ -65,9 +65,15 @@ export default async function SearchPage({ searchParams }: PageProps) {
       take: MAX_RESULTS_PER_TYPE,
       select: { id: true, name: true, rarityRange: true, iconUrl: true },
     }),
+    prisma.domain.findMany({
+      where: { name: { contains: query, mode: "insensitive" } },
+      orderBy: { name: "asc" },
+      take: MAX_RESULTS_PER_TYPE,
+      select: { id: true, name: true, category: true, imageUrl: true },
+    }),
   ]);
 
-  const totalResults = characters.length + weapons.length + artifacts.length;
+  const totalResults = characters.length + weapons.length + artifacts.length + domains.length;
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -223,6 +229,33 @@ export default async function SearchPage({ searchParams }: PageProps) {
                 </Link>
               );
             })}
+          </div>
+        </section>
+      )}
+
+      {domains.length > 0 && (
+        <section className="mt-12">
+          <h2 className="font-display text-xl font-semibold text-primary mb-4">
+            Bí Cảnh ({domains.length})
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {domains.map((d) => (
+              <Link key={d.id} href={`/domains/${d.id}`} className="relic-frame overflow-hidden group flex gap-3 p-3">
+                <div className="relative w-14 h-14 shrink-0 rounded-lg bg-secondary/40 overflow-hidden">
+                  {d.imageUrl ? (
+                    <SafeImage src={d.imageUrl} alt={d.name} fill sizes="56px" className="object-cover" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-muted text-[10px]">—</div>
+                  )}
+                </div>
+                <div className="min-w-0 flex flex-col justify-center">
+                  <div className="font-bold truncate text-primary group-hover:text-gold-bright transition-colors text-sm">
+                    {d.name}
+                  </div>
+                  <div className="text-[10px] text-secondary uppercase tracking-wider mt-1">{d.category}</div>
+                </div>
+              </Link>
+            ))}
           </div>
         </section>
       )}

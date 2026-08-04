@@ -4,14 +4,21 @@
 > sinh (chạy `scripts/sync-docs.mjs` qua hook `predev`/`prebuild`) để phục
 > vụ ở `/docs/api.md` — sửa tài liệu thì luôn sửa ở đây, không sửa bản copy.
 
-Cơ sở dữ liệu Genshin Impact (nhân vật, vũ khí, thánh di vật, nguyên liệu) —
-API public, chỉ đọc (read-only), không cần xác thực (API key).
+Cơ sở dữ liệu Genshin Impact (nhân vật, vũ khí, thánh di vật, nguyên liệu,
+bí cảnh) — API public, chỉ đọc (read-only), không cần xác thực (API key).
 
 ## Base URL
 
 ```
 https://<domain-của-bạn>/api
 ```
+
+## CORS
+
+Toàn bộ `/api/*` trả `Access-Control-Allow-Origin: *` (xem `middleware.ts`)
+— gọi thẳng bằng `fetch()` từ browser ở bất kỳ domain nào đều hoạt động,
+không cần proxy qua server riêng. Chỉ hỗ trợ `GET`; preflight `OPTIONS`
+được middleware trả `204` trực tiếp, không chạm route handler/rate limit/DB.
 
 ## Envelope response chuẩn
 
@@ -63,7 +70,8 @@ Toàn bộ endpoint (trừ `/api` và `/api/health`) đều giới hạn theo IP
 | `/api/weapons*`                | 60 request/phút |
 | `/api/artifacts*`              | 60 request/phút |
 | `/api/materials*`              | 60 request/phút |
-| `/api/search`                  | 30 request/phút (chạy 3 query song song mỗi lần gọi) |
+| `/api/domains*`                 | 60 request/phút |
+| `/api/search`                  | 30 request/phút (chạy 4 query song song mỗi lần gọi) |
 
 Vượt giới hạn → `429 RATE_LIMITED`, kèm header:
 
@@ -106,6 +114,24 @@ Chạy `SELECT 1` thật, không rate limit (để service monitoring gọi tự
 
 ```json
 { "success": true, "data": { "status": "ok", "latencyMs": 12 } }
+```
+
+`?counts=true` (opt-in, không dùng cho polling tự động vì tốn thêm query
+COUNT trên cả 5 bảng): trả kèm số dòng từng bảng, hữu ích để xác nhận seed
+sau khi chạy `npm run db:seed` mà chưa muốn đăng nhập DB thủ công.
+
+```bash
+curl "https://<domain>/api/health?counts=true"
+```
+```json
+{
+  "success": true,
+  "data": {
+    "status": "ok",
+    "latencyMs": 12,
+    "counts": { "characters": 120, "weapons": 140, "artifacts": 45, "materials": 210, "domains": 65 }
+  }
+}
 ```
 
 ---
@@ -184,6 +210,24 @@ sách từng món trong bộ).
 
 ---
 
+## `GET /api/domains` — lịch bí cảnh
+
+| Param      | Ví dụ      | Ghi chú                                                              |
+|------------|------------|-----------------------------------------------------------------------|
+| `q`        | `forgery`  | Tìm theo tên                                                          |
+| `category` | `weapon`   | `artifact` \| `weapon` \| `talent` (nhiều giá trị: `weapon,talent`)   |
+| `day`      | `Monday`   | Lọc bí cảnh mở vào ngày này (`Sunday`..`Saturday`); bí cảnh thánh di vật (mở hằng ngày) luôn khớp mọi `day` |
+| `today`    | `true`     | Rút gọn cho `day=<thứ hôm nay theo giờ server>`                     |
+| `sort`     | `name`     | `name` \| `recommendedLevel` \| `createdAt` (mặc định `name`)       |
+| `page`,`limit` |        |                                                                        |
+
+## `GET /api/domains/:id` — chi tiết bí cảnh
+
+Trả về `daysOfWeek`, `recommendedElements`, `materials` (nguyên liệu đặc
+trưng, không gồm Mora/EXP chung), `monsterNames`.
+
+---
+
 ## `GET /api/materials` — danh sách nguyên liệu
 
 | Param | Ví dụ    | Ghi chú          |
@@ -197,9 +241,10 @@ sách từng món trong bộ).
 
 ## `GET /api/search` — tìm kiếm tổng hợp
 
-Tìm cùng lúc trên cả 3 loại tài nguyên (characters, weapons, artifacts) —
-dùng cho thanh tìm kiếm toàn site. **Không phân trang** — kết quả là "gợi ý
-nhanh", giới hạn số lượng mỗi loại qua `limit`.
+Tìm cùng lúc trên cả 4 loại tài nguyên (characters, weapons, artifacts,
+domains) — dùng cho thanh tìm kiếm toàn site. Không gồm `materials` (xem
+ghi chú ở mục Nguồn dữ liệu trong README). **Không phân trang** — kết quả
+là "gợi ý nhanh", giới hạn số lượng mỗi loại qua `limit`.
 
 | Param   | Bắt buộc | Ghi chú                                    |
 |---------|----------|----------------------------------------------|
@@ -218,10 +263,11 @@ curl "https://<domain>/api/search?q=kazuha&limit=5"
     "total": 1,
     "characters": [ { "id": "kazuha", "name": "Kaedehara Kazuha", "...": "..." } ],
     "weapons": [],
-    "artifacts": []
+    "artifacts": [],
+    "domains": []
   }
 }
 ```
 
 Muốn xem đầy đủ, phân trang được: gọi thẳng `/api/characters?q=...`,
-`/api/weapons?q=...`, hoặc `/api/artifacts?q=...`.
+`/api/weapons?q=...`, `/api/artifacts?q=...`, hoặc `/api/domains?q=...`.

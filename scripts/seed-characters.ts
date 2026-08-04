@@ -162,21 +162,32 @@ const TALENT_BOOK_SERIES_BY_CHARACTER: Record<string, string> = {
   // Fontaine — Equity / Justice / Order
   "Lyney": "Equity", "Navia": "Equity", "Neuvillette": "Equity", "Sigewinne": "Equity",
   "Charlotte": "Justice", "Clorinde": "Justice", "Escoffier": "Justice", "Freminet": "Justice", "Furina": "Justice",
-  "Wriothesley": "Order", "Chevreuse": "Order", "Emilie": "Order", "Arlecchino": "Order",
+  "Wriothesley": "Order", "Chevreuse": "Order", "Emilie": "Order", "Arlecchino": "Order", "Lynette": "Order",
 
   // Natlan — Contention / Kindling / Conflict
   "Skirk": "Contention", "Mualani": "Contention", "Mavuika": "Contention",
   "Kinich": "Kindling", "Xilonen": "Kindling", "Ororon": "Kindling",
   "Chasca": "Conflict", "Citlali": "Conflict", "Iansan": "Conflict",
+  // Kachina/Ifa/Ineffa/Varesa dùng Conflict — xác nhận qua Fandom "Guide to
+  // Conflict" (liệt kê đích danh 6 người dùng series này: Chasca, Ifa,
+  // Ineffa, Kachina, Traveler Pyro, Varesa), tháng 8/2026.
+  "Kachina": "Conflict", "Ifa": "Conflict", "Ineffa": "Conflict", "Varesa": "Conflict",
 
   // Nod-Krai — Moonlight / Elysium / Vagrancy (domain "Lightless Capital",
   // xác nhận qua Fandom + Game8, tháng 7/2026). Nefer dùng Elysium — xác
-  // nhận qua gamerant.com. CHƯA thêm Flins/Aino/Jahoda vì tại thời điểm viết
-  // chưa tìm được nguồn CHÍNH THỨC (không phải leak) xác nhận series sách
-  // của họ — xem CHARACTERS_MISSING_BOOK_TYPE ở cuối log seed để biết nhân
-  // vật nào còn thiếu, rồi bổ sung tay vào đây khi có nguồn đáng tin cậy.
+  // nhận qua gamerant.com. Sandrone dùng Vagrancy — xác nhận qua Game8
+  // (Sandrone Ascension and Talent Materials: "The Vagrancy Talent Books
+  // can be farmed by completing Nod-Krai's regional Talent Book domain"),
+  // tháng 8/2026. CHƯA thêm Aino/Flins/Illuga/Jahoda/Linnea/Lohen/Manekin/
+  // Manekina/Nicole/Prune/Zibai vì tại thời điểm viết (8/2026) đây đều là
+  // nhân vật mới ra mắt trong 2-5 bản gần nhất (6.3-6.7), CHƯA tìm được
+  // trang "Guide to X"/"Teachings of X" trên Fandom liệt kê đích danh họ
+  // (khác với Kachina/Ifa/Ineffa/Varesa bên trên, xác nhận được qua đúng
+  // trang "Guide to Conflict") — xem CHARACTERS_MISSING_BOOK_TYPE ở cuối
+  // log seed để biết nhân vật nào còn thiếu, rồi bổ sung tay khi có nguồn.
   "Columbina": "Moonlight", "Lauma": "Moonlight",
   "Nefer": "Elysium",
+  "Sandrone": "Vagrancy",
 
   // Traveler & Aloy được xử lý riêng (Traveler qua getTalentBookType([...]),
   // Aloy đã có ở trên) — Traveler KHÔNG map ở đây vì tên trong DB khác theo
@@ -228,48 +239,56 @@ function getTalentBookType(characterNameOrCandidates: string | string[]): string
   return null;
 }
 
-// ---- Lấy boss material (nguyên liệu từ boss tuần) ----
-//
-// `talentBoss`/`bossMaterial` KHÔNG phải field trên Character object — đúng
-// như ghi chú cũ. Nhưng bản cũ dừng lại ở đó và trả null cho MỌI nhân vật,
-// trong khi dữ liệu thật đã nằm sẵn trong `costs.ascend4/5/6` (cùng nguồn
-// đang dùng cho getAscensionMaterials) — chỉ là chưa ai lọc nó ra.
-//
-// Cách nhận diện: genshin-db phân loại material theo category thật qua
-// materials(category, { matchCategories: true }). Build 1 lần tập hợp tên
-// thuộc category "Boss Material" lúc khởi động module, sau đó với từng nhân
-// vật, quét costs từ ascend6 xuống ascend1 và trả về material đầu tiên khớp
-// tập hợp đó. Data-driven hoàn toàn, không hard-code theo tên nhân vật ->
-// vẫn đúng khi game ra nhân vật mới.
-//
-// Nếu bản genshin-db đang dùng đổi tên category (khác "Boss Material"), set
-// này sẽ rỗng -> cảnh báo ngay lúc khởi động thay vì âm thầm trả null cho
-// tất cả như bản cũ.
-const BOSS_MATERIAL_CATEGORY_CANDIDATES = ["Boss Material", "Boss Materials"];
-const BOSS_MATERIAL_NAMES: Set<string> = (() => {
-  const set = new Set<string>();
-  for (const category of BOSS_MATERIAL_CATEGORY_CANDIDATES) {
-    try {
-      const names = genshindb.materials(category, { matchCategories: true }) as string[] | undefined;
-      for (const n of names ?? []) set.add(n.toLowerCase());
-    } catch {
-      // Tên category này không khớp bản data hiện tại -> thử candidate tiếp theo
-    }
-  }
-  if (set.size === 0) {
-    console.warn(
-      `⚠ Không tìm được category "Boss Material" trong genshin-db (đã thử: ${BOSS_MATERIAL_CATEGORY_CANDIDATES.join(", ")}). ` +
-      `Chạy "npx tsx scripts/debug-traveler.ts" hoặc kiểm tra genshindb.materials("names", {matchCategories:true}) ` +
-      `để tìm tên category đúng trong bản package đang cài, rồi cập nhật BOSS_MATERIAL_CATEGORY_CANDIDATES.`
-    );
-  }
-  return set;
-})();
-
 // Riêng Traveler: không dùng nguyên liệu boss tuần cho cả ascension lẫn
 // talent — đây là thiết kế chính thức của nhân vật (xác nhận qua nhiều
 // nguồn wiki). Với Traveler, costs sẽ không chứa material nào khớp
 // BOSS_MATERIAL_NAMES nên hàm dưới tự nhiên trả null, không cần case riêng.
+//
+// LƯU Ý (8/2026): cách cũ dùng genshindb.materials("Boss Material",
+// {matchCategories:true}) LUÔN trả undefined — category đó không tồn tại
+// trong enum thật của package (chỉ có ADSORBATE/AVATAR_MATERIAL/CONSUME/...,
+// xem node_modules/genshin-db/types/folders/materials.d.ts). Mọi nguyên
+// liệu đột phá (đá quý, đặc sản vùng, quái thường, boss) đều gộp chung
+// "AVATAR_MATERIAL" — không tách được. Hậu quả: BOSS_MATERIAL_NAMES rỗng
+// từ đầu, mọi nhân vật đều mất nguyên liệu boss ở cấp 7-10 (bỏ qua âm thầm
+// qua đường console.warn "không xác định được tên").
+//
+// Cách mới: dùng folder `enemies`, lọc enemyType === "BOSS", gộp tên mọi
+// item trong rewardPreview của các boss đó (trừ Adventure EXP/Mora/
+// Companionship EXP và item có "rarity" — đó là thánh di vật boss rớt,
+// không phải nguyên liệu đột phá). Đã test chéo: đúng bắt Everflame Seed/
+// Hoarfrost Core, đúng LOẠI Forbidden Curse Scroll/Sealed Scroll (nguyên
+// liệu quái THƯỜNG tier cao, không phải boss — nếu dùng heuristic "có ngưỡng
+// Lv." sẽ bắt nhầm 2 cái này, xem lịch sử test trong PR liên quan).
+const GENERIC_REWARD_NAMES_FOR_BOSS_SCAN = new Set(["Adventure EXP", "Mora", "Companionship EXP"]);
+const BOSS_MATERIAL_NAMES: Set<string> = (() => {
+  const set = new Set<string>();
+  try {
+    const enemyNames = (genshindb.enemies("names", { matchCategories: true }) as string[]) ?? [];
+    let bossCount = 0;
+    for (const n of enemyNames) {
+      const e = genshindb.enemies(n) as any;
+      if (!e || e.enemyType !== "BOSS") continue;
+      bossCount++;
+      for (const r of e.rewardPreview ?? []) {
+        if (r?.name && !GENERIC_REWARD_NAMES_FOR_BOSS_SCAN.has(r.name) && !r.rarity) {
+          set.add(r.name.toLowerCase());
+        }
+      }
+    }
+    if (bossCount === 0) {
+      console.warn(
+        `⚠ Không tìm được enemy nào có enemyType "BOSS" trong genshin-db. ` +
+          `Có thể bản package đang cài đã đổi tên field này — kiểm tra ` +
+          `genshindb.enemies(genshindb.enemies("names",{matchCategories:true})[0]) để xem shape thật.`
+      );
+    }
+  } catch (err) {
+    console.warn(`⚠ Lỗi khi build BOSS_MATERIAL_NAMES từ folder enemies: ${(err as Error).message}`);
+  }
+  return set;
+})();
+
 function getBossMaterialName(costs: unknown): string | null {
   if (!costs || typeof costs !== "object") return null;
   const raw = costs as Record<string, Array<{ name?: string }>>;

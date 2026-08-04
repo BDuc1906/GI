@@ -5,6 +5,7 @@ const mockPrisma = vi.hoisted(() => ({
   character: { findMany: vi.fn() },
   weapon: { findMany: vi.fn() },
   artifactSet: { findMany: vi.fn() },
+  domain: { findMany: vi.fn() },
 }));
 
 vi.mock("@/lib/prisma", () => ({ prisma: mockPrisma }));
@@ -24,6 +25,7 @@ beforeEach(() => {
   mockPrisma.character.findMany.mockResolvedValue([]);
   mockPrisma.weapon.findMany.mockResolvedValue([]);
   mockPrisma.artifactSet.findMany.mockResolvedValue([]);
+  mockPrisma.domain.findMany.mockResolvedValue([]);
 });
 
 describe("GET /api/search", () => {
@@ -39,18 +41,20 @@ describe("GET /api/search", () => {
     expect(res.status).toBe(400);
   });
 
-  it("gộp kết quả cả 3 loại và tính đúng total", async () => {
+  it("gộp kết quả cả 4 loại và tính đúng total", async () => {
     mockPrisma.character.findMany.mockResolvedValue([{ id: "kazuha" }]);
     mockPrisma.weapon.findMany.mockResolvedValue([{ id: "aquila" }, { id: "wolfs-gravestone" }]);
+    mockPrisma.domain.findMany.mockResolvedValue([{ id: "domain-of-forgery-artisanship" }]);
 
     const res = await search(req("http://localhost/api/search?q=a"), listCtx);
     const body = await res.json();
 
     expect(res.status).toBe(200);
-    expect(body.data.total).toBe(3);
+    expect(body.data.total).toBe(4);
     expect(body.data.characters).toHaveLength(1);
     expect(body.data.weapons).toHaveLength(2);
     expect(body.data.artifacts).toHaveLength(0);
+    expect(body.data.domains).toHaveLength(1);
   });
 
   it("clamp limit vượt MAX_PER_TYPE (50)", async () => {

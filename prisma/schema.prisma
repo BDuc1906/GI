@@ -23,6 +23,7 @@ model Character {
   releaseDate DateTime?
   description String?  @db.Text
   iconUrl     String?
+  sideIconUrl String?
   splashUrl   String?
   elementIcon    String?
   baseHp      Float?
@@ -107,4 +108,40 @@ model ArtifactSet {
   createdAt   DateTime @default(now())
 
   @@index([rarityRange])
+}
+
+// ---- Bí cảnh (Domains) ----
+// Nguồn: genshin-db `domains` folder. Data gốc có 256 entry vì mỗi bí cảnh
+// tách riêng theo độ khó (I/II/III/IV/V) — gộp lại còn ~65 bí cảnh gốc lúc
+// seed (xem scripts/seed-domains.ts), vì độ khó chỉ đổi số lượng phần
+// thưởng, không đổi lịch mở/nguyên liệu/quái — hiển thị 4-5 dòng gần như
+// giống hệt nhau không có giá trị cho người tra "hôm nay đánh gì".
+model Domain {
+  id          String   @id // slug từ tên gốc (đã bỏ số La Mã độ khó)
+  name        String
+  // "artifact" (Domain of Blessing, mở hằng ngày) | "weapon" (Domain of
+  // Forgery) | "talent" (Domain of Mastery) — 2 loại sau chỉ mở 3 ngày/tuần
+  // luân phiên, xem daysOfWeek.
+  category    String
+  regionName  String?
+  description String?  @db.Text
+  recommendedLevel    Int?
+  recommendedElements String[]
+  // Rỗng = mở hằng ngày (domain thánh di vật). Có giá trị = chỉ mở đúng các
+  // ngày này trong tuần (domain vũ khí/sách thiên phú).
+  daysOfWeek  String[]
+  unlockRank  Int?
+  // Nguyên liệu đặc trưng domain này rớt (không gồm Mora/EXP/Companionship
+  // EXP — mấy cái đó domain nào cũng có, không giúp phân biệt):
+  // [{ materialId, name }] — materialId trỏ tới Material.id, join lúc render.
+  materials   Json?
+  // Tên quái xuất hiện trong bí cảnh — chưa map sang bảng riêng, để plain
+  // text; sẽ nối vào bảng Enemy khi làm giai đoạn "Enemies/Bosses".
+  monsterNames String[]
+  imageUrl    String?
+  gameVersion String?  // phiên bản game domain này xuất hiện, vd "4.0"
+  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now())
+
+  @@index([category])
 }

@@ -17,18 +17,19 @@ const DEFAULT_PER_TYPE = 12;
 /**
  * GET /api/search?q=...
  *
- * Tìm kiếm tổng hợp trên cả 3 loại tài nguyên cùng lúc — dùng cho thanh tìm
+ * Tìm kiếm tổng hợp trên cả 4 loại tài nguyên cùng lúc — dùng cho thanh tìm
  * kiếm toàn site. Không phân trang từng loại riêng (limit cố định nhỏ per
  * type) vì đây là kết quả "gợi ý nhanh", muốn xem đầy đủ thì gọi thẳng
- * /api/characters?q=..., /api/weapons?q=..., /api/artifacts?q=....
+ * /api/characters?q=..., /api/weapons?q=..., /api/artifacts?q=..., /api/domains?q=....
  *
  * Query params:
  *  - q     bắt buộc, tối thiểu 1 ký tự sau khi trim
  *  - limit số kết quả tối đa MỖI loại (mặc định 12, tối đa 50)
  *
  * Rate limit: 30 req/phút/IP (thấp hơn các resource đơn) vì mỗi lần gọi
- * chạy 3 query song song thay vì 1 — tốn tài nguyên DB hơn hẳn, dễ bị lạm
- * dụng hơn nếu để chung mức giới hạn với endpoint đơn.
+ * chạy 4 query song song thay vì 1 (characters, weapons, artifacts, domains)
+ * — tốn tài nguyên DB hơn hẳn, dễ bị lạm dụng hơn nếu để chung mức giới hạn
+ * với endpoint đơn.
  */
 export const GET = withErrorHandling(
   withRateLimit(
@@ -47,7 +48,7 @@ export const GET = withErrorHandling(
         perType = Math.min(n, MAX_PER_TYPE);
       }
 
-      const [characters, weapons, artifacts] = await Promise.all([
+      const [characters, weapons, artifacts, domains] = await Promise.all([
         prisma.character.findMany({
           where: { name: { contains: q, mode: "insensitive" } },
           orderBy: [{ rarity: "desc" }, { name: "asc" }],
@@ -66,14 +67,21 @@ export const GET = withErrorHandling(
           take: perType,
           select: { id: true, name: true, rarityRange: true, iconUrl: true },
         }),
+        prisma.domain.findMany({
+          where: { name: { contains: q, mode: "insensitive" } },
+          orderBy: { name: "asc" },
+          take: perType,
+          select: { id: true, name: true, category: true, imageUrl: true },
+        }),
       ]);
 
       return ok({
         query: q,
-        total: characters.length + weapons.length + artifacts.length,
+        total: characters.length + weapons.length + artifacts.length + domains.length,
         characters,
         weapons,
         artifacts,
+        domains,
       });
     },
     { prefix: "search", limit: 30 }

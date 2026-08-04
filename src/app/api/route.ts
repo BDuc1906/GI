@@ -11,14 +11,15 @@ export async function GET() {
       characters: { list: "GET /api/characters", detail: "GET /api/characters/:id" },
       weapons: { list: "GET /api/weapons", detail: "GET /api/weapons/:id" },
       artifacts: { list: "GET /api/artifacts", detail: "GET /api/artifacts/:id" },
+      domains: { list: "GET /api/domains", detail: "GET /api/domains/:id" },
       materials: { list: "GET /api/materials", detail: "GET /api/materials/:id" },
       search: { combined: "GET /api/search?q=..." },
       health: { check: "GET /api/health" },
     },
     // "docs/api.md" trong repo KHÔNG được Next.js serve như route web (chỉ
-    // "public/" mới được) — trỏ tới bản copy tĩnh ở public/docs/api.md
-    // (giữ đồng bộ thủ công với docs/api.md, xem ghi chú trong file đó)
-    // để link này thực sự resolve được, thay vì trả về 404.
+    // "public/" mới được) — trỏ tới bản copy tĩnh ở public/docs/api.md,
+    // được tự động đồng bộ từ docs/api.md qua scripts/sync-docs.mjs (chạy ở
+    // hook predev/prebuild, xem package.json) — không sửa tay bản copy này.
     docs: "/docs/api.md",
   });
 }

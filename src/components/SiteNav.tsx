@@ -9,6 +9,7 @@ const NAV_LINKS = [
   { href: "/characters", label: "Nhân vật" },
   { href: "/weapons", label: "Vũ khí" },
   { href: "/artifacts", label: "Thánh di vật" },
+  { href: "/domains", label: "Bí cảnh" },
 ];
 
 /**

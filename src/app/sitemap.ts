@@ -18,11 +18,12 @@ export const dynamic = "force-dynamic";
 export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [characters, weapons, artifacts] = await withDbRetry(() =>
+  const [characters, weapons, artifacts, domains] = await withDbRetry(() =>
     Promise.all([
       prisma.character.findMany({ select: { id: true, updatedAt: true } }),
       prisma.weapon.findMany({ select: { id: true, updatedAt: true } }),
       prisma.artifactSet.findMany({ select: { id: true, updatedAt: true } }),
+      prisma.domain.findMany({ select: { id: true, updatedAt: true } }),
     ])
   );
 
@@ -31,6 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/characters`, changeFrequency: "weekly", priority: 0.8 },
     { url: `${SITE_URL}/weapons`, changeFrequency: "weekly", priority: 0.8 },
     { url: `${SITE_URL}/artifacts`, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${SITE_URL}/domains`, changeFrequency: "daily", priority: 0.8 },
   ];
 
   const characterRoutes: MetadataRoute.Sitemap = characters.map((c) => ({
@@ -54,5 +56,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.5,
   }));
 
-  return [...staticRoutes, ...characterRoutes, ...weaponRoutes, ...artifactRoutes];
+  const domainRoutes: MetadataRoute.Sitemap = domains.map((d) => ({
+    url: `${SITE_URL}/domains/${d.id}`,
+    lastModified: d.updatedAt,
+    changeFrequency: "monthly",
+    priority: 0.5,
+  }));
+
+  return [...staticRoutes, ...characterRoutes, ...weaponRoutes, ...artifactRoutes, ...domainRoutes];
 }

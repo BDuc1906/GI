@@ -28,7 +28,9 @@
 
 ## 📖 Giới thiệu
 
-**LEIBO** là một ứng dụng web tra cứu dữ liệu **Genshin Impact**, cung cấp thông tin chi tiết và có cấu trúc về **nhân vật**, **vũ khí**, **thánh di vật (artifact set)** và **nguyên liệu đột phá/thiên phú**.
+**LEIBO** là một ứng dụng web tra cứu dữ liệu **Genshin Impact**, cung cấp thông tin chi tiết và có cấu trúc về **nhân vật**, **vũ khí**, **thánh di vật (artifact set)**, **nguyên liệu đột phá/thiên phú** và **bí cảnh (domain)**.
+
+> Phạm vi hiện tại tập trung vào dữ liệu phục vụ *build nhân vật*. Dự án **chưa** có: quái/boss dạng bảng riêng (Enemy), thành tựu (Achievements), namecard, đồ nội thất Nhà Lư (Serenitea Pot), Thất Thánh Triệu Hồi (TCG), cốt truyện/nhiệm vụ, sự kiện, lịch sử banner. Xem mục [Nguồn dữ liệu & giới hạn đã biết](#-nguồn-dữ-liệu--giới-hạn-đã-biết) để biết chi tiết và định hướng mở rộng.
 
 Toàn bộ dữ liệu game được trích xuất từ package cộng đồng [`genshin-db`](https://www.npmjs.com/package/genshin-db) (cập nhật theo từng phiên bản game), sau đó được chuẩn hoá và nạp (seed) vào cơ sở dữ liệu **PostgreSQL** thông qua **Prisma ORM**, phục vụ qua một REST API tự xây dựng và giao diện **Next.js App Router**.
 
@@ -44,7 +46,8 @@ Dự án được thiết kế theo hướng **production-ready**: có migration
 | ⚔️ **Vũ khí** | Chỉ số cơ bản, hiệu ứng theo 5 mốc tinh luyện, nguyên liệu đột phá |
 | 💠 **Thánh di vật** | Hiệu ứng 1/2/4 mảnh, danh sách các mảnh trong bộ |
 | 🧪 **Nguyên liệu** | Bảng nguyên liệu dùng chung, tránh lặp dữ liệu ảnh giữa các nhân vật/vũ khí |
-| 🔍 **Tìm kiếm tổng hợp** | Tìm kiếm xuyên suốt 3 loại dữ liệu (nhân vật, vũ khí, thánh di vật) trong một endpoint |
+| 🗺️ **Bí cảnh** | Lịch mở theo ngày trong tuần, nguyên liệu đặc trưng, gợi ý "hôm nay nên đánh gì" |
+| 🔍 **Tìm kiếm tổng hợp** | Tìm kiếm xuyên suốt 4 loại dữ liệu (nhân vật, vũ khí, thánh di vật, bí cảnh) trong một endpoint |
 | 🌗 **Dark / Light mode** | Chuyển giao diện mượt mà bằng `next-themes` |
 | 🗺️ **SEO tự động** | `sitemap.xml` / `robots.txt` sinh động theo dữ liệu thật trong DB |
 | 🛡️ **API an toàn** | Envelope response chuẩn hoá, phân trang có giới hạn, xử lý lỗi tập trung |
@@ -76,19 +79,20 @@ leibo/
 │   ├── schema.prisma               # Định nghĩa model: Character, Weapon, ArtifactSet, Material
 │   └── migrations/                 # Lịch sử migration (không dùng db push)
 ├── scripts/
-│   ├── seed.ts                     # Điểm vào seed, gọi lần lượt seed-characters → weapons → artifacts
+│   ├── seed.ts                     # Điểm vào seed, gọi lần lượt characters → weapons → artifacts → domains
 │   ├── seed-characters.ts
 │   ├── seed-weapons.ts
 │   ├── seed-artifacts.ts
+│   ├── seed-domains.ts
 │   └── lib/seed-helpers.ts         # Helper dùng chung: slugify, upsertMaterial, resolve icon URL...
 ├── src/
 │   ├── app/
 │   │   ├── api/                    # REST API (route handlers)
-│   │   │   ├── characters | weapons | artifacts | materials
+│   │   │   ├── characters | weapons | artifacts | materials | domains
 │   │   │   ├── search/              # Tìm kiếm tổng hợp
 │   │   │   ├── health/              # Health check
 │   │   │   └── route.ts             # Mục lục API (GET /api)
-│   │   ├── characters | weapons | artifacts | search   # Trang giao diện (SSR)
+│   │   ├── characters | weapons | artifacts | domains | search   # Trang giao diện (SSR)
 │   │   ├── sitemap.ts / robots.ts   # SEO tự sinh theo dữ liệu DB
 │   │   └── layout.tsx / error.tsx / not-found.tsx
 │   ├── components/                 # ElementIcon, SafeImage, SearchBar, ThemeToggle...
@@ -196,7 +200,9 @@ Base URL: `/api` — mọi response đều theo envelope chuẩn `{ success, dat
 | `GET` | `/api/artifacts/:id` | Chi tiết một bộ thánh di vật |
 | `GET` | `/api/materials` | Danh sách nguyên liệu |
 | `GET` | `/api/materials/:id` | Chi tiết một nguyên liệu |
-| `GET` | `/api/search?q=...` | Tìm kiếm tổng hợp trên 3 loại dữ liệu (không gồm materials — xem `docs/api.md`) |
+| `GET` | `/api/domains` | Danh sách bí cảnh (hỗ trợ lọc `category`, `day`, `today`) |
+| `GET` | `/api/domains/:id` | Chi tiết một bí cảnh |
+| `GET` | `/api/search?q=...` | Tìm kiếm tổng hợp trên 4 loại dữ liệu — characters, weapons, artifacts, domains (không gồm materials — xem `docs/api.md`) |
 
 > Phân trang mặc định `limit=24`, tối đa `limit=100` — chặn client kéo toàn bộ bảng trong 1 request.
 
@@ -228,12 +234,29 @@ Toàn bộ dữ liệu game lấy từ `genshin-db` — dữ liệu thật, khô
   node -e "const db=require('genshin-db'); console.log(JSON.stringify(db.characters('Kazuha'), null, 2))"
   ```
 
+### Phạm vi dữ liệu hiện tại (chưa có gì)
+
+Dự án hiện chỉ phủ dữ liệu phục vụ build nhân vật. Các mảng nội dung khác của Genshin Impact **chưa** được đưa vào, dù `genshin-db` có sẵn dữ liệu thô cho phần lớn:
+
+| Chưa có | Ghi chú |
+|---|---|
+| Quái/Boss (Enemy) | `Domain.monsterNames` hiện chỉ lưu tên dạng text thô, chưa có bảng riêng liên kết ngược sang `Character.ascensionMaterials` |
+| Thành tựu (Achievements) | Chưa có model |
+| Namecard | Chưa có model |
+| Đồ nội thất Nhà Lư (Serenitea Pot) | Chưa có model |
+| Thất Thánh Triệu Hồi (TCG) | Chưa có model |
+| Cốt truyện / nhiệm vụ | Chưa có model |
+| Sự kiện, lịch sử banner wish | Chưa có model |
+
 ### Cập nhật dữ liệu khi có bản mới của game
 
 ```bash
 npm update genshin-db
 npm run db:seed
+npm run db:verify   # kiểm tra tính toàn vẹn dữ liệu vừa seed — xem scripts/verify-seed-integrity.ts
 ```
+
+`db:verify` không chạy trong CI (CI chỉ test trên DB rỗng, không seed dữ liệu thật — xem `.github/workflows/ci.yml`), nên đây là bước thủ công bắt buộc sau mỗi lần `db:seed` nhắm vào DB production, để bắt các lớp lỗi seed "chạy xong không báo lỗi nhưng dữ liệu sai/thiếu" (2 case thật đã từng xảy ra, xem CHANGELOG.md).
 
 ---
 
