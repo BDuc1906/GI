@@ -49,3 +49,4 @@ repomix-output.xml
 /data/raw/
 # Sentry Config File
 .env.sentry-build-plugin
+.env
