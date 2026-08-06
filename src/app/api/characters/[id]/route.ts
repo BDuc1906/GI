@@ -1,3 +1,4 @@
+
 import type { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { ok } from "@/lib/api/response";
@@ -15,7 +16,7 @@ export const GET = withErrorHandling(
       const character = await prisma.character.findUnique({ where: { id } });
       if (!character) throw ApiError.notFound(`Không tìm thấy nhân vật với id "${id}"`);
 
-      return ok(character);
+      return ok(character, { maxAgeSec: 300 });
     },
     { prefix: "characters-detail" }
   )

@@ -1,3 +1,4 @@
+
 import type { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { ok } from "@/lib/api/response";
@@ -15,7 +16,7 @@ export const GET = withErrorHandling(
       const domain = await prisma.domain.findUnique({ where: { id } });
       if (!domain) throw ApiError.notFound(`Không tìm thấy bí cảnh với id "${id}"`);
 
-      return ok(domain);
+      return ok(domain, { maxAgeSec: 3600 });
     },
     { prefix: "domains-detail" }
   )

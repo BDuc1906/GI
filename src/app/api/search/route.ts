@@ -1,3 +1,4 @@
+
 import type { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { ok } from "@/lib/api/response";
@@ -75,14 +76,17 @@ export const GET = withErrorHandling(
         }),
       ]);
 
-      return ok({
-        query: q,
-        total: characters.length + weapons.length + artifacts.length + domains.length,
-        characters,
-        weapons,
-        artifacts,
-        domains,
-      });
+      return ok(
+        {
+          query: q,
+          total: characters.length + weapons.length + artifacts.length + domains.length,
+          characters,
+          weapons,
+          artifacts,
+          domains,
+        },
+        { maxAgeSec: 30 }
+      );
     },
     { prefix: "search", limit: 30 }
   )

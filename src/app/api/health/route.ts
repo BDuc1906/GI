@@ -1,6 +1,7 @@
 import type { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { fail, ok } from "@/lib/api/response";
+import { withRateLimit } from "@/lib/api/rate-limit";
 
 export const dynamic = "force-dynamic";
 
@@ -21,8 +22,10 @@ export const dynamic = "force-dynamic";
  * dùng cho service monitoring gọi liên tục (mỗi 10-30s), nên phần mặc định
  * phải rẻ nhất có thể (chỉ SELECT 1). Chỉ bật `counts=true` khi chủ động
  * kiểm tra sau seed/deploy, không dùng làm health check tự động định kỳ.
+ *
+ * Nhánh `?counts=true` được rate limit riêng để tránh lạm dụng (10 req/phút).
  */
-export async function GET(req: NextRequest) {
+const healthHandler = async (req: NextRequest) => {
   const startedAt = Date.now();
   const wantCounts = new URL(req.url).searchParams.get("counts") === "true";
 
@@ -57,4 +60,17 @@ export async function GET(req: NextRequest) {
     console.error("[API] Health check failed:", err);
     return fail(503, "DATABASE_UNAVAILABLE", "Không thể kết nối cơ sở dữ liệu");
   }
-}
+};
+
+export const GET = async (req: NextRequest) => {
+  const wantCounts = new URL(req.url).searchParams.get("counts") === "true";
+  if (wantCounts) {
+    // Áp dụng rate limit riêng cho nhánh counts (10 req/phút)
+    return withRateLimit(healthHandler, { prefix: "health-counts", limit: 10, window: "60 s" })(
+      req,
+      { params: Promise.resolve({}) }
+    );
+  }
+  // Không rate limit cho nhánh thường
+  return healthHandler(req);
+};

@@ -1,8 +1,10 @@
+
 import Link from "next/link";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { SafeImage } from "@/components/SafeImage";
 import type { Metadata } from "next";
+import { genshinServerWeekdayIndex } from "@/lib/genshin-server-time";
 
 export const metadata: Metadata = {
   title: "Bí Cảnh — LEIBO",
@@ -43,13 +45,10 @@ export default async function DomainsPage({ searchParams }: PageProps) {
 
   const domains = await prisma.domain.findMany({ where, orderBy: [{ category: "asc" }, { name: "asc" }] });
 
-  // Giờ Việt Nam (UTC+7) — web nhắm tới người chơi VN nên lấy mốc thời gian
-  // này cho dễ hình dung. LƯU Ý: đây là ước lượng theo lịch dương thông
-  // thường, KHÔNG phải giờ reset ngày thật trong game (server game reset
-  // lúc 4:00 sáng theo server region riêng của từng tài khoản — Á/Mỹ/Âu
-  // lệch nhau). Dùng để tham khảo, không phải mốc chính xác tuyệt đối.
-  const nowVN = new Date(Date.now() + 7 * 60 * 60 * 1000);
-  const todayIndex = nowVN.getUTCDay();
+  // "Hôm nay" tính theo giờ server Châu Á (UTC+8) + mốc đổi ngày 4:00 sáng —
+  // dùng chung src/lib/genshin-server-time.ts với GET /api/domains?today=true
+  // để trang và API luôn khớp nhau (xem docstring trong file đó).
+  const todayIndex = genshinServerWeekdayIndex();
   const todayKey = Object.keys(WEEKDAY_LABEL_VI)[todayIndex];
 
   const buildQuery = (params: Record<string, string | undefined>) => {
@@ -124,11 +123,11 @@ export default async function DomainsPage({ searchParams }: PageProps) {
 
       {!day && (
         <p className="mb-6 text-xs text-secondary">
-          Hôm nay ({WEEKDAY_FULL_VI[todayIndex]} theo giờ Việt Nam):{" "}
+          Hôm nay ({WEEKDAY_FULL_VI[todayIndex]} theo giờ server Châu Á, reset 4:00 sáng):{" "}
           <Link href={`/domains?${buildQuery({ day: todayKey })}`} className="text-gold-bright underline underline-offset-2">
             xem bí cảnh mở hôm nay
           </Link>
-          . Mốc giờ chỉ mang tính tham khảo, không thay thế giờ reset thật trong game.
+          . Áp dụng cho server Châu Á (UTC+8) — đa số người chơi Việt Nam dùng server này.
         </p>
       )}
 

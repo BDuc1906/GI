@@ -1,8 +1,11 @@
+
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
 import { ElementIcon } from "@/components/ElementIcon";
 import { SafeImage } from "@/components/SafeImage";
+import { CharacterLevelSlider } from "@/components/CharacterLevelSlider";
+import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 import type { Metadata } from "next";
 import {
   TALENT_LABEL_VI,
@@ -69,41 +72,55 @@ export default async function CharacterDetail({ params }: PageProps) {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
+      <BreadcrumbJsonLd
+        items={[
+          { name: "LEIBO", path: "/" },
+          { name: "Nhân vật", path: "/characters" },
+          { name: isTraveler ? `Traveler (${c.vision})` : c.name, path: `/characters/${c.id}` },
+        ]}
+      />
 
       {/* Hero Banner */}
       <div className={`relic-frame ${rarityGlowClass(c.rarity)} bg-card backdrop-blur-md rounded-xl p-6 flex flex-col sm:flex-row gap-6 mb-8 border border-border`}>
         {isTraveler ? (
-          <div className="relative w-full sm:w-56 aspect-[3/4] rounded-lg overflow-hidden border border-gold/30 bg-secondary/40 shrink-0">
-            <div className="absolute inset-0" style={{ clipPath: "polygon(0 0, 50% 0, 50% 100%, 0 100%)" }}>
-              {boySplash ? (
-                <SafeImage src={boySplash} alt={`${c.name} - Nam`} fill className="object-cover" sizes="(max-width: 640px) 100vw, 224px" />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-muted text-[10px]">—</div>
-              )}
-            </div>
-            <div className="absolute inset-0" style={{ clipPath: "polygon(50% 0, 100% 0, 100% 100%, 50% 100%)" }}>
-              {girlSplash ? (
-                <SafeImage src={girlSplash} alt={`${c.name} - Nữ`} fill className="object-cover" sizes="(max-width: 640px) 100vw, 224px" />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-muted text-[10px]">—</div>
-              )}
-            </div>
-            <div className="absolute top-0 bottom-0 left-1/2 w-px bg-black/40 -translate-x-1/2" />
-          </div>
-        ) : (
-          c.splashUrl && (
-            <div className="relative w-full sm:w-56 aspect-[3/4] rounded-lg overflow-hidden border border-gold/30 bg-secondary/40 shrink-0">
-              <SafeImage
-                src={c.splashUrl}
-                alt={c.name}
-                fill
-                className="object-cover"
-                sizes="(max-width: 640px) 100vw, 224px"
-                priority={true}
-              />
-            </div>
-          )
-        )}
+  <div className="relative w-full sm:w-56 aspect-[3/4] rounded-lg overflow-hidden border border-gold/30 bg-secondary/40 shrink-0">
+    {boySplash && girlSplash ? (
+      // Cả hai đều có -> ghép đôi
+      <>
+        <div className="absolute inset-0" style={{ clipPath: "polygon(0 0, 50% 0, 50% 100%, 0 100%)" }}>
+          <SafeImage src={boySplash} alt={`${c.name} - Nam`} fill className="object-cover" sizes="(max-width: 640px) 100vw, 224px" />
+        </div>
+        <div className="absolute inset-0" style={{ clipPath: "polygon(50% 0, 100% 0, 100% 100%, 50% 100%)" }}>
+          <SafeImage src={girlSplash} alt={`${c.name} - Nữ`} fill className="object-cover" sizes="(max-width: 640px) 100vw, 224px" />
+        </div>
+        <div className="absolute top-0 bottom-0 left-1/2 w-px bg-black/40 -translate-x-1/2" />
+      </>
+    ) : (
+      // Chỉ có một bên -> hiển thị full ảnh (hoặc icon nếu không có splash)
+      <SafeImage 
+        src={boySplash || girlSplash || c.iconUrl || ''} 
+        alt={c.name} 
+        fill 
+        className="object-cover" 
+        sizes="(max-width: 640px) 100vw, 224px" 
+        priority={true}
+      />
+    )}
+  </div>
+) : (
+  // Fallback splash -> icon
+  <div className="relative w-full sm:w-56 aspect-[3/4] rounded-lg overflow-hidden border border-gold/30 bg-secondary/40 shrink-0">
+    <SafeImage
+      src={c.splashUrl || c.iconUrl || ''}
+      alt={c.name}
+      fill
+      className="object-cover"
+      sizes="(max-width: 640px) 100vw, 224px"
+      priority={true}
+      fallbackSrc={c.iconUrl || undefined}
+    />
+  </div>
+)}
         <div className="flex flex-col justify-center">
           <div className="flex items-center gap-2 mb-2">
             <ElementIcon vision={c.vision} iconUrl={c.elementIcon} size={24} />
@@ -126,9 +143,19 @@ export default async function CharacterDetail({ params }: PageProps) {
             {rarityStars(c.rarity)}
           </p>
 
-          {c.region && (
+          {(c.region || c.affiliation) && (
             <p className="text-xs text-muted mb-2 font-medium uppercase tracking-wider">
-              Vùng đất: <span className="text-primary">{c.region}</span>
+              {c.region && (
+                <>
+                  Vùng đất: <span className="text-primary">{c.region}</span>
+                </>
+              )}
+              {c.region && c.affiliation && <span className="mx-2 text-border">·</span>}
+              {c.affiliation && (
+                <>
+                  Phe phái: <span className="text-primary">{c.affiliation}</span>
+                </>
+              )}
             </p>
           )}
 
@@ -198,6 +225,16 @@ export default async function CharacterDetail({ params }: PageProps) {
         </div>
       </section>
 
+      {/* Level Slider — tương tác, tính real-time từ statsByLevel thật */}
+      {statsByLevel.length > 0 && (
+        <section className="mb-8">
+          <h2 className="font-display text-xl font-bold mb-4 text-gold uppercase tracking-wide border-b border-border pb-2">
+            Tra Cứu Chỉ Số Theo Cấp
+          </h2>
+          <CharacterLevelSlider statsByLevel={statsByLevel} ascensionStat={c.ascensionStat} />
+        </section>
+      )}
+
       {/* Stats Table */}
       {statsByLevel.length > 0 && (
         <section className="mb-8">
@@ -225,7 +262,7 @@ export default async function CharacterDetail({ params }: PageProps) {
                     <td>{formatNumber(row.attack)}</td>
                     <td>{formatNumber(row.defense)}</td>
                     <td className="text-gold-bright">
-                      {row.specialized ? formatSpecialized(row.specialized, c.ascensionStat) : "—"}
+                      {row.specialized !== null ? formatSpecialized(row.specialized, c.ascensionStat) : "—"}
                     </td>
                   </tr>
                 ))}

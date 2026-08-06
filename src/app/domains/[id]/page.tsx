@@ -1,7 +1,9 @@
+
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { SafeImage } from "@/components/SafeImage";
+import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -54,6 +56,13 @@ export default async function DomainDetail({ params }: PageProps) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
+      <BreadcrumbJsonLd
+        items={[
+          { name: "LEIBO", path: "/" },
+          { name: "Bí cảnh", path: "/domains" },
+          { name: d.name, path: `/domains/${d.id}` },
+        ]}
+      />
       <div className="flex flex-col sm:flex-row gap-6 mb-8">
         {d.imageUrl && (
           <div className="relative w-40 h-40 rounded-xl border border-border bg-card shrink-0 overflow-hidden">

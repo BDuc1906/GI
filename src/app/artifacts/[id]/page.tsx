@@ -1,7 +1,9 @@
+
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { SafeImage } from "@/components/SafeImage";
+import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -53,6 +55,13 @@ export default async function ArtifactDetail({ params }: PageProps) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
+      <BreadcrumbJsonLd
+        items={[
+          { name: "LEIBO", path: "/" },
+          { name: "Thánh di vật", path: "/artifacts" },
+          { name: a.name, path: `/artifacts/${a.id}` },
+        ]}
+      />
       <div className="flex flex-col sm:flex-row gap-6 mb-8">
         {a.iconUrl && (
           <div className="relative w-40 h-40 rounded-xl border border-border bg-card shrink-0">
@@ -73,6 +82,12 @@ export default async function ArtifactDetail({ params }: PageProps) {
       </div>
 
       <section className="mb-8 space-y-3">
+        {a.onePieceBonus && (
+          <div className="border border-border rounded-lg p-3 bg-card">
+            <div className="font-medium text-primary">Hiệu ứng 1 món</div>
+            <p className="text-sm text-secondary">{a.onePieceBonus}</p>
+          </div>
+        )}
         {a.twoPieceBonus && (
           <div className="border border-border rounded-lg p-3 bg-card">
             <div className="font-medium text-primary">Hiệu ứng 2 món</div>

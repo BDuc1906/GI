@@ -1,3 +1,4 @@
+
 import type { NextRequest } from "next/server";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
@@ -58,7 +59,7 @@ export const GET = withErrorHandling(
         prisma.artifactSet.count({ where }),
       ]);
 
-      return ok(items, { meta: buildMeta(pagination, total) });
+      return ok(items, { meta: buildMeta(pagination, total), maxAgeSec: 300 });
     },
     { prefix: "artifacts" }
   )

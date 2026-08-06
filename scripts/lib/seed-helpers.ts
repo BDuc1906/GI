@@ -1,48 +1,27 @@
 /**
- * Helper dùng chung cho toàn bộ script seed.
+ * scripts/lib/seed-helpers.ts
+ *
+ * Lớp DB (Prisma) trên nền logic thuần ở ./genshin-pure-helpers.ts. File
+ * này CHỈ nên chứa phần thật sự cần Prisma (`upsertMaterial` ghi vào bảng
+ * Material) — mọi hàm không đụng DB đã chuyển sang genshin-pure-helpers.ts
+ * và được re-export lại đây để các script cũ (`import {...} from
+ * "./lib/seed-helpers"`) không phải sửa gì cả.
  */
 
-export function getEnkaUrl(filename?: string | null, mihoyoUrl?: string | null): string | null {
-  if (filename) return `https://enka.network/ui/${filename}.png`;
-  if (mihoyoUrl) return mihoyoUrl;
-  return null;
-}
+import type { Prisma } from "@prisma/client";
+import {
+  getEnkaUrl,
+  getElementIconUrl,
+  getBestImageUrl,
+  slugify,
+  getMaterialIconFilename,
+} from "./genshin-pure-helpers";
 
-export function getElementIconUrl(element?: string | null): string | null {
-  if (!element) return null;
-  const known: Record<string, string> = {
-    Anemo: "https://static.wikia.nocookie.net/gensin-impact/images/1/10/Element_Anemo.svg",
-    Geo: "https://static.wikia.nocookie.net/gensin-impact/images/9/9b/Element_Geo.svg",
-    Electro: "https://static.wikia.nocookie.net/gensin-impact/images/f/ff/Element_Electro.svg",
-    Dendro: "https://static.wikia.nocookie.net/gensin-impact/images/7/73/Element_Dendro.svg",
-    Hydro: "https://static.wikia.nocookie.net/gensin-impact/images/8/80/Element_Hydro.svg",
-    Pyro: "https://static.wikia.nocookie.net/gensin-impact/images/2/2c/Element_Pyro.svg",
-    Cryo: "https://static.wikia.nocookie.net/gensin-impact/images/7/72/Element_Cryo.svg",
-  };
-  return known[element.trim()] ?? null;
-}
-
-export function slugify(name: string): string {
-  return name
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-}
-
-export function getMaterialIconFilename(material: unknown): string | null {
-  const m = material as { images?: Record<string, string | undefined> } | null | undefined;
-  if (!m?.images) return null;
-  return m.images.filename_icon ?? m.images.filename_full ?? m.images.filename ?? null;
-}
+export { getEnkaUrl, getElementIconUrl, getBestImageUrl, slugify, getMaterialIconFilename };
 
 /**
  * Kiểu thật của genshindb.materials(): hỗ trợ cả dạng tra 1 tên
  * ("Vayuda Turquoise Sliver") lẫn dạng liệt kê tên ("names", { matchCategories }).
- * Bản trước đây khai báo chỉ nhận 1 tham số nhưng code bên dưới lại gọi với
- * 2 tham số -> lỗi biên dịch "Expected 1 arguments, but got 2" khi build với
- * tsconfig "strict": true. Khai báo lại đúng chữ ký để khớp cách gọi thật.
  */
 type MaterialsFn = (
   name: string,
@@ -50,10 +29,7 @@ type MaterialsFn = (
 ) => unknown;
 
 // Danh sách tên nguyên liệu KHÔNG tra được icon — in tổng kết ở cuối run
-// (cùng cách làm với CHARACTERS_MISSING_BOOK_TYPE bên seed-characters.ts)
-// thay vì im lặng bỏ qua như trước. Trước đây nếu cả 3 bước lookup đều thất
-// bại, hàm chỉ đơn giản để iconUrl = null mà không log gì -> không ai biết
-// material nào bị thiếu cho tới khi thấy icon "-" trên web.
+// thay vì im lặng bỏ qua.
 export const MATERIALS_MISSING_ICON: string[] = [];
 
 export function printMissingIconSummary(): void {
@@ -75,27 +51,32 @@ export function printMissingIconSummary(): void {
 }
 
 // Fallback tay cho nguyên liệu mà genshin-db chưa có data (vd nội dung vùng
-// mới ra mắt). Điền thủ công filename icon từ enka.network khi phát hiện
-// qua MATERIALS_MISSING_ICON, để không phải đợi package cộng đồng cập nhật.
-// Key: tên nguyên liệu (đúng chính tả trong game), value: filename trên enka
-// (không gồm .png), dùng lại getEnkaUrl() bên dưới.
-const MANUAL_ICON_OVERRIDES: Record<string, string> = {
-  // "Frostlamp Flower": "UI_ItemIcon_...",
-};
+// mới ra mắt). Nạp từ scripts/data/image-overrides.json qua
+// loadManualOverrides() (xem seed-characters.ts) thay vì hard-code ở đây —
+// để sửa 1 override không cần sửa code, chỉ cần sửa file JSON.
+export let MANUAL_ICON_OVERRIDES: Record<string, string> = {};
 
+export function loadManualOverrides(overrides: Record<string, string>) {
+  MANUAL_ICON_OVERRIDES = overrides;
+}
 
 /**
  * upsert 1 nguyên liệu vào bảng Material, tra icon từ genshin-db theo 3 bước
  * dự phòng (trực tiếp -> chuẩn hóa tên -> dò trong danh sách tên).
  *
  * Quan trọng: mỗi bước tra cứu được bọc try/catch RIÊNG (qua `tryLookup`).
- * Trước đây cả 3 bước nằm chung 1 try/catch duy nhất -> nếu bước 1 ném lỗi
- * (một số version của genshin-db throw thay vì trả về giá trị rỗng khi
- * không khớp tên), toàn bộ hàm nhảy thẳng ra catch và bỏ qua luôn bước 2 + 3,
- * dù đó chính là lý do các bước dự phòng này tồn tại.
+ * Nếu bước 1 ném lỗi (một số version của genshin-db throw thay vì trả về
+ * giá trị rỗng khi không khớp tên), hàm vẫn tiếp tục thử bước 2 + 3 thay vì
+ * nhảy thẳng ra ngoài bỏ qua luôn các bước dự phòng.
+ *
+ * Đây là hàm DUY NHẤT trong toàn bộ pipeline crawl+seed thật sự ghi vào DB
+ * khi "resolve" 1 material — cả GenshinDbAdapter (fetch) lẫn
+ * buildAscensionMaterialPhases/buildTalentMaterialLevels (thuần) đều chỉ
+ * trả về {name, count}; bước seed-characters.ts gọi hàm này để đổi name
+ * thành materialId trước khi lưu vào cột JSON của Character.
  */
 export async function upsertMaterial(
-  prisma: { material: { upsert: (args: any) => Promise<unknown> } },
+  prisma: { material: { upsert: (args: Prisma.MaterialUpsertArgs) => Promise<unknown> } },
   genshindb: { materials: MaterialsFn },
   materialName: string
 ): Promise<string> {

@@ -1,3 +1,4 @@
+
 import type { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { ok } from "@/lib/api/response";
@@ -15,7 +16,7 @@ export const GET = withErrorHandling(
       const artifactSet = await prisma.artifactSet.findUnique({ where: { id } });
       if (!artifactSet) throw ApiError.notFound(`Không tìm thấy thánh di vật với id "${id}"`);
 
-      return ok(artifactSet);
+      return ok(artifactSet, { maxAgeSec: 300 });
     },
     { prefix: "artifacts-detail" }
   )

@@ -1,8 +1,11 @@
+
 import Link from "next/link";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { rarityGlowClass } from "@/lib/theme";
 import { SafeImage } from "@/components/SafeImage";
+import { Pagination } from "@/components/Pagination";
+import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/pagination";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,21 +14,30 @@ export const metadata: Metadata = {
 };
 
 interface PageProps {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<{ q?: string; page?: string }>;
 }
 
 export default async function ArtifactsPage({ searchParams }: PageProps) {
-  const { q } = await searchParams;
+  const { q, page: pageRaw } = await searchParams;
+  const page = parsePageParam(pageRaw);
 
   // Trước đây: `const where: any = {}`. Dùng type Prisma sinh sẵn để tránh
   // lỗi field/kiểu dữ liệu sai chỉ lộ ra lúc chạy thay vì lúc build.
   const where: Prisma.ArtifactSetWhereInput = {};
   if (q) where.name = { contains: q, mode: "insensitive" };
 
-  const sets = await prisma.artifactSet.findMany({
-    where,
-    orderBy: { name: "asc" },
-  });
+  // Trước đây không có take/skip — tải toàn bộ bảng thánh di vật mỗi lần
+  // (xem lý do tương tự ở /weapons/page.tsx, /characters/page.tsx).
+  const [sets, total] = await Promise.all([
+    prisma.artifactSet.findMany({
+      where,
+      orderBy: { name: "asc" },
+      skip: (page - 1) * LIST_PAGE_SIZE,
+      take: LIST_PAGE_SIZE,
+    }),
+    prisma.artifactSet.count({ where }),
+  ]);
+  const totalPages = totalPagesFor(total);
 
   const buildQuery = (params: Record<string, string | undefined>) => {
     const sp = new URLSearchParams();
@@ -36,6 +48,7 @@ export default async function ArtifactsPage({ searchParams }: PageProps) {
     });
     return sp.toString();
   };
+  const buildPageHref = (p: number) => `/artifacts?${buildQuery({ page: p > 1 ? String(p) : undefined })}`;
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -110,6 +123,8 @@ export default async function ArtifactsPage({ searchParams }: PageProps) {
           );
         })}
       </div>
+
+      <Pagination page={page} totalPages={totalPages} buildHref={buildPageHref} />
     </div>
   );
 }

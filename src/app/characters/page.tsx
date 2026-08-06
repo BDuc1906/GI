@@ -185,27 +185,21 @@ export default async function CharactersPage({ searchParams }: PageProps) {
               className={`relic-frame ${rarityGlowClass(target.rarity)} overflow-hidden group`}
             >
               <div className="relative aspect-square w-full overflow-hidden bg-secondary/50">
-                <div
-                  className="absolute inset-0"
-                  style={{ clipPath: "polygon(0 0, 50% 0, 50% 100%, 0 100%)" }}
-                >
-                  {boyImg ? (
-                    <SafeImage src={boyImg} alt={`Traveler (${el}) - Nam`} fill priority={index < 6} sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 213px" className="object-cover group-hover:scale-110 transition-transform duration-500" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-muted text-[10px]">—</div>
-                  )}
-                </div>
-                <div
-                  className="absolute inset-0"
-                  style={{ clipPath: "polygon(50% 0, 100% 0, 100% 100%, 50% 100%)" }}
-                >
-                  {girlImg ? (
-                    <SafeImage src={girlImg} alt={`Traveler (${el}) - Nữ`} fill priority={index < 6} sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 213px" className="object-cover group-hover:scale-110 transition-transform duration-500" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-muted text-[10px]">—</div>
-                  )}
-                </div>
-                <div className="absolute top-0 bottom-0 left-1/2 w-px bg-black/40 -translate-x-1/2" />
+                {boyImg && girlImg ? (
+                  // Cả hai đều có -> ghép đôi
+                  <>
+                    <div className="absolute inset-0" style={{ clipPath: "polygon(0 0, 50% 0, 50% 100%, 0 100%)" }}>
+                      <SafeImage src={boyImg} alt={`Traveler (${el}) - Nam`} fill priority={index < 6} sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 213px" className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                    </div>
+                    <div className="absolute inset-0" style={{ clipPath: "polygon(50% 0, 100% 0, 100% 100%, 50% 100%)" }}>
+                      <SafeImage src={girlImg} alt={`Traveler (${el}) - Nữ`} fill priority={index < 6} sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 213px" className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                    </div>
+                    <div className="absolute top-0 bottom-0 left-1/2 w-px bg-black/40 -translate-x-1/2" />
+                  </>
+                ) : (
+                  // Chỉ có một bên -> hiển thị full
+                  <SafeImage src={boyImg || girlImg || ''} alt={`Traveler (${el})`} fill priority={index < 6} sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 213px" className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                )}
                 <div className="absolute top-2 left-2 bg-black/40 backdrop-blur-sm rounded-full p-1">
                   <ElementIcon vision={el} iconUrl={target.elementIcon} size={16} />
                 </div>
@@ -224,7 +218,6 @@ export default async function CharactersPage({ searchParams }: PageProps) {
             </Link>
           );
         })}
-
         {nonTraveler.map((c, index) => (
           <Link
             key={c.id}

@@ -1,5 +1,7 @@
+
 import "./globals.css";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { SiteNav } from "@/components/SiteNav";
 
@@ -37,10 +39,31 @@ export const metadata: Metadata = {
   },
 };
 
+// schema.org WebSite + SearchAction — cho phép Google hiển thị ô tìm kiếm
+// ngay trong kết quả tìm kiếm ("Sitelinks Search Box") trỏ thẳng vào
+// /search?q={từ khoá}, khớp đúng route thật của SearchPage
+// (src/app/search/page.tsx). Đặt ở layout gốc vì đây là metadata cấp
+// TOÀN site (1 site chỉ có 1 SearchAction), không phải cấp từng trang.
+const WEBSITE_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: SITE_TITLE,
+  url: SITE_URL,
+  potentialAction: {
+    "@type": "SearchAction",
+    target: `${SITE_URL}/search?q={search_term_string}`,
+    "query-input": "required name=search_term_string",
+  },
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="vi" suppressHydrationWarning>
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_JSON_LD) }}
+        />
         <ThemeProvider>
           <SiteNav />
           <main className="max-w-7xl mx-auto px-4 md:px-8 py-8">
@@ -60,6 +83,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 miHoYo / HoYoverse
               </a>
               .
+              <br />
+              <Link href="/privacy" className="underline hover:text-[color:var(--gold-bright)] transition-colors">
+                Quyền riêng tư
+              </Link>
+              {" · "}
+              <Link href="/terms" className="underline hover:text-[color:var(--gold-bright)] transition-colors">
+                Điều khoản sử dụng
+              </Link>
             </div>
           </footer>
         </ThemeProvider>

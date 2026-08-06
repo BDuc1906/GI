@@ -1,3 +1,4 @@
+
 import type { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { ok } from "@/lib/api/response";
@@ -15,7 +16,7 @@ export const GET = withErrorHandling(
       const material = await prisma.material.findUnique({ where: { id } });
       if (!material) throw ApiError.notFound(`Không tìm thấy nguyên liệu với id "${id}"`);
 
-      return ok(material);
+      return ok(material, { maxAgeSec: 300 });
     },
     { prefix: "materials-detail" }
   )

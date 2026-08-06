@@ -41,3 +41,11 @@ repomix-output.xml
 /public/docs/
 .vercel
 
+# Dữ liệu crawl từ genshin-db (xem scripts/pipeline/crawl-characters.ts) —
+# sinh lại được bất kỳ lúc nào bằng `npm run data:crawl`, không commit để
+# tránh file lớn/lệch dữ liệu nằm trong git. Nếu cần xem lại lịch sử thay
+# đổi dữ liệu game qua từng bản, cân nhắc bỏ dòng này và commit thật (đánh
+# đổi: file có thể vài MB, đổi mỗi lần genshin-db cập nhật).
+/data/raw/
+# Sentry Config File
+.env.sentry-build-plugin

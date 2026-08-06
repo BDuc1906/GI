@@ -1,3 +1,4 @@
+
 import { describe, expect, it } from "vitest";
 import { fail, ok } from "@/lib/api/response";
 
@@ -27,6 +28,13 @@ describe("ok()", () => {
   it("cho phép override status (vd 201)", () => {
     const res = ok({ a: 1 }, { status: 201 });
     expect(res.status).toBe(201);
+  });
+
+  it("maxAgeSec override cả s-maxage lẫn stale-while-revalidate (x5)", () => {
+    const res = ok({ a: 1 }, { maxAgeSec: 3600 });
+    const cacheControl = res.headers.get("Cache-Control");
+    expect(cacheControl).toContain("s-maxage=3600");
+    expect(cacheControl).toContain("stale-while-revalidate=18000");
   });
 });
 

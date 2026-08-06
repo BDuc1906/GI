@@ -1,8 +1,11 @@
+
 import Link from "next/link";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
 import { SafeImage } from "@/components/SafeImage";
+import { Pagination } from "@/components/Pagination";
+import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/pagination";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,11 +14,12 @@ export const metadata: Metadata = {
 };
 
 interface PageProps {
-  searchParams: Promise<{ type?: string; rarity?: string; q?: string }>;
+  searchParams: Promise<{ type?: string; rarity?: string; q?: string; page?: string }>;
 }
 
 export default async function WeaponsPage({ searchParams }: PageProps) {
-  const { type, rarity, q } = await searchParams;
+  const { type, rarity, q, page: pageRaw } = await searchParams;
+  const page = parsePageParam(pageRaw);
 
   // Trước đây: `const where: any = {}`. Dùng type Prisma sinh sẵn để tránh
   // lỗi field/kiểu dữ liệu sai chỉ lộ ra lúc chạy thay vì lúc build.
@@ -24,10 +28,20 @@ export default async function WeaponsPage({ searchParams }: PageProps) {
   if (rarity) where.rarity = Number(rarity);
   if (q) where.name = { contains: q, mode: "insensitive" };
 
-  const weapons = await prisma.weapon.findMany({
-    where,
-    orderBy: [{ rarity: "desc" }, { name: "asc" }],
-  });
+  // Trước đây findMany không có take/skip — tải TOÀN BỘ bảng vũ khí mỗi
+  // lần render trang này, dù layer API (/api/weapons) đã có phân trang
+  // chuẩn từ lâu. Số lượng vũ khí tăng dần theo từng bản game mới, nên đây
+  // là nợ kỹ thuật thật, không chỉ lý thuyết.
+  const [weapons, total] = await Promise.all([
+    prisma.weapon.findMany({
+      where,
+      orderBy: [{ rarity: "desc" }, { name: "asc" }],
+      skip: (page - 1) * LIST_PAGE_SIZE,
+      take: LIST_PAGE_SIZE,
+    }),
+    prisma.weapon.count({ where }),
+  ]);
+  const totalPages = totalPagesFor(total);
 
   const types = ["Sword", "Claymore", "Polearm", "Bow", "Catalyst"];
 
@@ -36,12 +50,15 @@ export default async function WeaponsPage({ searchParams }: PageProps) {
     if (type) sp.set("type", type);
     if (rarity) sp.set("rarity", rarity);
     if (q) sp.set("q", q);
+    // Đổi filter (type/rarity/q) luôn quay về trang 1 — giữ "page" cũ ở
+    // đây sẽ dễ văng ra trang trống (vd đang ở trang 5, lọc còn 2 trang).
     Object.entries(params).forEach(([k, v]) => {
       if (v) sp.set(k, v);
       else sp.delete(k);
     });
     return sp.toString();
   };
+  const buildPageHref = (p: number) => `/weapons?${buildQuery({ page: p > 1 ? String(p) : undefined })}`;
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -50,7 +67,7 @@ export default async function WeaponsPage({ searchParams }: PageProps) {
           Kho Tàng Vũ Khí
         </h1>
         <p className="text-sm text-secondary">
-          Tìm thấy <span className="text-gold-bright font-semibold">{weapons.length}</span> thần binh tàng bảo
+          Tìm thấy <span className="text-gold-bright font-semibold">{total}</span> thần binh tàng bảo
         </p>
       </div>
 
@@ -154,6 +171,8 @@ export default async function WeaponsPage({ searchParams }: PageProps) {
           </Link>
         ))}
       </div>
+
+      <Pagination page={page} totalPages={totalPages} buildHref={buildPageHref} />
     </div>
   );
 }
