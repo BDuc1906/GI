@@ -55,7 +55,7 @@ describe("withRateLimit — đã cấu hình Upstash", () => {
   });
 
   it("cho qua + set header X-RateLimit-* khi còn quota", async () => {
-    limitMock.mockResolvedValue({ success: true, limit: 60, remaining: 59, reset: Date.now() + 60_000 });
+    limitMock.mockResolvedValue({ success: true, limit: 120, remaining: 119, reset: Date.now() + 60_000 });
 
     const { withRateLimit } = await import("@/lib/api/rate-limit");
     const handler = withRateLimit(async () => new Response("ok", { status: 200 }));
@@ -63,12 +63,12 @@ describe("withRateLimit — đã cấu hình Upstash", () => {
     const res = await handler(req({ "x-forwarded-for": "1.2.3.4" }), dummyCtx);
 
     expect(res.status).toBe(200);
-    expect(res.headers.get("X-RateLimit-Limit")).toBe("60");
-    expect(res.headers.get("X-RateLimit-Remaining")).toBe("59");
+    expect(res.headers.get("X-RateLimit-Limit")).toBe("120");
+    expect(res.headers.get("X-RateLimit-Remaining")).toBe("119");
   });
 
   it("trả 429 đúng envelope + Retry-After khi vượt quota, KHÔNG gọi tới handler thật", async () => {
-    limitMock.mockResolvedValue({ success: false, limit: 60, remaining: 0, reset: Date.now() + 15_000 });
+    limitMock.mockResolvedValue({ success: false, limit: 120, remaining: 0, reset: Date.now() + 15_000 });
 
     const { withRateLimit } = await import("@/lib/api/rate-limit");
     const innerHandler = vi.fn(async () => new Response("ok", { status: 200 }));
@@ -100,7 +100,7 @@ describe("withRateLimit — đã cấu hình Upstash", () => {
   });
 
   it("dùng lại cùng 1 Ratelimit instance cho cùng prefix/limit/window (không tạo mới mỗi request)", async () => {
-    limitMock.mockResolvedValue({ success: true, limit: 60, remaining: 59, reset: Date.now() + 60_000 });
+    limitMock.mockResolvedValue({ success: true, limit: 120, remaining: 119, reset: Date.now() + 60_000 });
     const { withRateLimit } = await import("@/lib/api/rate-limit");
     const handler = withRateLimit(async () => new Response("ok", { status: 200 }), { prefix: "test-cache" });
 
