@@ -1,15 +1,10 @@
 /**
  * scripts/seed-characters.ts
  *
- * Bước 2 (persist) trong pipeline crawl -> seed: đọc data/raw/characters.json
- * (do `npm run data:crawl` sinh ra — xem scripts/pipeline/crawl-characters.ts)
- * rồi ghi vào Postgres qua Prisma.
+ * Bước 2: Đọc dữ liệu từ data/raw/characters.json (sinh bởi crawl),
+ * resolve materialId, và upsert vào DB.
  *
- * File này KHÔNG còn tự gọi genshin-db để lấy dữ liệu nhân vật nữa — đó là
- * việc của GenshinDbAdapter (src/lib/data-sources/adapters/genshindb-adapter.ts).
- * genshin-db vẫn được require ở đây, nhưng CHỈ để tra icon nguyên liệu qua
- * upsertMaterial() khi resolve materialId — 2 việc khác nhau, xem comment
- * ở buildMaterialRefsWithIds() bên dưới.
+ * Chạy bằng: npm run db:seed
  */
 
 import { createRequire } from "module";
@@ -31,26 +26,19 @@ import type {
 const DATA_DIR = path.join(process.cwd(), "scripts", "data");
 const RAW_CHARACTERS_FILE = path.join(process.cwd(), "data", "raw", "characters.json");
 
-// Đọc image overrides (dùng khi resolve materialId qua upsertMaterial bên dưới)
+// Đọc image overrides (dùng khi resolve materialId)
 const imageOverridesPath = path.join(DATA_DIR, "image-overrides.json");
 let MANUAL_ICON_OVERRIDES: Record<string, string> = {};
 try {
   MANUAL_ICON_OVERRIDES = JSON.parse(fs.readFileSync(imageOverridesPath, "utf-8"));
   console.log(`📖 Đã đọc image-overrides.json (${Object.keys(MANUAL_ICON_OVERRIDES).length} override)`);
 } catch (err) {
-  console.warn(
-    `⚠️ Không đọc được ${imageOverridesPath} (${(err as Error).message}), sử dụng override rỗng.`
-  );
+  console.warn(`⚠️ Không đọc được ${imageOverridesPath}, sử dụng override rỗng.`);
 }
 loadManualOverrides(MANUAL_ICON_OVERRIDES);
 
 /**
- * CharacterData.ascensionMaterials/talentMaterials chỉ có {name, count} —
- * adapter (bước fetch) không được đụng DB nên không thể tự resolve
- * materialId. Ở ĐÂY (bước persist, có sẵn prisma) mới gọi upsertMaterial()
- * cho từng material để: (1) đảm bảo record Material tồn tại/có icon,
- * (2) lấy materialId gắn vào JSON lưu trong cột ascensionMaterials/
- * talentMaterials của Character, phục vụ join lúc render trang chi tiết.
+ * Resolve material references (thay name -> materialId)
  */
 async function resolveMaterialRefs(
   materials: MaterialRef[]
@@ -63,58 +51,62 @@ async function resolveMaterialRefs(
   return result;
 }
 
+type ResolvedMaterialRef = { materialId: string; name: string; count: number | null };
+
 async function resolveAscensionMaterials(
   phases: AscensionMaterialPhase[] | null
-): Promise<unknown> {
+): Promise<Array<{ phase: number; materials: ResolvedMaterialRef[] }> | null> {
   if (!phases) return null;
-  const result = [];
+  const result: Array<{ phase: number; materials: ResolvedMaterialRef[] }> = [];
   for (const p of phases) {
     result.push({ phase: p.phase, materials: await resolveMaterialRefs(p.materials) });
   }
   return result;
 }
 
-async function resolveTalentMaterials(levels: TalentMaterialLevel[] | null): Promise<unknown> {
+async function resolveTalentMaterials(
+  levels: TalentMaterialLevel[] | null
+): Promise<Array<{ level: number; materials: ResolvedMaterialRef[] }> | null> {
   if (!levels) return null;
-  const result = [];
+  const result: Array<{ level: number; materials: ResolvedMaterialRef[] }> = [];
   for (const lvl of levels) {
     result.push({ level: lvl.level, materials: await resolveMaterialRefs(lvl.materials) });
   }
   return result;
 }
 
-/** Build đúng payload cột Character từ 1 CharacterData đã crawl. */
+/**
+ * Build payload từ CharacterData (không bao gồm 4 cột ảnh hiển thị)
+ */
 async function toCharacterPayload(data: CharacterData) {
   return {
     name: data.name,
     title: data.title,
-    vision: data.vision,
-    weaponType: data.weaponType,
-    rarity: data.rarity,
+    vision: data.vision || 'Unknown',  // FALLBACK
+    weaponType: data.weaponType || 'Unknown',  // FALLBACK
+    rarity: data.rarity || 4,
     region: data.region,
     affiliation: data.affiliation,
-    // genshin-db không cung cấp ngày ra mắt thật ngoài đời — xem comment
-    // tại field này trong prisma/schema.prisma.
     releaseDate: null,
     description: data.description,
-    iconUrl: data.iconUrl,
-    sideIconUrl: data.sideIconUrl,
-    splashUrl: data.splashUrl,
-    elementIcon: data.elementIcon,
+    iconUrlOriginal: data.iconUrl,
+    sideIconUrlOriginal: data.sideIconUrl,
+    splashUrlOriginal: data.splashUrl,
+    elementIconOriginal: data.elementIcon,
     baseHp: data.baseHp,
     baseAtk: data.baseAtk,
     baseDef: data.baseDef,
     ascensionStat: data.ascensionStat,
-    ascensionMaterials: await resolveAscensionMaterials(data.ascensionMaterials),
-    talentMaterials: await resolveTalentMaterials(data.talentMaterials),
-    statsByLevel: data.statsByLevel,
+    ascensionMaterials: data.ascensionMaterials ? (await resolveAscensionMaterials(data.ascensionMaterials)) as any : undefined,
+    talentMaterials: data.talentMaterials ? (await resolveTalentMaterials(data.talentMaterials)) as any : undefined,
+    statsByLevel: data.statsByLevel ? (data.statsByLevel as any) : undefined,
     birthday: data.birthday,
     constellationName: data.constellationName,
-    voiceActors: data.voiceActors,
+    voiceActors: data.voiceActors ? (data.voiceActors as any) : undefined,
     gameVersion: data.gameVersion,
     wikiUrl: data.wikiUrl,
-    constellations: data.constellations,
-    talents: data.talents,
+    constellations: data.constellations ? (data.constellations as any) : undefined,
+    talents: data.talents ? (data.talents as any) : undefined,
   };
 }
 
@@ -138,24 +130,31 @@ export async function seedCharacters(): Promise<void> {
       const payload = await toCharacterPayload(data);
       await prisma.character.upsert({
         where: { id: data.id },
-        create: { id: data.id, ...payload },
+        create: {
+          id: data.id,
+          ...payload,
+          iconUrl: data.iconUrl,
+          sideIconUrl: data.sideIconUrl,
+          splashUrl: data.splashUrl,
+          elementIcon: data.elementIcon,
+        },
         update: payload,
       });
       count++;
     } catch (err) {
-      console.warn(`⚠ Skipped character "${data.name}" (${data.id}):`, (err as Error).message);
+      console.warn(`⚠️ Skipped character "${data.name}" (${data.id}):`, (err as Error).message);
     }
   }
 
-  console.log(`✔ Seeded ${count}/${characters.length} characters (including Traveler variants)`);
+  console.log(`✔ Seeded ${count}/${characters.length} characters`);
 
   const missingBookType = characters.filter((c) => c.missingTalentBookType).map((c) => c.name);
   if (missingBookType.length) {
     console.warn(
-      `\n⚠ ${missingBookType.length} nhân vật KHÔNG resolve được talent book type ` +
-      `(đã cảnh báo lúc crawl, xem data/raw/manifest.json):`
+      `\n⚠ ${missingBookType.length} nhân vật KHÔNG resolve được talent book type:\n` +
+      missingBookType.map((n) => `   - ${n}`).join("\n") +
+      `\n→ Cập nhật scripts/data/talent-book-mapping.json và chạy lại crawl + seed.`
     );
-    console.warn(missingBookType.map((n) => `   - ${n}`).join("\n"));
   } else {
     console.log("✔ Mọi nhân vật đều resolve được talent book type.");
   }

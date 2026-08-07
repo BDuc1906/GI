@@ -197,8 +197,10 @@ export default async function CharactersPage({ searchParams }: PageProps) {
                     <div className="absolute top-0 bottom-0 left-1/2 w-px bg-black/40 -translate-x-1/2" />
                   </>
                 ) : (
-                  // Chỉ có một bên -> hiển thị full
-                  <SafeImage src={boyImg || girlImg || ''} alt={`Traveler (${el})`} fill priority={index < 6} sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 213px" className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                  // Chỉ có một bên -> hiển thị full. `src` chấp nhận
+                  // null/undefined trực tiếp (xem SafeImage.tsx) — không còn
+                  // cần ép '' khi cả 2 nguồn đều thiếu.
+                  <SafeImage src={boyImg || girlImg} alt={`Traveler (${el})`} fill priority={index < 6} sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 213px" className="object-cover group-hover:scale-110 transition-transform duration-500" />
                 )}
                 <div className="absolute top-2 left-2 bg-black/40 backdrop-blur-sm rounded-full p-1">
                   <ElementIcon vision={el} iconUrl={target.elementIcon} size={16} />

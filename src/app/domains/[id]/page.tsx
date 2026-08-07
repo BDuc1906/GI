@@ -68,6 +68,7 @@ export default async function DomainDetail({ params }: PageProps) {
           <div className="relative w-40 h-40 rounded-xl border border-border bg-card shrink-0 overflow-hidden">
             <SafeImage
               src={d.imageUrl}
+              fallbackSrcs={[d.imageUrlOriginal]}
               alt={d.name}
               fill
               sizes="160px"

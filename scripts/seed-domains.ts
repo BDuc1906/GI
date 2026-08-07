@@ -82,6 +82,12 @@ export async function seedDomains(): Promise<void> {
         materials.push({ materialId, name: item.name });
       }
 
+      // Ảnh GỐC (hotlink) tại lần crawl này — ghi tự do mỗi lần seed vào
+      // imageUrlOriginal. Cột imageUrl (hiển thị) do
+      // scripts/mirror-images-to-r2.ts sở hữu sau lần mirror đầu tiên và
+      // KHÔNG được set ở nhánh `update` bên dưới.
+      const imageUrlOriginal = getEnkaUrl(d.images?.filename_image, null);
+
       const payload = {
         name: baseName,
         category,
@@ -97,14 +103,16 @@ export async function seedDomains(): Promise<void> {
         monsterNames: Array.isArray(d.monsterList)
           ? d.monsterList.map((m: any) => m?.name).filter(Boolean)
           : [],
-        imageUrl: getEnkaUrl(d.images?.filename_image, null),
+        imageUrlOriginal,
         gameVersion: d.version ?? null,
       };
 
       const id = slugify(baseName);
       await prisma.domain.upsert({
         where: { id },
-        create: { id, ...payload },
+        // Record mới -> chưa mirror lần nào, tạm hiển thị thẳng bằng hotlink.
+        create: { id, ...payload, imageUrl: imageUrlOriginal },
+        // Record đã tồn tại -> KHÔNG đụng imageUrl.
         update: payload,
       });
       count++;

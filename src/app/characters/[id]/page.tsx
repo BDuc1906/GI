@@ -1,4 +1,3 @@
-
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
@@ -88,36 +87,40 @@ export default async function CharacterDetail({ params }: PageProps) {
       // Cả hai đều có -> ghép đôi
       <>
         <div className="absolute inset-0" style={{ clipPath: "polygon(0 0, 50% 0, 50% 100%, 0 100%)" }}>
-          <SafeImage src={boySplash} alt={`${c.name} - Nam`} fill className="object-cover" sizes="(max-width: 640px) 100vw, 224px" />
+          <SafeImage src={boySplash} alt={`${c.name} - Nam`} fill className="object-cover" sizes="(max-width: 640px) 100vw, 224px" fallbackSrcs={[c.iconUrl, c.iconUrlOriginal]} />
         </div>
         <div className="absolute inset-0" style={{ clipPath: "polygon(50% 0, 100% 0, 100% 100%, 50% 100%)" }}>
-          <SafeImage src={girlSplash} alt={`${c.name} - Nữ`} fill className="object-cover" sizes="(max-width: 640px) 100vw, 224px" />
+          <SafeImage src={girlSplash} alt={`${c.name} - Nữ`} fill className="object-cover" sizes="(max-width: 640px) 100vw, 224px" fallbackSrcs={[c.iconUrl, c.iconUrlOriginal]} />
         </div>
         <div className="absolute top-0 bottom-0 left-1/2 w-px bg-black/40 -translate-x-1/2" />
       </>
     ) : (
-      // Chỉ có một bên -> hiển thị full ảnh (hoặc icon nếu không có splash)
+      // Chỉ có một bên -> hiển thị full ảnh (hoặc icon nếu không có splash).
+      // `src` chấp nhận null/undefined trực tiếp (xem SafeImage.tsx) — không
+      // còn cần ép '' khi cả 2 nguồn đều thiếu.
       <SafeImage 
-        src={boySplash || girlSplash || c.iconUrl || ''} 
+        src={boySplash || girlSplash || c.iconUrl} 
         alt={c.name} 
         fill 
         className="object-cover" 
         sizes="(max-width: 640px) 100vw, 224px" 
         priority={true}
+        fallbackSrcs={[c.iconUrl, c.iconUrlOriginal]}
       />
     )}
   </div>
 ) : (
-  // Fallback splash -> icon
+  // Fallback splash -> icon -> URL gốc (hotlink) đã lưu lúc crawl, nếu cả
+  // bản mirror trên R2 lẫn icon cũng lỗi.
   <div className="relative w-full sm:w-56 aspect-[3/4] rounded-lg overflow-hidden border border-gold/30 bg-secondary/40 shrink-0">
     <SafeImage
-      src={c.splashUrl || c.iconUrl || ''}
+      src={c.splashUrl || c.iconUrl}
       alt={c.name}
       fill
       className="object-cover"
       sizes="(max-width: 640px) 100vw, 224px"
       priority={true}
-      fallbackSrc={c.iconUrl || undefined}
+      fallbackSrcs={[c.iconUrl, c.splashUrlOriginal, c.iconUrlOriginal]}
     />
   </div>
 )}

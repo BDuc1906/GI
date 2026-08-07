@@ -45,6 +45,13 @@ export async function seedWeapons(): Promise<void> {
       // Lấy nguyên liệu đột phá
       const ascensionMaterials = await getWeaponAscensionMaterials(w.costs);
 
+      // Ảnh GỐC (hotlink) tại lần crawl này — ghi tự do mỗi lần seed vào
+      // iconUrlOriginal. Cột iconUrl (hiển thị) do
+      // scripts/mirror-images-to-r2.ts sở hữu sau lần mirror đầu tiên và
+      // KHÔNG được set ở nhánh `update` bên dưới — xem comment chi tiết ở
+      // Character.iconUrlOriginal trong prisma/schema.prisma.
+      const iconUrlOriginal = getEnkaUrl(w.images?.filename_icon, w.images?.mihoyo_icon);
+
       const payload = {
         name: w.name,
         type: w.weaponText || null,
@@ -55,14 +62,16 @@ export async function seedWeapons(): Promise<void> {
         effectName: w.effectName || null,
         passiveByRefinement: refinements.length ? JSON.parse(JSON.stringify(refinements)) : null,
         description: w.description || null,
-        iconUrl: getEnkaUrl(w.images?.filename_icon, w.images?.mihoyo_icon),
+        iconUrlOriginal,
         ascensionMaterials: ascensionMaterials as any,
       };
 
       const id = slugify(w.name);
       await prisma.weapon.upsert({
         where: { id },
-        create: { id, ...payload },
+        // Record mới -> chưa mirror lần nào, tạm hiển thị thẳng bằng hotlink.
+        create: { id, ...payload, iconUrl: iconUrlOriginal },
+        // Record đã tồn tại -> KHÔNG đụng iconUrl.
         update: payload,
       });
       count++;

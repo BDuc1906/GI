@@ -22,10 +22,38 @@ model Character {
   // (vd HoYoLAB changelog hoặc fandom wiki scrape riêng).
   releaseDate DateTime?
   description String?  @db.Text
+  // ---- Ảnh HIỂN THỊ (dùng trong toàn bộ UI) ----
+  // Sở hữu: scripts/mirror-images-to-r2.ts SAU LẦN MIRROR ĐẦU TIÊN. Trước
+  // đó (nhân vật vừa seed, chưa mirror lần nào) do scripts/seed-characters.ts
+  // set tạm bằng hotlink lúc create. scripts/seed-characters.ts KHÔNG BAO
+  // GIỜ được ghi đè các cột này ở nhánh update — xem comment ở cột
+  // *Original bên dưới để hiểu lý do tách 2 nhóm cột.
   iconUrl     String?
   sideIconUrl String?
   splashUrl   String?
   elementIcon    String?
+  // ---- Ảnh GỐC (hotlink enka.network/mihoyo tại lần crawl gần nhất) ----
+  // Sở hữu: scripts/seed-characters.ts — ghi đè TỰ DO mỗi lần
+  // `npm run data:crawl && npm run db:seed` chạy (kể cả chạy tự động hàng
+  // tuần qua .github/workflows/update-data.yml), vì đây chỉ là bản ghi
+  // "nguồn dữ liệu gốc nói gì", không phải ảnh thật sự đang hiển thị.
+  //
+  // Lý do bắt buộc phải tách khỏi cột hiển thị ở trên: trước khi có 2 cột
+  // này, seed-characters.ts và mirror-images-to-r2.ts cùng ghi vào 1 cột
+  // (iconUrl/sideIconUrl/splashUrl) — mỗi lần seed tự động chạy lại sẽ ghi
+  // đè URL đã mirror sang R2 bằng hotlink gốc, khiến toàn bộ công mirror
+  // trước đó bị hoàn tác âm thầm (không lỗi, không log, ảnh chỉ đơn giản
+  // quay lại hotlink rồi có thể chết theo API nguồn). scripts/mirror-images-to-r2.ts
+  // đọc nguồn tải từ các cột *Original này, KHÔNG đọc từ cột hiển thị.
+  //
+  // src/components/SafeImage.tsx cũng dùng các cột này làm URL dự phòng
+  // cuối cùng khi ảnh trên R2 lỗi (qua prop `fallbackSrcs`) — đây là URL
+  // gốc THẬT (không phải suy đoán từ tên file trên R2, vì tên object trên
+  // R2 là tên generic do mirror script đặt, không giữ tên file gốc).
+  iconUrlOriginal     String?
+  sideIconUrlOriginal String?
+  splashUrlOriginal   String?
+  elementIconOriginal String?
   baseHp      Float?
   baseAtk     Float?
   baseDef     Float?
@@ -63,7 +91,11 @@ model Character {
 model Material {
   id        String   @id // slug tên nguyên liệu, vd "vayuda-turquoise-sliver"
   name      String   @unique
+  // Ảnh hiển thị — sở hữu bởi mirror-images-to-r2.ts sau lần mirror đầu.
   iconUrl   String?
+  // Ảnh gốc (hotlink) — sở hữu bởi seed-helpers.ts::upsertMaterial, ghi đè
+  // tự do mỗi lần seed. Xem comment chi tiết ở Character.iconUrlOriginal.
+  iconUrlOriginal String?
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
 }
@@ -83,7 +115,11 @@ model Weapon {
   // trùng lặp dữ liệu và không được UI dùng tới).
   passiveByRefinement Json?
   description String?  @db.Text
+  // Ảnh hiển thị — sở hữu bởi mirror-images-to-r2.ts sau lần mirror đầu.
   iconUrl     String?
+  // Ảnh gốc (hotlink) — sở hữu bởi seed-weapons.ts, ghi đè tự do mỗi lần
+  // seed. Xem comment chi tiết ở Character.iconUrlOriginal.
+  iconUrlOriginal String?
   ascensionMaterials Json?
   updatedAt   DateTime @updatedAt
   createdAt   DateTime @default(now())
@@ -103,7 +139,12 @@ model ArtifactSet {
   twoPieceBonus  String? @db.Text
   fourPieceBonus String? @db.Text
   pieces      Json?
+  // Ảnh hiển thị — sở hữu bởi mirror-images-to-r2.ts sau lần mirror đầu.
   iconUrl     String?
+  // Ảnh gốc (hotlink) — sở hữu bởi seed-artifacts.ts, ghi đè tự do mỗi lần
+  // seed. Xem comment chi tiết ở Character.iconUrlOriginal. (Riêng các ảnh
+  // trong `pieces` JSON không bị mirror nên không cần cột Original tương ứng.)
+  iconUrlOriginal String?
   updatedAt   DateTime @updatedAt
   createdAt   DateTime @default(now())
 
@@ -138,10 +179,30 @@ model Domain {
   // Tên quái xuất hiện trong bí cảnh — chưa map sang bảng riêng, để plain
   // text; sẽ nối vào bảng Enemy khi làm giai đoạn "Enemies/Bosses".
   monsterNames String[]
+  // Ảnh hiển thị — sở hữu bởi mirror-images-to-r2.ts sau lần mirror đầu.
   imageUrl    String?
+  // Ảnh gốc (hotlink) — sở hữu bởi seed-domains.ts, ghi đè tự do mỗi lần
+  // seed. Xem comment chi tiết ở Character.iconUrlOriginal.
+  imageUrlOriginal String?
   gameVersion String?  // phiên bản game domain này xuất hiện, vd "4.0"
   updatedAt   DateTime @updatedAt
   createdAt   DateTime @default(now())
 
   @@index([category])
+}
+// ---- Pipeline Run (giám sát tự động) ----
+model PipelineRun {
+  id          String   @id @default(cuid())
+  name        String   // "crawl", "seed", "mirror", "update-data"
+  status      String   // "started", "success", "failed"
+  startedAt   DateTime @default(now())
+  endedAt     DateTime?
+  durationMs  Int?
+  error       String?  @db.Text
+  details     Json?    // metadata: rows affected, images mirrored, etc.
+  createdAt   DateTime @default(now())
+
+  @@index([name])
+  @@index([status])
+  @@index([startedAt(sort: Desc)])
 }

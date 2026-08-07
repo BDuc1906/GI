@@ -69,7 +69,7 @@ export default async function SearchPage({ searchParams }: PageProps) {
       where: { name: { contains: query, mode: "insensitive" } },
       orderBy: { name: "asc" },
       take: MAX_RESULTS_PER_TYPE,
-      select: { id: true, name: true, category: true, imageUrl: true },
+      select: { id: true, name: true, category: true, imageUrl: true, imageUrlOriginal: true },
     }),
   ]);
 
@@ -243,7 +243,14 @@ export default async function SearchPage({ searchParams }: PageProps) {
               <Link key={d.id} href={`/domains/${d.id}`} className="relic-frame overflow-hidden group flex gap-3 p-3">
                 <div className="relative w-14 h-14 shrink-0 rounded-lg bg-secondary/40 overflow-hidden">
                   {d.imageUrl ? (
-                    <SafeImage src={d.imageUrl} alt={d.name} fill sizes="56px" className="object-cover" />
+                    <SafeImage
+                      src={d.imageUrl}
+                      fallbackSrcs={[d.imageUrlOriginal]}
+                      alt={d.name}
+                      fill
+                      sizes="56px"
+                      className="object-cover"
+                    />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-muted text-[10px]">—</div>
                   )}

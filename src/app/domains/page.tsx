@@ -142,6 +142,7 @@ export default async function DomainsPage({ searchParams }: PageProps) {
               {d.imageUrl ? (
                 <SafeImage
                   src={d.imageUrl}
+                  fallbackSrcs={[d.imageUrlOriginal]}
                   alt={d.name}
                   fill
                   sizes="80px"

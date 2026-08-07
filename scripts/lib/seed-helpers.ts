@@ -74,9 +74,21 @@ export function loadManualOverrides(overrides: Record<string, string>) {
  * buildAscensionMaterialPhases/buildTalentMaterialLevels (thuần) đều chỉ
  * trả về {name, count}; bước seed-characters.ts gọi hàm này để đổi name
  * thành materialId trước khi lưu vào cột JSON của Character.
+ *
+ * SỞ HỮU CỘT ẢNH: `iconUrl` (cột hiển thị) chỉ được set ở nhánh `create`
+ * (record vừa tạo, chưa có ảnh nào để mirror). Ở nhánh `update` KHÔNG được
+ * đụng vào `iconUrl` nữa — cột đó do scripts/mirror-images-to-r2.ts sở hữu
+ * sau khi đã mirror sang R2 lần đầu. Hàm này chỉ tự do ghi đè
+ * `iconUrlOriginal` (bản ghi "genshin-db nói icon hiện tại là gì") ở cả 2
+ * nhánh. Xem comment chi tiết tại Character.iconUrlOriginal trong
+ * prisma/schema.prisma để hiểu lý do tách 2 cột.
  */
 export async function upsertMaterial(
-  prisma: { material: { upsert: (args: Prisma.MaterialUpsertArgs) => Promise<unknown> } },
+  prisma: {
+    material: {
+      upsert: (args: Prisma.MaterialUpsertArgs) => Promise<unknown>;
+    };
+  },
   genshindb: { materials: MaterialsFn },
   materialName: string
 ): Promise<string> {
@@ -128,8 +140,8 @@ export async function upsertMaterial(
 
   await prisma.material.upsert({
     where: { id },
-    create: { id, name: materialName, iconUrl },
-    update: { iconUrl },
+    create: { id, name: materialName, iconUrl, iconUrlOriginal: iconUrl },
+    update: { iconUrlOriginal: iconUrl },
   });
   return id;
 }
