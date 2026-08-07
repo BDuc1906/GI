@@ -87,7 +87,7 @@ jobs:
 
       - name: Create issue if verification failed
         if: steps.diff.outputs.changed == 'true' && steps.verify.outcome == 'failure'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             github.rest.issues.create({
