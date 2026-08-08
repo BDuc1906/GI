@@ -23,6 +23,7 @@ import {
   createTalentBookResolver,
   getStatsByLevel,
   getTalentsAndConstellations,
+  resolveTravelerTalentBook,
 } from "../lib/genshin-pure-helpers.js";
 import type { CharacterData, VoiceActors } from "../../src/lib/data-sources/types";
 
@@ -65,16 +66,37 @@ function crawlCharacter(name: string): CharacterData | null {
     const elementIcon = getElementIconUrl(raw.vision);
 
     // ---- Talent book ----
-    const bookType = resolveTalentBook(raw.name);
-    const bossMaterialName = getBossMaterialName(raw.costs, bossMaterialNames);
+    // BUG ĐÃ SỬA (13 nhân vật báo "KHÔNG resolve được talent book type"):
+    // trước đây LUÔN tra map thủ công talent-book-mapping.json trước —
+    // 11 nhân vật Natlan mới chưa kịp thêm vào file đó là fail ngay dù
+    // genshin-db thừa dữ liệu. Giờ ưu tiên lấy TRỰC TIẾP từ
+    // talents().costs (xem deriveBookTypeFromTalentCosts) — đúng cho MỌI
+    // nhân vật thường, không cần cập nhật map tay nữa. Map thủ công +
+    // resolveTravelerTalentBook(vision) chỉ còn dùng làm fallback, chủ
+    // yếu cho Aether/Lumine (genshin-db 5.2.12 không tách biến thể nguyên
+    // tố cho Traveler nên talents("Aether")/raw.vision đều rỗng — 2 nhân
+    // vật này vẫn phải khai tay trong talent-book-mapping.json).
+    const { talents, constellations, talentMaterials: talentMaterialsFromCosts, bookType: bookTypeFromCosts } =
+      getTalentsAndConstellations(genshindb, raw.name);
 
-    const talentMaterials = bookType
-      ? buildTalentMaterialLevels(bookType, bossMaterialName)
-      : null;
+    const bookType =
+      bookTypeFromCosts ??
+      (raw.name === "Aether" || raw.name === "Lumine"
+        ? resolveTravelerTalentBook(raw.vision)
+        : null) ??
+      resolveTalentBook(raw.name);
+    const bossMaterialName = getBossMaterialName(raw.costs, bossMaterialNames);
 
     const ascensionMaterials = buildAscensionMaterialPhases(raw.costs);
     const statsByLevel = getStatsByLevel(raw.stats);
-    const { talents, constellations } = getTalentsAndConstellations(genshindb, raw.name);
+
+    // Ưu tiên nguồn THẬT (talents().costs — đủ cả nguyên liệu quái vùng,
+    // xem comment ở buildTalentMaterialLevelsFromRawCosts). Chỉ rơi về
+    // bảng tự dựng generic (thiếu nguyên liệu quái vùng) khi genshin-db
+    // không trả về costs cho nhân vật này.
+    const talentMaterials =
+      talentMaterialsFromCosts ??
+      (bookType ? buildTalentMaterialLevels(bookType, bossMaterialName) : null);
 
     const voiceActors: VoiceActors = {
       english: raw.voice?.en || null,

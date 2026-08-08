@@ -7,6 +7,16 @@ const HOTLINK_REMOTE_PATTERNS: RemotePattern[] = [
   { protocol: "https", hostname: "enka.network" },
   { protocol: "https", hostname: "static.wikia.nocookie.net" },
   { protocol: "https", hostname: "upload-os-bbs.mihoyo.com" },
+  // Nguồn CHÍNH cho icon kỹ năng/cung mệnh (getUiAssetUrl trong
+  // src/lib/data-sources/seed-helpers.ts) — enka.network không mirror các
+  // asset UI_* dạng này (chỉ mirror ảnh hiển thị trên chính showcase của
+  // nó, không phải toàn bộ asset UI_* của game), nên gi.yatta.moe
+  // (Project Amber, dump toàn bộ asset UI_* từ ExcelBinOutput) được dùng
+  // trực tiếp làm nguồn chính, không phải fallback. Thiếu domain này gây
+  // lỗi runtime "hostname is not configured under images in next.config.js"
+  // trên mọi trang render icon kỹ năng/cung mệnh (vd trang chi tiết nhân
+  // vật, /characters).
+  { protocol: "https", hostname: "gi.yatta.moe" },
 ];
 
 /**

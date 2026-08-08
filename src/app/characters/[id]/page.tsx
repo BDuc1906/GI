@@ -4,6 +4,7 @@ import { rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
 import { ElementIcon } from "@/components/ElementIcon";
 import { SafeImage } from "@/components/SafeImage";
 import { CharacterLevelSlider } from "@/components/CharacterLevelSlider";
+import { TalentMaterialSlider } from "@/components/TalentMaterialSlider";
 import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 import type { Metadata } from "next";
 import {
@@ -63,11 +64,16 @@ export default async function CharacterDetail({ params }: PageProps) {
       if (m.materialId) materialIds.add(m.materialId);
     }
   }
-  const materialIcons = await prisma.material.findMany({
+  const materialIconsRaw = await prisma.material.findMany({
     where: { id: { in: Array.from(materialIds) } },
     select: { id: true, iconUrl: true },
   });
-  const materialIconMap = new Map(materialIcons.map((m) => [m.id, m.iconUrl]));
+  const materialIconMap = new Map(materialIconsRaw.map((m) => [m.id, m.iconUrl]));
+  // Bản plain-object của map trên để truyền được qua boundary Server -> Client
+  // Component (TalentMaterialSlider là "use client", không nhận Map trực tiếp).
+  const materialIconRecord: Record<string, string | null | undefined> = Object.fromEntries(
+    materialIconMap
+  );
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
@@ -203,8 +209,6 @@ export default async function CharacterDetail({ params }: PageProps) {
         </div>
       </div>
 
-      
-
       {/* Level Slider — tương tác, tính real-time từ statsByLevel thật */}
       {statsByLevel.length > 0 && (
         <section className="mb-8">
@@ -214,7 +218,6 @@ export default async function CharacterDetail({ params }: PageProps) {
           <CharacterLevelSlider statsByLevel={statsByLevel} ascensionStat={c.ascensionStat} />
         </section>
       )}
-
 
       {/* Ascension Materials */}
       {ascensionMaterials.length > 0 && (
@@ -254,76 +257,98 @@ export default async function CharacterDetail({ params }: PageProps) {
         </section>
       )}
 
-      {/* Talent Level-Up Materials - Bảng chi tiết */}
-      {talentMaterials.length > 0 && (
-        <section className="mb-8">
-          <h2 className="font-display text-xl font-bold mb-4 text-gold uppercase tracking-wide border-b border-border pb-2">
-            Nguyên Liệu Nâng Cấp Thiên Phú
-          </h2>
-          <div className="relic-frame bg-card border border-border rounded-xl overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr>
-                  <th className="w-20">Cấp</th>
-                  <th>Nguyên liệu</th>
-                </tr>
-              </thead>
-              <tbody>
-                {talentMaterials.map((levelData) => {
-                  const materials = levelData.materials || [];
-                  return (
-                    <tr key={levelData.level}>
-                      <td className="font-medium text-primary">Cấp {levelData.level}</td>
-                      <td>
-                        <div className="flex flex-wrap gap-2 py-1">
-                          {materials.map((m, idx: number) => {
-                            const iconUrl = m.materialId ? materialIconMap.get(m.materialId) : null;
-                            // Định dạng số với dấu chấm phân cách hàng nghìn
-                            const formattedCount = m.count ? m.count.toLocaleString("vi-VN") : "";
-                            return (
-                              <span
-                                key={idx}
-                                className="flex items-center gap-1.5 bg-secondary/40 px-2.5 py-1 rounded-full border border-border text-xs"
-                              >
-                                <span className="relative w-5 h-5 shrink-0">
-                                  {iconUrl ? (
-                                    <SafeImage src={iconUrl} alt={m.name || ""} fill className="object-contain" sizes="20px" />
-                                  ) : null}
-                                </span>
-                                <span className="text-secondary">{m.name}</span>
-                                <span className="text-primary font-medium">×{formattedCount}</span>
-                              </span>
-                            );
-                          })}
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      )}
-
-      {/* Talents */}
+      {/* Kỹ Năng — trước đây bị thiếu hoàn toàn, giờ render từ `talents`.
+          Nguyên liệu nâng cấp thiên phú (talentMaterials) được gộp thẳng
+          vào đây dưới dạng slider kéo theo cấp, thay vì tách thành 1 bảng
+          tĩnh liệt kê hết 10 cấp riêng biệt. */}
       {talents.length > 0 && (
         <section className="mb-8">
           <h2 className="font-display text-xl font-bold mb-4 text-gold uppercase tracking-wide border-b border-border pb-2">
-            Hệ Thống Thiên Phú Kỹ Năng
+            Kỹ Năng
           </h2>
           <div className="space-y-4">
-            {talents.map((t, i: number) => (
-              <div key={i} className="relic-frame bg-card border border-border rounded-xl p-5 hover:bg-card/80 transition-colors">
-                <div className="font-bold text-base text-primary mb-2 flex flex-col gap-0.5">
-                  <span className="text-[10px] uppercase tracking-wider text-muted">
-                    {TALENT_LABEL_VI[t.key] ?? t.key}
+            {talents.map((t) => (
+              <div key={t.key} className="relic-frame bg-card border border-border rounded-xl p-5">
+                <div className="flex items-start gap-3 mb-2">
+                  <span className="relative w-10 h-10 shrink-0 rounded skill-icon-frame border overflow-hidden">
+                    {t.icon ? (
+                      <SafeImage src={t.icon} alt={t.name ?? ""} fill className="object-contain p-1" sizes="40px" />
+                    ) : null}
                   </span>
-                  {t.name}
+                  <div>
+                    <div className="text-[11px] uppercase tracking-wider text-muted font-medium">
+                      {TALENT_LABEL_VI[t.key] ?? t.key}
+                    </div>
+                    <div className="font-bold text-base text-gold-bright">{t.name}</div>
+                  </div>
                 </div>
-                <p className="text-sm text-secondary leading-relaxed whitespace-pre-line">
-                  {t.description}
-                </p>
+
+                {t.description && (
+                  <p className="text-sm text-secondary leading-relaxed whitespace-pre-line mb-3">
+                    {t.description}
+                  </p>
+                )}
+
+                {/* Bảng thông số theo cấp — trước đây liệt kê thẳng các giá
+                    trị (0.80%, 0.86%, 0.92%...) mà KHÔNG có dòng tiêu đề
+                    cho biết giá trị đó ứng với Cấp mấy, người xem không
+                    biết cột nào là cấp nào. Thêm 1 hàng "Cấp" cố định ở
+                    đầu bảng (1..N theo đúng số giá trị thật có, không hard
+                    code 15 vì 1 vài thông số có thể có số cấp khác) +
+                    khung/viền rõ ràng hơn (border quanh bảng, có màu nền
+                    xen kẽ dòng) để dễ nhìn theo yêu cầu. */}
+                {t.attributes && t.attributes.length > 0 && (
+                  <div className="overflow-x-auto mb-1 rounded-lg border border-border">
+                    <table className="w-full text-xs border-collapse">
+                      <thead>
+                        <tr className="bg-secondary/60">
+                          <th className="py-1.5 px-3 text-left text-muted font-semibold whitespace-nowrap border-b border-r border-border">
+                            Cấp Độ
+                          </th>
+                          {Array.from(
+                            { length: Math.max(...t.attributes.map((r) => r.values.length)) },
+                            (_, i) => i + 1
+                          ).map((lv) => (
+                            <th
+                              key={lv}
+                              className="py-1.5 px-2 text-center text-gold font-semibold whitespace-nowrap border-b border-border"
+                            >
+                              {lv}
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {t.attributes.map((row, i) => (
+                          <tr
+                            key={i}
+                            className={`border-t border-border ${i % 2 === 1 ? "bg-secondary/20" : ""}`}
+                          >
+                            <td className="py-1.5 px-3 text-muted whitespace-nowrap align-top border-r border-border">
+                              {row.label}
+                            </td>
+                            {row.values.map((v, j) => (
+                              <td key={j} className="py-1.5 px-2 text-center text-primary whitespace-nowrap">
+                                {v}
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+
+                {/* Chỉ gắn slider nguyên liệu vào đúng kỹ năng chính có nâng
+                    cấp (Đòn thường / Kỹ năng / Trọng kích), không lặp lại
+                    ở các thiên phú bị động không tốn nguyên liệu này. */}
+                {talentMaterials.length > 0 &&
+                  ["normalAttack", "elementalSkill", "elementalBurst"].includes(t.key) && (
+                    <TalentMaterialSlider
+                      talentMaterials={talentMaterials}
+                      materialIconMap={materialIconRecord}
+                    />
+                  )}
               </div>
             ))}
           </div>
@@ -339,8 +364,21 @@ export default async function CharacterDetail({ params }: PageProps) {
           <div className="space-y-4">
             {constellations.map((cs, i: number) => (
               <div key={i} className="relic-frame bg-card border border-border rounded-xl p-5 hover:border-purple-400/40 transition-all">
-                <div className="font-bold text-base mb-2 text-purple-400 drop-shadow-[0_0_6px_rgba(168,85,247,0.2)]">
-                  C{i + 1} &middot; {cs.name}
+                <div className="flex items-start gap-3 mb-2">
+                  <span className="relative w-10 h-10 shrink-0 rounded skill-icon-frame border overflow-hidden">
+                    {cs.icon ? (
+                      <SafeImage
+                        src={cs.icon}
+                        alt={cs.name ?? ""}
+                        fill
+                        className="object-contain p-1"
+                        sizes="40px"
+                      />
+                    ) : null}
+                  </span>
+                  <div className="font-bold text-base text-purple-400 drop-shadow-[0_0_6px_rgba(168,85,247,0.2)]">
+                    C{i + 1} &middot; {cs.name}
+                  </div>
                 </div>
                 <p className="text-sm text-secondary leading-relaxed whitespace-pre-line">
                   {cs.description}
@@ -350,7 +388,6 @@ export default async function CharacterDetail({ params }: PageProps) {
           </div>
         </section>
       )}
-
     </div>
   );
 }

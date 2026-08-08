@@ -78,8 +78,24 @@ export async function seedDomains(): Promise<void> {
 
       const materials = [];
       for (const item of rewardItems) {
-        const materialId = await upsertMaterial(prisma, genshindb, item.name);
-        materials.push({ materialId, name: item.name });
+        if (category === "artifact") {
+          // QUAN TRỌNG: domain loại "artifact" (Bí cảnh Thánh Di Vật) trả
+          // về TÊN BỘ THÁNH DI VẬT trong rewardPreview (vd "Shimenawa's
+          // Reminiscence"), KHÔNG PHẢI tên nguyên liệu. Trước đây code này
+          // gọi upsertMaterial() y hệt 2 category kia -> genshindb.materials()
+          // luôn luôn không tìm thấy (đúng ra phải tra ArtifactSet), khiến
+          // TOÀN BỘ bộ thánh di vật trong game bị báo nhầm "thiếu icon" mỗi
+          // lần seed, dù không liên quan gì đến genshin-db cũ/mới.
+          //
+          // ArtifactSet đã được seedArtifacts() upsert xong TRƯỚC KHI hàm
+          // này chạy (xem thứ tự gọi trong update-data.ts) với cùng công
+          // thức id = slugify(name), nên chỉ cần tham chiếu lại, không cần
+          // tra cứu gì thêm ở đây.
+          materials.push({ artifactSetId: slugify(item.name), name: item.name });
+        } else {
+          const materialId = await upsertMaterial(prisma, genshindb, item.name);
+          materials.push({ materialId, name: item.name });
+        }
       }
 
       // Ảnh GỐC (hotlink) tại lần crawl này — ghi tự do mỗi lần seed vào

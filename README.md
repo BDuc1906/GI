@@ -358,3 +358,5 @@ Phát hành theo giấy phép [MIT](./LICENSE). Dữ liệu game thuộc bản q
 <div align="center">
   <sub>Xây dựng với ❤️ bằng Next.js, Prisma và dữ liệu từ cộng đồng Genshin Impact.</sub>
 </div>
+# Tóm tắt các lỗi đã sửa
+

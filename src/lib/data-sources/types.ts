@@ -28,16 +28,31 @@ export type StatsByLevelRow = {
   specialized: number | null;
 };
 
+export type TalentAttributeRow = {
+  // Tên hiển thị của thông số, vd "1-Hit DMG", "Press CD"
+  label: string;
+  // Giá trị đã format sẵn (%, số nguyên...) tại mỗi cấp thiên phú, thường
+  // 15 phần tử (cấp 1-15). Chỉ áp dụng cho combat1/2/3 (Đòn thường/Kỹ
+  // năng/Trọng kích) — passive không có field này vì không scale theo cấp.
+  values: string[];
+};
+
 export type TalentEntry = {
   key: string;
   name: string | null;
   description: string | null;
+  // URL enka.network — null nếu genshin-db không có filename cho talent này.
+  icon: string | null;
+  // null với passive (không scale theo cấp) và khi genshin-db không trả
+  // về attributes cho talent này.
+  attributes: TalentAttributeRow[] | null;
 };
 
 export type ConstellationEntry = {
   level: number;
   name: string | null;
   description: string | null;
+  icon: string | null;
 };
 
 export type VoiceActors = {

@@ -1,4 +1,3 @@
-
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -26,7 +25,13 @@ const WEEKDAY_FULL_VI: Record<string, string> = {
 };
 
 interface DomainMaterialEntry {
+  // Domain "weapon"/"talent": trỏ tới Material.id.
   materialId?: string | null;
+  // Domain "artifact": rewardPreview là TÊN BỘ THÁNH DI VẬT, không phải
+  // nguyên liệu -> trỏ tới ArtifactSet.id thay vì Material.id (xem comment
+  // trong scripts/seed-domains.ts). Chỉ đúng 1 trong 2 field có giá trị,
+  // tùy category của domain.
+  artifactSetId?: string | null;
   name: string;
 }
 
@@ -48,11 +53,24 @@ export default async function DomainDetail({ params }: PageProps) {
   const materials = (d.materials as unknown as DomainMaterialEntry[]) ?? [];
 
   const materialIds = materials.map((m) => m.materialId).filter((v): v is string => Boolean(v));
-  const materialIcons = await prisma.material.findMany({
-    where: { id: { in: materialIds } },
-    select: { id: true, iconUrl: true },
-  });
+  const artifactSetIds = materials.map((m) => m.artifactSetId).filter((v): v is string => Boolean(v));
+
+  const [materialIcons, artifactSetIcons] = await Promise.all([
+    materialIds.length
+      ? prisma.material.findMany({
+          where: { id: { in: materialIds } },
+          select: { id: true, iconUrl: true },
+        })
+      : Promise.resolve([]),
+    artifactSetIds.length
+      ? prisma.artifactSet.findMany({
+          where: { id: { in: artifactSetIds } },
+          select: { id: true, iconUrl: true },
+        })
+      : Promise.resolve([]),
+  ]);
   const materialIconMap = new Map(materialIcons.map((m) => [m.id, m.iconUrl]));
+  const artifactSetIconMap = new Map(artifactSetIcons.map((a) => [a.id, a.iconUrl]));
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
@@ -122,16 +140,20 @@ export default async function DomainDetail({ params }: PageProps) {
         </section>
       )}
 
-      {/* Nguyên liệu rớt */}
+      {/* Nguyên liệu / bộ thánh di vật rớt */}
       {materials.length > 0 && (
         <section className="mb-8">
           <h2 className="font-display text-xl font-bold mb-4 text-gold border-b border-border pb-2">
-            Nguyên liệu nhận được
+            {d.category === "artifact" ? "Bộ thánh di vật rơi ra" : "Nguyên liệu nhận được"}
           </h2>
           <div className="relic-frame bg-card border border-border rounded-xl p-4">
             <ul className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
               {materials.map((m, i) => {
-                const iconUrl = m.materialId ? materialIconMap.get(m.materialId) : null;
+                const iconUrl = m.materialId
+                  ? materialIconMap.get(m.materialId)
+                  : m.artifactSetId
+                    ? artifactSetIconMap.get(m.artifactSetId)
+                    : null;
                 return (
                   <li key={i} className="flex items-center gap-2 min-w-0">
                     <span className="relative w-8 h-8 shrink-0 rounded bg-secondary border border-border overflow-hidden">

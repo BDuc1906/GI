@@ -24,16 +24,24 @@ export type VoiceActors = {
   korean?: string | null;
 };
 
+export type TalentAttributeRow = {
+  label: string;
+  values: string[];
+};
+
 export type Talent = {
   key: string;
   name: string;
   description: string;
+  icon: string | null;
+  attributes: TalentAttributeRow[] | null;
 };
 
 export type Constellation = {
   level?: number;
   name: string;
   description: string;
+  icon: string | null;
 };
 
 export type TalentMaterialLevel = {

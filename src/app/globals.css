@@ -158,3 +158,15 @@ tr:nth-child(even) {
 .text-inverted { color: var(--text-inverted); }
 .border-border { border-color: var(--border-color); }
 .shadow-card { box-shadow: var(--shadow-card); }
+
+/* Khung icon kỹ năng / cung mệnh — LUÔN nền tối bất kể theme (không dùng
+   bg-secondary/bg-card đổi theo theme như các icon khác) vì ảnh gốc từ
+   game là artwork NÉT TRẮNG trong suốt, thiết kế sẵn để đặt lên nền tròn
+   tối. Ở light mode, bg-secondary = #ffffff khiến icon trắng biến mất
+   hoàn toàn (icon kỹ năng/cung mệnh gần như vô hình — xem ảnh chụp báo
+   lỗi). Cố định nền tối + viền vàng nhẹ để icon luôn tương phản rõ, dùng
+   chung cho cả 2 theme thay vì phụ thuộc biến --bg-secondary. */
+.skill-icon-frame {
+  background: radial-gradient(circle, #2a2a30 0%, #1a1a1e 100%);
+  border-color: rgba(201, 166, 107, 0.35);
+}

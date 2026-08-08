@@ -27,6 +27,7 @@ import type {
   AscensionMaterialPhase,
   TalentMaterialLevel,
   StatsByLevelRow,
+  TalentAttributeRow,
   TalentEntry,
   ConstellationEntry,
 } from "../../src/lib/data-sources/types";
@@ -36,6 +37,7 @@ export type {
   AscensionMaterialPhase,
   TalentMaterialLevel,
   StatsByLevelRow,
+  TalentAttributeRow,
   TalentEntry,
   ConstellationEntry,
 };
@@ -53,6 +55,26 @@ export function getEnkaUrl(filename?: string | null, mihoyoUrl?: string | null):
   if (filename) return `https://enka.network/ui/${filename}.png`;
   if (mihoyoUrl) return mihoyoUrl;
   return null;
+}
+
+/**
+ * BUG ĐÃ SỬA: icon kỹ năng (combat1/2/3, passiveN) và icon cung mệnh
+ * (c1..c6) TỪNG được build bằng getEnkaUrl() y hệt icon nhân vật — nhưng
+ * enka.network CHỈ mirror ảnh THẬT SỰ hiển thị trên chính trang showcase
+ * của nó (avatar/vũ khí/thánh di vật), KHÔNG phải toàn bộ asset UI_* của
+ * game (xem comment gốc ở ALT_ASSET_CDNS trong
+ * scripts/mirror-images-to-r2.ts — cùng kết luận, đã xác nhận lại qua
+ * tài liệu enka.network chính thức: "enka.network only hosts images that
+ * are actually used on the site"). Tên file icon kỹ năng/cung mệnh
+ * (vd "Skill_A_01", "UI_Talent_S_Kazuha_01") KHÔNG nằm trong tập đó nên
+ * 403/404 gần như luôn luôn -> icon vỡ hoặc hiển thị icon mặc định sai.
+ * gi.yatta.moe (Project Amber) dump TOÀN BỘ asset UI_* của game (đã dùng
+ * làm CDN dự phòng #1 cho ảnh nguyên liệu/nhân vật lỗi ở mirror script) —
+ * dùng thẳng làm nguồn CHÍNH cho icon kỹ năng/cung mệnh thay vì enka.
+ */
+export function getUiAssetUrl(filename?: string | null): string | null {
+  if (!filename) return null;
+  return `https://gi.yatta.moe/assets/UI/${filename}.png`;
 }
 
 export function getElementIconUrl(element?: string | null): string | null {
@@ -200,6 +222,49 @@ export function buildTalentMaterialLevels(
   return result;
 }
 
+/**
+ * BUG ĐÃ SỬA (nguyên liệu nâng thiên phú SAI + THIẾU): buildTalentMaterialLevels()
+ * ở trên tự dựng lại danh sách nguyên liệu từ 1 bảng chi phí CHUNG
+ * (TALENT_LEVEL_COSTS) + đoán tên sách theo bookType + đoán nguyên liệu
+ * boss bằng heuristic quét toàn bộ enemy "BOSS" (buildBossMaterialName) —
+ * cách này THIẾU HẲN 1 loại nguyên liệu bắt buộc ở MỌI cấp 2->10: nguyên
+ * liệu quái thường theo vùng (vd "Treasure Hoarder Insignia" / "Silver
+ * Raven Insignia" / "Golden Raven Insignia" cho Kazuha) — genshin-db không
+ * xuất field này ra ngoài `costs` thô nên bảng cost tự dựng ở trên không
+ * thể biết mà thêm vào. Đồng thời việc đoán boss material bằng heuristic
+ * có thể ra SAI vật phẩm nếu 1 boss rớt nhiều loại nguyên liệu không rarity.
+ *
+ * genshin-db thực ra đã trả sẵn `talents(name).costs.lvl2..lvl10` — dữ
+ * liệu THẬT, ĐÚNG 1:1 cho từng nhân vật (đã xác nhận qua
+ * scripts/inspect-talent-shape.ts chạy tay: đủ cả sách + Mora + nguyên
+ * liệu quái vùng + nguyên liệu boss + Vương Miện Trí Tuệ, không thiếu
+ * dòng nào) — dùng thẳng nguồn NÀY làm nguồn CHÍNH, chỉ fallback về
+ * buildTalentMaterialLevels() (bảng tự dựng, có thể thiếu nguyên liệu
+ * quái vùng) khi 1 nhân vật nào đó không có field `costs` (vd lỗi phiên
+ * bản genshin-db).
+ */
+type RawTalentCostItem = { name?: string; count?: number };
+type RawTalentCosts = Record<string, RawTalentCostItem[] | undefined>;
+
+export function buildTalentMaterialLevelsFromRawCosts(
+  rawCosts: RawTalentCosts | null | undefined
+): TalentMaterialLevel[] | null {
+  if (!rawCosts || typeof rawCosts !== "object") return null;
+
+  const result: TalentMaterialLevel[] = [];
+  for (let level = 2; level <= 10; level++) {
+    const items = rawCosts[`lvl${level}`];
+    if (!Array.isArray(items) || items.length === 0) return null; // thiếu 1 cấp -> không đáng tin, để caller fallback
+    const materials: MaterialRef[] = [];
+    for (const item of items) {
+      if (!item?.name) continue;
+      materials.push({ name: item.name, count: item.count ?? null });
+    }
+    result.push({ level, materials });
+  }
+  return result;
+}
+
 // ---------- NGUYÊN LIỆU ĐỘT PHÁ (ASCENSION) ----------
 
 export function buildAscensionMaterialPhases(costs: unknown): AscensionMaterialPhase[] | null {
@@ -296,6 +361,52 @@ const TRAVELER_ELEMENT_TO_BOOK: Record<string, string> = {
  * (bỏ dấu, viết thường) toàn bộ key CHỈ MỘT LẦN lúc tạo, không lặp lại mỗi
  * lần tra cứu nhân vật.
  */
+/**
+ * BUG ĐÃ SỬA: `crawlCharacter()` trong crawl-characters.ts gọi hàm này cho
+ * riêng Aether/Lumine (raw.name chỉ là "Aether"/"Lumine" đơn thuần, không
+ * match được regex "Traveler (Element)" trong createTalentBookResolver ở
+ * dưới) — nhưng hàm chưa từng được định nghĩa/export ở đây, chỉ có map
+ * TRAVELER_ELEMENT_TO_BOOK trơ ra một mình. Import bị lỗi
+ * "does not provide an export named 'resolveTravelerTalentBook'" ngay khi
+ * chạy `npm run data:crawl`. Thêm hàm bọc map này lại.
+ */
+export function resolveTravelerTalentBook(vision?: string | null): string | null {
+  if (!vision) return null;
+  return TRAVELER_ELEMENT_TO_BOOK[vision.trim()] ?? null;
+}
+
+/**
+ * BUG ĐÃ SỬA (13 nhân vật "KHÔNG resolve được talent book type"): trước
+ * đây bookType CHỈ được tra từ talent-book-mapping.json — 1 file map thủ
+ * công (tên nhân vật -> tên sách) phải tự tay cập nhật mỗi khi có nhân vật
+ * mới, nên 11 nhân vật Natlan mới (Aino, Flins, Illuga, Jahoda, Linnea,
+ * Lohen, Manekin, Manekina, Nicole, Prune, Zibai) chưa kịp thêm vào là
+ * crawl fail ngay, dù genshin-db ĐÃ CÓ đủ dữ liệu.
+ *
+ * Thực ra `genshindb.talents(name).costs.lvl2` luôn chứa 1 item tên dạng
+ * "Teachings of <BookType>" (đã tự kiểm chứng bằng script test cho cả 11
+ * nhân vật trên — ra đúng "Teachings of Elysium", "Teachings of
+ * Vagrancy"...) — lấy tên sách TRỰC TIẾP từ đây, không cần map thủ công
+ * cho bất kỳ nhân vật thường nào nữa. Chỉ Aether/Lumine là NGOẠI LỆ THẬT:
+ * genshin-db 5.2.12 không tách biến thể nguyên tố cho Traveler (`vision`
+ * luôn undefined, `talents("Aether")` trả về null) — 2 nhân vật này vẫn
+ * phải giữ trong talent-book-mapping.json.
+ */
+const TEACHINGS_PREFIX = "Teachings of ";
+
+export function deriveBookTypeFromTalentCosts(
+  rawTalentCosts: Record<string, Array<{ name?: string }> | undefined> | null | undefined
+): string | null {
+  const lvl2 = rawTalentCosts?.lvl2;
+  if (!Array.isArray(lvl2)) return null;
+  for (const item of lvl2) {
+    if (item?.name?.startsWith(TEACHINGS_PREFIX)) {
+      return item.name.slice(TEACHINGS_PREFIX.length).trim();
+    }
+  }
+  return null;
+}
+
 export function createTalentBookResolver(
   talentBookSeriesByCharacter: Record<string, string>
 ): (characterNameOrCandidates: string | string[]) => string | null {
@@ -347,50 +458,155 @@ const TALENT_LABELS: Record<string, string> = {
   passive4: "passive4",
 };
 
+/**
+ * Định dạng 1 giá trị thô theo hậu tố format trong template genshin-db,
+ * vd "F1P" (1 chữ số thập phân, dạng %), "F1" (1 chữ số thập phân,
+ * số thường), "I" (số nguyên). Xác nhận đúng bằng dữ liệu THẬT lấy từ
+ * genshindb.talents("Kaedehara Kazuha") — xem scripts/inspect-talent-shape.ts.
+ */
+function formatTalentParamValue(raw: number, format: string): string {
+  if (format === "I") return Math.round(raw).toString();
+
+  const isPercent = format.endsWith("P");
+  const decimalsMatch = format.match(/^F(\d+)/);
+  const decimals = decimalsMatch ? parseInt(decimalsMatch[1], 10) : 0;
+
+  if (isPercent) return `${(raw * 100).toFixed(decimals)}%`;
+  return raw.toFixed(decimals);
+}
+
+type RawTalentAttributes = {
+  labels?: string[];
+  parameters?: Record<string, number[]>;
+};
+
+/**
+ * Parse attributes THÔ của genshin-db (labels dạng template string, vd
+ * "3-Hit DMG|{param3:F1P}+{param4:F1P}") thành bảng thông số theo cấp,
+ * đã format sẵn (%, số nguyên...) để render trực tiếp lên UI.
+ *
+ * Chỉ combat1/combat2/combat3 (Đòn thường/Kỹ năng/Trọng kích) có field
+ * này — passive và constellation KHÔNG có, vì không scale theo cấp.
+ */
+function parseTalentAttributes(
+  attributes: RawTalentAttributes | undefined
+): TalentAttributeRow[] | null {
+  if (!attributes?.labels?.length || !attributes.parameters) return null;
+
+  const rows: TalentAttributeRow[] = [];
+  for (const rawLabel of attributes.labels) {
+    const [displayName, template] = rawLabel.split("|");
+    if (!displayName || !template) continue;
+
+    const paramRefs = Array.from(template.matchAll(/\{(param\d+):([^}]+)\}/g));
+    if (paramRefs.length === 0) continue;
+
+    const levelCount = attributes.parameters[paramRefs[0][1]]?.length ?? 0;
+    const values: string[] = [];
+    for (let lvl = 0; lvl < levelCount; lvl++) {
+      let rendered = template;
+      for (const [fullMatch, paramKey, format] of paramRefs) {
+        const raw = attributes.parameters[paramKey]?.[lvl];
+        rendered = rendered.replace(
+          fullMatch,
+          raw !== undefined ? formatTalentParamValue(raw, format) : "—"
+        );
+      }
+      values.push(rendered);
+    }
+    rows.push({ label: displayName, values });
+  }
+  return rows.length ? rows : null;
+}
+
+type RawTalentAbility = {
+  name?: string;
+  description?: string;
+  attributes?: RawTalentAttributes;
+};
+
+type RawConstellationAbility = {
+  name?: string;
+  description?: string;
+};
+
+type RawTalentsResult = Record<string, unknown> & {
+  images?: Record<string, string | undefined>;
+};
+
+type RawConstellationsResult = Record<string, unknown> & {
+  images?: Record<string, string | undefined>;
+};
+
 export function getTalentsAndConstellations(
   genshindb: {
     talents?: (name: string) => unknown;
     constellations?: (name: string) => unknown;
   },
   characterName: string
-): { talents: TalentEntry[] | null; constellations: ConstellationEntry[] | null } {
+): {
+  talents: TalentEntry[] | null;
+  constellations: ConstellationEntry[] | null;
+  talentMaterials: TalentMaterialLevel[] | null;
+  bookType: string | null;
+} {
   try {
     const rawTalents =
       typeof genshindb.talents === "function"
-        ? (genshindb.talents(characterName) as Record<string, { name?: string; description?: string }> | null)
+        ? (genshindb.talents(characterName) as RawTalentsResult | null)
         : null;
     const rawConstellations =
       typeof genshindb.constellations === "function"
-        ? (genshindb.constellations(characterName) as Record<
-            string,
-            { name?: string; description?: string }
-          > | null)
+        ? (genshindb.constellations(characterName) as RawConstellationsResult | null)
         : null;
 
+    // Icon nằm ở object "images" RIÊNG (filename_combat1, filename_c1...),
+    // KHÔNG nằm trong từng talent/constellation — xác nhận từ dữ liệu thật.
+    const talentImages = rawTalents?.images ?? {};
     const talents: TalentEntry[] = rawTalents
       ? TALENT_FIELD_ORDER.map((rawKey) => {
-          const t = rawTalents[rawKey];
-          return t
-            ? { key: TALENT_LABELS[rawKey], name: t.name ?? null, description: t.description ?? null }
-            : null;
+          const t = rawTalents[rawKey] as RawTalentAbility | undefined;
+          if (!t) return null;
+          return {
+            key: TALENT_LABELS[rawKey],
+            name: t.name ?? null,
+            description: t.description ?? null,
+            icon: getUiAssetUrl(talentImages[`filename_${rawKey}`]),
+            attributes: parseTalentAttributes(t.attributes),
+          };
         }).filter((t): t is TalentEntry => t !== null)
       : [];
 
+    const constellationImages = rawConstellations?.images ?? {};
     const constellations: ConstellationEntry[] = rawConstellations
       ? (Array.from({ length: 6 }, (_, i) => {
-          const cst = rawConstellations[`c${i + 1}`];
-          return cst
-            ? { level: i + 1, name: cst.name ?? null, description: cst.description ?? null }
-            : null;
+          const key = `c${i + 1}`;
+          const cst = rawConstellations[key] as RawConstellationAbility | undefined;
+          if (!cst) return null;
+          return {
+            level: i + 1,
+            name: cst.name ?? null,
+            description: cst.description ?? null,
+            icon: getUiAssetUrl(constellationImages[`filename_${key}`]),
+          };
         }).filter((c): c is ConstellationEntry => c !== null))
       : [];
+
+    const talentMaterials = buildTalentMaterialLevelsFromRawCosts(
+      (rawTalents as (RawTalentsResult & { costs?: RawTalentCosts }) | null)?.costs
+    );
+    const bookType = deriveBookTypeFromTalentCosts(
+      (rawTalents as (RawTalentsResult & { costs?: RawTalentCosts }) | null)?.costs
+    );
 
     return {
       talents: talents.length ? talents : null,
       constellations: constellations.length ? constellations : null,
+      talentMaterials,
+      bookType,
     };
   } catch {
-    return { talents: null, constellations: null };
+    return { talents: null, constellations: null, talentMaterials: null, bookType: null };
   }
 }
 
@@ -415,7 +631,7 @@ const STAT_BREAKPOINTS: Array<[number, "-" | "+" | undefined]> = buildStatBreakp
 
 type StatsFn = (level: number, ascension?: "-" | "+") => {
   level?: number;
-  ascension?: string;
+  ascension?: number;
   hp?: number;
   attack?: number;
   defense?: number;
