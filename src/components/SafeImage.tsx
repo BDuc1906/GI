@@ -3,6 +3,26 @@
 import { useState, useEffect } from "react";
 import Image, { type ImageProps } from "next/image";
 
+/**
+ * Chuyển URL R2 (r2.dev hiện tại, hoặc custom domain sau này) thành URL
+ * proxy nội bộ qua /api/images/... — để next/image không cần khai báo
+ * remotePatterns cho domain R2, và browser luôn gọi cùng-origin với app.
+ *
+ * URL không phải R2 (hotlink enka.network, static.wikia.nocookie.net,
+ * upload-os-bbs.mihoyo.com...) giữ nguyên, không proxy — các domain đó
+ * đã được khai báo sẵn trong next.config.ts (HOTLINK_REMOTE_PATTERNS).
+ *
+ * Khi sau này có domain riêng và chuyển R2_PUBLIC_URL sang Custom Domain,
+ * CHỈ cần đổi biến env NEXT_PUBLIC_R2_PUBLIC_URL — không cần sửa file này.
+ */
+function toProxiedUrl(url: string): string {
+  const r2PublicUrl = process.env.NEXT_PUBLIC_R2_PUBLIC_URL;
+  if (!r2PublicUrl || !url.startsWith(r2PublicUrl)) return url;
+
+  const key = url.slice(r2PublicUrl.length).replace(/^\/+/, "");
+  return `/api/images/${key}`;
+}
+
 interface SafeImageProps extends Omit<ImageProps, "src"> {
   fallbackClassName?: string;
   sizes?: string;
@@ -11,8 +31,8 @@ interface SafeImageProps extends Omit<ImageProps, "src"> {
    * gọi nơi khác truyền thẳng `c.iconUrl || c.splashUrl` (kiểu
    * `string | null`) mà KHÔNG phải ép về `''` khi cả 2 đều rỗng. Component
    * này tự render trạng thái rỗng có chủ đích khi không có src nào, thay vì
-   * next/image nhận `src=""` — next/image không hợp lệ với chuỗi rỗng, và
-   * `<img src="">` ở mức trình duyệt có thể tự fetch lại chính URL trang
+   * next/image nhận `src=\"\"` — next/image không hợp lệ với chuỗi rỗng, và
+   * `<img src=\"\">` ở mức trình duyệt có thể tự fetch lại chính URL trang
    * hiện tại làm ảnh (quirk cũ của HTML), gây request thừa vô nghĩa.
    */
   src?: ImageProps["src"] | null;
@@ -48,7 +68,9 @@ export function SafeImage({
     ...(typeof srcProp === "string" ? [srcProp] : []),
     ...(fallbackSrc ? [fallbackSrc] : []),
     ...(fallbackSrcs ?? []),
-  ].filter((u): u is string => typeof u === "string" && !!u);
+  ]
+    .filter((u): u is string => typeof u === "string" && !!u)
+    .map(toProxiedUrl);
 
   const [src, setSrc] = useState<string | undefined>(candidates[0]);
   const [attemptIndex, setAttemptIndex] = useState(0);
@@ -59,7 +81,9 @@ export function SafeImage({
       ...(typeof srcProp === "string" ? [srcProp] : []),
       ...(fallbackSrc ? [fallbackSrc] : []),
       ...(fallbackSrcs ?? []),
-    ].filter((u): u is string => typeof u === "string" && !!u);
+    ]
+      .filter((u): u is string => typeof u === "string" && !!u)
+      .map(toProxiedUrl);
 
     setSrc(nextCandidates[0] ?? undefined);
     setAttemptIndex(0);
