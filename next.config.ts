@@ -63,6 +63,12 @@ function contentSecurityPolicy(): string {
     "img-src": ["'self'", "data:", "blob:", ...imageHosts],
     "font-src": ["'self'", "data:"],
     "connect-src": ["'self'"],
+    // Sentry (và các lib khác) tạo web worker từ blob: URL. Nếu không khai
+    // báo worker-src riêng, trình duyệt fallback về script-src — nhưng
+    // script-src không cho phép blob:, nên worker bị chặn với lỗi CSP
+    // ("Creating a worker from 'blob:...' violates ... worker-src was not
+    // explicitly set, so script-src is used as a fallback").
+    "worker-src": ["'self'", "blob:"],
     "frame-ancestors": ["'none'"],
     "base-uri": ["'self'"],
     "form-action": ["'self'"],
