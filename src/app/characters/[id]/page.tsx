@@ -203,36 +203,13 @@ export default async function CharacterDetail({ params }: PageProps) {
         </div>
       </div>
 
-      {/* Base Stats */}
-      <section className="mb-8">
-        <h2 className="font-display text-xl font-bold mb-4 text-gold uppercase tracking-wide border-b border-border pb-2">
-          Thuộc Tính Căn Bản (Cấp 1)
-        </h2>
-        <div className="relic-frame bg-card border border-border rounded-xl p-5 grid grid-cols-2 sm:grid-cols-4 gap-6 text-sm">
-          <div>
-            <span className="text-muted font-medium block mb-1">Sinh Mệnh (HP)</span> 
-            <span className="text-lg font-semibold text-primary">{formatNumber(c.baseHp)}</span>
-          </div>
-          <div>
-            <span className="text-muted font-medium block mb-1">Tấn Công (ATK)</span> 
-            <span className="text-lg font-semibold text-primary">{formatNumber(c.baseAtk)}</span>
-          </div>
-          <div>
-            <span className="text-muted font-medium block mb-1">Phòng Ngự (DEF)</span> 
-            <span className="text-lg font-semibold text-primary">{formatNumber(c.baseDef)}</span>
-          </div>
-          <div>
-            <span className="text-muted font-medium block mb-1">Đột Phá Tăng</span> 
-            <span className="text-md font-semibold text-gold-bright truncate block">{c.ascensionStat ?? "—"}</span>
-          </div>
-        </div>
-      </section>
+      
 
       {/* Level Slider — tương tác, tính real-time từ statsByLevel thật */}
       {statsByLevel.length > 0 && (
         <section className="mb-8">
           <h2 className="font-display text-xl font-bold mb-4 text-gold uppercase tracking-wide border-b border-border pb-2">
-            Tra Cứu Chỉ Số Theo Cấp
+            Chỉ Số Theo Cấp
           </h2>
           <CharacterLevelSlider statsByLevel={statsByLevel} ascensionStat={c.ascensionStat} />
         </section>

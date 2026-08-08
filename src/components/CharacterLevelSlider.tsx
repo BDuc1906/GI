@@ -135,7 +135,7 @@ export function CharacterLevelSlider({ statsByLevel, ascensionStat }: Props) {
         <StatBlock label="ATK" value={formatNumber(row.attack)} />
         <StatBlock label="DEF" value={formatNumber(row.defense)} />
         <StatBlock
-          label={ascensionStat ?? "Chỉ số phụ"}
+          label={ascensionStat ?? "Chỉ số đột phá"}
           value={row.specialized !== null ? formatSpecialized(row.specialized, ascensionStat) : "—"}
           gold
         />
