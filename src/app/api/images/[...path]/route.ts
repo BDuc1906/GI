@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
+// Cache ảnh ở edge/CDN Vercel trong 1 năm — ảnh game data hiếm khi đổi,
+// và key R2 (path) là bất biến theo asset, nên cache dài an toàn.
 const CACHE_CONTROL = "public, max-age=31536000, immutable";
 
 export async function GET(
@@ -20,6 +22,8 @@ export async function GET(
   const upstreamUrl = `${r2PublicUrl.replace(/\/+$/, "")}/${key}`;
 
   const upstream = await fetch(upstreamUrl, {
+    // Cache riêng của Next.js data cache, cộng thêm header response ở
+    // dưới để browser/CDN Vercel cũng cache theo.
     next: { revalidate: 31536000 },
   });
 

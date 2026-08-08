@@ -238,42 +238,6 @@ export default async function CharacterDetail({ params }: PageProps) {
         </section>
       )}
 
-      {/* Stats Table */}
-      {statsByLevel.length > 0 && (
-        <section className="mb-8">
-          <h2 className="font-display text-xl font-bold mb-4 text-gold uppercase tracking-wide border-b border-border pb-2">
-            Chỉ Số Theo Cấp Độ
-          </h2>
-          <div className="relic-frame bg-card border border-border rounded-xl overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr>
-                  <th>Cấp</th>
-                  <th>Đột Phá</th>
-                  <th>HP</th>
-                  <th>ATK</th>
-                  <th>DEF</th>
-                  <th>{c.ascensionStat ?? "Chỉ số phụ"}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {statsByLevel.map((row, i) => (
-                  <tr key={i}>
-                    <td>{row.level}</td>
-                    <td className="text-muted">{row.ascension ?? "—"}</td>
-                    <td>{formatNumber(row.hp)}</td>
-                    <td>{formatNumber(row.attack)}</td>
-                    <td>{formatNumber(row.defense)}</td>
-                    <td className="text-gold-bright">
-                      {row.specialized !== null ? formatSpecialized(row.specialized, c.ascensionStat) : "—"}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      )}
 
       {/* Ascension Materials */}
       {ascensionMaterials.length > 0 && (
