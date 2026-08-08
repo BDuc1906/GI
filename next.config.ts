@@ -9,16 +9,41 @@ const HOTLINK_REMOTE_PATTERNS: RemotePattern[] = [
   { protocol: "https", hostname: "upload-os-bbs.mihoyo.com" },
 ];
 
+/**
+ * Endpoint API riêng tư của R2 ("<accountId>.r2.cloudflarestorage.com") —
+ * BẮT BUỘC chữ ký AWS SigV4, trình duyệt gọi thẳng luôn nhận 403. Nếu
+ * R2_PUBLIC_URL trỏ vào đây (sự cố THẬT đã từng xảy ra — xem
+ * scripts/lib/r2-client.ts), toàn bộ ảnh đã mirror sang R2 sẽ chết trên
+ * production dù next/image build/deploy "thành công" bình thường (Next
+ * không có cách nào tự biết domain đó không public). Cảnh báo thật to
+ * ngay lúc build thay vì để phát hiện qua báo cáo lỗi người dùng.
+ */
+const PRIVATE_R2_ENDPOINT_PATTERN = /^[a-f0-9]{32}\.r2\.cloudflarestorage\.com$/i;
+
 function resolveRemotePatterns(): RemotePattern[] {
   const patterns = [...HOTLINK_REMOTE_PATTERNS];
   const r2PublicUrl = process.env.R2_PUBLIC_URL;
   if (r2PublicUrl) {
     try {
       const parsed = new URL(r2PublicUrl);
-      patterns.push({
-        protocol: parsed.protocol === "http:" ? "http" : "https",
-        hostname: parsed.hostname,
-      });
+      if (PRIVATE_R2_ENDPOINT_PATTERN.test(parsed.hostname)) {
+        console.error(
+          `\n🔴🔴🔴 [next.config.ts] R2_PUBLIC_URL="${r2PublicUrl}" đang trỏ vào ENDPOINT ` +
+            `RIÊNG TƯ của R2 (bắt buộc chữ ký, luôn 403 với trình duyệt) — KHÔNG phải Custom Domain public.\n` +
+            `Toàn bộ ảnh đã mirror sang R2 sẽ KHÔNG hiển thị được sau khi deploy build này.\n` +
+            `👉 Vào Cloudflare Dashboard → R2 → bucket → Settings → Public access → Connect Domain,\n` +
+            `   rồi đổi R2_PUBLIC_URL thành domain đó (vd https://assets.leibo-domain-cua-ban.com).\n` +
+            `Xem thêm .env.example và scripts/fix-broken-r2-urls.ts.\n`
+        );
+        // Cố tình KHÔNG thêm domain sai này vào remotePatterns/CSP — thêm vào
+        // sẽ khiến next/image "cho phép" một domain build sẵn sẽ chết, im
+        // lặng che mất tín hiệu lỗi thay vì cảnh báo rõ như trên.
+      } else {
+        patterns.push({
+          protocol: parsed.protocol === "http:" ? "http" : "https",
+          hostname: parsed.hostname,
+        });
+      }
     } catch {
       console.warn(
         `[next.config.ts] R2_PUBLIC_URL="${r2PublicUrl}" không phải URL hợp lệ — bỏ qua khi build remotePatterns.`

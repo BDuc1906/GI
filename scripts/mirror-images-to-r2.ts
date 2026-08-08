@@ -20,6 +20,17 @@ const DELAY_BETWEEN_REQUESTS_MS = 500;
 // =====================
 
 const DRY_RUN = process.argv.includes("--dry-run");
+// --force: bỏ qua check "đã mirror rồi thì thôi" (shouldMirror), tải lại
+// TOÀN BỘ ảnh từ *Original mới nhất và ghi đè object R2 cũ. Dùng khi nguồn
+// gốc (enka/mihoyo) đã đổi ảnh cho 1 asset đã mirror từ trước (vd nhân vật
+// được vẽ lại splash, đổi icon...) — bình thường script SẼ KHÔNG BAO GIỜ
+// tự phát hiện việc này vì nó chỉ nhìn cột hiển thị đã là R2 hay chưa, chứ
+// không so sánh nội dung/tên file nguồn giữa các lần chạy.
+// Không nên bật mặc định trong cron hàng tuần vì tải lại toàn bộ tốn thời
+// gian + băng thông vô ích cho >95% asset không hề đổi — chỉ chạy tay khi
+// nghi ngờ có asset cụ thể cần refresh, hoặc định kỳ dài hơn (vd sau mỗi
+// bản lớn x.0).
+const FORCE_REMIRROR = process.argv.includes("--force");
 
 const CONTENT_TYPE_TO_EXT: Record<string, string> = {
   "image/png": "png",
@@ -69,7 +80,17 @@ async function fetchWithRetry(
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-      const res = await fetch(url, { signal: controller.signal });
+      // Một số nguồn (Fandom/Cloudflare) trả 403 cho request không có
+      // User-Agent (coi là bot mặc định) — set UA giống trình duyệt thật
+      // để tránh bị chặn. Không ảnh hưởng các nguồn khác (enka/mihoyo/CDN)
+      // vì chúng không kiểm tra header này.
+      const res = await fetch(url, {
+        signal: controller.signal,
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        },
+      });
       clearTimeout(timeoutId);
       return res;
     } catch (err) {
@@ -89,10 +110,16 @@ async function fetchWithRetry(
 // asset — đặc biệt ảnh nền bí cảnh (Domain) — dùng CHUNG 1 filename gốc
 // cho hàng chục bản ghi khác nhau (đã xác minh trực tiếp qua genshin-db:
 // "UI_DungeonPic_NTDungeon_Cycle01" dùng chung bởi 16 domain,
-// "UI_DungeonPic_NTCycle02" bởi 12 domain, v.v. — đây chính là asset bản
-// Natlan/Nod-Krai mới, chưa được enka.network lẫn 2 CDN dự phòng mirror
-// kịp, nên toàn bộ domain dùng chung filename đó cùng lúc báo lỗi như ảnh
-// chụp "Domains: 0/65"). Key theo id buộc phải chép cùng 1 dòng override
+// "UI_DungeonPic_NTCycle02" bởi 12 domain, v.v.).
+// LƯU Ý (đã xác minh lại qua r2-check-report — xem list-failed-images.ts):
+// đây KHÔNG phải hiện tượng riêng của Natlan/Nod-Krai "vì asset mới quá
+// chưa kịp mirror" — domain rất cũ (Fire/Ice/Rock/Thunder/Water — dungeon
+// nguyên tố cơ bản có từ 1.0) cũng lỗi y hệt. Nguyên nhân thật là
+// UI_DungeonPic_* KHÔNG nằm trong tập enka.network mirror (xem comment ở
+// ALT_ASSET_CDNS bên dưới), và 2 CDN dự phòng cũng đang fail cho nhóm này
+// (chưa rõ do đổi cấu trúc URL hay lý do khác — cần chạy lại script và đọc
+// log "⚠ HTTP ... - <url>" cho từng bước fallback để xác định chính xác).
+// Key theo id buộc phải chép cùng 1 dòng override
 // N lần cho N bản ghi giống hệt nhau. Đổi sang key theo FILENAME GỐC (tách
 // từ URL enka.network, không gồm đuôi .png) để 1 dòng vá được mọi bản ghi
 // cùng dùng asset đó — nhất quán với `fandomMap` bên dưới (cũng key theo
@@ -138,7 +165,7 @@ const ALT_ASSET_CDNS: Array<{ baseUrl: string; ext: string }> = [
 // có 1 map thủ công `MANUAL_MIRROR_FALLBACKS_BY_FILENAME` ở trên để vận hành
 // nhập tay khi nguồn sống được xác minh.
 
-function getFallbackUrls(originalUrl: string, type: string, id?: string): string[] {
+function getFallbackUrls(originalUrl: string, type: string, id?: string, domainName?: string): string[] {
   const urls: string[] = [originalUrl];
 
   // Tách filename SỚM (trước mọi override) để override theo filename dùng
@@ -173,6 +200,43 @@ function getFallbackUrls(originalUrl: string, type: string, id?: string): string
       for (const cdn of ALT_ASSET_CDNS) {
         urls.push(`${cdn.baseUrl}${filename}.${cdn.ext}`);
       }
+    }
+  }
+
+  // ---- FALLBACK RIÊNG CHO DOMAIN: Genshin Impact Wiki (Fandom) ----
+  // Khác hẳn 3 nguồn trên (đều đánh index theo filename UI_DungeonPic_* của
+  // game — nhóm này CHẾT ĐỀU trên cả enka/yatta/nanoka, xác nhận qua log
+  // thật ngày chạy --dry-run, không riêng Natlan/Nod-Krai). Fandom lưu ảnh
+  // nền domain theo tên TRANG WIKI, quy luật "Domain <Tên domain>.png" (xem
+  // template Domain Infobox trên chính wiki: `image = Domain
+  // {{subst:PAGENAME}}.png`) — hoàn toàn độc lập với tên file UI_* của
+  // game, nên không bị chung số phận 404 với 3 nguồn kia.
+  // Dùng endpoint Special:FilePath thay vì đoán thẳng URL static.wikia —
+  // endpoint này của Fandom/Wikia tự redirect sang đúng CDN URL thật (kèm
+  // hash) nên không cần biết trước hash đó, chỉ cần đúng TÊN FILE.
+  // CHƯA VERIFY 100% khớp mọi domain (vài domain có thể tên trang wiki
+  // không khớp 1:1 tên trong DB — vd khác biệt viết hoa/dấu câu) — nếu 1
+  // domain cụ thể vẫn fail sau khi có fallback này, tự tra tên trang đúng
+  // trên genshin-impact.fandom.com/wiki/Category:Domain_Images rồi thêm
+  // override vào MANUAL_MIRROR_FALLBACKS_BY_FILENAME (key = filename UI_*
+  // gốc của domain đó, không phải tên domain).
+  if (type === "domain" && domainName) {
+    // domain.name trong DB là tên ĐẦY ĐỦ kiểu "Domain of Blessing: Autumn
+    // Hunt" (xem scripts/seed-domains.ts::baseDomainName), nhưng trang wiki
+    // Fandom cho TỪNG domain cụ thể thường chỉ đặt theo phần SAU dấu ":"
+    // (vd "Autumn Hunt") — "Domain of Blessing" chỉ là trang danh mục
+    // chung, không phải trang từng domain. Thử bản đã bỏ prefix TRƯỚC
+    // (nhiều khả năng đúng hơn), rồi thử bản đầy đủ làm dự phòng, phòng
+    // trường hợp 1 số domain lại đặt tên trang theo kiểu khác.
+    const shortName = domainName.includes(":")
+      ? domainName.split(":").slice(1).join(":").trim()
+      : domainName.trim();
+    const candidateNames = [shortName, domainName.trim()].filter(
+      (v, i, arr) => v && arr.indexOf(v) === i
+    );
+    for (const n of candidateNames) {
+      const wikiFileName = `Domain_${n.replace(/\s+/g, "_")}.png`;
+      urls.push(`https://genshin-impact.fandom.com/wiki/Special:FilePath/${encodeURIComponent(wikiFileName)}`);
     }
   }
 
@@ -233,7 +297,8 @@ async function mirrorUrl(
   sourceUrl: string,
   keyBase: string,
   type: string = "unknown",
-  id?: string
+  id?: string,
+  domainName?: string
 ): Promise<string | null> {
   const cached = urlCache.get(sourceUrl);
   if (cached) return cached;
@@ -248,7 +313,7 @@ async function mirrorUrl(
     return null;
   }
 
-  const urls = getFallbackUrls(sourceUrl, type, id);
+  const urls = getFallbackUrls(sourceUrl, type, id, domainName);
 
   for (const url of urls) {
     try {
@@ -268,7 +333,10 @@ async function mirrorUrl(
         return fakeUrl;
       }
 
-      const exists = await objectExistsOnR2(key);
+      // --force: object cũ trên R2 (nếu có) chắc chắn sẽ bị PutObject ghi
+      // đè bên dưới, nên KHÔNG được coi "đã tồn tại = xong việc" ở đây —
+      // nếu không, nội dung ảnh mới sẽ không bao giờ thực sự được tải về.
+      const exists = FORCE_REMIRROR ? false : await objectExistsOnR2(key);
       if (exists) {
         skippedExistingCount++;
         const publicUrl = r2PublicUrl(key);
@@ -314,8 +382,10 @@ async function mirrorUrl(
   return null;
 }
 
-/** True nếu cột hiển thị hiện tại đã trỏ vào R2 -> đã mirror, không cần tải lại. */
+/** True nếu cột hiển thị hiện tại đã trỏ vào R2 -> đã mirror, không cần tải lại.
+ * Với --force: luôn trả true (mirror lại bất kể đã có R2 hay chưa). */
 function shouldMirror(displayUrl: string | null | undefined): boolean {
+  if (FORCE_REMIRROR) return true;
   return !isAlreadyMirrored(displayUrl ?? "");
 }
 
@@ -419,12 +489,12 @@ async function mirrorArtifactSets(): Promise<void> {
 
 async function mirrorDomains(): Promise<void> {
   const rows = await prisma.domain.findMany({
-    select: { id: true, imageUrl: true, imageUrlOriginal: true },
+    select: { id: true, name: true, imageUrl: true, imageUrlOriginal: true },
   });
   let updated = 0;
   for (const d of rows) {
     if (!d.imageUrlOriginal || !shouldMirror(d.imageUrl)) continue;
-    const u = await mirrorUrl(d.imageUrlOriginal, `domains/${d.id}/image`, "domain", d.id);
+    const u = await mirrorUrl(d.imageUrlOriginal, `domains/${d.id}/image`, "domain", d.id, d.name);
     if (u) {
       if (!DRY_RUN) await prisma.domain.update({ where: { id: d.id }, data: { imageUrl: u } });
       updated++;
@@ -481,6 +551,9 @@ async function main(): Promise<void> {
   } else {
     console.log("Mirror ảnh sang R2...\n");
     console.log(`Timeout: ${TIMEOUT_MS / 1000}s, Retry: ${RETRY_COUNT}, Delay: ${DELAY_BETWEEN_REQUESTS_MS}ms\n`);
+  }
+  if (FORCE_REMIRROR) {
+    console.log("⚠ --force đang bật: sẽ tải lại và GHI ĐÈ mọi ảnh, kể cả đã có trên R2.\n");
   }
 
   try {
