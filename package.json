@@ -22,6 +22,7 @@
     "db:seed": "tsx --env-file=.env scripts/seed.ts",
     "data:crawl": "tsx scripts/pipeline/crawl-characters.ts",
     "db:verify": "tsx --env-file=.env scripts/verify-seed-integrity.ts",
+    "data:fix-vision": "tsx --env-file=.env scripts/fix-vision-mismatch.ts",
     "images:mirror": "tsx --env-file=.env scripts/mirror-images-to-r2.ts",
     "data:update": "tsx scripts/update-data.ts",
     "db:full": "npm run data:update && npm run data:crawl && npm run db:seed && npm run images:mirror"

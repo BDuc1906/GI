@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { Prisma } from "@prisma/client";
-import { prisma } from "@/lib/prisma";
-import { rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
-import { ElementIcon } from "@/components/ElementIcon";
-import { SafeImage } from "@/components/SafeImage";
 import { unstable_cache } from "next/cache";
 import type { Metadata } from "next";
+import type { Prisma } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
+import { SafeImage } from "@/components/SafeImage";
+import { ElementIcon } from "@/components/ElementIcon";
+import { WeaponIcon } from "@/components/WeaponIcon";
+import { rarityStars, rarityGlowClass, rarityTextClass } from "@/lib/theme";
 
 export const metadata: Metadata = {
   title: "Nhân vật — LEIBO",
@@ -13,30 +14,62 @@ export const metadata: Metadata = {
 };
 
 const getVisionRows = unstable_cache(
-  async () =>
-    prisma.character.findMany({
+  async () => {
+    const rows = await prisma.character.findMany({
       distinct: ["vision"],
       select: { vision: true, elementIcon: true },
-    }),
-  ["character-vision-rows"],
+    });
+    // Loại bỏ các giá trị "Unknown" hoặc null để không hiện chip lỗi
+    return rows
+      .filter((r) => r.vision && r.vision !== "Unknown")
+      .map((r) => ({ vision: r.vision, elementIcon: r.elementIcon }));
+  },
+  ["character-vision-rows-v3"],
+  { revalidate: 3600 }
+);
+
+const getRegionRows = unstable_cache(
+  async () => {
+    const rows = await prisma.character.findMany({
+      distinct: ["region"],
+      select: { region: true },
+    });
+    return rows
+      .map((r) => r.region)
+      .filter((r): r is string => Boolean(r));
+  },
+  ["character-region-rows"],
   { revalidate: 3600 }
 );
 
 interface PageProps {
-  searchParams: Promise<{ vision?: string; weapon?: string; rarity?: string; q?: string }>;
+  searchParams: Promise<{ vision?: string; weapon?: string; region?: string; rarity?: string; q?: string }>;
+}
+
+function parseMulti(value?: string): string[] {
+  if (!value) return [];
+  return value.split(",").map((v) => v.trim()).filter(Boolean);
+}
+
+function toggleValue(current: string[], value: string): string[] {
+  return current.includes(value) ? current.filter((v) => v !== value) : [...current, value];
 }
 
 export default async function CharactersPage({ searchParams }: PageProps) {
-  const { vision, weapon, rarity, q } = await searchParams;
+  const { vision, weapon, region, rarity, q } = await searchParams;
 
-  // Trước đây: `const where: any = {}` — không có kiểm tra kiểu nào cả, một
-  // lỗi gõ nhầm tên field (vd "visons" thay vì "vision") sẽ chỉ vỡ lúc chạy
-  // (runtime), không báo ngay lúc build. Dùng đúng type sinh ra từ schema
-  // Prisma để TypeScript bắt lỗi field/kiểu dữ liệu sai ngay khi biên dịch.
+  const visionList = parseMulti(vision);
+  const weaponList = parseMulti(weapon);
+  const regionList = parseMulti(region);
+  const rarityList = parseMulti(rarity).map(Number).filter((n) => !Number.isNaN(n));
+
   const where: Prisma.CharacterWhereInput = {};
-  if (vision) where.vision = { equals: vision, mode: "insensitive" };
-  if (weapon) where.weaponType = { equals: weapon, mode: "insensitive" };
-  if (rarity) where.rarity = Number(rarity);
+  if (visionList.length > 0) {
+    where.vision = { in: visionList, mode: "insensitive" };
+  }
+  if (weaponList.length > 0) where.weaponType = { in: weaponList, mode: "insensitive" };
+  if (regionList.length > 0) where.region = { in: regionList, mode: "insensitive" };
+  if (rarityList.length > 0) where.rarity = { in: rarityList };
   if (q) where.name = { contains: q, mode: "insensitive" };
 
   const characters = await prisma.character.findMany({
@@ -64,18 +97,39 @@ export default async function CharactersPage({ searchParams }: PageProps) {
   }
 
   const visionRows = await getVisionRows();
+  const regionRows = await getRegionRows();
   const weapons = ["Sword", "Claymore", "Polearm", "Bow", "Catalyst"];
 
-  const buildQuery = (params: Record<string, string | undefined>) => {
+  const buildQuery = (
+    changes: Partial<Record<"vision" | "weapon" | "region" | "rarity", string>>,
+    opts: { toggle?: boolean } = {}
+  ) => {
     const sp = new URLSearchParams();
-    if (vision) sp.set("vision", vision);
-    if (weapon) sp.set("weapon", weapon);
-    if (rarity) sp.set("rarity", rarity);
+    let nextVision = visionList;
+    let nextWeapon = weaponList;
+    let nextRegion = regionList;
+    let nextRarity = rarityList.map(String);
+
+    if (changes.vision !== undefined) {
+      nextVision = opts.toggle ? toggleValue(visionList, changes.vision) : parseMulti(changes.vision);
+    }
+    if (changes.weapon !== undefined) {
+      nextWeapon = opts.toggle ? toggleValue(weaponList, changes.weapon) : parseMulti(changes.weapon);
+    }
+    if (changes.region !== undefined) {
+      nextRegion = opts.toggle ? toggleValue(regionList, changes.region) : parseMulti(changes.region);
+    }
+    if (changes.rarity !== undefined) {
+      nextRarity = opts.toggle
+        ? toggleValue(rarityList.map(String), changes.rarity)
+        : parseMulti(changes.rarity);
+    }
+
+    if (nextVision.length > 0) sp.set("vision", nextVision.join(","));
+    if (nextWeapon.length > 0) sp.set("weapon", nextWeapon.join(","));
+    if (nextRegion.length > 0) sp.set("region", nextRegion.join(","));
+    if (nextRarity.length > 0) sp.set("rarity", nextRarity.join(","));
     if (q) sp.set("q", q);
-    Object.entries(params).forEach(([k, v]) => {
-      if (v) sp.set(k, v);
-      else sp.delete(k);
-    });
     return sp.toString();
   };
 
@@ -96,9 +150,10 @@ export default async function CharactersPage({ searchParams }: PageProps) {
 
       <div className="mb-6">
         <form method="GET" className="flex gap-2">
-          {vision && <input type="hidden" name="vision" value={vision} />}
-          {weapon && <input type="hidden" name="weapon" value={weapon} />}
-          {rarity && <input type="hidden" name="rarity" value={rarity} />}
+          {visionList.length > 0 && <input type="hidden" name="vision" value={visionList.join(",")} />}
+          {weaponList.length > 0 && <input type="hidden" name="weapon" value={weaponList.join(",")} />}
+          {regionList.length > 0 && <input type="hidden" name="region" value={regionList.join(",")} />}
+          {rarityList.length > 0 && <input type="hidden" name="rarity" value={rarityList.join(",")} />}
           <input
             type="text"
             name="q"
@@ -114,7 +169,7 @@ export default async function CharactersPage({ searchParams }: PageProps) {
           </button>
           {q && (
             <Link
-              href={`/characters?${buildQuery({ q: undefined })}`}
+              href={`/characters?${buildQuery({})}`}
               className="rounded-lg border border-red-900/60 bg-red-950/40 px-4 py-2 text-sm text-red-400 hover:bg-red-900/40 transition-colors"
             >
               Xóa
@@ -124,45 +179,95 @@ export default async function CharactersPage({ searchParams }: PageProps) {
       </div>
 
       <div className="bg-card/40 backdrop-blur-md border border-border p-4 rounded-xl mb-8 flex flex-col gap-4">
+        {/* Bộ lọc nguyên tố */}
         <div className="flex flex-wrap items-center gap-2 text-xs">
           <span className="text-secondary font-medium mr-2">Nguyên tố (Vision):</span>
-          {visionRows.map(({ vision: v, elementIcon }) => (
-            <Link
-              key={v}
-              href={`/characters?${buildQuery({ vision: v })}`}
-              className="px-3 py-1.5 rounded-full border border-border bg-card/60 hover:border-gold/50 transition-all flex items-center gap-1.5 text-primary"
-            >
-              <ElementIcon vision={v} iconUrl={elementIcon} size={16} />
-              {v}
-            </Link>
-          ))}
+          {visionRows.map(({ vision: v, elementIcon }) => {
+            const active = visionList.includes(v);
+            return (
+              <Link
+                key={v}
+                href={`/characters?${buildQuery({ vision: v }, { toggle: true })}`}
+                aria-pressed={active}
+                className={`px-3 py-1.5 rounded-full border transition-all flex items-center gap-1.5 ${
+                  active
+                    ? "border-gold bg-gold/20 text-gold-bright font-semibold"
+                    : "border-border bg-card/60 hover:border-gold/50 text-primary"
+                }`}
+              >
+                <ElementIcon vision={v} iconUrl={elementIcon} size={16} />
+                {v}
+              </Link>
+            );
+          })}
         </div>
 
+        {/* Bộ lọc vũ khí */}
         <div className="flex flex-wrap items-center gap-2 text-xs">
           <span className="text-secondary font-medium mr-2">Loại Vũ Khí:</span>
-          {weapons.map((w) => (
-            <Link
-              key={w}
-              href={`/characters?${buildQuery({ weapon: w })}`}
-              className="px-3 py-1.5 rounded-full border border-border bg-card/60 hover:border-gold/50 transition-all text-primary"
-            >
-              {w}
-            </Link>
-          ))}
+          {weapons.map((w) => {
+            const active = weaponList.includes(w);
+            return (
+              <Link
+                key={w}
+                href={`/characters?${buildQuery({ weapon: w }, { toggle: true })}`}
+                aria-pressed={active}
+                className={`px-3 py-1.5 rounded-full border transition-all flex items-center gap-1.5 ${
+                  active
+                    ? "border-gold bg-gold/20 text-gold-bright font-semibold"
+                    : "border-border bg-card/60 hover:border-gold/50 text-primary"
+                }`}
+              >
+                <WeaponIcon type={w} size={16} />
+                {w}
+              </Link>
+            );
+          })}
         </div>
 
+        {/* Bộ lọc vùng */}
+        <div className="flex flex-wrap items-center gap-2 text-xs">
+          <span className="text-secondary font-medium mr-2">Vùng (Region):</span>
+          {regionRows.map((r) => {
+            const active = regionList.includes(r);
+            return (
+              <Link
+                key={r}
+                href={`/characters?${buildQuery({ region: r }, { toggle: true })}`}
+                aria-pressed={active}
+                className={`px-3 py-1.5 rounded-full border transition-all ${
+                  active
+                    ? "border-gold bg-gold/20 text-gold-bright font-semibold"
+                    : "border-border bg-card/60 hover:border-gold/50 text-primary"
+                }`}
+              >
+                {r}
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* Bộ lọc phẩm cấp */}
         <div className="flex flex-wrap items-center gap-2 text-xs">
           <span className="text-secondary font-medium mr-2">Phẩm cấp (Rarity):</span>
-          {[4, 5].map((r) => (
-            <Link
-              key={r}
-              href={`/characters?${buildQuery({ rarity: String(r) })}`}
-              className={`px-3 py-1.5 rounded-full border border-border bg-card/60 hover:border-gold/50 transition-all ${rarityTextClass(r)}`}
-            >
-              {rarityStars(r)}
-            </Link>
-          ))}
-          {(vision || weapon || rarity || q) && (
+          {[4, 5].map((r) => {
+            const active = rarityList.includes(r);
+            return (
+              <Link
+                key={r}
+                href={`/characters?${buildQuery({ rarity: String(r) }, { toggle: true })}`}
+                aria-pressed={active}
+                className={`px-3 py-1.5 rounded-full border font-bold transition-all ${
+                  active
+                    ? "border-gold bg-gold/20 text-rarity-star"
+                    : "border-border bg-card/60 hover:border-gold/50 text-rarity-star"
+                }`}
+              >
+                {rarityStars(r)}
+              </Link>
+            );
+          })}
+          {(visionList.length || weaponList.length || regionList.length || rarityList.length || q) && (
             <Link
               href="/characters"
               className="ml-auto px-4 py-1.5 rounded-full bg-red-950/40 border border-red-900/60 text-red-400 hover:bg-red-900/40 transition-colors text-xs font-semibold"
@@ -186,7 +291,6 @@ export default async function CharactersPage({ searchParams }: PageProps) {
             >
               <div className="relative aspect-square w-full overflow-hidden bg-secondary/50">
                 {boyImg && girlImg ? (
-                  // Cả hai đều có -> ghép đôi
                   <>
                     <div className="absolute inset-0" style={{ clipPath: "polygon(0 0, 50% 0, 50% 100%, 0 100%)" }}>
                       <SafeImage src={boyImg} alt={`Traveler (${el}) - Nam`} fill priority={index < 6} sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 213px" className="object-cover group-hover:scale-110 transition-transform duration-500" />
@@ -197,9 +301,6 @@ export default async function CharactersPage({ searchParams }: PageProps) {
                     <div className="absolute top-0 bottom-0 left-1/2 w-px bg-black/40 -translate-x-1/2" />
                   </>
                 ) : (
-                  // Chỉ có một bên -> hiển thị full. `src` chấp nhận
-                  // null/undefined trực tiếp (xem SafeImage.tsx) — không còn
-                  // cần ép '' khi cả 2 nguồn đều thiếu.
                   <SafeImage src={boyImg || girlImg} alt={`Traveler (${el})`} fill priority={index < 6} sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 213px" className="object-cover group-hover:scale-110 transition-transform duration-500" />
                 )}
                 <div className="absolute top-2 left-2 bg-black/40 backdrop-blur-sm rounded-full p-1">

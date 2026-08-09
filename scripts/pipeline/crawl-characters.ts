@@ -63,7 +63,7 @@ function crawlCharacter(name: string): CharacterData | null {
     const iconUrl = getBestImageUrl(raw.images, "icon");
     const sideIconUrl = getBestImageUrl(raw.images, "side");
     const splashUrl = getBestImageUrl(raw.images, "splash");
-    const elementIcon = getElementIconUrl(raw.vision);
+    const elementIcon = getElementIconUrl(raw.elementText);
 
     // ---- Talent book ----
     // BUG ĐÃ SỬA (13 nhân vật báo "KHÔNG resolve được talent book type"):
@@ -74,15 +74,15 @@ function crawlCharacter(name: string): CharacterData | null {
     // nhân vật thường, không cần cập nhật map tay nữa. Map thủ công +
     // resolveTravelerTalentBook(vision) chỉ còn dùng làm fallback, chủ
     // yếu cho Aether/Lumine (genshin-db 5.2.12 không tách biến thể nguyên
-    // tố cho Traveler nên talents("Aether")/raw.vision đều rỗng — 2 nhân
-    // vật này vẫn phải khai tay trong talent-book-mapping.json).
+    // tố cho Traveler nên talents("Aether")/raw.elementText đều rỗng — 2
+    // nhân vật này vẫn phải khai tay trong talent-book-mapping.json).
     const { talents, constellations, talentMaterials: talentMaterialsFromCosts, bookType: bookTypeFromCosts } =
       getTalentsAndConstellations(genshindb, raw.name);
 
     const bookType =
       bookTypeFromCosts ??
       (raw.name === "Aether" || raw.name === "Lumine"
-        ? resolveTravelerTalentBook(raw.vision)
+        ? resolveTravelerTalentBook(raw.elementText)
         : null) ??
       resolveTalentBook(raw.name);
     const bossMaterialName = getBossMaterialName(raw.costs, bossMaterialNames);
@@ -110,8 +110,16 @@ function crawlCharacter(name: string): CharacterData | null {
       id,
       name: raw.name,
       title: raw.title || null,
-      vision: raw.vision || 'Unknown',  // FALLBACK NẾU THIẾU
-      weaponType: raw.weaponType || 'Unknown',  // FALLBACK
+      // BUG ĐÃ SỬA: genshin-db v5 KHÔNG có field `vision` (chỉ có
+      // `elementText`, vd "Pyro") và `weaponType` là MÃ ENUM NỘI BỘ (vd
+      // "WEAPON_POLE"), không phải tên hiển thị. Dùng raw.vision/
+      // raw.weaponType khiến cột `vision` luôn rơi về 'Unknown' và cột
+      // `weaponType` chứa mã enum không khớp với các chip lọc trên UI
+      // ("Sword"/"Claymore"/"Polearm"/"Bow"/"Catalyst") -> lọc theo vũ
+      // khí luôn ra 0 kết quả, lọc theo nguyên tố sai cho nhân vật mới.
+      // Field đúng: elementText / weaponText.
+      vision: raw.elementText || 'Unknown',
+      weaponType: raw.weaponText || 'Unknown',
       rarity: typeof raw.rarity === "string" ? parseInt(raw.rarity, 10) : (raw.rarity || 4),
       region: raw.region || null,
       affiliation: raw.affiliation || null,

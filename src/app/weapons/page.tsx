@@ -1,9 +1,9 @@
-
 import Link from "next/link";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
 import { SafeImage } from "@/components/SafeImage";
+import { WeaponIcon } from "@/components/WeaponIcon";
 import { Pagination } from "@/components/Pagination";
 import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/pagination";
 import type { Metadata } from "next";
@@ -106,8 +106,9 @@ export default async function WeaponsPage({ searchParams }: PageProps) {
             <Link
               key={t}
               href={`/weapons?${buildQuery({ type: t })}`}
-              className="px-3 py-1.5 rounded-full border border-border bg-card/60 hover:border-gold/50 transition-all font-medium text-primary"
+              className="px-3 py-1.5 rounded-full border border-border bg-card/60 hover:border-gold/50 transition-all flex items-center gap-1.5 font-medium text-primary"
             >
+              <WeaponIcon type={t} size={16} />
               {t}
             </Link>
           ))}
@@ -119,7 +120,7 @@ export default async function WeaponsPage({ searchParams }: PageProps) {
             <Link
               key={r}
               href={`/weapons?${buildQuery({ rarity: String(r) })}`}
-              className={`px-3 py-1.5 rounded-full border border-border bg-card/60 hover:border-gold/50 transition-all ${rarityTextClass(r)}`}
+              className="px-3 py-1.5 rounded-full border border-border bg-card/60 hover:border-gold/50 transition-all text-gold-bright font-bold"
             >
               {rarityStars(r)}
             </Link>

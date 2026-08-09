@@ -18,6 +18,13 @@
   --gold-bright: #F4D03F;
   --shadow-glow: 0 0 20px rgba(201, 166, 107, 0.08);
   --shadow-card: 0 4px 12px rgba(0,0,0,0.3);
+  /* Màu sao phẩm cấp (★) — TÁCH RIÊNG khỏi --gold-bright. Trong game, sao
+     phẩm cấp luôn là 1 tông vàng ánh kim rực rỡ, không đổi theo theme UI.
+     Trước đây trang lọc dùng chung text-gold-bright cho sao, nhưng biến
+     đó còn dùng cho rất nhiều chỗ khác (link hover, viền nút...) nên ở
+     light mode nó bị chỉnh thành tông nâu-vàng trầm (#c9a03a) để hợp với
+     nền sáng — kết quả là sao nhìn như đen/nâu thay vì vàng. */
+  --rarity-star: #ffd54a;
 }
 
 [data-theme="light"] {
@@ -37,6 +44,35 @@
   --gold-bright: #c9a03a;
   --shadow-glow: 0 0 20px rgba(184, 148, 74, 0.10);
   --shadow-card: 0 4px 12px rgba(0,0,0,0.06);
+  /* Sao phẩm cấp vẫn giữ tông vàng đậm rực rỡ ở light mode (khác
+     --gold-bright), để không bị "chìm" màu nâu như trước. */
+  --rarity-star: #e0a800;
+}
+
+/*
+ * BUG ĐÃ SỬA: toàn bộ class Tailwind dùng tiền tố "gold" (text-gold,
+ * text-gold-bright, bg-gold/10, border-gold/40, ...) được dùng RẤT NHIỀU
+ * nơi trong codebase, nhưng KHÔNG có tác dụng gì — Tailwind v4 chỉ sinh ra
+ * utility cho 1 màu nếu màu đó được khai trong khối `@theme` (dạng biến
+ * `--color-<tên>`). "gold"/"gold-bright" trước đây CHỈ được khai trong
+ * `:root`/`[data-theme="light"]` như biến CSS thường (`--gold`,
+ * `--gold-bright`) — Tailwind không biết 2 biến này để sinh class, nên
+ * `text-gold-bright` bị bỏ qua hoàn toàn lúc build, phần tử rơi về màu chữ
+ * mặc định kế thừa từ `body` (đen ở light mode) — đây chính là lý do các
+ * ngôi sao ★ ở bộ lọc phẩm cấp hiển thị màu đen thay vì vàng.
+ *
+ * Sửa bằng `@theme inline`: đăng ký lại 2 biến trên thành token màu thật
+ * của Tailwind, TRỎ THẲNG tới biến CSS gốc (không hardcode giá trị) để vẫn
+ * tự đổi màu đúng giữa dark/light mode như thiết kế ban đầu.
+ *
+ * Thêm --color-rarity-star cùng cơ chế, để sinh ra class `text-rarity-star`
+ * dùng riêng cho sao phẩm cấp — xem lý do tách riêng ở comment của biến
+ * --rarity-star phía trên.
+ */
+@theme inline {
+  --color-gold: var(--gold);
+  --color-gold-bright: var(--gold-bright);
+  --color-rarity-star: var(--rarity-star);
 }
 
 * {
@@ -158,6 +194,14 @@ tr:nth-child(even) {
 .text-inverted { color: var(--text-inverted); }
 .border-border { border-color: var(--border-color); }
 .shadow-card { box-shadow: var(--shadow-card); }
+
+/* Sao phẩm cấp (★) — dùng --color-rarity-star đăng ký ở @theme inline
+   phía trên. Thêm text-shadow nhẹ để nổi bật giống hiệu ứng "ánh kim"
+   của sao trong game, ở cả 2 theme. */
+.text-rarity-star {
+  color: var(--rarity-star);
+  text-shadow: 0 0 6px rgba(255, 213, 74, 0.35);
+}
 
 /* Khung icon kỹ năng / cung mệnh — LUÔN nền tối bất kể theme (không dùng
    bg-secondary/bg-card đổi theo theme như các icon khác) vì ảnh gốc từ

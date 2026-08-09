@@ -77,18 +77,24 @@ export function getUiAssetUrl(filename?: string | null): string | null {
   return `https://gi.yatta.moe/assets/UI/${filename}.png`;
 }
 
+// Xuất ra ngoài (thay vì khai báo cục bộ trong hàm) để dùng lại được ở nơi
+// khác cần chiều NGƯỢC LẠI (URL -> tên nguyên tố) — xem
+// scripts/fix-vision-mismatch.ts, script sửa lỗi 1 nhân vật hiển thị đúng
+// icon nguyên tố (elementIcon) nhưng text vision lại là "Unknown" do bị
+// ghi đè nhầm ở 1 lần seed cũ (xem comment trong scripts/seed-characters.ts).
+export const ELEMENT_ICON_MAP: Record<string, string> = {
+  Anemo: "https://static.wikia.nocookie.net/gensin-impact/images/1/10/Element_Anemo.svg",
+  Geo: "https://static.wikia.nocookie.net/gensin-impact/images/9/9b/Element_Geo.svg",
+  Electro: "https://static.wikia.nocookie.net/gensin-impact/images/f/ff/Element_Electro.svg",
+  Dendro: "https://static.wikia.nocookie.net/gensin-impact/images/7/73/Element_Dendro.svg",
+  Hydro: "https://static.wikia.nocookie.net/gensin-impact/images/8/80/Element_Hydro.svg",
+  Pyro: "https://static.wikia.nocookie.net/gensin-impact/images/2/2c/Element_Pyro.svg",
+  Cryo: "https://static.wikia.nocookie.net/gensin-impact/images/7/72/Element_Cryo.svg",
+};
+
 export function getElementIconUrl(element?: string | null): string | null {
   if (!element) return null;
-  const known: Record<string, string> = {
-    Anemo: "https://static.wikia.nocookie.net/gensin-impact/images/1/10/Element_Anemo.svg",
-    Geo: "https://static.wikia.nocookie.net/gensin-impact/images/9/9b/Element_Geo.svg",
-    Electro: "https://static.wikia.nocookie.net/gensin-impact/images/f/ff/Element_Electro.svg",
-    Dendro: "https://static.wikia.nocookie.net/gensin-impact/images/7/73/Element_Dendro.svg",
-    Hydro: "https://static.wikia.nocookie.net/gensin-impact/images/8/80/Element_Hydro.svg",
-    Pyro: "https://static.wikia.nocookie.net/gensin-impact/images/2/2c/Element_Pyro.svg",
-    Cryo: "https://static.wikia.nocookie.net/gensin-impact/images/7/72/Element_Cryo.svg",
-  };
-  return known[element.trim()] ?? null;
+  return ELEMENT_ICON_MAP[element.trim()] ?? null;
 }
 
 /**

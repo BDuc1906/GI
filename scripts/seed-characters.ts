@@ -76,14 +76,55 @@ async function resolveTalentMaterials(
 }
 
 /**
- * Build payload từ CharacterData (không bao gồm 4 cột ảnh hiển thị)
+ * BUG ĐÃ SỬA (nhân vật hệ Pyro hiển thị "Unknown" nhưng icon vẫn là lửa):
+ * trước đây `vision`/`weaponType` LUÔN fallback cứng về chuỗi 'Unknown' —
+ * kể cả ở nhánh UPDATE của upsert bên dưới. Nếu 1 lần crawl bị trục trặc
+ * tạm thời (genshin-db đổi tên, rớt mạng, ...) và trả về vision rỗng cho
+ * MỘT nhân vật đã có dữ liệu đúng sẵn trong DB, nhánh update sẽ ghi đè
+ * "Pyro" (đúng) thành "Unknown" ngay lập tức. Trong khi đó cột elementIcon
+ * (ảnh) KHÔNG bị đổi theo vì elementIcon chỉ được set ở nhánh CREATE, cố
+ * tình giữ nguyên ở nhánh update (xem comment ở Character.iconUrl trong
+ * prisma/schema.prisma — tách 2 nhóm cột để không hoàn tác công mirror ảnh
+ * sang R2). Hậu quả: nhân vật hiển thị ĐÚNG icon lửa nhưng text nguyên tố
+ * lại là "Unknown" — 2 nguồn dữ liệu cùng mô tả 1 thứ nhưng lệch nhau.
+ *
+ * Sửa: chỉ fallback về 'Unknown' khi thật sự KHÔNG CÓ gì để giữ (tạo mới).
+ * Khi update mà dữ liệu crawl mới bị thiếu, GIỮ NGUYÊN giá trị cũ đang có
+ * trong DB thay vì ghi đè bằng 'Unknown', đồng thời cảnh báo ra console để
+ * biết mà kiểm tra lại nguồn crawl cho nhân vật đó.
  */
-async function toCharacterPayload(data: CharacterData) {
+function resolveFallbackField(
+  fresh: string | null | undefined,
+  existing: string | undefined | null,
+  charName: string,
+  charId: string,
+  fieldLabel: string
+): string {
+  if (fresh) return fresh;
+  if (existing) {
+    console.warn(
+      `⚠️ "${charName}" (${charId}): crawl không trả về "${fieldLabel}" — giữ nguyên giá trị cũ "${existing}" trong DB thay vì ghi đè thành "Unknown".`
+    );
+    return existing;
+  }
+  return 'Unknown';
+}
+
+/**
+ * Build payload từ CharacterData (không bao gồm 4 cột ảnh hiển thị).
+ * `existing` là bản ghi hiện có trong DB (nếu đây là update) — dùng để
+ * KHÔNG ghi đè vision/weaponType bằng 'Unknown' khi dữ liệu crawl bị thiếu
+ * (xem resolveFallbackField ở trên).
+ */
+async function toCharacterPayload(
+  data: CharacterData,
+  existing?: { vision: string; weaponType: string } | null
+) {
   return {
     name: data.name,
     title: data.title,
-    vision: data.vision || 'Unknown',  // FALLBACK
-    weaponType: data.weaponType || 'Unknown',  // FALLBACK
+    vision: resolveFallbackField(data.vision, existing?.vision, data.name, data.id, 'vision'),
+    weaponType: resolveFallbackField(data.weaponType, existing?.weaponType, data.name, data.id, 'weaponType'),
     rarity: data.rarity || 4,
     region: data.region,
     affiliation: data.affiliation,
@@ -127,7 +168,14 @@ export async function seedCharacters(): Promise<void> {
   let count = 0;
   for (const data of characters) {
     try {
-      const payload = await toCharacterPayload(data);
+      // Lấy vision/weaponType hiện có (nếu nhân vật đã tồn tại) để
+      // toCharacterPayload biết còn gì để "giữ nguyên" khi crawl thiếu dữ
+      // liệu — xem resolveFallbackField().
+      const existing = await prisma.character.findUnique({
+        where: { id: data.id },
+        select: { vision: true, weaponType: true },
+      });
+      const payload = await toCharacterPayload(data, existing);
       await prisma.character.upsert({
         where: { id: data.id },
         create: {
