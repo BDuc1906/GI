@@ -30,6 +30,54 @@ async function getWeaponAscensionMaterials(costs: unknown): Promise<unknown> {
   return phases.length ? JSON.parse(JSON.stringify(phases)) : null;
 }
 
+// ---------- STATS THEO CẤP ĐỘ (giống scripts/lib/genshin-pure-helpers.ts
+// getStatsByLevel() dùng cho nhân vật — vũ khí cũng có .stats(level,
+// ascension) THẬT trong genshin-db, không cần nội suy) ----------
+
+const ASCENSION_BREAKPOINT_LEVELS = new Set([20, 40, 50, 60, 70, 80]);
+
+function buildStatBreakpoints(): Array<[number, "-" | "+" | undefined]> {
+  const points: Array<[number, "-" | "+" | undefined]> = [];
+  for (let level = 1; level <= 90; level++) {
+    if (ASCENSION_BREAKPOINT_LEVELS.has(level)) {
+      points.push([level, "-"]);
+      points.push([level, "+"]);
+    } else {
+      points.push([level, undefined]);
+    }
+  }
+  return points;
+}
+
+const STAT_BREAKPOINTS = buildStatBreakpoints();
+
+type WeaponStatsFn = (level: number, ascension?: "-" | "+") => {
+  level?: number;
+  ascension?: number;
+  attack?: number;
+  specialized?: number;
+} | null;
+
+function getWeaponStatsByLevel(statsFn: unknown): unknown {
+  if (typeof statsFn !== "function") return null;
+  try {
+    const fn = statsFn as WeaponStatsFn;
+    const rows = STAT_BREAKPOINTS.map(([level, ascension]) => {
+      const s = ascension ? fn(level, ascension) : fn(level);
+      if (!s) return null;
+      return {
+        level: s.level ?? level,
+        ascension: s.ascension ?? null,
+        attack: s.attack ?? null,
+        specialized: s.specialized ?? null,
+      };
+    }).filter((r): r is NonNullable<typeof r> => r !== null);
+    return rows.length ? JSON.parse(JSON.stringify(rows)) : null;
+  } catch {
+    return null;
+  }
+}
+
 export async function seedWeapons(): Promise<void> {
   const names = genshindb.weapons("names", { matchCategories: true }) as string[];
   let count = 0;
@@ -45,6 +93,10 @@ export async function seedWeapons(): Promise<void> {
       // Lấy nguyên liệu đột phá
       const ascensionMaterials = await getWeaponAscensionMaterials(w.costs);
 
+      // Chỉ số ATK + chỉ số phụ thật theo từng cấp — nguồn cho
+      // WeaponLevelSlider (xem src/components/WeaponLevelSlider.tsx).
+      const statsByLevel = getWeaponStatsByLevel(w.stats);
+
       // Ảnh GỐC (hotlink) tại lần crawl này — ghi tự do mỗi lần seed vào
       // iconUrlOriginal. Cột iconUrl (hiển thị) do
       // scripts/mirror-images-to-r2.ts sở hữu sau lần mirror đầu tiên và
@@ -57,6 +109,7 @@ export async function seedWeapons(): Promise<void> {
         type: w.weaponText || null,
         rarity: typeof w.rarity === "string" ? parseInt(w.rarity, 10) : w.rarity,
         baseAtk: w.baseAtkValue ?? null,
+        statsByLevel: statsByLevel as any,
         subStatName: w.mainStatText || null,
         subStatValue: w.baseStatText || null,
         effectName: w.effectName || null,

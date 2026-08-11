@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { SiteNav } from "@/components/SiteNav";
-
+import { ChatWidget } from "@/components/ChatWidget";
 // Cùng biến/fallback với sitemap.ts và robots.ts — một nguồn duy nhất cho
 // domain thật, tránh lệch nhau giữa các file.
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
@@ -93,6 +93,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </Link>
             </div>
           </footer>
+          <ChatWidget />
         </ThemeProvider>
       </body>
     </html>

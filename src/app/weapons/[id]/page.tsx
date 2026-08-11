@@ -1,9 +1,10 @@
-
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { SafeImage } from "@/components/SafeImage";
 import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
+import { WeaponLevelSlider, type WeaponStatByLevelRow } from "@/components/WeaponLevelSlider";
+import { formatNumber } from "@/lib/character-stats-format";
 import type { AscensionMaterialPhase } from "@/lib/character-helpers";
 
 interface PageProps {
@@ -27,6 +28,11 @@ export default async function WeaponDetail({ params }: PageProps) {
 
   const refinements = (w.passiveByRefinement as unknown[]) ?? [];
   const ascensionMaterials = (w.ascensionMaterials as unknown as AscensionMaterialPhase[]) ?? [];
+  // statsByLevel là dữ liệu THẬT theo cấp/mốc đột phá (xem
+  // scripts/seed-weapons.ts / scripts/fix-weapon-stats-by-level.ts). Vũ
+  // khí seed từ trước khi thêm field này có thể chưa có -> fallback về
+  // baseAtk/subStatValue tĩnh (đã làm tròn) bên dưới.
+  const statsByLevel = (w.statsByLevel as unknown as WeaponStatByLevelRow[] | null) ?? null;
 
   // Lấy icon nguyên liệu từ bảng Material
   const materialIds = new Set<string>();
@@ -73,10 +79,16 @@ export default async function WeaponDetail({ params }: PageProps) {
       {/* Chỉ số cơ bản */}
       <section className="mb-8">
         <h2 className="font-display text-xl font-bold mb-2 text-gold border-b border-border pb-2">Chỉ số cơ bản</h2>
-        <div className="flex gap-6 text-sm text-secondary">
-          <div>ATK nền: {w.baseAtk ?? "—"}</div>
-          <div>{w.subStatName ?? "Chỉ số phụ"}: {w.subStatValue ?? "—"}</div>
-        </div>
+        {statsByLevel && statsByLevel.length > 0 ? (
+          <WeaponLevelSlider statsByLevel={statsByLevel} subStatName={w.subStatName} />
+        ) : (
+          // Fallback: chưa backfill statsByLevel cho vũ khí này — vẫn hiện
+          // số ĐÃ LÀM TRÒN (trước đây in thẳng baseAtk thô, vd "47.537").
+          <div className="flex gap-6 text-sm text-secondary">
+            <div>ATK nền: {formatNumber(w.baseAtk)}</div>
+            <div>{w.subStatName ?? "Chỉ số phụ"}: {w.subStatValue ?? "—"}</div>
+          </div>
+        )}
       </section>
 
       {/* Nguyên liệu đột phá */}

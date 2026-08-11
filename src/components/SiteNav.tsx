@@ -10,6 +10,7 @@ const NAV_LINKS = [
   { href: "/weapons", label: "Vũ khí" },
   { href: "/artifacts", label: "Thánh di vật" },
   { href: "/domains", label: "Bí cảnh" },
+  { href: "/elements", label: "Nguyên tố" },
 ];
 
 /**

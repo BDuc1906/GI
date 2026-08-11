@@ -102,29 +102,43 @@ export default async function WeaponsPage({ searchParams }: PageProps) {
       <div className="bg-card/40 backdrop-blur-md border border-border p-4 rounded-xl mb-8 flex flex-wrap gap-4 text-xs items-center">
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-secondary font-medium mr-2">Phân loại dòng:</span>
-          {types.map((t) => (
-            <Link
-              key={t}
-              href={`/weapons?${buildQuery({ type: t })}`}
-              className="px-3 py-1.5 rounded-full border border-border bg-card/60 hover:border-gold/50 transition-all flex items-center gap-1.5 font-medium text-primary"
-            >
-              <WeaponIcon type={t} size={16} />
-              {t}
-            </Link>
-          ))}
+          {types.map((t) => {
+            const active = type === t;
+            return (
+              <Link
+                key={t}
+                href={`/weapons?${buildQuery({ type: active ? undefined : t })}`}
+                className={`px-3 py-1.5 rounded-full border transition-all flex items-center gap-1.5 font-medium ${
+                  active
+                    ? "border-gold bg-gold/20 text-gold-bright"
+                    : "border-border bg-card/60 hover:border-gold/50 text-primary"
+                }`}
+              >
+                <WeaponIcon type={t} size={16} />
+                {t}
+              </Link>
+            );
+          })}
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-secondary font-medium mr-2 ml-2">Phẩm sao:</span>
-          {[3, 4, 5].map((r) => (
-            <Link
-              key={r}
-              href={`/weapons?${buildQuery({ rarity: String(r) })}`}
-              className="px-3 py-1.5 rounded-full border border-border bg-card/60 hover:border-gold/50 transition-all text-gold-bright font-bold"
-            >
-              {rarityStars(r)}
-            </Link>
-          ))}
+          {[3, 4, 5].map((r) => {
+            const active = rarity === String(r);
+            return (
+              <Link
+                key={r}
+                href={`/weapons?${buildQuery({ rarity: active ? undefined : String(r) })}`}
+                className={`px-3 py-1.5 rounded-full border transition-all font-bold text-rarity-star ${
+                  active
+                    ? "border-gold bg-gold/20"
+                    : "border-border bg-card/60 hover:border-gold/50"
+                }`}
+              >
+                {rarityStars(r)}
+              </Link>
+            );
+          })}
         </div>
 
         {(type || rarity || q) && (

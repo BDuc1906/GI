@@ -132,7 +132,11 @@ function crawlCharacter(name: string): CharacterData | null {
       baseHp: raw.baseHp || null,
       baseAtk: raw.baseAtk || null,
       baseDef: raw.baseDef || null,
-      ascensionStat: raw.ascensionStat || null,
+      // BUG ĐÃ SỬA: genshin-db v5 KHÔNG có field `ascensionStat` (luôn
+      // undefined -> cột ascensionStat trong DB rơi về null -> UI fallback
+      // hiện chữ chung chung "Chỉ số đột phá" thay vì tên thật như "CRIT
+      // DMG"/"Elemental Mastery"). Field đúng là `substatText`.
+      ascensionStat: raw.substatText || null,
       ascensionMaterials,
       talentMaterials,
       statsByLevel,

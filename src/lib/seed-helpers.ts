@@ -1,4 +1,3 @@
-
 /**
  * Helper dùng chung cho toàn bộ script seed.
  */
@@ -31,7 +30,12 @@ export function getBestImageUrl(
 ): string | null {
   if (!images || typeof images !== 'object') return null;
 
-  const candidates: string[] = [];
+  // BUG ĐÃ SỬA: khai `string[]` nhưng images[key] có kiểu `string |
+  // undefined` (field có thể không tồn tại) — push thẳng vào mảng "chỉ
+  // chứa string" khiến TS báo lỗi ts(2345) ở cả 5 chỗ candidates.push().
+  // Đổi kiểu mảng thành `(string | undefined)[]` — vòng lọc bên dưới đã
+  // tự lọc bỏ giá trị falsy/undefined trước khi dùng, không đổi hành vi.
+  const candidates: (string | undefined)[] = [];
 
   if (type === 'icon') {
     candidates.push(

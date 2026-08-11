@@ -107,6 +107,7 @@ model Weapon {
   type        String
   rarity      Int
   baseAtk     Float?
+  statsByLevel Json?
   subStatName String?
   subStatValue String?
   effectName  String?
