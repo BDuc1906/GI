@@ -1,8 +1,14 @@
 // src/agent/tools/base.tool.ts
 /**
- * Base Tool - Định nghĩa cấu trúc chuẩn cho tất cả tools (không đổi so
- * với bản gốc — logic permission/validate ở đây đã đúng, vấn đề nằm ở
- * chỗ context truyền vào luôn là giả, nay đã sửa ở ToolRegistry.ts)
+ * Base Tool - Định nghĩa cấu trúc chuẩn cho tất cả tools
+ *
+ * VÁ 0% ANY: `execute()` nhận `rawParams: unknown` — đây là ranh giới
+ * THẬT của runtime (dữ liệu từ LLM tool-call hoặc HTTP body, chưa ai
+ * đảm bảo đúng hình dạng gì cả), nên kiểu `unknown` là chính xác, không
+ * phải "lười gõ kiểu". Ngay sau đó `this.parameters.safeParse(rawParams)`
+ * validate + ép kiểu về đúng `TParams` cụ thể của từng tool con — từ
+ * đây trở đi (`run()`) mọi thứ có kiểu tường minh, TypeScript tự suy ra
+ * đúng dựa trên `parameters: z.ZodType<TParams>` khai báo ở lớp con.
  */
 
 import { z } from "zod";
@@ -13,7 +19,7 @@ export interface ToolContext {
   userRole?: string;
 }
 
-export interface ToolResult<T = any> {
+export interface ToolResult<T = unknown> {
   success: boolean;
   data?: T;
   error?: string;
@@ -24,15 +30,18 @@ export interface ToolResult<T = any> {
   };
 }
 
-export abstract class BaseTool<TParams = any, TResult = any> {
+export abstract class BaseTool<TParams = unknown, TResult = unknown> {
   abstract name: string;
   abstract description: string;
-  abstract parameters: z.ZodObject<any>;
+  // Ràng buộc generic TParams ngay tại schema — lớp con khai báo
+  // `parameters = SomeZodSchema` (kiểu z.ZodType<SomeParams>), từ đó
+  // TParams được TypeScript suy luận tự động tại `extends BaseTool<...>`.
+  abstract parameters: z.ZodType<TParams>;
 
   permission: "public" | "user" | "admin" = "user";
   rateLimit: number = 0;
 
-  async execute(params: TParams, context: ToolContext): Promise<ToolResult<TResult>> {
+  async execute(rawParams: unknown, context: ToolContext): Promise<ToolResult<TResult>> {
     const startTime = Date.now();
     const toolName = this.name;
 
@@ -53,7 +62,7 @@ export abstract class BaseTool<TParams = any, TResult = any> {
         };
       }
 
-      const validated = this.parameters.safeParse(params);
+      const validated = this.parameters.safeParse(rawParams);
       if (!validated.success) {
         return {
           success: false,

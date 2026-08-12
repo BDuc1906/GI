@@ -89,7 +89,7 @@ export class AgentMemory {
   /**
    * Cập nhật metadata của session
    */
-  async updateMetadata(metadata: Record<string, any>): Promise<void> {
+  async updateMetadata(metadata: Record<string, unknown>): Promise<void> {
     // Implementation depends on DB schema
     // Tạm thời chỉ lưu cache
     const session = await this.getSession();

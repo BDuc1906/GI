@@ -1,3 +1,4 @@
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -206,4 +207,53 @@ model PipelineRun {
   @@index([name])
   @@index([status])
   @@index([startedAt(sort: Desc)])
+}
+
+// ---- AI Agent: bộ nhớ hội thoại ----
+// Lưu lịch sử chat theo session để agent nhớ ngữ cảnh giữa các lượt hỏi.
+// Sở hữu & đọc/ghi: src/agent/utils/db-memory.ts (class DbMemory).
+// `id` do tầng ứng dụng cấp (sessionId từ client), KHÔNG dùng @default —
+// giống quy ước Character/Weapon/Domain ở trên (id là khoá nghiệp vụ,
+// không phải khoá surrogate tự sinh).
+model AgentSession {
+  id        String   @id
+  userId    String?
+  // Toàn bộ lịch sử hội thoại: ChatMessage[] (xem src/agent/core/schemas.ts).
+  // Mặc định "[]" khớp giá trị khởi tạo DbMemory.getOrCreateSession truyền vào.
+  messages  Json     @default("[]")
+  metadata  Json     @default("{}")
+  // Không @default ở DB — DbMemory luôn set thủ công lúc update, còn lúc
+  // create Prisma tự điền timestamp hiện tại nhờ @updatedAt (đúng hành vi
+  // đã có từ migration gốc: cột NOT NULL nhưng không có DB-level default).
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([updatedAt(sort: Desc)])
+}
+
+// ---- AI Agent: nhật ký kiểm toán (audit log) ----
+// Ghi lại MỌI lần agent (hoặc AutoFixEngine) thay đổi dữ liệu — bắt buộc
+// phải tồn tại trước khi bật tool "fix"/"sync" cho môi trường thật, vì đây
+// là cách duy nhất truy vết "ai/khi nào/sửa gì" khi có sự cố dữ liệu sai.
+// Sở hữu & đọc/ghi: src/lib/agent/AuditLogger.ts.
+// `id` dùng @default(cuid()) vì AuditLogger.createAuditLog() không truyền
+// id — khác AgentSession ở trên (đối chiếu kỹ trước khi sửa lại field này).
+model AuditLog {
+  id          String   @id @default(cuid())
+  action      String
+  entityType  String
+  entityId    String
+  oldValue    Json?
+  newValue    Json?
+  performedBy String
+  sessionId   String?
+  reason      String?  @db.Text
+  status      String   @default("success")
+  error       String?  @db.Text
+  createdAt   DateTime @default(now())
+
+  @@index([entityType, entityId])
+  @@index([performedBy])
+  @@index([createdAt(sort: Desc)])
 }

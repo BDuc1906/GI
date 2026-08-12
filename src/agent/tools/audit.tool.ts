@@ -1,28 +1,27 @@
 // src/agent/tools/audit.tool.ts
 /**
- * Audit Tool - Lấy lịch sử thay đổi (không đổi so với bản gốc, chỉ giờ
- * import trỏ tới AuditLogger THẬT thay vì module không tồn tại)
+ * Audit Tool - Lấy lịch sử thay đổi
  */
 
 import { z } from "zod";
 import { BaseTool, type ToolContext } from "./base.tool";
-import { getAuditLogs } from "@/lib/agent/AuditLogger";
+import { getAuditLogs, type AuditLogEntry } from "@/lib/agent/AuditLogger";
 
-export class AuditTool extends BaseTool {
+const AuditParams = z.object({
+  entityType: z.string().optional(),
+  entityId: z.string().optional(),
+  limit: z.number().min(1).max(100).default(20),
+});
+type AuditParams = z.infer<typeof AuditParams>;
+
+export class AuditTool extends BaseTool<AuditParams, AuditLogEntry[]> {
   name = "getAuditLogs";
   description = "Lấy lịch sử thay đổi của một entity trong hệ thống";
-  permission: "user" = "user";
+  permission = "user" as const;
 
-  parameters = z.object({
-    entityType: z.string().optional(),
-    entityId: z.string().optional(),
-    limit: z.number().min(1).max(100).default(20),
-  });
+  parameters = AuditParams;
 
-  protected async run(
-    params: z.infer<typeof this.parameters>,
-    _context: ToolContext
-  ): Promise<any[]> {
+  protected async run(params: AuditParams, _context: ToolContext): Promise<AuditLogEntry[]> {
     return await getAuditLogs(params.entityType, params.entityId, params.limit);
   }
 }

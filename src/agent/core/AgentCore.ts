@@ -6,10 +6,10 @@
  */
 
 import { streamText, generateText, type CoreMessage } from "ai";
-import { createLLMClient, getCurrentModel } from "./llm-client";
+import { createLLMClient } from "./llm-client";
 import { getSystemPrompt } from "./prompts";
 import { AgentMemory } from "./memory";
-import { ToolRegistry } from "./ToolRegistry";
+import { ToolRegistry, type AITool } from "./ToolRegistry";
 import { classifyIntent } from "./intent-classifier";
 import type { IntentResult } from "./schemas";
 import { getConfig, validateConfig } from "./config";
@@ -95,7 +95,7 @@ export class AgentCore {
   private async buildRequestParts(userMessage: string): Promise<{
     systemPrompt: string;
     history: CoreMessage[];
-    tools: Record<string, any>;
+    tools: Record<string, AITool>;
     intent: IntentResult;
   }> {
     const intent = await classifyIntent(userMessage);
@@ -126,7 +126,7 @@ export class AgentCore {
   async processStream(userMessage: string): Promise<ReadableStream<Uint8Array>> {
     const startTime = Date.now();
     const { systemPrompt, history, tools } = await this.buildRequestParts(userMessage);
-    const llm = createLLMClient();
+    const llm = await createLLMClient();
 
     const result = streamText({
       model: llm,
@@ -170,7 +170,7 @@ export class AgentCore {
    */
   async process(userMessage: string): Promise<string> {
     const { systemPrompt, history, tools } = await this.buildRequestParts(userMessage);
-    const llm = createLLMClient();
+    const llm = await createLLMClient();
 
     const { text } = await generateText({
       model: llm,

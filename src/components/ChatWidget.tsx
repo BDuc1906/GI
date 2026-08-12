@@ -72,7 +72,7 @@ export function ChatWidget() {
           <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
             {messages.length === 0 && (
               <p className="text-sm text-muted text-center mt-8">
-                Thử hỏi: "Kazuha có nguyên tố gì?" hoặc "Phản ứng Sum Suê là gì?"
+                Thử hỏi: &quot;Kazuha có nguyên tố gì?&quot; hoặc &quot;Phản ứng Sum Suê là gì?&quot;
               </p>
             )}
             {messages.map((msg, i) => (

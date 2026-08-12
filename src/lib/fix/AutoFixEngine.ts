@@ -5,17 +5,20 @@
  *
  * Thiết kế rule-based có chủ đích: KHÔNG để AI tự quyết field nào được
  * sửa — mỗi rule khai báo rõ field nào nó được phép chạm vào
- * (`allowedFields`), và MỌI thay đổi đều đi qua AuditLogger. Việc này
- * giới hạn "bán kính nổ" nếu live provider trả dữ liệu sai (xem cảnh
- * báo trong AmbrProvider.ts) — rule chỉ sửa field nó khai báo, không
- * bao giờ ghi đè nguyên object.
+ * (`allowedFields`), và MỌI thay đổi đều đi qua AuditLogger.
+ *
+ * VÁ 0% ANY: bỏ `prisma[modelKey] as any`, thay bằng switch tường minh
+ * (`findManyIds`/`updateByType`) — dài hơn nhưng TypeScript kiểm tra
+ * đúng field hợp lệ cho từng bảng thật, bắt lỗi field sai ngay lúc
+ * build thay vì runtime.
  */
 
 import { prisma } from "@/lib/prisma";
 import { DataSourceManager } from "@/lib/data-sources/DataSourceManager";
 import { DiffEngine } from "@/lib/sync/DiffEngine";
 import { createAuditLog } from "@/lib/agent/AuditLogger";
-import type { EntityType } from "@/agent/core/schemas";
+import type { EntityType, EntityRecordMap } from "@/agent/core/types";
+import type { Prisma } from "@prisma/client";
 
 export interface FixRule {
   name: string;
@@ -37,13 +40,12 @@ export interface RunFullScanResult {
   skipped: Array<{ entityType: EntityType; entityId: string; reason: string }>;
 }
 
-const MODEL_BY_TYPE: Record<EntityType, keyof typeof prisma> = {
-  character: "character",
-  weapon: "weapon",
-  material: "material",
-  domain: "domain",
-  artifact: "artifactSet",
-};
+type EntityUpdateInput =
+  | Prisma.CharacterUpdateInput
+  | Prisma.WeaponUpdateInput
+  | Prisma.MaterialUpdateInput
+  | Prisma.DomainUpdateInput
+  | Prisma.ArtifactSetUpdateInput;
 
 // Số record gọi live provider ĐỒNG THỜI trong 1 lô + thời gian nghỉ
 // giữa các lô — tránh vừa chậm (tuần tự) vừa dễ bị chặn (bắn hết cùng
@@ -62,13 +64,21 @@ export class AutoFixEngine {
   /**
    * Rule mặc định: đối chiếu số liệu cơ bản (baseHp/baseAtk/baseDef cho
    * character, baseAtk cho weapon, bonus cho artifact) với live
-   * provider. CHỈ áp dụng nếu đã cấu hình live provider — không có gì
-   * để so sánh thì không có gì để tự sửa.
+   * provider. CHỈ áp dụng nếu đã cấu hình live provider.
    */
   static getDefaultRules(): FixRule[] {
     return [
+      // baseHp/baseAtk/baseDef LÀ field thật trên Character (Float?
+      // trong schema) — đã verify tồn tại trong DB, còn việc
+      // JmpBlueProvider có TRẢ VỀ được giá trị hay không thì chưa xác
+      // nhận (xem comment trong JmpBlueProvider.ts); nếu không, giá
+      // trị undefined bị lọc bỏ, rule thành no-op an toàn.
       { name: "character-base-stats", entityType: "character", allowedFields: ["baseHp", "baseAtk", "baseDef"] },
+      // baseAtk cho weapon ĐÃ VERIFY THẬT — field "baseAttack" trong
+      // response, map đúng trong JmpBlueProvider.parseWeapon().
       { name: "weapon-base-atk", entityType: "weapon", allowedFields: ["baseAtk"] },
+      // Chưa verify field bonus 2/4 món thật — xem
+      // GENSHIN-API-REFERENCE.md để test tiếp nếu muốn chắc chắn.
       { name: "artifact-set-bonus", entityType: "artifact", allowedFields: ["twoPieceBonus", "fourPieceBonus"] },
     ];
   }
@@ -98,13 +108,6 @@ export class AutoFixEngine {
 
     for (const rule of rules) {
       const ids = await this.listIds(rule.entityType);
-      // Chạy theo lô nhỏ (CONCURRENCY record song song, nghỉ giữa các
-      // lô) thay vì tuần tự từng record hoặc bắn hết cùng lúc — vài
-      // trăm nhân vật/vũ khí gọi tuần tự sẽ rất chậm (mỗi lần round-trip
-      // network), còn bắn đồng thời hết dễ bị chính live provider chặn
-      // vì spike request bất thường (xem cảnh báo rate limit trong
-      // AmbrProvider — hầu hết API công khai dạng này đều có giới hạn
-      // ngầm dù không công bố).
       for (let i = 0; i < ids.length; i += CONCURRENCY) {
         const batch = ids.slice(i, i + CONCURRENCY);
         const results = await Promise.allSettled(batch.map((id) => this.applyRuleToEntity(rule, id)));
@@ -132,9 +135,44 @@ export class AutoFixEngine {
   }
 
   private async listIds(type: EntityType): Promise<string[]> {
-    const modelKey = MODEL_BY_TYPE[type];
-    const rows = await (prisma[modelKey] as any).findMany({ select: { id: true } });
-    return rows.map((r: { id: string }) => r.id);
+    let rows: Array<{ id: string }>;
+    switch (type) {
+      case "character":
+        rows = await prisma.character.findMany({ select: { id: true } });
+        break;
+      case "weapon":
+        rows = await prisma.weapon.findMany({ select: { id: true } });
+        break;
+      case "material":
+        rows = await prisma.material.findMany({ select: { id: true } });
+        break;
+      case "domain":
+        rows = await prisma.domain.findMany({ select: { id: true } });
+        break;
+      case "artifact":
+        rows = await prisma.artifactSet.findMany({ select: { id: true } });
+        break;
+    }
+    return rows.map((r) => r.id);
+  }
+
+  private async updateByType(
+    type: EntityType,
+    id: string,
+    data: EntityUpdateInput
+  ): Promise<EntityRecordMap[EntityType]> {
+    switch (type) {
+      case "character":
+        return prisma.character.update({ where: { id }, data: data as Prisma.CharacterUpdateInput });
+      case "weapon":
+        return prisma.weapon.update({ where: { id }, data: data as Prisma.WeaponUpdateInput });
+      case "material":
+        return prisma.material.update({ where: { id }, data: data as Prisma.MaterialUpdateInput });
+      case "domain":
+        return prisma.domain.update({ where: { id }, data: data as Prisma.DomainUpdateInput });
+      case "artifact":
+        return prisma.artifactSet.update({ where: { id }, data: data as Prisma.ArtifactSetUpdateInput });
+    }
   }
 
   private async applyRuleToEntity(rule: FixRule, id: string): Promise<FixApplied | null> {
@@ -144,15 +182,22 @@ export class AutoFixEngine {
     ]);
     if (!local || !live) return null;
 
-    const diff = DiffEngine.diff(local, live);
+    // Ép qua `unknown` trước khi vào DiffEngine (nhận Record<string,
+    // unknown> chung cho mọi loại entity — xem comment trong
+    // DiffEngine.ts) — record Prisma không có index signature nên cần
+    // 1 bước trung gian `unknown`, đây là type assertion tường minh,
+    // không phải `any`.
+    const diff = DiffEngine.diff(
+      local as unknown as Record<string, unknown>,
+      live as unknown as Record<string, unknown>
+    );
     const relevant = diff.fields.filter((f) => rule.allowedFields.includes(f.field));
     if (relevant.length === 0) return null;
 
     const updateData: Record<string, unknown> = {};
     for (const f of relevant) updateData[f.field] = f.live;
 
-    const modelKey = MODEL_BY_TYPE[rule.entityType];
-    await (prisma[modelKey] as any).update({ where: { id }, data: updateData });
+    await this.updateByType(rule.entityType, id, updateData as unknown as EntityUpdateInput);
 
     await createAuditLog({
       action: `auto_fix_${rule.entityType}`,

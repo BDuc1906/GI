@@ -140,7 +140,7 @@ export function AgentControlPanel({ adminKey, onAdminKeyChange, onActionComplete
       )}
 
       <p className="text-[11px] text-muted mt-3">
-        "Đồng bộ dữ liệu" không ghi thẳng vào database — nó trigger workflow{" "}
+        &quot;Đồng bộ dữ liệu&quot; không ghi thẳng vào database — nó trigger workflow{" "}
         <code className="text-secondary">update-data.yml</code>, chạy trên DB test riêng, kiểm tra tính toàn
         vẹn, rồi tạo Pull Request để bạn review trước khi merge.
       </p>

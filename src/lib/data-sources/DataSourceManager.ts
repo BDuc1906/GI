@@ -3,31 +3,30 @@
  * DataSourceManager — điểm truy cập DUY NHẤT mà AI Agent dùng để đọc
  * dữ liệu, dù là local (Prisma, luôn có) hay live (nguồn ngoài, optional).
  *
- * TRƯỚC ĐÂY: các tool trong src/agent/tools/*.ts import class này
- * nhưng file KHÔNG TỒN TẠI — mọi import throw ngay ở build time.
- * Bản này viết lại từ đầu, chỉ dựa trên model Prisma THẬT ĐANG CÓ
- * (Character, Weapon, Material, Domain, ArtifactSet) + dữ liệu tĩnh
- * phản ứng nguyên tố (element-reactions-data.ts) — không đụng tới
- * "enemy" vì DB chưa có bảng đó (xem schemas.ts).
- *
- * Live source (Ambr.top / Enka.Network) là OPTIONAL — nếu bạn chưa có
- * thời gian tích hợp/kiểm thử endpoint thật, cứ để trống, các tool cần
- * "live" (fetchLiveData, compareData, fixData khi không truyền field
- * cụ thể) sẽ trả lỗi rõ ràng thay vì crash mơ hồ. Xem
- * src/lib/data-sources/live/AmbrProvider.ts để bật khi sẵn sàng.
+ * VÁ 0% ANY:
+ * - `fetch()` dùng 2 OVERLOAD theo giá trị literal `live: true`/`false`
+ *   — TypeScript tự suy ra đúng kiểu trả về (Partial khi live, đầy đủ
+ *   khi local) tại từng call site, không cần ép kiểu tay ở nơi gọi.
+ * - Bỏ `require()` động — cả 2 file provider (`JmpBlueProvider`,
+ *   `AmbrProvider`) LUÔN tồn tại trong dự án (không phải optional
+ *   dependency thật), nên import tĩnh vừa đúng hơn vừa hết luôn lỗi
+ *   ESLint `no-require-imports`.
  */
 
 import { prisma } from "@/lib/prisma";
-import type { EntityType } from "@/agent/core/schemas";
-import { reactionsInvolving, ELEMENTAL_REACTIONS } from "@/lib/element-reactions-data";
+import type { EntityType, EntityRecordMap, LiveEntityData, AnyEntityRecord } from "@/agent/core/types";
+import { reactionsInvolving, ELEMENTAL_REACTIONS, type ElementalReaction } from "@/lib/element-reactions-data";
+import { JmpBlueProvider } from "./live/JmpBlueProvider";
+import { AmbrProvider } from "./live/AmbrProvider";
 
 export interface LiveDataProvider {
-  /** Tên nguồn, dùng để log/hiển thị (vd "ambr.top"). */
+  /** Tên nguồn, dùng để log/hiển thị (vd "genshin.jmp.blue"). */
   readonly name: string;
-  fetchOne(type: EntityType, id: string): Promise<Record<string, any> | null>;
+  fetchOne<T extends EntityType>(type: T, id: string): Promise<LiveEntityData<T> | null>;
 }
 
 type SearchType = EntityType | "reaction";
+type SearchResult = AnyEntityRecord | ElementalReaction;
 
 export class DataSourceManager {
   constructor(private readonly liveProvider: LiveDataProvider | null = getDefaultLiveProvider()) {}
@@ -35,7 +34,7 @@ export class DataSourceManager {
   // ==========================================
   // Search — luôn đọc local DB (hoặc dữ liệu tĩnh cho "reaction")
   // ==========================================
-  async search(type: SearchType, query: string, limit: number): Promise<any[]> {
+  async search(type: SearchType, query: string, limit: number): Promise<SearchResult[]> {
     const q = query.trim();
     if (!q) return [];
 
@@ -90,13 +89,22 @@ export class DataSourceManager {
   }
 
   // ==========================================
-  // Fetch 1 record — local hoặc live tuỳ tham số `live`
+  // Fetch 1 record — local hoặc live tuỳ tham số `live`.
+  // Overload để kiểu trả về khớp CHÍNH XÁC theo giá trị literal `live`
+  // tại từng nơi gọi — vd `fetch(type, id, true)` được suy ra ngay là
+  // `LiveEntityData<T> | null`, không cần ép kiểu ở tools/*.ts.
   // ==========================================
-  async fetch(type: EntityType, id: string, live: boolean): Promise<any | null> {
+  async fetch<T extends EntityType>(type: T, id: string, live: true): Promise<LiveEntityData<T> | null>;
+  async fetch<T extends EntityType>(type: T, id: string, live: false): Promise<EntityRecordMap[T] | null>;
+  async fetch<T extends EntityType>(
+    type: T,
+    id: string,
+    live: boolean
+  ): Promise<EntityRecordMap[T] | LiveEntityData<T> | null> {
     if (live) {
       if (!this.liveProvider) {
         throw new Error(
-          "Chưa cấu hình live data provider. Xem src/lib/data-sources/live/AmbrProvider.ts " +
+          "Chưa cấu hình live data provider. Xem src/lib/data-sources/live/JmpBlueProvider.ts " +
             "để bật, hoặc dùng dữ liệu local (live=false)."
         );
       }
@@ -105,18 +113,18 @@ export class DataSourceManager {
     return this.fetchLocal(type, id);
   }
 
-  async fetchLocal(type: EntityType, id: string): Promise<any | null> {
+  async fetchLocal<T extends EntityType>(type: T, id: string): Promise<EntityRecordMap[T] | null> {
     switch (type) {
       case "character":
-        return prisma.character.findUnique({ where: { id } });
+        return prisma.character.findUnique({ where: { id } }) as Promise<EntityRecordMap[T] | null>;
       case "weapon":
-        return prisma.weapon.findUnique({ where: { id } });
+        return prisma.weapon.findUnique({ where: { id } }) as Promise<EntityRecordMap[T] | null>;
       case "material":
-        return prisma.material.findUnique({ where: { id } });
+        return prisma.material.findUnique({ where: { id } }) as Promise<EntityRecordMap[T] | null>;
       case "domain":
-        return prisma.domain.findUnique({ where: { id } });
+        return prisma.domain.findUnique({ where: { id } }) as Promise<EntityRecordMap[T] | null>;
       case "artifact":
-        return prisma.artifactSet.findUnique({ where: { id } });
+        return prisma.artifactSet.findUnique({ where: { id } }) as Promise<EntityRecordMap[T] | null>;
       default: {
         const _exhaustive: never = type;
         throw new Error(`Loại dữ liệu không được hỗ trợ: ${_exhaustive}`);
@@ -131,29 +139,12 @@ export class DataSourceManager {
 }
 
 function getDefaultLiveProvider(): LiveDataProvider | null {
-  // Import động để tránh lỗi module-not-found lan ra toàn bộ
-  // DataSourceManager nếu ai đó xoá file provider trong lúc thử
-  // nghiệm — chỉ ảnh hưởng tới tính năng "live", không ảnh hưởng search/
-  // fetch local vốn là đường dùng chính (search public, không cần live).
-  //
-  // Mặc định "jmpblue" (genshin.jmp.blue) — nguồn ĐÃ VERIFY sống thật,
-  // thay cho "ambr" (api.ambr.top) chỉ là đoán chưa kiểm chứng được.
-  // Vẫn giữ "ambr" như lựa chọn phụ cho ai đã tự verify được domain
-  // Ambr đúng ở môi trường của họ.
+  // Mặc định "jmpblue" (genshin.jmp.blue) — nguồn ĐÃ VERIFY sống thật
+  // (xem GENSHIN-API-REFERENCE.md), thay cho "ambr" (api.ambr.top) chỉ
+  // là đoán chưa kiểm chứng được. Vẫn giữ "ambr" như lựa chọn phụ cho
+  // ai đã tự verify được domain Ambr đúng ở môi trường của họ.
   const providerName = process.env.AGENT_LIVE_PROVIDER || "jmpblue";
-  try {
-    if (providerName === "jmpblue") {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const { JmpBlueProvider } = require("./live/JmpBlueProvider") as typeof import("./live/JmpBlueProvider");
-      return new JmpBlueProvider();
-    }
-    if (providerName === "ambr") {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const { AmbrProvider } = require("./live/AmbrProvider") as typeof import("./live/AmbrProvider");
-      return new AmbrProvider();
-    }
-    return null;
-  } catch {
-    return null;
-  }
+  if (providerName === "jmpblue") return new JmpBlueProvider();
+  if (providerName === "ambr") return new AmbrProvider();
+  return null;
 }

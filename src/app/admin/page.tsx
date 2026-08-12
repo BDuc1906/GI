@@ -117,7 +117,7 @@ export default function AdminPage() {
 
         {!adminKey && (
           <div className="bg-card border border-gold/30 rounded-xl p-4 mb-8 text-sm text-secondary">
-            Nhập Admin Key ở panel "Điều khiển AI Agent" bên dưới để xem dữ liệu pipeline và audit log.
+            Nhập Admin Key ở panel &quot;Điều khiển AI Agent&quot; bên dưới để xem dữ liệu pipeline và audit log.
           </div>
         )}
 

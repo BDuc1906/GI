@@ -38,7 +38,10 @@ function stableStringify(value: unknown): string {
 
 function valuesEqual(a: unknown, b: unknown): boolean {
   if (a === b) return true;
-  if (a == null || b == null) return a == b; // eslint-disable-line eqeqeq
+  // Dùng "==" có chủ đích để coi null và undefined là tương đương
+  // (dự án bạn cấu hình eslint eqeqeq cho phép so sánh với null) —
+  // không cần eslint-disable vì rule đã tự loại trừ trường hợp này.
+  if (a == null || b == null) return a == b;
   return stableStringify(a) === stableStringify(b);
 }
 
@@ -50,7 +53,7 @@ export class DiffEngine {
    * live không có thì coi là "không kiểm tra được", không báo sai lệch
    * giả.
    */
-  static diff(local: Record<string, any> | null, live: Record<string, any> | null): DiffResult {
+  static diff(local: Record<string, unknown> | null, live: Record<string, unknown> | null): DiffResult {
     if (!live) return { hasDiff: false, fields: [] };
     if (!local) {
       return {

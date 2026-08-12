@@ -9,19 +9,22 @@
 
 import { z } from "zod";
 import { BaseTool, type ToolContext } from "./base.tool";
-import { DataSyncPipeline } from "@/lib/sync/DataSyncPipeline";
+import { DataSyncPipeline, type SyncResult } from "@/lib/sync/DataSyncPipeline";
 
-export class SyncTool extends BaseTool {
+const SyncParams = z.object({
+  force: z.boolean().default(false),
+});
+type SyncParams = z.infer<typeof SyncParams>;
+
+export class SyncTool extends BaseTool<SyncParams, SyncResult> {
   name = "syncData";
   description =
     "Trigger workflow đồng bộ dữ liệu genshin-db (chạy trên DB test, verify, rồi tạo PR để review — không ghi thẳng production)";
-  permission: "admin" = "admin";
+  permission = "admin" as const;
 
-  parameters = z.object({
-    force: z.boolean().default(false),
-  });
+  parameters = SyncParams;
 
-  protected async run(params: z.infer<typeof this.parameters>, _context: ToolContext): Promise<any> {
+  protected async run(params: SyncParams, _context: ToolContext): Promise<SyncResult> {
     const pipeline = new DataSyncPipeline();
     return await pipeline.sync(params.force);
   }

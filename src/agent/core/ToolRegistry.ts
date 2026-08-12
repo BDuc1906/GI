@@ -2,6 +2,20 @@
 /**
  * ToolRegistry - Đăng ký và quản lý tất cả tools
  * Mỗi tool có schema, description, executor
+ *
+ * VÁ 0% ANY:
+ * - `z.ZodTypeAny` là type alias CHÍNH THỨC do zod export (không phải
+ *   từ khoá `any` của TypeScript — ESLint no-explicit-any không chặn
+ *   identifier có chữ "any" trong tên, chỉ chặn từ khoá `any` thật) —
+ *   dùng type này vì registry chứa nhiều tool có schema tham số KHÁC
+ *   NHAU trong cùng 1 Map, cần 1 kiểu "any zod schema" hợp lệ để chứa
+ *   chung, đây chính xác là mục đích ZodTypeAny sinh ra để giải quyết.
+ * - `execute(params: unknown, ...)` khớp với BaseTool.execute() đã sửa
+ *   — ranh giới thật giữa "dữ liệu LLM/HTTP gửi lên" (chưa biết hình
+ *   dạng) và "dữ liệu đã qua zod validate" (biết chắc hình dạng).
+ * - `getAITools()` trả về kiểu suy ra từ chính `ReturnType` của
+ *   `createAITool()` (hàm `tool()` của SDK "ai") thay vì đoán tên type
+ *   nội bộ của SDK — luôn khớp đúng dù SDK đổi tên type nội bộ.
  */
 
 import { z } from "zod";
@@ -10,12 +24,15 @@ import { SearchTool, FetchLiveTool, CompareTool, FixTool, SyncTool, AuditTool } 
 import { getConfig } from "./config";
 import type { ToolContext, ToolResult } from "../tools/base.tool";
 
+type AITool = ReturnType<typeof createAITool>;
+export type { AITool };
+
 export interface ToolDefinition {
   name: string;
   description: string;
-  parameters: z.ZodObject<any>;
+  parameters: z.ZodTypeAny;
   permission: "public" | "user" | "admin";
-  execute: (params: any, context: ToolContext) => Promise<ToolResult>;
+  execute: (params: unknown, context: ToolContext) => Promise<ToolResult>;
 }
 
 export class ToolRegistry {
@@ -53,21 +70,15 @@ export class ToolRegistry {
    *   userId, userRole). TRƯỚC ĐÂY hàm này hardcode
    *   { sessionId: "unknown", userId: "unknown", userRole: "user" } —
    *   nghĩa là BaseTool.execute() luôn thấy userId rỗng/giả, khiến mọi
-   *   kiểm tra quyền ("user"/"admin") phía sau vô nghĩa (tool "user"
-   *   luôn pass vì check `!context.userId` chỉ đúng khi userId THẬT là
-   *   rỗng, còn ở đây nó luôn là chuỗi "unknown" — không rỗng, luôn
-   *   pass — và tool "admin" luôn fail vì userRole cứng là "user", kể
-   *   cả khi người gọi thật sự là admin). Giờ context được truyền từ
-   *   AgentCore, lấy từ AuthenticatedUser thật.
+   *   kiểm tra quyền ("user"/"admin") phía sau vô nghĩa. Giờ context
+   *   được truyền từ AgentCore, lấy từ AuthenticatedUser thật.
    *
    * @param allowedNames  Nếu truyền, chỉ những tool có tên trong danh
    *   sách này được đưa cho LLM — dùng để giới hạn theo intent đã phân
-   *   loại (xem AgentCore.buildToolSubset), giảm rủi ro LLM gọi nhầm
-   *   tool (vd gọi fixData khi người dùng chỉ hỏi search) và giảm số
-   *   token phải mô tả tool không liên quan.
+   *   loại (xem AgentCore.buildToolSubset).
    */
-  getAITools(context: ToolContext, allowedNames?: string[]): Record<string, any> {
-    const result: Record<string, any> = {};
+  getAITools(context: ToolContext, allowedNames?: string[]): Record<string, AITool> {
+    const result: Record<string, AITool> = {};
 
     for (const [name, def] of this.tools) {
       if (def.permission === "admin") continue; // admin tool KHÔNG bao giờ để LLM tự gọi
@@ -76,7 +87,7 @@ export class ToolRegistry {
       result[name] = createAITool({
         description: def.description,
         parameters: def.parameters,
-        execute: async (params: any) => {
+        execute: async (params: unknown) => {
           const result = await def.execute(params, context);
           return result.success ? result.data : { error: result.error };
         },

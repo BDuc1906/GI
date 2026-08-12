@@ -25,7 +25,13 @@ export async function classifyIntent(
   const temperature = options?.temperature ?? 0.1;
 
   try {
-    const llm = createLLMClient({ model, temperature });
+    // Thêm "await" — createLLMClient giờ là hàm async (đổi trong
+    // llm-client.ts để dùng dynamic import, xem comment ở đó). QUÊN
+    // await ở đây sẽ không lỗi build (JS không ép kiểu), mà "llm" sẽ
+    // là 1 Promise thay vì client thật — generateObject() nhận nhầm
+    // Promise sẽ throw, rồi bị catch bên dưới nuốt mất, khiến intent
+    // LUÔN fallback về "search" một cách âm thầm, rất khó phát hiện.
+    const llm = await createLLMClient({ model, temperature });
 
     const { object } = await generateObject({
       model: llm,

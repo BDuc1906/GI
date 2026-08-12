@@ -48,7 +48,7 @@ async function handler(req: NextRequest) {
   ]);
 
   const statsMap: Record<string, { started: number; success: number; failed: number }> = {};
-  for (const s of stats as any[]) {
+  for (const s of stats) {
     if (!statsMap[s.name]) statsMap[s.name] = { started: 0, success: 0, failed: 0 };
     statsMap[s.name][s.status as "started" | "success" | "failed"] = s._count.status;
   }

@@ -25,7 +25,7 @@ export function DataHealth({ lastScan }: DataHealthProps) {
   if (!lastScan) {
     return (
       <div className="bg-card border border-border rounded-xl p-6 text-center text-muted text-sm">
-        Chưa chạy lần quét nào trong phiên này. Bấm "🔍 Quét & tự sửa dữ liệu" ở panel bên trên.
+        Chưa chạy lần quét nào trong phiên này. Bấm &quot;🔍 Quét & tự sửa dữ liệu&quot; ở panel bên trên.
       </div>
     );
   }

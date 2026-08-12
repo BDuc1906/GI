@@ -11,10 +11,26 @@
 // trong tsconfig.json) là đúng loại cần dùng ở đây — route Next.js trả
 // Web ReadableStream, không phải Node stream.
 
+// Payload thật của AI SDK cho tool-call/tool-result (prefix "9:"/"a:"
+// trong data stream protocol) — field name lấy đúng theo SDK, KHÔNG
+// dùng `any`. `unknown` cho "args"/"result" vì đây là tham số/kết quả
+// của TOOL BẤT KỲ (mỗi tool 1 hình dạng khác nhau), phía nhận
+// (useAgent.ts) đã tự biết cách xử lý dựa trên `toolName`.
+export interface ToolCallData {
+  toolCallId: string;
+  toolName: string;
+  args: unknown;
+}
+
+export interface ToolResultData {
+  toolCallId: string;
+  result: unknown;
+}
+
 export interface StreamChunk {
   type: "text" | "tool-call" | "tool-result" | "error" | "done";
   content?: string;
-  data?: any;
+  data?: ToolCallData | ToolResultData;
 }
 
 /**
@@ -87,7 +103,7 @@ export function aiStreamToSSE(
               // (useAgent.ts trước đây chờ "tool" — lệch tên, đã sửa ở
               // đó cho khớp với type thật gửi từ đây).
               try {
-                const data = JSON.parse(line.slice(2));
+                const data = JSON.parse(line.slice(2)) as ToolCallData;
                 const chunk: StreamChunk = { type: "tool-call", data };
                 controller.enqueue(
                   encoder.encode(`data: ${JSON.stringify(chunk)}\n\n`)
@@ -98,7 +114,7 @@ export function aiStreamToSSE(
             } else if (line.startsWith("a:")) {
               // tool result — TRƯỚC ĐÂY hoàn toàn bị bỏ qua
               try {
-                const data = JSON.parse(line.slice(2));
+                const data = JSON.parse(line.slice(2)) as ToolResultData;
                 const chunk: StreamChunk = { type: "tool-result", data };
                 controller.enqueue(
                   encoder.encode(`data: ${JSON.stringify(chunk)}\n\n`)

@@ -22,10 +22,21 @@ export interface TelemetryData {
   error?: string;
 }
 
+// Chỉ khai báo đúng field telemetry THỰC SỰ đọc tới (toolResults.length,
+// text) — không cần import toàn bộ type StepResult phức tạp của SDK
+// "ai" (generic theo bộ tool cụ thể, rất cồng kềnh để khai đúng ở đây).
+// Đây là "structural typing" hợp lệ: AgentCore.ts truyền vào object có
+// nhiều field hơn, TypeScript chỉ yêu cầu nó PHẢI CÓ ít nhất các field
+// khai báo dưới đây, thừa field khác không sao.
+export interface AgentStepInfo {
+  toolResults?: unknown[];
+  text?: string;
+}
+
 export interface StepTelemetryData {
   sessionId: string;
   userId: string;
-  step: any;
+  step: AgentStepInfo;
   durationMs: number;
 }
 

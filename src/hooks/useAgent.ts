@@ -1,5 +1,6 @@
 // src/hooks/useAgent.ts
 import { useState, useCallback, useRef } from "react";
+import type { StreamChunk, ToolCallData, ToolResultData } from "@/agent/utils/stream";
 
 export interface AgentMessage {
   role: "user" | "assistant" | "tool";
@@ -11,8 +12,11 @@ export interface ToolInvocation {
   id: string;
   tool: string;
   status: "pending" | "running" | "done" | "error";
-  params: any;
-  result?: any;
+  // Tham số/kết quả khác nhau tuỳ tool (6 tool, 6 hình dạng khác nhau)
+  // — `unknown` là kiểu trung thực ở đây, UI (ChatWidget.tsx) chỉ hiển
+  // thị tên tool + trạng thái, không đọc field cụ thể bên trong.
+  params: unknown;
+  result?: unknown;
   error?: string;
 }
 
@@ -151,10 +155,13 @@ export function useAgent(options: UseAgentOptions = {}): UseAgentReturn {
               if (data === "[DONE]") continue;
 
               try {
-                const parsed = JSON.parse(data);
+                // Type-only import từ stream.ts (server) — an toàn qua
+                // ranh giới client/server vì import kiểu bị xoá hết lúc
+                // build, không kéo theo code server nào cả.
+                const parsed = JSON.parse(data) as StreamChunk;
 
                 if (parsed.type === "text") {
-                  assistantContent += parsed.content;
+                  assistantContent += parsed.content ?? "";
                   assistantMessage = { ...assistantMessage, content: assistantContent };
                   setMessages((prev) => {
                     const newMessages = [...prev];
@@ -169,23 +176,29 @@ export function useAgent(options: UseAgentOptions = {}): UseAgentReturn {
                   onMessage?.(assistantMessage);
                 } else if (parsed.type === "tool-call") {
                   // Payload thật của AI SDK: { toolCallId, toolName, args }
-                  const d = parsed.data || {};
+                  const d = parsed.data as ToolCallData | undefined;
                   upsertToolInvocation({
-                    id: d.toolCallId || crypto.randomUUID(),
-                    tool: d.toolName || "unknown",
+                    id: d?.toolCallId || crypto.randomUUID(),
+                    tool: d?.toolName || "unknown",
                     status: "running",
-                    params: d.args || {},
+                    params: d?.args ?? {},
                   });
                 } else if (parsed.type === "tool-result") {
                   // Payload thật của AI SDK: { toolCallId, result }
-                  const d = parsed.data || {};
+                  const d = parsed.data as ToolResultData | undefined;
+                  // `result` có hình dạng khác nhau tuỳ tool — chỉ tool
+                  // nào lỗi mới có field `error` bên trong (xem
+                  // BaseTool.execute() trả `{ error: result.error }` khi
+                  // thất bại), nên phải kiểm tra kiểu trước khi đọc.
+                  const resultObj =
+                    d?.result && typeof d.result === "object" ? (d.result as { error?: string }) : undefined;
                   upsertToolInvocation({
-                    id: d.toolCallId,
+                    id: d?.toolCallId ?? "",
                     tool: "", // merge với invocation cũ đã có tool name, không cần lặp lại
-                    status: d.result?.error ? "error" : "done",
+                    status: resultObj?.error ? "error" : "done",
                     params: {},
-                    result: d.result,
-                    error: d.result?.error,
+                    result: d?.result,
+                    error: resultObj?.error,
                   });
                 } else if (parsed.type === "error") {
                   throw new Error(parsed.content || "Lỗi không xác định từ agent");

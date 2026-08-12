@@ -52,8 +52,8 @@ export const ToolInvocationSchema = z.object({
   id: z.string(),
   tool: z.string(),
   status: z.enum(["pending", "running", "done", "error"]),
-  params: z.record(z.any()),
-  result: z.any().optional(),
+  params: z.record(z.unknown()),
+  result: z.unknown().optional(),
   error: z.string().optional(),
 });
 
@@ -76,7 +76,7 @@ export type AgentResponse = z.infer<typeof AgentResponseSchema>;
 export const ChatMessageSchema = z.object({
   role: z.enum(["user", "assistant", "system", "tool"]),
   content: z.string(),
-  toolCalls: z.array(z.any()).optional(),
+  toolCalls: z.array(z.unknown()).optional(),
   toolCallId: z.string().optional(),
 });
 
@@ -87,7 +87,7 @@ export type ChatMessage = z.infer<typeof ChatMessageSchema>;
 // ==========================================
 export const ToolResultSchema = z.object({
   success: z.boolean(),
-  data: z.any().optional(),
+  data: z.unknown().optional(),
   error: z.string().optional(),
   metadata: z
     .object({
@@ -98,7 +98,7 @@ export const ToolResultSchema = z.object({
     .optional(),
 });
 
-export type ToolResult<T = any> = z.infer<typeof ToolResultSchema> & { data?: T };
+export type ToolResult<T = unknown> = z.infer<typeof ToolResultSchema> & { data?: T };
 
 // ==========================================
 // 6. Search Parameters
@@ -115,7 +115,7 @@ export const SearchParamsSchema = z.object({
 export const FixParamsSchema = z.object({
   type: EntityTypeSchema,
   id: z.string().min(1),
-  fields: z.record(z.any()).optional(),
+  fields: z.record(z.unknown()).optional(),
   reason: z.string().optional(),
 });
 

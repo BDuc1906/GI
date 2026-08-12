@@ -3,15 +3,28 @@
  * LLM Client - Khởi tạo và quản lý kết nối tới các nhà cung cấp AI
  * Hỗ trợ: OpenAI, Anthropic, Google Gemini
  * Dùng Vercel AI SDK để thống nhất interface
+ *
+ * VÁ LỖI BUILD: bản gốc `import` TĨNH cả 3 gói
+ * (`@ai-sdk/openai`, `@ai-sdk/anthropic`, `@ai-sdk/google`) ở đầu
+ * file. Next.js/Turbopack phân tích import tĩnh ngay lúc BUILD, nên dù
+ * bạn chỉ dùng Gemini (chỉ cài `@ai-sdk/google`), build vẫn đòi phải
+ * có `@ai-sdk/anthropic`/`@ai-sdk/openai` trong `node_modules` — lỗi
+ * "Module not found" dù code không bao giờ thực sự chạy tới nhánh đó.
+ *
+ * Sửa bằng `await import(...)` ĐỘNG bên trong từng nhánh `case` — chỉ
+ * gói ứng với provider bạn thực sự cấu hình (`AGENT_LLM_MODEL`) mới bị
+ * đòi hỏi phải cài lúc build; 2 gói còn lại có thể để trống, chỉ báo
+ * lỗi rõ ràng nếu sau này bạn đổi model sang provider đó mà quên cài.
+ *
+ * Đánh đổi: `createLLMClient()` giờ là hàm ASYNC (trước là sync) — mọi
+ * nơi gọi hàm này (`AgentCore.ts`) đã được cập nhật thêm `await`.
  */
 
-import { createOpenAI } from "@ai-sdk/openai";
-import { createAnthropic } from "@ai-sdk/anthropic";
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { getLLMConfig } from "./config";
+import type { LanguageModel } from "ai";
 
 // Singleton pattern để tránh tạo nhiều instance
-let _llmClient: any = null;
+let _llmClient: LanguageModel | null = null;
 let _provider: string | null = null;
 
 export type LLMProvider = "openai" | "anthropic" | "google";
@@ -27,7 +40,7 @@ export interface LLMClientOptions {
  * Tạo LLM client instance
  * Sử dụng singleton pattern
  */
-export function createLLMClient(options: LLMClientOptions = {}) {
+export async function createLLMClient(options: LLMClientOptions = {}) {
   const config = getLLMConfig();
   const provider = options.provider || detectProvider(config.model);
 
@@ -37,45 +50,60 @@ export function createLLMClient(options: LLMClientOptions = {}) {
   }
 
   const model = options.model || config.model;
-  const temperature = options.temperature ?? config.temperature;
-  const maxTokens = options.maxTokens || config.maxTokens;
-
-  let client;
-  let modelName = model;
+  let client: LanguageModel;
+  const modelName = model;
 
   switch (provider) {
     case "openai": {
-      const openai = createOpenAI({
-        apiKey: process.env.OPENAI_API_KEY,
-        // Có thể thêm baseURL nếu dùng proxy
-      });
+      let createOpenAI;
+      try {
+        ({ createOpenAI } = await import("@ai-sdk/openai"));
+      } catch {
+        throw new Error(
+          `AGENT_LLM_MODEL="${model}" cần gói "@ai-sdk/openai" nhưng chưa được cài. ` +
+            `Chạy: npm install @ai-sdk/openai`
+        );
+      }
+      const openai = createOpenAI({ apiKey: process.env.OPENAI_API_KEY });
       client = openai(modelName);
       break;
     }
 
     case "anthropic": {
-      const anthropic = createAnthropic({
-        apiKey: process.env.ANTHROPIC_API_KEY,
-      });
+      let createAnthropic;
+      try {
+        ({ createAnthropic } = await import("@ai-sdk/anthropic"));
+      } catch {
+        throw new Error(
+          `AGENT_LLM_MODEL="${model}" cần gói "@ai-sdk/anthropic" nhưng chưa được cài. ` +
+            `Chạy: npm install @ai-sdk/anthropic`
+        );
+      }
+      const anthropic = createAnthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
       client = anthropic(modelName);
       break;
     }
 
     case "google": {
-      const google = createGoogleGenerativeAI({
-        apiKey: process.env.GEMINI_API_KEY,
-      });
+      let createGoogleGenerativeAI;
+      try {
+        ({ createGoogleGenerativeAI } = await import("@ai-sdk/google"));
+      } catch {
+        throw new Error(
+          `AGENT_LLM_MODEL="${model}" cần gói "@ai-sdk/google" nhưng chưa được cài. ` +
+            `Chạy: npm install @ai-sdk/google`
+        );
+      }
+      const google = createGoogleGenerativeAI({ apiKey: process.env.GEMINI_API_KEY });
       client = google(modelName);
       break;
     }
 
     default: {
-      // Fallback: dùng OpenAI
-      console.warn(`Unknown provider ${provider}, falling back to OpenAI`);
-      const openai = createOpenAI({
-        apiKey: process.env.OPENAI_API_KEY,
-      });
-      client = openai("gpt-4o");
+      throw new Error(
+        `Không nhận diện được provider cho model "${model}". ` +
+          `Model phải chứa "gpt"/"o1"/"o3" (OpenAI), "claude" (Anthropic), hoặc "gemini" (Google).`
+      );
     }
   }
 
@@ -100,7 +128,6 @@ function detectProvider(model: string): LLMProvider {
   if (lower.includes("gemini")) {
     return "google";
   }
-  // Default: OpenAI
   return "openai";
 }
 

@@ -1,27 +1,19 @@
 // src/lib/data-sources/live/AmbrProvider.ts
 /**
- * AmbrProvider — lấy dữ liệu "live" từ API công khai của ambr.top, dùng
- * cho CompareTool (đối chiếu local vs nguồn ngoài) và FetchLiveTool.
+ * AmbrProvider — lấy dữ liệu "live" từ API công khai của ambr.top.
  *
- * ⚠️ QUAN TRỌNG — ĐỌC TRƯỚC KHI BẬT:
- * Đây là phần DUY NHẤT trong bộ sửa lỗi này tôi KHÔNG THỂ tự kiểm thử
- * (môi trường của tôi không gọi được ra ambr.top). Cấu trúc endpoint/
- * response bên dưới dựa trên tài liệu công khai của Ambr API tại thời
- * điểm viết — rất có thể lệch field name thật với response hiện tại.
- * TRƯỚC KHI dùng CompareTool/FixTool dựa vào nguồn này để tự động sửa
- * DB, hãy:
- *   1. Gọi thử fetchOne("character", "kazuha") và console.log raw
- *      response thật, đối chiếu lại field mapping trong parseCharacter().
- *   2. Chỉ bật FixTool (permission "admin") sau khi bước 1 khớp — nếu
- *      mapping sai, agent sẽ "sửa" dữ liệu đúng thành dữ liệu sai.
+ * ⚠️ KHÔNG PHẢI PROVIDER MẶC ĐỊNH — xem JmpBlueProvider.ts (nguồn ĐÃ
+ * VERIFY sống thật). File này giữ lại làm lựa chọn phụ nếu bạn tự xác
+ * minh được domain Ambr đúng ở môi trường của mình (đặt
+ * `AGENT_LIVE_PROVIDER=ambr`); cấu trúc field bên dưới CHƯA được verify
+ * bằng response thật (khác JmpBlueProvider), chỉ dựa trên tài liệu công
+ * khai — kiểm tra lại trước khi bật FixTool dựa vào nguồn này.
  *
- * Muốn đổi nguồn khác (Enka.Network, hoặc chính genshin-db package đã
- * có sẵn trong devDependencies): implement LiveDataProvider tương tự,
- * rồi trỏ AGENT_LIVE_PROVIDER sang giá trị mới trong
- * DataSourceManager.getDefaultLiveProvider().
+ * VÁ 0% ANY: response thô gõ kiểu qua `AmbrEnvelope<T>` — Ambr bọc data
+ * thật trong `{ response, data }` theo tài liệu công khai.
  */
 
-import type { EntityType } from "@/agent/core/schemas";
+import type { EntityType, LiveEntityData } from "@/agent/core/types";
 import type { LiveDataProvider } from "../DataSourceManager";
 
 const BASE_URL = process.env.AMBR_API_BASE_URL || "https://api.ambr.top/v2/en";
@@ -32,11 +24,45 @@ const ENDPOINT_BY_TYPE: Partial<Record<EntityType, string>> = {
   weapon: "weapon",
   artifact: "reliquary",
   material: "material",
-  // "domain" không có endpoint tương ứng rõ ràng trên Ambr — bỏ trống
-  // có chủ đích, fetchOne sẽ throw lỗi dễ hiểu thay vì gọi sai endpoint.
 };
 
-async function fetchJson(url: string): Promise<any> {
+interface AmbrEnvelope<T> {
+  response?: number;
+  data?: T;
+}
+
+interface AmbrFightProp {
+  type: string;
+  initValue: number;
+}
+
+interface AmbrCharacterRaw {
+  name?: string;
+  rank?: number;
+  weaponType?: string;
+  element?: string;
+  upgrade?: { prop?: AmbrFightProp[] };
+}
+
+interface AmbrWeaponRaw {
+  name?: string;
+  rank?: number;
+  type?: string;
+  upgrade?: { prop?: AmbrFightProp[] };
+}
+
+interface AmbrArtifactRaw {
+  name?: string;
+  levelList?: Record<string, string>;
+}
+
+type AmbrRawByType = {
+  character: AmbrCharacterRaw;
+  weapon: AmbrWeaponRaw;
+  artifact: AmbrArtifactRaw;
+};
+
+async function fetchJson<T>(url: string): Promise<T> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
   try {
@@ -44,72 +70,77 @@ async function fetchJson(url: string): Promise<any> {
     if (!res.ok) {
       throw new Error(`Ambr API trả về ${res.status} ${res.statusText} cho ${url}`);
     }
-    return await res.json();
+    return (await res.json()) as T;
   } finally {
     clearTimeout(timeout);
   }
 }
 
+function findProp(props: AmbrFightProp[] | undefined, type: string): number | undefined {
+  return props?.find((p) => p.type === type)?.initValue;
+}
+
 export class AmbrProvider implements LiveDataProvider {
   readonly name = "ambr.top";
 
-  async fetchOne(type: EntityType, id: string): Promise<Record<string, any> | null> {
+  async fetchOne<T extends EntityType>(type: T, id: string): Promise<LiveEntityData<T> | null> {
     const endpoint = ENDPOINT_BY_TYPE[type];
     if (!endpoint) {
       throw new Error(`AmbrProvider chưa hỗ trợ loại "${type}" (chưa xác định endpoint tương ứng).`);
     }
 
     const url = `${BASE_URL}/${endpoint}/${encodeURIComponent(id)}`;
-    const json = await fetchJson(url);
-
-    // Ambr bọc data thật trong { response, data } theo tài liệu công
-    // khai — nếu response thật khác cấu trúc này (đã ghi chú ở đầu
-    // file), sửa lại đúng 1 chỗ này thôi, phần còn lại của agent không
-    // cần đổi.
-    const raw = json?.data ?? json;
-    if (!raw) return null;
 
     switch (type) {
-      case "character":
-        return this.parseCharacter(raw);
-      case "weapon":
-        return this.parseWeapon(raw);
-      case "artifact":
-        return this.parseArtifact(raw);
-      case "material":
-        return raw;
+      case "character": {
+        const json = await fetchJson<AmbrEnvelope<AmbrCharacterRaw>>(url);
+        const raw = json.data;
+        if (!raw) return null;
+        return this.parseCharacter(raw) as LiveEntityData<T>;
+      }
+      case "weapon": {
+        const json = await fetchJson<AmbrEnvelope<AmbrWeaponRaw>>(url);
+        const raw = json.data;
+        if (!raw) return null;
+        return this.parseWeapon(raw) as LiveEntityData<T>;
+      }
+      case "artifact": {
+        const json = await fetchJson<AmbrEnvelope<AmbrArtifactRaw>>(url);
+        const raw = json.data;
+        if (!raw) return null;
+        return this.parseArtifact(raw) as LiveEntityData<T>;
+      }
       default:
-        return raw;
+        return null;
     }
   }
 
-  /** Map field Ambr → đúng tên cột Character trong prisma/schema.prisma. */
-  private parseCharacter(raw: any): Record<string, any> {
+  private parseCharacter(raw: AmbrCharacterRaw): LiveEntityData<"character"> {
     return {
-      name: raw.name ?? undefined,
-      rarity: raw.rank ?? undefined,
-      weaponType: raw.weaponType ?? undefined,
-      vision: raw.element ?? undefined,
-      baseHp: raw.upgrade?.prop?.find((p: any) => p.type === "FIGHT_PROP_BASE_HP")?.initValue,
-      baseAtk: raw.upgrade?.prop?.find((p: any) => p.type === "FIGHT_PROP_BASE_ATTACK")?.initValue,
-      baseDef: raw.upgrade?.prop?.find((p: any) => p.type === "FIGHT_PROP_BASE_DEFENSE")?.initValue,
+      name: raw.name,
+      rarity: raw.rank,
+      weaponType: raw.weaponType,
+      vision: raw.element,
+      baseHp: findProp(raw.upgrade?.prop, "FIGHT_PROP_BASE_HP"),
+      baseAtk: findProp(raw.upgrade?.prop, "FIGHT_PROP_BASE_ATTACK"),
+      baseDef: findProp(raw.upgrade?.prop, "FIGHT_PROP_BASE_DEFENSE"),
     };
   }
 
-  private parseWeapon(raw: any): Record<string, any> {
+  private parseWeapon(raw: AmbrWeaponRaw): LiveEntityData<"weapon"> {
     return {
-      name: raw.name ?? undefined,
-      rarity: raw.rank ?? undefined,
-      type: raw.type ?? undefined,
+      name: raw.name,
+      rarity: raw.rank,
+      type: raw.type,
       baseAtk: raw.upgrade?.prop?.[0]?.initValue,
     };
   }
 
-  private parseArtifact(raw: any): Record<string, any> {
+  private parseArtifact(raw: AmbrArtifactRaw): LiveEntityData<"artifact"> {
     return {
-      name: raw.name ?? undefined,
-      twoPieceBonus: raw.levelList?.["2"] ?? undefined,
-      fourPieceBonus: raw.levelList?.["4"] ?? undefined,
+      name: raw.name,
+      twoPieceBonus: raw.levelList?.["2"],
+      fourPieceBonus: raw.levelList?.["4"],
     };
   }
 }
