@@ -53,16 +53,31 @@ export type TalentMaterialLevel = {
   }>;
 };
 
-export const TALENT_LABEL_VI: Record<string, string> = {
+// TRƯỚC ĐÂY: map cố định chỉ tới passive4 — nhân vật có passive5 trở lên
+// (nếu genshin-db trả về, ví dụ sau 1 đợt rework/buff thêm thiên phú) sẽ
+// hiện thẳng key thô "passive5" thay vì nhãn tiếng Việt, do
+// TALENT_LABEL_VI[t.key] ?? t.key rơi về nhánh fallback.
+//
+// SỬA: giữ map cố định cho 4 kỹ năng chiến đấu (tên riêng, không suy ra
+// được từ số), còn passive thì TÍNH nhãn động cho MỌI số thứ tự — khớp
+// với cách genshin-pure-helpers.ts giờ dò toàn bộ passiveN có thật thay
+// vì giới hạn cứng. Không cần sửa file này nữa nếu sau này xuất hiện
+// passive5, passive6...
+const COMBAT_LABEL_VI: Record<string, string> = {
   normalAttack: "Đòn Thường / Trọng Kích / Bổ Nhào",
   elementalSkill: "Kỹ Năng Nguyên Tố",
   elementalBurst: "Trọng Kích Nguyên Tố (Cực Kỹ)",
   alternateSprint: "Kỹ Năng Di Chuyển Đặc Biệt",
-  passive1: "Thiên Phú Bị Động 1",
-  passive2: "Thiên Phú Bị Động 2",
-  passive3: "Thiên Phú Bị Động 3",
-  passive4: "Thiên Phú Bị Động 4",
 };
+
+export const TALENT_LABEL_VI: Record<string, string> = new Proxy(COMBAT_LABEL_VI, {
+  get(target, prop: string) {
+    if (prop in target) return target[prop];
+    const match = /^passive(\d+)$/.exec(prop);
+    if (match) return `Thiên Phú Bị Động ${match[1]}`;
+    return undefined;
+  },
+}) as Record<string, string>;
 
 // formatNumber/formatSpecialized/StatByLevelRow: xem character-stats-format.ts
 // (re-export ở đầu file) — logic thật nằm ở đó, không định nghĩa lại ở đây.

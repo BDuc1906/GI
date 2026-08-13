@@ -442,27 +442,58 @@ export function createTalentBookResolver(
 
 // ---------- TALENTS / CONSTELLATIONS ----------
 
-const TALENT_FIELD_ORDER = [
-  "combat1",
-  "combat2",
-  "combatsp",
-  "combat3",
-  "passive1",
-  "passive2",
-  "passive3",
-  "passive4",
-] as const;
+// TRƯỚC ĐÂY: danh sách field CỐ ĐỊNH (combat1..combat3, passive1..passive4).
+// VẤN ĐỀ ĐÃ PHÁT HIỆN: nếu genshin-db trả về thêm 1 field mới ngoài danh
+// sách này (vd nhân vật được rework/buff thêm 1 passive → "passive5"),
+// code CŨ âm thầm bỏ qua field đó — không lỗi, không cảnh báo, người xem
+// chỉ thấy thiếu passive mà không rõ tại sao. Đây là lỗi kiến trúc (hardcode
+// số lượng), không phải lỗi hiển thị đơn lẻ.
+//
+// SỬA: không liệt kê cứng nữa — DÒ ĐỘNG mọi key có mặt trong object mà
+// genshin-db trả về, khớp đúng 2 pattern combat*/passive* (bỏ qua "images",
+// "costs", và các field không phải ability). Nhờ vậy dù genshin-db thêm
+// bao nhiêu passive/combat mới trong tương lai, code tự nhận đủ — không
+// cần deploy lại để "thêm passive5" như trước.
+const COMBAT_KEY_ORDER: Record<string, number> = {
+  combat1: 0,
+  combat2: 1,
+  combatsp: 2,
+  combat3: 3,
+};
 
-const TALENT_LABELS: Record<string, string> = {
+const COMBAT_LABELS: Record<string, string> = {
   combat1: "normalAttack",
   combat2: "elementalSkill",
   combatsp: "alternateSprint",
   combat3: "elementalBurst",
-  passive1: "passive1",
-  passive2: "passive2",
-  passive3: "passive3",
-  passive4: "passive4",
 };
+
+const TALENT_ABILITY_KEY_PATTERN = /^(combat\d*|combatsp|passive\d+)$/;
+
+/**
+ * Sắp xếp key talent theo thứ tự hiển thị hợp lý: 3 combat chính trước
+ * (đòn thường → kỹ năng → trọng kích, xen "combatsp" nếu có), rồi tới
+ * TOÀN BỘ passive theo đúng số thứ tự tăng dần — không giới hạn ở 3/4,
+ * nhân vật có passive5, passive6... (nếu genshin-db từng trả về) vẫn được
+ * xếp đúng vị trí và hiển thị đầy đủ.
+ */
+function sortTalentKeys(keys: string[]): string[] {
+  return [...keys].sort((a, b) => {
+    const aCombat = a in COMBAT_KEY_ORDER;
+    const bCombat = b in COMBAT_KEY_ORDER;
+    if (aCombat && bCombat) return COMBAT_KEY_ORDER[a] - COMBAT_KEY_ORDER[b];
+    if (aCombat) return -1;
+    if (bCombat) return 1;
+    // Cả 2 đều passiveN — so theo số thứ tự N tăng dần.
+    const aNum = parseInt(a.replace("passive", ""), 10) || 0;
+    const bNum = parseInt(b.replace("passive", ""), 10) || 0;
+    return aNum - bNum;
+  });
+}
+
+function talentDisplayLabel(rawKey: string): string {
+  return COMBAT_LABELS[rawKey] ?? rawKey; // passiveN giữ nguyên tên key làm nhãn
+}
 
 /**
  * Định dạng 1 giá trị thô theo hậu tố format trong template genshin-db,
@@ -569,18 +600,26 @@ export function getTalentsAndConstellations(
     // Icon nằm ở object "images" RIÊNG (filename_combat1, filename_c1...),
     // KHÔNG nằm trong từng talent/constellation — xác nhận từ dữ liệu thật.
     const talentImages = rawTalents?.images ?? {};
+    // Dò động: lấy MỌI key hợp lệ (combat*/passiveN) thực sự có trong dữ
+    // liệu genshin-db trả về cho nhân vật này — không giả định trước số
+    // lượng. "images", "costs", "version" và các field khác bị loại vì
+    // không khớp TALENT_ABILITY_KEY_PATTERN.
     const talents: TalentEntry[] = rawTalents
-      ? TALENT_FIELD_ORDER.map((rawKey) => {
-          const t = rawTalents[rawKey] as RawTalentAbility | undefined;
-          if (!t) return null;
-          return {
-            key: TALENT_LABELS[rawKey],
-            name: t.name ?? null,
-            description: t.description ?? null,
-            icon: getUiAssetUrl(talentImages[`filename_${rawKey}`]),
-            attributes: parseTalentAttributes(t.attributes),
-          };
-        }).filter((t): t is TalentEntry => t !== null)
+      ? sortTalentKeys(
+          Object.keys(rawTalents).filter((k) => TALENT_ABILITY_KEY_PATTERN.test(k))
+        )
+          .map((rawKey) => {
+            const t = rawTalents[rawKey] as RawTalentAbility | undefined;
+            if (!t) return null;
+            return {
+              key: talentDisplayLabel(rawKey),
+              name: t.name ?? null,
+              description: t.description ?? null,
+              icon: getUiAssetUrl(talentImages[`filename_${rawKey}`]),
+              attributes: parseTalentAttributes(t.attributes),
+            };
+          })
+          .filter((t): t is TalentEntry => t !== null)
       : [];
 
     const constellationImages = rawConstellations?.images ?? {};

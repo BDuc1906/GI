@@ -237,6 +237,34 @@ jobs:
         env:
           DIRECT_URL: ${{ secrets.PROD_DIRECT_URL }}
 
+      # ────────────────────────────────────────────────────────────────
+      # MỚI THÊM: seed dữ liệu game (data/raw/*.json) vào DB production.
+      #
+      # TRƯỚC ĐÂY: bước này không tồn tại ở đâu cả — update-data.yml chỉ
+      # seed vào DB test tạm trong CI rồi mở PR chứa diff data/raw/*.json;
+      # không có workflow nào chạy `db:seed` nhắm vào production sau khi
+      # PR đó được merge. Kết quả: DB production không bao giờ tự cập
+      # nhật dù cron crawl chạy đúng lịch hàng tuần và PR được merge đều.
+      #
+      # AN TOÀN vì sao: scripts/seed-characters.ts (+ seed-weapons.ts,
+      # seed-artifacts.ts, seed-domains.ts) đọc dữ liệu từ file
+      # data/raw/*.json ĐÃ COMMIT trong repo — không gọi genshin-db trực
+      # tiếp, không có dữ liệu "sống" chưa qua kiểm soát nào ghi vào DB ở
+      # bước này. Tới lúc code chạm nhánh main (đã qua review PR data
+      # update + toàn bộ lint/typecheck/test/build/smoke-test ở các job
+      # trước), nội dung data/raw/*.json đang nằm trong checkout này CHÍNH
+      # LÀ bản đã được duyệt — seed lại vào production chỉ là "phát lại"
+      # đúng dữ liệu đó, không phải nguồn mới không kiểm soát.
+      #
+      # Đặt SAU bước migrate (đảm bảo schema đã khớp trước khi ghi dữ
+      # liệu) và TRƯỚC khi build/deploy Vercel (nếu seed lỗi thì dừng
+      # luôn, không deploy code trỏ vào dữ liệu seed dở dang).
+      - name: Seed production database with latest game data
+        run: npm run db:seed
+        env:
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL }}
+
       - name: Pull Vercel environment info
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
         env:

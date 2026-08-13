@@ -1,0 +1,1454 @@
+{
+  "generatedAt": "2026-08-13T09:06:11.376Z",
+  "totalCharacters": 120,
+  "affectedCount": 0,
+  "rows": [
+    {
+      "character": "Aether",
+      "allFields": [],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Aino",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3",
+        "passive4"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Albedo",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Alhaitham",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Aloy",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Amber",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Arataki Itto",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Arlecchino",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Baizhu",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Barbara",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Beidou",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Bennett",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Candace",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Charlotte",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Chasca",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3",
+        "passive4"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Chevreuse",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Chiori",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Chongyun",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Citlali",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3",
+        "passive4"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Clorinde",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Collei",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Columbina",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3",
+        "passive4"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Cyno",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Dahlia",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Dehya",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Diluc",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Diona",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Dori",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Durin",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Emilie",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Escoffier",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Eula",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Faruzan",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Fischl",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Flins",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3",
+        "passive4"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Freminet",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Furina",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Gaming",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Ganyu",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Gorou",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Hu Tao",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Iansan",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3",
+        "passive4"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Ifa",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3",
+        "passive4"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Illuga",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3",
+        "passive4"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Ineffa",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3",
+        "passive4"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Jahoda",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3",
+        "passive4"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Jean",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Kachina",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3",
+        "passive4"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Kaedehara Kazuha",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Kaeya",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Kamisato Ayaka",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combatsp",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Kamisato Ayato",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Kaveh",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Keqing",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Kinich",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3",
+        "passive4"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Kirara",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Klee",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Kujou Sara",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Kuki Shinobu",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Lan Yan",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Lauma",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3",
+        "passive4"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Layla",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Linnea",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3",
+        "passive4"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Lisa",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Lohen",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Lumine",
+      "allFields": [],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Lynette",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Lyney",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Manekin",
+      "allFields": [
+        "combat1",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Manekina",
+      "allFields": [
+        "combat1",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Mavuika",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3",
+        "passive4"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Mika",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Mona",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combatsp",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Mualani",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3",
+        "passive4"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Nahida",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Navia",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Nefer",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3",
+        "passive4"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Neuvillette",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Nicole",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Nilou",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Ningguang",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Noelle",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Ororon",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3",
+        "passive4"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Prune",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Qiqi",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Raiden Shogun",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Razor",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Rosaria",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Sandrone",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3",
+        "passive4"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Sangonomiya Kokomi",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3",
+        "passive4"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Sayu",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Sethos",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Shenhe",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Shikanoin Heizou",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Sigewinne",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Skirk",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Sucrose",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Tartaglia",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Thoma",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Tighnari",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Varesa",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3",
+        "passive4"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Varka",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Venti",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Wanderer",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Wriothesley",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Xiangling",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Xianyun",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Xiao",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Xilonen",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3",
+        "passive4"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Xingqiu",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Xinyan",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Yae Miko",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Yanfei",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Yaoyao",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Yelan",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Yoimiya",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Yumemizuki Mizuki",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Yun Jin",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Zhongli",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    },
+    {
+      "character": "Zibai",
+      "allFields": [
+        "combat1",
+        "combat2",
+        "combat3",
+        "passive1",
+        "passive2",
+        "passive3",
+        "passive4"
+      ],
+      "extraFieldsBeyondOldHardcode": []
+    }
+  ]
+}

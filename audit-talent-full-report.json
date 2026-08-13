@@ -1,0 +1,3347 @@
+{
+  "generatedAt": "2026-08-13T09:23:10.920Z",
+  "totalCharacters": 120,
+  "summaries": [
+    {
+      "character": "Aether",
+      "reworkWave": null,
+      "passiveCount": 0,
+      "combatCount": 0,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": []
+    },
+    {
+      "character": "Aino",
+      "reworkWave": null,
+      "passiveCount": 4,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Modular Efficiency Protocol",
+          "hasDescription": true,
+          "descLength": 311
+        },
+        {
+          "key": "passive2",
+          "name": "Structured Power Booster",
+          "hasDescription": true,
+          "descLength": 72
+        },
+        {
+          "key": "passive3",
+          "name": "Moonsign Benediction: Force Limit Analysis",
+          "hasDescription": true,
+          "descLength": 73
+        },
+        {
+          "key": "passive4",
+          "name": "Miniaturized Detection Sensor",
+          "hasDescription": true,
+          "descLength": 177
+        }
+      ]
+    },
+    {
+      "character": "Albedo",
+      "reworkWave": "6.0 + 6.2 Hexenzirkel",
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Calcite Might",
+          "hasDescription": true,
+          "descLength": 112
+        },
+        {
+          "key": "passive2",
+          "name": "Homuncular Nature",
+          "hasDescription": true,
+          "descLength": 112
+        },
+        {
+          "key": "passive3",
+          "name": "Flash of Genius",
+          "hasDescription": true,
+          "descLength": 97
+        }
+      ]
+    },
+    {
+      "character": "Alhaitham",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Four-Causal Correction",
+          "hasDescription": true,
+          "descLength": 146
+        },
+        {
+          "key": "passive2",
+          "name": "Mysteries Laid Bare",
+          "hasDescription": true,
+          "descLength": 234
+        },
+        {
+          "key": "passive3",
+          "name": "Law of Reductive Overdetermination",
+          "hasDescription": true,
+          "descLength": 100
+        }
+      ]
+    },
+    {
+      "character": "Aloy",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Combat Override",
+          "hasDescription": true,
+          "descLength": 157
+        },
+        {
+          "key": "passive2",
+          "name": "Strong Strike",
+          "hasDescription": true,
+          "descLength": 179
+        },
+        {
+          "key": "passive3",
+          "name": "Easy Does It",
+          "hasDescription": true,
+          "descLength": 133
+        }
+      ]
+    },
+    {
+      "character": "Amber",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Every Arrow Finds Its Target",
+          "hasDescription": true,
+          "descLength": 71
+        },
+        {
+          "key": "passive2",
+          "name": "Precise Shot",
+          "hasDescription": true,
+          "descLength": 59
+        },
+        {
+          "key": "passive3",
+          "name": "Gliding Champion",
+          "hasDescription": true,
+          "descLength": 144
+        }
+      ]
+    },
+    {
+      "character": "Arataki Itto",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Arataki Ichiban",
+          "hasDescription": true,
+          "descLength": 297
+        },
+        {
+          "key": "passive2",
+          "name": "Bloodline of the Crimson Oni",
+          "hasDescription": true,
+          "descLength": 63
+        },
+        {
+          "key": "passive3",
+          "name": "Woodchuck Chucked",
+          "hasDescription": true,
+          "descLength": 117
+        }
+      ]
+    },
+    {
+      "character": "Arlecchino",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Agony Alone May Be Repaid",
+          "hasDescription": true,
+          "descLength": 488
+        },
+        {
+          "key": "passive2",
+          "name": "Strength Alone Can Defend",
+          "hasDescription": true,
+          "descLength": 160
+        },
+        {
+          "key": "passive3",
+          "name": "The Balemoon Alone May Know",
+          "hasDescription": true,
+          "descLength": 102
+        }
+      ]
+    },
+    {
+      "character": "Baizhu",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Five Fortunes Forever",
+          "hasDescription": true,
+          "descLength": 237
+        },
+        {
+          "key": "passive2",
+          "name": "All Things Are of the Earth",
+          "hasDescription": true,
+          "descLength": 374
+        },
+        {
+          "key": "passive3",
+          "name": "Herbal Nourishment",
+          "hasDescription": true,
+          "descLength": 140
+        }
+      ]
+    },
+    {
+      "character": "Barbara",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Glorious Season",
+          "hasDescription": true,
+          "descLength": 97
+        },
+        {
+          "key": "passive2",
+          "name": "Encore",
+          "hasDescription": true,
+          "descLength": 162
+        },
+        {
+          "key": "passive3",
+          "name": "With My Whole Heart♪",
+          "hasDescription": true,
+          "descLength": 122
+        }
+      ]
+    },
+    {
+      "character": "Beidou",
+      "reworkWave": "6.7 Witch's Revelation",
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Retribution",
+          "hasDescription": true,
+          "descLength": 110
+        },
+        {
+          "key": "passive2",
+          "name": "Lightning Storm",
+          "hasDescription": true,
+          "descLength": 270
+        },
+        {
+          "key": "passive3",
+          "name": "Conqueror of Tides",
+          "hasDescription": true,
+          "descLength": 145
+        }
+      ]
+    },
+    {
+      "character": "Bennett",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Rekindle",
+          "hasDescription": true,
+          "descLength": 39
+        },
+        {
+          "key": "passive2",
+          "name": "Fearnaught",
+          "hasDescription": true,
+          "descLength": 180
+        },
+        {
+          "key": "passive3",
+          "name": "It Should Be Safe...",
+          "hasDescription": true,
+          "descLength": 79
+        }
+      ]
+    },
+    {
+      "character": "Candace",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Aegis of Crossed Arrows",
+          "hasDescription": true,
+          "descLength": 127
+        },
+        {
+          "key": "passive2",
+          "name": "Celestial Dome of Sand",
+          "hasDescription": true,
+          "descLength": 233
+        },
+        {
+          "key": "passive3",
+          "name": "To Dawn's First Light",
+          "hasDescription": true,
+          "descLength": 145
+        }
+      ]
+    },
+    {
+      "character": "Charlotte",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Moment of Impact",
+          "hasDescription": true,
+          "descLength": 178
+        },
+        {
+          "key": "passive2",
+          "name": "Diversified Investigation",
+          "hasDescription": true,
+          "descLength": 197
+        },
+        {
+          "key": "passive3",
+          "name": "First-Person Shutter",
+          "hasDescription": true,
+          "descLength": 213
+        }
+      ]
+    },
+    {
+      "character": "Chasca",
+      "reworkWave": null,
+      "passiveCount": 4,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Bullet Trick",
+          "hasDescription": true,
+          "descLength": 729
+        },
+        {
+          "key": "passive2",
+          "name": "Intent to Cover",
+          "hasDescription": true,
+          "descLength": 580
+        },
+        {
+          "key": "passive3",
+          "name": "Night Realm's Gift: Everburning Heart",
+          "hasDescription": true,
+          "descLength": 468
+        },
+        {
+          "key": "passive4",
+          "name": "Mediation's True Meaning",
+          "hasDescription": true,
+          "descLength": 187
+        }
+      ]
+    },
+    {
+      "character": "Chevreuse",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Vanguard's Coordinated Tactics",
+          "hasDescription": true,
+          "descLength": 526
+        },
+        {
+          "key": "passive2",
+          "name": "Vertical Force Coordination",
+          "hasDescription": true,
+          "descLength": 247
+        },
+        {
+          "key": "passive3",
+          "name": "Double Time March",
+          "hasDescription": true,
+          "descLength": 146
+        }
+      ]
+    },
+    {
+      "character": "Chiori",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Tailor-Made",
+          "hasDescription": true,
+          "descLength": 1130
+        },
+        {
+          "key": "passive2",
+          "name": "The Finishing Touch",
+          "hasDescription": true,
+          "descLength": 95
+        },
+        {
+          "key": "passive3",
+          "name": "Brocaded Collar's Beauteous Silhouette",
+          "hasDescription": true,
+          "descLength": 344
+        }
+      ]
+    },
+    {
+      "character": "Chongyun",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Steady Breathing",
+          "hasDescription": true,
+          "descLength": 157
+        },
+        {
+          "key": "passive2",
+          "name": "Rimechaser Blade",
+          "hasDescription": true,
+          "descLength": 290
+        },
+        {
+          "key": "passive3",
+          "name": "Gallant Journey",
+          "hasDescription": true,
+          "descLength": 75
+        }
+      ]
+    },
+    {
+      "character": "Citlali",
+      "reworkWave": null,
+      "passiveCount": 4,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Mamaloaco's Frigid Rain",
+          "hasDescription": true,
+          "descLength": 295
+        },
+        {
+          "key": "passive2",
+          "name": "Itzpapalotl's Star Garments",
+          "hasDescription": true,
+          "descLength": 352
+        },
+        {
+          "key": "passive3",
+          "name": "Night Realm's Gift: Smoke, Mirrors, and the Flowing Winds",
+          "hasDescription": true,
+          "descLength": 1170
+        },
+        {
+          "key": "passive4",
+          "name": "Songs of Profound Mystery",
+          "hasDescription": true,
+          "descLength": 184
+        }
+      ]
+    },
+    {
+      "character": "Clorinde",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Dark-Shattering Flame",
+          "hasDescription": true,
+          "descLength": 331
+        },
+        {
+          "key": "passive2",
+          "name": "Lawful Remuneration",
+          "hasDescription": true,
+          "descLength": 372
+        },
+        {
+          "key": "passive3",
+          "name": "Night Vigil's Harvest",
+          "hasDescription": true,
+          "descLength": 77
+        }
+      ]
+    },
+    {
+      "character": "Collei",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Floral Sidewinder",
+          "hasDescription": true,
+          "descLength": 483
+        },
+        {
+          "key": "passive2",
+          "name": "The Languid Wood",
+          "hasDescription": true,
+          "descLength": 255
+        },
+        {
+          "key": "passive3",
+          "name": "Gliding Champion of Sumeru",
+          "hasDescription": true,
+          "descLength": 144
+        }
+      ]
+    },
+    {
+      "character": "Columbina",
+      "reworkWave": null,
+      "passiveCount": 4,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Lunacy's Lure",
+          "hasDescription": true,
+          "descLength": 158
+        },
+        {
+          "key": "passive2",
+          "name": "Law of the New Moon",
+          "hasDescription": true,
+          "descLength": 543
+        },
+        {
+          "key": "passive3",
+          "name": "Moonsign Benediction: Moonlight, Lent Unto You",
+          "hasDescription": true,
+          "descLength": 491
+        },
+        {
+          "key": "passive4",
+          "name": "Lunar Vigil",
+          "hasDescription": true,
+          "descLength": 455
+        }
+      ]
+    },
+    {
+      "character": "Cyno",
+      "reworkWave": "6.7 Witch's Revelation",
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Featherfall Judgment",
+          "hasDescription": true,
+          "descLength": 460
+        },
+        {
+          "key": "passive2",
+          "name": "Authority Over the Nine Bows",
+          "hasDescription": true,
+          "descLength": 286
+        },
+        {
+          "key": "passive3",
+          "name": "The Gift of Silence",
+          "hasDescription": true,
+          "descLength": 75
+        }
+      ]
+    },
+    {
+      "character": "Dahlia",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "The Wind's Gentle Grace",
+          "hasDescription": true,
+          "descLength": 215
+        },
+        {
+          "key": "passive2",
+          "name": "Prayer of Well-Wrought Joy",
+          "hasDescription": true,
+          "descLength": 245
+        },
+        {
+          "key": "passive3",
+          "name": "Pilgrimage Upon Returning Winds",
+          "hasDescription": true,
+          "descLength": 211
+        }
+      ]
+    },
+    {
+      "character": "Dehya",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Unstinting Succor",
+          "hasDescription": true,
+          "descLength": 541
+        },
+        {
+          "key": "passive2",
+          "name": "Stalwart and True",
+          "hasDescription": true,
+          "descLength": 172
+        },
+        {
+          "key": "passive3",
+          "name": "The Sunlit Way",
+          "hasDescription": true,
+          "descLength": 207
+        }
+      ]
+    },
+    {
+      "character": "Diluc",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Relentless",
+          "hasDescription": true,
+          "descLength": 93
+        },
+        {
+          "key": "passive2",
+          "name": "Blessing of Phoenix",
+          "hasDescription": true,
+          "descLength": 136
+        },
+        {
+          "key": "passive3",
+          "name": "Tradition of the Dawn Knight",
+          "hasDescription": true,
+          "descLength": 64
+        }
+      ]
+    },
+    {
+      "character": "Diona",
+      "reworkWave": "6.7 Witch's Revelation",
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Cat's Tail Secret Menu",
+          "hasDescription": true,
+          "descLength": 120
+        },
+        {
+          "key": "passive2",
+          "name": "Drunkards' Farce",
+          "hasDescription": true,
+          "descLength": 76
+        },
+        {
+          "key": "passive3",
+          "name": "Complimentary Bar Food",
+          "hasDescription": true,
+          "descLength": 122
+        }
+      ]
+    },
+    {
+      "character": "Dori",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "An Eye for Gold",
+          "hasDescription": true,
+          "descLength": 324
+        },
+        {
+          "key": "passive2",
+          "name": "Compound Interest",
+          "hasDescription": true,
+          "descLength": 359
+        },
+        {
+          "key": "passive3",
+          "name": "Unexpected Order",
+          "hasDescription": true,
+          "descLength": 100
+        }
+      ]
+    },
+    {
+      "character": "Durin",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Light Manifest of the Divine Calculus",
+          "hasDescription": true,
+          "descLength": 570
+        },
+        {
+          "key": "passive2",
+          "name": "Chaos Formed Like the Night",
+          "hasDescription": true,
+          "descLength": 622
+        },
+        {
+          "key": "passive3",
+          "name": "Echoes of the Surging Earth",
+          "hasDescription": true,
+          "descLength": 78
+        }
+      ]
+    },
+    {
+      "character": "Emilie",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Lingering Fragrance",
+          "hasDescription": true,
+          "descLength": 225
+        },
+        {
+          "key": "passive2",
+          "name": "Rectification",
+          "hasDescription": true,
+          "descLength": 173
+        },
+        {
+          "key": "passive3",
+          "name": "Headspace Capture",
+          "hasDescription": true,
+          "descLength": 115
+        }
+      ]
+    },
+    {
+      "character": "Escoffier",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Better to Salivate Than Medicate",
+          "hasDescription": true,
+          "descLength": 188
+        },
+        {
+          "key": "passive2",
+          "name": "Inspiration-Immersed Seasoning",
+          "hasDescription": true,
+          "descLength": 255
+        },
+        {
+          "key": "passive3",
+          "name": "Constant Off-the-Cuff Cookery",
+          "hasDescription": true,
+          "descLength": 625
+        }
+      ]
+    },
+    {
+      "character": "Eula",
+      "reworkWave": "6.0",
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Roiling Rime",
+          "hasDescription": true,
+          "descLength": 262
+        },
+        {
+          "key": "passive2",
+          "name": "Wellspring of War-Lust",
+          "hasDescription": true,
+          "descLength": 105
+        },
+        {
+          "key": "passive3",
+          "name": "Aristocratic Introspection",
+          "hasDescription": true,
+          "descLength": 96
+        }
+      ]
+    },
+    {
+      "character": "Faruzan",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Impetuous Flow",
+          "hasDescription": true,
+          "descLength": 278
+        },
+        {
+          "key": "passive2",
+          "name": "Lost Wisdom of the Seven Caverns",
+          "hasDescription": true,
+          "descLength": 456
+        },
+        {
+          "key": "passive3",
+          "name": "Tomes Light the Path",
+          "hasDescription": true,
+          "descLength": 75
+        }
+      ]
+    },
+    {
+      "character": "Fischl",
+      "reworkWave": "6.2 Hexenzirkel",
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Stellar Predator",
+          "hasDescription": true,
+          "descLength": 151
+        },
+        {
+          "key": "passive2",
+          "name": "Undone Be Thy Sinful Hex",
+          "hasDescription": true,
+          "descLength": 216
+        },
+        {
+          "key": "passive3",
+          "name": "Mein Hausgarten",
+          "hasDescription": true,
+          "descLength": 79
+        }
+      ]
+    },
+    {
+      "character": "Flins",
+      "reworkWave": null,
+      "passiveCount": 4,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Symphony of Winter",
+          "hasDescription": true,
+          "descLength": 178
+        },
+        {
+          "key": "passive2",
+          "name": "Whispering Flame",
+          "hasDescription": true,
+          "descLength": 105
+        },
+        {
+          "key": "passive3",
+          "name": "Moonsign Benediction: Old World Secrets",
+          "hasDescription": true,
+          "descLength": 304
+        },
+        {
+          "key": "passive4",
+          "name": "A Light in the Dark",
+          "hasDescription": true,
+          "descLength": 161
+        }
+      ]
+    },
+    {
+      "character": "Freminet",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Saturation Deep Dive",
+          "hasDescription": true,
+          "descLength": 163
+        },
+        {
+          "key": "passive2",
+          "name": "Parallel Condensers",
+          "hasDescription": true,
+          "descLength": 137
+        },
+        {
+          "key": "passive3",
+          "name": "Deepwater Navigation",
+          "hasDescription": true,
+          "descLength": 144
+        }
+      ]
+    },
+    {
+      "character": "Furina",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Endless Waltz",
+          "hasDescription": true,
+          "descLength": 232
+        },
+        {
+          "key": "passive2",
+          "name": "Unheard Confession",
+          "hasDescription": true,
+          "descLength": 305
+        },
+        {
+          "key": "passive3",
+          "name": "The Sea Is My Stage",
+          "hasDescription": true,
+          "descLength": 60
+        }
+      ]
+    },
+    {
+      "character": "Gaming",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Dance of Amity",
+          "hasDescription": true,
+          "descLength": 142
+        },
+        {
+          "key": "passive2",
+          "name": "Air of Prosperity",
+          "hasDescription": true,
+          "descLength": 173
+        },
+        {
+          "key": "passive3",
+          "name": "The Striding Beast",
+          "hasDescription": true,
+          "descLength": 207
+        }
+      ]
+    },
+    {
+      "character": "Ganyu",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Undivided Heart",
+          "hasDescription": true,
+          "descLength": 140
+        },
+        {
+          "key": "passive2",
+          "name": "Harmony Between Heaven and Earth",
+          "hasDescription": true,
+          "descLength": 80
+        },
+        {
+          "key": "passive3",
+          "name": "Preserved for the Hunt",
+          "hasDescription": true,
+          "descLength": 59
+        }
+      ]
+    },
+    {
+      "character": "Gorou",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Heedless of the Wind and Weather",
+          "hasDescription": true,
+          "descLength": 99
+        },
+        {
+          "key": "passive2",
+          "name": "A Favor Repaid",
+          "hasDescription": true,
+          "descLength": 229
+        },
+        {
+          "key": "passive3",
+          "name": "Seeker of Shinies",
+          "hasDescription": true,
+          "descLength": 76
+        }
+      ]
+    },
+    {
+      "character": "Hu Tao",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Flutter By",
+          "hasDescription": true,
+          "descLength": 169
+        },
+        {
+          "key": "passive2",
+          "name": "Sanguine Rouge",
+          "hasDescription": true,
+          "descLength": 86
+        },
+        {
+          "key": "passive3",
+          "name": "The More the Merrier",
+          "hasDescription": true,
+          "descLength": 118
+        }
+      ]
+    },
+    {
+      "character": "Iansan",
+      "reworkWave": null,
+      "passiveCount": 4,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Enhanced Resistance Training",
+          "hasDescription": true,
+          "descLength": 639
+        },
+        {
+          "key": "passive2",
+          "name": "Kinetic Energy Gradient Test",
+          "hasDescription": true,
+          "descLength": 281
+        },
+        {
+          "key": "passive3",
+          "name": "Night Realm's Gift: Hard Work and Drive",
+          "hasDescription": true,
+          "descLength": 715
+        },
+        {
+          "key": "passive4",
+          "name": "Caloric Balancing Plan",
+          "hasDescription": true,
+          "descLength": 148
+        }
+      ]
+    },
+    {
+      "character": "Ifa",
+      "reworkWave": null,
+      "passiveCount": 4,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Field Medic's Vision",
+          "hasDescription": true,
+          "descLength": 266
+        },
+        {
+          "key": "passive2",
+          "name": "Mutual Aid Agreement",
+          "hasDescription": true,
+          "descLength": 100
+        },
+        {
+          "key": "passive3",
+          "name": "Night Realm's Gift: Focused Emergency Rescue",
+          "hasDescription": true,
+          "descLength": 472
+        },
+        {
+          "key": "passive4",
+          "name": "Tactical Warm Compress Bandaging",
+          "hasDescription": true,
+          "descLength": 310
+        }
+      ]
+    },
+    {
+      "character": "Illuga",
+      "reworkWave": null,
+      "passiveCount": 4,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Torchforger's Covenant",
+          "hasDescription": true,
+          "descLength": 398
+        },
+        {
+          "key": "passive2",
+          "name": "Demonhunter's Dusk",
+          "hasDescription": true,
+          "descLength": 366
+        },
+        {
+          "key": "passive3",
+          "name": "Moonsign Benediction: Unwithering in Winter",
+          "hasDescription": true,
+          "descLength": 75
+        },
+        {
+          "key": "passive4",
+          "name": "Night Warden's Stride",
+          "hasDescription": true,
+          "descLength": 286
+        }
+      ]
+    },
+    {
+      "character": "Ineffa",
+      "reworkWave": null,
+      "passiveCount": 4,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Overclocking Circuit",
+          "hasDescription": true,
+          "descLength": 251
+        },
+        {
+          "key": "passive2",
+          "name": "Panoramic Permutation Protocol",
+          "hasDescription": true,
+          "descLength": 246
+        },
+        {
+          "key": "passive3",
+          "name": "Moonsign Benediction: Assemblage Hub",
+          "hasDescription": true,
+          "descLength": 306
+        },
+        {
+          "key": "passive4",
+          "name": "Flavor Synthesis Unit",
+          "hasDescription": true,
+          "descLength": 188
+        }
+      ]
+    },
+    {
+      "character": "Jahoda",
+      "reworkWave": null,
+      "passiveCount": 4,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Plan to Get Paid",
+          "hasDescription": true,
+          "descLength": 959
+        },
+        {
+          "key": "passive2",
+          "name": "Sweet Berry Bounty",
+          "hasDescription": true,
+          "descLength": 250
+        },
+        {
+          "key": "passive3",
+          "name": "Moonsign Benediction: Rooftop Dash",
+          "hasDescription": true,
+          "descLength": 75
+        },
+        {
+          "key": "passive4",
+          "name": "Backstreet Guile",
+          "hasDescription": true,
+          "descLength": 78
+        }
+      ]
+    },
+    {
+      "character": "Jean",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Wind Companion",
+          "hasDescription": true,
+          "descLength": 114
+        },
+        {
+          "key": "passive2",
+          "name": "Let the Wind Lead",
+          "hasDescription": true,
+          "descLength": 57
+        },
+        {
+          "key": "passive3",
+          "name": "Guiding Breeze",
+          "hasDescription": true,
+          "descLength": 122
+        }
+      ]
+    },
+    {
+      "character": "Kachina",
+      "reworkWave": null,
+      "passiveCount": 4,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Mountain Echoes",
+          "hasDescription": true,
+          "descLength": 103
+        },
+        {
+          "key": "passive2",
+          "name": "The Weight of Stone",
+          "hasDescription": true,
+          "descLength": 56
+        },
+        {
+          "key": "passive3",
+          "name": "Night Realm's Gift: Heart of Unity",
+          "hasDescription": true,
+          "descLength": 733
+        },
+        {
+          "key": "passive4",
+          "name": "Boon of Crystal Flame",
+          "hasDescription": true,
+          "descLength": 225
+        }
+      ]
+    },
+    {
+      "character": "Kaedehara Kazuha",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Soumon Swordsmanship",
+          "hasDescription": true,
+          "descLength": 373
+        },
+        {
+          "key": "passive2",
+          "name": "Poetics of Fuubutsu",
+          "hasDescription": true,
+          "descLength": 266
+        },
+        {
+          "key": "passive3",
+          "name": "Cloud Strider",
+          "hasDescription": true,
+          "descLength": 146
+        }
+      ]
+    },
+    {
+      "character": "Kaeya",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Cold-Blooded Strike",
+          "hasDescription": true,
+          "descLength": 74
+        },
+        {
+          "key": "passive2",
+          "name": "Glacial Heart",
+          "hasDescription": true,
+          "descLength": 153
+        },
+        {
+          "key": "passive3",
+          "name": "Hidden Strength",
+          "hasDescription": true,
+          "descLength": 146
+        }
+      ]
+    },
+    {
+      "character": "Kamisato Ayaka",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 4,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Amatsumi Kunitsumi Sanctification",
+          "hasDescription": true,
+          "descLength": 108
+        },
+        {
+          "key": "passive2",
+          "name": "Kanten Senmyou Blessing",
+          "hasDescription": true,
+          "descLength": 177
+        },
+        {
+          "key": "passive3",
+          "name": "Fruits of Shinsa",
+          "hasDescription": true,
+          "descLength": 97
+        }
+      ]
+    },
+    {
+      "character": "Kamisato Ayato",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Kamisato Art: Mine Wo Matoishi Kiyotaki",
+          "hasDescription": true,
+          "descLength": 228
+        },
+        {
+          "key": "passive2",
+          "name": "Kamisato Art: Michiyuku Hagetsu",
+          "hasDescription": true,
+          "descLength": 123
+        },
+        {
+          "key": "passive3",
+          "name": "Kamisato Art: Daily Cooking",
+          "hasDescription": true,
+          "descLength": 116
+        }
+      ]
+    },
+    {
+      "character": "Kaveh",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "An Architect's Undertaking",
+          "hasDescription": true,
+          "descLength": 194
+        },
+        {
+          "key": "passive2",
+          "name": "A Craftsman's Curious Conceptions",
+          "hasDescription": true,
+          "descLength": 251
+        },
+        {
+          "key": "passive3",
+          "name": "The Art of Budgeting",
+          "hasDescription": true,
+          "descLength": 134
+        }
+      ]
+    },
+    {
+      "character": "Keqing",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Thundering Penance",
+          "hasDescription": true,
+          "descLength": 124
+        },
+        {
+          "key": "passive2",
+          "name": "Aristocratic Dignity",
+          "hasDescription": true,
+          "descLength": 139
+        },
+        {
+          "key": "passive3",
+          "name": "Land's Overseer",
+          "hasDescription": true,
+          "descLength": 75
+        }
+      ]
+    },
+    {
+      "character": "Kinich",
+      "reworkWave": null,
+      "passiveCount": 4,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "The Price of Desolation",
+          "hasDescription": true,
+          "descLength": 370
+        },
+        {
+          "key": "passive2",
+          "name": "Flame Spirit Pact",
+          "hasDescription": true,
+          "descLength": 346
+        },
+        {
+          "key": "passive3",
+          "name": "Night Realm's Gift: Repaid in Full",
+          "hasDescription": true,
+          "descLength": 1209
+        },
+        {
+          "key": "passive4",
+          "name": "Swift Envoy",
+          "hasDescription": true,
+          "descLength": 258
+        }
+      ]
+    },
+    {
+      "character": "Kirara",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Bewitching, Betwitching Tails",
+          "hasDescription": true,
+          "descLength": 666
+        },
+        {
+          "key": "passive2",
+          "name": "Pupillary Variance",
+          "hasDescription": true,
+          "descLength": 150
+        },
+        {
+          "key": "passive3",
+          "name": "Cat's Creeping Carriage",
+          "hasDescription": true,
+          "descLength": 135
+        }
+      ]
+    },
+    {
+      "character": "Klee",
+      "reworkWave": "6.0 + 6.2 Hexenzirkel",
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Pounding Surprise",
+          "hasDescription": true,
+          "descLength": 211
+        },
+        {
+          "key": "passive2",
+          "name": "Sparkling Burst",
+          "hasDescription": true,
+          "descLength": 92
+        },
+        {
+          "key": "passive3",
+          "name": "All Of My Treasures!",
+          "hasDescription": true,
+          "descLength": 78
+        }
+      ]
+    },
+    {
+      "character": "Kujou Sara",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Immovable Will",
+          "hasDescription": true,
+          "descLength": 111
+        },
+        {
+          "key": "passive2",
+          "name": "Decorum",
+          "hasDescription": true,
+          "descLength": 181
+        },
+        {
+          "key": "passive3",
+          "name": "Land Survey",
+          "hasDescription": true,
+          "descLength": 77
+        }
+      ]
+    },
+    {
+      "character": "Kuki Shinobu",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Breaking Free",
+          "hasDescription": true,
+          "descLength": 80
+        },
+        {
+          "key": "passive2",
+          "name": "Heart's Repose",
+          "hasDescription": true,
+          "descLength": 198
+        },
+        {
+          "key": "passive3",
+          "name": "Protracted Prayers",
+          "hasDescription": true,
+          "descLength": 77
+        }
+      ]
+    },
+    {
+      "character": "Lan Yan",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Four Sealing Divination Charms",
+          "hasDescription": true,
+          "descLength": 592
+        },
+        {
+          "key": "passive2",
+          "name": "Skyfeather Evil-Subduing Charm",
+          "hasDescription": true,
+          "descLength": 174
+        },
+        {
+          "key": "passive3",
+          "name": "Thought and Intent, Like Silken Scent",
+          "hasDescription": true,
+          "descLength": 248
+        }
+      ]
+    },
+    {
+      "character": "Lauma",
+      "reworkWave": null,
+      "passiveCount": 4,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Light for the Frosty Night",
+          "hasDescription": true,
+          "descLength": 628
+        },
+        {
+          "key": "passive2",
+          "name": "Cleansing for the Spring",
+          "hasDescription": true,
+          "descLength": 320
+        },
+        {
+          "key": "passive3",
+          "name": "Moonsign Benediction: Nature's Chorus",
+          "hasDescription": true,
+          "descLength": 318
+        },
+        {
+          "key": "passive4",
+          "name": "Prayers for the Forest",
+          "hasDescription": true,
+          "descLength": 180
+        }
+      ]
+    },
+    {
+      "character": "Layla",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Like Nascent Light",
+          "hasDescription": true,
+          "descLength": 311
+        },
+        {
+          "key": "passive2",
+          "name": "Sweet Slumber Undisturbed",
+          "hasDescription": true,
+          "descLength": 107
+        },
+        {
+          "key": "passive3",
+          "name": "Shadowy Dream-Signs",
+          "hasDescription": true,
+          "descLength": 97
+        }
+      ]
+    },
+    {
+      "character": "Linnea",
+      "reworkWave": null,
+      "passiveCount": 4,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Field Observation Notes",
+          "hasDescription": true,
+          "descLength": 355
+        },
+        {
+          "key": "passive2",
+          "name": "Universal Naturalist Archive",
+          "hasDescription": true,
+          "descLength": 362
+        },
+        {
+          "key": "passive3",
+          "name": "Moonsign Benediction: Habitat Survey",
+          "hasDescription": true,
+          "descLength": 315
+        },
+        {
+          "key": "passive4",
+          "name": "Master Adventurer",
+          "hasDescription": true,
+          "descLength": 1053
+        }
+      ]
+    },
+    {
+      "character": "Lisa",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Induced Aftershock",
+          "hasDescription": true,
+          "descLength": 74
+        },
+        {
+          "key": "passive2",
+          "name": "Static Electricity Field",
+          "hasDescription": true,
+          "descLength": 72
+        },
+        {
+          "key": "passive3",
+          "name": "General Pharmaceutics",
+          "hasDescription": true,
+          "descLength": 99
+        }
+      ]
+    },
+    {
+      "character": "Lohen",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Moratorium on Questioning",
+          "hasDescription": true,
+          "descLength": 216
+        },
+        {
+          "key": "passive2",
+          "name": "Flippant Masterpiece",
+          "hasDescription": true,
+          "descLength": 179
+        },
+        {
+          "key": "passive3",
+          "name": "When the Mood Strikes",
+          "hasDescription": true,
+          "descLength": 449
+        }
+      ]
+    },
+    {
+      "character": "Lumine",
+      "reworkWave": null,
+      "passiveCount": 0,
+      "combatCount": 0,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": []
+    },
+    {
+      "character": "Lynette",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Sophisticated Synergy",
+          "hasDescription": true,
+          "descLength": 180
+        },
+        {
+          "key": "passive2",
+          "name": "Props Positively Prepped",
+          "hasDescription": true,
+          "descLength": 213
+        },
+        {
+          "key": "passive3",
+          "name": "Loci-Based Mnemonics",
+          "hasDescription": true,
+          "descLength": 137
+        }
+      ]
+    },
+    {
+      "character": "Lyney",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Perilous Performance",
+          "hasDescription": true,
+          "descLength": 192
+        },
+        {
+          "key": "passive2",
+          "name": "Conclusive Ovation",
+          "hasDescription": true,
+          "descLength": 299
+        },
+        {
+          "key": "passive3",
+          "name": "Trivial Observations",
+          "hasDescription": true,
+          "descLength": 77
+        }
+      ]
+    },
+    {
+      "character": "Manekin",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 1,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Battlelines Redrawn",
+          "hasDescription": true,
+          "descLength": 192
+        },
+        {
+          "key": "passive2",
+          "name": "Combat Readiness",
+          "hasDescription": true,
+          "descLength": 126
+        },
+        {
+          "key": "passive3",
+          "name": "Agile Stance",
+          "hasDescription": true,
+          "descLength": 119
+        }
+      ]
+    },
+    {
+      "character": "Manekina",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 1,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Battlelines Redrawn",
+          "hasDescription": true,
+          "descLength": 192
+        },
+        {
+          "key": "passive2",
+          "name": "Combat Readiness",
+          "hasDescription": true,
+          "descLength": 126
+        },
+        {
+          "key": "passive3",
+          "name": "Agile Stance",
+          "hasDescription": true,
+          "descLength": 119
+        }
+      ]
+    },
+    {
+      "character": "Mavuika",
+      "reworkWave": null,
+      "passiveCount": 4,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Gift of Flaming Flowers",
+          "hasDescription": true,
+          "descLength": 94
+        },
+        {
+          "key": "passive2",
+          "name": "\"Kiongozi\"",
+          "hasDescription": true,
+          "descLength": 304
+        },
+        {
+          "key": "passive3",
+          "name": "Night Realm's Gift: Exhaust Mode",
+          "hasDescription": true,
+          "descLength": 612
+        },
+        {
+          "key": "passive4",
+          "name": "Night-Shattering Radiance",
+          "hasDescription": true,
+          "descLength": 58
+        }
+      ]
+    },
+    {
+      "character": "Mika",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Suppressive Barrage",
+          "hasDescription": true,
+          "descLength": 623
+        },
+        {
+          "key": "passive2",
+          "name": "Topographical Mapping",
+          "hasDescription": true,
+          "descLength": 494
+        },
+        {
+          "key": "passive3",
+          "name": "Demarcation",
+          "hasDescription": true,
+          "descLength": 78
+        }
+      ]
+    },
+    {
+      "character": "Mona",
+      "reworkWave": "6.2 Hexenzirkel",
+      "passiveCount": 3,
+      "combatCount": 4,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "\"Come 'n' Get Me, Hag!\"",
+          "hasDescription": true,
+          "descLength": 235
+        },
+        {
+          "key": "passive2",
+          "name": "Waterborne Destiny",
+          "hasDescription": true,
+          "descLength": 91
+        },
+        {
+          "key": "passive3",
+          "name": "Principium of Astrology",
+          "hasDescription": true,
+          "descLength": 117
+        }
+      ]
+    },
+    {
+      "character": "Mualani",
+      "reworkWave": null,
+      "passiveCount": 4,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Heat-Resistant Freshwater Floater",
+          "hasDescription": true,
+          "descLength": 254
+        },
+        {
+          "key": "passive2",
+          "name": "Natlan's Greatest Guide",
+          "hasDescription": true,
+          "descLength": 338
+        },
+        {
+          "key": "passive3",
+          "name": "Night Realm's Gift: Crests and Troughs",
+          "hasDescription": true,
+          "descLength": 842
+        },
+        {
+          "key": "passive4",
+          "name": "The Trick Is to Keep Smiling!",
+          "hasDescription": true,
+          "descLength": 228
+        }
+      ]
+    },
+    {
+      "character": "Nahida",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Compassion Illuminated",
+          "hasDescription": true,
+          "descLength": 316
+        },
+        {
+          "key": "passive2",
+          "name": "Awakening Elucidated",
+          "hasDescription": true,
+          "descLength": 251
+        },
+        {
+          "key": "passive3",
+          "name": "On All Things Meditated",
+          "hasDescription": true,
+          "descLength": 141
+        }
+      ]
+    },
+    {
+      "character": "Navia",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Undisclosed Distribution Channels",
+          "hasDescription": true,
+          "descLength": 318
+        },
+        {
+          "key": "passive2",
+          "name": "Mutual Assistance Network",
+          "hasDescription": true,
+          "descLength": 114
+        },
+        {
+          "key": "passive3",
+          "name": "Painstaking Transaction",
+          "hasDescription": true,
+          "descLength": 77
+        }
+      ]
+    },
+    {
+      "character": "Nefer",
+      "reworkWave": null,
+      "passiveCount": 4,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "A Wager of Moonlight",
+          "hasDescription": true,
+          "descLength": 849
+        },
+        {
+          "key": "passive2",
+          "name": "Daughter of the Dust and Sand",
+          "hasDescription": true,
+          "descLength": 345
+        },
+        {
+          "key": "passive3",
+          "name": "Moonsign Benediction: Dusklit Eaves",
+          "hasDescription": true,
+          "descLength": 311
+        },
+        {
+          "key": "passive4",
+          "name": "Conspiracy of the Golden Vault",
+          "hasDescription": true,
+          "descLength": 77
+        }
+      ]
+    },
+    {
+      "character": "Neuvillette",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Heir to the Ancient Sea's Authority",
+          "hasDescription": true,
+          "descLength": 472
+        },
+        {
+          "key": "passive2",
+          "name": "Discipline of the Supreme Arbitration",
+          "hasDescription": true,
+          "descLength": 151
+        },
+        {
+          "key": "passive3",
+          "name": "Gather Like the Tide",
+          "hasDescription": true,
+          "descLength": 138
+        }
+      ]
+    },
+    {
+      "character": "Nicole",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Methexis",
+          "hasDescription": true,
+          "descLength": 564
+        },
+        {
+          "key": "passive2",
+          "name": "Philokalia",
+          "hasDescription": true,
+          "descLength": 157
+        },
+        {
+          "key": "passive3",
+          "name": "Nepsis",
+          "hasDescription": true,
+          "descLength": 403
+        }
+      ]
+    },
+    {
+      "character": "Nilou",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Court of Dancing Petals",
+          "hasDescription": true,
+          "descLength": 948
+        },
+        {
+          "key": "passive2",
+          "name": "Dreamy Dance of Aeons",
+          "hasDescription": true,
+          "descLength": 252
+        },
+        {
+          "key": "passive3",
+          "name": "White Jade Lotus",
+          "hasDescription": true,
+          "descLength": 124
+        }
+      ]
+    },
+    {
+      "character": "Ningguang",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Backup Plan",
+          "hasDescription": true,
+          "descLength": 91
+        },
+        {
+          "key": "passive2",
+          "name": "Strategic Reserve",
+          "hasDescription": true,
+          "descLength": 86
+        },
+        {
+          "key": "passive3",
+          "name": "Trove of Marvelous Treasures",
+          "hasDescription": true,
+          "descLength": 74
+        }
+      ]
+    },
+    {
+      "character": "Noelle",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Devotion",
+          "hasDescription": true,
+          "descLength": 377
+        },
+        {
+          "key": "passive2",
+          "name": "Nice and Clean",
+          "hasDescription": true,
+          "descLength": 150
+        },
+        {
+          "key": "passive3",
+          "name": "Maid's Knighthood",
+          "hasDescription": true,
+          "descLength": 112
+        }
+      ]
+    },
+    {
+      "character": "Ororon",
+      "reworkWave": null,
+      "passiveCount": 4,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Nightshade Synesthesia",
+          "hasDescription": true,
+          "descLength": 900
+        },
+        {
+          "key": "passive2",
+          "name": "Aspect Catalyst",
+          "hasDescription": true,
+          "descLength": 402
+        },
+        {
+          "key": "passive3",
+          "name": "Night Realm's Gift: Flowing Fog, Spritely Shadows",
+          "hasDescription": true,
+          "descLength": 958
+        },
+        {
+          "key": "passive4",
+          "name": "The Art of Skinchanging",
+          "hasDescription": true,
+          "descLength": 128
+        }
+      ]
+    },
+    {
+      "character": "Prune",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Verdict and Punishment",
+          "hasDescription": true,
+          "descLength": 390
+        },
+        {
+          "key": "passive2",
+          "name": "Tolling Synchronicity",
+          "hasDescription": true,
+          "descLength": 508
+        },
+        {
+          "key": "passive3",
+          "name": "Tinker-Tink, Clank, and Bang!",
+          "hasDescription": true,
+          "descLength": 150
+        }
+      ]
+    },
+    {
+      "character": "Qiqi",
+      "reworkWave": "6.7 Witch's Revelation",
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Life-Prolonging Methods",
+          "hasDescription": true,
+          "descLength": 155
+        },
+        {
+          "key": "passive2",
+          "name": "A Glimpse Into Arcanum",
+          "hasDescription": true,
+          "descLength": 180
+        },
+        {
+          "key": "passive3",
+          "name": "Former Life Memories",
+          "hasDescription": true,
+          "descLength": 74
+        }
+      ]
+    },
+    {
+      "character": "Raiden Shogun",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Wishes Unnumbered",
+          "hasDescription": true,
+          "descLength": 138
+        },
+        {
+          "key": "passive2",
+          "name": "Enlightened One",
+          "hasDescription": true,
+          "descLength": 155
+        },
+        {
+          "key": "passive3",
+          "name": "All-Preserver",
+          "hasDescription": true,
+          "descLength": 69
+        }
+      ]
+    },
+    {
+      "character": "Razor",
+      "reworkWave": "6.2 Hexenzirkel",
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Awakening",
+          "hasDescription": true,
+          "descLength": 95
+        },
+        {
+          "key": "passive2",
+          "name": "Hunger",
+          "hasDescription": true,
+          "descLength": 67
+        },
+        {
+          "key": "passive3",
+          "name": "Wolvensprint",
+          "hasDescription": true,
+          "descLength": 146
+        }
+      ]
+    },
+    {
+      "character": "Rosaria",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Regina Probationum",
+          "hasDescription": true,
+          "descLength": 116
+        },
+        {
+          "key": "passive2",
+          "name": "Shadow Samaritan",
+          "hasDescription": true,
+          "descLength": 191
+        },
+        {
+          "key": "passive3",
+          "name": "Night Walk",
+          "hasDescription": true,
+          "descLength": 201
+        }
+      ]
+    },
+    {
+      "character": "Sandrone",
+      "reworkWave": null,
+      "passiveCount": 4,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Eternal Speculation Engine",
+          "hasDescription": true,
+          "descLength": 680
+        },
+        {
+          "key": "passive2",
+          "name": "A Lady's Code of Conduct",
+          "hasDescription": true,
+          "descLength": 163
+        },
+        {
+          "key": "passive3",
+          "name": "Light of Rationalisme",
+          "hasDescription": true,
+          "descLength": 405
+        },
+        {
+          "key": "passive4",
+          "name": "A Caucus Prelude and a Long Tale",
+          "hasDescription": true,
+          "descLength": 125
+        }
+      ]
+    },
+    {
+      "character": "Sangonomiya Kokomi",
+      "reworkWave": null,
+      "passiveCount": 4,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Tamakushi Casket",
+          "hasDescription": true,
+          "descLength": 135
+        },
+        {
+          "key": "passive2",
+          "name": "Song of Pearls",
+          "hasDescription": true,
+          "descLength": 219
+        },
+        {
+          "key": "passive3",
+          "name": "Princess of Watatsumi",
+          "hasDescription": true,
+          "descLength": 145
+        },
+        {
+          "key": "passive4",
+          "name": "Flawless Strategy",
+          "hasDescription": true,
+          "descLength": 77
+        }
+      ]
+    },
+    {
+      "character": "Sayu",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Someone More Capable",
+          "hasDescription": true,
+          "descLength": 239
+        },
+        {
+          "key": "passive2",
+          "name": "No Work Today!",
+          "hasDescription": true,
+          "descLength": 247
+        },
+        {
+          "key": "passive3",
+          "name": "Yoohoo Art: Silencer's Secret",
+          "hasDescription": true,
+          "descLength": 245
+        }
+      ]
+    },
+    {
+      "character": "Sethos",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Black Kite's Enigma",
+          "hasDescription": true,
+          "descLength": 399
+        },
+        {
+          "key": "passive2",
+          "name": "The Sand King's Boon",
+          "hasDescription": true,
+          "descLength": 468
+        },
+        {
+          "key": "passive3",
+          "name": "Thoth's Revelation",
+          "hasDescription": true,
+          "descLength": 75
+        }
+      ]
+    },
+    {
+      "character": "Shenhe",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Deific Embrace",
+          "hasDescription": true,
+          "descLength": 101
+        },
+        {
+          "key": "passive2",
+          "name": "Spirit Communion Seal",
+          "hasDescription": true,
+          "descLength": 255
+        },
+        {
+          "key": "passive3",
+          "name": "Precise Comings and Goings",
+          "hasDescription": true,
+          "descLength": 74
+        }
+      ]
+    },
+    {
+      "character": "Shikanoin Heizou",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Paradoxical Practice",
+          "hasDescription": true,
+          "descLength": 171
+        },
+        {
+          "key": "passive2",
+          "name": "Penetrative Reasoning",
+          "hasDescription": true,
+          "descLength": 153
+        },
+        {
+          "key": "passive3",
+          "name": "Pre-Existing Guilt",
+          "hasDescription": true,
+          "descLength": 146
+        }
+      ]
+    },
+    {
+      "character": "Sigewinne",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Requires Appropriate Rest",
+          "hasDescription": true,
+          "descLength": 525
+        },
+        {
+          "key": "passive2",
+          "name": "Detailed Diagnosis, Thorough Treatment",
+          "hasDescription": true,
+          "descLength": 314
+        },
+        {
+          "key": "passive3",
+          "name": "Emergency Dose",
+          "hasDescription": true,
+          "descLength": 263
+        }
+      ]
+    },
+    {
+      "character": "Skirk",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Reason Beyond Reason",
+          "hasDescription": true,
+          "descLength": 689
+        },
+        {
+          "key": "passive2",
+          "name": "Return to Oblivion",
+          "hasDescription": true,
+          "descLength": 588
+        },
+        {
+          "key": "passive3",
+          "name": "Mutual Weapons Mentorship",
+          "hasDescription": true,
+          "descLength": 168
+        }
+      ]
+    },
+    {
+      "character": "Sucrose",
+      "reworkWave": "6.2 Hexenzirkel",
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Catalyst Conversion",
+          "hasDescription": true,
+          "descLength": 166
+        },
+        {
+          "key": "passive2",
+          "name": "Mollis Favonius",
+          "hasDescription": true,
+          "descLength": 238
+        },
+        {
+          "key": "passive3",
+          "name": "Astable Invention",
+          "hasDescription": true,
+          "descLength": 114
+        }
+      ]
+    },
+    {
+      "character": "Tartaglia",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Never Ending",
+          "hasDescription": true,
+          "descLength": 31
+        },
+        {
+          "key": "passive2",
+          "name": "Sword of Torrents",
+          "hasDescription": true,
+          "descLength": 157
+        },
+        {
+          "key": "passive3",
+          "name": "Master of Weaponry",
+          "hasDescription": true,
+          "descLength": 59
+        }
+      ]
+    },
+    {
+      "character": "Thoma",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Imbricated Armor",
+          "hasDescription": true,
+          "descLength": 203
+        },
+        {
+          "key": "passive2",
+          "name": "Flaming Assault",
+          "hasDescription": true,
+          "descLength": 85
+        },
+        {
+          "key": "passive3",
+          "name": "Snap and Swing",
+          "hasDescription": true,
+          "descLength": 98
+        }
+      ]
+    },
+    {
+      "character": "Tighnari",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Keen Sight",
+          "hasDescription": true,
+          "descLength": 85
+        },
+        {
+          "key": "passive2",
+          "name": "Scholarly Blade",
+          "hasDescription": true,
+          "descLength": 186
+        },
+        {
+          "key": "passive3",
+          "name": "Encyclopedic Knowledge",
+          "hasDescription": true,
+          "descLength": 75
+        }
+      ]
+    },
+    {
+      "character": "Varesa",
+      "reworkWave": null,
+      "passiveCount": 4,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Tag-Team Triple Jump!",
+          "hasDescription": true,
+          "descLength": 446
+        },
+        {
+          "key": "passive2",
+          "name": "The Hero Twice-Returned!",
+          "hasDescription": true,
+          "descLength": 155
+        },
+        {
+          "key": "passive3",
+          "name": "Night Realm's Gift: A Torch That Incinerates Evil",
+          "hasDescription": true,
+          "descLength": 752
+        },
+        {
+          "key": "passive4",
+          "name": "Blazing Heart, Singular Advance!",
+          "hasDescription": true,
+          "descLength": 364
+        }
+      ]
+    },
+    {
+      "character": "Varka",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Dawn Wind's March",
+          "hasDescription": true,
+          "descLength": 989
+        },
+        {
+          "key": "passive2",
+          "name": "Wind's Vanguard",
+          "hasDescription": true,
+          "descLength": 369
+        },
+        {
+          "key": "passive3",
+          "name": "Homebound Wind's Paean",
+          "hasDescription": true,
+          "descLength": 206
+        }
+      ]
+    },
+    {
+      "character": "Venti",
+      "reworkWave": "6.2 Hexenzirkel",
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Embrace of Winds",
+          "hasDescription": true,
+          "descLength": 63
+        },
+        {
+          "key": "passive2",
+          "name": "Stormeye",
+          "hasDescription": true,
+          "descLength": 202
+        },
+        {
+          "key": "passive3",
+          "name": "Windrider",
+          "hasDescription": true,
+          "descLength": 144
+        }
+      ]
+    },
+    {
+      "character": "Wanderer",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Jade-Claimed Flower",
+          "hasDescription": true,
+          "descLength": 509
+        },
+        {
+          "key": "passive2",
+          "name": "Gales of Reverie",
+          "hasDescription": true,
+          "descLength": 651
+        },
+        {
+          "key": "passive3",
+          "name": "Strum the Swirling Winds",
+          "hasDescription": true,
+          "descLength": 68
+        }
+      ]
+    },
+    {
+      "character": "Wriothesley",
+      "reworkWave": "6.7 Witch's Revelation",
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "There Shall Be a Plea for Justice",
+          "hasDescription": true,
+          "descLength": 384
+        },
+        {
+          "key": "passive2",
+          "name": "There Shall Be a Reckoning for Sin",
+          "hasDescription": true,
+          "descLength": 242
+        },
+        {
+          "key": "passive3",
+          "name": "The Duke's Grace",
+          "hasDescription": true,
+          "descLength": 102
+        }
+      ]
+    },
+    {
+      "character": "Xiangling",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Crossfire",
+          "hasDescription": true,
+          "descLength": 42
+        },
+        {
+          "key": "passive2",
+          "name": "Beware, It's Super Hot!",
+          "hasDescription": true,
+          "descLength": 150
+        },
+        {
+          "key": "passive3",
+          "name": "Chef de Cuisine",
+          "hasDescription": true,
+          "descLength": 104
+        }
+      ]
+    },
+    {
+      "character": "Xianyun",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Galefeather Pursuit",
+          "hasDescription": true,
+          "descLength": 325
+        },
+        {
+          "key": "passive2",
+          "name": "Consider, the Adeptus in Her Realm",
+          "hasDescription": true,
+          "descLength": 410
+        },
+        {
+          "key": "passive3",
+          "name": "Crane Form",
+          "hasDescription": true,
+          "descLength": 128
+        }
+      ]
+    },
+    {
+      "character": "Xiao",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Conqueror of Evil: Tamer of Demons",
+          "hasDescription": true,
+          "descLength": 178
+        },
+        {
+          "key": "passive2",
+          "name": "Dissolution Eon: Heaven Fall",
+          "hasDescription": true,
+          "descLength": 213
+        },
+        {
+          "key": "passive3",
+          "name": "Transcension: Gravity Defier",
+          "hasDescription": true,
+          "descLength": 145
+        }
+      ]
+    },
+    {
+      "character": "Xilonen",
+      "reworkWave": null,
+      "passiveCount": 4,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Netotiliztli's Echoes",
+          "hasDescription": true,
+          "descLength": 387
+        },
+        {
+          "key": "passive2",
+          "name": "Portable Armored Sheath",
+          "hasDescription": true,
+          "descLength": 311
+        },
+        {
+          "key": "passive3",
+          "name": "Night Realm's Gift: Blessing of Forge-Fire",
+          "hasDescription": true,
+          "descLength": 936
+        },
+        {
+          "key": "passive4",
+          "name": "Tour of Tepeilhuitl",
+          "hasDescription": true,
+          "descLength": 57
+        }
+      ]
+    },
+    {
+      "character": "Xingqiu",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Hydropathic",
+          "hasDescription": true,
+          "descLength": 135
+        },
+        {
+          "key": "passive2",
+          "name": "Blades Amidst Raindrops",
+          "hasDescription": true,
+          "descLength": 36
+        },
+        {
+          "key": "passive3",
+          "name": "Flash of Genius",
+          "hasDescription": true,
+          "descLength": 119
+        }
+      ]
+    },
+    {
+      "character": "Xinyan",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "\"The Show Goes On, Even Without an Audience...\"",
+          "hasDescription": true,
+          "descLength": 228
+        },
+        {
+          "key": "passive2",
+          "name": "\"...Now That's Rock 'N' Roll!\"",
+          "hasDescription": true,
+          "descLength": 71
+        },
+        {
+          "key": "passive3",
+          "name": "A Rad Recipe",
+          "hasDescription": true,
+          "descLength": 112
+        }
+      ]
+    },
+    {
+      "character": "Yae Miko",
+      "reworkWave": "6.7 Witch's Revelation",
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "The Shrine's Sacred Shade",
+          "hasDescription": true,
+          "descLength": 144
+        },
+        {
+          "key": "passive2",
+          "name": "Enlightened Blessing",
+          "hasDescription": true,
+          "descLength": 94
+        },
+        {
+          "key": "passive3",
+          "name": "Meditations of a Yako",
+          "hasDescription": true,
+          "descLength": 141
+        }
+      ]
+    },
+    {
+      "character": "Yanfei",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Proviso",
+          "hasDescription": true,
+          "descLength": 252
+        },
+        {
+          "key": "passive2",
+          "name": "Blazing Eye",
+          "hasDescription": true,
+          "descLength": 176
+        },
+        {
+          "key": "passive3",
+          "name": "Encyclopedic Expertise",
+          "hasDescription": true,
+          "descLength": 74
+        }
+      ]
+    },
+    {
+      "character": "Yaoyao",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Starscatter",
+          "hasDescription": true,
+          "descLength": 243
+        },
+        {
+          "key": "passive2",
+          "name": "In Others' Shoes",
+          "hasDescription": true,
+          "descLength": 148
+        },
+        {
+          "key": "passive3",
+          "name": "Tailing on Tiptoes",
+          "hasDescription": true,
+          "descLength": 247
+        }
+      ]
+    },
+    {
+      "character": "Yelan",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Turn Control",
+          "hasDescription": true,
+          "descLength": 90
+        },
+        {
+          "key": "passive2",
+          "name": "Adapt With Ease",
+          "hasDescription": true,
+          "descLength": 274
+        },
+        {
+          "key": "passive3",
+          "name": "Necessary Calculation",
+          "hasDescription": true,
+          "descLength": 74
+        }
+      ]
+    },
+    {
+      "character": "Yoimiya",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Tricks of the Trouble-Maker",
+          "hasDescription": true,
+          "descLength": 169
+        },
+        {
+          "key": "passive2",
+          "name": "Summer Night's Dawn",
+          "hasDescription": true,
+          "descLength": 330
+        },
+        {
+          "key": "passive3",
+          "name": "Blazing Match",
+          "hasDescription": true,
+          "descLength": 138
+        }
+      ]
+    },
+    {
+      "character": "Yumemizuki Mizuki",
+      "reworkWave": "6.7 Witch's Revelation",
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Bright Moon's Restless Voice",
+          "hasDescription": true,
+          "descLength": 202
+        },
+        {
+          "key": "passive2",
+          "name": "Thoughts by Day Bring Dreams by Night",
+          "hasDescription": true,
+          "descLength": 194
+        },
+        {
+          "key": "passive3",
+          "name": "All Ailments Banished",
+          "hasDescription": true,
+          "descLength": 348
+        }
+      ]
+    },
+    {
+      "character": "Yun Jin",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "True to Oneself",
+          "hasDescription": true,
+          "descLength": 115
+        },
+        {
+          "key": "passive2",
+          "name": "Breaking Conventions",
+          "hasDescription": true,
+          "descLength": 203
+        },
+        {
+          "key": "passive3",
+          "name": "Light Nourishment",
+          "hasDescription": true,
+          "descLength": 124
+        }
+      ]
+    },
+    {
+      "character": "Zhongli",
+      "reworkWave": null,
+      "passiveCount": 3,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "Resonant Waves",
+          "hasDescription": true,
+          "descLength": 174
+        },
+        {
+          "key": "passive2",
+          "name": "Dominance of Earth",
+          "hasDescription": true,
+          "descLength": 272
+        },
+        {
+          "key": "passive3",
+          "name": "Arcanum of Crystal",
+          "hasDescription": true,
+          "descLength": 63
+        }
+      ]
+    },
+    {
+      "character": "Zibai",
+      "reworkWave": null,
+      "passiveCount": 4,
+      "combatCount": 3,
+      "extraFieldsBeyondOldHardcode": [],
+      "passiveDetails": [
+        {
+          "key": "passive1",
+          "name": "The Selenic Adeptus Descends",
+          "hasDescription": true,
+          "descLength": 265
+        },
+        {
+          "key": "passive2",
+          "name": "Layered Peaks Pierce the Clouds",
+          "hasDescription": true,
+          "descLength": 120
+        },
+        {
+          "key": "passive3",
+          "name": "Moonsign Benediction: The Coursing Sun and Moon",
+          "hasDescription": true,
+          "descLength": 313
+        },
+        {
+          "key": "passive4",
+          "name": "Moonlit Flower Forest",
+          "hasDescription": true,
+          "descLength": 174
+        }
+      ]
+    }
+  ],
+  "issues": []
+}

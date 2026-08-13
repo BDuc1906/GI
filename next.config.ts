@@ -63,12 +63,20 @@ function resolveRemotePatterns(): RemotePattern[] {
   return patterns;
 }
 
+// Next.js/Turbopack dùng eval() ở dev mode để dựng lại call stack cho các
+// tính năng debug (React DevTools, overlay lỗi, hot reload...). Thiếu
+// 'unsafe-eval' trong script-src khiến console báo lỗi "eval() is not
+// supported in this environment" ngay khi chạy `next dev`. React tự
+// KHÔNG BAO GIỜ dùng eval() ở production build, nên chỉ nới lỏng CSP ở
+// dev — production giữ nguyên script-src chặt như thiết kế ban đầu.
+const isDev = process.env.NODE_ENV !== "production";
+
 function contentSecurityPolicy(): string {
   const imageHosts = resolveRemotePatterns().map((p) => `${p.protocol}://${p.hostname}`);
 
   const directives: Record<string, string[]> = {
     "default-src": ["'self'"],
-    "script-src": ["'self'", "'unsafe-inline'"],
+    "script-src": ["'self'", "'unsafe-inline'", ...(isDev ? ["'unsafe-eval'"] : [])],
     "style-src": ["'self'", "'unsafe-inline'"],
     "img-src": ["'self'", "data:", "blob:", ...imageHosts],
     "font-src": ["'self'", "data:"],
