@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import createMiddleware from "next-intl/middleware";
+import { routing } from "@/i18n/routing";
 
 /**
  * CORS cho toàn bộ /api/*.
@@ -34,18 +36,36 @@ const CORS_HEADERS: Record<string, string> = {
   "Access-Control-Max-Age": "86400",
 };
 
-export function middleware(req: NextRequest): NextResponse {
-  if (req.method === "OPTIONS") {
-    return new NextResponse(null, { status: 204, headers: CORS_HEADERS });
+// next-intl middleware: phát hiện locale từ cookie NEXT_LOCALE (đã chọn
+// trước đó) → header Accept-Language của trình duyệt → defaultLocale
+// ("en"), rồi redirect "/characters" → "/en/characters" (hoặc locale phù
+// hợp) khi URL chưa có tiền tố locale.
+const handleI18nRouting = createMiddleware(routing);
+
+export default function middleware(req: NextRequest): NextResponse {
+  // API KHÔNG có tiền tố locale (client bên thứ ba gọi thẳng
+  // "/api/characters", không phải "/en/api/characters") — giữ nguyên
+  // 100% logic CORS cũ, không cho next-intl chạm vào nhánh này.
+  if (req.nextUrl.pathname.startsWith("/api")) {
+    if (req.method === "OPTIONS") {
+      return new NextResponse(null, { status: 204, headers: CORS_HEADERS });
+    }
+
+    const res = NextResponse.next();
+    for (const [key, value] of Object.entries(CORS_HEADERS)) {
+      res.headers.set(key, value);
+    }
+    return res;
   }
 
-  const res = NextResponse.next();
-  for (const [key, value] of Object.entries(CORS_HEADERS)) {
-    res.headers.set(key, value);
-  }
-  return res;
+  // Mọi route trang còn lại: để next-intl xử lý phát hiện + redirect locale.
+  return handleI18nRouting(req);
 }
 
 export const config = {
-  matcher: "/api/:path*",
+  // Pattern khuyến nghị chính thức của next-intl (v4): loại trừ /api,
+  // /_next (asset build của Next.js), /_vercel (asset nội bộ Vercel) và
+  // mọi path có phần mở rộng file (favicon.ico, robots.txt, ảnh...) — các
+  // path này không cần/không nên có tiền tố locale.
+  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
 };

@@ -1,0 +1,4210 @@
+[
+  {
+    "id": 210189,
+    "name": "Achievement: Adeptal Valley",
+    "description": "Namecard style.\n...After that, the fish sank to the bottom of the lake, and the snake was split into several pieces. The remaining beasts waited on mountains, rivers, and moon, awaiting their silent answer.",
+    "sortOrder": 210189,
+    "source": [
+      "Reward for completing all achievements under \"Chenyu's Splendor.\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Chenyu1",
+      "filename_banner": "UI_NameCardPic_Chenyu1_Alpha",
+      "filename_background": "UI_NameCardPic_Chenyu1_P"
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 210229,
+    "name": "Achievement: All-Seeing",
+    "description": "Namecard style.\nThe gaze of a traveler looks upon all like a light, and your impression of things will someday resurface in your mind in vivid, intense color.",
+    "sortOrder": 210229,
+    "source": [
+      "Reward for completing all achievements under \"Mortal Travails: Series V\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Csxy5",
+      "filename_banner": "UI_NameCardPic_Csxy5_Alpha",
+      "filename_background": "UI_NameCardPic_Csxy5_P"
+    },
+    "version": "5.3"
+  },
+  {
+    "id": 210230,
+    "name": "Achievement: Blaze",
+    "description": "Namecard style.\nAfter the flame that once represented light, heat, and wisdom became corroded by the tenebrous dark, the only thing that yet belonged to the imprisoned titan was its inextinguishable will to fight.",
+    "sortOrder": 210230,
+    "source": [
+      "Reward for completing all achievements under \"Challenger: Series X\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Tzz10",
+      "filename_banner": "UI_NameCardPic_Tzz10_Alpha",
+      "filename_background": "UI_NameCardPic_Tzz10_P"
+    },
+    "version": "5.3"
+  },
+  {
+    "id": 210027,
+    "name": "Achievement: Bowmaster",
+    "description": "Namecard style.\nDraw that bowstring taut!",
+    "sortOrder": 210027,
+    "source": [
+      "Reward for completing all achievements under \"Marksmanship\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Sss",
+      "filename_banner": "UI_NameCardPic_Sss_Alpha",
+      "filename_background": "UI_NameCardPic_Sss_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210028,
+    "name": "Achievement: Challenger",
+    "description": "Namecard style.\nEven if you're just going out to get a single dandelion, there will be obstacles in your path. But you love a challenge, don't you?",
+    "sortOrder": 210028,
+    "source": [
+      "Reward for completing all achievements under \"Challenger: Series I\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Tzz1",
+      "filename_banner": "UI_NameCardPic_Tzz1_Alpha",
+      "filename_background": "UI_NameCardPic_Tzz1_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210041,
+    "name": "Achievement: Challenger II",
+    "description": "Namecard style.\nThat which awaits at the end of the challenges is...",
+    "sortOrder": 210041,
+    "source": [
+      "Reward for completing all achievements under \"Challenger: Series II\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Tzz2",
+      "filename_banner": "UI_NameCardPic_Tzz2_Alpha",
+      "filename_background": "UI_NameCardPic_Tzz2_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210051,
+    "name": "Achievement: Challenger III",
+    "description": "Namecard style.\nFinally, a worthy opponent! Our battle will be legendary!",
+    "sortOrder": 210051,
+    "source": [
+      "Reward for completing all achievements under \"Challenger - Series III\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Tzz3",
+      "filename_banner": "UI_NameCardPic_Tzz3_Alpha",
+      "filename_background": "UI_NameCardPic_Tzz3_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210117,
+    "name": "Achievement: Chasm",
+    "description": "Namecard style.\nWhere once miners industriously delved and tunneled, now all is silent. Only the Glazed Sand Crystal and marrows of stone, both millennia-old, still give off any brilliance.",
+    "sortOrder": 210117,
+    "source": [
+      "Reward for completing all achievements under \"Chasmlighter\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Cenyan1",
+      "filename_banner": "UI_NameCardPic_Cenyan1_Alpha",
+      "filename_background": "UI_NameCardPic_Cenyan1_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210032,
+    "name": "Achievement: Cliffhanger",
+    "description": "Namecard style.\nThey say that storytellers love their cliffhangers — but you? You've heard it all before.",
+    "sortOrder": 210032,
+    "source": [
+      "Reward for completing all achievements under \"Stone Harbor's Nostalgia: Series I\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Lyws1",
+      "filename_banner": "UI_NameCardPic_Lyws1_Alpha",
+      "filename_background": "UI_NameCardPic_Lyws1_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210026,
+    "name": "Achievement: Colors of the Rainbow",
+    "description": "Namecard style.\nLight can refract into countless colors, but people stop at seven because they're lazy to count. Perhaps the elements are like that, too.",
+    "sortOrder": 210026,
+    "source": [
+      "Reward for completing all achievements under \"Elemental Specialist: Series I\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Yszj",
+      "filename_banner": "UI_NameCardPic_Yszj_Alpha",
+      "filename_background": "UI_NameCardPic_Yszj_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210029,
+    "name": "Achievement: Deep & Dark",
+    "description": "Namecard style.\nThe deeper you delve, the more secrets you shall uncover.",
+    "sortOrder": 210029,
+    "source": [
+      "Reward for completing all achievements under \"Domains and Spiral Abyss: Series I\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Sj1",
+      "filename_banner": "UI_NameCardPic_Sj1_Alpha",
+      "filename_background": "UI_NameCardPic_Sj1_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210213,
+    "name": "Achievement: Endpoint",
+    "description": "Namecard style.\nThe orbits of the true stars are traced in myriad rings across the night sky. A sea of blossom awaits the return of a single flower, anticipating the day when both hearts and petals shall become soft and tender.",
+    "sortOrder": 210213,
+    "source": [
+      "Reward for completing all achievements under \"Meetings in Outrealm: Series V\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Ysxf5",
+      "filename_banner": "UI_NameCardPic_Ysxf5_Alpha",
+      "filename_background": "UI_NameCardPic_Ysxf5_P"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 210021,
+    "name": "Achievement: Explorer",
+    "description": "Namecard style.\nAfter all your wanderings throughout the world, do not forget the reason why you first set out.",
+    "sortOrder": 210021,
+    "source": [
+      "Reward for completing all achievements under \"Mortal Travails: Series I\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Csxy1",
+      "filename_banner": "UI_NameCardPic_Csxy1_Alpha",
+      "filename_background": "UI_NameCardPic_Csxy1_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210270,
+    "name": "Achievement: Far-Sighted",
+    "description": "Namecard style.\nThe traveler once stood atop the town, gazing toward the distant horizon, confident that the far-off sights within view would one day become milestones in the journey ahead.",
+    "sortOrder": 210270,
+    "source": [
+      "Reward for completing all achievements under \"Mortal Travails: Series VI\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Csxy6",
+      "filename_banner": "UI_NameCardPic_Csxy6_Alpha",
+      "filename_background": "UI_NameCardPic_Csxy6_P"
+    },
+    "version": "6.3"
+  },
+  {
+    "id": 210129,
+    "name": "Achievement: Fated Encounter",
+    "description": "Namecard style.\nOne day, our encounter at this moment shall shine like a star of reminiscence in our hearts.",
+    "sortOrder": 210129,
+    "source": [
+      "Reward for completing all achievements under \"Meetings in Outrealm: Series III\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Ysxf3",
+      "filename_banner": "UI_NameCardPic_Ysxf3_Alpha",
+      "filename_background": "UI_NameCardPic_Ysxf3_P"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 210214,
+    "name": "Achievement: Feline Fortune",
+    "description": "Namecard style.\nYou want to know what the future holds? Then stay here and sit tight. Let this little kitty resist the urge to knock the crystal ball onto the ground, and steal the secrets of fate for you.",
+    "sortOrder": 210214,
+    "source": [
+      "Reward for completing all achievements under \"Imaginarium Theater: The Second Folio\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_RoleCombat2",
+      "filename_banner": "UI_NameCardPic_RoleCombat2_Alpha",
+      "filename_background": "UI_NameCardPic_RoleCombat2_P"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 210224,
+    "name": "Achievement: Fighting Spirit",
+    "description": "Namecard style.\nEven if one was to lose their physical form and find themselves trapped in the cold depths of some ghostly spring, the will to fight on shall never fade away.",
+    "sortOrder": 210224,
+    "source": [
+      "Reward for completing all achievements under \"Duelist: Series II\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Dfcq2",
+      "filename_banner": "UI_NameCardPic_Dfcq2_Alpha",
+      "filename_background": "UI_NameCardPic_Dfcq2_P"
+    },
+    "version": "5.2"
+  },
+  {
+    "id": 210089,
+    "name": "Achievement: Full Bloom",
+    "description": "Namecard style.\nGather ye then soil from all corners of the universe, and from it may countless flowers grow.",
+    "sortOrder": 210089,
+    "source": [
+      "Reward for completing all achievements under \"A Realm Beyond: Series III\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Homeworld2",
+      "filename_banner": "UI_NameCardPic_Homeworld2_Alpha",
+      "filename_background": "UI_NameCardPic_Homeworld2_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210086,
+    "name": "Achievement: Gate",
+    "description": "Namecard style.\nWhat encounters lie on the other side of this door?",
+    "sortOrder": 210086,
+    "source": [
+      "Reward for completing all achievements under \"Meetings in Outrealm: Series II\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Ysxf2",
+      "filename_banner": "UI_NameCardPic_Ysxf2_Alpha",
+      "filename_background": "UI_NameCardPic_Ysxf2_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210023,
+    "name": "Achievement: Hero",
+    "description": "Namecard style.\nYour hero's journey began before you knew it, but it's the experiences that really made it special.",
+    "sortOrder": 210023,
+    "source": [
+      "Reward for completing all achievements under \"The Hero's Journey\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Yxzl",
+      "filename_banner": "UI_NameCardPic_Yxzl_Alpha",
+      "filename_background": "UI_NameCardPic_Yxzl_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210030,
+    "name": "Achievement: Hill Dwellers",
+    "description": "Namecard style.\nThe hilichurls were dubbed the \"hill devils.\" But a certain young girl named Musk insists on calling them the \"hill dwellers.\"",
+    "sortOrder": 210030,
+    "source": [
+      "Reward for completing all achievements under \"Olah!: Series I\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Olah1",
+      "filename_banner": "UI_NameCardPic_Olah1_Alpha",
+      "filename_background": "UI_NameCardPic_Olah1_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210157,
+    "name": "Achievement: Infinitum",
+    "description": "Namecard style.\n\"Oh, Khvarena in your endless forms, protect this imperiled land. The blights and glories of the earthly realm are naught but the illusion of existing seeds.\"",
+    "sortOrder": 210157,
+    "source": [
+      "Reward for completing all achievements under \"Blessed Hamada\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Xm4",
+      "filename_banner": "UI_NameCardPic_Xm4_Alpha",
+      "filename_background": "UI_NameCardPic_Xm4_P"
+    },
+    "version": "3.6"
+  },
+  {
+    "id": 210145,
+    "name": "Achievement: Invoker",
+    "description": "Namecard style.\n\"In this village, no one can defeat me!\"",
+    "sortOrder": 210145,
+    "source": [
+      "Reward for completing all achievements under \"Genius Invokation TCG\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Gcg1",
+      "filename_banner": "UI_NameCardPic_Gcg1_Alpha",
+      "filename_background": "UI_NameCardPic_Gcg1_P"
+    },
+    "version": "3.3"
+  },
+  {
+    "id": 210216,
+    "name": "Achievement: Lord of the Night",
+    "description": "Namecard style.\nHow can restless thoughts be calmed? In this land, the only way is battle!",
+    "sortOrder": 210216,
+    "source": [
+      "Reward for completing all achievements under \"Duelist: Series I\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Dfcq1",
+      "filename_banner": "UI_NameCardPic_Dfcq1_Alpha",
+      "filename_background": "UI_NameCardPic_Dfcq1_P"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 210170,
+    "name": "Achievement: Mariner",
+    "description": "Namecard style.\nThe hands of travelers have touched ten thousand streams. They all flow from the same font of the world's waters, and all return to the same sea.",
+    "sortOrder": 210170,
+    "source": [
+      "Reward for completing all achievements under \"Mortal Travails: Series IV\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Csxy4",
+      "filename_banner": "UI_NameCardPic_Csxy4_Alpha",
+      "filename_background": "UI_NameCardPic_Csxy4_P"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 210139,
+    "name": "Achievement: Mirrored Dreams",
+    "description": "Namecard style.\n\"A millennium of obsession and tragic yearning has long been lost in the sandstorms of those blazing nights. But the eternal verdant oasis of her dreams is, in all likelihood, as tender as it was at the first...\"",
+    "sortOrder": 210139,
+    "source": [
+      "Reward for completing all achievements under \"Challenger: Series VI\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Tzz6",
+      "filename_banner": "UI_NameCardPic_Tzz6_Alpha",
+      "filename_background": "UI_NameCardPic_Tzz6_P"
+    },
+    "version": "3.1"
+  },
+  {
+    "id": 210098,
+    "name": "Achievement: Nails",
+    "description": "Namecard style.\n\"Wait, if these fish can't be eaten, then why are we hammering these nails into fishhooks?\" \"Oh, you wouldn't understand.\"",
+    "sortOrder": 210098,
+    "source": [
+      "Reward for completing all achievements under \"Teyvat Fishing Guide: Series I\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Fishing",
+      "filename_banner": "UI_NameCardPic_Fishing_Alpha",
+      "filename_background": "UI_NameCardPic_Fishing_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210169,
+    "name": "Achievement: Orbits",
+    "description": "Namecard style.\n\"O Almighty Sovereign, the Universitas Magistrorum has provided the predictions you requested: The two stars have been captured by the world's gravity... After a lengthy orbital period, today their paths shall intertwine once more.\"",
+    "sortOrder": 210169,
+    "source": [
+      "Reward for completing all achievements under \"Meetings in Outrealm: Series IV\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Ysxf4",
+      "filename_banner": "UI_NameCardPic_Ysxf4_Alpha",
+      "filename_background": "UI_NameCardPic_Ysxf4_P"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 210178,
+    "name": "Achievement: Perpetual",
+    "description": "Namecard style.\n\"No one hears the dream that shattered between the conches and the gears. Only the tireless mechanical dancer still queries the echoes of the past day and night with its every elegant step.\"",
+    "sortOrder": 210178,
+    "source": [
+      "Reward for completing all achievements under \"Challenger: Series VIII\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Tzz8",
+      "filename_banner": "UI_NameCardPic_Tzz8_Alpha",
+      "filename_background": "UI_NameCardPic_Tzz8_P"
+    },
+    "version": "4.1"
+  },
+  {
+    "id": 210203,
+    "name": "Achievement: Poetic Pages",
+    "description": "Namecard style.\nThe dreams someone weaves into being are false, but they nonetheless point toward something real. There must be an eternity forged from \"memory\" at the end of this path.",
+    "sortOrder": 210203,
+    "source": [
+      "Reward for completing all achievements under \"Imaginarium Theater: The First Folio\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_RoleCombat",
+      "filename_banner": "UI_NameCardPic_RoleCombat_Alpha",
+      "filename_background": "UI_NameCardPic_RoleCombat_P"
+    },
+    "version": "4.7"
+  },
+  {
+    "id": 210231,
+    "name": "Achievement: Repertoire",
+    "description": "Namecard style.\nPerhaps a melody may exist that collects and contains all the wondrous music in the world. Surging heartbeats mark the musical phrase, anxious thoughts form brief rests, and within the notes lie all things — laughter, tears, forgotten dreams, and dancing raindrops...",
+    "sortOrder": 210231,
+    "source": [
+      "Reward for completing all achievements under \"Repertoire of Myriad Melodies\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_MusicGame01",
+      "filename_banner": "UI_NameCardPic_MusicGame01_Alpha",
+      "filename_background": "UI_NameCardPic_MusicGame01_P"
+    },
+    "version": "5.3"
+  },
+  {
+    "id": 210033,
+    "name": "Achievement: Reunion",
+    "description": "Namecard style.\nWe shall meet again someday.",
+    "sortOrder": 210033,
+    "source": [
+      "Reward for completing all achievements under \"Meetings in Outrealm: Series I\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Ysxf1",
+      "filename_banner": "UI_NameCardPic_Ysxf1_Alpha",
+      "filename_background": "UI_NameCardPic_Ysxf1_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210128,
+    "name": "Achievement: Roaming",
+    "description": "Namecard style.\nEvery journey and memory is a unique miracle that only belongs to the traveler.",
+    "sortOrder": 210128,
+    "source": [
+      "Reward for completing all achievements under \"Mortal Travails: Series III\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Csxy3",
+      "filename_banner": "UI_NameCardPic_Csxy3_Alpha",
+      "filename_background": "UI_NameCardPic_Csxy3_P"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 210137,
+    "name": "Achievement: Seven Lights",
+    "description": "Namecard style.\nAnyone can play a tune that belongs just to them, and like the dew upon grass, can reflect the seven lights of heaven.",
+    "sortOrder": 210137,
+    "source": [
+      "Reward for completing all achievements under \"Elemental Specialist: Series II\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Yszj2",
+      "filename_banner": "UI_NameCardPic_Yszj2_Alpha",
+      "filename_background": "UI_NameCardPic_Yszj2_P"
+    },
+    "version": "3.1"
+  },
+  {
+    "id": 210031,
+    "name": "Achievement: Snowy Land",
+    "description": "Namecard style.\nYou've heard many stories about Snezhnaya. What does it look like in your mind's eye?",
+    "sortOrder": 210031,
+    "source": [
+      "Reward for completing all achievements under \"Snezhnaya Does Not Believe in Tears: Series I\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Zdg1",
+      "filename_banner": "UI_NameCardPic_Zdg1_Alpha",
+      "filename_background": "UI_NameCardPic_Zdg1_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210052,
+    "name": "Achievement: Snowy Summit",
+    "description": "Namecard style.\nA draconian peak must be scaled.",
+    "sortOrder": 210052,
+    "source": [
+      "Reward for completing all achievements under \"Visitors on the Icy Mountain\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Xssdlk",
+      "filename_banner": "UI_NameCardPic_Xssdlk_P_Alpha",
+      "filename_background": "UI_NameCardPic_Xssdlk_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210088,
+    "name": "Achievement: Stone Dragon",
+    "description": "Namecard style.\nOur journey among the precipices.",
+    "sortOrder": 210088,
+    "source": [
+      "Reward for completing all achievements under \"Challenger: Series IV\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Tzz4",
+      "filename_banner": "UI_NameCardPic_Tzz4_Alpha",
+      "filename_background": "UI_NameCardPic_Tzz4_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210072,
+    "name": "Achievement: Tea Time",
+    "description": "Namecard style.\nThe days and months pass within the teapot.",
+    "sortOrder": 210072,
+    "source": [
+      "Reward for completing all achievements under \"A Realm Beyond: Series I\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Homeworld",
+      "filename_banner": "UI_NameCardPic_Homeworld_Alpha",
+      "filename_background": "UI_NameCardPic_Homeworld_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210116,
+    "name": "Achievement: Thunderclap",
+    "description": "Namecard style.\nListen to the sound that comes from the clouds. That is its resentful rage, and its tiny wish.",
+    "sortOrder": 210116,
+    "source": [
+      "Reward for completing all achievements under \"Challenger: Series V\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Tzz5",
+      "filename_banner": "UI_NameCardPic_Tzz5_Alpha",
+      "filename_background": "UI_NameCardPic_Tzz5_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210258,
+    "name": "Achievement: Time Apart",
+    "description": "Namecard style.\nAfter ten thousand winters come ten thousand springs anew. After ten thousand partings, ten thousand reunions, too. The past has slipped away. Yet tomorrow holds the promise of you.",
+    "sortOrder": 210258,
+    "source": [
+      "Reward for completing all achievements under \"Meetings in Outrealm: Series VI\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Ysxf6",
+      "filename_banner": "UI_NameCardPic_Ysxf6_Alpha",
+      "filename_background": "UI_NameCardPic_Ysxf6_P"
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 210239,
+    "name": "Achievement: Tranquil Peace",
+    "description": "Namecard style.\nIf ever the day comes when all worldly conflicts can finally be put to rest, then even the gods of night themselves may drift off into peaceful slumber.",
+    "sortOrder": 210239,
+    "source": [
+      "Reward for completing all achievements under \"Duelist: Series III\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Dfcq3",
+      "filename_banner": "UI_NameCardPic_Dfcq3_Alpha",
+      "filename_background": "UI_NameCardPic_Dfcq3_P"
+    },
+    "version": "5.5"
+  },
+  {
+    "id": 210158,
+    "name": "Achievement: Transient Twilight",
+    "description": "Namecard style.\n\"I will forget the flowers of yesteryear, the daylight, the rain. I ask that you remember in my stead, in this nascent world, and hold to that lost dream.\"",
+    "sortOrder": 210158,
+    "source": [
+      "Reward for completing all achievements under \"Challenger: Series VII\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Tzz7",
+      "filename_banner": "UI_NameCardPic_Tzz7_Alpha",
+      "filename_background": "UI_NameCardPic_Tzz7_P"
+    },
+    "version": "3.6"
+  },
+  {
+    "id": 210087,
+    "name": "Achievement: Traversal",
+    "description": "Namecard style.\nA traveler shall experience ten thousand tales, and each shall form a part of the traveler's soul.",
+    "sortOrder": 210087,
+    "source": [
+      "Reward for completing all achievements under \"Mortal Travails: Series II\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Csxy2",
+      "filename_banner": "UI_NameCardPic_Csxy2_Alpha",
+      "filename_background": "UI_NameCardPic_Csxy2_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210075,
+    "name": "Achievement: Vacation Home",
+    "description": "Namecard style.\nThe world is wide under the eaves.",
+    "sortOrder": 210075,
+    "source": [
+      "Reward for completing all achievements under \"A Realm Beyond: Series II\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Homeworld1",
+      "filename_banner": "UI_NameCardPic_Homeworld1_Alpha",
+      "filename_background": "UI_NameCardPic_Homeworld1_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210022,
+    "name": "Achievement: Virtuoso",
+    "description": "Namecard style.\nAfter mastering these skills, you may just find that you can get by just fine without engaging in battle. If you are without any commission to complete, that is.",
+    "sortOrder": 210022,
+    "source": [
+      "Reward for completing all achievements under \"The Art of Adventure\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Mxsy",
+      "filename_banner": "UI_NameCardPic_Mxsy_Alpha",
+      "filename_background": "UI_NameCardPic_Mxsy_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210197,
+    "name": "Achievement: Whalewrangler",
+    "description": "Namecard style.\nThis time, Tartaglia fought this entity for a long time, though he remained unable to defeat it. Hunting the same whale thrice is considered unlucky, but he will not give up. That said, it will be a long while before the creature fully recovers.",
+    "sortOrder": 210197,
+    "source": [
+      "Reward for completing all achievements under \"Challenger: Series IX\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Tzz9",
+      "filename_banner": "UI_NameCardPic_Tzz9_Alpha",
+      "filename_background": "UI_NameCardPic_Tzz9_P"
+    },
+    "version": "4.6"
+  },
+  {
+    "id": 210255,
+    "name": "Aino: Whoopsie Ducksie",
+    "description": "Namecard style.\nWhen a \"Cool Your Jets Ducky\" is overheating, does Aino throw out another Ducky to cool its jets, or does she just say \"Whoopsie Ducksie\" and leave it at that?",
+    "sortOrder": 210255,
+    "source": [
+      "Reward for reaching Friendship Lv. 10 with Aino"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Aino",
+      "filename_banner": "UI_NameCardPic_Aino_Alpha",
+      "filename_background": "UI_NameCardPic_Aino_P"
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 210054,
+    "name": "Albedo: Sun Blossom",
+    "description": "Namecard style.\nAllow me to bear witness to this miracle.",
+    "sortOrder": 210054,
+    "source": [
+      "Reward for reaching Friendship 10 with Albedo"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Albedo",
+      "filename_banner": "UI_NameCardPic_Albedo_Alpha",
+      "filename_background": "UI_NameCardPic_Albedo_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210192,
+    "name": "Album: The Stellar Moments",
+    "description": "Namecard style.\nWe parted in one melody and reunited in another.",
+    "sortOrder": 210192,
+    "source": [],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_OST4",
+      "filename_banner": "UI_NameCardPic_OST4_Alpha",
+      "filename_background": "UI_NameCardPic_OST4_P"
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 210147,
+    "name": "Alhaitham: Enlightenment",
+    "description": "Namecard style.\n\"The only things researchers should abide by are debates and dialectics. Only by questioning everything at all times can one avoid falling into prejudice.\"",
+    "sortOrder": 210147,
+    "source": [
+      "Reward for reaching Friendship 10 with Alhaitham"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Alhatham",
+      "filename_banner": "UI_NameCardPic_Alhatham_Alpha",
+      "filename_background": "UI_NameCardPic_Alhatham_P"
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 210095,
+    "name": "Aloy: Dawn",
+    "description": "Namecard style.\n\"Everything I do is in the service of life, not death.\"",
+    "sortOrder": 210095,
+    "source": [
+      "Reward for reaching Friendship 10 with Aloy"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Aloy",
+      "filename_banner": "UI_NameCardPic_Aloy_Alpha",
+      "filename_background": "UI_NameCardPic_Aloy_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210003,
+    "name": "Amber: Bunny",
+    "description": "Namecard style.\n\"It's Baron Bunny!\"",
+    "sortOrder": 210003,
+    "source": [
+      "Reward for reaching Friendship 10 with Amber"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Ambor",
+      "filename_banner": "UI_NameCardPic_Ambor_Alpha",
+      "filename_background": "UI_NameCardPic_Ambor_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210195,
+    "name": "Arlecchino: Edict",
+    "description": "Namecard style.\n\"Father\" laid down the harsh strictures of the House of the Hearth, and some of these seem almost unreasonable. Those familiar with her can use these rules to trace the outline of the ideals she so rarely speaks of.",
+    "sortOrder": 210195,
+    "source": [
+      "Reward for reaching Friendship 10 with Arlecchino"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Arlecchino",
+      "filename_banner": "UI_NameCardPic_Arlecchino_Alpha",
+      "filename_background": "UI_NameCardPic_Arlecchino_P"
+    },
+    "version": "4.6"
+  },
+  {
+    "id": 210155,
+    "name": "Baizhu: Relief",
+    "description": "Namecard style.\nSincerity begets longevity.",
+    "sortOrder": 210155,
+    "source": [
+      "Reward for reaching Friendship 10 with Baizhu"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Baizhuer",
+      "filename_banner": "UI_NameCardPic_Baizhuer_Alpha",
+      "filename_background": "UI_NameCardPic_Baizhuer_P"
+    },
+    "version": "3.6"
+  },
+  {
+    "id": 210009,
+    "name": "Barbara: Flow",
+    "description": "Namecard style.\nWhen Barbara sings, her melodic voice flows like the tender healing of a clear spring.",
+    "sortOrder": 210009,
+    "source": [
+      "Reward for reaching Friendship 10 with Barbara"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Barbara",
+      "filename_banner": "UI_NameCardPic_Barbara_Alpha",
+      "filename_background": "UI_NameCardPic_Barbara_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210039,
+    "name": "Beidou: Weighing Anchor",
+    "description": "Namecard style.\n\"Weighing anchor out to sea, one is wont to waver. But look to the skies, and the stars shall light the way.\"",
+    "sortOrder": 210039,
+    "source": [
+      "Reward for reaching Friendship Lv. 10 with Beidou"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Beidou",
+      "filename_banner": "UI_NameCardPic_Beidou_Alpha",
+      "filename_background": "UI_NameCardPic_Beidou_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210016,
+    "name": "Bennett: Recognition",
+    "description": "Namecard style.\nA sign of recognition from Benny's Adventure Team.",
+    "sortOrder": 210016,
+    "source": [
+      "Reward for reaching Friendship 10 with Bennett"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bennett",
+      "filename_banner": "UI_NameCardPic_Bennett_Alpha",
+      "filename_background": "UI_NameCardPic_Bennett_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210135,
+    "name": "Candace: Gray Heron",
+    "description": "Namecard style.\nThe burning winds of the past ruffle the heron's feathers, but the bird has eyes only for the morning star at first light.",
+    "sortOrder": 210135,
+    "source": [
+      "Reward for reaching Friendship 10 with Candace"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Candace",
+      "filename_banner": "UI_NameCardPic_Candace_Alpha",
+      "filename_background": "UI_NameCardPic_Candace_P"
+    },
+    "version": "3.1"
+  },
+  {
+    "id": 210078,
+    "name": "Celebration: Battlesong",
+    "description": "Namecard style.\nGood omens must appear thrice for good fortune to come. One bows thrice at curtain call. The opponents to defeat number three.",
+    "sortOrder": 210078,
+    "source": [
+      "Obtained from the Legend of the Vagabond Sword event"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_EffigyChallenge02",
+      "filename_banner": "UI_NameCardPic_EffigyChallenge02_Alpha",
+      "filename_background": "UI_NameCardPic_EffigyChallenge02_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210111,
+    "name": "Celebration: Binge Vessel",
+    "description": "Namecard.\nThere's a great many stories here, but no alcohol, so it's safe for Paimon to drink.",
+    "sortOrder": 210111,
+    "source": [
+      "Obtained from the \"Of Drink A-Dreaming\" event"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bartender",
+      "filename_banner": "UI_NameCardPic_Bartender_Alpha",
+      "filename_background": "UI_NameCardPic_Bartender_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210218,
+    "name": "Celebration: Crispy and Sweet",
+    "description": "Namecard style.\nThis golden array of food is the perfect balance of salty and sweet.",
+    "sortOrder": 210218,
+    "source": [],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Yellow",
+      "filename_banner": "UI_NameCardPic_Yellow_Alpha",
+      "filename_background": "UI_NameCardPic_Yellow_P"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 210266,
+    "name": "Celebration: Dream Reader",
+    "description": "Namecard style.\nThey say that one's dreams at night reflect one's thoughts by day. Perhaps the same goes for the books one reads... Though that probably doesn't count as a nightmare. Probably.",
+    "sortOrder": 210266,
+    "source": [
+      "Obtained from a collaboration event"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Green",
+      "filename_banner": "UI_NameCardPic_Green_Alpha",
+      "filename_background": "UI_NameCardPic_Green_P"
+    },
+    "version": "6.2"
+  },
+  {
+    "id": 210177,
+    "name": "Celebration: Euphonia",
+    "description": "Namecard style.\nThe trees sing on the slopes of a thousand mountain valleys, accompanied by the music of the passing rain.",
+    "sortOrder": 210177,
+    "source": [
+      "Obtained from the Genshin Concert event"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Guqin",
+      "filename_banner": "UI_NameCardPic_Guqin_Alpha",
+      "filename_background": "UI_NameCardPic_Guqin_P"
+    },
+    "version": "4.1"
+  },
+  {
+    "id": 210065,
+    "name": "Celebration: Feast",
+    "description": "Namecard style.\nExcellent!",
+    "sortOrder": 210065,
+    "source": [
+      "Obtained from the \"Gifts of an Outworld Encounter\" event."
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_RedandWhite",
+      "filename_banner": "UI_NameCardPic_RedandWhite_Alpha",
+      "filename_background": "UI_NameCardPic_RedandWhite_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210207,
+    "name": "Celebration: Feast (II)",
+    "description": "Namecard style.\nWhat makes a feast? Tomatoes, onions, and all other delicious things.",
+    "sortOrder": 210207,
+    "source": [
+      "Obtained from event"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_RedandWhite2",
+      "filename_banner": "UI_NameCardPic_RedandWhite2_Alpha",
+      "filename_background": "UI_NameCardPic_RedandWhite2_P"
+    },
+    "version": "4.8"
+  },
+  {
+    "id": 210067,
+    "name": "Celebration: Fruit of Wisdom",
+    "description": "Namecard style.\nWhat knowledge might the fruit of wisdom bring, were it to descend upon the land? Either way, it'll taste good as a drink if left in Diona's hands.",
+    "sortOrder": 210067,
+    "source": [
+      "Obtained from the Energy Amplifier event"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_ChannellerSlab",
+      "filename_banner": "UI_NameCardPic_ChannellerSlab_Alpha",
+      "filename_background": "UI_NameCardPic_ChannellerSlab_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210057,
+    "name": "Celebration: Hypostasis",
+    "description": "Namecard style.\nMy opponent for today seems to have an artistic temperament.",
+    "sortOrder": 210057,
+    "source": [
+      "Obtained from the Hypostatic Symphony event"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_EffigyChallenge",
+      "filename_banner": "UI_NameCardPic_EffigyChallenge_Alpha",
+      "filename_background": "UI_NameCardPic_EffigyChallenge_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210100,
+    "name": "Celebration: Ikki",
+    "description": "Namecard style.\n\"I will ask you a question, and you shall answer me with your sword.\"",
+    "sortOrder": 210100,
+    "source": [
+      "Obtained from the Hyakunin Ikki event"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Sumo",
+      "filename_banner": "UI_NameCardPic_Sumo_Alpha",
+      "filename_background": "UI_NameCardPic_Sumo_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210077,
+    "name": "Celebration: Kaboomball",
+    "description": "Namecard style.\n\"In a land far, far away, there was a kingdom known as the Grand Alliance, and the people living there could throw ever-changing, quick, and powerful Kaboomballs.\"",
+    "sortOrder": 210077,
+    "source": [
+      "Obtained from the Kaboomball Kombat event"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_BounceConjuringChallenge",
+      "filename_banner": "UI_NameCardPic_BounceConjuringChallenge_Alpha",
+      "filename_background": "UI_NameCardPic_BounceConjuringChallenge_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210061,
+    "name": "Celebration: Lantern-Light",
+    "description": "Namecard style.\nEvery year on this day, the lanterns light up the night. May the fire never die, and may humanity endure.",
+    "sortOrder": 210061,
+    "source": [
+      "Purchased from Lantern Rite Event Shop"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_LanternRite",
+      "filename_banner": "UI_NameCardPic_LanternRite_Alpha",
+      "filename_background": "UI_NameCardPic_LanternRite_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210246,
+    "name": "Celebration: Lavish Gala",
+    "description": "Namecard style.\nAmid the ticking countdown, the gala commences on schedule. After their masked waltz, the two set their separate schemes into motion...\nPerhaps this unspoken understanding is the true \"treasure\" to be cherished.",
+    "sortOrder": 210246,
+    "source": [
+      "Obtained from a collaboration event"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_RedandWhite3",
+      "filename_banner": "UI_NameCardPic_RedandWhite3_Alpha",
+      "filename_background": "UI_NameCardPic_RedandWhite3_P"
+    },
+    "version": "5.7"
+  },
+  {
+    "id": 210149,
+    "name": "Celebration: Lenticular Clouds",
+    "description": "Namecard style.\nThe floating clouds dispersed to the thousand peaks at dawn.",
+    "sortOrder": 210149,
+    "source": [
+      "Obtained from event"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Cadillac",
+      "filename_banner": "UI_NameCardPic_Cadillac_Alpha",
+      "filename_background": "UI_NameCardPic_Cadillac_P"
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 210062,
+    "name": "Celebration: Mechanicus",
+    "description": "Namecard style.\nYou claim to have seen all mechanisms, but have you ever considered playing yourself as a pawn?",
+    "sortOrder": 210062,
+    "source": [
+      "Obtained from the Theater Mechanicus event"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_TheatreMechanicus",
+      "filename_banner": "UI_NameCardPic_TheatreMechanicus_Alpha",
+      "filename_background": "UI_NameCardPic_TheatreMechanicus_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210068,
+    "name": "Celebration: Peekaboo!",
+    "description": "Namecard style.\nYou can't see me. You can't see me.",
+    "sortOrder": 210068,
+    "source": [
+      "Obtained from the Windtrace event"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_HideandSeek",
+      "filename_banner": "UI_NameCardPic_HideandSeek_Alpha",
+      "filename_background": "UI_NameCardPic_HideandSeek_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210234,
+    "name": "Celebration: Scorch",
+    "description": "Namecard style.\nThe secret to unleashing a powerful attack is to pull back your fist and then strike out with unwavering conviction.",
+    "sortOrder": 210234,
+    "source": [
+      "Obtained from the \"Realm of Tempered Valor\" event"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_TowerChallenge",
+      "filename_banner": "UI_NameCardPic_TowerChallenge_Alpha",
+      "filename_background": "UI_NameCardPic_TowerChallenge_P"
+    },
+    "version": "5.4"
+  },
+  {
+    "id": 210066,
+    "name": "Celebration: Shining Scale",
+    "description": "Namecard style.\nThe universe does play host to just such a snake, whose scales glitter with precisely these colors.",
+    "sortOrder": 210066,
+    "source": [
+      "Obtained from an event"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Razer",
+      "filename_banner": "UI_NameCardPic_Razer_Alpha",
+      "filename_background": "UI_NameCardPic_Razer_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210260,
+    "name": "Celebration: Sublime Flavors",
+    "description": "Namecard style.\nSome say cooking a dish is a duel between a chef and a customer, and that the reward for the former's victory is the latter's satisfied smile.",
+    "sortOrder": 210260,
+    "source": [
+      "Obtained from a collaboration event"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_YellowV2",
+      "filename_banner": "UI_NameCardPic_YellowV2_Alpha",
+      "filename_background": "UI_NameCardPic_YellowV2_P"
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 210252,
+    "name": "Celebration: Tuna On Rice",
+    "description": "Namecard style.\nThe rotation is meant to display all the delicious food before you. The deliciousness, on the other hand, is meant to fill your heart with happiness.",
+    "sortOrder": 210252,
+    "source": [
+      "Reward from the \"Genshin Impact × Sushiro\" collaboration"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Event58",
+      "filename_banner": "UI_NameCardPic_Event58_Alpha",
+      "filename_background": "UI_NameCardPic_Event58_P"
+    },
+    "version": "5.8"
+  },
+  {
+    "id": 210099,
+    "name": "Celebration: Tuneful Delight",
+    "description": "Namecard style.\nO stars and mountains above, listen to my song!",
+    "sortOrder": 210099,
+    "source": [],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Concert",
+      "filename_banner": "UI_NameCardPic_Concert_Alpha",
+      "filename_background": "UI_NameCardPic_Concert_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210076,
+    "name": "Celebration: Vastness",
+    "description": "Namecard style.\nImagine the vast expanse of a sea of stars. Imagine a one followed by a hundred zeros.",
+    "sortOrder": 210076,
+    "source": [
+      "Obtained from an event"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Google",
+      "filename_banner": "UI_NameCardPic_Google_Alpha",
+      "filename_background": "UI_NameCardPic_Google_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210091,
+    "name": "Celebration: Wondrous Calculation",
+    "description": "Namecard style.\nA true grandmaster can see the board a thousand steps ahead.",
+    "sortOrder": 210091,
+    "source": [
+      "Obtained by completing the Theater Mechanicus: Stage of Wonders event"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_TheatreMechanicus2",
+      "filename_banner": "UI_NameCardPic_TheatreMechanicus2_Alpha",
+      "filename_background": "UI_NameCardPic_TheatreMechanicus2_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210181,
+    "name": "Charlotte: Exclusive",
+    "description": "Namecard style.\n\"One, I've written an exclusive, and it's going to generate a lot of buzz for sure! Two, the newspaper said the situation is developing too slowly, so they're changing to a press release instead... Three, the person writing the press release will be in the Opera Epiclese as the defendant tomorrow, so they've decided to run my piece after all!\"",
+    "sortOrder": 210181,
+    "source": [
+      "Reward for reaching Friendship 10 with Charlotte"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Charlotte",
+      "filename_banner": "UI_NameCardPic_Charlotte_Alpha",
+      "filename_background": "UI_NameCardPic_Charlotte_P"
+    },
+    "version": "4.2"
+  },
+  {
+    "id": 210221,
+    "name": "Chasca: Fully Loaded",
+    "description": "Namecard style.\nFear not, she's here to make peace, not to fight. The only question is whether to save a few bullets... Y'know, the type that get fired into the sky as warning shots.",
+    "sortOrder": 210221,
+    "source": [
+      "Reward for reaching Friendship 10 with Chasca"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Chasca",
+      "filename_banner": "UI_NameCardPic_Chasca_Alpha",
+      "filename_background": "UI_NameCardPic_Chasca_P"
+    },
+    "version": "5.2"
+  },
+  {
+    "id": 210190,
+    "name": "Chenyu: Rainjade Rite",
+    "description": "Namecard style.\nStars flicker brightly above the tranquil sea and rivers. The mountain folk dance in harmony with birds and beasts.",
+    "sortOrder": 210190,
+    "source": [
+      "Reward for reaching Rainjade Oblation Level 10."
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_OfferingSilong",
+      "filename_banner": "UI_NameCardPic_OfferingSilong_Alpha",
+      "filename_background": "UI_NameCardPic_OfferingSilong_P"
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 210185,
+    "name": "Chevreuse: Type II",
+    "description": "Namecard style.\nThe standard issue weapon of the Special Security and Surveillance Patrol is known as the \"Special Security and Surveillance Patrol Type II Standard Musket.\" Yet, though there may be countless flowers in this world, the one you treasure is special, even if it should be known to the world as nothing at all special.",
+    "sortOrder": 210185,
+    "source": [
+      "Reward for reaching Friendship 10 with Chevreuse"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Chevreuse",
+      "filename_banner": "UI_NameCardPic_Chevreuse_Alpha",
+      "filename_background": "UI_NameCardPic_Chevreuse_P"
+    },
+    "version": "4.3"
+  },
+  {
+    "id": 210046,
+    "name": "Childe: Foul Legacy",
+    "description": "Namecard style.\nThis bears all the marks of that fellow who gallivants as he pleases across the continent with his ever-changing combat styles. Yet, his \"Foul Legacy\" was not originally his. Rather, it was taught to him by that solitary girl who dwelt in the darkest corners of the universe.",
+    "sortOrder": 210046,
+    "source": [
+      "Reward for reaching Friendship 10 with Tartaglia"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Tartaglia",
+      "filename_banner": "UI_NameCardPic_Tartaglia_Alpha",
+      "filename_background": "UI_NameCardPic_Tartaglia_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210193,
+    "name": "Chiori: Spectacular Sleeves",
+    "description": "Namecard style.\nThe doll known as \"Tamoto-chan\" was one of Chiori's earliest works, and is also the model that requires the least fabric and tailoring.",
+    "sortOrder": 210193,
+    "source": [
+      "Reward for reaching Friendship Lv. 10 with Chiori"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Chiori",
+      "filename_banner": "UI_NameCardPic_Chiori_Alpha",
+      "filename_background": "UI_NameCardPic_Chiori_P"
+    },
+    "version": "4.5"
+  },
+  {
+    "id": 210040,
+    "name": "Chongyun: Spirit Blade",
+    "description": "Namecard style.\nThis was originally a peachwood sword made of ice. But a big enough ice block makes a better exorcist's tool than peachwood.",
+    "sortOrder": 210040,
+    "source": [
+      "Reward for reaching Friendship Lv. 10 with Chongyun"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Chongyun",
+      "filename_banner": "UI_NameCardPic_Chongyun_Alpha",
+      "filename_background": "UI_NameCardPic_Chongyun_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210227,
+    "name": "Citlali: Opalstar",
+    "description": "Namecard style.\nThe black one is akin to obsidian, and is thus called \"Itzpapa.\" The white one is white as a star, and has thus been named \"Citlalin.\"",
+    "sortOrder": 210227,
+    "source": [
+      "Reward for reaching Friendship 10 with Citlali"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Citlali",
+      "filename_banner": "UI_NameCardPic_Citlali_Alpha",
+      "filename_background": "UI_NameCardPic_Citlali_P"
+    },
+    "version": "5.3"
+  },
+  {
+    "id": 210200,
+    "name": "Clorinde: Roleplay",
+    "description": "Namecard style.\nDedicated Game Masters at the Tabletop Troupe will sometimes switch hats to indicate their change in role. Hmm, in that case, does Clorinde—\nForget about it! She doesn't even take that hat off when swimming.",
+    "sortOrder": 210200,
+    "source": [
+      "Reward for reaching Friendship 10 with Clorinde"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Clorinde",
+      "filename_banner": "UI_NameCardPic_Clorinde_Alpha",
+      "filename_background": "UI_NameCardPic_Clorinde_P"
+    },
+    "version": "4.7"
+  },
+  {
+    "id": 210125,
+    "name": "Collei: Good Virtue",
+    "description": "Namecard style.\n\"I—It's Cuilein-Anbar! I, uh...\"",
+    "sortOrder": 210125,
+    "source": [
+      "Reward for reaching Friendship 10 with Collei"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Collei",
+      "filename_banner": "UI_NameCardPic_Collei_Alpha",
+      "filename_background": "UI_NameCardPic_Collei_P"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 210267,
+    "name": "Columbina: Someday",
+    "description": "Namecard style.\nShe dances in the shallows of clear streams and drifts with the current, falling asleep beneath the pale shadows of the mountains. She wanders through the ripples of time, playing hide-and-seek with the kuuhenki.\nShe rests in the garden of all things, humming softly to every living creature. In the quiet hours before dawn, she waits for the day of their reunion.",
+    "sortOrder": 210267,
+    "source": [
+      "Reward for reaching Friendship Lv. 10 with Columbina"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Columbina",
+      "filename_banner": "UI_NameCardPic_Columbina_Alpha",
+      "filename_background": "UI_NameCardPic_Columbina_P"
+    },
+    "version": "6.3"
+  },
+  {
+    "id": 210134,
+    "name": "Cyno: Silence",
+    "description": "Namecard style.\nWhenever Cyno falls into a profound silence, he must be considering some weighty judgment... Or perhaps he is simply considering something amusing.",
+    "sortOrder": 210134,
+    "source": [
+      "Reward for reaching Friendship 10 with Cyno"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Cyno",
+      "filename_banner": "UI_NameCardPic_Cyno_Alpha",
+      "filename_background": "UI_NameCardPic_Cyno_P"
+    },
+    "version": "3.1"
+  },
+  {
+    "id": 210245,
+    "name": "Dahlia: Sacred Duty",
+    "description": "Namecard style.\nIf the essence of being an \"idol\" is simply \"being loved,\" then Dahlia might've found his sacred calling. Barbara still strives to perfect her image, while Dahlia need only guard his privacy — lest someone spot him sharing drinks with a certain bard...\n...Though that may not be as easy as it seems.",
+    "sortOrder": 210245,
+    "source": [
+      "Reward for reaching Friendship 10 with Dahlia"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Dahlia",
+      "filename_banner": "UI_NameCardPic_Dahlia_Alpha",
+      "filename_background": "UI_NameCardPic_Dahlia_P"
+    },
+    "version": "5.7"
+  },
+  {
+    "id": 210152,
+    "name": "Dehya: Purifying Flame",
+    "description": "Namecard style.\nThose that should be burned will be reduced to fly ash, so that all the precious things that should be preserved can be revealed.",
+    "sortOrder": 210152,
+    "source": [
+      "Reward for reaching Friendship 10 with Dehya"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Dehya",
+      "filename_banner": "UI_NameCardPic_Dehya_Alpha",
+      "filename_background": "UI_NameCardPic_Dehya_P"
+    },
+    "version": "3.5"
+  },
+  {
+    "id": 210005,
+    "name": "Diluc: Flames",
+    "description": "Namecard style.\nMaster Crepus painted many eagles during his lifetime, but he never could've foreseen creating an eagle with such fire.",
+    "sortOrder": 210005,
+    "source": [
+      "Reward for reaching Friendship 10 with Diluc"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Diluc",
+      "filename_banner": "UI_NameCardPic_Diluc_Alpha",
+      "filename_background": "UI_NameCardPic_Diluc_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210043,
+    "name": "Diona: Meow!",
+    "description": "Namecard style.\nAll who have Kätzlein blood will have such feline features. An ancient prank played by a certain someone, perhaps?",
+    "sortOrder": 210043,
+    "source": [
+      "Reward for reaching Friendship 10 with Diona"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Diona",
+      "filename_banner": "UI_NameCardPic_Diona_Alpha",
+      "filename_background": "UI_NameCardPic_Diona_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210126,
+    "name": "Dori: Jinni",
+    "description": "Namecard style.\nIf you wipe the lamp she gave you and then scrub the Mora you gave her, no wish is unattainable... right?",
+    "sortOrder": 210126,
+    "source": [
+      "Reward for reaching Friendship 10 with Dori"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Dori",
+      "filename_banner": "UI_NameCardPic_Dori_Alpha",
+      "filename_background": "UI_NameCardPic_Dori_P"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 210263,
+    "name": "Durin: Radiant Heart",
+    "description": "Namecard style.\nThe ceaseless drumming in his chest reminds him thus: \"You carry the hopes of a distant past. Your soul is resplendent and nascent, and within you burns a fervor no winter blizzard can quench.\"",
+    "sortOrder": 210263,
+    "source": [
+      "Reward for reaching Friendship 10 with Durin"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Durin",
+      "filename_banner": "UI_NameCardPic_Durin_Alpha",
+      "filename_background": "UI_NameCardPic_Durin_P"
+    },
+    "version": "6.2"
+  },
+  {
+    "id": 210205,
+    "name": "Emilie: Base Note",
+    "description": "Namecard style.\n\"The top note is sweet, the middle rich but not distracting, and the base — Ah! Such a faint fragrance! Such an exquisite perfume.\"\nOrders flow in and out in an endless stream, and to prevent any scents from disturbing her work, Emilie very seldom uses perfume herself. Alas. When will she have the chance to delight in those base notes?",
+    "sortOrder": 210205,
+    "source": [
+      "Reward for reaching Friendship 10 with Emilie"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Emilie",
+      "filename_banner": "UI_NameCardPic_Emilie_Alpha",
+      "filename_background": "UI_NameCardPic_Emilie_P"
+    },
+    "version": "4.8"
+  },
+  {
+    "id": 210277,
+    "name": "Empty Temple: Overflowing Memories",
+    "description": "Namecard style.\nMemory Factors are the building blocks of civilization. Even so, an archive brimming with them cannot replicate the high price of an antique — simply because it lacks the \"weathering.\"",
+    "sortOrder": 210277,
+    "source": [
+      "Reach Memory Core Level 10"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_KzsdOffering",
+      "filename_banner": "UI_NameCardPic_KzsdOffering_Alpha",
+      "filename_background": "UI_NameCardPic_KzsdOffering_P"
+    },
+    "version": "6.5"
+  },
+  {
+    "id": 210241,
+    "name": "Escoffier: Charm",
+    "description": "Namecard style.\nFor Escoffier, a certain relationship exists between rhythm and flavor. Why, then, does she not fuel her compositions with delicious food? The answer is quite simple — consistent flavors are reliable and comforting, but no one wants to hear the same song over and over.",
+    "sortOrder": 210241,
+    "source": [
+      "Reward for reaching Friendship 10 with Escoffier"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Escoffier",
+      "filename_banner": "UI_NameCardPic_Escoffier_Alpha",
+      "filename_background": "UI_NameCardPic_Escoffier_P"
+    },
+    "version": "5.6"
+  },
+  {
+    "id": 210070,
+    "name": "Eula: Ice-Sealed",
+    "description": "Namecard style.\nA cold heart is but a shell to protect oneself.",
+    "sortOrder": 210070,
+    "source": [
+      "Reward for reaching Friendship Lv. 10 with Eula"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Eula",
+      "filename_banner": "UI_NameCardPic_Eula_Alpha",
+      "filename_background": "UI_NameCardPic_Eula_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210144,
+    "name": "Faruzan: Sealed Secret",
+    "description": "Namecard style.\n\"A—Anyway! Next time, remember to refer to me as Madam Faruzan before you ask a question! Seriously...\"",
+    "sortOrder": 210144,
+    "source": [
+      "Reward for reaching Friendship 10 with Faruzan"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Faruzan",
+      "filename_banner": "UI_NameCardPic_Faruzan_Alpha",
+      "filename_background": "UI_NameCardPic_Faruzan_P"
+    },
+    "version": "3.3"
+  },
+  {
+    "id": 210013,
+    "name": "Fischl: Night Raven",
+    "description": "Namecard style.\nA raven dark as midnight with wings that can block out the sun. \"I permit thee to conceive his likeness upon such decoration!\"",
+    "sortOrder": 210013,
+    "source": [
+      "Reward for reaching Friendship 10 with Fischl"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Fischl",
+      "filename_banner": "UI_NameCardPic_Fischl_Alpha",
+      "filename_background": "UI_NameCardPic_Fischl_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210254,
+    "name": "Flins: Oathkeeper's Lantern",
+    "description": "Namecard style.\nAs the saying goes, \"Will-o'-the-wisps are like love — most visible in the barren swamp, and just as likely to lead you into danger.\" Of course, the saying only relates to the natural phenomenon.",
+    "sortOrder": 210254,
+    "source": [
+      "Reward for reaching Friendship Lv. 10 with Flins"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Flins",
+      "filename_banner": "UI_NameCardPic_Flins_Alpha",
+      "filename_background": "UI_NameCardPic_Flins_P"
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 210196,
+    "name": "Fontaine: Attunement",
+    "description": "Namecard style.\nThe symphony known as \"Phobos\" has gone out of control, and a Harmost must bring it back in harmony. Yet Fortuna's wheels turn on noiselessly, for destiny knows that even the perfect melody must someday end.",
+    "sortOrder": 210196,
+    "source": [
+      "Reward for completing all achievements under \"Rhapsodia in the Ancient Sea\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Deep",
+      "filename_banner": "UI_NameCardPic_Deep_Alpha",
+      "filename_background": "UI_NameCardPic_Deep_P"
+    },
+    "version": "4.6"
+  },
+  {
+    "id": 210172,
+    "name": "Fontaine: Big News",
+    "description": "Namecard style.\nThe trademarked logo of The Steambird. If you are discovered using it without first obtaining prior permission, we will uphold our rights and prosecute the offense to the fullest extent of the law!",
+    "sortOrder": 210172,
+    "source": [
+      "Reward for reaching Reputation Lv. 8 (Fontaine)"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Fontaine2",
+      "filename_banner": "UI_NameCardPic_Fontaine2_Alpha",
+      "filename_background": "UI_NameCardPic_Fontaine2_P"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 210182,
+    "name": "Fontaine: Completeness",
+    "description": "Namecard style.\n\"The evening clouds scatter in the sky and the creek shines gold under the setting sun. My shadow wanders alone, akin to a lonely apparition at the bottom of a waterfall.\"",
+    "sortOrder": 210182,
+    "source": [
+      "Reward for completing all achievements under \"Fontaine: Dance of the Dew-White Springs (III)\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_FD3",
+      "filename_banner": "UI_NameCardPic_FD3_Alpha",
+      "filename_background": "UI_NameCardPic_FD3_P"
+    },
+    "version": "4.2"
+  },
+  {
+    "id": 210168,
+    "name": "Fontaine: Judgment",
+    "description": "Namecard style.\nThe insignia of the new Hydro Archon. Even without any legal notice, it is understood that none dare use it without permission.",
+    "sortOrder": 210168,
+    "source": [
+      "Reward for completing all achievements under \"Fontaine: Dance of the Dew-White Springs (I)\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_FD1",
+      "filename_banner": "UI_NameCardPic_FD1_Alpha",
+      "filename_background": "UI_NameCardPic_FD1_P"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 210198,
+    "name": "Fontaine: Lucine",
+    "description": "Namecard style.\nDon't drink from the Fountain of Lucine. You never know whose tears you're swallowing.",
+    "sortOrder": 210198,
+    "source": [
+      "Reach Fountain of Lucine Favor Level 48"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_WishingPond",
+      "filename_banner": "UI_NameCardPic_WishingPond_Alpha",
+      "filename_background": "UI_NameCardPic_WishingPond_P"
+    },
+    "version": "4.6"
+  },
+  {
+    "id": 210179,
+    "name": "Fontaine: Redemption",
+    "description": "Namecard style.\nThe official logo of the Fortress of Meropide. It is our dearest hope that all who wish to honor order and live out their lives in peace shall not ever be associated with the organization this insignia represents.",
+    "sortOrder": 210179,
+    "source": [
+      "Reward for completing all achievements under \"Fontaine: Dance of the Dew-White Springs (II)\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_FD2",
+      "filename_banner": "UI_NameCardPic_FD2_Alpha",
+      "filename_background": "UI_NameCardPic_FD2_P"
+    },
+    "version": "4.1"
+  },
+  {
+    "id": 210171,
+    "name": "Fontaine: Wondrous Machine",
+    "description": "Namecard style.\nThe symbol of the energy blocks used by all of Fontaine's clockwork meka. There was once a great debate over whether it should be registered as a trademark, but in the end, the public was simply called upon not to use it too freely.",
+    "sortOrder": 210171,
+    "source": [
+      "Reward for reaching Reputation Lv. 4 (Fontaine)"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Fontaine1",
+      "filename_banner": "UI_NameCardPic_Fontaine1_Alpha",
+      "filename_background": "UI_NameCardPic_Fontaine1_P"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 210167,
+    "name": "Freminet: Progress",
+    "description": "Namecard style.\nAs the clockwork devices do naught but round and round in circles turn, the dolls march forward.",
+    "sortOrder": 210167,
+    "source": [
+      "Reward for reaching Friendship 10 with Freminet"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Freminet",
+      "filename_banner": "UI_NameCardPic_Freminet_Alpha",
+      "filename_background": "UI_NameCardPic_Freminet_P"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 210056,
+    "name": "Frostbearing: Ancient Tree",
+    "description": "Namecard style.\nWe shall rise again — the tree of old has sprouted anew.",
+    "sortOrder": 210056,
+    "source": [
+      "Reward for reaching Frostbearing Tree Offering Lv. 9"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_ElderTree",
+      "filename_banner": "UI_NameCardPic_ElderTree_Alpha",
+      "filename_background": "UI_NameCardPic_ElderTree_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210180,
+    "name": "Furina: Banquet",
+    "description": "Namecard style.\nCan one person eat every cake? If they eat one per day, they should be able to enjoy cake for a week or so, right? But will the cakes stay fresh that long? Hmm... Well, don't worry, because there will be friends coming to eat the cakes together.",
+    "sortOrder": 210180,
+    "source": [
+      "Reward for reaching Friendship 10 with Furina"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Furina",
+      "filename_banner": "UI_NameCardPic_Furina_Alpha",
+      "filename_background": "UI_NameCardPic_Furina_P"
+    },
+    "version": "4.2"
+  },
+  {
+    "id": 210188,
+    "name": "Gaming: Man Chai",
+    "description": "Namecard style.\n\"Don't stop believing, Man Chai. One day, we'll soar high, with nary a patched hole in our trousers.\"",
+    "sortOrder": 210188,
+    "source": [
+      "Reward for reaching Friendship Lv. 10 with Gaming."
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Gaming",
+      "filename_banner": "UI_NameCardPic_Gaming_Alpha",
+      "filename_background": "UI_NameCardPic_Gaming_P"
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 210053,
+    "name": "Ganyu: Qilin",
+    "description": "Namecard style.\nDo no harm to plant nor insect.",
+    "sortOrder": 210053,
+    "source": [
+      "Reward for reaching Friendship 10 with Ganyu"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Ganyu",
+      "filename_banner": "UI_NameCardPic_Ganyu_Alpha",
+      "filename_background": "UI_NameCardPic_Ganyu_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210001,
+    "name": "Genshin Impact: A New World",
+    "description": "Namecard style.\n\"Welcome to Teyvat!\"",
+    "sortOrder": 210001,
+    "source": [
+      "First Log In Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_0",
+      "filename_background": "UI_NameCardPic_0_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210104,
+    "name": "Gorou: Leisurely Hound",
+    "description": "Namecard style.\nAs long as you believe in the path you are walking, then everything you encounter on your journey will be a source of happiness.",
+    "sortOrder": 210104,
+    "source": [
+      "Reward for reaching Friendship 10 with Gorou"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Gorou",
+      "filename_banner": "UI_NameCardPic_Gorou_Alpha",
+      "filename_background": "UI_NameCardPic_Gorou_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210059,
+    "name": "Hu Tao: Spirit Soother",
+    "description": "Namecard style.\nDirector Hu Tao isn't scary at all. Probably.",
+    "sortOrder": 210059,
+    "source": [
+      "Reward for reaching Friendship 10 with Hu Tao"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Hutao",
+      "filename_banner": "UI_NameCardPic_Hutao_Alpha",
+      "filename_background": "UI_NameCardPic_Hutao_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210237,
+    "name": "Iansan: Unyielding",
+    "description": "Namecard style.\n\"If you really need to, and you push yourself hard enough, you can even train in your dreams!\" Sounds great, but... Is it actually possible?",
+    "sortOrder": 210237,
+    "source": [
+      "Reward for reaching Friendship 10 with Iansan"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Iansan",
+      "filename_banner": "UI_NameCardPic_Iansan_Alpha",
+      "filename_background": "UI_NameCardPic_Iansan_P"
+    },
+    "version": "5.5"
+  },
+  {
+    "id": 210242,
+    "name": "Ifa: Bro",
+    "description": "Namecard style.\n\"'Is there any point in getting close to Ifa?' Of course there is, bro, absolutely.\" \"Of course there is, bro, of course there is.\"",
+    "sortOrder": 210242,
+    "source": [
+      "Reward for reaching Friendship 10 with Ifa"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Ifa",
+      "filename_banner": "UI_NameCardPic_Ifa_Alpha",
+      "filename_background": "UI_NameCardPic_Ifa_P"
+    },
+    "version": "5.6"
+  },
+  {
+    "id": 210269,
+    "name": "Illuga: Nightmare Songbird",
+    "description": "Namecard style.\nHaving braved the darkness of night, the nightingale pours its ardor into the bright world of day, and sears the nightmares with fierce fury.",
+    "sortOrder": 210269,
+    "source": [
+      "Reward for reaching Friendship Lv. 10 with Illuga"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Illuga",
+      "filename_banner": "UI_NameCardPic_Illuga_Alpha",
+      "filename_background": "UI_NameCardPic_Illuga_P"
+    },
+    "version": "6.3"
+  },
+  {
+    "id": 210103,
+    "name": "Inazuma: Eagleplume",
+    "description": "Namecard style.\nPirka chikappo! Kapatcir kamuy!",
+    "sortOrder": 210103,
+    "source": [
+      "Reward for completing all achievements under \"The Chronicles of the Sea of Fog\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Daoqi3",
+      "filename_banner": "UI_NameCardPic_Daoqi3_Alpha",
+      "filename_background": "UI_NameCardPic_Daoqi3_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210085,
+    "name": "Inazuma: Kamisato Crest",
+    "description": "Namecard style.\nThis Tri-Commission house-crest represents the Yashiro Commission's Kamisato Clan.",
+    "sortOrder": 210085,
+    "source": [
+      "Reward for reaching Reputation Lv. 4 (Inazuma)"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Dq2",
+      "filename_banner": "UI_NameCardPic_Dq2_Alpha",
+      "filename_background": "UI_NameCardPic_Dq2_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210090,
+    "name": "Inazuma: Kujou Insignia",
+    "description": "Namecard style.\nThis Tri-Commission house-crest represents the Tenryou Commission's Kujou Clan.",
+    "sortOrder": 210090,
+    "source": [
+      "Reward for completing all achievements under \"Inazuma: The Islands of Thunder and Eternity\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Daoqi1",
+      "filename_banner": "UI_NameCardPic_Daoqi1_Alpha",
+      "filename_background": "UI_NameCardPic_Daoqi1_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210084,
+    "name": "Inazuma: Raiden Emblem",
+    "description": "Namecard style.\nThis is the emblem of the Ogosho Shogun, and is the banner of her troops, the Electro Mitsudomoe.",
+    "sortOrder": 210084,
+    "source": [
+      "Reward for reaching Reputation Lv. 7 (Inazuma)"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Dq1",
+      "filename_banner": "UI_NameCardPic_Dq1_Alpha",
+      "filename_background": "UI_NameCardPic_Dq1_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210079,
+    "name": "Inazuma: Sacred Sakura",
+    "description": "Namecard style.\nWherever the sakura petals fall, there the protection of the sacred tree rests.",
+    "sortOrder": 210079,
+    "source": [
+      "Reach Sacred Sakura's Favor Level 48"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Oraionokami",
+      "filename_banner": "UI_NameCardPic_Oraionokami_Alpha",
+      "filename_background": "UI_NameCardPic_Oraionokami_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210097,
+    "name": "Inazuma: Sangonomiya Crest",
+    "description": "Namecard style.\nThis is the emblem of the Sangonomiya Clan, the leaders of Watatsumi's people.",
+    "sortOrder": 210097,
+    "source": [
+      "Reward for completing all achievements under \"Inazuma: The Islands of Thunder and Eternity - Series II.\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Daoqi2",
+      "filename_banner": "UI_NameCardPic_Daoqi2_Alpha",
+      "filename_background": "UI_NameCardPic_Daoqi2_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210109,
+    "name": "Inazuma: Tokoyo",
+    "description": "Namecard style.\n\"O Mighty Sun! What use are your heat and light if you cannot own all that they survey?\"",
+    "sortOrder": 210109,
+    "source": [
+      "Reward for completing all achievements under \"The Light of Day\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Daoqi4",
+      "filename_banner": "UI_NameCardPic_Daoqi4_Alpha",
+      "filename_background": "UI_NameCardPic_Daoqi4_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210248,
+    "name": "Ineffa: Command",
+    "description": "Namecard style.\nThe household robot awaits your command, but Birgitta will keep her aim on you, silently urging you to choose your next words carefully. She does come equipped with a laser module, after all.",
+    "sortOrder": 210248,
+    "source": [
+      "Reward for reaching Friendship 10 with Ineffa"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Ineffa",
+      "filename_banner": "UI_NameCardPic_Ineffa_Alpha",
+      "filename_background": "UI_NameCardPic_Ineffa_P"
+    },
+    "version": "5.8"
+  },
+  {
+    "id": 210105,
+    "name": "Itto: Oni Face",
+    "description": "Namecard style.\nA real man puts sorrow and anger behind him and smiles brightly for the world to see!",
+    "sortOrder": 210105,
+    "source": [
+      "Reward for reaching Friendship Lv. 10 with Itto"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Itto",
+      "filename_banner": "UI_NameCardPic_Itto_Alpha",
+      "filename_background": "UI_NameCardPic_Itto_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210264,
+    "name": "Jahoda: Helping Hand",
+    "description": "Namecard style.\n\"Whenever things get too busy, I wish I could borrow Jahoda's hand!\" — Surely that means the owner of said \"lendable hand\" is both agile and reliable, right?",
+    "sortOrder": 210264,
+    "source": [
+      "Reward for reaching Friendship 10 with Jahoda"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Jahoda",
+      "filename_banner": "UI_NameCardPic_Jahoda_Alpha",
+      "filename_background": "UI_NameCardPic_Jahoda_P"
+    },
+    "version": "6.2"
+  },
+  {
+    "id": 210008,
+    "name": "Jean: The Winds' Course",
+    "description": "Namecard style.\nThe dandelion, also called \"lion's fang\" by some, is the flower most sensitive to the direction of the wind.",
+    "sortOrder": 210008,
+    "source": [
+      "Reward for reaching Friendship 10 with Jean"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Qin",
+      "filename_banner": "UI_NameCardPic_Qin_Alpha",
+      "filename_background": "UI_NameCardPic_Qin_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210210,
+    "name": "Kachina: Twirly",
+    "description": "Namecard style.\nThe upper half of the Turbo Twirly is very stable, but if the lower half gets stuck, there's a high chance you'll end up with one very dizzy rider.",
+    "sortOrder": 210210,
+    "source": [
+      "Reward for reaching Friendship 10 with Kachina"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Kachina",
+      "filename_banner": "UI_NameCardPic_Kachina_Alpha",
+      "filename_background": "UI_NameCardPic_Kachina_P"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 210073,
+    "name": "Kaedehara Kazuha: Autumn Maple-Viewing",
+    "description": "Namecard style.\n\"The pine-song ripples as red leaves billow.\"",
+    "sortOrder": 210073,
+    "source": [
+      "Reward for reaching Friendship Lv. 10 with Kaedehara Kazuha"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Kazuha",
+      "filename_banner": "UI_NameCardPic_Kazuha_Alpha",
+      "filename_background": "UI_NameCardPic_Kazuha_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210010,
+    "name": "Kaeya: Pavo Ocellus",
+    "description": "Namecard style.\nThe pattern of peacock feathers resembles eyes that never shut. Can we really say that this Pavo Ocellus is missing an eye...?",
+    "sortOrder": 210010,
+    "source": [
+      "Reward for reaching Friendship 10 with Kaeya"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Kaeya",
+      "filename_banner": "UI_NameCardPic_Kaeya_Alpha",
+      "filename_background": "UI_NameCardPic_Kaeya_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210081,
+    "name": "Kamisato Ayaka: Folding Fan",
+    "description": "Namecard style.\nAyaka does constantly change out the fans she carries with her, of course. If you're buying her some as gifts, remember not to send summer fans or throwing fans. Dancing fans or tea fans are good choices, though.",
+    "sortOrder": 210081,
+    "source": [
+      "Reward for reaching Friendship 10 with Ayaka"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Ayaka",
+      "filename_banner": "UI_NameCardPic_Ayaka_Alpha",
+      "filename_background": "UI_NameCardPic_Ayaka_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210114,
+    "name": "Kamisato Ayato: Ripple",
+    "description": "Namecard style.\nThe camellia alights upon the mirrored pond, sending ripples throughout the water.",
+    "sortOrder": 210114,
+    "source": [
+      "Reward for reaching Friendship 10 with Kamisato Ayato"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Ayato",
+      "filename_banner": "UI_NameCardPic_Ayato_Alpha",
+      "filename_background": "UI_NameCardPic_Ayato_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210156,
+    "name": "Kaveh: Domed Court",
+    "description": "Namecard style.\n\"When conceptualizing architecture, there is nothing wrong with imagining that the structure we build will surmount the firmament and outlast the stars.\"",
+    "sortOrder": 210156,
+    "source": [
+      "Reward for reaching Friendship 10 with Kaveh"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Kaveh",
+      "filename_banner": "UI_NameCardPic_Kaveh_Alpha",
+      "filename_background": "UI_NameCardPic_Kaveh_P"
+    },
+    "version": "3.6"
+  },
+  {
+    "id": 210020,
+    "name": "Keqing: Lightning Stiletto",
+    "description": "Namecard style.\nIt was originally invented to just test out one's surroundings and climb to high places, really...",
+    "sortOrder": 210020,
+    "source": [
+      "Reward for reaching Friendship 10 with Keqing"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Keqing",
+      "filename_banner": "UI_NameCardPic_Keqing_Alpha",
+      "filename_background": "UI_NameCardPic_Keqing_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210208,
+    "name": "Kinich: Ajaw",
+    "description": "Namecard style.\nAt first glance, you might think that the Almighty Dragonlord, K'uhul Ajaw had finally succeeded in turning the puny Kinich into a vessel of his will. Sadly, though, this is just the way namecards are named.",
+    "sortOrder": 210208,
+    "source": [
+      "Reward for reaching Friendship 10 with Kinich"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Kinich",
+      "filename_banner": "UI_NameCardPic_Kinich_Alpha",
+      "filename_background": "UI_NameCardPic_Kinich_P"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 210162,
+    "name": "Kirara: Neko Box",
+    "description": "Namecard style.\n\"To Kirara, the smiles on her customers' faces are the best rewards possible.\"",
+    "sortOrder": 210162,
+    "source": [
+      "Reward for reaching Friendship 10 with Kirara"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Kirara",
+      "filename_banner": "UI_NameCardPic_Kirara_Alpha",
+      "filename_background": "UI_NameCardPic_Kirara_P"
+    },
+    "version": "3.7"
+  },
+  {
+    "id": 210004,
+    "name": "Klee: Explosive",
+    "description": "Namecard style.\nKlee's lucky explosive — can you tell if it's Jumpy Dumpty or Dodoco? (Hint: Look carefully at the tail...)",
+    "sortOrder": 210004,
+    "source": [
+      "Reward for reaching Friendship 10 with Klee"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Klee",
+      "filename_banner": "UI_NameCardPic_Klee_Alpha",
+      "filename_background": "UI_NameCardPic_Klee_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210094,
+    "name": "Kujou Sara: Tengu",
+    "description": "Namecard style.\nKujou Sara may have forsaken the arrogant life of the tengu race, but she has never neglected their brilliance with the sword or their supernatural might.",
+    "sortOrder": 210094,
+    "source": [
+      "Reward for reaching Friendship 10 with Kujou Sara"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Sara",
+      "filename_banner": "UI_NameCardPic_Sara_Alpha",
+      "filename_background": "UI_NameCardPic_Sara_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210120,
+    "name": "Kuki Shinobu: Net",
+    "description": "Namecard style.\n\"You know those Naku Weed rings they have in Inazuma? You know, the kind that can drive out evil? Shinobu got the idea that since wicked things won't cross their boundaries willingly, we could make them into items that could be actively used. Ah, her talent for being a shrine maiden truly is frightening...\"",
+    "sortOrder": 210120,
+    "source": [
+      "Reward for reaching Friendship 10 with Kuki Shinobu"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Shinobu",
+      "filename_banner": "UI_NameCardPic_Shinobu_Alpha",
+      "filename_background": "UI_NameCardPic_Shinobu_P"
+    },
+    "version": "2.7"
+  },
+  {
+    "id": 210228,
+    "name": "Lan Yan: Silver Swallow",
+    "description": "Namecard style.\nThe swallow's arrival shall bring forth cleansing rains, washing the worries of wizened winter away.",
+    "sortOrder": 210228,
+    "source": [
+      "Reward for reaching Friendship 10 with Lan Yan"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Lanyan",
+      "filename_banner": "UI_NameCardPic_Lanyan_Alpha",
+      "filename_background": "UI_NameCardPic_Lanyan_P"
+    },
+    "version": "5.3"
+  },
+  {
+    "id": 210253,
+    "name": "Lauma: Branched Antlers",
+    "description": "Namecard style.\nIn a distant land, there are legends of those who bear antlers. Antlers are said to be the outgrowth of wisdom too vast for the mind to contain, branching upward like the limbs of a tree. One can't help but wonder if Lauma's antlers were once soft and covered in velvet.",
+    "sortOrder": 210253,
+    "source": [
+      "Reward for reaching Friendship Lv. 10 with Lauma"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Lauma",
+      "filename_banner": "UI_NameCardPic_Lauma_Alpha",
+      "filename_background": "UI_NameCardPic_Lauma_P"
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 210141,
+    "name": "Layla: Daydream",
+    "description": "Namecard style.\n\"The starry sky in your dreams will illuminate your way forward, on the premise that the crystal in your heart reflects clear lights.\"",
+    "sortOrder": 210141,
+    "source": [
+      "Reward for reaching Friendship 10 with Layla"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Layla",
+      "filename_banner": "UI_NameCardPic_Layla_Alpha",
+      "filename_background": "UI_NameCardPic_Layla_P"
+    },
+    "version": "3.2"
+  },
+  {
+    "id": 210275,
+    "name": "Linnea: Rattling Resonance",
+    "description": "Namecard style.\nLinnea had long assumed the rhythmic clatter coming from Lumi was merely the compression of frozen snow. But then came the day Lumi reached behind her back and produced — a pair of maracas.",
+    "sortOrder": 210275,
+    "source": [
+      "Reward for reaching Friendship 10 with Linnea"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Linnea",
+      "filename_banner": "UI_NameCardPic_Linnea_Alpha",
+      "filename_background": "UI_NameCardPic_Linnea_P"
+    },
+    "version": "6.5"
+  },
+  {
+    "id": 210011,
+    "name": "Lisa: Tempus Fugit",
+    "description": "Namecard style.\nAn hourglass marks the end of the work day for Lisa. Its sand moves fast.",
+    "sortOrder": 210011,
+    "source": [
+      "Reward for reaching Friendship 10 with Lisa"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Lisa",
+      "filename_banner": "UI_NameCardPic_Lisa_Alpha",
+      "filename_background": "UI_NameCardPic_Lisa_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210049,
+    "name": "Liyue: A Thousand Ships",
+    "description": "Namecard style.\nMany boats have been numbered by day and night.",
+    "sortOrder": 210049,
+    "source": [
+      "Reward for reaching Reputation Lv. 4 (Liyue)"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardPic_Ly1",
+      "filename_banner": "UI_NameCardPic_Ly1_Alpha",
+      "filename_background": "UI_NameCardPic_Ly1_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210050,
+    "name": "Liyue: In the Clouds",
+    "description": "Namecard style.\nThe peaks adorn the clouded moon.",
+    "sortOrder": 210050,
+    "source": [
+      "Reward for reaching Reputation Lv. 7 (Liyue)"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardPic_Ly2",
+      "filename_banner": "UI_NameCardPic_Ly2_Alpha",
+      "filename_background": "UI_NameCardPic_Ly2_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210025,
+    "name": "Liyue: Stillness of Stone",
+    "description": "Namecard style.\nWitness the lonely, cloud-covered peaks of Liyue.",
+    "sortOrder": 210025,
+    "source": [
+      "Reward for completing all achievements under \"Liyue: The Harbor of Stone and Contracts\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Ly",
+      "filename_banner": "UI_NameCardPic_Ly_Alpha",
+      "filename_background": "UI_NameCardPic_Ly_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210280,
+    "name": "Lohen: Benevolence",
+    "description": "Namecard style.\n\"Benevolence\" may be the last word anyone would use to describe Lohen. Then again, even the sharpest thorns grow from gentle soil.",
+    "sortOrder": 210280,
+    "source": [
+      "Reward for reaching Friendship Lv. 10 with Lohen"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Lohen",
+      "filename_banner": "UI_NameCardPic_Lohen_Alpha",
+      "filename_background": "UI_NameCardPic_Lohen_P"
+    },
+    "version": "6.6"
+  },
+  {
+    "id": 210115,
+    "name": "Lumens: Stone of Light",
+    "description": "Namecard style.\nWhat flows within this nameless, voiceless azure crystal? The secrets of the heavens? Or the whispers of the abyss?",
+    "sortOrder": 210115,
+    "source": [
+      "Reward for enhancing the Lumenstone Adjuvant to Lv. 10"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_LuminanceStone",
+      "filename_banner": "UI_NameCardPic_LuminanceStone_Alpha",
+      "filename_background": "UI_NameCardPic_LuminanceStone_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210166,
+    "name": "Lynette: Earnestness",
+    "description": "Namecard style.\nOne major type of magic revolves around \"appearing suddenly.\" Lynette is usually conserving her energy, but her serious side can \"appear\" as abruptly as pigeons from a hat.",
+    "sortOrder": 210166,
+    "source": [
+      "Reward for reaching Friendship 10 with Lynette"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Linette",
+      "filename_banner": "UI_NameCardPic_Linette_Alpha",
+      "filename_background": "UI_NameCardPic_Linette_P"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 210165,
+    "name": "Lyney: Pretense",
+    "description": "Namecard style.\nOne major type of magic revolves around making things \"vanish.\" Lyney has an arsenal of tricks up his sleeve. As his accomplice, as long as you are willing to turn a blind eye, all your problems may vanish as well.",
+    "sortOrder": 210165,
+    "source": [
+      "Reward for reaching Friendship 10 with Lyney"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Liney",
+      "filename_banner": "UI_NameCardPic_Liney_Alpha",
+      "filename_background": "UI_NameCardPic_Liney_P"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 210226,
+    "name": "Mavuika: Sun-Crowned",
+    "description": "Namecard style.\nNo Pyro Archon has ever intended to contest the sun. But as ordinary people see it, this \"solar ring\" is the crown of leaders as radiant as the sun.",
+    "sortOrder": 210226,
+    "source": [
+      "Reward for reaching Friendship 10 with Mavuika"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Mavuika",
+      "filename_banner": "UI_NameCardPic_Mavuika_Alpha",
+      "filename_background": "UI_NameCardPic_Mavuika_P"
+    },
+    "version": "5.3"
+  },
+  {
+    "id": 210153,
+    "name": "Mika: Index",
+    "description": "Namecard style.\nEvery time he holds the map he illustrated in his hands, the boy feels like he is holding a small piece of rubbing of this world.",
+    "sortOrder": 210153,
+    "source": [
+      "Reward for reaching Friendship 10 with Mika"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Mika",
+      "filename_banner": "UI_NameCardPic_Mika_Alpha",
+      "filename_background": "UI_NameCardPic_Mika_P"
+    },
+    "version": "3.5"
+  },
+  {
+    "id": 210015,
+    "name": "Mona: Starry Sky",
+    "description": "Namecard style.\nA girl gazes down at the stars' reflection on the water, pondering the joys and sorrows of life.",
+    "sortOrder": 210015,
+    "source": [
+      "Reward for reaching Friendship 10 with Mona"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Mona",
+      "filename_banner": "UI_NameCardPic_Mona_Alpha",
+      "filename_background": "UI_NameCardPic_Mona_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210048,
+    "name": "Mondstadt: Blessing",
+    "description": "Namecard style.\nThey who have it in their hearts to bless others shall themselves be blessed.",
+    "sortOrder": 210048,
+    "source": [
+      "Reward for reaching Reputation Lv. 7 (Mondstadt)"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardPic_Md1",
+      "filename_banner": "UI_NameCardPic_Md1_Alpha",
+      "filename_background": "UI_NameCardPic_Md1_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210047,
+    "name": "Mondstadt: Hero's Fame",
+    "description": "Namecard style.\nThe name of the Honorary Knight has spread far and wide among the citizenry.",
+    "sortOrder": 210047,
+    "source": [
+      "Reward for reaching Reputation Lv. 4 (Mondstadt)"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardPic_Md2",
+      "filename_banner": "UI_NameCardPic_Md2_Alpha",
+      "filename_background": "UI_NameCardPic_Md2_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210276,
+    "name": "Mondstadt: Watchtower",
+    "description": "Namecard style.\nAfter being stuffed with all sorts of oddities, Segment-Domain Tau looked less like a vault than ever. Ever since her departure, it had been transformed from a temple into a watchtower, yearning for its mistress to come home.",
+    "sortOrder": 210276,
+    "source": [
+      "Reward for completing all achievements under \"Demon Mountain's Breath.\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Kzsd",
+      "filename_banner": "UI_NameCardPic_Kzsd_Alpha",
+      "filename_background": "UI_NameCardPic_Kzsd_P"
+    },
+    "version": "6.5"
+  },
+  {
+    "id": 210024,
+    "name": "Mondstadt: Whistling Wind",
+    "description": "Namecard style.\nListen to the singing of Mondstadt's birds and winds.",
+    "sortOrder": 210024,
+    "source": [
+      "Reward for completing all achievements under \"Mondstadt: The City of Wind and Song\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Md",
+      "filename_banner": "UI_NameCardPic_Md_Alpha",
+      "filename_background": "UI_NameCardPic_Md_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210209,
+    "name": "Mualani: Sharky",
+    "description": "Namecard style.\nSharks that live in the sea don't actually like eating people — they prefer marine creatures. So as a shark that lives in freshwater hot springs, it's only natural that Mualani's Sharky Surfboard will only eat hot spring creatures. ...Just kidding, those Capybaras can sleep easy. Firstly, because their meat's too tough. And secondly, because... it's a surfboard?",
+    "sortOrder": 210209,
+    "source": [
+      "Reward for reaching Friendship 10 with Mualani"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Mualani",
+      "filename_banner": "UI_NameCardPic_Mualani_Alpha",
+      "filename_background": "UI_NameCardPic_Mualani_P"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 210140,
+    "name": "Nahida: Crescent",
+    "description": "Namecard style.\nThe rising moon admires the sun, because her light can shine all over the earth. On the other hand, the setting sun is envious of the moon, for she can be accompanied by the sweetest of dreams.",
+    "sortOrder": 210140,
+    "source": [
+      "Reward for reaching Friendship 10 with Nahida"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Nahida",
+      "filename_banner": "UI_NameCardPic_Nahida_Alpha",
+      "filename_background": "UI_NameCardPic_Nahida_P"
+    },
+    "version": "3.2"
+  },
+  {
+    "id": 210250,
+    "name": "Natlan: Chasing the Wind",
+    "description": "Namecard style.\nEven when the winds no longer sweep these broken plains, those who chase the breeze through the ashes will still remain.",
+    "sortOrder": 210250,
+    "source": [
+      "Reward for completing all achievements under \"A Summer of Ash and Prickly Pears\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Natlan4",
+      "filename_banner": "UI_NameCardPic_Natlan4_Alpha",
+      "filename_background": "UI_NameCardPic_Natlan4_P"
+    },
+    "version": "5.8"
+  },
+  {
+    "id": 210211,
+    "name": "Natlan: Divine Army",
+    "description": "Namecard style.\n\"...Bathed by a hidden sun, Xbalanque's forces advance with unstoppable momentum. He brings all-out war to the world once more, but his goals don't stop there...\"",
+    "sortOrder": 210211,
+    "source": [
+      "Reward for reaching the highest Reputation Level with 1 tribe"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_NatlanSW1",
+      "filename_banner": "UI_NameCardPic_NatlanSW1_Alpha",
+      "filename_background": "UI_NameCardPic_NatlanSW1_P"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 210238,
+    "name": "Natlan: Draconic Gaze",
+    "description": "Namecard style.\nHaving once beheld the old world in all its glory, these draconic eyes now shine with fresh vigor, heralding the dawn of a new one.",
+    "sortOrder": 210238,
+    "source": [
+      "Reward for completing all achievements under \"Sacred Mountain's Fading Glow.\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Natlan3",
+      "filename_banner": "UI_NameCardPic_Natlan3_Alpha",
+      "filename_background": "UI_NameCardPic_Natlan3_P"
+    },
+    "version": "5.5"
+  },
+  {
+    "id": 210212,
+    "name": "Natlan: Fiery Dragon",
+    "description": "Namecard style.\n\"...Sharer of light, heat, and wisdom, the dragon king awaits the coming visitor in silence beneath returning moonlight. His reawakening is not simply for...\"",
+    "sortOrder": 210212,
+    "source": [
+      "Reward for reaching the highest Reputation Level with 4 tribes"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_NatlanSW2",
+      "filename_banner": "UI_NameCardPic_NatlanSW2_Alpha",
+      "filename_background": "UI_NameCardPic_NatlanSW2_P"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 210223,
+    "name": "Natlan: Fleeting Dreams",
+    "description": "Namecard style.\nBefore one could become a sage among dragons, or a king among men, the ploys of one's ambition would have long since turned to naught but dreams. Yet to be incomplete is good; superior, in fact, to perfection.",
+    "sortOrder": 210223,
+    "source": [
+      "Reward for completing all achievements under \"Natlan: The Land of Fire and Competition (II)\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Natlan2",
+      "filename_banner": "UI_NameCardPic_Natlan2_Alpha",
+      "filename_background": "UI_NameCardPic_Natlan2_P"
+    },
+    "version": "5.2"
+  },
+  {
+    "id": 210215,
+    "name": "Natlan: Return of the Flame",
+    "description": "Namecard style.\nGive yourself over to the joy of the contest — for victor and vanquished shall earn honor in equal measure, with both belonging to the flames of the night.",
+    "sortOrder": 210215,
+    "source": [
+      "Reward for completing all achievements under \"Natlan: The Land of Fire and Competition (I)\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Natlan1",
+      "filename_banner": "UI_NameCardPic_Natlan1_Alpha",
+      "filename_background": "UI_NameCardPic_Natlan1_P"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 210249,
+    "name": "Natlan: Wheel of Flame",
+    "description": "Namecard style.\nThe stone wheel of the totem turns. Not just with the passage of time, but with the blazing of all souls.",
+    "sortOrder": 210249,
+    "source": [
+      "Reach Tona's Flame Level 48"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_NatlanOffering",
+      "filename_banner": "UI_NameCardPic_NatlanOffering_Alpha",
+      "filename_background": "UI_NameCardPic_NatlanOffering_P"
+    },
+    "version": "5.8"
+  },
+  {
+    "id": 210184,
+    "name": "Navia: Rosula",
+    "description": "Namecard style.\nRoses shall bloom, and thus does Ms. Navia's umbrella flower. Yet beware, for roses have thorns, and Navia's booming brolly packs a powerful punch.",
+    "sortOrder": 210184,
+    "source": [
+      "Reward for reaching Friendship 10 with Navia"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Navia",
+      "filename_banner": "UI_NameCardPic_Navia_Alpha",
+      "filename_background": "UI_NameCardPic_Navia_P"
+    },
+    "version": "4.3"
+  },
+  {
+    "id": 210261,
+    "name": "Nefer: Secrets",
+    "description": "Namecard style.\nEven the ugliest victory is preferable to noble defeat. Unbesmirched innocence has no place amid the blood and sand. This is simply how the desert folk survive.",
+    "sortOrder": 210261,
+    "source": [
+      "Reward for reaching Friendship 10 with Nefer"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Nefer",
+      "filename_banner": "UI_NameCardPic_Nefer_Alpha",
+      "filename_background": "UI_NameCardPic_Nefer_P"
+    },
+    "version": "6.1"
+  },
+  {
+    "id": 210174,
+    "name": "Neuvillette: Surge",
+    "description": "Namecard style.\nThe water's surface may seem placid as a pristine gem, but it may yet be lying in wait for an opportune moment to gush forth.",
+    "sortOrder": 210174,
+    "source": [
+      "Reward for reaching Friendship 10 with Neuvillette"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Neuvillette",
+      "filename_banner": "UI_NameCardPic_Neuvillette_Alpha",
+      "filename_background": "UI_NameCardPic_Neuvillette_P"
+    },
+    "version": "4.1"
+  },
+  {
+    "id": 210279,
+    "name": "Nicole: Heavenly Stairway",
+    "description": "Namecard style.\nOnce, Nicole still bore a form close to that of a human, making her way down the stairway step by step. Whatever else it was, it seemed far more dignified than falling or being cast down. Silent all the while, she passed beneath the sky and into a city that no longer belonged to angels.",
+    "sortOrder": 210279,
+    "source": [
+      "Reward for reaching Friendship Lv. 10 with Nicole"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Nicole",
+      "filename_banner": "UI_NameCardPic_Nicole_Alpha",
+      "filename_background": "UI_NameCardPic_Nicole_P"
+    },
+    "version": "6.6"
+  },
+  {
+    "id": 210136,
+    "name": "Nilou: Lotus Dance",
+    "description": "Namecard style.\nThe lotus that blooms amidst the pure water is naught but a flash of light beneath her toes.",
+    "sortOrder": 210136,
+    "source": [
+      "Reward for reaching Friendship 10 with Nilou"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Nilou",
+      "filename_banner": "UI_NameCardPic_Nilou_Alpha",
+      "filename_background": "UI_NameCardPic_Nilou_P"
+    },
+    "version": "3.1"
+  },
+  {
+    "id": 210038,
+    "name": "Ningguang: Phoenix",
+    "description": "Namecard style.\nThey say that \"more's the pity that phoenixes are few.\" But seriously, one Ningguang is more than enough...",
+    "sortOrder": 210038,
+    "source": [
+      "Reward for reaching Friendship Lv. 10 with Ningguang"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Ningguang",
+      "filename_banner": "UI_NameCardPic_Ningguang_Alpha",
+      "filename_background": "UI_NameCardPic_Ningguang_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210271,
+    "name": "Nod-Krai: Lantern of Longest Night",
+    "description": "Namecard style.\nIn the blackest of nights, a lamp shall rise, tonight, and for a thousand nights beyond.",
+    "sortOrder": 210271,
+    "source": [
+      "Reward for completing all achievements under \"Nod-Krai: An Elysium of Moonlight and Wanderings (II)\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_NodKrai2",
+      "filename_banner": "UI_NameCardPic_NodKrai2_Alpha",
+      "filename_background": "UI_NameCardPic_NodKrai2_P"
+    },
+    "version": "6.3"
+  },
+  {
+    "id": 210285,
+    "name": "Nod-Krai: Moonbright",
+    "description": "Namecard style.\nThe moon before my eyes is the moon above, and the figure upon it is the one I hold dear. I look up, as if to meet the moon, only to wonder whether my beloved sees me there.",
+    "sortOrder": 210285,
+    "source": [
+      "Reward for completing all achievements under \"Unfettered Crescent.\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Moon",
+      "filename_banner": "UI_NameCardPic_Moon_Alpha",
+      "filename_background": "UI_NameCardPic_Moon_P"
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 210256,
+    "name": "Nod-Krai: Moonlight",
+    "description": "Namecard style.\nOf the thousand nights before, none held a new moon as beautiful as the one we saw.",
+    "sortOrder": 210256,
+    "source": [
+      "Obtained from completing all quests under \"Selenic Chronicles: Part II\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_NodKraiOffering1",
+      "filename_banner": "UI_NameCardPic_NodKraiOffering1_Alpha",
+      "filename_background": "UI_NameCardPic_NodKraiOffering1_P"
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 210257,
+    "name": "Nod-Krai: Sacred Realm",
+    "description": "Namecard style.\nUnder the moonlight, people chase the tides, for they are the traces left behind by the rising new moon.",
+    "sortOrder": 210257,
+    "source": [
+      "Reward for completing all achievements under \"Nod-Krai: An Elysium of Moonlight and Wanderings (I)\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_NodKrai1",
+      "filename_banner": "UI_NameCardPic_NodKrai1_Alpha",
+      "filename_background": "UI_NameCardPic_NodKrai1_P"
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 210014,
+    "name": "Noelle: Protector",
+    "description": "Namecard style.\nNoelle is quite special. Noelle won't let any harm come to you.",
+    "sortOrder": 210014,
+    "source": [
+      "Reward for reaching Friendship 10 with Noelle"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Noel",
+      "filename_banner": "UI_NameCardPic_Noel_Alpha",
+      "filename_background": "UI_NameCardPic_Noel_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210222,
+    "name": "Ororon: Nightshade",
+    "description": "Namecard style.\nJust as starlight cannot overpower the darkness of night, so too do shadows linger beneath the candle's light. Likewise, the heart's emptiness cannot easily be filled.",
+    "sortOrder": 210222,
+    "source": [
+      "Reward for reaching Friendship 10 with Ororon"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Olorun",
+      "filename_banner": "UI_NameCardPic_Olorun_Alpha",
+      "filename_background": "UI_NameCardPic_Olorun_P"
+    },
+    "version": "5.2"
+  },
+  {
+    "id": 210281,
+    "name": "Prune: Judgment",
+    "description": "Namecard style.\n\"If I ever write my memoirs, the title will obviously be The Iron Hammer That Punished the Wicked Witch! It's only fitting for a life as grand and eventful as mine!\" Though in fairness, that \"grand and eventful life\" has only spanned a few short years.",
+    "sortOrder": 210281,
+    "source": [
+      "Reward for reaching Friendship Lv. 10 with Prune"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Prune",
+      "filename_banner": "UI_NameCardPic_Prune_Alpha",
+      "filename_background": "UI_NameCardPic_Prune_P"
+    },
+    "version": "6.6"
+  },
+  {
+    "id": 210019,
+    "name": "Qiqi: Cold Storage",
+    "description": "Namecard style.\nWhat should be kept in the fridge? Dr. Baizhu's herbs, coconut milk... and Hu Tao.",
+    "sortOrder": 210019,
+    "source": [
+      "Reward for reaching Friendship 10 with Qiqi"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Qiqi",
+      "filename_banner": "UI_NameCardPic_Qiqi_Alpha",
+      "filename_background": "UI_NameCardPic_Qiqi_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210092,
+    "name": "Raiden Shogun: Enlightenment",
+    "description": "Namecard style.\nNot simply Ei, and not merely the Raiden Shogun. Observe yourself also with one stormy eye, and you will someday reach a breakthrough.",
+    "sortOrder": 210092,
+    "source": [
+      "Reward for reaching Friendship 10 with the Raiden Shogun"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Shougun",
+      "filename_banner": "UI_NameCardPic_Shougun_Alpha",
+      "filename_background": "UI_NameCardPic_Shougun_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210006,
+    "name": "Razor: Wolvensprint",
+    "description": "Namecard style.\nIt's quite a sight to behold Razor and the wolves prepare their dinner, but they won't let Klee or the Traveler see the slightly gruesome affair.",
+    "sortOrder": 210006,
+    "source": [
+      "Reward for reaching Friendship 10 with Razor"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Razor",
+      "filename_banner": "UI_NameCardPic_Razor_Alpha",
+      "filename_background": "UI_NameCardPic_Razor_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210063,
+    "name": "Rosaria: Indenture",
+    "description": "Namecard style.\nThe unselfish warmth and goodwill of the people is, to her, a kindness that she must repay, and so it is an indenture that follows her forever.",
+    "sortOrder": 210063,
+    "source": [
+      "Reward for reaching Friendship 10 with Rosaria"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Rosaria",
+      "filename_banner": "UI_NameCardPic_Rosaria_Alpha",
+      "filename_background": "UI_NameCardPic_Rosaria_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210284,
+    "name": "Sandrone: Tea Break",
+    "description": "Namecard style.\nSandrone may have learned to enjoy tea parties from Alain. In those days, even a tea break for two never felt dull. But later, when there were finally enough people for a proper tea party, they left one after another. And in their absence, she seemed to come a little closer to the loneliness Alain had known.",
+    "sortOrder": 210284,
+    "source": [
+      "Reward for reaching Friendship Lv. 10 with Sandrone"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_MarionetteNew",
+      "filename_banner": "UI_NameCardPic_MarionetteNew_Alpha",
+      "filename_background": "UI_NameCardPic_MarionetteNew_P"
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 210093,
+    "name": "Sangonomiya Kokomi: The Deep",
+    "description": "Namecard style.\nAll Watatsumi islanders know this tale: that deep beneath the waves lies their former home.",
+    "sortOrder": 210093,
+    "source": [
+      "Reward for reaching Friendship 10 with Sangonomiya Kokomi"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Kokomi",
+      "filename_banner": "UI_NameCardPic_Kokomi_Alpha",
+      "filename_background": "UI_NameCardPic_Kokomi_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210083,
+    "name": "Sayu: Muji-Muji Daruma",
+    "description": "Namecard style.\nIt is even smaller than Sayu, sure, but it can help her do the things she doesn't want to do.",
+    "sortOrder": 210083,
+    "source": [
+      "Reward for reaching Friendship 10 with Sayu"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Sayu",
+      "filename_banner": "UI_NameCardPic_Sayu_Alpha",
+      "filename_background": "UI_NameCardPic_Sayu_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210202,
+    "name": "Sethos: Ba Fragment",
+    "description": "Namecard style.\nEach Ba Fragment has its unique symbol. While this one resembles an hourglass, it represents King Deshret's rule over both Upper and Lower Setekh. As for the light within, it stands for the wisdom of Hermanubis.",
+    "sortOrder": 210202,
+    "source": [
+      "Reward for reaching Friendship 10 with Sethos"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Sethos",
+      "filename_banner": "UI_NameCardPic_Sethos_Alpha",
+      "filename_background": "UI_NameCardPic_Sethos_P"
+    },
+    "version": "4.7"
+  },
+  {
+    "id": 210107,
+    "name": "Shenhe: Comb",
+    "description": "Namecard style.\nThe early onset of white hair is often correlated to one's sorrows. Since \"comb\" and \"scatter\" are similarly read in Liyue's language, they believe that combing one's hair is the same as scattering one's misfortunes.",
+    "sortOrder": 210107,
+    "source": [
+      "Reward for reaching Friendship Lv. 10 with Shenhe"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Shenhe",
+      "filename_banner": "UI_NameCardPic_Shenhe_Alpha",
+      "filename_background": "UI_NameCardPic_Shenhe_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210122,
+    "name": "Shikanoin Heizou: Temari",
+    "description": "Namecard style.\nA Temari of entwining strings in various colors. It must have taken someone's great effort to make such an item, yet Heizou only sees it as a simple game to untangle each string.",
+    "sortOrder": 210122,
+    "source": [
+      "Reward for reaching Friendship 10 with Shikanoin Heizou"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Heizo",
+      "filename_banner": "UI_NameCardPic_Heizo_Alpha",
+      "filename_background": "UI_NameCardPic_Heizo_P"
+    },
+    "version": "2.8"
+  },
+  {
+    "id": 210201,
+    "name": "Sigewinne: Treatment",
+    "description": "Namecard style.\nSigewinne will take good care of her patients. Don't worry, her injections aren't that painful — and while the medicines aren't very tasty, you'd take them over the barren wasteland that special blend milkshakes represent.",
+    "sortOrder": 210201,
+    "source": [
+      "Reward for reaching Friendship 10 with Sigewinne"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Sigewinne",
+      "filename_banner": "UI_NameCardPic_Sigewinne_Alpha",
+      "filename_background": "UI_NameCardPic_Sigewinne_P"
+    },
+    "version": "4.7"
+  },
+  {
+    "id": 210244,
+    "name": "Skirk: Lone Shadow",
+    "description": "Namecard style.\nHer solitude is not some show meant to maintain an air of mystery. She was once the last rabbit left standing in the wildfire's wake — now, she's a lion in disguise, unable to speak her truth to the sheep.",
+    "sortOrder": 210244,
+    "source": [
+      "Reward for reaching Friendship 10 with Skirk"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_SkirkNew",
+      "filename_banner": "UI_NameCardPic_SkirkNew_Alpha",
+      "filename_background": "UI_NameCardPic_SkirkNew_P"
+    },
+    "version": "5.7"
+  },
+  {
+    "id": 210012,
+    "name": "Sucrose: Bio-Alchemy",
+    "description": "Namecard style.\nIf you closely examine an Anemo Hypostasis before it disappears, you will discover that they are actually quite square.",
+    "sortOrder": 210012,
+    "source": [
+      "Reward for reaching Friendship 10 with Sucrose"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Sucrose",
+      "filename_banner": "UI_NameCardPic_Sucrose_Alpha",
+      "filename_background": "UI_NameCardPic_Sucrose_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210160,
+    "name": "Sumeru: Amrita",
+    "description": "Namecard style.\nThe ancient Amrita Pool is suffused with recollections of times past. Perhaps it also contains the power that will create the future.",
+    "sortOrder": 210160,
+    "source": [
+      "Make 6 offerings to the Amrita Pool"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_OfferingPari",
+      "filename_banner": "UI_NameCardPic_OfferingPari_Alpha",
+      "filename_background": "UI_NameCardPic_OfferingPari_P"
+    },
+    "version": "3.6"
+  },
+  {
+    "id": 210131,
+    "name": "Sumeru: Observance",
+    "description": "Namecard style.\nBehold everything the world has to offer; see through all that the sky's light surveys.",
+    "sortOrder": 210131,
+    "source": [
+      "Reward for reaching Reputation Lv. 4 (Sumeru)"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Xumi1",
+      "filename_banner": "UI_NameCardPic_Xumi1_Alpha",
+      "filename_background": "UI_NameCardPic_Xumi1_P"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 210151,
+    "name": "Sumeru: Sandstorm",
+    "description": "Namecard style.\nThe endless sandstorm conceals ancient dreams...",
+    "sortOrder": 210151,
+    "source": [
+      "Reward for completing all achievements under \"Sumeru: The Gilded Desert - Series II\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Xm3",
+      "filename_banner": "UI_NameCardPic_Xm3_Alpha",
+      "filename_background": "UI_NameCardPic_Xm3_P"
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 210138,
+    "name": "Sumeru: Sandtreader",
+    "description": "Namecard style.\nThe sands subsume the tracks of travelers, and they await the day when a gust of wind will reveal gilded memories once more.",
+    "sortOrder": 210138,
+    "source": [
+      "Reward for completing all achievements under \"Sumeru: The Gilded Desert - Series I\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Xm2",
+      "filename_banner": "UI_NameCardPic_Xm2_Alpha",
+      "filename_background": "UI_NameCardPic_Xm2_P"
+    },
+    "version": "3.1"
+  },
+  {
+    "id": 210130,
+    "name": "Sumeru: Shimmering Woods",
+    "description": "Namecard style.\nWhat dreams lie within the rich slumber of the stories deep in the woods?",
+    "sortOrder": 210130,
+    "source": [
+      "Reward for completing all achievements under \"Sumeru: The Rainforest of Lore\""
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Xm1",
+      "filename_banner": "UI_NameCardPic_Xm1_Alpha",
+      "filename_background": "UI_NameCardPic_Xm1_P"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 210159,
+    "name": "Sumeru: The Great Dream",
+    "description": "Namecard style.\n\"The time to flourish has yet to come. Hide me with care between the blades of grass and beneath the tallness of trees. Let me linger in that place of dreams.\"",
+    "sortOrder": 210159,
+    "source": [
+      "Reach Tree of Dreams's Favor Level 48"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Vasara",
+      "filename_banner": "UI_NameCardPic_Vasara_Alpha",
+      "filename_background": "UI_NameCardPic_Vasara_P"
+    },
+    "version": "3.6"
+  },
+  {
+    "id": 210132,
+    "name": "Sumeru: Unsullied",
+    "description": "Namecard style.\nThe wise, graced with the thorough knowledge of the truth, will not be sullied by sin. They are like the Nilotpala Lotus, which remains clear and pure even after the rains and winds have passed.",
+    "sortOrder": 210132,
+    "source": [
+      "Reward for reaching Reputation Lv. 7 (Sumeru)"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Xumi2",
+      "filename_banner": "UI_NameCardPic_Xumi2_Alpha",
+      "filename_background": "UI_NameCardPic_Xumi2_P"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 210101,
+    "name": "Thoma: Blazing Guard",
+    "description": "Namecard style.\nBlazing armor, flaming guards.",
+    "sortOrder": 210101,
+    "source": [
+      "Reward for reaching Friendship 10 with Thoma"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Tohma",
+      "filename_banner": "UI_NameCardPic_Tohma_Alpha",
+      "filename_background": "UI_NameCardPic_Tohma_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210124,
+    "name": "Tighnari: Dew-Kissed",
+    "description": "Namecard style.\nTighnari takes good care of his big, fluffy tail. The essential oil he uses was extracted from flowers and mixed together meticulously. It gives off a faint, calming scent.",
+    "sortOrder": 210124,
+    "source": [
+      "Reward for reaching Friendship 10 with Tighnari"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Tighnari",
+      "filename_banner": "UI_NameCardPic_Tighnari_Alpha",
+      "filename_background": "UI_NameCardPic_Tighnari_P"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 210194,
+    "name": "Travel Notes: Arcane Amassing",
+    "description": "Namecard style.\nAlchemy is a discipline that studies the conversion from one substance to another, but using alchemy to make potions reduces the quality by a drop. I don't know, perhaps that missing drop is converted into making everyone's mood a bit lighter.",
+    "sortOrder": 210194,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp31",
+      "filename_banner": "UI_NameCardPic_Bp31_Alpha",
+      "filename_background": "UI_NameCardPic_Bp31_P"
+    },
+    "version": "4.5"
+  },
+  {
+    "id": 210154,
+    "name": "Travel Notes: Artful Intent",
+    "description": "Namecard style.\nIt is said that experiencing true love is like seeing a ghost. Most folks speak of both as hearsay, but true witnesses remain few and far between. That said, since even ghosts can manifest here, perhaps true love is also waiting right around the next corner.",
+    "sortOrder": 210154,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp22",
+      "filename_banner": "UI_NameCardPic_Bp22_P_Alpha",
+      "filename_background": "UI_NameCardPic_Bp22_P"
+    },
+    "version": "3.5"
+  },
+  {
+    "id": 210113,
+    "name": "Travel Notes: Awakening",
+    "description": "Namecard style.\nThe three realms quake, heaven and earth awaken. The Sangacorexes, too, rise again from their eternal slumber.",
+    "sortOrder": 210113,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp13",
+      "filename_banner": "UI_NameCardPic_Bp13_P_Alpha",
+      "filename_background": "UI_NameCardPic_Bp13_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210123,
+    "name": "Travel Notes: Azure Main",
+    "description": "Namecard style.\nYears have gone by, and you wake from an old dream. Inside the keepsake shell, lingers the blue ocean of those summer days.",
+    "sortOrder": 210123,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp16",
+      "filename_banner": "UI_NameCardPic_Bp16_P_Alpha",
+      "filename_background": "UI_NameCardPic_Bp16_P"
+    },
+    "version": "2.8"
+  },
+  {
+    "id": 210243,
+    "name": "Travel Notes: Balletica",
+    "description": "Namecard style.\nScript supervisors perform a vital role. They record every detail of each scene to ensure continuity. Thinking about it, you're the best script supervisor there is — you already remember everything.",
+    "sortOrder": 210243,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp41",
+      "filename_banner": "UI_NameCardPic_Bp41_Alpha",
+      "filename_background": "UI_NameCardPic_Bp41_P"
+    },
+    "version": "5.6"
+  },
+  {
+    "id": 210265,
+    "name": "Travel Notes: Blazing Snow",
+    "description": "Namecard style.\nWhen braving wind, snow, and rain, what truly matters isn't sheer bravery alone, but the careful discernment to find the right path forward.",
+    "sortOrder": 210265,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp46",
+      "filename_banner": "UI_NameCardPic_Bp46_Alpha",
+      "filename_background": "UI_NameCardPic_Bp46_P"
+    },
+    "version": "6.2"
+  },
+  {
+    "id": 210240,
+    "name": "Travel Notes: Blooming Glory",
+    "description": "Namecard style.\nWe learn to fight through play and pursuit, to stand firm through wounds and hardship, and with that strength, set forth for the very limits of the world.",
+    "sortOrder": 210240,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp40",
+      "filename_banner": "UI_NameCardPic_Bp40_Alpha",
+      "filename_background": "UI_NameCardPic_Bp40_P"
+    },
+    "version": "5.5"
+  },
+  {
+    "id": 210262,
+    "name": "Travel Notes: Bygone Ruins",
+    "description": "Namecard style.\nHidden beyond time and veiled in eternal shadow, the one who embraces the silent spring of dreams with riddles awaits the world's answer in the wake of a falling star.",
+    "sortOrder": 210262,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp45",
+      "filename_banner": "UI_NameCardPic_Bp45_Alpha",
+      "filename_background": "UI_NameCardPic_Bp45_P"
+    },
+    "version": "6.1"
+  },
+  {
+    "id": 210002,
+    "name": "Travel Notes: Catch the Wind",
+    "description": "Namecard style.\nThe most difficult part of writing a travel journal is coming up with the beginning.",
+    "sortOrder": 210002,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp1",
+      "filename_banner": "UI_NameCardPic_Bp1_Alpha",
+      "filename_background": "UI_NameCardPic_Bp1_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210055,
+    "name": "Travel Notes: Chalk",
+    "description": "Namecard style.\nRemember to keep warm when setting foot on the mountain.",
+    "sortOrder": 210055,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp3",
+      "filename_banner": "UI_NameCardPic_Bp3_P_Alpha",
+      "filename_background": "UI_NameCardPic_Bp3_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210161,
+    "name": "Travel Notes: Crown of Glory",
+    "description": "Namecard style.\n\"Knowledge serves as the crown of time, and reminiscence is bound to the time we shared as one.\"",
+    "sortOrder": 210161,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp23",
+      "filename_banner": "UI_NameCardPic_Bp23_Alpha",
+      "filename_background": "UI_NameCardPic_Bp23_P"
+    },
+    "version": "3.6"
+  },
+  {
+    "id": 210121,
+    "name": "Travel Notes: Divine Will",
+    "description": "Namecard style.\n\"Once upon a time, loyal souls did scatter east and west like swan geese.\" \"Today I light my lantern, that they may not lose their way.\"",
+    "sortOrder": 210121,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp15",
+      "filename_banner": "UI_NameCardPic_Bp15_P_Alpha",
+      "filename_background": "UI_NameCardPic_Bp15_P"
+    },
+    "version": "2.7"
+  },
+  {
+    "id": 210251,
+    "name": "Travel Notes: Easy Breezy",
+    "description": "Namecard style.\nTime floats easy, light and free. You sway so breezy, just let it be. No rush to go, no need to know — just pick a poem and go with the flow.",
+    "sortOrder": 210251,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp43",
+      "filename_banner": "UI_NameCardPic_Bp43_Alpha",
+      "filename_background": "UI_NameCardPic_Bp43_P"
+    },
+    "version": "5.8"
+  },
+  {
+    "id": 210042,
+    "name": "Travel Notes: Fading Star",
+    "description": "Namecard style.\nSo long as there is still desire left in your heart, when you hold your head high you will see that which glitters but is not light.",
+    "sortOrder": 210042,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp2",
+      "filename_banner": "UI_NameCardPic_Bp2_Alpha",
+      "filename_background": "UI_NameCardPic_Bp2_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210176,
+    "name": "Travel Notes: Falling Star",
+    "description": "Namecard style.\nMake a wish before you toss the arrow. If you manage to get it into the pot, who knows — your wish just might come true.",
+    "sortOrder": 210176,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp27",
+      "filename_banner": "UI_NameCardPic_Bp27_Alpha",
+      "filename_background": "UI_NameCardPic_Bp27_P"
+    },
+    "version": "4.1"
+  },
+  {
+    "id": 210206,
+    "name": "Travel Notes: Fanciful Fabrication",
+    "description": "Namecard style.\nWood is processed into paper, and paper is folded into trees. All who are of folded paper shelter a true self within a falsehood.",
+    "sortOrder": 210206,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp34",
+      "filename_banner": "UI_NameCardPic_Bp34_Alpha",
+      "filename_background": "UI_NameCardPic_Bp34_P"
+    },
+    "version": "4.8"
+  },
+  {
+    "id": 210110,
+    "name": "Travel Notes: Flowing Hues",
+    "description": "Namecard style.\nThe luxurious colors flow past — all things are renewed.",
+    "sortOrder": 210110,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp12",
+      "filename_banner": "UI_NameCardPic_Bp12_P_Alpha",
+      "filename_background": "UI_NameCardPic_Bp12_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210142,
+    "name": "Travel Notes: Fungus Land",
+    "description": "Namecard style.\n\"Traveler, there is no need to grieve, for the wind at dawn will blow the fungal spores carrying beautiful dreams to the fields that contain your hopes...\"",
+    "sortOrder": 210142,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp19",
+      "filename_banner": "UI_NameCardPic_Bp19_Alpha",
+      "filename_background": "UI_NameCardPic_Bp19_P"
+    },
+    "version": "3.2"
+  },
+  {
+    "id": 210283,
+    "name": "Travel Notes: Gift of Splendor",
+    "description": "Namecard style.\nA gift box is meant to stir up anticipation. But these little ones were never going to stop there — what's inside is nothing less than a beyond-expectations surprise!",
+    "sortOrder": 210283,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp50",
+      "filename_banner": "UI_NameCardPic_Bp50_Alpha",
+      "filename_background": "UI_NameCardPic_Bp50_P"
+    },
+    "version": "6.6"
+  },
+  {
+    "id": 210259,
+    "name": "Travel Notes: Glacial Moon",
+    "description": "Namecard style.\nThe moon's shadow stretches like a sea of ice, across which we journey. Amid shattered isles, the lost once longed deeply for a... new savior.",
+    "sortOrder": 210259,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp44",
+      "filename_banner": "UI_NameCardPic_Bp44_Alpha",
+      "filename_background": "UI_NameCardPic_Bp44_P"
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 210080,
+    "name": "Travel Notes: Grand Narukami Shrine",
+    "description": "Namecard style.\nThe sakura of Mt. Yougou symbolizes the Grand Narukami Shrine.",
+    "sortOrder": 210080,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp8",
+      "filename_banner": "UI_NameCardPic_Bp8_Alpha",
+      "filename_background": "UI_NameCardPic_Bp8_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210102,
+    "name": "Travel Notes: Heavenly General",
+    "description": "Namecard style.\n\"You were not created to punish evil. But as to what your purpose is... I fear that I, too, do not know.\"",
+    "sortOrder": 210102,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp10",
+      "filename_banner": "UI_NameCardPic_Bp10_Alpha",
+      "filename_background": "UI_NameCardPic_Bp10_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210278,
+    "name": "Travel Notes: Homecoming",
+    "description": "Namecard style.\nEverything in this world holds its own past and its own secrets. Tell me, can you see the lingering gaze of those who once cherished these artifacts?",
+    "sortOrder": 210278,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp49",
+      "filename_banner": "UI_NameCardPic_Bp49_Alpha",
+      "filename_background": "UI_NameCardPic_Bp49_P"
+    },
+    "version": "6.5"
+  },
+  {
+    "id": 210118,
+    "name": "Travel Notes: Irodori",
+    "description": "Namecard style.\nThose who share a hobby are known as a group as \"fans.\" Best come up with those stories, everyone, before the kitsune editor-in-chief dreams up copyright law... Or perhaps she has already dreamed it up, but does not altogether mind?",
+    "sortOrder": 210118,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp14",
+      "filename_banner": "UI_NameCardPic_Bp14_P_Alpha",
+      "filename_background": "UI_NameCardPic_Bp14_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210272,
+    "name": "Travel Notes: Lanternlit Ode",
+    "description": "Namecard style.\nPray for me a bright moon, wish me a fair day. Clad in my spring cloak, I follow moonbeams' sway.",
+    "sortOrder": 210272,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp47",
+      "filename_banner": "UI_NameCardPic_Bp47_Alpha",
+      "filename_background": "UI_NameCardPic_Bp47_P"
+    },
+    "version": "6.3"
+  },
+  {
+    "id": 210106,
+    "name": "Travel Notes: Lyratum",
+    "description": "Namecard.\nOnly this flower remains on the heights where all trees have withered.",
+    "sortOrder": 210106,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp11",
+      "filename_banner": "UI_NameCardPic_Bp11_Alpha",
+      "filename_background": "UI_NameCardPic_Bp11_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210074,
+    "name": "Travel Notes: Midsummer",
+    "description": "Namecard style.\nIt's adventure time!",
+    "sortOrder": 210074,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp7",
+      "filename_banner": "UI_NameCardPic_Bp7_Alpha",
+      "filename_background": "UI_NameCardPic_Bp7_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210060,
+    "name": "Travel Notes: Mingxiao",
+    "description": "Namecard style.\nWhen everyone's wishes are gathered together, they can light up the long night.",
+    "sortOrder": 210060,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp4",
+      "filename_banner": "UI_NameCardPic_Bp4_Alpha",
+      "filename_background": "UI_NameCardPic_Bp4_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210096,
+    "name": "Travel Notes: Moonchaser",
+    "description": "Namecard style.\nMay the moonlight wash over you, O pursuer!",
+    "sortOrder": 210096,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp9",
+      "filename_banner": "UI_NameCardPic_Bp9_Alpha",
+      "filename_background": "UI_NameCardPic_Bp9_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210274,
+    "name": "Travel Notes: Northerly Winds",
+    "description": "Namecard style.\nIt was something the wind could bring from the north: a hint of cold, the last faint scent of the flowers before they would fall from their perches, and the news that a traveler from afar would soon return.",
+    "sortOrder": 210274,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp48",
+      "filename_banner": "UI_NameCardPic_Bp48_Alpha",
+      "filename_background": "UI_NameCardPic_Bp48_P"
+    },
+    "version": "6.4"
+  },
+  {
+    "id": 210217,
+    "name": "Travel Notes: Primal Fire",
+    "description": "Namecard style.\nBut why green, brown, and purple? Shouldn't the first companions we meet be red, green, and blue, or... yellow?",
+    "sortOrder": 210217,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp35",
+      "filename_banner": "UI_NameCardPic_Bp35_Alpha",
+      "filename_background": "UI_NameCardPic_Bp35_P"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 210173,
+    "name": "Travel Notes: Primordial Waters",
+    "description": "Namecard style.\nTimepieces accompany the tranquil passing of the years, as fish accompany the swirling of the clear waters of the font. If all that is must one day wither, why is my yearning as clear as ever?",
+    "sortOrder": 210173,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp26",
+      "filename_banner": "UI_NameCardPic_Bp26_Alpha",
+      "filename_background": "UI_NameCardPic_Bp26_P"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 210133,
+    "name": "Travel Notes: Returning Winds",
+    "description": "Namecard style.\nThe years come and go. Only remembrance and the winds that return do not change.",
+    "sortOrder": 210133,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp18",
+      "filename_banner": "UI_NameCardPic_Bp18_P_Alpha",
+      "filename_background": "UI_NameCardPic_Bp18_P"
+    },
+    "version": "3.1"
+  },
+  {
+    "id": 210150,
+    "name": "Travel Notes: Rhythm and Rhyme",
+    "description": "Namecard style.\nWith magnificent sunglow sheds light on the night sky, chimes are orchestrated to celebrate the bygone year. The gilded palaces are adorned with beaded curtains, the railings painted silver by bright moonlight, and the feasts brimmed with jolly singing and dances. Is that flowers or fireworks? A wealth of instruments plays in unison, harmonious and pleasant.",
+    "sortOrder": 210150,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp21",
+      "filename_banner": "UI_NameCardPic_Bp21_P_Alpha",
+      "filename_background": "UI_NameCardPic_Bp21_P"
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 210220,
+    "name": "Travel Notes: Sabzeruz",
+    "description": "Namecard style.\n\"Twelve moons and twelve more, new memories will grow.\"",
+    "sortOrder": 210220,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp36",
+      "filename_banner": "UI_NameCardPic_Bp36_Alpha",
+      "filename_background": "UI_NameCardPic_Bp36_P"
+    },
+    "version": "5.1"
+  },
+  {
+    "id": 210163,
+    "name": "Travel Notes: Secrets",
+    "description": "Namecard style.\nNever forget the time you once spent with games and good friends. Never forget what it feels like to have no worries about the future.",
+    "sortOrder": 210163,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp24",
+      "filename_banner": "UI_NameCardPic_Bp24_Alpha",
+      "filename_background": "UI_NameCardPic_Bp24_P"
+    },
+    "version": "3.7"
+  },
+  {
+    "id": 210204,
+    "name": "Travel Notes: Simulnation",
+    "description": "Namecard style.\n\"Victory is but a mere trick of the player's imagination. Silence is the chessboard's true endgame. As such, the one virtuous deed is to play, and to forfeit is the sole sin.\" \"Hey, why don't you play a few less wargames?\"",
+    "sortOrder": 210204,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp33",
+      "filename_banner": "UI_NameCardPic_Bp33_Alpha",
+      "filename_background": "UI_NameCardPic_Bp33_P"
+    },
+    "version": "4.7"
+  },
+  {
+    "id": 210247,
+    "name": "Travel Notes: Speculation",
+    "description": "Namecard style.\nShould chess pieces ever grow minds of their own, could they too force their players into awkward zugzwang?",
+    "sortOrder": 210247,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp42",
+      "filename_banner": "UI_NameCardPic_Bp42_Alpha",
+      "filename_background": "UI_NameCardPic_Bp42_P"
+    },
+    "version": "5.7"
+  },
+  {
+    "id": 210225,
+    "name": "Travel Notes: Spiritweaver",
+    "description": "Namecard style.\nThe reason that the Masters of the Night-Wind are able to record stories in their scrolls is very simple — that everything in this world has its warp and weft. All that has been is no less than the very fabric of existence.",
+    "sortOrder": 210225,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp37",
+      "filename_banner": "UI_NameCardPic_Bp37_Alpha",
+      "filename_background": "UI_NameCardPic_Bp37_P"
+    },
+    "version": "5.2"
+  },
+  {
+    "id": 210146,
+    "name": "Travel Notes: Stellar Rivers",
+    "description": "Namecard style.\nForgotten is the name of the ancient feast, scattered are the three rivers amongst a plumage of clouds, and across the curve of twilight does autumn yet linger.",
+    "sortOrder": 210146,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp20",
+      "filename_banner": "UI_NameCardPic_Bp20_Alpha",
+      "filename_background": "UI_NameCardPic_Bp20_P"
+    },
+    "version": "3.3"
+  },
+  {
+    "id": 210071,
+    "name": "Travel Notes: Sub-Space Recreation",
+    "description": "Namecard style.\nHow many nights have you spent with a stone for your pillow?",
+    "sortOrder": 210071,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp6",
+      "filename_banner": "UI_NameCardPic_Bp6_Alpha",
+      "filename_background": "UI_NameCardPic_Bp6_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210286,
+    "name": "Travel Notes: Sunny Summer",
+    "description": "Namecard style.\nSometimes, it's okay to go with the flow. Let go of your exhaustion and worries, and allow things to unfold as they will. Like waking from a long dream, you may find the world there, ready to embrace you in our place.",
+    "sortOrder": 210286,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp51",
+      "filename_banner": "UI_NameCardPic_Bp51_Alpha",
+      "filename_background": "UI_NameCardPic_Bp51_P"
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 210232,
+    "name": "Travel Notes: The Flame Renewed",
+    "description": "Namecard style.\nThe spring comes on sure, and old peach wood charms must be burned. Raise your cups of herbal wine in toast, then exchange those old talismans for new ones.",
+    "sortOrder": 210232,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp38",
+      "filename_banner": "UI_NameCardPic_Bp38_Alpha",
+      "filename_background": "UI_NameCardPic_Bp38_P"
+    },
+    "version": "5.3"
+  },
+  {
+    "id": 210199,
+    "name": "Travel Notes: The Realms Rocked",
+    "description": "Namecard style.\n\"The world does not love its children. If not, why chase them into the next one?\" \"What do you know? Maybe that one rocks even harder.\"",
+    "sortOrder": 210199,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_GreatFestivalV2",
+      "filename_banner": "UI_NameCardPic_GreatFestivalV2_Alpha",
+      "filename_background": "UI_NameCardPic_GreatFestivalV2_P"
+    },
+    "version": "4.6"
+  },
+  {
+    "id": 210186,
+    "name": "Travel Notes: Time Inscribed",
+    "description": "Namecard style.\nWho knows how long it shall take before film in Teyvat will advance to the point of reinventing the art of \"carving time\"? Still, this scene has indeed frozen the sinful past.",
+    "sortOrder": 210186,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp29",
+      "filename_banner": "UI_NameCardPic_Bp29_Alpha",
+      "filename_background": "UI_NameCardPic_Bp29_P"
+    },
+    "version": "4.3"
+  },
+  {
+    "id": 210191,
+    "name": "Travel Notes: Vibrant Harriers",
+    "description": "Namecard style.\nHarriers and cranes come early in spring. Let the wind rise and the kites soar.",
+    "sortOrder": 210191,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp30",
+      "filename_banner": "UI_NameCardPic_Bp30_Alpha",
+      "filename_background": "UI_NameCardPic_Bp30_P"
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 210164,
+    "name": "Travel Notes: Vivid Illumination",
+    "description": "Namecard style\nWho knows? Perhaps the phantasmal light that only exists on the other side of this transparent glass can ever so slightly brighten up the world on this one.",
+    "sortOrder": 210164,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp25",
+      "filename_banner": "UI_NameCardPic_Bp25_Alpha",
+      "filename_background": "UI_NameCardPic_Bp25_P"
+    },
+    "version": "3.8"
+  },
+  {
+    "id": 210183,
+    "name": "Travel Notes: Whirling Waltz",
+    "description": "Namecard style.\nEven if the clockwork stops ticking, even if the puppets stop stepping forward. Though our memories be frozen eternally as coral, do not forget our adventures and the time we spent together.",
+    "sortOrder": 210183,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp28",
+      "filename_banner": "UI_NameCardPic_Bp28_Alpha",
+      "filename_background": "UI_NameCardPic_Bp28_P"
+    },
+    "version": "4.2"
+  },
+  {
+    "id": 210064,
+    "name": "Travel Notes: Windblume",
+    "description": "Namecard style.\nWho has seen the wind? Neither you nor I. Nor has anyone ever seen love, till a bouquet comes flying by.",
+    "sortOrder": 210064,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp5",
+      "filename_banner": "UI_NameCardPic_Bp5_Alpha",
+      "filename_background": "UI_NameCardPic_Bp5_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210235,
+    "name": "Travel Notes: Wondrous Reverie",
+    "description": "Namecard style.\nAs flowers bloom and distant songs fade, faint traces of dreams remain.",
+    "sortOrder": 210235,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp39",
+      "filename_banner": "UI_NameCardPic_Bp39_Alpha",
+      "filename_background": "UI_NameCardPic_Bp39_P"
+    },
+    "version": "5.4"
+  },
+  {
+    "id": 210127,
+    "name": "Travel Notes: Woodlands",
+    "description": "Namecard style.\nBeneath the tranquil moon and inside the deep valley grows blooming roses. 'Tis a paradise with your presence.",
+    "sortOrder": 210127,
+    "source": [
+      "BP Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Bp17",
+      "filename_banner": "UI_NameCardPic_Bp17_P_Alpha",
+      "filename_background": "UI_NameCardPic_Bp17_P"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 210236,
+    "name": "Varesa: Powerhouse",
+    "description": "Namecard style.\nWhat could possibly be the secret to her immense strength? D'you think it's got something to do with her nigh-on insatiable appetite...?",
+    "sortOrder": 210236,
+    "source": [
+      "Reward for reaching Friendship 10 with Varesa"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Varesa",
+      "filename_banner": "UI_NameCardPic_Varesa_Alpha",
+      "filename_background": "UI_NameCardPic_Varesa_P"
+    },
+    "version": "5.5"
+  },
+  {
+    "id": 210273,
+    "name": "Varka: Lead Wolf",
+    "description": "Namecard style.\nThe pack of wolves chased the northern wind, but only the leader knew that the wind had already begun swirling at their paws the moment they started running.",
+    "sortOrder": 210273,
+    "source": [
+      "Reward for reaching Friendship Lv. 10 with Varka."
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Varka",
+      "filename_banner": "UI_NameCardPic_Varka_Alpha",
+      "filename_background": "UI_NameCardPic_Varka_P"
+    },
+    "version": "6.4"
+  },
+  {
+    "id": 210007,
+    "name": "Venti: Azure Sky",
+    "description": "Namecard style.\nThe bright blue of a cloudless sky and the melodious tone of Der Frühling complement each other perfectly.",
+    "sortOrder": 210007,
+    "source": [
+      "Reward for reaching Friendship 10 with Venti"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Venti",
+      "filename_banner": "UI_NameCardPic_Venti_Alpha",
+      "filename_background": "UI_NameCardPic_Venti_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210143,
+    "name": "Wanderer: Drifter's Ballad",
+    "description": "Namecard style.\nIn a world most transient does the past hide, and in the whims of flowing flowers does thin snow abide.",
+    "sortOrder": 210143,
+    "source": [
+      "Reward for reaching Friendship 10 with the Wanderer"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Wanderer",
+      "filename_banner": "UI_NameCardPic_Wanderer_Alpha",
+      "filename_background": "UI_NameCardPic_Wanderer_P"
+    },
+    "version": "3.3"
+  },
+  {
+    "id": 210175,
+    "name": "Wriothesley: Detention",
+    "description": "Namecard style.\nMaintaining order at the Fortress of Meropide is no simple affair. As such, a deft and sometimes firm hand is needed — along with a small pinch of truly regrettable cruelty.",
+    "sortOrder": 210175,
+    "source": [
+      "Reward for reaching Friendship 10 with Wriothesley"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Wriothesley",
+      "filename_banner": "UI_NameCardPic_Wriothesley_Alpha",
+      "filename_background": "UI_NameCardPic_Wriothesley_P"
+    },
+    "version": "4.1"
+  },
+  {
+    "id": 210017,
+    "name": "Xiangling: Fresh from the Pan",
+    "description": "Namecard style.\nTry saying this three times fast: \"Guoba sears sea snails by Liyue's sea shore.\"",
+    "sortOrder": 210017,
+    "source": [
+      "Reward for reaching Friendship 10 with Xiangling"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Xiangling",
+      "filename_banner": "UI_NameCardPic_Xiangling_Alpha",
+      "filename_background": "UI_NameCardPic_Xiangling_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210187,
+    "name": "Xianyun: White Clouds",
+    "description": "Namecard style.\nThose who the truth tell, commuted shall their sentence be. Be honest. When Cloud Retainer asked you, \"Do you perceive one as merely some larger bird?\", did you also append the thoughts, \"Yes, and you talk, and fiddle with funny machines\"?",
+    "sortOrder": 210187,
+    "source": [
+      "Reward for reaching Friendship Lv. 10 with Xianyun."
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Liuyun",
+      "filename_banner": "UI_NameCardPic_Liuyun_Alpha",
+      "filename_background": "UI_NameCardPic_Liuyun_P"
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 210058,
+    "name": "Xiao: Mask",
+    "description": "Namecard style.\nHe longs for a day to come when he will wear the mask and dance — not to conquer demons, but to the tune of that flute amid a sea of flowers.",
+    "sortOrder": 210058,
+    "source": [
+      "Reward for reaching Friendship 10 with Xiao"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Xiao",
+      "filename_banner": "UI_NameCardPic_Xiao_Alpha",
+      "filename_background": "UI_NameCardPic_Xiao_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210219,
+    "name": "Xilonen: Cue Point",
+    "description": "Namecard style.\nRight on cue, the mountains echo with the rhythm of Xilonen's forge-hammer. When the final echo fades, she has already long ceased her toil and found a sunlit spot for her afternoon nap.",
+    "sortOrder": 210219,
+    "source": [
+      "Reward for reaching Friendship 10 with Xilonen"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Xilonen",
+      "filename_banner": "UI_NameCardPic_Xilonen_Alpha",
+      "filename_background": "UI_NameCardPic_Xilonen_P"
+    },
+    "version": "5.1"
+  },
+  {
+    "id": 210018,
+    "name": "Xingqiu: Rainbow",
+    "description": "Namecard style.\nCome watch the night rain that brings no rainbow.",
+    "sortOrder": 210018,
+    "source": [
+      "Reward for reaching Friendship 10 with Xingqiu"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Xingqiu",
+      "filename_banner": "UI_NameCardPic_Xingqiu_Alpha",
+      "filename_background": "UI_NameCardPic_Xingqiu_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210045,
+    "name": "Xinyan: Song's End",
+    "description": "Namecard style.\nXinyan only has time to examine her instrument carefully after the performance is over. Even in silence, it is a beauty.",
+    "sortOrder": 210045,
+    "source": [
+      "Reward for reaching Friendship 10 with Xinyan"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardPic_Xinyan",
+      "filename_banner": "UI_NameCardPic_Xinyan_Alpha",
+      "filename_background": "UI_NameCardPic_Xinyan_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210112,
+    "name": "Yae Miko: Kitsune Dreaming",
+    "description": "Namecard style.\nWhere can Yae Miko's fox form be found? In your dreams, that's where.",
+    "sortOrder": 210112,
+    "source": [
+      "Reward for reaching Friendship Lv. 10 with Yae Miko"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Yae1",
+      "filename_banner": "UI_NameCardPic_Yae1_Alpha",
+      "filename_background": "UI_NameCardPic_Yae1_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210069,
+    "name": "Yanfei: Impartial",
+    "description": "Namecard style.\nJustice, signed in scarlet.",
+    "sortOrder": 210069,
+    "source": [
+      "Reward for reaching Friendship Lv. 10 with Yanfei"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Feiyan",
+      "filename_banner": "UI_NameCardPic_Feiyan_Alpha",
+      "filename_background": "UI_NameCardPic_Feiyan_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210148,
+    "name": "Yaoyao: Yuegui",
+    "description": "Namecard style.\n\"Can you guess which one here is Yuegui? That's right, all of them are!\"",
+    "sortOrder": 210148,
+    "source": [
+      "Reward for reaching Friendship 10 with Yaoyao"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Yaoyao",
+      "filename_banner": "UI_NameCardPic_Yaoyao_Alpha",
+      "filename_background": "UI_NameCardPic_Yaoyao_P"
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 210119,
+    "name": "Yelan: Throw",
+    "description": "Namecard style.\n\"Dice are always quite hard to make 'fair.' That goes double for dice with shoddier workmanship. The weighting on each numbered side will almost certainly be unbalanced.\"",
+    "sortOrder": 210119,
+    "source": [
+      "Reward for reaching Friendship 10 with Yelan"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Yelan",
+      "filename_banner": "UI_NameCardPic_Yelan_Alpha",
+      "filename_background": "UI_NameCardPic_Yelan_P"
+    },
+    "version": "2.7"
+  },
+  {
+    "id": 210082,
+    "name": "Yoimiya: Auratus Spark",
+    "description": "Namecard style.\nEven momentary sparks can leave beautiful, unquenchable flames in the hearts of those who watch the night sky.",
+    "sortOrder": 210082,
+    "source": [
+      "Reward for reaching Friendship 10 with Yoimiya"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Yoimiya",
+      "filename_banner": "UI_NameCardPic_Yoimiya_Alpha",
+      "filename_background": "UI_NameCardPic_Yoimiya_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210233,
+    "name": "Yumemizuki Mizuki: Nightmare Devourer",
+    "description": "Namecard style.\nThe yumekui-baku consume nightmares and leave only pleasant dreams. But what if dreams are to be understood in reverse? Faced with such conjecture, her warm-natured response: A truly beautiful dream, even if turned upside down through reality's lens, would still remain beautiful.",
+    "sortOrder": 210233,
+    "source": [
+      "Reward for reaching Friendship 10 with Yumemizuki Mizuki"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Mizuki",
+      "filename_banner": "UI_NameCardPic_Mizuki_Alpha",
+      "filename_background": "UI_NameCardPic_Mizuki_P"
+    },
+    "version": "5.4"
+  },
+  {
+    "id": 210108,
+    "name": "Yun Jin: Rhyme",
+    "description": "Namecard style.\nMs. Yun has two sorts of teachers. The critics of her onstage performances are one, and the books on rhyme she references while writing are the other.",
+    "sortOrder": 210108,
+    "source": [
+      "Reward for reaching Friendship Lv. 10 with Yun Jin"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Yunjin",
+      "filename_banner": "UI_NameCardPic_Yunjin_Alpha",
+      "filename_background": "UI_NameCardPic_Yunjin_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210044,
+    "name": "Zhongli: Planet Befall",
+    "description": "Namecard style.\nStars fall, light dims.",
+    "sortOrder": 210044,
+    "source": [
+      "Reward for reaching Friendship 10 with Zhongli"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Zhongli",
+      "filename_banner": "UI_NameCardPic_Zhongli_Alpha",
+      "filename_background": "UI_NameCardPic_Zhongli_P"
+    },
+    "version": ""
+  },
+  {
+    "id": 210268,
+    "name": "Zibai: Veiled Vista",
+    "description": "Namecard style.\nHeaven and earth are but a wayfarer's lodge, and time a wanderer passing through the ages.",
+    "sortOrder": 210268,
+    "source": [
+      "Reward for reaching Friendship Lv. 10 with Zibai"
+    ],
+    "images": {
+      "filename_icon": "UI_NameCardIcon_Zibai",
+      "filename_banner": "UI_NameCardPic_Zibai_Alpha",
+      "filename_background": "UI_NameCardPic_Zibai_P"
+    },
+    "version": "6.3"
+  }
+]

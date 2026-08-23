@@ -1,9 +1,11 @@
-
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { SafeImage } from "@/components/SafeImage";
+import { SectionHeading } from "@/components/SectionHeading";
 import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
+import { Breadcrumb } from "@/components/Breadcrumb";
+import { rarityColorVar } from "@/lib/theme";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -31,9 +33,7 @@ function resolvePieceImage(val: unknown): string | null {
   if (typeof val === "string") return val || null;
   if (val && typeof val === "object") {
     const filename = (val as Record<string, unknown>).filename;
-    if (typeof filename === "string" && filename) {
-      return `https://enka.network/ui/${filename}.png`;
-    }
+    if (typeof filename === "string" && filename) return `https://enka.network/ui/${filename}.png`;
   }
   return null;
 }
@@ -52,68 +52,77 @@ export default async function ArtifactDetail({ params }: PageProps) {
   if (!a) return notFound();
 
   const pieces = (a.pieces as Record<string, unknown>) ?? {};
+  const maxRarity = Math.max(...(a.rarityRange as number[]), 4);
+  const rc = rarityColorVar(maxRarity);
+
+  const breadcrumbItems = [
+    { name: "LEIBO", path: "/" },
+    { name: "Thánh di vật", path: "/artifacts" },
+    { name: a.name, path: `/artifacts/${a.id}` },
+  ];
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <BreadcrumbJsonLd
-        items={[
-          { name: "LEIBO", path: "/" },
-          { name: "Thánh di vật", path: "/artifacts" },
-          { name: a.name, path: `/artifacts/${a.id}` },
-        ]}
-      />
-      <div className="flex flex-col sm:flex-row gap-6 mb-8">
-        {a.iconUrl && (
-          <div className="relative w-40 h-40 rounded-xl border border-border bg-card shrink-0">
-            <SafeImage
-              src={a.iconUrl}
-              alt={a.name}
-              fill
-              sizes="160px"
-              className="object-contain p-2"
-              fallbackClassName="w-full h-full flex items-center justify-center text-muted text-[10px]"
-            />
+      <BreadcrumbJsonLd items={breadcrumbItems} />
+      <Breadcrumb items={breadcrumbItems} />
+
+      <div className="surface-card overflow-hidden mb-10" style={{ borderTop: `2.5px solid ${rc}` }}>
+        <div className="p-6 flex flex-col sm:flex-row gap-6">
+          {a.iconUrl && (
+            <div
+              className="relative w-40 h-40 rounded-xl bg-bg-elevated shrink-0"
+              style={{ border: `1px solid color-mix(in srgb, ${rc} 35%, var(--border-color))` }}
+            >
+              <SafeImage
+                src={a.iconUrl}
+                alt={a.name}
+                fill
+                sizes="160px"
+                className="object-contain p-3"
+                fallbackClassName="w-full h-full flex items-center justify-center text-text-muted text-[10px]"
+              />
+            </div>
+          )}
+          <div className="flex flex-col justify-center">
+            <span className="text-eyebrow mb-2" style={{ color: rc }}>Bộ thánh di vật</span>
+            <h1 className="font-display text-display-2 font-semibold text-text-primary mb-2">{a.name}</h1>
+            <p className="text-sm font-semibold" style={{ color: rc }}>{a.rarityRange.join("/")}★</p>
           </div>
-        )}
-        <div>
-          <h1 className="text-3xl font-bold text-gold-bright">{a.name}</h1>
-          <p className="text-sm text-muted mb-4">{a.rarityRange.join("/")}★</p>
         </div>
       </div>
 
-      <section className="mb-8 space-y-3">
+      <section className="mb-10 space-y-3">
         {a.onePieceBonus && (
-          <div className="border border-border rounded-lg p-3 bg-card">
-            <div className="font-medium text-primary">Hiệu ứng 1 món</div>
-            <p className="text-sm text-secondary">{a.onePieceBonus}</p>
+          <div className="surface-card p-4">
+            <div className="font-semibold text-text-primary mb-1">Hiệu ứng 1 món</div>
+            <p className="text-sm text-text-secondary leading-relaxed">{a.onePieceBonus}</p>
           </div>
         )}
         {a.twoPieceBonus && (
-          <div className="border border-border rounded-lg p-3 bg-card">
-            <div className="font-medium text-primary">Hiệu ứng 2 món</div>
-            <p className="text-sm text-secondary">{a.twoPieceBonus}</p>
+          <div className="surface-card p-4">
+            <div className="font-semibold text-text-primary mb-1">Hiệu ứng 2 món</div>
+            <p className="text-sm text-text-secondary leading-relaxed">{a.twoPieceBonus}</p>
           </div>
         )}
         {a.fourPieceBonus && (
-          <div className="border border-border rounded-lg p-3 bg-card">
-            <div className="font-medium text-primary">Hiệu ứng 4 món</div>
-            <p className="text-sm text-secondary">{a.fourPieceBonus}</p>
+          <div className="surface-card p-4" style={{ borderColor: `color-mix(in srgb, ${rc} 30%, var(--border-color))` }}>
+            <div className="font-semibold mb-1" style={{ color: rc }}>Hiệu ứng 4 món</div>
+            <p className="text-sm text-text-secondary leading-relaxed">{a.fourPieceBonus}</p>
           </div>
         )}
       </section>
 
       <section>
-        <h2 className="font-display text-xl font-semibold mb-4 text-gold border-b border-border pb-2">Các món trong bộ</h2>
+        <SectionHeading elementColor={rc}>Các Món Trong Bộ</SectionHeading>
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 text-sm">
           {Object.entries(pieces).map(([key, val]) => {
             if (!val) return null;
-
             const imgUrl = resolvePieceImage(val);
             const pieceName = resolvePieceName(val, key);
 
             return (
-              <div key={key} className="border border-border rounded-xl p-4 bg-card flex flex-col items-center text-center group hover:border-gold transition-all">
-                <div className="relative w-16 h-16 mb-3 bg-secondary rounded-lg overflow-hidden flex items-center justify-center p-1 group-hover:scale-105 transition-transform">
+              <div key={key} className="surface-card p-4 flex flex-col items-center text-center group">
+                <div className="relative w-16 h-16 mb-3 bg-bg-elevated rounded-lg overflow-hidden flex items-center justify-center p-1 group-hover:scale-105 transition-transform">
                   {imgUrl ? (
                     <SafeImage
                       src={imgUrl}
@@ -121,14 +130,14 @@ export default async function ArtifactDetail({ params }: PageProps) {
                       fill
                       sizes="64px"
                       className="object-contain"
-                      fallbackClassName="w-full h-full flex items-center justify-center text-muted text-[10px]"
+                      fallbackClassName="w-full h-full flex items-center justify-center text-text-muted text-[10px]"
                     />
                   ) : (
-                    <div className="text-muted text-[10px]">No Image</div>
+                    <div className="text-text-muted text-[10px]">No Image</div>
                   )}
                 </div>
-                <div className="text-xs text-muted font-medium mb-1">{PIECE_LABELS[key] ?? key}</div>
-                <div className="font-semibold text-primary line-clamp-2 text-xs" title={pieceName}>
+                <div className="text-eyebrow mb-1">{PIECE_LABELS[key] ?? key}</div>
+                <div className="font-semibold text-text-primary line-clamp-2 text-xs" title={pieceName}>
                   {pieceName}
                 </div>
               </div>

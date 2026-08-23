@@ -1,0 +1,273 @@
+[
+  {
+    "id": 140004,
+    "name": "Wings of Azure Wind",
+    "description": "A stylized wind glider gifted to you as a mark of Mondstadt's acknowledgment and recognition.",
+    "rarity": 4,
+    "story": "\"A gust of wind would be really good just about now.\"\nThus sighed the adventurer trekking through the seemingly boundless wilderness.\nThe sounds of his lament ascended to the lofty children of the skies, who reside in the towering heavens above. One of the children, hearing the adventurer's plea, began to wonder how to bring the breeze to this person in need.\n\"It can be done, but you must set out from the shores in the east. You must then hike through the ravines of mountains and hills, and wend your way along the sandy banks of springs and rivers. Only after a journey of insurmountable distance will you finally reach him.\"\n\nSo it departed from the eastern shores, embarking on a journey of its own.\nAlong the way, it found some dandelion seeds that desired to travel, so it carried the seeds for a distance along the way.\nThen it met nestlings who had just hatched and desired to soar through the air, so it lifted their delicate wings.\nIt then happened upon some village elders who were too old to prepare grain for themselves, so it tarried for a while, spinning the sails of their windmills.\nAs it came to serve others and selflessly cared for the lands, it began to slowly materialize, gradually taking the form of a person.\nWhen it finally came to the end of its path and met the stranded adventurer,\nit was no longer the gust of wind that the adventurer had first hoped for.\n\n\"A gust of wind would be really good just about now.\"\nSo it then accompanied that first adventurer on his journey across the lands...\n\n— \"This is a lovely parable from a saint of the Church of Favonius. The moral of the story is to always be ready to help those in need and willing to serve others. In recognition of your kind and charitable deeds, I bestow upon you this wind glider.\"",
+    "source": [
+      "Reward for reaching a certain Reputation Level in Mondstadt"
+    ],
+    "images": {
+      "filename_icon": "UI_FlycloakIcon_Gale",
+      "filename_gacha": "UI_Gacha_FlycloakIcon_Gale"
+    },
+    "version": "1.1"
+  },
+  {
+    "id": 140002,
+    "name": "Wings of Companionship",
+    "description": "A stylized wind glider upon which is inscribed the wish to soar together.",
+    "rarity": 4,
+    "story": "Not all wings have the chance to soar.\nThere are birds in this world who have never learned to fly.\nThere are also some wind gliders that have never gone through quality assurance...\n\nLooking at your thoughtful expression, she seemed to have understood your concerns.\n\"Don't worry! No one's ever been hurt while testing a wind glider.\"\nShe continued on to explain that the only ones hurt had been wild boars and hilichurls.\nEven so, you felt just a bit sorry for those little lives that had been harmed so that you may soar over the land...\nBut you were slightly relieved, at least.\n\nShe went on to say:\n\"The ability of wind gliders to glide is reliant first and foremost on the blessing of the Anemo Archon.\"\n\"Of course, it's also been intertwined with human engineering...\"\n\nThough she never elaborated as to why she was collecting Anemo Sigils,\nBut perhaps because she was someone with an adventurer's blood and a merchant's heart,\nShe would grow exceedingly talkative when mentioning people who had an adventurous spirit.\nAccording to her, explorers had already begun experimenting with gliding devices thousands of years ago.\n\nYou clear your throat lightly, and she, a little abashed, continued to explain just what was so special about this wind glider.\nSome suspected that it might be too unusual to receive the Anemo Archon's blessing.\nAnd because the craftsman had that small amount of courage, they were also mocked by all, just like their beautiful creation.\nIt truly was unfair...\n\nBut you are also a brave person, are you not? One who does not concede to the views of the world. You'd make a good match for this pair of wings for sure.\n—So saying, she places a completely unique wind glider in your hands.\n\"Of course it can fly, and of course it will carry you. But you must first believe in it — and believe in the you that believes in it.\"",
+    "source": [
+      "Official Release Reward"
+    ],
+    "images": {
+      "filename_icon": "UI_FlycloakIcon_Starlit",
+      "filename_gacha": "UI_Gacha_FlycloakIcon_Starlit"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 140006,
+    "name": "Wings of Concealing Snow",
+    "description": "A stylized wind glider left behind by a bird of prey that once soared among these mountains.",
+    "rarity": 4,
+    "story": "We shall rise again.\nThe withered tree has sprouted anew, for a time of still greater trial is coming.\n\nSo the owls warned the falcons once upon a time.\n\nBut the falcons, who overlooked the land ever, had it in their hearts to rule the skies.\nAnd truthfully, what could challenge them for that dominance?\nSo they did not heed the warning of the owls, and even scorned them, taking them for cowards.\n\"These birds that only dare hunt at night are helpless as hatchlings,\" they thought.\n\nLater, rime that froze the mountain like a pinning nail shattered the tree that shadowed the mountain kingdom.\nAnd after that, a darkness that drowned the land like a tide snapped the branches upon which the birds of prey perched.\nIn that raging whirl of malice, falcons and sparrows alike fell to the earth.\n\nThus did the birds of the land of wind come to realize this:\nEven the skies of freedom might be turned bone-white by ice, or painted black by smog.\nThe midday sun had been all but covered, to say nothing of the moon or the stars.\n\nFledgling birds curled up in their nests, waiting for the silent, tragic end to come.\nBut in the absence of light, the night-roaming owls thus gained dominion...\n\nUntil a long, long time later...\nThe weak young falcons would be kept alive, growing up on prey brought from places unknown.\nThe sky, too, would eventually clear up. And though the mountain would remain covered in snow and ice, life would grow again, faint and fragile, on the ground.\n\nThe nestlings would never know who it was who saved them.\nThe dragon, lovely as jewels, would also be forgotten, as would the eyes of the owls that had once shone brightly in the darkness.\nToday, the branches that birds perched upon in antiquity have grown out once more, though they are stained an ominous crimson...\n\nAnd though this is but a tangential matter, a crimson-red falcon that had perhaps left its flock to hunt and protect after dark would also take up the night owls' name.\n\nIn the silence of the night, they call out, passing the secret along:\nWe shall rise again.\nThe withered tree has sprouted anew, for a time of still greater trial is coming.\n\nAnd so, I gift unto you this pair of wings. Let us witness that coming time together.",
+    "source": [
+      "Reward for reaching a certain level of Frostbearing Tree Offering"
+    ],
+    "images": {
+      "filename_icon": "UI_FlycloakIcon_Nixavis",
+      "filename_gacha": "UI_Gacha_FlycloakIcon_Nixavis"
+    },
+    "version": "1.2"
+  },
+  {
+    "id": 140014,
+    "name": "Wings of Delicacies",
+    "description": "A wind glider that commemorates the reopening of a grand feast. Not seen for many years, yes, but is the taste unchanged? Assuredly so.",
+    "rarity": 4,
+    "story": "This is a story set in an interstellar travel hub, where passing travelers may find a moment's respite within the small shop of an elderly adventurer. The aged shopkeeper, tired of a long wandering captaincy amidst the stars, boldly set sail to where no one had gone before, before transforming his rusty spaceship into a restaurant for travelers to rest their feet in.\n\nThe first customer was a deity who had been drifting around since her home planet was destroyed. She spoke to the shopkeeper about the fickle nature of the cosmos, as well as her affection for the life on her former planet.\n\"I remember every glorious moment of civilization's brilliance. From the discovery of the theorem of triangular right-angled relations to the completion of the space elevator; from painting the first cave art to creating the holographic series of fifty-three galactic landscapes.\"\nThe shopkeeper remained silent until the customer's feast was prepared, before serving it to her:\n\"But you can still do something for them, can't you? After you've finished eating, why don't you give it a try?\"\nThis deity was actually an artificial intelligence, created by the intelligent species of the planet to optimize resource allocation on a planetary level. The shopkeeper was right — there was still one thing she could do.\n\nThe second customer was a demon who had destroyed many worlds. After entering, it ordered a huge amount of food — so much, in fact, that the shopkeeper couldn't help but ask:\n\"You sure you can finish all that?\"\n\"Enough of your prattling! If I can't finish it, I'll just take the rest away in a little doggy bag!\" replied the demon, licking its lips. In truth, this act of licking was more akin to a snake flicking its tongue, and was the demon's way of sensing its surroundings.\nMunching away at the lovely meal it had been served, the demon boasted to the captain-turned-shopkeeper of its achievements. But in the end, it couldn't finish it all.\n\"Why didn't you finish it? Was it not to your liking?\"\nThe demon had never, not once before, been questioned like this. For a brief moment, it wanted to lie and say, \"It was horrible.\" But upon seeing that legendary captain start going for his flintlock, it chose to stay on its best behavior and asked him to help wrap up the leftovers instead.\nIt may not have known at the time, but the demon had just saved its own life. Back when the adventurer had been given the title of \"honorary first mate,\" he had also been granted authorization to execute troublemakers in his shop. For the antique flintlock hanging beneath his clock, missing such a golden opportunity to shine was a sore disappointment indeed.\n\n...\n\nThe thirtieth customer was a witch. After taking one look at her face, the shopkeeper knew exactly what she wanted to order.\nAnd so, the two of them stayed silent the whole time.\nFinally, the witch looked up. Her cheeks were bulging, full of food in the process of being chewed, and the corners of her mouth were stained with oil.\n\"Have you no tales to tell, then?\" The captain, who had seen more stories than he could count, asked.\n\"I told you everything the first time I came here,\" said the witch as she took a big gulp of her drink. \"Or are you saying I can't come just for the food?\"\n\"Point taken,\" replied the shopkeeper, handing her a napkin.",
+    "isHidden": true,
+    "source": [
+      "Obtained from a collaboration event"
+    ],
+    "images": {
+      "filename_icon": "UI_FlycloakIcon_GrandEntrance",
+      "filename_gacha": "UI_Gacha_FlycloakIcon_GrandEntrance"
+    },
+    "version": "4.8"
+  },
+  {
+    "id": 140003,
+    "name": "Wings of Descension",
+    "description": "Effective only on the following platform:\n\"PlayStation™Network\"\nA stylized wind glider that can be used to cross the celestial heights.",
+    "rarity": 4,
+    "story": "This is proof that you came to this world via special means.\nThis is the seal of which only one who has pierced the celestial heights is worthy.\n\n\"Your journey will become very dangerous from now on,\"\nSo that person told you.\n\"I don't know if this cloth will do anything to protect you, but...\"\n\nIt was indeed so—\nIn your long journey, you have seen the birth and death of stars as they passed you by,\nScattering the darkness briefly before being consumed once more.\nThis cloth will block neither heat nor cold, nor will it defend you from curses and ill-will.\nBut during long nights on Teyvat, you will sometimes throw it on and find it to be most useful indeed.\n\n\"But when you face a force enough to destroy one, or perhaps even two worlds,\"\nYou do not truly remember who it was who had treated the two of you ever so gently. You wish you could remember...\n\"When you face a boundless darkness, or an all-consuming radiance...\"\nBut that was one world ago.\n\nYou no longer need to sleep out in the wild.\nYour bed in the city is fluffy and comfortable. And even if you must camp, the grass is soft, filled with the fragrance of life.\nSo from the moment you received that wind glider from that girl, you had already thought of a new use for that cloth...\n\nAnd now, you shall once again soar through the skies together with it.",
+    "source": [
+      "Special reward given to players on \"PlayStation™Network\""
+    ],
+    "images": {
+      "filename_icon": "UI_FlycloakIcon_Psalmus",
+      "filename_gacha": "UI_Gacha_FlycloakIcon_Psalmus"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 140016,
+    "name": "Wings of Fate's Course Intertwined",
+    "description": "A stylized wind glider. Twice we intersected, parted, and were reunited.",
+    "rarity": 4,
+    "story": "It was from afar that he glimpsed that head of golden hair, when the great king announced the successor to the throne. The celebratory clamor had little to do with him, and indeed, he would have to help clean up the flowers, both real and fake, strewn about after the fact. Looking behind him briefly, he then continued maintaining order in the plaza that lay before the palace gate. He was still just an ordinary young knight, after all.\n\nThe golden-haired crown {M#princess}{F#prince}, for {M#her}{F#his} part, gazed out at the sea of humanity, unsure, only now realizing that so many dwelled in this underground realm. Once, {M#she}{F#he} had been a scion of a lost glorious kingdom, bearing the weight of an entire world. But in {M#her}{F#his} brief life, {M#she}{F#he} had sensed the goodwill of those who lived here, and so had shouldered the pillar of the earth, going from the ruler of a world to the hope of but a single nation.\n\nThe young knight was not of insignificant background, but that was worth little in the grand scheme of things. The royal golden-haired heir's fate was far nobler, but now having lost {M#her}{F#his} world, {M#she}{F#he} yearned for but a single realm.\n\nLater, the young knight was promoted, and the title \"Twilight Sword\" bestowed upon him. As for the royal heir with the golden hair, {M#she}{F#he} was led by the last Vinster King, down, down, down to the kingdom's deepest depths. The young knight, initially intending only to save his older brother, who had been imprisoned and blinded in both eyes for giving an oracle, the young knight gathered the brilliant young ones of the age. Their righteous deed, that of saving the nation, was but a deed done in passing. But the golden-haired heir was used as a vessel by which unlimited Abyssal power could be absorbed, and {M#she}{F#he} became the key to the world's near-annihilation.\n\nThis was the moment that their paths intertwined — one a noble, tumbling from the light into the Abyss, the other a humble existence, climbing upward from the darkness.\nRegicide, righteousness, ruthlessness, treachery, until all was rendered desolate. And that which came thereafter, where the two spirits bound by common agony would journey together, would also seem but a single point of intersection in their all-too-long, gradually diverging lives.",
+    "isHidden": true,
+    "source": [],
+    "images": {
+      "filename_icon": "UI_FlycloakIcon_EmeraldFlash",
+      "filename_gacha": "UI_Gacha_FlycloakIcon_EmeraldFlash"
+    },
+    "version": "5.2"
+  },
+  {
+    "id": 140007,
+    "name": "Wings of Feasting",
+    "description": "A pair of wings that memorialize great banquets or ordinary dinners. All the enjoyment of a feast for the price of a simple meal.",
+    "rarity": 4,
+    "story": "This is an item that drifted here from another world. It symbolizes that world's final feast, and the coming of the weekend.\n\nOnce upon a time, that world was ruled by dragons.\nBut not the ones you hear about in stories. These were more akin to a cross between lizards and chickens.\n\nIt might be hard for you to imagine it, Klee, but that was exactly what that world was like: fish-dragons lived in the oceans, and bird-dragons soared through the skies on wings that were super huge!\nThey were powerful creatures, and so they looked down on all the other animals.\nIn that world, they were rulers of all life.\n\nLater on, humans appeared in that world.\nNo one knows how that happened. Maybe they came with the falling meteorites. Who knows? But what we do know is that they had a strange habit, which was known as \"Sunday dinner.\"\nNot long after, that day came. The feast was about to begin.\nDragon drumsticks and dragon wings were smeared with flour, and were subjected to the flames of the furnaces that the humans made.\nThey were made into food for everyone. They say that dragon meat tasted delicious, causes the people to lick their fingers after eating.\nThe Sunday feast, which used to only happen once a week, became a daily occurrence, because the meat was just too good.\n\"This is great!\"\n\"Let's have Sunday dinner every day of the week!\"\nAnd so everyone cheered.\nAnd that was how the time of the dragons come to an end.\n\nThis wind glider commemorates that great extinction, and it was not always this color. It was once blue and white.\nKlee's mother changed its color scheme to be more amenable to that of their family, which resulted in its current form. She returned home briefly, leaving this wind glider behind, before leaving once again.\n\"Teyvat's borders have grown fragile these past two years — looks like Mommy's going to have to get busy.\"",
+    "isHidden": true,
+    "source": [
+      "Obtained from a collaboration event"
+    ],
+    "images": {
+      "filename_icon": "UI_FlycloakIcon_Redcomet",
+      "filename_gacha": "UI_Gacha_FlycloakIcon_Redcomet"
+    },
+    "version": "1.4"
+  },
+  {
+    "id": 140001,
+    "name": "Wings of First Flight",
+    "description": "A stylized wind glider that bears the passionate longing of an Outrider.",
+    "rarity": 4,
+    "story": "It's been a long time since the Outriders last had new blood added to their ranks.\nAmber has always wanted to give this wind glider to a junior knight with potential.\nBut after quite a few years, this opportunity never came.\n\nThe Outriders use their wind gliders a great deal, and they would eventually suffer wear and tear.\nWith Amber's movement style being very taxing on her wings, she went through over ten gliders before she knew it...\nAnd yet, she never once considered taking this special pair of wings out for use.\n\nFor some reason, her mood was especially good that day.\nShe finally put that long-unused wind glider on.\nThough she had a combat mission on hand to clear out some hilichurl camps,\nAnd though gliding had become especially dangerous in those recent, gale-swept days.\n\nAs for what happened after that...\nShe didn't know why she'd chosen to believe that gold-haired outlander.\nShe didn't know why she felt that they had potential.\nBut if it was them, perhaps...\n\n\"So, the present I want to give you is...\"",
+    "source": [
+      "Obtained after completing the Mondstadt Archon Quest \"City of Freedom\""
+    ],
+    "images": {
+      "filename_icon": "UI_FlycloakIcon_Glider",
+      "filename_gacha": "UI_Gacha_FlycloakIcon_Glider"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 140005,
+    "name": "Wings of Golden Flight",
+    "description": "A stylized wind glider gifted to you as a mark of Liyue's acknowledgment and recognition.",
+    "rarity": 4,
+    "story": "\"Gaze up at the misty clouds weaving among the crags, oh how they gracefully waft to and fro. Piercing rainbows, slicing frost and snow, they jest at the sight of the battles down below.\"\n— Our story today begins with this passage.\nEveryone knows that all throughout the vast wilderness of Liyue, aspiring martial artists who hold tight to lofty ideals of chivalry can be found seeking the trail of the adepti — roaming the depths of the forests and traversing the towering karst peaks where the clouds linger. Away from the watchful gaze of the Qixing, they perform their chivalrous deeds in secret. We've already told the story of the anonymous young duo who pierce the rainbows and slice through the frost. But today, we'll tell the story of another great hero, a tale you have yet to hear.\n\nIt's said that this great hero came striding upon winds from the east.\nHaving being granted the official insignia of the Geo Lord, they conjured these Wings of Golden Flight and roamed throughout Liyue, delivering justice mandated from on high.\nThough the bloodthirsty serpentine Chi encroached the lands with destructive intent, the great hero swung his gigantic fist with the might of Mt. Aocang and beat the serpent into the ground, blow by blow.\nUpon meeting the evil monster of Guyun, who proved a match even for the adepti, this same great hero gripped their sword and swept away the evil legions with their blade.\nAnd let us not forget the young arrogant Fatui lord who openly opposed the Lord of Geo and disparaged the Qixing. Our hero crashed one of his banquets, kicked the fruit bowl, and smacked the living daylights out of the snooty young lord. After having some sense beaten into him, the young lord then confessed his mistakes, respectfully bowed to the Lord of Geo and the Qixing, and promptly left the feast...\n\nThough this wind glider is of the more luxurious variety, the hero was happy to receive the praise of Liyue's citizens and gladly accepted it.\nHowever, these wings come with usage notes that on the surface seem to be written in a storytelling form, while in substance being instructions on how to be a true chivalrous hero. They seem to exceed our expectations in almost every regard...",
+    "source": [
+      "Reward for reaching a certain Reputation Level in Liyue"
+    ],
+    "images": {
+      "filename_icon": "UI_FlycloakIcon_Megalith",
+      "filename_gacha": "UI_Gacha_FlycloakIcon_Megalith"
+    },
+    "version": "1.1"
+  },
+  {
+    "id": 140018,
+    "name": "Wings of Leisurely Moments",
+    "description": "A stylized wind glider created to commemorate a leisurely meal — one of countless interwoven moments of everyday joy.",
+    "rarity": 4,
+    "story": "The youth need not work today. He sprawls in his chair, flipping through the recipes in his hand.\nOn a small table to one side sit a bag of flour and some breadcrumbs — precious items in Khaenri'ah. Thanks to the existence of alchemy, the underground kingdom has nurtured many subterranean lifeforms that can thrive on fungi alone. As a result, meat is plentiful, yet vegetables and grains — crops that require the sun's light to grow — are in short supply. As King Irmin's rule becomes increasingly tyrannical, and relations between Khaenri'ah and the surface grow ever more strained, the price of grain, fruits, and vegetables has soared.\n\nThe ring that sits beside the flour and breadcrumbs is more valuable still. It is a mark of Khaenri'ah's pre-eminent visionary, yet the youth feels no fondness for it — the burden of fate it embodies is too onerous.\n\nThe youth hears the door being pushed open and quickly pockets the ring. His brother had long coveted it as a child, though only for its appearance. His younger sibling was now a trained squire and knight in waiting, yet it was still wise to be cautious.\n\n\"Why so late?\" The youth asked.\n\"That old goat Haden had the two of us scrub the training hall and armory after class. He said it was because our fighting stances weren't correct, though no one's ever bested us in training.\" The youth's brother points cheerfully at his companion. \"This is Surtalogi, my brother-in-suffering. This is Vedrfolnir, my brother-in-blood.\"\n\"Dain dragged me along. I don't intend to intrude on such an expensive meal.\"\n\"You have a sharp nose.\" Vedrfolnir stood up, slowly. \"Still, fate has brought you here, so do eat with us.\"\n\nThe fried fowl was delicious, and the bread, vegetables, and meat were just as good. Though it was the crispy fried potato strips that truly stole the show.\n\nYet in the days that followed, none of them would remember this peaceful, happy moment.\nAt the end of everything, the spell the youth cast upon the ring — meant to revert the body's state — was steeped in a power that was neither clearly blessing nor curse.\nAt the end of everything, Dain acquired the ring he had coveted as a child — and with it, the weighty burden of fate it contained.\nBut what of it?\n\nWhile cleaning up the remnants of the meal, Vedrfolnir suddenly turns his gaze towards something unknown, staring across time and space.\n\"What are you expecting?\"\nThis was a joyful memory of carefree times, before everything had passed the point of redemption.",
+    "isHidden": true,
+    "source": [
+      "Obtained from a collaboration event"
+    ],
+    "images": {
+      "filename_icon": "UI_FlycloakIcon_Bakery",
+      "filename_gacha": "UI_Gacha_FlycloakIcon_Bakery"
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 140012,
+    "name": "Wings of Merciful, Wrathful Waters",
+    "description": "A stylized wind glider gifted to you as a mark of Fontaine's acknowledgment and recognition.",
+    "rarity": 4,
+    "story": "Legend has it that the first of oceans had a composition similar to that of blood, and that life within it was not individual. To set foot upon land or take to the skies, life evolved blood vessels to keep that primordial ocean flowing within itself. The beating heart that commanded this primordial sea of blood was the first Hydro Dragon. Each time that heart pulsed, all life would arise and give it praise.\nOf course, these are simply tales that the Hydro Vishaps tell each other, and are not to be trusted. Perhaps this tale is told differently amongst other vishaps, and the stories passed down between Oceanids speak of what came after:\n\nWhen that first heart was removed, the envoy of Celestia, the leader upon whose shoulders lay the duty to create life, came to the great primeval sea, and there she created another heart. That heart had like nobility unto a dragon, but lacked its outer form, and had the majesty of a god, yet was bereft any divine duty. And though it was created by a ruler of humans, its substance and essence were all original matter from this world, entirely without outside elements.\nShe was the tears that flowed into the primordial sea, seeking communication and understanding, a pursuit which caused her to weep. And it was due to this compassion that she committed all the sins that all beings of pure water must beware.\n\nWhat follows after that is the version of the tale that humans tell, although it is commonly passed on only amongst scholars:\nThe great Remus came to Fontaine, envisioning a mighty and eternal city, Remuria. He instructed the people, and eventually managed to reach one part of his dream. Then swiftly came the prophecy — not ill-intended, yet horrifying beyond measure — that the golden melody would one day end, and Remuria would fall.\nIt is often said that \"should a hero not die upon returning home, they shall become a tyrant.\" The justice that Remuria imposed to escape this destiny would eventually turn into tyranny, and this tyranny brought about resistance like a wrathful tide. Thus did Remus vanish — Remus the eminent, Remus the halfwit, Remus the far-sighted, Remus the solitary.\n\n...\n\nHumans desire judgment because they feel guilty. Humans desire, and so they want to receive — humans always desire a god. That is why the primordial sea's heart, gentle Egeria, was awarded a shard of that one who was first, and gained both godhood and the divine duty-come-lately. Was this the desires of humanity having reached the heavens? Or was it merely the opening act of a string of dark plots?\n\nThis is a tale that no one can know but you. When you awake, these wings, and the aforementioned tale, will appear at your bedside. You can ask all the species in this world to prove if their tales are true or not, and not one of them shall believe you, for how could this wind glider and this tale materialize before you out of thin air?",
+    "source": [
+      "Reward for reaching a certain Reputation Level in Fontaine"
+    ],
+    "images": {
+      "filename_icon": "UI_FlycloakIcon_Iustitia",
+      "filename_gacha": "UI_Gacha_FlycloakIcon_Iustitia"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 140009,
+    "name": "Wings of Shimmering Galaxy",
+    "description": "A stylized wind glider and a gift that celebrates a symphony that resounds across the stars.",
+    "rarity": 4,
+    "story": "\"I once knew a certain poet. Who wasn't me, by the way...\"\nThat green guy chomped on an apple as he told the following story.\n\nI once knew a certain poet. He lived in an era when the flames of war had just settled, and the embers had just calmed. And he had seen far too many disputes and separations.\nThen, he would sing to the skies above, to the stubborn stone, to the surging seas, and to the stars beyond.\nFor he knew that someone must heal the hurts of the world, and thus someone needed to find a way to communicate with them.\nIf the sky, the stones, the sea and the stars would reply, then music might flow through all things.\nAt first, the sky made no reply but the shadow of birds as they passed him by. Nor did the stones answer save the falling drops of water. In the beginning, the seas said nothing in response — but its rank, salty breath brought the omen of a storm.\nThe stars did not answer him either.\nBut the poet knew this would happen. What could this sky full of stars say, anyway?\n\nStill, the poet did not give up, though not because he believed or anything. This was just the way he was.\nLater, the sea replied. A sentry post was set up on a high cliff to watch for the storm, and the Sister who took up her post there would applaud his performance.\nLater, the stone replied. It dabbed its face with a handkerchief, saying: \"Your performance was indeed unmatched throughout the land. But the next time you get drunk and pour wine on my head, I shall be quite angry.\"\nLater, the skies responded. The shade of birds flying overhead one day blotted out the very sun itself. The poet lifted his head, and a beautiful dragon descended before him.\n\n\"I was thinking that if I could move the stars to tears one day, I think I'd summon a meteor shower! ...Ah. Right. See this? This wind glider was the stars' answer. It fell from the sky, just like you!\"\nThe poet in green pointed to the sky, apple in hand.\n\"This poet is not me, or perhaps this wind glider fell down from the heavens. You can pick whichever of the two you'd like to be true. Ehe~\"",
+    "isHidden": true,
+    "source": [],
+    "images": {
+      "filename_icon": "UI_FlycloakIcon_Skald",
+      "filename_gacha": "UI_Gacha_FlycloakIcon_Skald"
+    },
+    "version": "2.1"
+  },
+  {
+    "id": 140015,
+    "name": "Wings of Soaring Flame",
+    "description": "A stylized wind glider gifted to you as a mark of Natlan's acknowledgment and recognition.",
+    "rarity": 4,
+    "story": "The old priest from the Masters of the Night-Wind threw a handful of powder upon the bonfire. The flames leapt upward as if nourished by this, and they shone brighter still.\n\"What I am about to tell you is no story, but true history, brought to me upon the night wind.\" His withered, gnarled hand retrieved a thick branch, and with it he tended the fire, trying to make it still more intense.\n\"Teacher, please don't do this. This summer night is unbearably hot already,\" his audience pleaded.\n\"Ah, what do you know? This is atmosphere-building — and of course, it also keeps wild animals from getting too close.\"\n\n...\nA winged, talking dragon, the grandchild of the dragon-prince, named itself \"Sages' End,\" and it roamed the world, making life intolerable for humans.\nOne day, it made a bet with a human. \"Without the power of phlogiston, how shall humans control the skies?\"\n—If one possesses the smoke-granted wisdom to meditate upon the depths, one may float through the power hidden in one's forehead and vertex. But the person being asked lacked the wisdom to do so.\n\"What's so hard about that?\"\nThe man raised up a roaring fire, using the wind whipped up by the flame and sewn leather to propel himself into the skies.\n...\n\n\"Many were the trials of this kind, until at last we Natlanese gained the ability to use Phlogiston through sacrifice.\" So said the old priest, before again throwing a handful of powder upon the flame.\n\"S—Sacrifice?\"\n\"No compact had been made with the Qucusaurs then, so he fell to his death.\"\n\"Wait, then why did other Natlanese not use the wind glider he sacrificed himself to pioneer?\"\n\"Who would use one of those if you already had a Qucusaurus? Hah, it seems you do not believe me. Why, I am fourth in seniority behind Master Citlali! Are you doubting my words?\"",
+    "source": [
+      "Reward for fulfilling certain Tribal Reputation condition(s) in Natlan"
+    ],
+    "images": {
+      "filename_icon": "UI_FlycloakIcon_Firebrand",
+      "filename_gacha": "UI_Gacha_FlycloakIcon_Firebrand"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 140010,
+    "name": "Wings of the Forest",
+    "description": "A stylized wind glider gifted to you as a mark of Sumeru's acknowledgment and recognition.",
+    "rarity": 4,
+    "story": "Because Sumeru was once a land of few dreams, the people there had a superstition: that if you see images formed of the heart in your sleep, then they must be the revelation and enlightenment from the Dendro Archon. They must have some kind of deeper meaning. It is possible that \"Akasha\" would never have come into being without this tradition.\nThere was once a great master Firnas — not the current great lecturer in the Akademiya, mind — who claimed to have many dreams, and to be good at memorizing them. As such, he gained much more repute as a poet and a dreamer as opposed to a researcher or an inventor. Sumeru lacked dreams, and if he truly dreamed much, then he must've been nothing less than a divine appointee, sitting at the Dendro Archon's feet every night. Those jealous of him would thus say that daydreams did not count as dreams.\n\nIt is said that he had witnessed the wind gliders from lands far abroad and realized that their working principles did not follow physical laws at all. If it were not for the Anemo Archon's blessing upon each item, they would be as a millstone even if granted to a mighty eagle, causing it to plummet out of the skies with enough force to smash tortoise shells below.\nThus did this great master Firnas — and once again, I must emphasize that this is not our current great lecturer Firnas — resolve to create a wind glider that did not require the Anemo Archon's blessing — yes, it would fly by dint of its own beauty and by the physical laws that governed all things.\n\nAnd so he got to work day and night, before one day falling asleep from exhaustion. It is said that he once again encountered the Dendro Archon in his sleep.\nThe parent of living creatures listened to the great master Firnas' frustrations before laughing, and telling him a story.\n\nThe story was about the wind that had taken on a human form, a talking stone, and... Uh, a wooden thing made of Electro. The three of them discussed the makeup of the world, and each believed that they were one of the fundamental elements. The stone claimed to hold up all things, and to this they all agreed. The wooden object said that all mortal thought was the work of electricity. This was a bit of a stretch, they all reckoned, but it could not be said to be false, either. When it was the wind's turn, he told a story:\n\nThe tales of another world speak of children of the air who dwelt in the skies. These were all spirits of the wind. Some of them could slice through mountains and rocks, and others could summon tornadoes to move clouds and water with incomparable force. But the youngest of those children was disregarded by people for the weakness of his breath of life. Thus did he hide himself away. The wind-pollinated flowers were in agony, for there were none to pollinate them, and so did the boldest dandelion search for and find the breath of life. And to encourage him, the dandelion told a story:\n\nOnce upon a time, in a faraway land, there dwelt a powerful and beautiful queen, who seemed almost to shine like the sun. But her younger brother was a rambunctious, playful knight... (some omissions...) To encourage her, the queen's lady-in-waiting told her a story:\n\n...\n\nAfter that night, the great master Firnas constructed a wind glider before asking the Anemo Archon to bless it. Though it produced the exact same results as any wind glider heretofore invented, the Akademiya pronounced this similarity to be a coincidence.\nLegend has it that the first thing this great master said upon waking was: \"Alright, I know, I know! The answer was right before me this whole time.\"\nBut in truth, these were his words: \"Okay, alright, I know! The answer was right before me this whole time. Please, I beg you, stop repeating yourself — I know the gods' blessings are also part of this world's rules.\"\n\nThis fable teaches us that the truths of this world are to be honored, but that it is best not to seek physics in fantastical dreams.\nSo, how about it, then? Would you like to accept Master Firnas' wind glider?",
+    "source": [
+      "Reward for reaching a certain Reputation Level in Sumeru"
+    ],
+    "images": {
+      "filename_icon": "UI_FlycloakIcon_Ayus",
+      "filename_gacha": "UI_Gacha_FlycloakIcon_Ayus"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 140017,
+    "name": "Wings of the Silent Moon",
+    "description": "A stylized wind glider gifted to you as a mark of the Welkin Moon's acknowledgment and recognition.",
+    "rarity": 4,
+    "story": "It is a tale passed down among the fae, told during their gatherings beneath the moon.\nSuch moonlit gatherings are an ancient rite. Some say the practice dates back to an age when the true moon hung in the sky, and perhaps the beings who gathered beneath it were not fae at all. In any case, gazing at the moon and speaking of times old and new is considered by the boldest among them to be the perfect moment for sharing secrets.\nAnd among all the tales they tell, there is one they love the most:\n\nAccording to legend, the king of the Fae of the Snowlands — a hero born from the bones of a great beast — sought to unite the entire continent. To do so, he had to slay his final enemy.\nYet that enemy could neither age nor die, for his life was hidden far from his body. No matter how many times the king of the snowy realms struck him down, he would rise again from the shadows.\nSo, the spirit of frost and a traveler from beyond the palace walls set out to seek the truth of this foe. At last, they learned how he might be killed.\nTo kill the enemy, the Snow-King would need to find a fissure buried deep in the earth's darkest strata. Within that crack lay a tree that grew downward. Upon the tree's tower-like branches perched a raven. Within the raven's belly lay a snow-white hare. In the hare's eyes was a door. And if he opened that door, a world as black as spilled ink would pour forth, swallowing both heaven and earth. In that world, everything was still. There was no light, and no sound. The Snow-King would have to cross that silent realm alone and, at its lightless heart, find an egg.\nThis egg held the essence of his enemy's life. Shatter it, and the immortal enemy would be reduced to dust.\nThe task did not seem too difficult up to the moment of opening the door, or so the snow-realm's king thought. But how was he going to cross that realm of pitch-black silence?\nSo, the spirit of frost and the traveler wove two wings of ancient moonlight for him.\n\nThis, then, may have been the wind glider that could carry one through the silent void. Yet the old moonlight has long since lost its radiance, and the snow-realm king who once used them has vanished from history. What remains today functions no better than an ordinary wind glider. In fact, since wind gliders were invented far later than the age of the Snow-King, this entire tale may well be a fanciful explanation someone crafted to justify the glider's existence.\n\nAnd how did the snow-realm king meet his end, you ask?\nSome say that when he shattered the egg, he finally saw the truth: His greatest enemy bore his face.\nOthers claim the egg never existed, and that the world beyond the door was nothing more than a trap meant to keep him in the void.\nThere are far too many versions to count. But it does not matter. For in this tale of wings...\nThe ending was never the part that mattered the most.",
+    "source": [
+      "Obtained from completing all quests under \"Selenic Chronicles: Part III\""
+    ],
+    "images": {
+      "filename_icon": "UI_FlycloakIcon_Nodkrai",
+      "filename_gacha": "UI_Gacha_FlycloakIcon_Nodkrai"
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 140011,
+    "name": "Wings of the Starlit Feast",
+    "description": "A stylized wind glider and a gift that celebrates a festival witnessed in a distant world.",
+    "rarity": 4,
+    "story": "\"So, the mystery gadget I bring you this time is...\"\n\nThe messenger had come to the Palace of Alcazarzaray's master to speak of the origin of this new invention, but found the other party's gaze already drawn to something.\n\n\"—No, no, not that one, that's my lunch. The mystery gadget is the wind glider at the side there... Yes, that one!\"\n\"Hmm... To tell you the truth, the story behind the glider isn't entirely unrelated to food either...\"\n\"...Well, according to Ms. Alice, this wind glider was not made in Teyvat, but was something that drifted here from a faraway place...\"\n\nIn that faraway place, someone once said this—\n\"A life without festivity is like a long journey without an inn.\"\nDelicious food, comforting music, a joyous atmosphere, leisurely days, and most importantly, memories created together with everyone.\nA perfect feast begets wondrous memories, and thus it was only fitting that it should be remembered with a wonderful memento.\nBut mere thoughts written on paper seemed to all to appear somewhat shabby.\nAfter all, a few pieces of paper and a few lines of text could not cover the breadth of one's thought.\nFinally, everyone put their heads together and came up with a truly capital solution.\n\"Since what we saw when we lifted our eyes at the end of the feast was the shining starry sky, let us inscribe our wishes in starlight!\"\nAfter all, thought itself is like formless light, and only remembrance can bestow upon it a unique shape.\nAs everyone's memories joined as one, the thoughts themselves also joined the shimmering star-stream, scattering into the endless night sky.\n\n\"Fly on, fly far — carry our wishes, glad songs, and fair feasts on your wings, and with our thoughts reach the far edge of the stars, the dreamed-of tomorrow...\"\n\nWhen you look out at the darkened skies and catch sight of the shooting stars that occasionally flash by, they may yet be little wishes from distant worlds.\nIf you, like a child, close your eyes and wish upon those shooting stars, you shall be granted the sweetest of dreams,\nAnd perhaps your wish will in turn become a radiant shooting star that will aid someone else in a distant land in seeing their wishes fulfilled.\n\nThis wind glider, then, is the most persistent out of the wishes that first danced across those skies.\nNo matter when or where, even if ten million oceans of stars may lie between, it still yearns to fly alongside someone.\n\n\"...And so Ms. Alice fulfilled its wishes, turning it into its present form.\"\n\n\"—And how am I supposed to tell this story to customers? I may as well tell them that these wings fell from the sky as the feast began!\"\nBut though she said that, Lord Sangemah Bay still dutifully told you this story, which she herself had heard from her supplier.",
+    "isHidden": true,
+    "source": [
+      "Obtained from a collaboration event"
+    ],
+    "images": {
+      "filename_icon": "UI_FlycloakIcon_Asterceno",
+      "filename_gacha": "UI_Gacha_FlycloakIcon_Asterceno"
+    },
+    "version": "3.5"
+  },
+  {
+    "id": 140008,
+    "name": "Wings of the Stormstrider",
+    "description": "A stylized wind glider gifted to you as a mark of Inazuma's acknowledgment and recognition.",
+    "rarity": 4,
+    "story": "\"'Tengu' — well, apart from the Yougou Tengu, who have a long lineage indeed, this also refers to those who are agile and whose movements are hard to fathom. You see, the tengu have wings, right?\"\nYou have a hard time believing those words at first.\n\n\"The 'tengu' are first and foremost ones who have received great divine endowment to fly freely in the skies. You have ridden the wind and clouds over ridges and rooftops throughout Inazuma, and it would be too humble a comparison to name you equal to a crow or a falcon.\"\n\"There were once people who praised and imitated the tengu, calling themselves the 'Tengu-kin.' They sat high on top of the Tenshukaku roof, on top of great trees, and on top of the sacred torii gates, making raucous fun of the crowd and bureaucrats below. They even caused a great commotion by tossing books into the Tenshukaku, completely ignoring the authority of the shrine and Shogunate.\"\n\"What a carefree bunch. Later, these people were grabbed by the real tengu and were taught a good lesson.\"\n\"Ah, naturally, you need not worry about such legends, because you're a law-abiding citizen who abides by our public morals and customs, right?\"\nYou elect not to comment on your own habit of casting a shadow over the houses of Inazuma with your wind glider, or your climbing of many a high stone wall.\n\n\"Also, the title of 'tengu' can be used to describe unrivaled swordsmen. Other than the major schools that can trace their lineage directly from Narukami, flashes in the pan such as the Mistsplitter and the Meikyou Shisui Art, and schools that have lasted till the present like the Iwakura Art also exist. The Iwakura secret blade technique, one they did not teach to ordinary pupils, is the Tengu Sweeper. They say that this blade traces a strange arc, and can triumph even over the highly-skilled Yougou Tengu. I believe that your own abilities require little additional praise in that regard.\"\n\"Lastly, 'tengu' often have mastery in the manipulation of Anemo and Electro. Legend has it that there is a relic passed down between the Yougou Tengu from generation to generation — the 'Galestorm Fan.' It is said that its front side can call forth Anemo, and the reverse side can summon Electro. And since you can use both Anemo and Electro, you definitely count as a tengu! By the way, the fan is just a trick. Normally, to keep themselves from being found out, a tengu that can summon Anemo usually pairs up with another that can wield Electro when they go out.\"\nSara, who is standing off to the side, looks even more awkward than you at this exchange.\n\n\"For your contributions to Inazuma, the Grand Shrine would now like to award you with this wind glider.\"\nSo that's where tengu wings originated from, huh?\nNoticing your doubtful gaze, Sara immediately responds:\n\"Of course not!\"",
+    "source": [
+      "Reward for reaching a certain Reputation Level in Inazuma"
+    ],
+    "images": {
+      "filename_icon": "UI_FlycloakIcon_Thunderclap",
+      "filename_gacha": "UI_Gacha_FlycloakIcon_Thunderclap"
+    },
+    "version": "2.0"
+  },
+  {
+    "id": 140013,
+    "name": "Wings of Transient Dreams",
+    "description": "A stylized wind glider, one that you obtained in a trance-like flash as you entered a dream of the past through music.",
+    "rarity": 4,
+    "story": "This is a small story about a song named \"A Mayfly's Dream.\"\nIt is no great or elegant song, though it was once widely praised for its melody.\nYet, new music is birthed, and old tunes gradually lose traction, and are forgotten — that is the way \"popularity\" works.\nEventually, even the name of the one who wrote this tune was no longer remembered.\nAll said that this person's talent was as short-lived as a flower, just one amongst many such composers.\n\n\"Talent as short-lived as a flower, just one amongst many such composers...\"\nWhen she had quoted this statement of public opinion, she had been looking at her older sister, who was sitting alone in the long corridor beside the courtyard.\nHer sister's back faced her, and in her hands she held a zither obliquely, plucking its strings a few times, and then a few times more.\n\"People also say that mayflies are extravagant to wish to immerse themselves in dreams despite living short lives.\"\nHer memories always had her sister's back to her, and her sister never responded to those words she said. Instead, she would always play that melody, that song that was being forgotten by the world.\nComposers do tend to like their own tunes, after all.\nHer sister would rarely have time for such things afterward. And later on... She would forever lose the opportunity to hear her sister play that song.\nAlas, she was not as interested in this field as her sister had been, and so she too gradually forgot these things.\n\nThe next time she heard that tune, it was when she was taking shelter from the rain while on traveling in private.\nThe blind zither player played this tune as a way of asking the owner for a drink. The old musician's skills were nothing exceptional, but they were up to the task.\nWhen the tune was finished, and the proffered wine was consumed, the slightly-inebriated musician waxed lyrical, claiming that the one who composed this tune had been a person of unparalleled nobility.\nOf course, these words were just rumors spread by wild-wandering folk — who would believe them?\nAmidst the laughter in the room, she alone suddenly remembered.\nShe saw again that courtyard into which the afternoon sunlight poured, saw again the breeze whose breath caused the pond to ripple, saw the tree-shade swaying slightly, and the plucking, the plucking of those strings...\nAnd she saw again, after so long, the silhouette, zither in hand, sitting beside the corridor.\nThat figure was about to turn, yes, to turn her face this way...\n\nIs being a mayfly so wrong? All things are born and die in a blink of an eye, yet their dreams burn no less for it.\nIs being a flower a sin? Flowers bloom and wilt in a single night, but those who witness that sight shall never forget it.\nSuch things make memories \"memories.\"\nAre memories not transient flashes of bygone times, awakened in an reveric instant?\n\n\"...I hear that the Yashiro Commission found this wind glider next to a dust-covered zither when they were cleaning out old items. I fear that it is of little use to me, so I shall give it to you.\"\nSo says the lady, even as the old zither in her hands basks in its fresh coat of paint. That said, you can tell from her stance that she is quite out of practice.\nSeeming to sense your expectant gaze, she sighs gently.\n\"Before we begin, I must caution you — my musical skills are far overshadowed by my martial ones.\"\nAnd reminiscing on the past, she begins to play the only song she ever learned.",
+    "isHidden": true,
+    "source": [],
+    "images": {
+      "filename_icon": "UI_FlycloakIcon_Sternlied",
+      "filename_gacha": "UI_Gacha_FlycloakIcon_Sternlied"
+    },
+    "version": "4.1"
+  }
+]

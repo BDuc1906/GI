@@ -76,9 +76,21 @@ model Character {
   wikiUrl     String?
   constellations Json?                // [{ level, name, description }] x6 — cung mệnh kỹ năng
   talents        Json?                // [{ key, name, description }] — đòn thường/kỹ năng/trọng kích/passive
+  // Field genshin-db gốc, KHÔNG có trước đây — cần để join với Talent/
+  // Constellation/Outfit (3 bảng mới) vì chúng dùng đúng id này, không
+  // phải Character.id (slug riêng của app).
+  genshinDbId    String?
+  gender         String?
+  bodyType       String?
+  associationType String?
+  qualityType    String?
+  birthdaymmdd   String?
+  // Backup toàn bộ object gốc — để không bao giờ mất field nào nữa dù
+  // genshin-db đổi cấu trúc, giống cách 15 model mới đã làm.
+  raw            Json?
   updatedAt   DateTime @updatedAt
   createdAt   DateTime @default(now())
-
+  @@index([genshinDbId])
   @@index([vision])
   @@index([weaponType])
   @@index([rarity])
@@ -256,4 +268,176 @@ model AuditLog {
   @@index([entityType, entityId])
   @@index([performedBy])
   @@index([createdAt(sort: Desc)])
+}
+model AchievementGroup {
+  id        String   @id // id gốc từ genshin-db (ép về string)
+  name      String
+  sortOrder Int?
+  version   String?
+  raw       Json
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+model Achievement {
+  id                    String   @id
+  name                  String
+  achievementGroupId    String?
+  achievementGroupName  String?
+  isHidden              Boolean?
+  sortOrder             Int?
+  raw                   Json
+  updatedAt             DateTime @updatedAt
+  createdAt             DateTime @default(now())
+
+  @@index([achievementGroupId])
+}
+
+model AdventureRank {
+  id        String   @id
+  name      String
+  exp       Int?
+  raw       Json
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+model Animal {
+  id           String   @id
+  name         String
+  categoryType String?
+  categoryText String?
+  sortOrder    Int?
+  raw          Json
+  updatedAt    DateTime @updatedAt
+  createdAt    DateTime @default(now())
+
+  @@index([categoryType])
+}
+
+// Bản THÔ 1 nhân vật -> 6 cung mệnh, tách biệt Character.constellations (JSON đã qua xử lý)
+model Constellation {
+  id        String   @id // = id nhân vật bên genshin-db, KHÔNG phải Character.id (slug) của app này
+  name      String   // tên nhân vật
+  raw       Json     // { c1..c6 } đầy đủ
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  @@index([name])
+}
+
+model Craft {
+  id          String   @id
+  name        String
+  unlockRank  Int?
+  moraCost    Int?
+  resultCount Int?
+  raw         Json
+  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now())
+}
+
+model ElementInfo {
+  name      String   @id // folder "elements" không có field id riêng, dùng name làm khóa
+  type      String?
+  archon    String?
+  raw       Json
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+model Enemy {
+  id           String   @id
+  monsterId    Int?
+  name         String
+  monsterType  String?
+  enemyType    String?
+  categoryType String?
+  categoryText String?
+  raw          Json
+  updatedAt    DateTime @updatedAt
+  createdAt    DateTime @default(now())
+
+  @@index([monsterType])
+  @@index([enemyType])
+}
+
+model Food {
+  id         String   @id
+  name       String
+  rarity     Int?
+  foodtype   String?
+  filterType String?
+  raw        Json
+  updatedAt  DateTime @updatedAt
+  createdAt  DateTime @default(now())
+
+  @@index([foodtype])
+  @@index([rarity])
+}
+
+model Geography {
+  id         String   @id
+  name       String
+  areaId     String?
+  areaName   String?
+  regionId   String?
+  regionName String?
+  raw        Json
+  updatedAt  DateTime @updatedAt
+  createdAt  DateTime @default(now())
+
+  @@index([regionName])
+}
+
+model Namecard {
+  id        String   @id
+  name      String
+  source    String?
+  version   String?
+  raw       Json
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+model Outfit {
+  id            String   @id
+  name          String
+  characterId   String?  // id nhân vật bên genshin-db, KHÔNG phải Character.id (slug)
+  characterName String?
+  isDefault     Boolean?
+  source        String?
+  raw           Json
+  updatedAt     DateTime @updatedAt
+  createdAt     DateTime @default(now())
+
+  @@index([characterName])
+}
+
+model Rarity {
+  name      String   @id
+  raw       Json
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+// Bản THÔ combat1-3/passive1-3 theo nhân vật, tách biệt Character.talents (JSON đã qua xử lý)
+model Talent {
+  id        String   @id // = id nhân vật bên genshin-db
+  name      String   // tên nhân vật
+  raw       Json     // { combat1..3, passive1..3 } đầy đủ
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  @@index([name])
+}
+
+model Windglider {
+  id        String   @id
+  name      String
+  rarity    Int?
+  source    String?
+  raw       Json
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
 }

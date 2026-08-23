@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -112,7 +113,7 @@ export function SafeImage({
         aria-label={alt}
         className={
           fallbackClassName ??
-          "w-full h-full flex items-center justify-center text-muted text-[10px] bg-secondary/30"
+          "w-full h-full flex items-center justify-center text-text-muted text-[10px] bg-bg-secondary/30"
         }
       >
         —

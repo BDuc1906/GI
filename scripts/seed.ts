@@ -13,6 +13,7 @@ import { seedCharacters } from './seed-characters';
 import { seedWeapons } from './seed-weapons';
 import { seedArtifacts } from './seed-artifacts';
 import { seedDomains } from './seed-domains';
+import { seedExtra } from './seed-extra';
 import { printMissingIconSummary } from './lib/seed-helpers';
 import { notifyOps } from '../src/lib/notify';
 import { logger } from '../src/lib/logger';
@@ -37,6 +38,9 @@ async function main(): Promise<void> {
     logger.info('📦 Đang seed bảng Domain...');
     await seedDomains();
 
+    logger.info('📦 Đang seed 15 bảng dữ liệu bổ sung (achievements, enemies, foods, ...)...');
+    await seedExtra();
+    
     printMissingIconSummary();
 
     const duration = Date.now() - startTime;

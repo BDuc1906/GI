@@ -1,180 +1,190 @@
 
-import Link from "next/link";
-import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
-import { SafeImage } from "@/components/SafeImage";
+import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { genshinServerWeekdayIndex } from "@/lib/genshin-server-time";
-
-export const metadata: Metadata = {
-  title: "Bí Cảnh — LEIBO",
-  description:
-    "Lịch bí cảnh Genshin Impact: bí cảnh thánh di vật (mở hằng ngày), bí cảnh vũ khí và sách thiên phú (mở luân phiên theo ngày trong tuần).",
-};
-
-const CATEGORY_LABEL: Record<string, string> = {
-  artifact: "Thánh di vật",
-  weapon: "Nguyên liệu vũ khí",
-  talent: "Sách thiên phú",
-};
-
-const CATEGORY_ORDER = ["artifact", "weapon", "talent"];
-
-const WEEKDAY_LABEL_VI: Record<string, string> = {
-  Sunday: "CN",
-  Monday: "T2",
-  Tuesday: "T3",
-  Wednesday: "T4",
-  Thursday: "T5",
-  Friday: "T6",
-  Saturday: "T7",
-};
-
-const WEEKDAY_FULL_VI = ["CN", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
+import { SafeImage } from "@/components/SafeImage";
+import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
 
 interface PageProps {
-  searchParams: Promise<{ category?: string; day?: string }>;
+  params: Promise<{ id: string }>;
 }
 
-export default async function DomainsPage({ searchParams }: PageProps) {
-  const { category, day } = await searchParams;
+const CATEGORY_LABEL: Record<string, string> = {
+  artifact: "Bí cảnh thánh di vật",
+  weapon: "Bí cảnh nguyên liệu vũ khí",
+  talent: "Bí cảnh sách thiên phú",
+};
 
-  const where: Prisma.DomainWhereInput = {};
-  if (category) where.category = category;
-  if (day) where.OR = [{ daysOfWeek: { isEmpty: true } }, { daysOfWeek: { has: day } }];
+const WEEKDAY_FULL_VI: Record<string, string> = {
+  Sunday: "Chủ nhật",
+  Monday: "Thứ 2",
+  Tuesday: "Thứ 3",
+  Wednesday: "Thứ 4",
+  Thursday: "Thứ 5",
+  Friday: "Thứ 6",
+  Saturday: "Thứ 7",
+};
 
-  const domains = await prisma.domain.findMany({ where, orderBy: [{ category: "asc" }, { name: "asc" }] });
+interface DomainMaterialEntry {
+  // Domain "weapon"/"talent": trỏ tới Material.id.
+  materialId?: string | null;
+  // Domain "artifact": rewardPreview là TÊN BỘ THÁNH DI VẬT, không phải
+  // nguyên liệu -> trỏ tới ArtifactSet.id thay vì Material.id (xem comment
+  // trong scripts/seed-domains.ts). Chỉ đúng 1 trong 2 field có giá trị,
+  // tùy category của domain.
+  artifactSetId?: string | null;
+  name: string;
+}
 
-  // "Hôm nay" tính theo giờ server Châu Á (UTC+8) + mốc đổi ngày 4:00 sáng —
-  // dùng chung src/lib/genshin-server-time.ts với GET /api/domains?today=true
-  // để trang và API luôn khớp nhau (xem docstring trong file đó).
-  const todayIndex = genshinServerWeekdayIndex();
-  const todayKey = Object.keys(WEEKDAY_LABEL_VI)[todayIndex];
-
-  const buildQuery = (params: Record<string, string | undefined>) => {
-    const sp = new URLSearchParams();
-    if (category) sp.set("category", category);
-    if (day) sp.set("day", day);
-    Object.entries(params).forEach(([k, v]) => {
-      if (v) sp.set(k, v);
-      else sp.delete(k);
-    });
-    return sp.toString();
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id } = await params;
+  const d = await prisma.domain.findUnique({ where: { id } });
+  if (!d) return { title: "Không tìm thấy bí cảnh — LEIBO" };
+  return {
+    title: `${d.name} — LEIBO`,
+    description: d.description ?? `${CATEGORY_LABEL[d.category] ?? d.category} tại ${d.regionName ?? "Teyvat"}.`,
   };
+}
+
+export default async function DomainDetail({ params }: PageProps) {
+  const { id } = await params;
+  const d = await prisma.domain.findUnique({ where: { id } });
+  if (!d) return notFound();
+
+  const materials = (d.materials as unknown as DomainMaterialEntry[]) ?? [];
+
+  const materialIds = materials.map((m) => m.materialId).filter((v): v is string => Boolean(v));
+  const artifactSetIds = materials.map((m) => m.artifactSetId).filter((v): v is string => Boolean(v));
+
+  const [materialIcons, artifactSetIcons] = await Promise.all([
+    materialIds.length
+      ? prisma.material.findMany({
+          where: { id: { in: materialIds } },
+          select: { id: true, iconUrl: true },
+        })
+      : Promise.resolve([]),
+    artifactSetIds.length
+      ? prisma.artifactSet.findMany({
+          where: { id: { in: artifactSetIds } },
+          select: { id: true, iconUrl: true },
+        })
+      : Promise.resolve([]),
+  ]);
+  const materialIconMap = new Map(materialIcons.map((m) => [m.id, m.iconUrl]));
+  const artifactSetIconMap = new Map(artifactSetIcons.map((a) => [a.id, a.iconUrl]));
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="font-display text-4xl font-bold tracking-wide text-primary uppercase mb-2">
-          Lịch Bí Cảnh
-        </h1>
-        <p className="text-sm text-secondary">
-          Tìm thấy <span className="text-gold-bright font-semibold">{domains.length}</span> bí cảnh
-        </p>
-      </div>
-
-      <div className="bg-card/40 backdrop-blur-md border border-border p-4 rounded-xl mb-8 flex flex-wrap gap-4 text-xs items-center">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-secondary font-medium mr-2">Loại bí cảnh:</span>
-          {CATEGORY_ORDER.map((c) => (
-            <Link
-              key={c}
-              href={`/domains?${buildQuery({ category: c })}`}
-              className={`px-3 py-1.5 rounded-full border transition-all font-medium ${
-                category === c
-                  ? "border-gold bg-gold/20 text-gold-bright"
-                  : "border-border bg-card/60 hover:border-gold/50 text-primary"
-              }`}
-            >
-              {CATEGORY_LABEL[c]}
-            </Link>
-          ))}
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-secondary font-medium mr-2 ml-2">Ngày mở:</span>
-          {Object.entries(WEEKDAY_LABEL_VI).map(([key, label]) => (
-            <Link
-              key={key}
-              href={`/domains?${buildQuery({ day: key })}`}
-              className={`w-9 h-9 flex items-center justify-center rounded-full border transition-all font-semibold ${
-                day === key
-                  ? "border-gold bg-gold/20 text-gold-bright"
-                  : key === todayKey
-                    ? "border-gold/50 text-gold-bright"
-                    : "border-border bg-card/60 hover:border-gold/50 text-primary"
-              }`}
-              title={key === todayKey ? `${label} (hôm nay)` : label}
-            >
-              {label}
-            </Link>
-          ))}
-        </div>
-
-        {(category || day) && (
-          <Link
-            href="/domains"
-            className="ml-auto px-4 py-1.5 rounded-full bg-red-950/40 border border-red-900/60 text-red-400 hover:bg-red-900/40 transition-colors font-semibold"
-          >
-            Xóa Lọc &times;
-          </Link>
+    <div className="max-w-4xl mx-auto px-4 py-8">
+      <BreadcrumbJsonLd
+        items={[
+          { name: "LEIBO", path: "/" },
+          { name: "Bí cảnh", path: "/domains" },
+          { name: d.name, path: `/domains/${d.id}` },
+        ]}
+      />
+      <div className="flex flex-col sm:flex-row gap-6 mb-8">
+        {d.imageUrl && (
+          <div className="relative w-40 h-40 rounded-xl border border-border bg-bg-card shrink-0 overflow-hidden">
+            <SafeImage
+              src={d.imageUrl}
+              fallbackSrcs={[d.imageUrlOriginal]}
+              alt={d.name}
+              fill
+              sizes="160px"
+              className="object-cover"
+              fallbackClassName="w-full h-full flex items-center justify-center text-text-muted text-[10px]"
+            />
+          </div>
         )}
+        <div>
+          <div className="text-xs uppercase tracking-wider text-text-secondary font-medium mb-1">
+            {CATEGORY_LABEL[d.category] ?? d.category}
+          </div>
+          <h1 className="text-3xl font-bold text-gold-bright">{d.name}</h1>
+          <p className="text-sm text-text-muted mb-4">
+            {d.regionName ?? "Teyvat"}
+            {d.recommendedLevel ? ` · Khuyến nghị cấp ${d.recommendedLevel}` : ""}
+          </p>
+          {d.description && <p className="text-text-primary italic max-w-xl">{d.description}</p>}
+        </div>
       </div>
 
-      {!day && (
-        <p className="mb-6 text-xs text-secondary">
-          Hôm nay ({WEEKDAY_FULL_VI[todayIndex]} theo giờ server Châu Á, reset 4:00 sáng):{" "}
-          <Link href={`/domains?${buildQuery({ day: todayKey })}`} className="text-gold-bright underline underline-offset-2">
-            xem bí cảnh mở hôm nay
-          </Link>
-          . Áp dụng cho server Châu Á (UTC+8) — đa số người chơi Việt Nam dùng server này.
-        </p>
+      {/* Lịch mở */}
+      <section className="mb-8">
+        <h2 className="font-display text-xl font-bold mb-2 text-gold border-b border-border pb-2">Lịch mở</h2>
+        {d.daysOfWeek.length === 0 ? (
+          <p className="text-sm text-text-secondary">Mở hằng ngày.</p>
+        ) : (
+          <div className="flex flex-wrap gap-2 text-sm">
+            {d.daysOfWeek.map((wd) => (
+              <span key={wd} className="px-3 py-1.5 rounded-full border border-gold/40 bg-gold/10 text-gold-bright">
+                {WEEKDAY_FULL_VI[wd] ?? wd}
+              </span>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* Nguyên tố khuyến nghị */}
+      {d.recommendedElements.length > 0 && (
+        <section className="mb-8">
+          <h2 className="font-display text-xl font-bold mb-2 text-gold border-b border-border pb-2">
+            Nguyên tố khắc chế khuyến nghị
+          </h2>
+          <div className="flex flex-wrap gap-2 text-sm">
+            {d.recommendedElements.map((el) => (
+              <span key={el} className="px-3 py-1.5 rounded-full border border-border bg-bg-card/60 text-text-primary">
+                {el}
+              </span>
+            ))}
+          </div>
+        </section>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {domains.map((d) => (
-          <Link
-            key={d.id}
-            href={`/domains/${d.id}`}
-            className="relic-frame overflow-hidden group flex gap-4 p-4"
-          >
-            <div className="relative w-20 h-20 shrink-0 rounded-lg bg-secondary/40 overflow-hidden">
-              {d.imageUrl ? (
-                <SafeImage
-                  src={d.imageUrl}
-                  fallbackSrcs={[d.imageUrlOriginal]}
-                  alt={d.name}
-                  fill
-                  sizes="80px"
-                  className="object-cover group-hover:scale-110 transition-transform duration-300"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-muted text-[10px]">
-                  No Image
-                </div>
-              )}
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="text-[10px] uppercase tracking-wider text-secondary font-medium mb-1">
-                {CATEGORY_LABEL[d.category] ?? d.category}
-              </div>
-              <div className="font-bold truncate text-primary group-hover:text-gold-bright transition-colors text-sm mb-1">
-                {d.name}
-              </div>
-              <div className="text-xs text-muted">
-                {d.daysOfWeek.length === 0
-                  ? "Mở hằng ngày"
-                  : d.daysOfWeek.map((wd) => WEEKDAY_LABEL_VI[wd] ?? wd).join(" · ")}
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
+      {/* Nguyên liệu / bộ thánh di vật rớt */}
+      {materials.length > 0 && (
+        <section className="mb-8">
+          <h2 className="font-display text-xl font-bold mb-4 text-gold border-b border-border pb-2">
+            {d.category === "artifact" ? "Bộ thánh di vật rơi ra" : "Nguyên liệu nhận được"}
+          </h2>
+          <div className="relic-frame bg-bg-card border border-border rounded-xl p-4">
+            <ul className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
+              {materials.map((m, i) => {
+                const iconUrl = m.materialId
+                  ? materialIconMap.get(m.materialId)
+                  : m.artifactSetId
+                    ? artifactSetIconMap.get(m.artifactSetId)
+                    : null;
+                return (
+                  <li key={i} className="flex items-center gap-2 min-w-0">
+                    <span className="relative w-8 h-8 shrink-0 rounded bg-bg-secondary border border-border overflow-hidden">
+                      {iconUrl ? (
+                        <SafeImage src={iconUrl} alt={m.name} fill sizes="32px" className="object-contain" />
+                      ) : null}
+                    </span>
+                    <span className="text-text-secondary truncate">{m.name}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </section>
+      )}
 
-      {domains.length === 0 && (
-        <div className="text-center py-16 text-secondary text-sm">
-          Không tìm thấy bí cảnh nào khớp bộ lọc.
-        </div>
+      {/* Quái trong bí cảnh */}
+      {d.monsterNames.length > 0 && (
+        <section>
+          <h2 className="font-display text-xl font-bold mb-4 text-gold border-b border-border pb-2">
+            Kẻ địch trong bí cảnh
+          </h2>
+          <ul className="flex flex-wrap gap-2 text-sm">
+            {d.monsterNames.map((m) => (
+              <li key={m} className="px-3 py-1.5 rounded-full border border-border bg-bg-card/60 text-text-secondary">
+                {m}
+              </li>
+            ))}
+          </ul>
+        </section>
       )}
     </div>
   );

@@ -1,216 +1,284 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
+/* ==========================================================================
+ * LEIBO — Design System 2026 (v2: "Codex")
+ * --------------------------------------------------------------------------
+ * Thesis: một cuốn bách khoa thần thoại (Teyvat) được trình bày như một
+ * công cụ tra cứu hiện đại. Chất liệu thị giác lấy thẳng từ chủ đề: 7 màu
+ * nguyên tố chính thức của game làm hệ màu tương tác — KHÔNG phải 1 accent
+ * đơn sắc phủ khắp mọi thứ như bản trước.
+ *
+ * Nguyên tắc:
+ * 1. Nền trung tính "codex" (giấy cổ số hoá), không đen phẳng, không be.
+ * 2. Vàng (--rarity-5) CHỈ còn ý nghĩa phẩm cấp 5★ — không còn là màu
+ *    "hover chung" của toàn site.
+ * 3. Mỗi entity (nhân vật/vũ khí) phát sáng theo ĐÚNG màu nguyên tố của
+ *    chính nó khi tương tác — ẩn dụ trực tiếp cơ chế "phản ứng nguyên tố".
+ * 4. Signature: Vision Ring (conic-gradient 7 màu) — dùng ở đúng 3 nơi:
+ *    logo, hero, loading state. Không lặp lại thêm.
+ * ========================================================================== */
+
 :root {
-  /* DARK MODE */
-  --bg-primary: #0d0d0d;
-  --bg-secondary: #161618;
-  --bg-card: #1e1e22;
-  --bg-input: #252528;
-  --bg-table: #1a1a1e;
-  --bg-table-alt: #222226;
-  --text-primary: #f0ece4;
-  --text-secondary: #a8a4a0;
-  --text-muted: #6b6865;
-  --text-inverted: #0d0d0d;
-  --border-color: #2a2a2e;
-  --gold: #C9A66B;
-  --gold-bright: #F4D03F;
-  --shadow-glow: 0 0 20px rgba(201, 166, 107, 0.08);
-  --shadow-card: 0 4px 12px rgba(0,0,0,0.3);
-  /* Màu sao phẩm cấp (★) — TÁCH RIÊNG khỏi --gold-bright. Trong game, sao
-     phẩm cấp luôn là 1 tông vàng ánh kim rực rỡ, không đổi theo theme UI.
-     Trước đây trang lọc dùng chung text-gold-bright cho sao, nhưng biến
-     đó còn dùng cho rất nhiều chỗ khác (link hover, viền nút...) nên ở
-     light mode nó bị chỉnh thành tông nâu-vàng trầm (#c9a03a) để hợp với
-     nền sáng — kết quả là sao nhìn như đen/nâu thay vì vàng. */
-  --rarity-star: #ffd54a;
+  --bg-primary: #0c0c0e;
+  --bg-secondary: #131316;
+  --bg-card: #17171b;
+  --bg-elevated: #1e1e23;
+  --bg-input: #1a1a1e;
+
+  --text-primary: #f2efe9;
+  --text-secondary: #a3a09b;
+  --text-muted: #6f6c68;
+  --text-inverted: #0c0c0e;
+
+  --border-color: #26262b;
+  --border-strong: #37373f;
+
+  --accent-500: #c9a05a;
+  --accent-bright: #f0c95e;
+
+  --rarity-5: #f0c95e;
+  --rarity-4: #b18cd9;
+  --rarity-3: #7fa8c9;
+
+  --el-pyro: #ff7043;
+  --el-hydro: #35b8ea;
+  --el-anemo: #5fd6be;
+  --el-electro: #b17ae0;
+  --el-dendro: #a4d24a;
+  --el-cryo: #8fe6ee;
+  --el-geo: #e0b64c;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 10px 28px -10px rgba(0, 0, 0, 0.55);
+  --radius-card: 10px;
 }
 
 [data-theme="light"] {
-  /* LIGHT MODE – tương phản cao */
-  --bg-primary: #f5f3f0;
-  --bg-secondary: #ffffff;
-  --bg-card: #faf8f5;
-  --bg-input: #edeae6;
-  --bg-table: #f0ede8;
-  --bg-table-alt: #e8e5e0;
-  --text-primary: #1a1a1a;
-  --text-secondary: #4a4744;
-  --text-muted: #7a7672;
-  --text-inverted: #f0ece4;
-  --border-color: #c8c4bf;
-  --gold: #b8944a;
-  --gold-bright: #c9a03a;
-  --shadow-glow: 0 0 20px rgba(184, 148, 74, 0.10);
-  --shadow-card: 0 4px 12px rgba(0,0,0,0.06);
-  /* Sao phẩm cấp vẫn giữ tông vàng đậm rực rỡ ở light mode (khác
-     --gold-bright), để không bị "chìm" màu nâu như trước. */
-  --rarity-star: #e0a800;
+  --bg-primary: #f7f4ee;
+  --bg-secondary: #fffdf9;
+  --bg-card: #fffdf9;
+  --bg-elevated: #f0ebe0;
+  --bg-input: #efe9dd;
+
+  --text-primary: #17150f;
+  --text-secondary: #55503f;
+  --text-muted: #857f6d;
+  --text-inverted: #f7f4ee;
+
+  --border-color: #e2d9c4;
+  --border-strong: #cabf9f;
+
+  --accent-500: #a9793a;
+  --accent-bright: #8a5e26;
+
+  --rarity-5: #c98a1f;
+  --rarity-4: #8a5fb8;
+  --rarity-3: #3f7ea3;
+
+  --el-pyro: #d94f22;
+  --el-hydro: #1786b0;
+  --el-anemo: #24947e;
+  --el-electro: #7d4fb0;
+  --el-dendro: #6f9424;
+  --el-cryo: #2c9aa8;
+  --el-geo: #9c7422;
+
+  --shadow-sm: 0 1px 2px rgba(30, 22, 8, 0.07);
+  --shadow-md: 0 10px 26px -12px rgba(30, 22, 8, 0.16);
 }
 
-/*
- * BUG ĐÃ SỬA: toàn bộ class Tailwind dùng tiền tố "gold" (text-gold,
- * text-gold-bright, bg-gold/10, border-gold/40, ...) được dùng RẤT NHIỀU
- * nơi trong codebase, nhưng KHÔNG có tác dụng gì — Tailwind v4 chỉ sinh ra
- * utility cho 1 màu nếu màu đó được khai trong khối `@theme` (dạng biến
- * `--color-<tên>`). "gold"/"gold-bright" trước đây CHỈ được khai trong
- * `:root`/`[data-theme="light"]` như biến CSS thường (`--gold`,
- * `--gold-bright`) — Tailwind không biết 2 biến này để sinh class, nên
- * `text-gold-bright` bị bỏ qua hoàn toàn lúc build, phần tử rơi về màu chữ
- * mặc định kế thừa từ `body` (đen ở light mode) — đây chính là lý do các
- * ngôi sao ★ ở bộ lọc phẩm cấp hiển thị màu đen thay vì vàng.
- *
- * Sửa bằng `@theme inline`: đăng ký lại 2 biến trên thành token màu thật
- * của Tailwind, TRỎ THẲNG tới biến CSS gốc (không hardcode giá trị) để vẫn
- * tự đổi màu đúng giữa dark/light mode như thiết kế ban đầu.
- *
- * Thêm --color-rarity-star cùng cơ chế, để sinh ra class `text-rarity-star`
- * dùng riêng cho sao phẩm cấp — xem lý do tách riêng ở comment của biến
- * --rarity-star phía trên.
- */
 @theme inline {
-  --color-gold: var(--gold);
-  --color-gold-bright: var(--gold-bright);
-  --color-rarity-star: var(--rarity-star);
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-card: var(--bg-card);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-inverted: var(--text-inverted);
+  --color-border: var(--border-color);
+  --color-border-strong: var(--border-strong);
+  --color-accent: var(--accent-500);
+  --color-accent-bright: var(--accent-bright);
+  --color-rarity-5: var(--rarity-5);
+  --color-rarity-4: var(--rarity-4);
+  --color-rarity-3: var(--rarity-3);
+
+  /* Alias tương thích ngược — CHỈ để các trang chưa migrate sang token mới
+     (vd /elements, /domains, ThemeToggle, ReactionTabs, khu /admin tại thời
+     điểm viết dòng này) không bị mất màu hoàn toàn khi globals.css này thay
+     thế bản cũ. Trỏ thẳng về token v2, không phải giá trị hardcode riêng.
+     XOÁ 2 dòng dưới sau khi toàn bộ trang còn lại đã chuyển sang dùng
+     text-accent/text-accent-bright/rarityColorVar. */
+  --color-gold: var(--accent-500);
+  --color-gold-bright: var(--accent-bright);
 }
 
-* {
-  transition: background-color 0.25s ease, color 0.2s ease, border-color 0.25s ease;
-}
+* { transition: background-color 0.2s ease, border-color 0.2s ease, color 0.15s ease; }
 
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: 'Inter', sans-serif;
   line-height: 1.6;
+  font-feature-settings: "kern" 1, "liga" 1;
+}
+.font-body { font-family: var(--font-body), "Be Vietnam Pro", sans-serif; }
+.font-display { font-family: var(--font-display), "Spectral", Georgia, serif; font-optical-sizing: auto; }
+.tabular-nums { font-variant-numeric: tabular-nums; }
+
+/* ===== Type scale — "cổ thư" (serif display lớn, tracking âm nhẹ) ===== */
+.text-display-1 { font-size: clamp(3rem, 7vw, 6.5rem); line-height: 0.98; letter-spacing: -0.015em; }
+.text-display-2 { font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.12; letter-spacing: -0.005em; }
+.text-display-3 { font-size: clamp(1.15rem, 1.6vw, 1.5rem); line-height: 1.25; }
+.text-eyebrow { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+
+/* ===== Vision Ring — chữ ký thị giác duy nhất, dùng ĐÚNG 3 nơi ===== */
+.vision-ring {
+  background: conic-gradient(
+    from 0deg,
+    var(--el-pyro), var(--el-geo), var(--el-electro),
+    var(--el-dendro), var(--el-anemo), var(--el-cryo),
+    var(--el-hydro), var(--el-pyro)
+  );
+}
+.vision-ring-mask {
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2.5px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2.5px));
 }
 
-.font-display {
-  font-family: 'Cinzel', serif;
+/* ===== Surfaces ===== */
+.surface-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.surface-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--border-strong); }
+
+.surface-glass {
+  background: color-mix(in srgb, var(--bg-primary) 80%, transparent);
+  backdrop-filter: blur(14px) saturate(1.1);
+  -webkit-backdrop-filter: blur(14px) saturate(1.1);
 }
 
-/* ===== Các lớp dùng chung ===== */
+/* Alias tương thích ngược — /domains, /domains/[id], /elements,
+   ReactionTabs.tsx chưa migrate vẫn dùng class .relic-frame trực tiếp.
+   XOÁ sau khi các trang đó chuyển sang .surface-card. */
 .relic-frame {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: 1rem;
-  box-shadow: var(--shadow-card);
-  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 .relic-frame:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-glow), var(--shadow-card);
-  border-color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-strong);
 }
 
-/* Rarity glow */
-.rarity-glow-5 {
-  border-color: rgba(244, 208, 63, 0.45);
+/* ===== Rarity — ribbon góc nhỏ, chỉ vàng dành riêng cho 5★ ===== */
+/* border-width co giãn theo clamp() thay vì cố định 30px — với lưới
+   compact mới (card ~110-140px thay vì 213px), 30px cố định sẽ chiếm tới
+   ~25% bề rộng card và che mất icon. */
+.rarity-ribbon { position: absolute; top: 0; right: 0; width: 0; height: 0; border-style: solid; border-width: 0 clamp(14px, 16%, 30px) clamp(14px, 16%, 30px) 0; pointer-events: none; }
+.rarity-ribbon-5 { border-color: transparent var(--rarity-5) transparent transparent; }
+.rarity-ribbon-4 { border-color: transparent var(--rarity-4) transparent transparent; }
+.rarity-ribbon-3 { border-color: transparent var(--rarity-3) transparent transparent; }
+.rarity-dot { width: 6px; height: 6px; border-radius: 999px; display: inline-block; }
+.rarity-dot-5 { background: var(--rarity-5); box-shadow: 0 0 6px color-mix(in srgb, var(--rarity-5) 60%, transparent); }
+.rarity-dot-4 { background: var(--rarity-4); }
+.rarity-dot-3 { background: var(--rarity-3); }
+
+/* ===== Entity glow theo nguyên tố — ẩn dụ "phản ứng" khi chạm vào card =====
+   --el custom property được set INLINE bởi component theo vision riêng của
+   từng nhân vật/vũ khí — đây là lý do site không còn 1 màu hover duy nhất. */
+.entity-elemental {
+  --el: var(--accent-500);
+  transition: transform 0.2s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
-[data-theme="light"] .rarity-glow-5 {
-  border-color: #b8944a;
-  box-shadow: 0 0 12px rgba(184, 148, 74, 0.15);
+.entity-elemental:hover {
+  box-shadow: 0 10px 32px -12px color-mix(in srgb, var(--el) 55%, transparent);
+  border-color: color-mix(in srgb, var(--el) 45%, var(--border-strong));
+}
+.entity-elemental:hover .entity-elemental-bar { background: var(--el); }
+.entity-elemental-bar { height: 2px; background: var(--border-color); transition: background 0.25s ease; }
+
+/* ===== Form controls ===== */
+input, button, select { background: var(--bg-input); border-color: var(--border-color); color: var(--text-primary); }
+input::placeholder { color: var(--text-muted); }
+button:hover { border-color: var(--border-strong); }
+
+.btn-accent { background: var(--accent-500); color: var(--text-inverted); font-weight: 600; transition: background-color 0.2s, transform 0.2s; }
+.btn-accent:hover { background: var(--accent-bright); transform: translateY(-1px); }
+
+.chip { border: 1px solid var(--border-color); background: var(--bg-elevated); color: var(--text-secondary); transition: all 0.15s ease; }
+.chip:hover { border-color: var(--border-strong); color: var(--text-primary); }
+.chip[aria-pressed="true"] { border-color: var(--accent-500); background: color-mix(in srgb, var(--accent-500) 14%, transparent); color: var(--accent-bright); font-weight: 600; }
+
+.divider-hairline { height: 1px; background: var(--border-color); }
+
+a { color: var(--text-primary); transition: color 0.15s; }
+a:hover { color: var(--accent-bright); }
+
+table { border-collapse: collapse; width: 100%; }
+th, td { border-color: var(--border-color); padding: 0.75rem 1rem; text-align: left; }
+th { background: var(--bg-elevated); color: var(--text-secondary); font-weight: 600; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.06em; }
+tr { border-bottom: 1px solid var(--border-color); }
+tr:nth-child(even) { background: color-mix(in srgb, var(--bg-elevated) 50%, transparent); }
+
+.skill-icon-frame { background: radial-gradient(circle, #26262c 0%, #16161a 100%); border-color: color-mix(in srgb, var(--accent-500) 35%, transparent); }
+
+/* ===== Animations ===== */
+@keyframes letter-in { from { opacity: 0; transform: translateY(0.35em); } to { opacity: 1; transform: translateY(0); } }
+.animate-letter-in { animation: letter-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+@keyframes fade-in-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.animate-fade-in-up { opacity: 0; animation: fade-in-up 0.6s ease-out forwards; }
+@keyframes reveal-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.reveal-hidden { opacity: 0; }
+.reveal-visible { animation: reveal-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+@keyframes ring-spin { to { transform: rotate(360deg); } }
+.animate-ring-spin { animation: ring-spin 8s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-letter-in, .animate-fade-in-up, .reveal-hidden, .reveal-visible, .animate-ring-spin {
+    animation: none !important; opacity: 1 !important; transform: none !important;
+  }
 }
 
-.rarity-glow-4 {
-  border-color: rgba(181, 126, 220, 0.4);
+.tilt-card {
+  --tilt-x: 0deg; --tilt-y: 0deg; --shine-x: 50%; --shine-y: 50%;
+  transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+  transition: transform 0.15s ease-out;
+  position: relative;
+  will-change: transform;
 }
-[data-theme="light"] .rarity-glow-4 {
-  border-color: #9a6bb8;
-  box-shadow: 0 0 12px rgba(154, 107, 184, 0.15);
+.tilt-card::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  background: radial-gradient(220px circle at var(--shine-x) var(--shine-y), color-mix(in srgb, var(--el, var(--accent-bright)) 16%, transparent), transparent 60%);
+  opacity: 0; transition: opacity 0.25s ease; pointer-events: none; z-index: 1;
+}
+.tilt-card:hover::before { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .tilt-card { transform: none !important; transition: none !important; } .tilt-card::before { display: none; } }
+
+.bg-grain { position: relative; }
+.bg-grain::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0; opacity: 0.3;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
 }
 
-.rarity-glow-3 {
-  border-color: rgba(201, 166, 107, 0.25);
-}
-[data-theme="light"] .rarity-glow-3 {
-  border-color: #b8944a;
-  box-shadow: 0 0 12px rgba(184, 148, 74, 0.10);
-}
-
-/* Input & Button */
-input, button {
-  background: var(--bg-input);
-  border-color: var(--border-color);
-  color: var(--text-primary);
-}
-input::placeholder {
-  color: var(--text-muted);
-}
-button:hover {
-  border-color: var(--gold);
+/* ===== Bổ sung 2026: a11y focus ring + cuộn mượt =====
+ * Trước đây không có style riêng cho :focus-visible — điều hướng bàn
+ * phím qua card/link không có phản hồi thị giác rõ ràng. */
+:focus-visible {
+  outline: 2px solid var(--accent-bright);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
-/* Divider */
-.divider-gold {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-}
-
-/* Links */
-a {
-  color: var(--text-primary);
-  transition: color 0.2s;
-}
-a:hover {
-  color: var(--gold-bright);
-}
-
-/* Table */
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-th, td {
-  border-color: var(--border-color);
-  padding: 0.75rem 1rem;
-  text-align: left;
-}
-th {
-  background: var(--bg-table);
-  color: var(--text-secondary);
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  letter-spacing: 0.05em;
-}
-tr {
-  border-bottom: 1px solid var(--border-color);
-}
-tr:nth-child(even) {
-  background: var(--bg-table-alt);
-}
-
-/* Utility classes */
-.bg-primary { background-color: var(--bg-primary); }
-.bg-secondary { background-color: var(--bg-secondary); }
-.bg-card { background-color: var(--bg-card); }
-.bg-table { background-color: var(--bg-table); }
-.bg-table-alt { background-color: var(--bg-table-alt); }
-.text-primary { color: var(--text-primary); }
-.text-secondary { color: var(--text-secondary); }
-.text-muted { color: var(--text-muted); }
-.text-inverted { color: var(--text-inverted); }
-.border-border { border-color: var(--border-color); }
-.shadow-card { box-shadow: var(--shadow-card); }
-
-/* Sao phẩm cấp (★) — dùng --color-rarity-star đăng ký ở @theme inline
-   phía trên. Thêm text-shadow nhẹ để nổi bật giống hiệu ứng "ánh kim"
-   của sao trong game, ở cả 2 theme. */
-.text-rarity-star {
-  color: var(--rarity-star);
-  text-shadow: 0 0 6px rgba(255, 213, 74, 0.35);
-}
-
-/* Khung icon kỹ năng / cung mệnh — LUÔN nền tối bất kể theme (không dùng
-   bg-secondary/bg-card đổi theo theme như các icon khác) vì ảnh gốc từ
-   game là artwork NÉT TRẮNG trong suốt, thiết kế sẵn để đặt lên nền tròn
-   tối. Ở light mode, bg-secondary = #ffffff khiến icon trắng biến mất
-   hoàn toàn (icon kỹ năng/cung mệnh gần như vô hình — xem ảnh chụp báo
-   lỗi). Cố định nền tối + viền vàng nhẹ để icon luôn tương phản rõ, dùng
-   chung cho cả 2 theme thay vì phụ thuộc biến --bg-secondary. */
-.skill-icon-frame {
-  background: radial-gradient(circle, #2a2a30 0%, #1a1a1e 100%);
-  border-color: rgba(201, 166, 107, 0.35);
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
 }

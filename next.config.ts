@@ -1,5 +1,12 @@
 import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs";
+import createNextIntlPlugin from "next-intl/plugin";
+
+// Trỏ đúng vào src/i18n/request.ts — plugin này nối getRequestConfig() vào
+// pipeline build/runtime của Next.js (Webpack/Turbopack alias cho
+// "next-intl/server"), không cần khai báo gì thêm trong phần cấu hình bên
+// dưới.
+const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 type RemotePattern = NonNullable<NonNullable<NextConfig["images"]>["remotePatterns"]>[number];
 
@@ -126,7 +133,12 @@ const nextConfig: NextConfig = {
 };
 
 // Tích hợp Sentry – đã sửa lỗi
-export default withSentryConfig(nextConfig, {
+// withNextIntl bọc TRONG CÙNG (nextConfig trước), withSentryConfig bọc
+// NGOÀI — thứ tự này không quan trọng về mặt chức năng (2 plugin không
+// đụng chạm cùng field), nhưng giữ withSentryConfig ngoài cùng theo đúng
+// khuyến nghị chính thức của @sentry/nextjs (plugin Sentry cần thấy cấu
+// hình Next.js cuối cùng để gắn source map upload đúng).
+export default withSentryConfig(withNextIntl(nextConfig), {
   // For all available options, see:
   // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 

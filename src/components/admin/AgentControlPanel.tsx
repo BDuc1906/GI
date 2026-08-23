@@ -2,6 +2,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import type { FixScanSummary } from "./DataHealth";
 
 interface AgentControlPanelProps {
@@ -26,6 +27,7 @@ interface ActionResult {
  * thẳng DB).
  */
 export function AgentControlPanel({ adminKey, onAdminKeyChange, onActionComplete, onFixResult }: AgentControlPanelProps) {
+  const t = useTranslations("Admin");
   const [running, setRunning] = useState<"fix" | "sync" | null>(null);
   const [result, setResult] = useState<ActionResult | null>(null);
 
@@ -44,7 +46,7 @@ export function AgentControlPanel({ adminKey, onAdminKeyChange, onActionComplete
 
   async function runFix() {
     if (!adminKey) {
-      setResult({ ok: false, message: "Vui lòng nhập Admin Key trước." });
+      setResult({ ok: false, message: t("enterAdminKeyFirst") });
       return;
     }
     setRunning("fix");
@@ -53,13 +55,13 @@ export function AgentControlPanel({ adminKey, onAdminKeyChange, onActionComplete
       const data = await callAdminApi("/api/admin/fix");
       setResult({
         ok: true,
-        message: `Đã tự sửa ${data.fixedCount} bản ghi.`,
-        detail: data.skipped?.length ? `${data.skipped.length} bản ghi bị bỏ qua (xem chi tiết ở panel "Kết quả lần quét" bên dưới).` : undefined,
+        message: t("fixedNRecords", { count: data.fixedCount }),
+        detail: data.skipped?.length ? t("nRecordsSkipped", { count: data.skipped.length }) : undefined,
       });
       onFixResult({ fixedCount: data.fixedCount, fixes: data.fixes || [], skipped: data.skipped || [] });
       onActionComplete();
     } catch (err) {
-      setResult({ ok: false, message: err instanceof Error ? err.message : "Lỗi không xác định" });
+      setResult({ ok: false, message: err instanceof Error ? err.message : t("unknownError") });
     } finally {
       setRunning(null);
     }
@@ -67,7 +69,7 @@ export function AgentControlPanel({ adminKey, onAdminKeyChange, onActionComplete
 
   async function runSync() {
     if (!adminKey) {
-      setResult({ ok: false, message: "Vui lòng nhập Admin Key trước." });
+      setResult({ ok: false, message: t("enterAdminKeyFirst") });
       return;
     }
     setRunning("sync");
@@ -76,55 +78,53 @@ export function AgentControlPanel({ adminKey, onAdminKeyChange, onActionComplete
       const data = await callAdminApi("/api/admin/sync");
       setResult({
         ok: true,
-        message: data.result?.message || "Đã trigger workflow đồng bộ.",
+        message: data.result?.message || t("syncWorkflowTriggered"),
         detail: data.result?.workflowRunUrl,
       });
       onActionComplete();
     } catch (err) {
-      setResult({ ok: false, message: err instanceof Error ? err.message : "Lỗi không xác định" });
+      setResult({ ok: false, message: err instanceof Error ? err.message : t("unknownError") });
     } finally {
       setRunning(null);
     }
   }
 
   return (
-    <div className="bg-card border border-border rounded-xl p-4">
-      <h2 className="text-sm font-semibold text-secondary uppercase tracking-wider mb-3">
-        🤖 Điều khiển AI Agent
+    <div className="bg-bg-card border border-border rounded-xl p-4">
+      <h2 className="text-sm font-semibold text-text-secondary uppercase tracking-wider mb-3">
+        🤖 {t("agentControlTitle")}
       </h2>
 
       <div className="mb-4">
-        <label className="block text-xs text-muted mb-1" htmlFor="admin-key-input">
-          Admin Key (Authorization: Bearer …)
+        <label className="block text-xs text-text-muted mb-1" htmlFor="admin-key-input">
+          {t("adminKeyLabel")}
         </label>
         <input
           id="admin-key-input"
           type="password"
           value={adminKey}
           onChange={(e) => onAdminKeyChange(e.target.value)}
-          placeholder="Dán ADMIN_API_KEY của bạn"
-          className="w-full px-3 py-2 rounded-lg bg-[var(--bg-input)] border border-border text-primary text-sm outline-none focus:border-gold/60"
+          placeholder={t("adminKeyPlaceholder")}
+          className="w-full px-3 py-2 rounded-lg bg-[var(--bg-input)] border border-border text-text-primary text-sm outline-none focus:border-gold/60"
           autoComplete="off"
         />
-        <p className="text-[10px] text-muted mt-1">
-          Chỉ lưu trong trình duyệt này (localStorage) — không gửi đi đâu ngoài các request admin bên dưới.
-        </p>
+        <p className="text-[10px] text-text-muted mt-1">{t("adminKeyStorageNote")}</p>
       </div>
 
       <div className="flex flex-wrap gap-3">
         <button
           onClick={runFix}
           disabled={running !== null}
-          className="px-4 py-2 rounded-lg border border-border bg-[var(--bg-input)] hover:border-gold/50 text-sm text-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-4 py-2 rounded-lg border border-border bg-[var(--bg-input)] hover:border-gold/50 text-sm text-text-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {running === "fix" ? "⏳ Đang quét..." : "🔍 Quét & tự sửa dữ liệu"}
+          {running === "fix" ? `⏳ ${t("scanning")}` : `🔍 ${t("scanAndAutoFix")}`}
         </button>
         <button
           onClick={runSync}
           disabled={running !== null}
-          className="px-4 py-2 rounded-lg border border-border bg-[var(--bg-input)] hover:border-gold/50 text-sm text-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-4 py-2 rounded-lg border border-border bg-[var(--bg-input)] hover:border-gold/50 text-sm text-text-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {running === "sync" ? "⏳ Đang trigger..." : "🔄 Đồng bộ dữ liệu (qua GitHub Actions)"}
+          {running === "sync" ? `⏳ ${t("triggering")}` : `🔄 ${t("syncViaGithubActions")}`}
         </button>
       </div>
 
@@ -139,10 +139,10 @@ export function AgentControlPanel({ adminKey, onAdminKeyChange, onActionComplete
         </div>
       )}
 
-      <p className="text-[11px] text-muted mt-3">
-        &quot;Đồng bộ dữ liệu&quot; không ghi thẳng vào database — nó trigger workflow{" "}
-        <code className="text-secondary">update-data.yml</code>, chạy trên DB test riêng, kiểm tra tính toàn
-        vẹn, rồi tạo Pull Request để bạn review trước khi merge.
+      <p className="text-[11px] text-text-muted mt-3">
+        {t.rich("syncFootnote", {
+          code: (chunks) => <code className="text-text-secondary">{chunks}</code>,
+        })}
       </p>
     </div>
   );

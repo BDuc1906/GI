@@ -19,6 +19,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { useTranslations, useLocale } from "next-intl";
 import { StatsCards } from "@/components/admin/StatsCards";
 import { AgentControlPanel } from "@/components/admin/AgentControlPanel";
 import { DataHealth, type FixScanSummary } from "@/components/admin/DataHealth";
@@ -39,14 +40,6 @@ interface LatestStatus {
   [name: string]: { status: string; startedAt: string; id: string };
 }
 
-const PIPELINE_LABELS: Record<string, string> = {
-  crawl: "Crawl dữ liệu",
-  seed: "Seed database",
-  mirror: "Mirror ảnh",
-  "update-data": "Cập nhật dữ liệu",
-  "agent-sync": "Agent trigger sync",
-};
-
 function formatDuration(ms: number | null): string {
   if (!ms) return "—";
   if (ms < 1000) return `${ms}ms`;
@@ -55,6 +48,15 @@ function formatDuration(ms: number | null): string {
 }
 
 export default function AdminPage() {
+  const t = useTranslations("Admin");
+  const locale = useLocale();
+  const PIPELINE_LABELS: Record<string, string> = {
+    crawl: t("pipelineCrawl"),
+    seed: t("pipelineSeed"),
+    mirror: t("pipelineMirror"),
+    "update-data": t("pipelineUpdateData"),
+    "agent-sync": t("pipelineAgentSync"),
+  };
   const [adminKey, setAdminKey] = useState("");
   const [runs, setRuns] = useState<PipelineRun[]>([]);
   const [latestStatus, setLatestStatus] = useState<LatestStatus>({});
@@ -100,24 +102,24 @@ export default function AdminPage() {
   }, [fetchPipelineStatus, refreshToken]);
 
   return (
-    <div className="min-h-screen bg-primary text-primary p-8">
+    <div className="min-h-screen bg-bg-primary text-text-primary p-8">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="font-display text-3xl font-bold text-gold-bright">📊 Bảng điều khiển Admin</h1>
-            <p className="text-sm text-secondary mt-1">Pipeline dữ liệu + AI Agent</p>
+            <h1 className="font-display text-3xl font-bold text-gold-bright">📊 {t("title")}</h1>
+            <p className="text-sm text-text-secondary mt-1">{t("subtitle")}</p>
           </div>
           <button
             onClick={() => setRefreshToken(Date.now())}
-            className="px-4 py-2 bg-card border border-border rounded-lg hover:border-gold/50 transition-colors text-sm"
+            className="px-4 py-2 bg-bg-card border border-border rounded-lg hover:border-gold/50 transition-colors text-sm"
           >
-            🔄 Refresh
+            🔄 {t("refresh")}
           </button>
         </div>
 
         {!adminKey && (
-          <div className="bg-card border border-gold/30 rounded-xl p-4 mb-8 text-sm text-secondary">
-            Nhập Admin Key ở panel &quot;Điều khiển AI Agent&quot; bên dưới để xem dữ liệu pipeline và audit log.
+          <div className="bg-bg-card border border-gold/30 rounded-xl p-4 mb-8 text-sm text-text-secondary">
+            {t("enterAdminKeyHint")}
           </div>
         )}
 
@@ -145,45 +147,45 @@ export default function AdminPage() {
           <RecentActivity adminKey={adminKey} refreshToken={refreshToken} />
         </div>
 
-        <div className="bg-card border border-border rounded-xl overflow-hidden">
+        <div className="bg-bg-card border border-border rounded-xl overflow-hidden">
           <div className="px-4 py-3 border-b border-border">
-            <h2 className="text-sm font-semibold text-secondary uppercase tracking-wider">
-              📋 Lịch sử pipeline ({runs.length}) {loading && <span className="text-muted normal-case">— đang tải...</span>}
+            <h2 className="text-sm font-semibold text-text-secondary uppercase tracking-wider">
+              📋 {t("pipelineHistory", { count: runs.length })} {loading && <span className="text-text-muted normal-case">— {t("loading")}</span>}
             </h2>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="bg-secondary">
+              <thead className="bg-bg-secondary">
                 <tr>
-                  <th className="px-4 py-2 text-left text-secondary font-medium">Pipeline</th>
-                  <th className="px-4 py-2 text-left text-secondary font-medium">Trạng thái</th>
-                  <th className="px-4 py-2 text-left text-secondary font-medium">Bắt đầu</th>
-                  <th className="px-4 py-2 text-left text-secondary font-medium">Thời gian</th>
+                  <th className="px-4 py-2 text-left text-text-secondary font-medium">{t("colPipeline")}</th>
+                  <th className="px-4 py-2 text-left text-text-secondary font-medium">{t("colStatus")}</th>
+                  <th className="px-4 py-2 text-left text-text-secondary font-medium">{t("colStartedAt")}</th>
+                  <th className="px-4 py-2 text-left text-text-secondary font-medium">{t("colDuration")}</th>
                 </tr>
               </thead>
               <tbody>
                 {runs.map((run) => (
-                  <tr key={run.id} className="border-t border-border hover:bg-secondary transition-colors">
-                    <td className="px-4 py-2 text-primary">{PIPELINE_LABELS[run.name] || run.name}</td>
+                  <tr key={run.id} className="border-t border-border hover:bg-bg-secondary transition-colors">
+                    <td className="px-4 py-2 text-text-primary">{PIPELINE_LABELS[run.name] || run.name}</td>
                     <td className="px-4 py-2">
-                      {run.status === "success" && <span className="text-green-400">✅ Thành công</span>}
+                      {run.status === "success" && <span className="text-green-400">✅ {t("statusSuccess")}</span>}
                       {run.status === "failed" && (
                         <span className="text-red-400 cursor-help" title={run.error || undefined}>
-                          ❌ Thất bại
+                          ❌ {t("statusFailed")}
                         </span>
                       )}
-                      {run.status === "started" && <span className="text-yellow-400">⏳ Đang chạy</span>}
+                      {run.status === "started" && <span className="text-yellow-400">⏳ {t("statusRunning")}</span>}
                     </td>
-                    <td className="px-4 py-2 text-secondary">
-                      {new Date(run.startedAt).toLocaleString("vi-VN", { hour12: false })}
+                    <td className="px-4 py-2 text-text-secondary">
+                      {new Date(run.startedAt).toLocaleString(locale, { hour12: false })}
                     </td>
-                    <td className="px-4 py-2 text-secondary">{formatDuration(run.durationMs)}</td>
+                    <td className="px-4 py-2 text-text-secondary">{formatDuration(run.durationMs)}</td>
                   </tr>
                 ))}
                 {!loading && runs.length === 0 && (
                   <tr>
-                    <td colSpan={4} className="px-4 py-8 text-center text-muted">
-                      {adminKey ? "Chưa có pipeline nào chạy." : "Nhập Admin Key để xem lịch sử."}
+                    <td colSpan={4} className="px-4 py-8 text-center text-text-muted">
+                      {adminKey ? t("noRunsYet") : t("enterAdminKeyToView")}
                     </td>
                   </tr>
                 )}
@@ -192,7 +194,7 @@ export default function AdminPage() {
           </div>
         </div>
 
-        <div className="mt-6 text-xs text-muted text-center">Tự động refresh mỗi 30 giây</div>
+        <div className="mt-6 text-xs text-text-muted text-center">{t("autoRefreshNote")}</div>
       </div>
     </div>
   );

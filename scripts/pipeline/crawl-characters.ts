@@ -99,10 +99,10 @@ function crawlCharacter(name: string): CharacterData | null {
       (bookType ? buildTalentMaterialLevels(bookType, bossMaterialName) : null);
 
     const voiceActors: VoiceActors = {
-      english: raw.voice?.en || null,
-      chinese: raw.voice?.zh || null,
-      japanese: raw.voice?.jp || null,
-      korean: raw.voice?.kr || null,
+      english: raw.cv?.english || null,   // BUG ĐÃ SỬA: field đúng là "cv", không phải "voice";
+      chinese: raw.cv?.chinese || null,   // và key con là "english"/"chinese"/... (tên đầy đủ),
+      japanese: raw.cv?.japanese || null, // không phải viết tắt "en"/"zh"/"jp"/"kr"
+      korean: raw.cv?.korean || null,
     };
 
     // ---- ĐẢM BẢO CÁC FIELD BẮT BUỘC ----
@@ -141,13 +141,20 @@ function crawlCharacter(name: string): CharacterData | null {
       talentMaterials,
       statsByLevel,
       birthday: raw.birthday || null,
-      constellationName: raw.constellationName || null,
+      constellationName: raw.constellation || null,
       voiceActors,
       gameVersion: raw.version || null,
-      wikiUrl: raw.wikiUrl || null,
+      wikiUrl: raw.url || null,
       constellations,
       talents,
       missingTalentBookType: !bookType,
+      genshinDbId: raw.id != null ? String(raw.id) : null,
+      gender: raw.gender || null,
+      bodyType: raw.bodyType || null,
+      associationType: raw.associationType || null,
+      qualityType: raw.qualityType || null,
+      birthdaymmdd: raw.birthdaymmdd || null,
+      raw, // lưu nguyên object gốc, phòng thiếu field khác sau này
     };
 
     return characterData;

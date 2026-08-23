@@ -1,0 +1,2494 @@
+[
+  {
+    "id": 202101,
+    "name": "100% Outrider",
+    "description": "Amber's outfit. This is a more formal — but no less cool — version of the Outrider's uniform!",
+    "isDefault": false,
+    "characterId": 10000021,
+    "characterName": "Amber",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_AmborCostumeWic_Card",
+      "filename_icon": "UI_AvatarIcon_AmborCostumeWic",
+      "filename_splash": "UI_Costume_AmborCostumeWic",
+      "filename_sideIcon": "UI_AvatarIcon_Side_AmborCostumeWic",
+      "filename_iconCircle": "UI_AvatarIcon_AmborCostumeWic_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "2.5"
+  },
+  {
+    "id": 202100,
+    "name": "5-Star Outrider",
+    "description": "Amber's outfit. An Outrider's uniform made for maximum mobility.",
+    "isDefault": true,
+    "characterId": 10000021,
+    "characterName": "Amber",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Ambor_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2058"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 203201,
+    "name": "Adventures in Blazing Hue",
+    "description": "Bennett's traveling attire for his journeys in Natlan. Dyed lucky lakewater blue with hints of blazing orange, these clothes emanate an overflowing vitality that matches the land in which they are worn.",
+    "isDefault": false,
+    "characterId": 10000032,
+    "characterName": "Bennett",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_BennettCostumeSummer_Card",
+      "filename_icon": "UI_AvatarIcon_BennettCostumeSummer",
+      "filename_iconCircle": "UI_AvatarIcon_BennettCostumeSummer_Circle",
+      "filename_splash": "UI_Costume_BennettCostumeSummer",
+      "filename_sideIcon": "UI_AvatarIcon_Side_BennettCostumeSummer"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "5.8"
+  },
+  {
+    "id": 212300,
+    "name": "A Gift From the Stars",
+    "description": "Durin's outfit. As the smoke from the alchemical array gradually dissipated, a glimmer of starlight drew Durin's gaze toward the window. In the reflection in the glass, he saw himself dressed in elegant garb, like a prince straight out of a fairy tale. When he looked down at himself again, he realized he was wearing that very same outfit. But who could've given him this gift? The stars outside merely twinkled soundlessly, providing no answers.",
+    "isDefault": true,
+    "characterId": 10000123,
+    "characterName": "Durin",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Durin_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "6.2"
+  },
+  {
+    "id": 209300,
+    "name": "A Guest's August Omen",
+    "description": "Xianyun's outfit. These garments were not designed by any famous tailor, though at first glance, they appear to be made of the finest silks. Yet closer inspection reveals that the weave is not of silk, cotton, or linen, and a glow runs through it like an adeptus's feather coat. One can only imagine from what provenance she obtained such clothes...",
+    "isDefault": true,
+    "characterId": 10000093,
+    "characterName": "Xianyun",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Liuyun_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 208800,
+    "name": "\"All Is Overt Through My Lens\"",
+    "description": "Charlotte's outfit. \"If your reporting isn't real enough, it's because you're not close enough.\" Charlotte often has this to say about journalism. Sometimes, however, she adds: \"But of course, maybe it's that the lens you're using just isn't that great.\"",
+    "isDefault": true,
+    "characterId": 10000088,
+    "characterName": "Charlotte",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Charlotte_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "4.2"
+  },
+  {
+    "id": 209900,
+    "name": "Ambrosial Verdance",
+    "description": "Emilie's outfit. In homage to the launch of a classic perfume, the designer of this emerald-green dress drew inspiration from the concept of \"tactual fragrances.\" It is now part of Emilie's collection.",
+    "isDefault": true,
+    "characterId": 10000099,
+    "characterName": "Emilie",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Emilie_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "4.8"
+  },
+  {
+    "id": 206700,
+    "name": "A New Leaf",
+    "description": "Collei's outfit. Now that she no longer needs to remain bundled in a thick cloak, she is free to emerge like a newly-sprouted leaf and welcome every lovely sunrise.",
+    "isDefault": true,
+    "characterId": 10000067,
+    "characterName": "Collei",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Collei_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2325"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 206500,
+    "name": "Arataki's Demonic Deputy",
+    "description": "Kuki Shinobu's outfit. The iconic oni mask she wears symbolizes her role as the Arataki Gang's terrifying \"demonic deputy.\"",
+    "isDefault": true,
+    "characterId": 10000065,
+    "characterName": "Kuki Shinobu",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Shinobu_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2298"
+    },
+    "version": "2.7"
+  },
+  {
+    "id": 204400,
+    "name": "Ardent Soul",
+    "description": "Xinyan's outfit. A rocker's stage costume adorned with spikes.",
+    "isDefault": true,
+    "characterId": 10000044,
+    "characterName": "Xinyan",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Xinyan_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2080"
+    },
+    "version": "1.1"
+  },
+  {
+    "id": 210800,
+    "name": "Argent Chimes",
+    "description": "Lan Yan's outfit. The Lans of Chenyu Vale traditionally wear silver, and every piece that Lan Yan carries is a gift from her family. As she rambles through the mountains adorned from head to toe, they jingle merrily away like the joyful songs of spring swallows.",
+    "isDefault": true,
+    "characterId": 10000108,
+    "characterName": "Lan Yan",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Lanyan_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "5.3"
+  },
+  {
+    "id": 203400,
+    "name": "Armored Rose",
+    "description": "Noelle's outfit. Heavy clothing made of durable velvet and metal plates.",
+    "isDefault": true,
+    "characterId": 10000034,
+    "characterName": "Noelle",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Noel_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2108"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 200501,
+    "name": "As Heaven and Earth Are Made Anew",
+    "description": "An outfit worn by the Traveler which has accompanied the twin \"stars\" in their journey through countless worlds. Despite this, they cannot yet cannot grasp the true purpose of the cosmos. Even so, surely every question posed brings them a little closer to the final answer.",
+    "isDefault": false,
+    "characterId": 10000005,
+    "characterName": "Aether",
+    "source": [
+      "Complete the Archon Quest \"True Moon\" to obtain"
+    ],
+    "images": {
+      "filename_card": "UI_AvatarIcon_PlayerBoyCostumeCWXR_Card",
+      "filename_icon": "UI_AvatarIcon_PlayerBoyCostumeCWXR",
+      "filename_iconCircle": "UI_AvatarIcon_PlayerBoyCostumeCWXR_Circle",
+      "filename_splash": "UI_Costume_PlayerBoyCostumeCWXR",
+      "filename_sideIcon": "UI_AvatarIcon_Side_PlayerBoyCostumeCWXR"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "6.3"
+  },
+  {
+    "id": 200701,
+    "name": "As Heaven and Earth Are Made Anew",
+    "description": "An outfit worn by the Traveler which has accompanied the twin \"stars\" in their journey through countless worlds. Despite this, they cannot yet cannot grasp the true purpose of the cosmos. Even so, surely every question posed brings them a little closer to the final answer.",
+    "isDefault": false,
+    "characterId": 10000007,
+    "characterName": "Lumine",
+    "source": [
+      "Complete the Archon Quest \"True Moon\" to obtain"
+    ],
+    "images": {
+      "filename_card": "UI_AvatarIcon_PlayerGirlCostumeCWXR_Card",
+      "filename_icon": "UI_AvatarIcon_PlayerGirlCostumeCWXR",
+      "filename_iconCircle": "UI_AvatarIcon_PlayerGirlCostumeCWXR_Circle",
+      "filename_splash": "UI_Costume_PlayerGirlCostumeCWXR",
+      "filename_sideIcon": "UI_AvatarIcon_Side_PlayerGirlCostumeCWXR"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "6.3"
+  },
+  {
+    "id": 200601,
+    "name": "A Sobriquet Under Shade",
+    "description": "An outfit Lisa had someone commission for her when she revisited Sumeru. A perfect blend of practicality and elegance, the dress bears a resemblance to Lisa's old uniform from her Akademiya days.",
+    "isDefault": false,
+    "characterId": 10000006,
+    "characterName": "Lisa",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_LisaCostumeStudentin_Card",
+      "filename_icon": "UI_AvatarIcon_LisaCostumeStudentin",
+      "filename_splash": "UI_Costume_LisaCostumeStudentin",
+      "filename_sideIcon": "UI_AvatarIcon_Side_LisaCostumeStudentin",
+      "filename_iconCircle": "UI_AvatarIcon_LisaCostumeStudentin_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 207500,
+    "name": "A Wrathful Void",
+    "description": "{REALNAME[ID(1)]}'s outfit. An ascetic's garb and hat can provide the wanderer some shelter from the rain, but they can do nothing to quell the winds and storms raging within.",
+    "isDefault": true,
+    "characterId": 10000075,
+    "characterName": "Wanderer",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Wanderer_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "3.3"
+  },
+  {
+    "id": 202500,
+    "name": "Azure Silk",
+    "description": "Xingqiu's outfit. Fine robes woven from the high-quality silk sold by the Feiyun Commerce Guild.",
+    "isDefault": true,
+    "characterId": 10000025,
+    "characterName": "Xingqiu",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Xingqiu_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2079"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 202501,
+    "name": "Bamboo Rain",
+    "description": "Formal wear prepared by the Feiyun Commerce Guild for Xingqiu. The bamboo prints are refined and the cut is most flattering, but Xingqiu's favorite aspect of the outfit is its inner pockets, into which a thinner novel might be stuffed.",
+    "isDefault": false,
+    "characterId": 10000025,
+    "characterName": "Xingqiu",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_XingqiuCostumeBamboo_Card",
+      "filename_icon": "UI_AvatarIcon_XingqiuCostumeBamboo",
+      "filename_iconCircle": "UI_AvatarIcon_XingqiuCostumeBamboo_Circle",
+      "filename_splash": "UI_Costume_XingqiuCostumeBamboo",
+      "filename_sideIcon": "UI_AvatarIcon_Side_XingqiuCostumeBamboo"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 210500,
+    "name": "Batwing Iris",
+    "description": "Ororon's outfit. Those with foresight should know how to conceal themselves. Thus, cape and cowl are his greatest weapons.",
+    "isDefault": true,
+    "characterId": 10000105,
+    "characterName": "Ororon",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Olorun_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "5.2"
+  },
+  {
+    "id": 203300,
+    "name": "Blades of Glory",
+    "description": "Tartaglia's outfit. Illustrious attire that signifies Childe's position as the eleventh Fatui Harbinger.",
+    "isDefault": true,
+    "characterId": 10000033,
+    "characterName": "Tartaglia",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Tartaglia_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2071"
+    },
+    "version": "1.1"
+  },
+  {
+    "id": 202901,
+    "name": "Blossoming Starlight",
+    "description": "An exquisite outfit Klee wears only for the most important performances. The colors are brilliant, like a cake adorned with cream flowers and crowned with scarlet candles. With it comes happiness and smiles that will fill your adventures.",
+    "isDefault": false,
+    "characterId": 10000029,
+    "characterName": "Klee",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_KleeCostumeWitch_Card",
+      "filename_icon": "UI_AvatarIcon_KleeCostumeWitch",
+      "filename_splash": "UI_Costume_KleeCostumeWitch",
+      "filename_sideIcon": "UI_AvatarIcon_Side_KleeCostumeWitch",
+      "filename_iconCircle": "UI_AvatarIcon_KleeCostumeWitch_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "3.8"
+  },
+  {
+    "id": 207001,
+    "name": "Breeze of Sabaa",
+    "description": "An elegant outfit for Nilou, this featherweight dress is seemingly woven of countless flowers, and with it drifts a light fragrance like the east wind at dawn, carrying beauteous blessings from a fairytale land.",
+    "isDefault": false,
+    "characterId": 10000070,
+    "characterName": "Nilou",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_NilouCostumeFairy_Card",
+      "filename_icon": "UI_AvatarIcon_NilouCostumeFairy",
+      "filename_iconCircle": "UI_AvatarIcon_NilouCostumeFairy_Circle",
+      "filename_splash": "UI_Costume_NilouCostumeFairy",
+      "filename_sideIcon": "UI_AvatarIcon_Side_NilouCostumeFairy"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "4.8"
+  },
+  {
+    "id": 202200,
+    "name": "Breezy Ode",
+    "description": "Venti's outfit. The clothes of a carefree bard.",
+    "isDefault": true,
+    "characterId": 10000022,
+    "characterName": "Venti",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Venti_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2068"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 204601,
+    "name": "Cherries Snow-Laden",
+    "description": "Hu Tao's outfit. Styled in a palette lighter than the dark ceremonial wear favored by the Wangsheng Funeral Parlor, the dress is a special gift from her good friend Xiangling. The sunglasses, for their part, are from Hu Tao's personal collection.",
+    "isDefault": false,
+    "characterId": 10000046,
+    "characterName": "Hu Tao",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_HutaoCostumeWinter_Card",
+      "filename_icon": "UI_AvatarIcon_HutaoCostumeWinter",
+      "filename_iconCircle": "UI_AvatarIcon_HutaoCostumeWinter_Circle",
+      "filename_splash": "UI_Costume_HutaoCostumeWinter",
+      "filename_sideIcon": "UI_AvatarIcon_Side_HutaoCostumeWinter"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "5.3"
+  },
+  {
+    "id": 207700,
+    "name": "Cherubic Osmanthus",
+    "description": "Yaoyao's outfit. A lovely, short jacket Yaoyao's parents made for her. As the little girl travels safely between Qingce Village and Liyue Harbor, this jacket, along with the adeptal bells her master gave her, always keeps her company.",
+    "isDefault": true,
+    "characterId": 10000077,
+    "characterName": "Yaoyao",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Yaoyao_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 208700,
+    "name": "Clear Adjudication",
+    "description": "Neuvillette's outfit. The solemn, elegant garb of the Iudex. The complexity in its design does, in fact, cause some inconveniences in movement, but to its wearer, that it matches his standing is a more important matter.",
+    "isDefault": true,
+    "characterId": 10000087,
+    "characterName": "Neuvillette",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Neuvillette_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "4.1"
+  },
+  {
+    "id": 213300,
+    "name": "Clockwork Maiden's Waltz",
+    "description": "Sandrone's outfit. Having been reborn, she has decided to make herself a new outfit. A new person certainly merits a new dress. Naturally, such an undertaking cannot fail to incorporate a lady's refinement, elegance, and magnanimity... Ah, yes. And perhaps a prayer that it shall remain undamaged in battle, and unstained by coffee or tea, would not be remiss.",
+    "isDefault": true,
+    "characterId": 10000133,
+    "characterName": "Sandrone",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_MarionetteNew_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 208900,
+    "name": "Coronated Prima Donna",
+    "description": "Furina's outfit. When the curtain rises, the star of the show is meant to shine bright on the stage, and even gorgeous costumes adorned with diamonds pale in comparison to her own dazzling brilliance.",
+    "isDefault": true,
+    "characterId": 10000089,
+    "characterName": "Furina",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Furina_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "4.2"
+  },
+  {
+    "id": 201600,
+    "name": "Darknight Blaze",
+    "description": "Diluc's outfit. A smart and tasteful suit fit for a nobleman.",
+    "isDefault": true,
+    "characterId": 10000016,
+    "characterName": "Diluc",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Diluc_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2060"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 210900,
+    "name": "Dawnbreath Dreambelle",
+    "description": "Mizuki's outfit.\nA cold night-mist brews, the baku stirs to spring breeze, spent from tending dreams. Fixing hairpin, flapping sleeves, from yon fanned fog, the moon beams.",
+    "isDefault": true,
+    "characterId": 10000109,
+    "characterName": "Yumemizuki Mizuki",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Mizuki_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "5.4"
+  },
+  {
+    "id": 210700,
+    "name": "Dawnseer",
+    "description": "Citlali's outfit. Shamans are seers, diviners of forgotten past and untold future. In their world, the eye holds a special symbolic meaning. This is why Citlali's robe, worn half-draped around her waist, is adorned with the \"Eye of Revelation\" — a pattern that encapsulates both its bearer's identity and her aesthetic tastes.",
+    "isDefault": true,
+    "characterId": 10000107,
+    "characterName": "Citlali",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Citlali_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "5.3"
+  },
+  {
+    "id": 207200,
+    "name": "Desert and Night",
+    "description": "Candace's outfit. No matter where she goes, the golden sands and the nights of her homeland that adorn her clothes go together with her.",
+    "isDefault": true,
+    "characterId": 10000072,
+    "characterName": "Candace",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Candace_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "3.1"
+  },
+  {
+    "id": 207400,
+    "name": "Dreaming Star",
+    "description": "Layla's outfit. In the depths of quiet nights, the stars that dot the sky wrap her like a cloak, guiding her into sweet dreams — well, or so she dearly wishes might happen.",
+    "isDefault": true,
+    "characterId": 10000074,
+    "characterName": "Layla",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Layla_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "3.2"
+  },
+  {
+    "id": 203100,
+    "name": "Dunkelnacht Sakrament",
+    "description": "Fischl's outfit. The Prinzessin der Verurteilung's customary vestments during her sojourn upon this realm.",
+    "isDefault": true,
+    "characterId": 10000031,
+    "characterName": "Fischl",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Fischl_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2061"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 205700,
+    "name": "Eccentric Oni",
+    "description": "Itto's outfit. It has an uncommon air of awesomeness about it, and the oni mask worn at the hip is quite imposing indeed — certainly enough to reduce even the naughtiest child of Hanamizaka to terrified tears.",
+    "isDefault": true,
+    "characterId": 10000057,
+    "characterName": "Arataki Itto",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Itto_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2180"
+    },
+    "version": "2.3"
+  },
+  {
+    "id": 210100,
+    "name": "Eight-Bit Artistry",
+    "description": "Kinich's outfit. Colorful patches are arrayed across his clothes with great patterned precision, just as Saurian Hunters have their own principles.",
+    "isDefault": true,
+    "characterId": 10000101,
+    "characterName": "Kinich",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Kinich_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 203101,
+    "name": "Ein Immernachtstraum",
+    "description": "A ceremonial outfit for the Prinzessin. May she who is noble retain her courage, sincerity, and kindness forever, such that no evil shall ever overcome her.",
+    "isDefault": false,
+    "characterId": 10000031,
+    "characterName": "Fischl",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_FischlCostumeHighness_Card",
+      "filename_icon": "UI_AvatarIcon_FischlCostumeHighness",
+      "filename_splash": "UI_Costume_FischlCostumeHighness",
+      "filename_sideIcon": "UI_AvatarIcon_Side_FischlCostumeHighness",
+      "filename_iconCircle": "UI_AvatarIcon_FischlCostumeHighness_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2321"
+    },
+    "version": "2.8"
+  },
+  {
+    "id": 212200,
+    "name": "Emerald Cipher",
+    "description": "Nefer's outfit. Her words weave layer upon layer of riddles, their answers concealed behind her emerald eyes. No lie slips past her questioning, for she is the mistress of the game of stratagems, where schemes and stories are the pieces on her board.",
+    "isDefault": true,
+    "characterId": 10000122,
+    "characterName": "Nefer",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Nefer_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "6.1"
+  },
+  {
+    "id": 202600,
+    "name": "Endurer of Eons",
+    "description": "Xiao's outfit. Classical battle-wear fit for a thousand years of evil-conquering.",
+    "isDefault": true,
+    "characterId": 10000026,
+    "characterName": "Xiao",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Xiao_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2110"
+    },
+    "version": "1.3"
+  },
+  {
+    "id": 204500,
+    "name": "Executor's Thorns",
+    "description": "Rosaria's outfit. Rosaria has heavily modified this particular Church of Favonius uniform.",
+    "isDefault": true,
+    "characterId": 10000045,
+    "characterName": "Rosaria",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Rosaria_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2111"
+    },
+    "version": "1.4"
+  },
+  {
+    "id": 204700,
+    "name": "Falling Leaves",
+    "description": "Kaedehara Kazuha's outfit. The maple leaf patterns are the hallmark of this wandering samurai's clothes.",
+    "isDefault": true,
+    "characterId": 10000047,
+    "characterName": "Kaedehara Kazuha",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Kazuha_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2120"
+    },
+    "version": "1.6"
+  },
+  {
+    "id": 208400,
+    "name": "Fantasticat",
+    "description": "Lyney's outfit. Cats only stretch in front of those they trust completely. Otherwise, they merely hide their claws behind a smile — intimate yet reserved, just like the sweet words of this magician.",
+    "isDefault": true,
+    "characterId": 10000084,
+    "characterName": "Lyney",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Liney_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 200300,
+    "name": "Favonian Devotion",
+    "description": "Jean's outfit. Neat and smart clothing that emphasizes her chivalry.",
+    "isDefault": true,
+    "characterId": 10000003,
+    "characterName": "Jean",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Qin_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2062"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 200200,
+    "name": "Flawless Radiance",
+    "description": "Kamisato Ayaka's outfit. This kimono features an armor-coated skirt, displaying the nobility and resilience of the Shirasagi Himegimi.",
+    "isDefault": true,
+    "characterId": 10000002,
+    "characterName": "Kamisato Ayaka",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Ayaka_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2121"
+    },
+    "version": "2.0"
+  },
+  {
+    "id": 204100,
+    "name": "Flowing Fate",
+    "description": "Mona's outfit. A light astrologist's outfit that does away with superfluous fabric to provide top quality at an affordable price.",
+    "isDefault": true,
+    "characterId": 10000041,
+    "characterName": "Mona",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Mona_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2076"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 212100,
+    "name": "Fluffy Puffy Whiz-Kid Workwear",
+    "description": "Aino's outfit. The oversized white coat looks especially baggy on her petite frame, and the wide sleeves seem perfect for stashing mysterious treasures. Give them a shake and... who knows what might pop out?",
+    "isDefault": true,
+    "characterId": 10000121,
+    "characterName": "Aino",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Aino_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 210200,
+    "name": "Flying Fish, Heat Waves, and Moon Scallop",
+    "description": "Mualani's outfit. She originally intended to stick the designs of all the fish ever as ornaments for her clothes, but this design was politely rejected by the tailor on account of being too avant-garde. Despite the immense simplification, this outfit has more than enough personality to mark the enthusiastic guide out even in a crowd.",
+    "isDefault": true,
+    "characterId": 10000102,
+    "characterName": "Mualani",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Mualani_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 207300,
+    "name": "For All Knowledge, a Verse",
+    "description": "Nahida's outfit. Only the oracles that interpret knowledge may robe the God of Wisdom, and so even the smallest ornament is viewed by believers as holy writ.",
+    "isDefault": true,
+    "characterId": 10000073,
+    "characterName": "Nahida",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Nahida_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "3.2"
+  },
+  {
+    "id": 203200,
+    "name": "Fortune's Favor",
+    "description": "Bennett's outfit. An old adventurer's uniform that has been patched and sewn up in various places.",
+    "isDefault": true,
+    "characterId": 10000032,
+    "characterName": "Bennett",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Bennett_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2105"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 203700,
+    "name": "Frostdew Trail",
+    "description": "Ganyu's outfit. Elegant clothes blessed by the mighty and illuminated adepti.",
+    "isDefault": true,
+    "characterId": 10000037,
+    "characterName": "Ganyu",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Ganyu_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2073"
+    },
+    "version": "1.2"
+  },
+  {
+    "id": 206301,
+    "name": "Frostflower Dew",
+    "description": "This Lantern Rite gift that Shenhe received is a set of elegant formal attire that her master, Cloud Retainer had commissioned for her. Red ropes still adorn her arms, but the bitter cold in Shenhe's heart has faded.",
+    "isDefault": false,
+    "characterId": 10000063,
+    "characterName": "Shenhe",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_ShenheCostumeDai_Card",
+      "filename_icon": "UI_AvatarIcon_ShenheCostumeDai",
+      "filename_iconCircle": "UI_AvatarIcon_ShenheCostumeDai_Circle",
+      "filename_splash": "UI_Costume_ShenheCostumeDai",
+      "filename_sideIcon": "UI_AvatarIcon_Side_ShenheCostumeDai"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 212900,
+    "name": "Frost-Forged Edge",
+    "description": "Lohen's outfit style. A knight's armor is significantly heavier than the clothes he wore as an adventurer. But for Lohen, only the weight of said equipment and the way others view him have changed, while his desire to defeat his foes and his inexorable obsession remain.",
+    "isDefault": true,
+    "characterId": 10000129,
+    "characterName": "Lohen",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Lohen_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "6.6"
+  },
+  {
+    "id": 204300,
+    "name": "Germinating Wind",
+    "description": "Sucrose's outfit. A Knights of Favonius alchemist's uniform customized for Sucrose.",
+    "isDefault": true,
+    "characterId": 10000043,
+    "characterName": "Sucrose",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Sucrose_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2078"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 210300,
+    "name": "Gold-Draped Gorge",
+    "description": "Xilonen's outfit. Her usual get-up, which consists of a brilliant golden coat paired with short, no-nonsense inner garments. When she's working, Xilonen normally takes off her coat before getting down to business. When she puts it back on, you can be fairly certain that she's about to take a break.",
+    "isDefault": true,
+    "characterId": 10000103,
+    "characterName": "Xilonen",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Xilonen_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "5.1"
+  },
+  {
+    "id": 204800,
+    "name": "Golden Rule",
+    "description": "Yanfei's outfit. The dress that the legal adviser Yanfei wears when she heads out to visit clients.",
+    "isDefault": true,
+    "characterId": 10000048,
+    "characterName": "Yanfei",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Feiyan_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2112"
+    },
+    "version": "1.5"
+  },
+  {
+    "id": 209700,
+    "name": "Golden Sandstrider",
+    "description": "Sethos's outfit. The lapel is the shade of golden sand, embodying the vast desert that raised him, as well as his faith.",
+    "isDefault": true,
+    "characterId": 10000097,
+    "characterName": "Sethos",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Sethos_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "4.7"
+  },
+  {
+    "id": 204900,
+    "name": "Goldfish Firecracker",
+    "description": "Yoimiya's outfit. A patchwork of memories from festivals over the years.",
+    "isDefault": true,
+    "characterId": 10000049,
+    "characterName": "Yoimiya",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Yoimiya_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2146"
+    },
+    "version": "2.0"
+  },
+  {
+    "id": 202700,
+    "name": "Gold Leaf and Pearly Jade",
+    "description": "Ningguang's outfit. Intricate embroidery is the hallmark of this graceful dress.",
+    "isDefault": true,
+    "characterId": 10000027,
+    "characterName": "Ningguang",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Ningguang_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2066"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 208100,
+    "name": "Gold Pinions in Flames Bathed",
+    "description": "Kaveh's outfit. A notable tailor from Treasures Street created these clothes in imitation of the lovely sight of birds extending their wings in flight and would only sell them to those who knew how to appreciate their beauty.",
+    "isDefault": true,
+    "characterId": 10000081,
+    "characterName": "Kaveh",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Kaveh_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "3.6"
+  },
+  {
+    "id": 209000,
+    "name": "Guardian's Gun",
+    "description": "Chevreuse's outfit. The designers kept the uniform's classic black, white, and red color combination and added a bevy of accessories, but the result proved too heavy, which the captain protested. The final, fit-for-public-consumption version lacked most of those metal decorations.",
+    "isDefault": true,
+    "characterId": 10000090,
+    "characterName": "Chevreuse",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Chevreuse_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "4.3"
+  },
+  {
+    "id": 200302,
+    "name": "Gunnhildr's Legacy",
+    "description": "Jean's outfit. This classic knight's ceremonial outfit is suited to all manner of occasions.",
+    "isDefault": false,
+    "characterId": 10000003,
+    "characterName": "Jean",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_QinCostumeWic_Card",
+      "filename_icon": "UI_AvatarIcon_QinCostumeWic",
+      "filename_splash": "UI_Costume_QinCostumeWic",
+      "filename_sideIcon": "UI_AvatarIcon_Side_QinCostumeWic",
+      "filename_iconCircle": "UI_AvatarIcon_QinCostumeWic_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "2.5"
+  },
+  {
+    "id": 207100,
+    "name": "Heart of the Scales",
+    "description": "Cyno's outfit. This garb displays the General Mahamatra's dignity and the just principles he sticks by. It was a rather complicated piece to commission due to Cyno's request for the custom-made head ornaments and requires regular maintenance.",
+    "isDefault": true,
+    "characterId": 10000071,
+    "characterName": "Cyno",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Cyno_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "3.1"
+  },
+  {
+    "id": 203000,
+    "name": "Hermit of Mortal Life",
+    "description": "Zhongli's outfit. This is the leisurewear of choice for Zhongli, the Wangsheng Funeral Parlor's consultant.",
+    "isDefault": true,
+    "characterId": 10000030,
+    "characterName": "Zhongli",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Zhongli_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2081"
+    },
+    "version": "1.1"
+  },
+  {
+    "id": 208801,
+    "name": "Hurlock Variations",
+    "description": "Charlotte's outfit. Once used as a filming costume for Great Detective Hurlock, this outfit was presented to Charlotte by the production crew as a keepsake after the shoot concluded.",
+    "isDefault": false,
+    "characterId": 10000088,
+    "characterName": "Charlotte",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_CharlotteCostumeDong_Card",
+      "filename_icon": "UI_AvatarIcon_CharlotteCostumeDong",
+      "filename_iconCircle": "UI_AvatarIcon_CharlotteCostumeDong_Circle",
+      "filename_splash": "UI_Costume_CharlotteCostumeDong",
+      "filename_sideIcon": "UI_AvatarIcon_Side_CharlotteCostumeDong"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 201500,
+    "name": "Icy Featherflight",
+    "description": "Kaeya's outfit. Fashionable clothes festooned with a fur collar.",
+    "isDefault": true,
+    "characterId": 10000015,
+    "characterName": "Kaeya",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Kaeya_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2063"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 208500,
+    "name": "Icy Skin",
+    "description": "Freminet's outfit. This suit wraps around the deep diver like a second skin, his constant companion in countless sallies to the silent seabed.",
+    "isDefault": true,
+    "characterId": 10000085,
+    "characterName": "Freminet",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Freminet_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 206800,
+    "name": "I Love Mora",
+    "description": "Dori's outfit. This outfit almost begs to be further adorned with gems and precious metals, loudly announcing its wearer's love of wealth to the world. And they say that this is the merchant Dori's casual wear... So does this mean that she has clothes even more expensive than this one!?",
+    "isDefault": true,
+    "characterId": 10000068,
+    "characterName": "Dori",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Dori_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 201400,
+    "name": "Innocent Longing",
+    "description": "Barbara's outfit. A Deaconess's uniform from the Church of Favonius with a unique Barbara streak running through it.",
+    "isDefault": true,
+    "characterId": 10000014,
+    "characterName": "Barbara",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Barbara_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2059"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 213000,
+    "name": "Lone Feather's Omen",
+    "description": "Linnea's outfit. A custom-made costume for adventure that combines aesthetics with practicality. It even includes a small, portable cabin for Lumi (and any other friends who might visit in the future). The only problem is, there's just a single window to the outside world. Who gets the window seat is a matter that may call for some serious deliberation between Linnea and her friends.",
+    "isDefault": true,
+    "characterId": 10000130,
+    "characterName": "Linnea",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Linnea_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "6.5"
+  },
+  {
+    "id": 206200,
+    "name": "Machine Hunter",
+    "description": "Aloy's outfit. A hunter's garb suited to life in the wilds.",
+    "isDefault": true,
+    "characterId": 10000062,
+    "characterName": "Aloy",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Aloy_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "2.1"
+  },
+  {
+    "id": 211600,
+    "name": "Mechanical Dreams",
+    "description": "Ineffa's outfit. Having awakened from her long slumber, she dons an indigo-blue cape and a livery of milky white. With this, she transforms into a young lady's housekeeping robot.",
+    "isDefault": true,
+    "characterId": 10000116,
+    "characterName": "Ineffa",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Ineffa_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "5.8"
+  },
+  {
+    "id": 208701,
+    "name": "Melusent Gift",
+    "description": "A surprise gift for Neuvillette. The delight comes not just from the gift itself, but from every little hand that helped make it. As rivers merge into the boundless sea, so too shall dewdrops congregate to create a shimmering, iridescent miracle.",
+    "isDefault": false,
+    "characterId": 10000087,
+    "characterName": "Neuvillette",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_NeuvilletteCostumeWinter_Card",
+      "filename_icon": "UI_AvatarIcon_NeuvilletteCostumeWinter",
+      "filename_iconCircle": "UI_AvatarIcon_NeuvilletteCostumeWinter_Circle",
+      "filename_splash": "UI_Costume_NeuvilletteCostumeWinter",
+      "filename_sideIcon": "UI_AvatarIcon_Side_NeuvilletteCostumeWinter"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "6.3"
+  },
+  {
+    "id": 205800,
+    "name": "Miko's Instruction",
+    "description": "Yae Miko's outfit. A shrine maiden uniform that declares her lofty position as the Guuji of the Grand Narukami Shrine to all. May the lovely sight of her in that dress remain forever, just as the Sacred Sakura emblazoned upon her pure white skirt, which will never wilt away.",
+    "isDefault": true,
+    "characterId": 10000058,
+    "characterName": "Yae Miko",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Yae_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2185"
+    },
+    "version": "2.5"
+  },
+  {
+    "id": 213100,
+    "name": "Mimetic Interpretation",
+    "description": "Nicole's outfit. \"This is the winged raiment, woven from prose and poetry, of an angel who has wandered the earth for thousands of years...\" Just kidding, of course. If the above is true, why would this outfit not change every day? And to take a step back, this fantasy should not be further explored, lest one's tea parties turn into costume balls. And in any case, it's not as if the one in the heavens forbade people from dressing up as angels.",
+    "isDefault": true,
+    "characterId": 10000131,
+    "characterName": "Nicole",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Nicole_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "6.6"
+  },
+  {
+    "id": 205300,
+    "name": "Mini Mujina",
+    "description": "Sayu's outfit. Marvelous attire designed after the mysterious animal known as the Mujina.",
+    "isDefault": true,
+    "characterId": 10000053,
+    "characterName": "Sayu",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Sayu_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2145"
+    },
+    "version": "2.0"
+  },
+  {
+    "id": 206400,
+    "name": "Mistcloud Stage",
+    "description": "Yun Jin's outfit. It was made by skilled tailors from the Feiyun Commerce Guild. Yun Jin fell in love with it at first sight, and it is now her favorite set of casual wear.",
+    "isDefault": true,
+    "characterId": 10000064,
+    "characterName": "Yun Jin",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Yunjin_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2184"
+    },
+    "version": "2.4"
+  },
+  {
+    "id": 209600,
+    "name": "Moonglare",
+    "description": "Arlecchino's outfit. The ancient balemoon rises once more from dreams, casting a cold, crimson candescence that cocoons her completely. With this moonlight as her witness, she shall drink deep of life's chalice until her jagged fate comes to an end.",
+    "isDefault": true,
+    "characterId": 10000096,
+    "characterName": "Arlecchino",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Arlecchino_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "4.6"
+  },
+  {
+    "id": 212600,
+    "name": "Moonlit Courser",
+    "description": "Zibai's outfit, made out of silk and hemp. It is said that thousands of years ago, the ancient nation of Lang-Gan possessed exquisite weaving techniques that were brought down to the mortal world by Zibai, a messenger from the high heavens. Ages passed, that old kingdom and its long history faded away, scattered by time until they became as elusive as the moon's reflection on water. Yet their craft has somehow endured. Even now, it still lives on in every pulley and wooden frame of the spinning wheels in Liyue Harbor.",
+    "isDefault": true,
+    "characterId": 10000126,
+    "characterName": "Zibai",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Zibai_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "6.3"
+  },
+  {
+    "id": 212500,
+    "name": "Moonweave Gossamer",
+    "description": "Columbina’s outfit is a weightless, graceful raiment crafted by the Kuuhenki from Frostmoon Scion fabrics and threaded with strands of gentle moonlight. The Frostmoon Scions, not quite fully understanding what they were seeing, naturally assumed this new vestment to be yet another miracle from Kuutar. No wonder that, ever since then, Columbina would occasionally hear wishes like, \"Lady Kuutar, kindly grant me a hand as nimble as your own, I beseech you.\"",
+    "isDefault": true,
+    "characterId": 10000125,
+    "characterName": "Columbina",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Columbina_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "6.3"
+  },
+  {
+    "id": 205200,
+    "name": "Narukami's Law",
+    "description": "The Raiden Shogun's outfit. This kimono has been adorned with the Electro Mitsudomoe, granting it the highest honor in the land.",
+    "isDefault": true,
+    "characterId": 10000052,
+    "characterName": "Raiden Shogun",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Shougun_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2156"
+    },
+    "version": "2.1"
+  },
+  {
+    "id": 207000,
+    "name": "Neither Flower Nor Mist",
+    "description": "Nilou's outfit. It is neither flower nor mist, but when she begins to dance, both seem to bloom into being.",
+    "isDefault": true,
+    "characterId": 10000070,
+    "characterName": "Nilou",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Nilou_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "3.1"
+  },
+  {
+    "id": 203800,
+    "name": "Newmoon Starlight",
+    "description": "Albedo's outfit. The Knights of Favonius alchemist's uniform that Albedo often wears when conducting his experiments.",
+    "isDefault": true,
+    "characterId": 10000038,
+    "characterName": "Albedo",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Albedo_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2070"
+    },
+    "version": "1.2"
+  },
+  {
+    "id": 202301,
+    "name": "New Year's Cheer",
+    "description": "Xiangling's outfit. The red coat glows like a stove amidst cold winds, topped with a hat that, at Hu Tao's suggestion, took inspiration from Guoba's appearance — a design that's right up Xiangling's alley.",
+    "isDefault": false,
+    "characterId": 10000023,
+    "characterName": "Xiangling",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_XianglingCostumeWinter_Card",
+      "filename_icon": "UI_AvatarIcon_XianglingCostumeWinter",
+      "filename_iconCircle": "UI_AvatarIcon_XianglingCostumeWinter_Circle",
+      "filename_splash": "UI_Costume_XianglingCostumeWinter",
+      "filename_sideIcon": "UI_AvatarIcon_Side_XianglingCostumeWinter"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "5.3"
+  },
+  {
+    "id": 208600,
+    "name": "Night's Chilling Howl",
+    "description": "Wriothesley's outfit. It radiates both dignity and strength, with the rugged gray wolf chain serving as the mark of his rulership over the Fortress of Meropide.",
+    "isDefault": true,
+    "characterId": 10000086,
+    "characterName": "Wriothesley",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Wriothesley_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "4.1"
+  },
+  {
+    "id": 212000,
+    "name": "Nocturne",
+    "description": "Flins's outfit. A black uniform paired with a silver chain at his waist lends this gentleman an air of composed dignity. Night after night, he raises his azure lantern and stands vigil over the frigid seas and islands of Nod-Krai.",
+    "isDefault": true,
+    "characterId": 10000120,
+    "characterName": "Flins",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Flins_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 212400,
+    "name": "Nova's Whisper",
+    "description": "Jahoda's outfit. Adopting a new look is the first step toward bidding farewell to the past. The clothes from this ensemble were custom-made at the behest of Jahoda's dearest, most brilliant, wisest, and all-knowingest boss, Nefer, while the goggles were a gift from Aino, and the beanie was hand-made by Ineffa.",
+    "isDefault": true,
+    "characterId": 10000124,
+    "characterName": "Jahoda",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Jahoda_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "6.2"
+  },
+  {
+    "id": 212800,
+    "name": "Oath to the North Wind",
+    "description": "Varka's outfit. A knight's conviction is more steadfast than any armor, and Boreas's resolve is sharper than the keenest blade. To don this suit of iron and speak this oath — it seems but yesterday, yet the years have flown by.",
+    "isDefault": true,
+    "characterId": 10000128,
+    "characterName": "Varka",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Varka_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "6.4"
+  },
+  {
+    "id": 204201,
+    "name": "Opulent Splendor",
+    "description": "Keqing's formal wear. Amidst the beautiful dawn of the Lantern Rite, the threads weaved by days of hard work intertwine into a light yet magnificent appearance.",
+    "isDefault": false,
+    "characterId": 10000042,
+    "characterName": "Keqing",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_KeqingCostumeFeather_Card",
+      "filename_icon": "UI_AvatarIcon_KeqingCostumeFeather",
+      "filename_splash": "UI_Costume_KeqingCostumeFeather",
+      "filename_sideIcon": "UI_AvatarIcon_Side_KeqingCostumeFeather",
+      "filename_iconCircle": "UI_AvatarIcon_KeqingCostumeFeather_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2181"
+    },
+    "version": "2.4"
+  },
+  {
+    "id": 202701,
+    "name": "Orchid's Evening Gown",
+    "description": "Ningguang's formal wear. The long cyan skirt traces her elegant curves, and the butterfly wings at her ankles lend the outfit a touch of light grace.",
+    "isDefault": false,
+    "characterId": 10000027,
+    "characterName": "Ningguang",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_NingguangCostumeFloral_Card",
+      "filename_icon": "UI_AvatarIcon_NingguangCostumeFloral",
+      "filename_splash": "UI_Costume_NingguangCostumeFloral",
+      "filename_sideIcon": "UI_AvatarIcon_Side_NingguangCostumeFloral",
+      "filename_iconCircle": "UI_AvatarIcon_NingguangCostumeFloral_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2182"
+    },
+    "version": "2.4"
+  },
+  {
+    "id": 204101,
+    "name": "Pact of Stars and Moon",
+    "description": "Mona's outfit. A costume made specifically to encompass the astrological concept of \"the destined moment,\" thanks to the 30% discount ticket she got from the celestial globe refund.",
+    "isDefault": false,
+    "characterId": 10000041,
+    "characterName": "Mona",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_MonaCostumeWic_Card",
+      "filename_icon": "UI_AvatarIcon_MonaCostumeWic",
+      "filename_splash": "UI_Costume_MonaCostumeWic",
+      "filename_sideIcon": "UI_AvatarIcon_Side_MonaCostumeWic",
+      "filename_iconCircle": "UI_AvatarIcon_MonaCostumeWic_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "2.5"
+  },
+  {
+    "id": 205500,
+    "name": "Panoply of a Hundred Hunts",
+    "description": "Gorou's outfit. This light armor is designed to allow the marksman-general Gorou to handle his bow with ease. The armoring at the shoulder and elbow is also designed with this in mind.",
+    "isDefault": true,
+    "characterId": 10000055,
+    "characterName": "Gorou",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Gorou_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2179"
+    },
+    "version": "2.3"
+  },
+  {
+    "id": 208300,
+    "name": "Phantomeow",
+    "description": "Lynette's outfit. A cat resides in the shadows until it wishes to show itself — inscrutable, just like a magician's assistant.",
+    "isDefault": true,
+    "characterId": 10000083,
+    "characterName": "Lynette",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Linette_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 206101,
+    "name": "Phantom in Boots",
+    "description": "Kirara's outfit. The swashbuckling feline of fairytale fame, the crafty courier of dearly-held dreams... is pleased to make your acquaintance!",
+    "isDefault": false,
+    "characterId": 10000061,
+    "characterName": "Kirara",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_MomokaCostumeErrantry_Card",
+      "filename_icon": "UI_AvatarIcon_MomokaCostumeErrantry",
+      "filename_iconCircle": "UI_AvatarIcon_MomokaCostumeErrantry_Circle",
+      "filename_splash": "UI_Costume_MomokaCostumeErrantry",
+      "filename_sideIcon": "UI_AvatarIcon_Side_MomokaCostumeErrantry"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "4.8"
+  },
+  {
+    "id": 204200,
+    "name": "Piercing Thunderbolt",
+    "description": "Keqing's outfit. A formidable-looking dress made using luxurious materials.",
+    "isDefault": true,
+    "characterId": 10000042,
+    "characterName": "Keqing",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Keqing_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2074"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 209400,
+    "name": "Plucked Yamabuki Splendor",
+    "description": "Chiori's outfit. An elegant dress ensemble personally designed by Chiori herself, the exquisite craftsmanship has a distinctive Inazuman flair. She once wore this outfit when she graced the front page of a Fontainian fashion review magazine, and her unique aesthetics immediately catapulted her to the forefront of Fontaine's fashion world.",
+    "isDefault": true,
+    "characterId": 10000094,
+    "characterName": "Chiori",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Chiori_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "4.5"
+  },
+  {
+    "id": 204600,
+    "name": "Plum Blossom Bouquet",
+    "description": "Hu Tao's outfit. The daily work clothes of the Wangsheng Funeral Parlor's director.",
+    "isDefault": true,
+    "characterId": 10000046,
+    "characterName": "Hu Tao",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Hutao_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2107"
+    },
+    "version": "1.3"
+  },
+  {
+    "id": 207600,
+    "name": "Pristine Elegance",
+    "description": "Faruzan's outfit. The relatively plain yet elegant style represents her unfaltering purity. This style was very popular in the Akademiya a hundred years ago, but has now become an uncommon sight.",
+    "isDefault": true,
+    "characterId": 10000076,
+    "characterName": "Faruzan",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Faruzan_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "3.3"
+  },
+  {
+    "id": 211500,
+    "name": "Pristine Prayers",
+    "description": "Dahlia's outfit. Rather than the solemn, constricting robes of the church, the lively Deacon Dahlia prefers light clothing. Indeed, piety is a quality favored by the gods, but Barbatos is not the God of Winds and Freedom for naught. Dahlia is sure that his fashion sense would earn the beneficent Anemo Archon's approval!",
+    "isDefault": true,
+    "characterId": 10000115,
+    "characterName": "Dahlia",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Dahlia_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "5.7"
+  },
+  {
+    "id": 203600,
+    "name": "Pure Spirit",
+    "description": "Chongyun's outfit. A traditional thaumaturge's trappings.",
+    "isDefault": true,
+    "characterId": 10000036,
+    "characterName": "Chongyun",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Chongyun_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2106"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 200600,
+    "name": "Purple Rose",
+    "description": "Lisa's outfit. A slim-fit dress adorned with roses that displays a young lady's elegance.",
+    "isDefault": true,
+    "characterId": 10000006,
+    "characterName": "Lisa",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Lisa_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2064"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 207701,
+    "name": "Rainlit Bamboo Reverie",
+    "description": "Yaoyao's outfit. New shoots cast shifting shadows on the desk in disarray; at times the guest who enters is not the wind at play.",
+    "isDefault": false,
+    "characterId": 10000077,
+    "characterName": "Yaoyao",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_YaoyaoCostumeWinter_Card",
+      "filename_icon": "UI_AvatarIcon_YaoyaoCostumeWinter",
+      "filename_iconCircle": "UI_AvatarIcon_YaoyaoCostumeWinter_Circle",
+      "filename_splash": "UI_Costume_YaoyaoCostumeWinter",
+      "filename_sideIcon": "UI_AvatarIcon_Side_YaoyaoCostumeWinter"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "6.3"
+  },
+  {
+    "id": 209200,
+    "name": "Ranging Rainbow",
+    "description": "Gaming's outfit. There's no need for a fancy getup when going out. A few plain layers, comfortable shoes, and voila, you're on solid footing!",
+    "isDefault": true,
+    "characterId": 10000092,
+    "characterName": "Gaming",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Gaming_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 201601,
+    "name": "Red Dead of Night",
+    "description": "One of the outfits Diluc wears during covert actions, it resembles a flame dancing in the shadows. The crimson red traces it leaves behind at the edges of the enemy's vision will scar their nightmares forever.",
+    "isDefault": false,
+    "characterId": 10000016,
+    "characterName": "Diluc",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_DilucCostumeFlamme_Card",
+      "filename_icon": "UI_AvatarIcon_DilucCostumeFlamme",
+      "filename_splash": "UI_Costume_DilucCostumeFlamme",
+      "filename_sideIcon": "UI_AvatarIcon_Side_DilucCostumeFlamme",
+      "filename_iconCircle": "UI_AvatarIcon_DilucCostumeFlamme_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2320"
+    },
+    "version": "2.8"
+  },
+  {
+    "id": 202300,
+    "name": "Red Pepper and Turmeric",
+    "description": "Xiangling's outfit. Light and comfortable clothing brimming with fiery passion.",
+    "isDefault": true,
+    "characterId": 10000023,
+    "characterName": "Xiangling",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Xiangling_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2069"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 200500,
+    "name": "Rising Star",
+    "description": "The Traveler's outfit. A practical set of clothing to wear during a long journey.",
+    "isDefault": true,
+    "characterId": 10000005,
+    "characterName": "Aether",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_PlayerBoy_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2057"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 200700,
+    "name": "Rising Star",
+    "description": "The Traveler's outfit. A practical set of clothing to wear during a long journey.",
+    "isDefault": true,
+    "characterId": 10000007,
+    "characterName": "Lumine",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_PlayerGirl_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2065"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 202400,
+    "name": "Rolling Waves",
+    "description": "Beidou's outfit. Lightweight clothing saturated with a brave seafarer's spirit.",
+    "isDefault": true,
+    "characterId": 10000024,
+    "characterName": "Beidou",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Beidou_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2104"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 201501,
+    "name": "Sailwind Shadow",
+    "description": "Kaeya's outfit from his role as the \"Dagger Bandit\" in the play. Though flamboyant and designed to be as eye-catching as possible, it isn't difficult to put on, though it does take some time to get all the accessories and daggers sorted.",
+    "isDefault": false,
+    "characterId": 10000015,
+    "characterName": "Kaeya",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_KaeyaCostumeDancer_Card",
+      "filename_icon": "UI_AvatarIcon_KaeyaCostumeDancer",
+      "filename_splash": "UI_Costume_KaeyaCostumeDancer",
+      "filename_sideIcon": "UI_AvatarIcon_Side_KaeyaCostumeDancer",
+      "filename_iconCircle": "UI_AvatarIcon_KaeyaCostumeDancer_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "3.8"
+  },
+  {
+    "id": 200301,
+    "name": "Sea Breeze Dandelion",
+    "description": "Jean's summer wear. Light and cool, but no less elegant for it. The perfect choice for a trip to the seaside.",
+    "isDefault": false,
+    "characterId": 10000003,
+    "characterName": "Jean",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_QinCostumeSea_Card",
+      "filename_icon": "UI_AvatarIcon_QinCostumeSea",
+      "filename_splash": "UI_Costume_QinCostumeSea",
+      "filename_sideIcon": "UI_AvatarIcon_Side_QinCostumeSea",
+      "filename_iconCircle": "UI_AvatarIcon_QinCostumeSea_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2116"
+    },
+    "version": "1.6"
+  },
+  {
+    "id": 211400,
+    "name": "Shattered Star",
+    "description": "Skirk's outfit. She has witnessed the annihilation of stars, and once danced in the absolute darkness of the universe. All of these moments have faded into the shadows of her endless journey.",
+    "isDefault": true,
+    "characterId": 10000114,
+    "characterName": "Skirk",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_SkirkNew_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "5.7"
+  },
+  {
+    "id": 202900,
+    "name": "Shooting Spark",
+    "description": "Klee's outfit. A set of clothing for an energetic child that even comes with a matching leather backpack.",
+    "isDefault": true,
+    "characterId": 10000029,
+    "characterName": "Klee",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Klee_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2075"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 206600,
+    "name": "Silk Splendor",
+    "description": "Kamisato Ayato's outfit. The kimono itself is made using uncommon fabrics, and its patterning recalls a mountain spring, giving off a feeling of calm and stability that matches its wearer.",
+    "isDefault": true,
+    "characterId": 10000066,
+    "characterName": "Kamisato Ayato",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Ayato_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2224"
+    },
+    "version": "2.6"
+  },
+  {
+    "id": 208000,
+    "name": "Soaring Beacon",
+    "description": "Mika's outfit. This knightly outfit, specially designed for field work, is made using a vast multitude of flexible but tough materials, adding plenty of places for the wearer to store his weapons and tools. Dressed and prepared, fortune is certain to stride alongside the wearer of this outfit with each step into the unknown.",
+    "isDefault": true,
+    "characterId": 10000080,
+    "characterName": "Mika",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Mika_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "3.5"
+  },
+  {
+    "id": 205600,
+    "name": "Solemn Purity",
+    "description": "Kujou Sara's outfit. Prim and proper, it is a garment worthy of an Archon's devout servant.",
+    "isDefault": true,
+    "characterId": 10000056,
+    "characterName": "Kujou Sara",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Sara_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2155"
+    },
+    "version": "2.1"
+  },
+  {
+    "id": 211200,
+    "name": "Sorbet Honey Pie",
+    "description": "Escoffier's outfit. Befitting the \"Patissiere Supreme,\" the finely sewn flying sleeves on Escoffier's work uniform are as refined as the cakes she bakes, inevitably evoking thoughts of pure, exquisite sweetness.",
+    "isDefault": true,
+    "characterId": 10000112,
+    "characterName": "Escoffier",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Escoffier_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "5.6"
+  },
+  {
+    "id": 205400,
+    "name": "Sparkling Coralbone",
+    "description": "Sangonomiya Kokomi's outfit. A noble's dress decorated with little precious objects produced in Watatsumi Island.",
+    "isDefault": true,
+    "characterId": 10000054,
+    "characterName": "Sangonomiya Kokomi",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Kokomi_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2157"
+    },
+    "version": "2.1"
+  },
+  {
+    "id": 205900,
+    "name": "Spirited Valor",
+    "description": "Shikanoin Heizou's outfit. Having taken his outer coat off and tucked it around his waist, the Tenryou Commission detective cuts quite the dashing figure.",
+    "isDefault": true,
+    "characterId": 10000059,
+    "characterName": "Shikanoin Heizou",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Heizo_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2319"
+    },
+    "version": "2.8"
+  },
+  {
+    "id": 200201,
+    "name": "Springbloom Missive",
+    "description": "Ayaka's travel outfit. Its design is based on the Fontaine dresses depicted in light novel illustrations and seems to serve as a window into the lifestyle of proper ladies who live in that nation.",
+    "isDefault": false,
+    "characterId": 10000002,
+    "characterName": "Kamisato Ayaka",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_AyakaCostumeFruhling_Card",
+      "filename_icon": "UI_AvatarIcon_AyakaCostumeFruhling",
+      "filename_splash": "UI_Costume_AyakaCostumeFruhling",
+      "filename_sideIcon": "UI_AvatarIcon_Side_AyakaCostumeFruhling",
+      "filename_iconCircle": "UI_AvatarIcon_AyakaCostumeFruhling_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 212700,
+    "name": "Steadfast Resolve",
+    "description": "Illuga's outfit is a custom-made uniform that was designed with his duties in mind. Though it is technically meant for work, Illuga has so many responsibilities that he rarely gets the chance to change his clothes, so in practice, this uniform might as well be considered his everyday wear.",
+    "isDefault": true,
+    "characterId": 10000127,
+    "characterName": "Illuga",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Illuga_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "6.3"
+  },
+  {
+    "id": 211100,
+    "name": "Sugar Rush",
+    "description": "Varesa's outfit. In her eyes, sugar is a sweet, sublime gift from the heavens. Cakes of sparkly pink and emerald green, yummy fruit tea, mountains of candy... These things are the source of all happiness in the world! Unfortunately, her coach vehemently begs to differ.",
+    "isDefault": true,
+    "characterId": 10000111,
+    "characterName": "Varesa",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Varesa_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "5.5"
+  },
+  {
+    "id": 203900,
+    "name": "Sugary Brew",
+    "description": "Diona's outfit. The work uniform of the Cat's Tail's star bartender.",
+    "isDefault": true,
+    "characterId": 10000039,
+    "characterName": "Diona",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Diona_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2072"
+    },
+    "version": "1.1"
+  },
+  {
+    "id": 203500,
+    "name": "Summerchill Dreams",
+    "description": "Qiqi's outfit. A herb gatherer's garment that brings her great peace of mind due to the attached talismans.",
+    "isDefault": true,
+    "characterId": 10000035,
+    "characterName": "Qiqi",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Qiqi_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2077"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 201401,
+    "name": "Summertime Sparkle",
+    "description": "Barbara's beach attire. This pretty skirt brims with summer vitality and carries with it a cool ocean breeze.",
+    "isDefault": false,
+    "characterId": 10000014,
+    "characterName": "Barbara",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_BarbaraCostumeSummertime_Card",
+      "filename_icon": "UI_AvatarIcon_BarbaraCostumeSummertime",
+      "filename_splash": "UI_Costume_BarbaraCostumeSummertime",
+      "filename_sideIcon": "UI_AvatarIcon_Side_BarbaraCostumeSummertime",
+      "filename_iconCircle": "UI_AvatarIcon_BarbaraCostumeSummertime_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2115"
+    },
+    "version": "1.6"
+  },
+  {
+    "id": 209500,
+    "name": "Sweetness of the Sea",
+    "description": "Sigewinne's outfit. Its brilliant colors epitomize Head Nurse Sigewinne herself — a welcome ray of sunshine brightening life down in the gloomy depths.",
+    "isDefault": true,
+    "characterId": 10000095,
+    "characterName": "Sigewinne",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Sigewinne_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "4.7"
+  },
+  {
+    "id": 209800,
+    "name": "Sword of Honor",
+    "description": "Clorinde's outfit. Without the strength to enforce their authority, the dignity of the law and the order of justice start to seem fragile indeed. And Clorinde in her work uniform is the ultimate guarantor.",
+    "isDefault": true,
+    "characterId": 10000098,
+    "characterName": "Clorinde",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Clorinde_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "4.7"
+  },
+  {
+    "id": 210000,
+    "name": "Tawny Peaks, Spired Rock",
+    "description": "Kachina's outfit. Sturdy gloves, check, wear-resistant boots, check — \"Uthabiti\" Kachina is ready to face the challenges ahead!",
+    "isDefault": true,
+    "characterId": 10000100,
+    "characterName": "Kachina",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Kachina_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 208200,
+    "name": "The Applications of Medicine",
+    "description": "Baizhu's outfit. The cloak on his shoulder is dyed using Changsheng's favorite plants. Its fragrance lingers and soothes the senses.",
+    "isDefault": true,
+    "characterId": 10000082,
+    "characterName": "Baizhu",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Baizhuer_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "3.6"
+  },
+  {
+    "id": 207900,
+    "name": "The Lioness and the Blazing Sun",
+    "description": "Dehya's outfit. It is said when the lion roars, even the scorching sun will quiver. Though Dehya is long past the age of believing in such stories, it doesn't stop her from gazing upon the sun sinking below the sands, reminiscing about the tales and storytellers of her childhood.",
+    "isDefault": true,
+    "characterId": 10000079,
+    "characterName": "Dehya",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Dehya_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "3.5"
+  },
+  {
+    "id": 207800,
+    "name": "The Rational",
+    "description": "Alhaitham's outfit. \"Don't bother the Scribe with trivialities... What do you think those soundproofers of his are for, anyway?\"\nSo observed an experienced staff member at the Temple of Silence.",
+    "isDefault": true,
+    "characterId": 10000078,
+    "characterName": "Alhaitham",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Alhatham_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 206000,
+    "name": "The Waning Point",
+    "description": "Yelan's outfit. It has lurked alongside its wearer in the shadows over many a year, to the point where the outfit almost has a mysterious temper of its own, like an orchid blooming at midnight.",
+    "isDefault": true,
+    "characterId": 10000060,
+    "characterName": "Yelan",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Yelan_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2286"
+    },
+    "version": "2.7"
+  },
+  {
+    "id": 206300,
+    "name": "The World's Shackles",
+    "description": "Shenhe's outfit. These elegant garments have accompanied her through long years of training. The red ropes that surround her body are fetters and wards simultaneously.",
+    "isDefault": true,
+    "characterId": 10000063,
+    "characterName": "Shenhe",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Shenhe_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2183"
+    },
+    "version": "2.4"
+  },
+  {
+    "id": 210400,
+    "name": "Tlalocan's Night Phantom",
+    "description": "Chasca's outfit. The spirit of conflict is in her blood, and unyielding determination in her eyes. The pain that comes with transcending death is the unbending pride of Tlalocan.",
+    "isDefault": true,
+    "characterId": 10000104,
+    "characterName": "Chasca",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Chasca_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "5.2"
+  },
+  {
+    "id": 204501,
+    "name": "To the Church's Free Spirit",
+    "description": "Rosaria's outfit. This seems to have been custom-made for her by the Church.",
+    "isDefault": false,
+    "characterId": 10000045,
+    "characterName": "Rosaria",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_RosariaCostumeWic_Card",
+      "filename_icon": "UI_AvatarIcon_RosariaCostumeWic",
+      "filename_splash": "UI_Costume_RosariaCostumeWic",
+      "filename_sideIcon": "UI_AvatarIcon_Side_RosariaCostumeWic",
+      "filename_iconCircle": "UI_AvatarIcon_RosariaCostumeWic_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "2.5"
+  },
+  {
+    "id": 212301,
+    "name": "Toward the Distant Horizon",
+    "description": "Durin's outfit. Durin's original outfit has received a new lease of life now that he's taken up his mother's pen. Ultimately, he bid farewell to the past once painted by its previous owner. When the lock on his heart faded away, the distant horizon his wish now points to became the direction in which his story continues to unfold.",
+    "isDefault": false,
+    "characterId": 10000123,
+    "characterName": "Durin",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_DurinCostumeWic_Card",
+      "filename_icon": "UI_AvatarIcon_DurinCostumeWic",
+      "filename_iconCircle": "UI_AvatarIcon_DurinCostumeWic_Circle",
+      "filename_splash": "UI_Costume_DurinCostumeWic",
+      "filename_sideIcon": "UI_AvatarIcon_Side_DurinCostumeWic"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "6.2"
+  },
+  {
+    "id": 206001,
+    "name": "Tranquil Banquet",
+    "description": "The outfit Yelan has prepared for her holiday. Elegant yet neat, it conveys a sense of leisure while somehow still carrying a hint of concealed aggression...",
+    "isDefault": false,
+    "characterId": 10000060,
+    "characterName": "Yelan",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_YelanCostumeSummer_Card",
+      "filename_icon": "UI_AvatarIcon_YelanCostumeSummer",
+      "filename_iconCircle": "UI_AvatarIcon_YelanCostumeSummer_Circle",
+      "filename_splash": "UI_Costume_YelanCostumeSummer",
+      "filename_sideIcon": "UI_AvatarIcon_Side_YelanCostumeSummer"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "5.8"
+  },
+  {
+    "id": 203701,
+    "name": "Twilight Blossom",
+    "description": "A light and graceful festive outfit accented mainly in black nightshade and cerulean blue. Its hair accessory is as radiant as the Qingxin — a pairing that Ganyu is most fond of.",
+    "isDefault": false,
+    "characterId": 10000037,
+    "characterName": "Ganyu",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_GanyuCostumeYu_Card",
+      "filename_icon": "UI_AvatarIcon_GanyuCostumeYu",
+      "filename_iconCircle": "UI_AvatarIcon_GanyuCostumeYu_Circle",
+      "filename_splash": "UI_Costume_GanyuCostumeYu",
+      "filename_sideIcon": "UI_AvatarIcon_Side_GanyuCostumeYu"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 210600,
+    "name": "Undying Sun",
+    "description": "Mavuika's outfit. She is the sun that walks among us, the beacon that shines through every night, and the spark by which all kindling is ignited, bestowing courage upon us all. Such is her radiance that it shall never fade away.",
+    "isDefault": true,
+    "characterId": 10000106,
+    "characterName": "Mavuika",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Mavuika_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "5.3"
+  },
+  {
+    "id": 211900,
+    "name": "Verdant Moon",
+    "description": "Lauma's outfit. As the moon's priestess, she moves gracefully between deer and human form. But no matter her shape, her devotion and compassion for all living things remain unchanged.",
+    "isDefault": true,
+    "characterId": 10000119,
+    "characterName": "Lauma",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Lauma_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 205000,
+    "name": "Warrior of Flame",
+    "description": "Thoma's outfit. He cropped the pieces of this light suit of armor till only the thigh and arm guards were left, allowing him to comfortably attend to all matters in and out of combat.",
+    "isDefault": true,
+    "characterId": 10000050,
+    "characterName": "Thoma",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Tohma_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2177"
+    },
+    "version": "2.2"
+  },
+  {
+    "id": 211000,
+    "name": "Warrior's Bonegarb",
+    "description": "Iansan's outfit. Adorned with a patterned skull that has become something of an icon for Iansan. Her trainees initially believed that their coach wore it to commemorate the tragic passing of her Tatankasaur, until they realized it was still alive and well.",
+    "isDefault": true,
+    "characterId": 10000110,
+    "characterName": "Iansan",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Iansan_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "5.5"
+  },
+  {
+    "id": 205100,
+    "name": "Wavecrest Waltz",
+    "description": "Eula's outfit. Consummate elegance shines through in this neat and smart knight's uniform.",
+    "isDefault": true,
+    "characterId": 10000051,
+    "characterName": "Eula",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Eula_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2113"
+    },
+    "version": "1.5"
+  },
+  {
+    "id": 206100,
+    "name": "Whirling Bloom",
+    "description": "Kirara's outfit. The famous designer Chiori followed the principle of \"comfortably wearing a beautiful flower upon one's body\" when creating this outfit for Kirara.",
+    "isDefault": true,
+    "characterId": 10000061,
+    "characterName": "Kirara",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Momoka_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "3.7"
+  },
+  {
+    "id": 210701,
+    "name": "Whispers of Stars and Smoke",
+    "description": "Citlali's outfit. When at home, Citlali will sometimes change into attire brimming with girlish charm. At such times, anyone troubling her with official duties has promptly come under heavy attack. Thus, this outfit has become a baleful thing, a subject of fearful rumor that all give a wide berth.",
+    "isDefault": false,
+    "characterId": 10000107,
+    "characterName": "Citlali",
+    "source": [],
+    "images": {
+      "filename_card": "UI_AvatarIcon_CitlaliCostumeXia_Card",
+      "filename_icon": "UI_AvatarIcon_CitlaliCostumeXia",
+      "filename_iconCircle": "UI_AvatarIcon_CitlaliCostumeXia_Circle",
+      "filename_splash": "UI_Costume_CitlaliCostumeXia",
+      "filename_sideIcon": "UI_AvatarIcon_Side_CitlaliCostumeXia"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 211300,
+    "name": "Whistledart Wings",
+    "description": "Ifa's outfit. You've never seen Ifa change his hat, but he has done so many times — just, you know, to an identical-looking one on each occasion. \"Don't forget to tie a string on a hat you're fixin' to wear, bro. Never know when the wind might nick it — or a pesky saurian, for that matter.\" So Ifa says with a sigh of exasperation each time the subject is broached.",
+    "isDefault": true,
+    "characterId": 10000113,
+    "characterName": "Ifa",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Ifa_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "5.6"
+  },
+  {
+    "id": 202000,
+    "name": "Wild Sprint",
+    "description": "Razor's outfit. Rough and ready clothes suited for running out in the wilderness.",
+    "isDefault": true,
+    "characterId": 10000020,
+    "characterName": "Razor",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Razor_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2109"
+    },
+    "version": "1.0"
+  },
+  {
+    "id": 213200,
+    "name": "Witch Hunter Regalia",
+    "description": "Prune's outfit. The somber tones of this outfit, scrupulously chosen to project an air of poise that belies her tender age, are complemented by metallic flourishes that declare her intent to \"show no mercy\" toward all \"witches\"... or at least, that's how she sees it.",
+    "isDefault": true,
+    "characterId": 10000132,
+    "characterName": "Prune",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Prune_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "6.6"
+  },
+  {
+    "id": 206900,
+    "name": "Woodland Song",
+    "description": "Tighnari's outfit. Clad in the colors of wood, tree, and flower, Tighnari is surrounded at all times by natural life, determined even in fashion sense to put the \"forest\" in \"Forest Watcher.\"",
+    "isDefault": true,
+    "characterId": 10000069,
+    "characterName": "Tighnari",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Tighnari_Circle"
+    },
+    "url": {
+      "modelviewer": "https://gamesfashionarchive.net/viewer/2324"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 209100,
+    "name": "Yellow Velvet Salon",
+    "description": "Navia's outfit. An elegant dress that cleaves perfectly to the image of a Fontainian lady, lending this adventurous, far-from-traditional young woman a fresh look indeed.",
+    "isDefault": true,
+    "characterId": 10000091,
+    "characterName": "Navia",
+    "images": {
+      "filename_card": "UI_AvatarIcon_Costume_Card",
+      "filename_iconCircle": "UI_AvatarIcon_Navia_Circle"
+    },
+    "url": {
+      "modelviewer": ""
+    },
+    "version": "4.3"
+  }
+]

@@ -1,30 +1,34 @@
 "use client";
 
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { Link } from "@/i18n/navigation";
 import { SearchBar } from "./SearchBar";
 import { ThemeToggle } from "./ThemeToggle";
-
-const NAV_LINKS = [
-  { href: "/characters", label: "Nhân vật" },
-  { href: "/weapons", label: "Vũ khí" },
-  { href: "/artifacts", label: "Thánh di vật" },
-  { href: "/domains", label: "Bí cảnh" },
-  { href: "/elements", label: "Nguyên tố" },
-];
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 /**
- * Header đầy đủ: logo + link điều hướng + search + theme toggle.
+ * Header đầy đủ: logo + link điều hướng + [ngôn ngữ] + [search] + theme
+ * toggle. Ngôn ngữ và search đều thu gọn thành icon — bấm vào mới bung ra
+ * (dropdown / ô nhập) — để không chiếm chỗ ngang trên header, nhất là ở
+ * các breakpoint hẹp.
  * Dưới breakpoint `md`, link điều hướng gộp vào menu hamburger để tránh
- * tràn ngang — trước đây "flex items-center gap-4" không wrap, trên màn
- * hình điện thoại (~360-390px) 3 link + SearchBar + ThemeToggle không đủ
- * chỗ, chữ bị chèn/tràn.
+ * tràn ngang.
  */
 export function SiteNav() {
+  const t = useTranslations("Nav");
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const NAV_LINKS = [
+    { href: "/characters", label: t("characters") },
+    { href: "/weapons", label: t("weapons") },
+    { href: "/artifacts", label: t("artifacts") },
+    { href: "/domains", label: t("domains") },
+    { href: "/elements", label: t("elements") },
+  ];
+
   return (
-    <header className="border-b border-border sticky top-0 bg-primary/80 backdrop-blur-md z-20">
+    <header className="border-b border-border sticky top-0 bg-bg-primary/80 backdrop-blur-md z-20">
       <nav className="flex items-center gap-4 px-4 md:px-8 py-3 max-w-7xl mx-auto">
         <div className="flex items-center gap-6 shrink-0">
           <Link href="/" className="font-display text-xl font-bold tracking-wide text-amber-500">
@@ -40,15 +44,15 @@ export function SiteNav() {
           </div>
         </div>
 
-        {/* Search chỉ hiện từ sm trở lên trên hàng chính; dưới sm chuyển
-            xuống hàng riêng bên trong menu mobile để không bóp méo layout.
-            "ml-auto max-w-xs" đặt ở đây (không phải trong SearchBar) để
-            component có thể tái dùng full-width trong menu mobile bên dưới. */}
-        <div className="hidden sm:block flex-1 max-w-xs ml-auto">
+        {/* Ngôn ngữ + search: cả hai đều icon, ngôn ngữ đứng TRƯỚC search.
+            Hiện từ sm trở lên trên hàng chính; dưới sm chuyển xuống menu
+            mobile để không bóp méo layout. */}
+        <div className="hidden sm:flex items-center gap-2 ml-auto">
+          <LanguageSwitcher />
           <SearchBar />
         </div>
 
-        <div className="hidden md:block">
+        <div className="hidden md:flex items-center gap-2">
           <ThemeToggle />
         </div>
 
@@ -56,9 +60,9 @@ export function SiteNav() {
         <button
           type="button"
           onClick={() => setMenuOpen((v) => !v)}
-          aria-label={menuOpen ? "Đóng menu" : "Mở menu"}
+          aria-label={menuOpen ? t("closeMenu") : t("openMenu")}
           aria-expanded={menuOpen}
-          className="md:hidden ml-auto p-2 rounded-lg border border-border text-primary hover:border-amber-400 transition-colors"
+          className="md:hidden p-2 rounded-lg border border-border text-text-primary hover:border-amber-400 transition-colors sm:ml-0 ml-auto"
         >
           {menuOpen ? (
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -72,10 +76,13 @@ export function SiteNav() {
         </button>
       </nav>
 
-      {/* Panel mobile: link + search + theme toggle gộp lại, chỉ render khi mở */}
+      {/* Panel mobile: link + search + theme toggle + ngôn ngữ gộp lại, chỉ render khi mở.
+          Search/ngôn ngữ ở đây chỉ hiện dưới sm (sm:hidden) vì từ sm trở lên
+          đã có icon tương ứng ngay trên hàng chính. */}
       {menuOpen && (
-        <div className="md:hidden border-t border-border px-4 py-4 flex flex-col gap-4 bg-primary">
-          <div className="sm:hidden">
+        <div className="md:hidden border-t border-border px-4 py-4 flex flex-col gap-4 bg-bg-primary">
+          <div className="sm:hidden flex items-center gap-2">
+            <LanguageSwitcher />
             <SearchBar />
           </div>
           <div className="flex flex-col gap-3">
@@ -91,7 +98,7 @@ export function SiteNav() {
             ))}
           </div>
           <div className="flex items-center justify-between pt-2 border-t border-border">
-            <span className="text-sm text-secondary">Giao diện</span>
+            <span className="text-sm text-text-secondary">{t("theme")}</span>
             <ThemeToggle />
           </div>
         </div>

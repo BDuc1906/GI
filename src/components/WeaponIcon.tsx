@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -66,7 +67,7 @@ export function WeaponIcon({
     // cái đầu, không bịa icon giả để tránh gây hiểu nhầm là icon thật.
     return (
       <span
-        className={`inline-flex items-center justify-center shrink-0 text-[10px] font-medium text-muted ${className}`}
+        className={`inline-flex items-center justify-center shrink-0 text-[10px] font-medium text-text-muted ${className}`}
         style={{ width: size, height: size }}
       >
         {normalized.slice(0, 1)}

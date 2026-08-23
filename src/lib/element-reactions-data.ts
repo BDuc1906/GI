@@ -72,10 +72,10 @@ export const ELEMENTAL_REACTIONS: ElementalReaction[] = [
   { id: "vaporize", name: "Vaporize", nameVi: "Bốc Hơi", elements: ["Hydro", "Pyro"], category: "amplifying", description: "Hỏa gặp Thủy (hoặc ngược lại). Nhân sát thương đòn đánh gây phản ứng: x2 nếu Thủy tác dụng trước lên Hỏa có sẵn, x1.5 nếu Hỏa tác dụng trước lên Thủy có sẵn." },
   { id: "melt", name: "Melt", nameVi: "Tan Chảy", elements: ["Pyro", "Cryo"], category: "amplifying", description: "Hỏa gặp Băng (hoặc ngược lại). Nhân sát thương đòn đánh gây phản ứng: x2 nếu Hỏa tác dụng lên Băng có sẵn, x1.5 nếu Băng tác dụng lên Hỏa có sẵn." },
   { id: "overloaded", name: "Overloaded", nameVi: "Quá Tải", elements: ["Pyro", "Electro"], category: "transformative", description: "Hỏa gặp Lôi. Gây sát thương Hỏa lan tỏa diện rộng kèm hất tung mục tiêu và các mục tiêu xung quanh." },
-  { id: "superconduct", name: "Superconduct", nameVi: "Siêu Dẫn", elements: ["Cryo", "Electro"], category: "transformative", description: "Băng gặp Lôi. Gây sát thương Băng diện rộng, đồng thời giảm Kháng Vật Lý của mục tiêu trúng đòn." },
+  { id: "superconduct", name: "Superconduct", nameVi: "Siêu Dẫn", elements: ["Cryo", "Electro"], category: "transformative", description: "Băng gặp Lôi. Gây sát thương Băng diện rộng, đồng thời giảm 40% Kháng Vật Lý của mục tiêu trúng đòn trong 12 giây." },
   { id: "electro-charged", name: "Electro-Charged", nameVi: "Điện Cảm", elements: ["Electro", "Hydro"], category: "transformative", description: "Lôi gặp Thủy. Gây sát thương Lôi liên tục theo thời gian, có thể lan sang mục tiêu dính Thủy gần đó." },
-  { id: "frozen", name: "Frozen", nameVi: "Đóng Băng", elements: ["Cryo", "Hydro"], category: "transformative", description: "Băng gặp Thủy. Đóng băng mục tiêu, vô hiệu hóa hành động trong thời gian ngắn. Đòn phá băng gây 200% sát thương." },
-  { id: "swirl", name: "Swirl", nameVi: "Khuếch Tán", elements: ["Anemo", "Pyro", "Hydro", "Cryo", "Electro"], category: "transformative", description: "Phong gặp Hỏa/Thủy/Băng/Lôi. Gây sát thương Phong diện rộng theo nguyên tố bị khuếch tán, đồng thời lan nguyên tố đó sang các mục tiêu xung quanh." },
+  { id: "frozen", name: "Frozen", nameVi: "Đóng Băng", elements: ["Cryo", "Hydro"], category: "transformative", description: "Băng gặp Thủy. Đóng băng mục tiêu, vô hiệu hóa hành động trong thời gian ngắn — bản thân Đóng Băng KHÔNG gây sát thương. Đòn \"phá băng\" (Vỡ Băng/Shattered) bằng Đại Kiếm hoặc kỹ năng Nham sau đó mới gây sát thương, tính theo công thức Phản ứng Biến Đổi (xem mục Công Thức Tính Sát Thương)." },
+  { id: "swirl", name: "Swirl", nameVi: "Khuếch Tán", elements: ["Anemo", "Pyro", "Hydro", "Cryo", "Electro"], category: "transformative", description: "Phong gặp Hỏa/Thủy/Băng/Lôi. Gây sát thương DIỆN RỘNG ĐÚNG THEO nguyên tố bị cuốn theo (Khuếch Tán Hỏa gây sát thương Hỏa, Khuếch Tán Lôi gây sát thương Lôi...) — KHÔNG phải sát thương Phong. Ngoại lệ: Khuếch Tán Thủy không gây sát thương, chỉ lan trạng thái Ướt. Đồng thời lan nguyên tố đó sang các mục tiêu xung quanh (trừ mục tiêu gốc)." },
   { id: "crystallize", name: "Crystallize", nameVi: "Kết Tinh", elements: ["Geo", "Pyro", "Hydro", "Cryo", "Electro"], category: "transformative", description: "Nham gặp Hỏa/Thủy/Băng/Lôi. Tạo ra tinh thể bảo vệ mang nguyên tố tương ứng, nhặt lên để nhận khiên chắn nguyên tố đó." },
   { id: "burning", name: "Burning", nameVi: "Thiêu Đốt", elements: ["Pyro", "Dendro"], category: "transformative", description: "Hỏa gặp Thảo. Gây sát thương Hỏa liên tục theo thời gian trong vùng cháy, có thể lan sang thực vật/mục tiêu dính Thảo khác." },
   { id: "bloom", name: "Bloom", nameVi: "Sum Suê", elements: ["Dendro", "Hydro"], category: "transformative", description: "Thảo gặp Thủy. Tạo Hạt Nhân Thảo (Seed Core) — sau thời gian ngắn sẽ tự nổ gây sát thương Thảo diện rộng." },
@@ -125,6 +125,70 @@ export const ELEMENTAL_REACTIONS: ElementalReaction[] = [
 export function reactionsInvolving(elementName: string): ElementalReaction[] {
   return ELEMENTAL_REACTIONS.filter((r) => r.elements.includes(elementName));
 }
+
+// ---- Công thức tính sát thương phản ứng nguyên tố ----
+// Nguồn: KeQingMains Theorycrafting Library (library.keqingmains.com/
+// combat-mechanics/damage/damage-formula) + Genshin Impact Wiki chính thức
+// (genshin-impact.fandom.com/wiki/Damage) — đối chiếu chéo cả 2 nguồn,
+// tra cứu lại ngày viết (đã xác nhận số liệu PHẢN ÁNH ĐÚNG bản game hiện
+// tại, đã tính cả đợt buff 4 phản ứng Overloaded/Superconduct/Shattered/
+// Electro-Charged ở bản 5.2). NẾU game buff/nerf hệ số phản ứng ở bản sau,
+// cần tra lại đúng 2 link trên trước khi sửa số ở đây — đừng đoán.
+export type DamageFormulaCategory = "amplifying" | "transformative" | "additive";
+
+export interface DamageFormulaInfo {
+  category: DamageFormulaCategory;
+  titleVi: string;
+  formulaLatex: string; // dạng text đơn giản, không cần render LaTeX thật
+  explanationVi: string;
+  sourceUrl: string;
+}
+
+export const DAMAGE_FORMULAS: Record<DamageFormulaCategory, DamageFormulaInfo> = {
+  amplifying: {
+    category: "amplifying",
+    titleVi: "Phản ứng Khuếch Đại (Tan Chảy / Bốc Hơi)",
+    formulaLatex: "Hệ Số Khuếch Đại = HSN × [1 + 2.78×EM/(1400+EM) + %ThưởngPhảnỨng]",
+    explanationVi:
+      "HSN (Hệ Số Nền) = 2 nếu tác dụng \"thuận\" (Thủy lên Hỏa cho Bốc Hơi, Hỏa lên Băng cho Tan Chảy), = 1.5 nếu \"ngược\". " +
+      "Hệ Số Khuếch Đại nhân THẲNG vào sát thương đòn đánh gây ra phản ứng — vẫn cộng ATK, tỉ lệ/sát thương bạo kích, % Sát Thương như bình thường, KHÁC với 2 loại còn lại.",
+    sourceUrl: "https://library.keqingmains.com/combat-mechanics/elemental-effects/amplifying-reactions",
+  },
+  transformative: {
+    category: "transformative",
+    titleVi: "Phản ứng Biến Đổi (Quá Tải, Siêu Dẫn, Điện Cảm, Khuếch Tán, Thiêu Đốt, Sum Suê, Nở Rộ, Bung Tỏa, Vỡ Băng...)",
+    formulaLatex: "Sát Thương = HSN × HSCấp(nhân vật kích hoạt) × [1 + 16×EM/(2000+EM) + %ThưởngPhảnỨng] × KhángNguyênTố(mục tiêu)",
+    explanationVi:
+      "HSCấp (Hệ Số Cấp Độ) ở Lv.90 = 1446.85, Lv.80 = 1077.44 (chỉ tính cấp NHÂN VẬT gây phản ứng, không phải mục tiêu). " +
+      "KHÔNG THỂ bạo kích, bỏ qua hoàn toàn Phòng Thủ của mục tiêu, chỉ chịu ảnh hưởng bởi Kháng Nguyên Tố — vì vậy ATK/Crit/DMG% của nhân vật hoàn toàn KHÔNG ảnh hưởng, chỉ Tinh Thông Nguyên Tố (EM) và cấp độ mới có tác dụng.",
+    sourceUrl: "https://library.keqingmains.com/combat-mechanics/damage/damage-formula",
+  },
+  additive: {
+    category: "additive",
+    titleVi: "Phản ứng Cộng Dồn (Tăng Cường, Lan Tràn)",
+    formulaLatex: "Sát Thương Cộng Thêm = HSN × HSCấp(nhân vật kích hoạt) × [1 + 5×EM/(1200+EM) + %ThưởngPhảnỨng]",
+    explanationVi:
+      "HSN = 1.15 cho Tăng Cường, 1.25 cho Lan Tràn. Khoản này CỘNG THẲNG vào sát thương gốc của đòn đánh TRƯỚC khi nhân % Sát Thương/bạo kích — nên vẫn hưởng lợi từ Crit/DMG% của đòn kích hoạt, khác hẳn phản ứng Biến Đổi.",
+    sourceUrl: "https://library.keqingmains.com/combat-mechanics/damage/damage-formula",
+  },
+};
+
+// Hệ số nền (Base Reaction Coefficient) từng phản ứng Biến Đổi cụ thể —
+// dùng thay vào công thức DAMAGE_FORMULAS.transformative ở trên. Số liệu
+// SAU đợt buff bản 5.2 (Overloaded 2→2.75, Superconduct 0.5→1.5, Shattered
+// 1.5→3, Electro-Charged 1.2→2 mỗi lần tác dụng — Điện Cảm có thể tác dụng
+// 2 lần/chu kỳ nên tổng có thể x2 giá trị này).
+export const TRANSFORMATIVE_BASE_COEFFICIENT: Record<string, number> = {
+  burning: 0.25,
+  swirl: 0.6,
+  superconduct: 1.5,
+  "electro-charged": 2.0,
+  bloom: 2.0,
+  overloaded: 2.75,
+  frozen: 3.0, // "Shattered" — đòn phá băng, hệ số áp dụng cho ĐÒN PHÁ, không phải bản thân Đóng Băng (Đóng Băng không gây sát thương)
+  burgeon: 3.0,
+  hyperbloom: 3.0,
+};
 
 // ---- Cộng hưởng Nguyên tố (Elemental Resonance) ----
 export interface ElementalResonance {

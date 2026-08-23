@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { SafeImage } from "@/components/SafeImage";
 import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
+import { Breadcrumb } from "@/components/Breadcrumb";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -35,9 +36,30 @@ interface DomainMaterialEntry {
   name: string;
 }
 
+// Chọn field TƯỜNG MINH thay vì để Prisma tự "select tất cả cột" (implicit
+// select) — findUnique không truyền `select` từng gây Rust panic
+// ("Option::unwrap() on a None value" trong query-compiler/selection.rs)
+// với Prisma 7.x trên model có field mảng (String[]) + Json trộn lẫn như
+// Domain. Liệt kê rõ field cũng nhanh hơn vì không kéo cột thừa.
+const DOMAIN_SELECT = {
+  id: true,
+  name: true,
+  category: true,
+  regionName: true,
+  description: true,
+  recommendedLevel: true,
+  recommendedElements: true,
+  daysOfWeek: true,
+  unlockRank: true,
+  materials: true,
+  monsterNames: true,
+  imageUrl: true,
+  imageUrlOriginal: true,
+} as const;
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
-  const d = await prisma.domain.findUnique({ where: { id } });
+  const d = await prisma.domain.findUnique({ where: { id }, select: DOMAIN_SELECT });
   if (!d) return { title: "Không tìm thấy bí cảnh — LEIBO" };
   return {
     title: `${d.name} — LEIBO`,
@@ -47,8 +69,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function DomainDetail({ params }: PageProps) {
   const { id } = await params;
-  const d = await prisma.domain.findUnique({ where: { id } });
+  const d = await prisma.domain.findUnique({ where: { id }, select: DOMAIN_SELECT });
   if (!d) return notFound();
+
+  const breadcrumbItems = [
+    { name: "LEIBO", path: "/" },
+    { name: "Bí cảnh", path: "/domains" },
+    { name: d.name, path: `/domains/${d.id}` },
+  ];
 
   const materials = (d.materials as unknown as DomainMaterialEntry[]) ?? [];
 
@@ -74,16 +102,11 @@ export default async function DomainDetail({ params }: PageProps) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <BreadcrumbJsonLd
-        items={[
-          { name: "LEIBO", path: "/" },
-          { name: "Bí cảnh", path: "/domains" },
-          { name: d.name, path: `/domains/${d.id}` },
-        ]}
-      />
+      <BreadcrumbJsonLd items={breadcrumbItems} />
+      <Breadcrumb items={breadcrumbItems} />
       <div className="flex flex-col sm:flex-row gap-6 mb-8">
         {d.imageUrl && (
-          <div className="relative w-40 h-40 rounded-xl border border-border bg-card shrink-0 overflow-hidden">
+          <div className="relative w-40 h-40 rounded-xl border border-border bg-bg-card shrink-0 overflow-hidden">
             <SafeImage
               src={d.imageUrl}
               fallbackSrcs={[d.imageUrlOriginal]}
@@ -91,20 +114,20 @@ export default async function DomainDetail({ params }: PageProps) {
               fill
               sizes="160px"
               className="object-cover"
-              fallbackClassName="w-full h-full flex items-center justify-center text-muted text-[10px]"
+              fallbackClassName="w-full h-full flex items-center justify-center text-text-muted text-[10px]"
             />
           </div>
         )}
         <div>
-          <div className="text-xs uppercase tracking-wider text-secondary font-medium mb-1">
+          <div className="text-xs uppercase tracking-wider text-text-secondary font-medium mb-1">
             {CATEGORY_LABEL[d.category] ?? d.category}
           </div>
           <h1 className="text-3xl font-bold text-gold-bright">{d.name}</h1>
-          <p className="text-sm text-muted mb-4">
+          <p className="text-sm text-text-muted mb-4">
             {d.regionName ?? "Teyvat"}
             {d.recommendedLevel ? ` · Khuyến nghị cấp ${d.recommendedLevel}` : ""}
           </p>
-          {d.description && <p className="text-primary italic max-w-xl">{d.description}</p>}
+          {d.description && <p className="text-text-primary italic max-w-xl">{d.description}</p>}
         </div>
       </div>
 
@@ -112,7 +135,7 @@ export default async function DomainDetail({ params }: PageProps) {
       <section className="mb-8">
         <h2 className="font-display text-xl font-bold mb-2 text-gold border-b border-border pb-2">Lịch mở</h2>
         {d.daysOfWeek.length === 0 ? (
-          <p className="text-sm text-secondary">Mở hằng ngày.</p>
+          <p className="text-sm text-text-secondary">Mở hằng ngày.</p>
         ) : (
           <div className="flex flex-wrap gap-2 text-sm">
             {d.daysOfWeek.map((wd) => (
@@ -132,7 +155,7 @@ export default async function DomainDetail({ params }: PageProps) {
           </h2>
           <div className="flex flex-wrap gap-2 text-sm">
             {d.recommendedElements.map((el) => (
-              <span key={el} className="px-3 py-1.5 rounded-full border border-border bg-card/60 text-primary">
+              <span key={el} className="px-3 py-1.5 rounded-full border border-border bg-bg-card/60 text-text-primary">
                 {el}
               </span>
             ))}
@@ -146,7 +169,7 @@ export default async function DomainDetail({ params }: PageProps) {
           <h2 className="font-display text-xl font-bold mb-4 text-gold border-b border-border pb-2">
             {d.category === "artifact" ? "Bộ thánh di vật rơi ra" : "Nguyên liệu nhận được"}
           </h2>
-          <div className="relic-frame bg-card border border-border rounded-xl p-4">
+          <div className="relic-frame bg-bg-card border border-border rounded-xl p-4">
             <ul className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
               {materials.map((m, i) => {
                 const iconUrl = m.materialId
@@ -156,12 +179,12 @@ export default async function DomainDetail({ params }: PageProps) {
                     : null;
                 return (
                   <li key={i} className="flex items-center gap-2 min-w-0">
-                    <span className="relative w-8 h-8 shrink-0 rounded bg-secondary border border-border overflow-hidden">
+                    <span className="relative w-8 h-8 shrink-0 rounded bg-bg-secondary border border-border overflow-hidden">
                       {iconUrl ? (
                         <SafeImage src={iconUrl} alt={m.name} fill sizes="32px" className="object-contain" />
                       ) : null}
                     </span>
-                    <span className="text-secondary truncate">{m.name}</span>
+                    <span className="text-text-secondary truncate">{m.name}</span>
                   </li>
                 );
               })}
@@ -178,7 +201,7 @@ export default async function DomainDetail({ params }: PageProps) {
           </h2>
           <ul className="flex flex-wrap gap-2 text-sm">
             {d.monsterNames.map((m) => (
-              <li key={m} className="px-3 py-1.5 rounded-full border border-border bg-card/60 text-secondary">
+              <li key={m} className="px-3 py-1.5 rounded-full border border-border bg-bg-card/60 text-text-secondary">
                 {m}
               </li>
             ))}

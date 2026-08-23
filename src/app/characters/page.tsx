@@ -3,10 +3,11 @@ import { unstable_cache } from "next/cache";
 import type { Metadata } from "next";
 import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
-import { SafeImage } from "@/components/SafeImage";
 import { ElementIcon } from "@/components/ElementIcon";
 import { WeaponIcon } from "@/components/WeaponIcon";
-import { rarityStars, rarityGlowClass, rarityTextClass } from "@/lib/theme";
+import { EntityCard } from "@/components/EntityCard";
+import { rarityStars, elementColorVar } from "@/lib/theme";
+import { resolveCharacterCardImage } from "@/lib/character-helpers";
 
 export const metadata: Metadata = {
   title: "Nhân vật — LEIBO",
@@ -19,7 +20,6 @@ const getVisionRows = unstable_cache(
       distinct: ["vision"],
       select: { vision: true, elementIcon: true },
     });
-    // Loại bỏ các giá trị "Unknown" hoặc null để không hiện chip lỗi
     return rows
       .filter((r) => r.vision && r.vision !== "Unknown")
       .map((r) => ({ vision: r.vision, elementIcon: r.elementIcon }));
@@ -30,13 +30,8 @@ const getVisionRows = unstable_cache(
 
 const getRegionRows = unstable_cache(
   async () => {
-    const rows = await prisma.character.findMany({
-      distinct: ["region"],
-      select: { region: true },
-    });
-    return rows
-      .map((r) => r.region)
-      .filter((r): r is string => Boolean(r));
+    const rows = await prisma.character.findMany({ distinct: ["region"], select: { region: true } });
+    return rows.map((r) => r.region).filter((r): r is string => Boolean(r));
   },
   ["character-region-rows"],
   { revalidate: 3600 }
@@ -55,6 +50,23 @@ function toggleValue(current: string[], value: string): string[] {
   return current.includes(value) ? current.filter((v) => v !== value) : [...current, value];
 }
 
+/** Một nhóm bộ lọc — label cố định bên trái, chip cuộn ngang trên mobile
+ *  thay vì wrap tự do, để 4 nhóm liên tiếp không biến thành khối dài vô tận. */
+function FilterGroup({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="flex items-start gap-3 py-2.5 border-b border-border last:border-b-0">
+      <span className="text-xs text-text-muted font-medium w-24 shrink-0 pt-1.5">{label}</span>
+      <div className="flex flex-wrap items-center gap-1.5">{children}</div>
+    </div>
+  );
+}
+
+/** Class grid dùng chung cho cả nhóm Traveler và mọi nhóm rarity — mật độ
+ *  cao hơn bản cũ (dừng ở lg:6), tận dụng màn hình rộng thay vì để card
+ *  giãn to vô lý. Đi kèm compact=true trên EntityCard (icon vuông, không
+ *  tilt, text rút gọn) để phù hợp số lượng card lớn trên 1 màn hình. */
+const DENSE_GRID = "grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3";
+
 export default async function CharactersPage({ searchParams }: PageProps) {
   const { vision, weapon, region, rarity, q } = await searchParams;
 
@@ -64,9 +76,7 @@ export default async function CharactersPage({ searchParams }: PageProps) {
   const rarityList = parseMulti(rarity).map(Number).filter((n) => !Number.isNaN(n));
 
   const where: Prisma.CharacterWhereInput = {};
-  if (visionList.length > 0) {
-    where.vision = { in: visionList, mode: "insensitive" };
-  }
+  if (visionList.length > 0) where.vision = { in: visionList, mode: "insensitive" };
   if (weaponList.length > 0) where.weaponType = { in: weaponList, mode: "insensitive" };
   if (regionList.length > 0) where.region = { in: regionList, mode: "insensitive" };
   if (rarityList.length > 0) where.rarity = { in: rarityList };
@@ -77,10 +87,7 @@ export default async function CharactersPage({ searchParams }: PageProps) {
     orderBy: [{ rarity: "desc" }, { name: "asc" }],
   });
 
-  const travelerByElement = new Map<
-    string,
-    { boy?: (typeof characters)[number]; girl?: (typeof characters)[number] }
-  >();
+  const travelerByElement = new Map<string, { boy?: (typeof characters)[number]; girl?: (typeof characters)[number] }>();
   const nonTraveler: typeof characters = [];
   for (const c of characters) {
     if (c.id.startsWith("traveler-boy-")) {
@@ -96,9 +103,21 @@ export default async function CharactersPage({ searchParams }: PageProps) {
     }
   }
 
+  // Nhóm nhân vật thường theo rarity — dùng để chèn tiêu đề sticky "★★★★★"
+  // giữa các nhóm, thay vì để ranh giới 5★/4★ vô hình như bản cũ.
+  const rarityGroups = new Map<number, typeof nonTraveler>();
+  for (const c of nonTraveler) {
+    const list = rarityGroups.get(c.rarity) ?? [];
+    list.push(c);
+    rarityGroups.set(c.rarity, list);
+  }
+  const sortedRarities = Array.from(rarityGroups.keys()).sort((a, b) => b - a);
+  const hasResults = nonTraveler.length > 0 || travelerByElement.size > 0;
+
   const visionRows = await getVisionRows();
   const regionRows = await getRegionRows();
   const weapons = ["Sword", "Claymore", "Polearm", "Bow", "Catalyst"];
+  const hasActiveFilters = visionList.length || weaponList.length || regionList.length || rarityList.length || q;
 
   const buildQuery = (
     changes: Partial<Record<"vision" | "weapon" | "region" | "rarity", string>>,
@@ -110,20 +129,10 @@ export default async function CharactersPage({ searchParams }: PageProps) {
     let nextRegion = regionList;
     let nextRarity = rarityList.map(String);
 
-    if (changes.vision !== undefined) {
-      nextVision = opts.toggle ? toggleValue(visionList, changes.vision) : parseMulti(changes.vision);
-    }
-    if (changes.weapon !== undefined) {
-      nextWeapon = opts.toggle ? toggleValue(weaponList, changes.weapon) : parseMulti(changes.weapon);
-    }
-    if (changes.region !== undefined) {
-      nextRegion = opts.toggle ? toggleValue(regionList, changes.region) : parseMulti(changes.region);
-    }
-    if (changes.rarity !== undefined) {
-      nextRarity = opts.toggle
-        ? toggleValue(rarityList.map(String), changes.rarity)
-        : parseMulti(changes.rarity);
-    }
+    if (changes.vision !== undefined) nextVision = opts.toggle ? toggleValue(visionList, changes.vision) : parseMulti(changes.vision);
+    if (changes.weapon !== undefined) nextWeapon = opts.toggle ? toggleValue(weaponList, changes.weapon) : parseMulti(changes.weapon);
+    if (changes.region !== undefined) nextRegion = opts.toggle ? toggleValue(regionList, changes.region) : parseMulti(changes.region);
+    if (changes.rarity !== undefined) nextRarity = opts.toggle ? toggleValue(rarityList.map(String), changes.rarity) : parseMulti(changes.rarity);
 
     if (nextVision.length > 0) sp.set("vision", nextVision.join(","));
     if (nextWeapon.length > 0) sp.set("weapon", nextWeapon.join(","));
@@ -135,53 +144,32 @@ export default async function CharactersPage({ searchParams }: PageProps) {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="font-display text-4xl font-bold tracking-wide text-primary uppercase mb-2">
-          Học Viện Nhân Vật
-        </h1>
-        <p className="text-sm text-secondary">
-          Tìm thấy{" "}
-          <span className="text-gold-bright font-semibold">
-            {nonTraveler.length + travelerByElement.size}
-          </span>{" "}
-          đại hiệp lữ hành
+      <div className="mb-7">
+        <h1 className="font-display text-display-2 font-semibold text-text-primary mb-2">Nhân vật</h1>
+        <p className="text-sm text-text-secondary">
+          Tìm thấy <span className="text-accent-bright font-semibold">{nonTraveler.length + travelerByElement.size}</span> nhân vật
         </p>
       </div>
 
-      <div className="mb-6">
-        <form method="GET" className="flex gap-2">
-          {visionList.length > 0 && <input type="hidden" name="vision" value={visionList.join(",")} />}
-          {weaponList.length > 0 && <input type="hidden" name="weapon" value={weaponList.join(",")} />}
-          {regionList.length > 0 && <input type="hidden" name="region" value={regionList.join(",")} />}
-          {rarityList.length > 0 && <input type="hidden" name="rarity" value={rarityList.join(",")} />}
-          <input
-            type="text"
-            name="q"
-            defaultValue={q || ""}
-            placeholder="Tìm tên nhân vật..."
-            className="flex-1 rounded-lg border border-border bg-input px-3 py-2 text-sm text-primary placeholder:text-muted focus:outline-none focus:border-gold/50 transition-colors"
-          />
-          <button
-            type="submit"
-            className="rounded-lg bg-gold/10 border border-gold/40 px-4 py-2 text-sm font-medium text-gold-bright hover:bg-gold/20 transition-colors"
-          >
-            Tìm kiếm
-          </button>
-          {q && (
-            <Link
-              href={`/characters?${buildQuery({})}`}
-              className="rounded-lg border border-red-900/60 bg-red-950/40 px-4 py-2 text-sm text-red-400 hover:bg-red-900/40 transition-colors"
-            >
-              Xóa
-            </Link>
-          )}
-        </form>
-      </div>
+      <form method="GET" className="flex gap-2 mb-5">
+        {visionList.length > 0 && <input type="hidden" name="vision" value={visionList.join(",")} />}
+        {weaponList.length > 0 && <input type="hidden" name="weapon" value={weaponList.join(",")} />}
+        {regionList.length > 0 && <input type="hidden" name="region" value={regionList.join(",")} />}
+        {rarityList.length > 0 && <input type="hidden" name="rarity" value={rarityList.join(",")} />}
+        <input
+          type="text"
+          name="q"
+          defaultValue={q || ""}
+          placeholder="Tìm tên nhân vật..."
+          className="flex-1 rounded-lg border border-border px-3 py-2 text-sm placeholder:text-text-muted focus:outline-none focus:border-border-strong transition-colors"
+        />
+        <button type="submit" className="btn-accent rounded-lg px-4 py-2 text-sm">
+          Tìm kiếm
+        </button>
+      </form>
 
-      <div className="bg-card/40 backdrop-blur-md border border-border p-4 rounded-xl mb-8 flex flex-col gap-4">
-        {/* Bộ lọc nguyên tố */}
-        <div className="flex flex-wrap items-center gap-2 text-xs">
-          <span className="text-secondary font-medium mr-2">Nguyên tố (Vision):</span>
+      <div className="surface-glass border border-border rounded-xl mb-8 px-4">
+        <FilterGroup label="Nguyên tố">
           {visionRows.map(({ vision: v, elementIcon }) => {
             const active = visionList.includes(v);
             return (
@@ -189,22 +177,16 @@ export default async function CharactersPage({ searchParams }: PageProps) {
                 key={v}
                 href={`/characters?${buildQuery({ vision: v }, { toggle: true })}`}
                 aria-pressed={active}
-                className={`px-3 py-1.5 rounded-full border transition-all flex items-center gap-1.5 ${
-                  active
-                    ? "border-gold bg-gold/20 text-gold-bright font-semibold"
-                    : "border-border bg-card/60 hover:border-gold/50 text-primary"
-                }`}
+                className="chip px-2.5 py-1 rounded-full flex items-center gap-1.5 text-xs"
               >
-                <ElementIcon vision={v} iconUrl={elementIcon} size={16} />
+                <ElementIcon vision={v} iconUrl={elementIcon} size={14} />
                 {v}
               </Link>
             );
           })}
-        </div>
+        </FilterGroup>
 
-        {/* Bộ lọc vũ khí */}
-        <div className="flex flex-wrap items-center gap-2 text-xs">
-          <span className="text-secondary font-medium mr-2">Loại Vũ Khí:</span>
+        <FilterGroup label="Vũ khí">
           {weapons.map((w) => {
             const active = weaponList.includes(w);
             return (
@@ -212,22 +194,16 @@ export default async function CharactersPage({ searchParams }: PageProps) {
                 key={w}
                 href={`/characters?${buildQuery({ weapon: w }, { toggle: true })}`}
                 aria-pressed={active}
-                className={`px-3 py-1.5 rounded-full border transition-all flex items-center gap-1.5 ${
-                  active
-                    ? "border-gold bg-gold/20 text-gold-bright font-semibold"
-                    : "border-border bg-card/60 hover:border-gold/50 text-primary"
-                }`}
+                className="chip px-2.5 py-1 rounded-full flex items-center gap-1.5 text-xs"
               >
-                <WeaponIcon type={w} size={16} />
+                <WeaponIcon type={w} size={14} />
                 {w}
               </Link>
             );
           })}
-        </div>
+        </FilterGroup>
 
-        {/* Bộ lọc vùng */}
-        <div className="flex flex-wrap items-center gap-2 text-xs">
-          <span className="text-secondary font-medium mr-2">Vùng (Region):</span>
+        <FilterGroup label="Vùng">
           {regionRows.map((r) => {
             const active = regionList.includes(r);
             return (
@@ -235,122 +211,106 @@ export default async function CharactersPage({ searchParams }: PageProps) {
                 key={r}
                 href={`/characters?${buildQuery({ region: r }, { toggle: true })}`}
                 aria-pressed={active}
-                className={`px-3 py-1.5 rounded-full border transition-all ${
-                  active
-                    ? "border-gold bg-gold/20 text-gold-bright font-semibold"
-                    : "border-border bg-card/60 hover:border-gold/50 text-primary"
-                }`}
+                className="chip px-2.5 py-1 rounded-full text-xs"
               >
                 {r}
               </Link>
             );
           })}
-        </div>
+        </FilterGroup>
 
-        {/* Bộ lọc phẩm cấp */}
-        <div className="flex flex-wrap items-center gap-2 text-xs">
-          <span className="text-secondary font-medium mr-2">Phẩm cấp (Rarity):</span>
-          {[4, 5].map((r) => {
+        <FilterGroup label="Phẩm cấp">
+          {[5, 4].map((r) => {
             const active = rarityList.includes(r);
             return (
               <Link
                 key={r}
                 href={`/characters?${buildQuery({ rarity: String(r) }, { toggle: true })}`}
                 aria-pressed={active}
-                className={`px-3 py-1.5 rounded-full border font-bold transition-all ${
-                  active
-                    ? "border-gold bg-gold/20 text-rarity-star"
-                    : "border-border bg-card/60 hover:border-gold/50 text-rarity-star"
-                }`}
+                className="chip px-2.5 py-1 rounded-full text-xs text-[color:var(--rarity-5)] font-semibold"
               >
                 {rarityStars(r)}
               </Link>
             );
           })}
-          {(visionList.length || weaponList.length || regionList.length || rarityList.length || q) && (
+          {hasActiveFilters && (
             <Link
               href="/characters"
-              className="ml-auto px-4 py-1.5 rounded-full bg-red-950/40 border border-red-900/60 text-red-400 hover:bg-red-900/40 transition-colors text-xs font-semibold"
+              className="ml-auto text-xs text-text-muted hover:text-text-primary transition-colors underline underline-offset-2"
             >
-              Xóa Bộ Lọc &times;
+              Xóa tất cả bộ lọc
             </Link>
           )}
-        </div>
+        </FilterGroup>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-        {Array.from(travelerByElement.entries()).map(([el, { boy, girl }], index) => {
-          const target = boy ?? girl!;
-          const boyImg = boy?.iconUrl ?? null;
-          const girlImg = girl?.iconUrl ?? null;
-          return (
-            <Link
-              key={`traveler-${el}`}
-              href={`/characters/${target.id}`}
-              className={`relic-frame ${rarityGlowClass(target.rarity)} overflow-hidden group`}
-            >
-              <div className="relative aspect-square w-full overflow-hidden bg-secondary/50">
-                {boyImg && girlImg ? (
-                  <>
-                    <div className="absolute inset-0" style={{ clipPath: "polygon(0 0, 50% 0, 50% 100%, 0 100%)" }}>
-                      <SafeImage src={boyImg} alt={`Traveler (${el}) - Nam`} fill priority={index < 6} sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 213px" className="object-cover group-hover:scale-110 transition-transform duration-500" />
-                    </div>
-                    <div className="absolute inset-0" style={{ clipPath: "polygon(50% 0, 100% 0, 100% 100%, 50% 100%)" }}>
-                      <SafeImage src={girlImg} alt={`Traveler (${el}) - Nữ`} fill priority={index < 6} sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 213px" className="object-cover group-hover:scale-110 transition-transform duration-500" />
-                    </div>
-                    <div className="absolute top-0 bottom-0 left-1/2 w-px bg-black/40 -translate-x-1/2" />
-                  </>
-                ) : (
-                  <SafeImage src={boyImg || girlImg} alt={`Traveler (${el})`} fill priority={index < 6} sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 213px" className="object-cover group-hover:scale-110 transition-transform duration-500" />
-                )}
-                <div className="absolute top-2 left-2 bg-black/40 backdrop-blur-sm rounded-full p-1">
-                  <ElementIcon vision={el} iconUrl={target.elementIcon} size={16} />
-                </div>
-              </div>
-              <div className="p-3 border-t border-border bg-card/80">
-                <div className="font-semibold truncate text-primary group-hover:text-gold-bright transition-colors text-sm">
-                  Traveler ({el})
-                </div>
-                <div className="flex justify-between items-center mt-1">
-                  <span className="text-[10px] text-secondary uppercase tracking-wider">Sword</span>
-                  <span className={`text-[10px] tracking-tighter ${rarityTextClass(target.rarity)}`}>
-                    {rarityStars(target.rarity)}
-                  </span>
-                </div>
-              </div>
-            </Link>
-          );
-        })}
-        {nonTraveler.map((c, index) => (
-          <Link
-            key={c.id}
-            href={`/characters/${c.id}`}
-            className={`relic-frame ${rarityGlowClass(c.rarity)} overflow-hidden group`}
-          >
-            <div className="relative aspect-square w-full overflow-hidden bg-secondary/50">
-              {c.iconUrl ? (
-                <SafeImage src={c.iconUrl} alt={c.name} fill priority={index < 6} sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 213px" className="object-cover group-hover:scale-110 transition-transform duration-500" />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-muted text-xs">No Image</div>
-              )}
-              <div className="absolute top-2 left-2 bg-black/40 backdrop-blur-sm rounded-full p-1">
-                <ElementIcon vision={c.vision} iconUrl={c.elementIcon} size={16} />
-              </div>
-            </div>
-            <div className="p-3 border-t border-border bg-card/80">
-              <div className="font-semibold truncate text-primary group-hover:text-gold-bright transition-colors text-sm">
-                {c.name}
-              </div>
-              <div className="flex justify-between items-center mt-1">
-                <span className="text-[10px] text-secondary uppercase tracking-wider">{c.weaponType}</span>
-                <span className={`text-[10px] tracking-tighter ${rarityTextClass(c.rarity)}`}>
-                  {rarityStars(c.rarity)}
-                </span>
-              </div>
-            </div>
+      {!hasResults ? (
+        <div className="text-center py-20 text-text-muted text-sm">
+          Không tìm thấy nhân vật phù hợp với bộ lọc.{" "}
+          <Link href="/characters" className="underline underline-offset-2 hover:text-text-primary">
+            Xóa bộ lọc
           </Link>
-        ))}
-      </div>
+        </div>
+      ) : (
+        <>
+          {travelerByElement.size > 0 && (
+            <div className={`${DENSE_GRID} mb-8`}>
+              {Array.from(travelerByElement.entries()).map(([el, { boy, girl }], index) => {
+                const target = boy ?? girl!;
+                const boyImg = boy ? resolveCharacterCardImage(boy) : null;
+                const girlImg = girl ? resolveCharacterCardImage(girl) : null;
+                return (
+                  <EntityCard
+                    key={`traveler-${el}`}
+                    href={`/characters/${target.id}`}
+                    name={`Traveler (${el})`}
+                    subtitle="Sword"
+                    rarity={target.rarity}
+                    imageSrc={boyImg || girlImg}
+                    aspect="square"
+                    imageFit="contain"
+                    compact
+                    priority={index < 10}
+                    elementColor={elementColorVar(el)}
+                    cornerBadge={<ElementIcon vision={el} iconUrl={target.elementIcon} size={14} />}
+                  />
+                );
+              })}
+            </div>
+          )}
+
+          {sortedRarities.map((r) => (
+            <div key={r} className="mb-8">
+              {/* Tiêu đề nhóm rarity — sticky để không mất mốc khi cuộn dài,
+                  thay cho ranh giới 5★/4★ vô hình trước đây. */}
+              <div
+                className="sticky top-0 z-10 bg-bg-primary/90 backdrop-blur-sm py-2 mb-3 text-xs font-semibold tracking-wide"
+                style={{ color: `var(--rarity-${r >= 5 ? 5 : r === 4 ? 4 : 3})` }}
+              >
+                {rarityStars(r)} · {rarityGroups.get(r)!.length} nhân vật
+              </div>
+              <div className={DENSE_GRID}>
+                {rarityGroups.get(r)!.map((c, index) => (
+                  <EntityCard
+                    key={c.id}
+                    href={`/characters/${c.id}`}
+                    name={c.name}
+                    subtitle={c.weaponType}
+                    rarity={c.rarity}
+                    imageSrc={resolveCharacterCardImage(c)}
+                    aspect="square"
+                    imageFit="contain"
+                    compact
+                    priority={index < 10}
+                    elementColor={elementColorVar(c.vision)}
+                    cornerBadge={<ElementIcon vision={c.vision} iconUrl={c.elementIcon} size={14} />}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+        </>
+      )}
     </div>
   );
 }

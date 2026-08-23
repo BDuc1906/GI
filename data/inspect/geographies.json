@@ -1,0 +1,3627 @@
+[
+  {
+    "id": 70400025,
+    "name": "Aaru's Shut",
+    "areaId": 4801,
+    "areaName": "The Mausoleum of King Deshret",
+    "description": "There are neither coveted treasures nor gem-laden chambers at the pinnacle of the Mausoleum of King Deshret — only the desolation and decay of the desert, and the shreds of a grand dream.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 325,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMARuDeDaoYing"
+    },
+    "version": "3.1"
+  },
+  {
+    "id": 70100010,
+    "name": "Abandoned Capital of Howling Winds",
+    "areaId": 1401,
+    "areaName": "Stormterror's Lair",
+    "description": "The one who once dwelt in that lonely tower is no more. The murmuring winds that shroud the desolate city tell of that most ancient of stories, which no mortal now remembers: they tell of their erstwhile master, the nameless wind sprite, and the chorus that caused the tower to quail...",
+    "regionId": 1,
+    "regionName": "Mondstadt",
+    "sortOrder": 10,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_MDfenglongfeixu"
+    },
+    "version": ""
+  },
+  {
+    "id": 70700029,
+    "name": "A Bountiful Land of Farming and Fecundity",
+    "areaId": 60701,
+    "areaName": "\"Collective of Plenty\"",
+    "description": "The settlement of the tribe who live alongside the Tatankasaurs, known as the \"Collective of Plenty.\" Volcanic ash has bestowed upon them fertile lands whose golden harvests sway in the wind and symbolize the rich bounty that the collective has been blessed with.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 529,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTTuJiaoLongBuLuo"
+    },
+    "version": "5.5"
+  },
+  {
+    "id": 70600005,
+    "name": "Adeptus's Realm of Repose",
+    "areaId": 21110,
+    "areaName": "Adeptus's Repose",
+    "description": "An adeptus's abode, far from the din of mortal comings and goings. In the distant past, it is said that the ancestral peoples who had lost their home due to war were taken in by an adeptus named Fujin, and here did they avoid the disaster that raged without. Thus did the flame of civilization endure rather than be snuffed out under titanic floods.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "showOnlyUnlocked": true,
+    "sortOrder": 415,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYFuXianDong"
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 70400044,
+    "name": "Ad-Hoc Headquarters of the Fatui Expeditionary Force",
+    "areaId": 5003,
+    "areaName": "Wadi Al-Majuj",
+    "description": "A vanguard troop from the snowy land in the far north has set up camp here amidst the whispers of ancient shrines.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 344,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMyurenzhonglinshidian"
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 70500008,
+    "name": "A Distant Harbor",
+    "areaId": 50725,
+    "areaName": "Lumidouce Harbor",
+    "description": "The main port leading to other nations. They say that there was once a plan to build a fourth aquabus line that would connect Lumidouce Harbor and the Court of Fontaine, but this plan died with the aquabus's most powerful backer.",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "sortOrder": 408,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDRouDengGang"
+    },
+    "version": "4.2"
+  },
+  {
+    "id": 70200017,
+    "name": "A Drop in the Ocean",
+    "areaId": 2703,
+    "areaName": "Guyun Stone Forest",
+    "description": "The proud, lonely stone mountains here are said to have been the place where Rex Lapis subdued a great sea monster. They say that those sensitive of heart can sometimes hear a strange, stirring rhythm emanating from deep within the oceanic abyss.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 113,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYguyunge"
+    },
+    "version": ""
+  },
+  {
+    "id": 70800049,
+    "name": "A Gaze Toward the Stars",
+    "areaId": 770001,
+    "areaName": "The Eye of Ibni-Belum",
+    "description": "High atop the Moongazers' tower, a pioneer turned his gaze to the starry sky, deep and unwavering.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 649,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_YQKanHuoTaTaDing"
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 70800052,
+    "name": "A Gaze Upon the World",
+    "areaId": 770003,
+    "areaName": "The Space Lifeform Capture Station",
+    "description": "When you gaze upon the moon, the moon gazes back at you.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 652,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_YQKongJianZhan"
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 70700040,
+    "name": "A Hilly Hidey-Hole for Nectar",
+    "areaId": 60806,
+    "areaName": "Tete Isle",
+    "description": "A facility for Aphimead built next to the mountains. The scent and spirit of honey cascade down the hills like a waterfall.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 540,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTJiuBaShan"
+    },
+    "version": "5.8"
+  },
+  {
+    "id": 70700035,
+    "name": "A Hollow in the Heart",
+    "areaId": 680009,
+    "areaName": "Heart of the Sacred Mountain",
+    "description": "The heart of the Sacred Mountain, hidden deep within its depths, and a hollow in the great dragon itself. Chosen of Dragons, return the shadow in the eye, and call forth the Sacred Flame to cleanse the world!",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "showOnlyUnlocked": true,
+    "sortOrder": 535,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTLCYZTDOutside"
+    },
+    "version": "5.5"
+  },
+  {
+    "id": 70200002,
+    "name": "A Home in the Hills",
+    "areaId": 2507,
+    "areaName": "Qingce Village",
+    "description": "Mighty Mt. Qingce gently cradles this peaceful village, silently protecting the old, the young, and the abundant croplands within its embrace. The legend of the ancient threat subdued beneath the mountain has been consigned to legend along with those who know of it, never again to return.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 108,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYqingcezhuang"
+    },
+    "version": ""
+  },
+  {
+    "id": 70800023,
+    "name": "Amidst the Ink-Tinged Mist",
+    "areaId": 10703,
+    "areaName": "Luyang Academy",
+    "description": "An inch of ink ground to its end, in a single sweep the mountains one ascends.",
+    "regionId": 105,
+    "regionName": "Temple of Space",
+    "showOnlyUnlocked": true,
+    "sortOrder": 623,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLHuaKuangCangGuan"
+    },
+    "version": "6.5"
+  },
+  {
+    "id": 70700014,
+    "name": "Among the Painted Peaks",
+    "areaId": 60100,
+    "areaName": "Tequemecan Valley",
+    "description": "In ancient times, there was a sage who attained such mastery of the art of Phlogiston Engraving that they could transform all its many meanings into graceful drifting lines. With phlogiston as their medium, they used towering cliffs as canvases for vibrant murals. This, it is said, is the origin of Natlan graffiti as we know it now.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 514,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTNaTaZhuView"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 70400051,
+    "name": "Amrita-Nourished Nest",
+    "areaId": 41101,
+    "description": "The purest Amrita nourishes the homeland of the Pari, with only unbesmirched warriors allowed entry into these forbidden grounds. The countless scattered kindred of the Khvarena are fated to converge here in eventuality.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 351,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMHuaHai"
+    },
+    "version": "3.6"
+  },
+  {
+    "id": 70400058,
+    "name": "Ancient Conch Melody of Yore",
+    "areaId": 50200,
+    "areaName": "Beryl Region",
+    "description": "\"Of the once-great empire of Remuria, today there remains but a lonely melody. Once heard by multitudes, but long lost to mortal ears...\"",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "showOnlyUnlocked": true,
+    "sortOrder": 358,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDHaiLuoWu"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 70600014,
+    "name": "Ancient Pact",
+    "areaId": 21107,
+    "areaName": "Teatree Slope",
+    "description": "\"...Once this tree gets a bit larger, I'll pick its leaves and make some tea for all of you...\"",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 424,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYGuShuChaWang"
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 70100009,
+    "name": "Ancient Thousand Winds Temple",
+    "areaId": 1107,
+    "areaName": "Thousand Winds Temple",
+    "description": "The ruins of an ancient amphitheater. A thousand melodious winds gather here, bringing with them countless tales, and carrying those tales far and wide.",
+    "regionId": 1,
+    "regionName": "Mondstadt",
+    "sortOrder": 8,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_MDqianfengshendian"
+    },
+    "version": ""
+  },
+  {
+    "id": 70700039,
+    "name": "A Night of Uninhibited Dance",
+    "areaId": 60806,
+    "areaName": "Tete Isle",
+    "description": "\"Dear travelers, this is a summer night of music and dance. Allow your sorrows to sink beneath the ocean waves. There is no need to fret over reunions and partings.\"",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "showOnlyUnlocked": true,
+    "sortOrder": 539,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTReWuYueTai"
+    },
+    "version": "5.8"
+  },
+  {
+    "id": 70400012,
+    "name": "Aranaga's Little Garden",
+    "areaId": 4101,
+    "areaName": "Mawtiyima Forest",
+    "description": "Here, the pomegranate sings and the apples clap.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 312,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMZhengFaJuShuDeMiaoPu"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 70700004,
+    "name": "Arena of Glory and Triumph",
+    "areaId": 60200,
+    "areaName": "Basin of Unnumbered Flames",
+    "description": "Here, in the name of victory and honor, may the fires of conflict be ignited. The fervor with which all souls burn shall become fuel for the everlasting Sacred Flame.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 504,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTShenHuoJingJiChangNiaoKan"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 70500003,
+    "name": "A Sea of Exile",
+    "areaId": 50400,
+    "areaName": "Liffey Region",
+    "description": "\"No matter what the sin, it shall eventually be lost to the waves like sand.\"",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "sortOrder": 403,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDJianYu"
+    },
+    "version": "4.1"
+  },
+  {
+    "id": 70800014,
+    "name": "Beacon in the Long Night",
+    "areaId": 70402,
+    "areaName": "Piramida",
+    "description": "\"Thus did I foresee —\nwaves crashing on the shore, the night sky devoured by deathly silence...\"\n\"Thus did I declare —\nwhomsoever cradles the flame and keeps it burning unquenched need not descend into that darkness.\"",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "sortOrder": 614,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLPiKaMiCheng"
+    },
+    "version": "6.3"
+  },
+  {
+    "id": 70700023,
+    "name": "Before the Tezcatepetonco Range",
+    "areaId": 60500,
+    "areaName": "Tezcatepetonco Range",
+    "description": "\"The great priest placed the mirror on the ground, forming the cliff walls here, to hold back the black tide.\"",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 523,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTNiHongWeiQiang"
+    },
+    "version": "5.2"
+  },
+  {
+    "id": 70200012,
+    "name": "Beyond the Chasm",
+    "areaId": 2200,
+    "areaName": "The Chasm",
+    "description": "The junction between Liyue Harbor and the great mines of the Chasm. Work has ceased here as of late due a shift deep within the Chasm.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 114,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYkuangchang"
+    },
+    "version": ""
+  },
+  {
+    "id": 70600016,
+    "name": "Bishui's Twilight Luster",
+    "areaId": 21001,
+    "areaName": "Chenyu Vale: Upper Vale",
+    "description": "The final jade fell from here into the bottomless abyss. Here did the first wish become as but a river of smoke.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 426,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYZhuShiJue"
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 70700016,
+    "name": "Bloodline's Control Hub",
+    "areaId": 60603,
+    "areaName": "Core of Chu'ulel",
+    "description": "To bury the ineffable past, and to unveil the future of the bloodline, someone once offered up their own heart to be the vessel that would control the entire city. After that day, when even the souls in the mountains were burnt to ash, who now watches over the city?",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 516,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTAnXinNeiBu"
+    },
+    "version": "5.2"
+  },
+  {
+    "id": 70800029,
+    "name": "Blossoms in Fragrant Bloom",
+    "areaId": 10602,
+    "areaName": "Millhaven",
+    "description": "A veil of blossoms drapes the grass, as the sky, in turn, wraps the earth in a grand embrace.",
+    "regionId": 1,
+    "regionName": "Mondstadt",
+    "sortOrder": 629,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLFengCheZhen"
+    },
+    "version": "6.5"
+  },
+  {
+    "id": 70800007,
+    "name": "Border Town",
+    "areaId": 70201,
+    "areaName": "Nasha Town",
+    "description": "This town sits like a ship run aground on the world's edge — a place where drifters gather to scavenge fragments of elysium from the wreckage of history and fabricated pasts.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "sortOrder": 607,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLHeiShi"
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 70800017,
+    "name": "Bunker No. 0",
+    "areaId": 70501,
+    "areaName": "\"Post-Apocalyptic Elysium\"",
+    "description": "Perhaps the idea of an imperfect world is even harder to swallow than that of the apocalypse.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 617,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLShengTaiYanJiuSuoBossFang2"
+    },
+    "version": "6.3"
+  },
+  {
+    "id": 70700002,
+    "name": "Canopy of the Clifftops",
+    "areaId": 60400,
+    "areaName": "Coatepec Mountain",
+    "description": "The settlement of the tribe who live alongside the Yumkasaurs. Their ancestors suspended giant trees here with ropes and grappling hooks, hence the name, \"Scions of the Canopy.\"",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 502,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTGouZhuaLongBuLuo"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 70400046,
+    "name": "Cave-Engulfed Palace",
+    "areaId": 41002,
+    "areaName": "Gate of Zulqarnain",
+    "description": "The underground kingdom once relied on the ancient ruins in the caves to build secret chambers that serve as a guide for those who no longer professed faith in the gods.\nThough the godless nation has long been destroyed, wandering guides yet linger here, preaching a path that leads toward the discordant tunes of the abyss...",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 346,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMKanMiJiuDaTing"
+    },
+    "version": "3.6"
+  },
+  {
+    "id": 70700042,
+    "name": "Cavern of Stone and Prickly Pears",
+    "areaId": 60807,
+    "areaName": "Villa Guiztli",
+    "description": "A constant threat to the peace of the town, and headquarters of the wild and wicked. Years ago, it was considered a cave of marvels in the Tenochtzitoc region.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "showOnlyUnlocked": true,
+    "sortOrder": 542,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTCiLiZhenKuangDong"
+    },
+    "version": "5.8"
+  },
+  {
+    "id": 70700015,
+    "name": "Cavern of Tranquil Light",
+    "areaId": 60502,
+    "areaName": "Malinalco Grotto",
+    "description": "In order to deal with the crisis brought on by the ash that once enveloped the foothills like fog, the priests of the Masters of the Night-Wind once studied the secret art of how to make graffiti that would be visible even through the mists. It is said that this was the origin of the unique power of the graffiti here.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 515,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTGuDuZhiWuYuan"
+    },
+    "version": "5.2"
+  },
+  {
+    "id": 70700021,
+    "name": "Ceremonial Site Lost in Night's Dim Light",
+    "areaId": 60503,
+    "areaName": "\"Masters of the Night-Wind\"",
+    "description": "After passing the test, those members of the Masters of the Night-Wind who are considered to be Spiritspeakers train here from a very young age, learning how to correctly interpret the words of the Nightsouls.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 521,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTLingShiLongBuLuoJiSiDaTing"
+    },
+    "version": "5.2"
+  },
+  {
+    "id": 70200015,
+    "name": "Chihu Rock",
+    "areaId": 2701,
+    "areaName": "Liyue Harbor",
+    "description": "The ever-pulsating heart of Liyue Harbor that pumps lifeblood into its veins. The lively city scene here is the source of Liyue Harbor's limitless vitality.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 103,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYchihuyan"
+    },
+    "version": ""
+  },
+  {
+    "id": 70600013,
+    "name": "Chiwang Peak",
+    "areaId": 21202,
+    "areaName": "Chiwang Terrace",
+    "description": "In the long-forgotten mists of time, the ancestors of Chenyu Vale named this place the \"Hanging Garden.\" Once-prosperous realms became divided into many tribes, and the tribes would later again unite into a prosperous realm, but the spirit veins of Chenyu Vale are as they ever were, gathering faithfully in this place.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "showOnlyUnlocked": true,
+    "sortOrder": 423,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYLaiXinShanDing"
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 70600007,
+    "name": "Clarion Echo",
+    "areaId": 21203,
+    "areaName": "Carp's Rest",
+    "description": "\"...Jade shall rise from sunken mouth... Gain and loss are inextricable, rise and fall, inseparable. Wax and wane is but a dream — the river flows as it ever has...\"",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "showOnlyUnlocked": true,
+    "sortOrder": 417,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYHuDiMiJing"
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 70600010,
+    "name": "Clear Skies Over Xuanlian",
+    "areaId": 21104,
+    "areaName": "Mt. Xuanlian",
+    "description": "\"The weighty winds blow, yon' day is dark, the cascading falls flow clear.\"",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 420,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYXuanLianShan"
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 70800006,
+    "name": "Clinky, Clanky Craftshop",
+    "areaId": 70202,
+    "areaName": "Clink-Clank Krumkake Craftshop",
+    "description": "Clink, clank, clink, clank! Countless mechanical creations, both large and small, are brought into existence here — along with the irresistible aroma of freshly made krumkakes!",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "sortOrder": 606,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLLaJiChang"
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 70700017,
+    "name": "Collapse of the White Tower",
+    "areaId": 60600,
+    "areaName": "Ochkanatlan",
+    "description": "Ideals, delusions, resentment, and hope — in the end, the tower built for the wishes of the people also collapsed when those wishes were shattered.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 517,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTHuiJinChengZhuView"
+    },
+    "version": "5.2"
+  },
+  {
+    "id": 70700033,
+    "name": "Condensed Altar",
+    "areaId": 680003,
+    "areaName": "Flame-Melding Ritual Grounds",
+    "description": "Golden runes divide light into multiple forms. Phlogiston drawn by a mighty power serves as a vessel in countless layers. Constructed stars float in the palm of a colossal hand.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "showOnlyUnlocked": true,
+    "sortOrder": 533,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTLCJiTan"
+    },
+    "version": "5.5"
+  },
+  {
+    "id": 70400061,
+    "name": "Court of Dew and Springs",
+    "areaId": 50320,
+    "areaName": "Court of Fontaine: Vasari Passage",
+    "description": "\"This city alone stands above all waters.\"",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "sortOrder": 361,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDFengDanCheng"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 70700034,
+    "name": "Court of the Dragons",
+    "areaId": 680004,
+    "areaName": "Chamber of Deliberation",
+    "description": "A meeting hall in prosperous times where dragons once crafted innumerable arcane arts and mechanisms. When their master departed, it became a place of judgment where dragon cast down dragon.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 534,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTLCYiShiTing"
+    },
+    "version": "5.5"
+  },
+  {
+    "id": 70200024,
+    "name": "Crystal Fragment",
+    "areaId": 3904,
+    "areaName": "Stony Halls",
+    "description": "\"The crystal that was once here was the very same 'culprit' that caused the closure of The Chasm back then. Its strange movements have again caused the Ministry of Civil Affairs much distress.\"\n\"Fortunately, the Traveler was on hand to return it to a place deeper below, leaving us with nothing but this empty, grim hall of stone.\"",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "showOnlyUnlocked": true,
+    "sortOrder": 124,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_JYXiaoSuiPianJieSuo"
+    },
+    "version": ""
+  },
+  {
+    "id": 70800016,
+    "name": "Dawn Over the Dark Chasm",
+    "areaId": 70604,
+    "areaName": "Chasm of Endless Decay",
+    "description": "\"Twice shall that undying serpent rise again, but thrice shall he be struck down...\"\n\"And at last shall he be laid to rest by the heroes of the sublunary sphere...\"",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 616,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLShenXue2"
+    },
+    "version": "6.3"
+  },
+  {
+    "id": 70600011,
+    "name": "Desolate Foothill Shrines",
+    "areaId": 21102,
+    "areaName": "Chizhang Wall",
+    "description": "In the tales told by older folks, the ancestral peoples of Chenyu Vale migrated here from the far south, and they built a mighty ritual tower to touch the heavens and left many mighty temples. The jade tower is no more, and only silent, ancient ruins stand amidst the thick fog that shrouds the mountains, watching over a secret none now shall know.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 421,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYXianMingYiJi"
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 70600037,
+    "name": "Domus Requiem",
+    "areaId": 560009,
+    "areaName": "Domus Aurea",
+    "description": "\"Please grant them eternal rest, and may the light ever shine upon them.\"",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "showOnlyUnlocked": true,
+    "sortOrder": 437,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDJinSeDaTingErCeng"
+    },
+    "version": "4.6"
+  },
+  {
+    "id": 70200011,
+    "name": "Dunyu Ruins",
+    "areaId": 2801,
+    "areaName": "Dunyu Ruins",
+    "description": "The Land of Hidden Jade. But the war of ages past is long over, and the mounds of glittering jade have long been destroyed. Now, only the whisper of flowing water remains.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 115,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYdunyuling"
+    },
+    "version": ""
+  },
+  {
+    "id": 70800001,
+    "name": "Echoes of the Far North",
+    "areaId": 70300,
+    "areaName": "Hiisi Island",
+    "description": "\"O Moon, benevolent mistress, whither dost thou lead us?\"",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 601,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLGongYueZhuShiJue"
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 70400047,
+    "name": "Elder Pine Atop the Wastes",
+    "areaId": 41103,
+    "areaName": "Hills of Barsom",
+    "description": "The kind spirit residing within the towering Barsom has sheltered a great many warriors returning from their trials. But now none remember the details of that ancient compact...",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 347,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMJuanShuJuShu"
+    },
+    "version": "3.6"
+  },
+  {
+    "id": 70800015,
+    "name": "Elysium's Final Treasure",
+    "areaId": 70405,
+    "areaName": "Reed Miller's Great Treasure",
+    "description": "\"Let the dead bury the dead, and rise to build an Elysium for the hungry and the poor on the wealth of the high and haughty.\"",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "sortOrder": 615,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLDaoBaoDong2"
+    },
+    "version": "6.3"
+  },
+  {
+    "id": 70500006,
+    "name": "Erinnyes's Watery Weeping Willow",
+    "areaId": 50721,
+    "areaName": "Weeping Willow of the Lake",
+    "description": "In ancient times, the weeping willow of the lake was an object of reverence. All the water veins converge upon Erinnyes and the weeping willow flourishes or withers when the waters are sweet or bitter. The land of the lake is the same... Shame, then, that omens only arrive on the same moon as calamity.",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "showOnlyUnlocked": true,
+    "sortOrder": 406,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDDaPenQuanShu"
+    },
+    "version": "4.2"
+  },
+  {
+    "id": 70400065,
+    "name": "Erinnyes' Whirling Dance",
+    "areaId": 50301,
+    "areaName": "Fountain of Lucine",
+    "description": "In this ancient ballad, the knight searching for water most pure encountered the spirit here, and they embarked upon a journey of redemption together. A thousand years pass like a dewy dawn, and whether laughter or tears, joy or sorrow, it all turns into a whirling illusory dance, disappearing into a sea of applause.",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "sortOrder": 365,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDGeJuYuan"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 70100004,
+    "name": "Favonius Cathedral",
+    "areaId": 1102,
+    "areaName": "Mondstadt",
+    "description": "A holy place managed by the devoted adherents of the Anemo Archon.\nIt was once a palatial estate from which the aristocracy flaunted their authority.",
+    "regionId": 1,
+    "regionName": "Mondstadt",
+    "sortOrder": 6,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_MDxifengdajiaotang"
+    },
+    "version": ""
+  },
+  {
+    "id": 70200016,
+    "name": "Feiyun Slope",
+    "areaId": 2701,
+    "areaName": "Liyue Harbor",
+    "description": "Here live those merchants who have made it. Here, the residents are prosperous and carefree. Here, the lights are bright and never go out.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 102,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYfeiyunpo"
+    },
+    "version": ""
+  },
+  {
+    "id": 70700032,
+    "name": "Fiery Flowing Sea of Sentience",
+    "areaId": 680002,
+    "areaName": "Sea of Shifting Sentience",
+    "description": "It is said that a mighty ancient race once gained the knowledge they needed by submerging themselves in Phlogiston-rich flaming pools. It is also said that a weak and feeble race once attempted to do the same, only to be met by failure. Ultimately, it was a once benevolent sage who gave them the means to endure the knowledge they sought.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 532,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTLCZhiShiKu"
+    },
+    "version": "5.5"
+  },
+  {
+    "id": 70700030,
+    "name": "Floating Rock Skyfire Circlet",
+    "areaId": 60704,
+    "areaName": "Skyfire Circlet",
+    "description": "A congregation of rocks thrown into the air during eruptions and left floating by abundant gaseous Phlogiston. After years of accumulation, the once-scattered debris has formed a collective whole. It has been said that they, like the Upper Sanctum, are the brush strokes of the Sage of the Stolen Flame — though this may be baseless conjecture.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 530,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTShenZhiHuan"
+    },
+    "version": "5.5"
+  },
+  {
+    "id": 70400057,
+    "name": "Foamy Home",
+    "areaId": 50205,
+    "areaName": "Merusea Village",
+    "description": "Beneath the verdant Beryl Mountains is the welcoming home of the Melusines. Little homes of fantastic and odd design are omnipresent, leaving a deep impression. Though, just who taught them these unique architectural styles?",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "showOnlyUnlocked": true,
+    "sortOrder": 357,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDRenYuCun"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 70400068,
+    "name": "\"Fontaine Hot Springs\"",
+    "areaId": 50200,
+    "areaName": "Beryl Region",
+    "description": "Salsa once painted the scenery here.\nThrough the mist steaming upwards from the hot springs, towering Mont Automnequi rises into the clouds, with the Clementine Line piercing through its base.",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "showOnlyUnlocked": true,
+    "sortOrder": 368,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDFeiTengHu"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 70400048,
+    "name": "Forge of the Abandoned Foundry",
+    "areaId": 41004,
+    "areaName": "Hangeh Afrasiyab",
+    "description": "In the past, there were humans that yearned to use their own might to surpass the gods. This massive furnace stands as some manner of symbol relating to that desire.\nAlthough the ancient foundry has long been abandoned, the sparks within the forge yet flicker still.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 348,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMShenKengYiJiDaLuZi"
+    },
+    "version": "3.6"
+  },
+  {
+    "id": 70100006,
+    "name": "Forgotten Sword Cemetery",
+    "areaId": 1203,
+    "areaName": "Dadaupa Gorge",
+    "description": "Hundreds of years have passed, and the world is once again at peace. This forest of blades stands as testament to the song of clashing swords, the battle-hymns of warriors, the thundering footfalls of monsters, and the crimson sky, as red as blood.",
+    "regionId": 1,
+    "regionName": "Mondstadt",
+    "sortOrder": 9,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_MDdadawupagu"
+    },
+    "version": ""
+  },
+  {
+    "id": 70800008,
+    "name": "Fortress of Steel",
+    "areaId": 70208,
+    "areaName": "Nothing Passage",
+    "description": "This leviathan forged of white iron and black steel hungrily devours all in its sight – energy, blood, and tears alike. Yet what it seeks is not plunder, but power enough to withstand the looming calamity.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "sortOrder": 608,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLBingGongChang"
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 70300007,
+    "name": "Front Line, Kannazuka",
+    "areaId": 3202,
+    "areaName": "Kujou Encampment",
+    "description": "Legend has it that during a disaster hundreds of years ago, Kujou Shigeyori, a mortal general whom Her Excellency valued greatly, built a battlefront fortress in just one night and fought valiantly against the forces of darkness, flying the banner of the Electro Mitsudomoe high. Hundreds of years later, the descendants of the Kujou family have also inherited outstanding military engineering skills.",
+    "regionId": 3,
+    "regionName": "Inazuma",
+    "sortOrder": 207,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_DQjiutiaozhenwu"
+    },
+    "version": ""
+  },
+  {
+    "id": 70400049,
+    "name": "Gate of Everlasting Mourning",
+    "areaId": 41004,
+    "areaName": "Hangeh Afrasiyab",
+    "description": "A grand and majestic gate leading to a world beneath the soil. It is sealed tight as of the present, and the once prosperous kingdom that lay behind the door has also long since turned to rubble.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 349,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMKanRuiYaDaMen"
+    },
+    "version": "3.6"
+  },
+  {
+    "id": 70600036,
+    "name": "Gradus ad Capitolium",
+    "areaId": 560006,
+    "areaName": "Alta Semita",
+    "description": "The dazzling Ichor once ran through the waterways to the great lake in the north, carrying justice and gladness all across the High Sea. That was Pax Remuria — a wondrous time of glory and hope.",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "showOnlyUnlocked": true,
+    "sortOrder": 436,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDJinSeHangDao"
+    },
+    "version": "4.6"
+  },
+  {
+    "id": 70300005,
+    "name": "Grand Narukami Shrine, Mt. Yougou",
+    "areaId": 3109,
+    "areaName": "Grand Narukami Shrine",
+    "description": "The Grand Narukami Shrine is located at the peak of Mt. Yougou and is the largest shrine in Inazuma, guarding the Sacred Sakura. It provides much-needed comfort and peace to the people of Inazuma in these unsettling times.",
+    "regionId": 3,
+    "regionName": "Inazuma",
+    "sortOrder": 205,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_DQmingshendashe"
+    },
+    "version": ""
+  },
+  {
+    "id": 70400071,
+    "name": "Graveyard of Ships",
+    "areaId": 50200,
+    "areaName": "Beryl Region",
+    "description": "Following the white ironclad flagship, like tiny shimmering stars scattered through the velvet night, the battleships of the armada sank into the bowels of the trench in their clash with the great beast. The surface and depths are haunted by ghostly legends, but this makes it the perfect place to hide for those who seek secrecy.",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "sortOrder": 371,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDChuanZhongJiHuiTing"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 70700020,
+    "name": "Great Nightspirit Graffiti",
+    "areaId": 60503,
+    "areaName": "\"Masters of the Night-Wind\"",
+    "description": "Maintaining graffiti on such a large scale requires hard work by generation after generation. It is said that once someone sleeping under the giant graffiti dreamt of a gargantuan bird spreading its wings.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 520,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTLingShiLongDaTuYa"
+    },
+    "version": "5.2"
+  },
+  {
+    "id": 70600009,
+    "name": "Guhua Sword-Washing Pool",
+    "areaId": 21004,
+    "areaName": "Mt. Lingmeng",
+    "description": "\"And may you clean your blade again, that its shine shall not fail.\"",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "showOnlyUnlocked": true,
+    "sortOrder": 419,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYWangShanTingShiJianShi"
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 70800024,
+    "name": "Hall of a Thousand Pillars",
+    "areaId": 10700,
+    "areaName": "Temple of Space",
+    "description": "\"Then let us set our course for the heart of the world. A realm not reserved for the old or the young, rulers or fools.\"",
+    "regionId": 105,
+    "regionName": "Temple of Space",
+    "sortOrder": 624,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLKongZhiShenDian"
+    },
+    "version": "6.5"
+  },
+  {
+    "id": 70800021,
+    "name": "Hall of Resounding Valor",
+    "areaId": 70601,
+    "areaName": "Sanctum of Departed Heroes",
+    "description": "Here echo the voices of heroic spirits: the hunters of the far north, the champions of rebellion, and the torch-bearing warriors of generations past. Though the blood of those warriors has long since dried and their deeds have faded into history, the songs of praise shall never fall silent, and their noble names shall never be forgotten.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 621,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLYingLingDeXiangDian"
+    },
+    "version": "6.3"
+  },
+  {
+    "id": 70600038,
+    "name": "Harmony's Shadow",
+    "areaId": 560007,
+    "areaName": "Collegium Phonascorum",
+    "description": "\"Fate is often naught but a shadow in which humans may glimpse happiness, all the better to push them upon the path to destruction.\"",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "sortOrder": 438,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDBiHuaDongXue"
+    },
+    "version": "4.6"
+  },
+  {
+    "id": 70400052,
+    "name": "Harvisptokhm",
+    "areaId": 41101,
+    "description": "\"Praise be the Harvisptokhm, extinguisher of the flaming sign searing the sky, and caller of the timely rains that will cleanse the land of its filth. The days that bask in the Khvarena's resplendence are as dawn rising through the murky fog crowning the mountains.\"",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 352,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMWanZhongMuShu"
+    },
+    "version": "3.6"
+  },
+  {
+    "id": 70800056,
+    "name": "Heart of the Moon",
+    "areaId": 770201,
+    "areaName": "Moonheart Gap",
+    "description": "The moon's heart pulses without end, and from it flow milk-springs of nurture, gathering into a sea for the newly born.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 656,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_YQYueXin"
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 70600006,
+    "name": "Herb-Housing Hall",
+    "areaId": 21109,
+    "areaName": "Lingshu Courtyard",
+    "description": "The adeptus once revered as the \"Herblord\" has long since departed, and only empty medicinal containers remain. Even at war's very end, that desire to help those in need never once wavered.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "showOnlyUnlocked": true,
+    "sortOrder": 416,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYYaoGuanZiDong"
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 70700003,
+    "name": "Home of Hot Springs and Flowing Waters",
+    "areaId": 60300,
+    "areaName": "Toyac Springs",
+    "description": "The tribe who lives alongside the Koholasaurs, known as the \"People of the Springs,\" renowned for their hot springs and relaxing music. Among all the tribes, this is the most popular among visitors from afar.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 503,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTYouLieLongBuLuo"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 70800012,
+    "name": "Iron Whale's Dream",
+    "areaId": 70206,
+    "areaName": "Blue Amber Lake",
+    "description": "Its heart, made of colossal gears, has long since stopped beating. Its steel veins have rusted through. Until one day, someone calls it forth from slumber, and the great beast exhales toward the stars, letting out a long, satin-like breath.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 612,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLJiGuangHu"
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 70600001,
+    "name": "Jade Court in Chenyu",
+    "areaId": 21006,
+    "areaName": "Chenlong Cleft",
+    "description": "\"The sunken jade in emerald lake shimmers in the light, the cavern lies hidden deep in the clouds.\"",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "showOnlyUnlocked": true,
+    "sortOrder": 411,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYBaoJueKouDong"
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 70600002,
+    "name": "Jade Elegy of Bishui",
+    "areaId": 21005,
+    "areaName": "Jademouth",
+    "description": "\"...The spring's cries ripple through the vales, the shrines depart from northeast shores. The heights and shallows in the southwest hide, sun and earth from each other divide, the eternal whirlpool that never churns, the beautiful jade concealed within...\"",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "showOnlyUnlocked": true,
+    "sortOrder": 412,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYBaoJueKou"
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 70400023,
+    "name": "Khaj-Nisut",
+    "areaId": 4702,
+    "areaName": "Eye of the Sands",
+    "description": "\"Yon golden slumber summons thee, wandering sand. Drink not that bitter salt water, for the sorrows of tomorrow have gone away.\"",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 323,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMSengXianTing"
+    },
+    "version": "3.1"
+  },
+  {
+    "id": 70100003,
+    "name": "Knights of Favonius - Library",
+    "areaId": 1102,
+    "areaName": "Mondstadt",
+    "description": "The library with the most books in all the northern lands. Other than those collected in the restricted section, all the books here are open for public reading.",
+    "regionId": 1,
+    "regionName": "Mondstadt",
+    "sortOrder": 7,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_MDtushuguan"
+    },
+    "version": ""
+  },
+  {
+    "id": 70100007,
+    "name": "Land of Clear Springs",
+    "areaId": 1301,
+    "areaName": "Springvale",
+    "description": "A peaceful and idyllic suburban town. It has a long history of hunting, of sweet spring water, and of passing down the legend of a beneficent spirit dwelling within the waters.",
+    "regionId": 1,
+    "regionName": "Mondstadt",
+    "sortOrder": 4,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_MDqingquanzhen"
+    },
+    "version": ""
+  },
+  {
+    "id": 70400062,
+    "name": "Land of Corroded Shadows and Tainted Currents",
+    "areaId": 50314,
+    "areaName": "Court of Fontaine: Fleuve Cendre",
+    "description": "A tainted shadow hidden beneath the clear waters of Fontaine, a place of rest for outcasts.\n\"Even the ashes and the dregs cast off by the sifting of the law all return to the same river.\"",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "sortOrder": 362,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDXiaShuiDao"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 70700001,
+    "name": "Land of Many Echoes",
+    "areaId": 60100,
+    "areaName": "Tequemecan Valley",
+    "description": "The settlement of the tribe who live alongside the Tepetlisaurs, known as the \"Children of Echoes.\" Whether it's the clanging of artisans' hammers or the tapping of gem hunters testing the rocks, echoing sounds can be heard throughout the canyon.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 501,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTZuanDiLongBuLuo"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 70800058,
+    "name": "Land of Raging Storms",
+    "areaId": 770005,
+    "areaName": "Archaeolune Storm Research Center",
+    "description": "Vast auroras ascend to the firmament, as storms of the moon rend the starry heavens.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 658,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_YQFengBaoYanJiuSuo"
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 70800004,
+    "name": "Lies of the Faithless",
+    "areaId": 70300,
+    "areaName": "Hiisi Island",
+    "description": "\"We are all tainted by sin... How could we ever hope to behold the moonlight in its purest form?\"",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "sortOrder": 604,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLLongYiJi"
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 70400027,
+    "name": "Lifeless Dar al-Shifa",
+    "areaId": 4703,
+    "areaName": "Dar al-Shifa",
+    "description": "The hospital, named after a prayer for patients, is now missing the busy figures of the doctors and the glad songs of those who have recovered, leaving naught but dilapidated remains.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 327,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMMoLinBingYiYuan"
+    },
+    "version": "3.1"
+  },
+  {
+    "id": 70800013,
+    "name": "Light of Oaths Sworn",
+    "areaId": 70105,
+    "areaName": "Final Night Cemetery",
+    "description": "Many have strode resolutely into darkness, that their homeland's light might endure.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 613,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLDengTa"
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 70400042,
+    "name": "Liloupar's Gaol",
+    "areaId": 5013,
+    "areaName": "Liloupar's Cell",
+    "description": "What sort of dire criminal did this prison that has now become an oasis once hold?\nAnd what changes will her awakening bring to the lonesome desert tribes?",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 342,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMdashufang"
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 70700022,
+    "name": "Lost Ceremonial Site",
+    "areaId": 60508,
+    "areaName": "Tecoloapan Bay",
+    "description": "The floating isles, at one time shrouded in dense fog, were once sacrificial sites on the heights that towered over the land. Ultimately, however, they had to be sunk into the waters to seal away the evil that had seduced the masses.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "showOnlyUnlocked": true,
+    "sortOrder": 522,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTMiHaiZhu"
+    },
+    "version": "5.2"
+  },
+  {
+    "id": 70100008,
+    "name": "Manor of Daybreak",
+    "areaId": 1302,
+    "areaName": "Dawn Winery",
+    "description": "Filled with the fragrance of grapes and wine, this is the estate of one of Mondstadt's distinguished houses. It has conquered drinkers the city over with its unmatched wines, and is in some ways the holy land to which all who love the bottle must make pilgrimage.",
+    "regionId": 1,
+    "regionName": "Mondstadt",
+    "sortOrder": 5,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_MDchenxijiuzhuang"
+    },
+    "version": ""
+  },
+  {
+    "id": 70200003,
+    "name": "Marsh of Rustling Reeds",
+    "areaId": 2503,
+    "areaName": "Dihua Marsh",
+    "description": "This is where the sifting of the wavy silvergrass and the croaking of frogs join in song, and it is also the final resting place of many a martial nomad.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 106,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYdihuazhou"
+    },
+    "version": ""
+  },
+  {
+    "id": 70400066,
+    "name": "\"Memories of Mont Esus\"",
+    "areaId": 50300,
+    "areaName": "Court of Fontaine Region",
+    "description": "Salsa once painted the scenery here.\nThe gentle breeze winds through the flowery meadows in Mont Esus, causing the curls of the pinwheels to turn slowly. The peaceful and relaxed atmosphere here causes people to naturally find themselves dwelling on their most pleasant memories.",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "showOnlyUnlocked": true,
+    "sortOrder": 366,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDLieShuiHouShan"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 70400005,
+    "name": "Memory of Alcazarzaray",
+    "areaId": 4100,
+    "areaName": "Lokapala Jungle",
+    "description": "A purple garden lies before the palace in the depths of the woods. The flowers dance and the warblers sing — a more fitting scene for a lovely encounter one could not find.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 305,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMDaBieShu"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 70200005,
+    "name": "Mist-Veiled Stone Forest",
+    "areaId": 2602,
+    "areaName": "Huaguang Stone Forest",
+    "description": "These stone spires poke out of the clouds like great pavilions. Though this place is forbidden to mortal steps, such a beauteous sight is bound to attract the eyes of those who yearn for the sky, and for those who dwell in adepti realms.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 111,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYhuaguanglin"
+    },
+    "version": ""
+  },
+  {
+    "id": 70800003,
+    "name": "Moon-Bathed Courtyard",
+    "areaId": 70303,
+    "description": "And still the moonlight flows as ever.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "sortOrder": 603,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLHuaTian"
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 70800047,
+    "name": "Moonbound Ship",
+    "areaId": 70702,
+    "areaName": "Dunanna Forward Station",
+    "description": "The Tonatiuh quivers, and the heavenly ship sets sail for the moon.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 647,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_YQHuoJianFaSheDaTing"
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 70800055,
+    "name": "Moonheart Gap",
+    "areaId": 770200,
+    "areaName": "Dark Side of the Moon",
+    "description": "The moon maiden lifted a corner of the veil that led to the moon's core, and through it flowed the great power of creation to the scholars who yearned for it.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 655,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_YQAnMianDaDong"
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 70200006,
+    "name": "Moonlit Tree",
+    "areaId": 2605,
+    "areaName": "Nantianmen",
+    "description": "A strange tree whose branches flow with clear, cold moonlight. Perhaps its roots, which reach deep into the heart of the earth, are connected to something that awaits an opportunity to once again emerge and bask in the moon's light.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 110,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYnantianmen"
+    },
+    "version": ""
+  },
+  {
+    "id": 70400069,
+    "name": "\"Morning in the Beryl Mountains, Clear Weather\"",
+    "areaId": 50200,
+    "areaName": "Beryl Region",
+    "description": "Salsa once painted the scenery here.\nA clear morning in the Beryl Mountains, the dew left by the previous night's autumn winds has not yet evaporated...",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "showOnlyUnlocked": true,
+    "sortOrder": 369,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDJuShenHouShan"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 70700009,
+    "name": "Mother Tree of Fruitful Plenty",
+    "areaId": 60100,
+    "areaName": "Tequemecan Valley",
+    "description": "Amidst the creeks grows a type of fruit known as the Flamegranate. It is said that all Flamegranates are merely tiny offshoots of this giant mother tree.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "showOnlyUnlocked": true,
+    "sortOrder": 509,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTHuoMianShuRenWuHou"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 70200019,
+    "name": "Mouth of the Great Mine",
+    "areaId": 2202,
+    "areaName": "The Chasm's Maw",
+    "description": "\"The entrance to The Chasm's mines, known to the miners as 'The Chasm's Maw.' Since the latest earthquake, the tunnels, which were already sealed by the Qixing, have been even more treacherous and inscrutable than ever...\"\n\"But with the Traveler's help, the array sealing the opening has been broken. Let's just hope that the Qixing don't come down too hard on us...\"",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "showOnlyUnlocked": true,
+    "sortOrder": 119,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_CYJuYuanDongKouJieSuo"
+    },
+    "version": ""
+  },
+  {
+    "id": 70400029,
+    "name": "Mt. Damavand, Where Sandstorms Never Cease",
+    "areaId": 5001,
+    "areaName": "Tanit Camps",
+    "description": "An unending sandstorm swirls at the heart of Mt. Damavand.\nThe desert people say that this sandstorm hides the location of the Eternal Oasis.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 329,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMshavbaoyuanjing"
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 70700012,
+    "name": "Mural of Sworn Pledges",
+    "areaId": 60102,
+    "areaName": "Hall of Parting Vows",
+    "description": "\"Swear upon this, Xbalanque...\"\n\"The one who ascended to realms above to protect all beings, who bestowed seeds of flame to bring light to all beings...\"\n\"When your descendants return from the flames, none shall stop them!\"",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "showOnlyUnlocked": true,
+    "sortOrder": 512,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTJueBieCiShiZhiDi"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 70800046,
+    "name": "Mystery Pit of the Misty Isle",
+    "areaId": 70702,
+    "areaName": "Dunanna Forward Station",
+    "description": "Traces of a bygone civilization linger on this deserted, mist-shrouded island.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 646,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_YQGuLongFaSheJiDi"
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 70400064,
+    "name": "\"Narzissenkreuz Kingdom\"",
+    "areaId": 50305,
+    "description": "\"A long, long time in the future, in a place far, far away... There was the beautiful Narzissenkreuz Kingdom...\"",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "showOnlyUnlocked": true,
+    "sortOrder": 364,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDLieShui"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 70800011,
+    "name": "Neonate Aberration",
+    "areaId": 70208,
+    "areaName": "Nothing Passage",
+    "description": "They defined life with human arrogance, yet could not define the end of their own.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 611,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLDuiLiuXiaGu"
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 70800009,
+    "name": "New World's Prelude",
+    "areaId": 70101,
+    "areaName": "Kuuvahki Experimental Design Bureau",
+    "description": "Just as the frontier folk weave their prayers into verse beneath the moonlight, the craftsmen of the north temper defiant ambition into steel as cold and bright as moonlight.\nWhen the moon sets alongside the long night, the thing that tears apart the old world may well be hailed as the dawn of a new one.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "sortOrder": 609,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLRongLu"
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 70800020,
+    "name": "Nightmare Omen",
+    "areaId": 70602,
+    "areaName": "Cliffwatch Camp",
+    "description": "A colossal, lidless eye it was, its gaze unflinching, piercing through the clouds, the mist, the land, and the mountains alike. It was a vision both omniscient and omnipresent.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "sortOrder": 620,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLShenYuanCheng"
+    },
+    "version": "6.3"
+  },
+  {
+    "id": 70200009,
+    "name": "Nine Pillars of Peace",
+    "areaId": 2607,
+    "areaName": "Cuijue Slope",
+    "description": "Nine shackles of stone were said to have been laid down deep in the valleys of Cuijue Slope to drive off evil and cleanse the world.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 117,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYjingshijiuzhu"
+    },
+    "version": ""
+  },
+  {
+    "id": 70400014,
+    "name": "Nursery of Lost Dreams",
+    "areaId": 4602,
+    "description": "\"Friends will stroll through the forest again. That which is good will return, and the painful memories will vanish. Just like a stream purifying itself or a withered tree sprouting once more.\"",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 314,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMWangXiDeHengNaLanNa"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 70800027,
+    "name": "Of Vastness and the Infinitesimal",
+    "areaId": 10705,
+    "areaName": "Apathic Interval",
+    "description": "Life upon life arises from the darkness; death upon death descends into the void.",
+    "regionId": 105,
+    "regionName": "Temple of Space",
+    "sortOrder": 627,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLWuXiangEJian"
+    },
+    "version": "6.5"
+  },
+  {
+    "id": 70700026,
+    "name": "Old Core of Chu'ulel",
+    "areaId": 60608,
+    "areaName": "Old Core of Chu'ulel",
+    "description": "In the deep ruins of the city now regarded as a city of ruins, an ancient race forged a bodiless wisdom using golden designs and commands and stored it in stone statues to control the mechanisms of the entire city.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 526,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTYangYuJianCiXiaCeng"
+    },
+    "version": "5.2"
+  },
+  {
+    "id": 70700031,
+    "name": "Once-Sealed Ancient City",
+    "areaId": 680000,
+    "areaName": "Ancient Sacred Mountain",
+    "description": "An ancient city once sealed by a fragile oath, stirring feebly like sun-bleached bones rattling in the wind. What fateful conclusion will be set in motion by its final death throes?",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "showOnlyUnlocked": true,
+    "sortOrder": 531,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTLCYiLouZhuView"
+    },
+    "version": "5.5"
+  },
+  {
+    "id": 70400056,
+    "name": "\"Oratrice Mecanique d'Analyse Cardinale\"",
+    "areaId": 50306,
+    "areaName": "Opera Epiclese",
+    "description": "\"Before there was law, sins already ran rampant above the waters. But without law, how can sins be forgiven in the name of sin?\"",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "sortOrder": 356,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDGeJuYuanShiNei"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 70300008,
+    "name": "Overlooking Serpent Head",
+    "areaId": 3307,
+    "areaName": "Serpent's Head",
+    "description": "According to legend, the giant serpent that once ventured into the deep sea was finally slain on Yashiori Island. It is also said that when the sea breeze passes through the eyes and sharp fangs of the giant snake, sounds of a whistle will ring in the wind. That is the requiem it composed for itself. Now, this requiem also provides repose for those who have fallen or were displaced in the war.",
+    "regionId": 3,
+    "regionName": "Inazuma",
+    "sortOrder": 210,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_DQlongtou"
+    },
+    "version": ""
+  },
+  {
+    "id": 70800018,
+    "name": "Palaces of Times Bygone",
+    "areaId": 70504,
+    "areaName": "Royal Court of the Seelie",
+    "description": "This place is inhabited only by the grotesque ghostly remains of fallen gods, where the former palaces of the Seelie now stand empty.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 618,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLXiGouShan3"
+    },
+    "version": "6.3"
+  },
+  {
+    "id": 70600008,
+    "name": "Past Glories of Wangshan",
+    "areaId": 21004,
+    "areaName": "Mt. Lingmeng",
+    "description": "In days gone by, when Guhua was at the height of its strength, various heroes from all walks of life would gather here, mingle, and drink, and the sound of song would never cease. Though the school's reputation has since waned, its magnificent hall still stands, inscribed with the \"chivalry\" of yesteryear.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 418,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYGuHuaPaiDaMen"
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 70800025,
+    "name": "Pavilion of Scorching Sands and Blazing Sun",
+    "areaId": 10704,
+    "areaName": "Desert Pavilion",
+    "description": "\"Behold my great deeds, O mighty ones, and bow before me!\"",
+    "regionId": 105,
+    "regionName": "Temple of Space",
+    "showOnlyUnlocked": true,
+    "sortOrder": 625,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLShaLouCangGuan"
+    },
+    "version": "6.5"
+  },
+  {
+    "id": 70800002,
+    "name": "Pilgrimage to the Moon",
+    "areaId": 70302,
+    "areaName": "Light-Bathed Platform",
+    "description": "Mortals often birth wishes from pain, and faith from wishes. Yet if faith need not always be given to illusory beings, why carve cold, silent stone into shapes from dreams and ballads?",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "sortOrder": 602,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLChaoBaiChu"
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 70700005,
+    "name": "Pins of Rock Entwined With Golden Runes",
+    "areaId": 60107,
+    "areaName": "Sulfurous Veins",
+    "description": "Giant Solid Phlogiston Nails known as \"Shadow Pins.\" Legend has it that the Wayob of the Children of Echoes forged them from the very flesh and blood of their tribal warriors, then hung them up high in this place to intimidate the ancient shadows of the depths below...",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 505,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTJingYanDaZhuZi"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 70700007,
+    "name": "Plane of Pure Desolation",
+    "areaId": 60304,
+    "areaName": "The Upper Sanctum",
+    "description": "A realm of purity that was hidden away, its entrance sealed in mid-air. Once upon a time, an all-merciful sage taught secret arts to great disciples in this place; yet in the end, for reasons unknown, it was concealed.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "showOnlyUnlocked": true,
+    "sortOrder": 507,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTHuGuangJingTu"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 70700036,
+    "name": "Pleasant Street",
+    "areaId": 60801,
+    "areaName": "Easybreeze Market",
+    "description": "Like the Weary Inn, this tranquil street has won the hearts of those at the Speaker's Chamber.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 536,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTYouYouJiShi"
+    },
+    "version": "5.8"
+  },
+  {
+    "id": 70200010,
+    "name": "Qingxu's Forsaken Tower",
+    "areaId": 2803,
+    "areaName": "Qingxu Pool",
+    "description": "A ruined tower amid a verdant field. It still stands, defending a bygone age long returned to dust.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 116,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYqingxupu"
+    },
+    "version": ""
+  },
+  {
+    "id": 70400019,
+    "name": "Refugee Shelters",
+    "areaId": 4701,
+    "areaName": "Aaru Village",
+    "description": "The well-versed poets of Tulaytullah, \"the city of sapphire,\" Thamudian gladiators with golden eyes in Saleh, Jinn in Ay-Khanoum... Countless kingdoms that rose and fell after the great kingdom of King Deshret collapsed, together with their heroes and legends, were all immortalized in ancient nursery rhymes in this village, echoing around the children's beds...\nAfter all those years, the remnants of King Deshret have long muddled the boundaries between histories and myths, blending them all seamlessly into their memories...",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 319,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMARuCun"
+    },
+    "version": "3.1"
+  },
+  {
+    "id": 70400043,
+    "name": "Remnants of the Ancient Orchard",
+    "areaId": 5003,
+    "areaName": "Wadi Al-Majuj",
+    "description": "Before it fell into the dark valley rift, the great gate of Gurabad was once a place where poetry and beauty gathered.\nOnly the cream of the crop had the privilege of standing here and beholding the noble mortal lord...",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 343,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMjuerchengdamen"
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 70300010,
+    "name": "Rift Valley, Yashiori Island",
+    "areaId": 3304,
+    "areaName": "Musoujin Gorge",
+    "description": "According to legend, the blow that brought an end to the serpent god was struck right here. Even to this day, the remnant reverberations of lightning continue to ring across this deep canyon in Yashiori Island, as if the spirits of thunder still chatter about the legendary scene that tore through the sky and the earth thousands of years ago...",
+    "regionId": 3,
+    "regionName": "Inazuma",
+    "sortOrder": 209,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_DQwuxiangrenxiajian"
+    },
+    "version": ""
+  },
+  {
+    "id": 70300001,
+    "name": "Ritou, Narukami Island",
+    "areaId": 3102,
+    "areaName": "Ritou",
+    "description": "Legend has it that hundreds of years ago, Lord Hiiragi Hiroshi of the Kanjou Commission miraculously built a prosperous trade center from a deserted island, and greatly impressed the Shogun. In the days when the Sakoku Decree was in force, the headquarters of the Kanjou Commission still flourished. However, the merchants from faraway nations languished, and the streets were no longer the bustling appearance of a century ago. Perhaps this is the best reflection of the business of mortals: those who become successful overnight will also lose everything in a day.",
+    "regionId": 3,
+    "regionName": "Inazuma",
+    "sortOrder": 201,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_DQlidao"
+    },
+    "version": ""
+  },
+  {
+    "id": 70200007,
+    "name": "Ruins of Guili",
+    "areaId": 2505,
+    "areaName": "Guili Plains",
+    "description": "Once, this was a thriving city where a certain flower bloomed in abundance. But all dreams must turn to waking. This earthly paradise was consumed by war, and those who gathered here were once again scattered.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 107,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYguiliyuan"
+    },
+    "version": ""
+  },
+  {
+    "id": 70700028,
+    "name": "Sacred Mountain of the Undying Flame",
+    "areaId": 60700,
+    "areaName": "Atocpan",
+    "description": "All flames were once born of this place, as was all light. The heroes of old shed sweat and blood in the crucible of flowing fire to return the flame rekindled to the Natlan of today.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 528,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTHuoshanZhuView"
+    },
+    "version": "5.5"
+  },
+  {
+    "id": 70400041,
+    "name": "Safhe Shatranj",
+    "areaId": 5002,
+    "areaName": "The Temples Forsaken",
+    "description": "To the desert tribes, this abandoned, ruined square goes by the name \"Safhe Shatranj.\"\nResearchers believe that this was once a \"training field\" for ancient war machines.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 341,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMshenzhiqipan"
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 70800050,
+    "name": "Sanctuary of Life",
+    "areaId": 770002,
+    "areaName": "Ungien's Circle",
+    "description": "A single flower holds a world within.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 650,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_YQWeiMuXiaoShiJie"
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 70700024,
+    "name": "Satellite Floating Amongst the Clouds",
+    "areaId": 60601,
+    "areaName": "???",
+    "description": "It is not known why it was buried in the sea of clouds, nor why the ship stopped here. Though it has escaped the control of its creator, it continues to keep an ancient secret.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "showOnlyUnlocked": true,
+    "sortOrder": 524,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTTianKongZhiChengQiDian"
+    },
+    "version": "5.2"
+  },
+  {
+    "id": 70500005,
+    "name": "Scattered References",
+    "areaId": 50500,
+    "areaName": "Fontaine Research Institute of Kinetic Energy Engineering Region",
+    "description": "The aftershocks of that incident could not completely destroy it, and it would continue to exist in a form contrary to its original design. Perhaps this might be considered a form of continuation as well.",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "sortOrder": 405,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDShenMiGangTanKe"
+    },
+    "version": "4.1"
+  },
+  {
+    "id": 70400055,
+    "name": "Scenery Within Elynas' Deepest Depths",
+    "areaId": 50203,
+    "areaName": "\"A Very Warm Place\"",
+    "description": "\"Nice to meet you!\"",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "showOnlyUnlocked": true,
+    "sortOrder": 355,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDXinZangNeiBu"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 70400054,
+    "name": "Scenery Within Elynas' Depths",
+    "areaId": 50203,
+    "areaName": "\"A Very Warm Place\"",
+    "description": "The heart that was nearly awakened has now gone silent once more.",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "showOnlyUnlocked": true,
+    "sortOrder": 354,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDXinZang"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 70700037,
+    "name": "Scroll on the Shore",
+    "areaId": 60802,
+    "areaName": "Colorfall Cliffs",
+    "description": "Natlan's earliest woven scrolls may well have been colorful scrolls left behind by children.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "showOnlyUnlocked": true,
+    "sortOrder": 537,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTCaiCaiYa"
+    },
+    "version": "5.8"
+  },
+  {
+    "id": 70800053,
+    "name": "Sea of Broken Skies",
+    "areaId": 770100,
+    "areaName": "Moontide Sea",
+    "description": "The heavens shattered like foam, and from their ruin spread a vast sea of Archaeolune Energy.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 653,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_YQHuoJiYeYueHai"
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 70400063,
+    "name": "Seaworn Cavern",
+    "areaId": 50309,
+    "areaName": "Salacia Plain",
+    "description": "A jawbone as massive as a mountain, that could seemingly drink in and spew forth the tides. It is difficult to imagine such a massive creature ever walking this world.",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "sortOrder": 363,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDLongTou"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 70600033,
+    "name": "Secret Locale of the Ancient Order",
+    "areaId": 50801,
+    "areaName": "Faded Castle",
+    "description": "Many secrets they uncovered here, but no answers.",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "sortOrder": 433,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDJiaoShiYi"
+    },
+    "version": "4.6"
+  },
+  {
+    "id": 70800010,
+    "name": "Secret Research",
+    "areaId": 70100,
+    "areaName": "Paha Isle",
+    "description": "A massive vessel containing captured moonlight.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "sortOrder": 610,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLYanJiuSuo"
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 70800060,
+    "name": "Shelter of the Blackbody",
+    "areaId": 770007,
+    "areaName": "Maagees's Greenhouse",
+    "description": "Amid vast blossoms hanging upside down, a body lies asleep — one that brought the ancient dragons a warning from the cosmos.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 660,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_YQDianDaoSenLin"
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 70800048,
+    "name": "Silent Barrens",
+    "areaId": 770001,
+    "areaName": "The Eye of Ibni-Belum",
+    "description": "Upon the Lunar Highlands, ruins from time immemorial stand in solemn silence.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 648,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_YQKanHuoTaHuangYuan"
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 70800005,
+    "name": "Silent Shallows",
+    "areaId": 70104,
+    "areaName": "Maroon Basin",
+    "description": "Steel structures rise from this pink geological layer like jarring notes in a melody. Mysterious lifeforms once dwelled here — mindless and voiceless, they lived without sound and vanished in silence.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 605,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLYanZe"
+    },
+    "version": "6.0"
+  },
+  {
+    "id": 70800062,
+    "name": "Silent Stone Circle",
+    "areaId": 770011,
+    "areaName": "Nuur Stone Circle",
+    "description": "\"Only the silent stones record all things.\"",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 662,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_YQGuLongXinXiShiZhen2"
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 70600034,
+    "name": "Slumbering Eternal City",
+    "areaId": 560001,
+    "areaName": "Initium Iani",
+    "description": "\"There is a capital under the sea.\"",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "sortOrder": 434,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDPoSuiDeHaiYuZhuView"
+    },
+    "version": "4.6"
+  },
+  {
+    "id": 70400053,
+    "name": "Sourcewater Nation",
+    "areaId": 41106,
+    "areaName": "Chemin Oublie",
+    "description": "Justice reveals the truth. Evil shall be punished, good shall be rewarded. You and I are but drops of water within the sourcewater, our original wishes carried into the depths on the rapid currents, buried alongside forgotten notes and codes.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 353,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDFengDanGang"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 70800051,
+    "name": "Spine of the Skyship",
+    "areaId": 770009,
+    "areaName": "Ungien's Circle: Power Engine",
+    "description": "Endless energy is drawn from the moon's core, fueling the ancient dragon's ascent to the heavens.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 651,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_YQDiJiWoLun"
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 70600032,
+    "name": "Stage of Faded Gold",
+    "areaId": 50801,
+    "areaName": "Faded Castle",
+    "description": "The conductor bereft of music once lamented a past that could never return here, at the end of all greatness and glory.",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "sortOrder": 432,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDXueYuanBiHua"
+    },
+    "version": "4.6"
+  },
+  {
+    "id": 70700006,
+    "name": "Stone Chamber of Shifting Crystal Pillars",
+    "areaId": 60108,
+    "areaName": "Land of Myriad Megaliths",
+    "description": "\"Where will the struggle end, and fear lose its sway?\"\n\"Lost, wandering souls, break free from yourselves, for ahead lies a paradise of eternal desolation.\"",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "showOnlyUnlocked": true,
+    "sortOrder": 506,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTJianShiLianYu"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 70300004,
+    "name": "Suburbs, Inazuma City",
+    "areaId": 3101,
+    "areaName": "Inazuma City",
+    "description": "The outskirts of Inazuma City exude a time-worn and leisurely atmosphere as you make your way up the old paths. It seems that the prosperity of the city has not influenced the scenery here. The power and grace of the Shogun can also be observed here, bringing a quiet and different kind of vitality.",
+    "regionId": 3,
+    "regionName": "Inazuma",
+    "sortOrder": 203,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_DQdaoqichengyangjiao"
+    },
+    "version": ""
+  },
+  {
+    "id": 70700038,
+    "name": "Summer Bay by the Sea",
+    "areaId": 60804,
+    "areaName": "Wavey Bay",
+    "description": "If you tire of the uncertain path ahead, let the warm summer sea soothe your sighs away.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "showOnlyUnlocked": true,
+    "sortOrder": 538,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTLanglangWan"
+    },
+    "version": "5.8"
+  },
+  {
+    "id": 70400060,
+    "name": "Sunken Glory",
+    "areaId": 50312,
+    "description": "The once-prosperous avenues and alleys have now vanished into the depths along with all that was worthy of praise. Now, only schools of fish parade through the promenades, along with the lonely sound of the tides.",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "sortOrder": 360,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDXinShouGuanKa"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 70300006,
+    "name": "Tatara Islands' Vantage Point",
+    "areaId": 3200,
+    "areaName": "Kannazuka",
+    "description": "This ring of islands surrounded by jagged, rocky terrain is the perfect topographic barrier to the Shogunate's smelting facilities. The magnificent giant Blast Furnace here is used to produce a steady stream of high-quality Jade Steel for Inazuma. Recently, however, due to the war, the Mikage Furnace that drove the production has been damaged.",
+    "regionId": 3,
+    "regionName": "Inazuma",
+    "sortOrder": 206,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_DQgaolu"
+    },
+    "version": ""
+  },
+  {
+    "id": 70700008,
+    "name": "Temple of Ancient Forebears",
+    "areaId": 60404,
+    "areaName": "Ancestral Temple",
+    "description": "Long, long ago, there was an age when the earth refused to accept seeds, when flowers withered and people could no longer turn to the land for sustenance. Instead, the ancestors of that ancient era turned to the gods of night for guidance.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 508,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTMiShiTianJing"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 70300003,
+    "name": "Tenryou, Inazuma City",
+    "areaId": 3101,
+    "areaName": "Inazuma City",
+    "description": "The many streets and lanes of Tenryou intersect and cross paths, and finally gather in front of the Tenshukaku - the undisputed center of power in Inazuma. Under the eternal and silent gaze of Her Excellency, the Ogosho Shogun, the people living in the hustle and bustle of the city will finally be free from the worries of obsession, and move to a paradise where they no longer need to chase and compete for their aspirations — but what is the view of the eternal paradise that the Shogun sees?",
+    "regionId": 3,
+    "regionName": "Inazuma",
+    "sortOrder": 202,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_DQdaoqichengfujiao"
+    },
+    "version": ""
+  },
+  {
+    "id": 70400020,
+    "name": "Thamud Oasis",
+    "areaId": 4700,
+    "areaName": "Land of Lower Setekh",
+    "description": "The golden-eyed Thamudians and the seven walls of their magnificent city-state rose up over the corpses of ancient kingdoms, and would itself be sucked down into the vortex of wars between nations and obliterated...\nThe short-lived kingdom has been lost for a long time, but the oases are still like gems that adorn the sea of sand, accommodating caravans and wanderers with springs and plants alike.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 320,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMLvZhou"
+    },
+    "version": "3.1"
+  },
+  {
+    "id": 70200020,
+    "name": "The Ancient Battlefield of Fuao Vale",
+    "areaId": 2200,
+    "areaName": "The Chasm",
+    "description": "\"This is the site of the deadly battle between Azhdaha and Rex Lapis. I'm just a young and inexperienced adventurer, and writing is not my forte... But I cannot help but stand in awe of this place.\"\n\"How small we mortals are before time, which respects neither night nor day, or gods, who can shake heaven and earth...\"",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 120,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_CYGuZhanChang"
+    },
+    "version": ""
+  },
+  {
+    "id": 70400017,
+    "name": "The Barren Land Where Sand Dances",
+    "areaId": 4700,
+    "areaName": "Land of Lower Setekh",
+    "description": "Once, a god resided to the west of the Wall of Samiel. Perhaps the desert was also a paradise for all living beings and a place where wisdom gathered at that time. It is indeed a shame that nothing but endless sandstorms and bleak ruins remain to be seen here today.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 317,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMShaMoQuanJing"
+    },
+    "version": "3.1"
+  },
+  {
+    "id": 70200022,
+    "name": "The Blocked Path",
+    "areaId": 3901,
+    "areaName": "Ad-Hoc Main Tunnel",
+    "description": "\"The miners sealed the tunnels that led further within when they dispersed, but they did leave one 'Mountainator' here.\"\n\"Perhaps it was the orders of the higher-ups... It's not as if it would be practical to separate Liyue's mercantile pursuits from Glazed Sand Crystal for too long.\"",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 122,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_JYQianXianZhanDao"
+    },
+    "version": ""
+  },
+  {
+    "id": 70600015,
+    "name": "The Blossoming Warmth of Qiaoying Sunlight",
+    "areaId": 21002,
+    "areaName": "Qiaoying Village",
+    "description": "When the gentle spring sun and winds caress the mountains of Chenyu, there will the rich fragrance of tea be accompanied by the dance of the Spiritscent Flower, just as in days past, drifting together through peaceful streets...",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 425,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYQiaoYingZhuang"
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 70800059,
+    "name": "The Boatman's Song-House",
+    "areaId": 770006,
+    "areaName": "Golden Hall",
+    "description": "\"O world-shaking lord! It forges the bones of the earth.\nIt bids all dreams return to the earth, and all dreamless things to return to the earth.\"",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 659,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_YQGuLiKanHuoTa"
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 70400024,
+    "name": "The Bottomless Hall",
+    "areaId": 4805,
+    "areaName": "Duat Hall",
+    "description": "Legend has it that in the depths of the desert, an ancient god tried to recreate the underworld and the heavens, so that sinners would fall into the underworld and the ones favored by him would live in paradise.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 324,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMDuETing"
+    },
+    "version": "3.1"
+  },
+  {
+    "id": 70400002,
+    "name": "The City Above the Forest",
+    "areaId": 4501,
+    "areaName": "Gandharva Ville",
+    "description": "\"The city of wisdom is ours, as is the forest of ignorance. Atop the tree lies the remnants of the kingdom of lost dreams.\"",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 302,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMHuaChengGuo"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 70100002,
+    "name": "The City of Wind",
+    "areaId": 1102,
+    "areaName": "Mondstadt",
+    "description": "The wind will carry Dandelion Seeds, songs, and stories far afield, and it also guides gentle Travelers to its realm. Welcome to Mondstadt.",
+    "regionId": 1,
+    "regionName": "Mondstadt",
+    "sortOrder": 1,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_MDmengdecheng"
+    },
+    "version": ""
+  },
+  {
+    "id": 70400001,
+    "name": "The City Where All Wisdom Resides",
+    "areaId": 4500,
+    "areaName": "Avidya Forest",
+    "description": "The root of all wisdom on earth. Under the luxuriant Divine Tree, the sages of the academy city have accumulated all the knowledge there is to be gathered. Welcome to Sumeru, O Traveler seeking answers.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 301,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMXuMiChengYuanJing"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 70600003,
+    "name": "The Clouds Cascade Around the Wharf",
+    "areaId": 21003,
+    "areaName": "Yilong Wharf",
+    "description": "If one follows the Bishui River upstream, the prosperous merchant port built next to a vast waterfall will come into view. Here, the laughter of countless sailors and merchants and the calls of people buying and selling on every street form a unique scenic tapestry here at Liyue's northern edge.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 413,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYYiLongBu"
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 70400008,
+    "name": "The Colossus Watching Devantaka",
+    "areaId": 4204,
+    "areaName": "Devantaka Mountain",
+    "description": "\"Behold. Thousands of years of ancient Khaenri'ah history lie before us!\"",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 308,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMDaJiQiRenYuanJin"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 70800064,
+    "name": "The Concealing Veil",
+    "areaId": 770101,
+    "areaName": "Curtain-Form Blackbody Containment Lab",
+    "description": "A Moonshade Tree, shaped through selective gene tuning, spreads its branches wide. The blackbody matter it emits can form a vast screen, shielding this place from prying eyes and hostile observation.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 664,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_YQHeiAnHaiYouGuan2"
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 70500004,
+    "name": "The Copper Keep",
+    "areaId": 50401,
+    "areaName": "Administrative Area",
+    "description": "\"A fastness of bronze and iron will collapse one day, but a city of law and justice will never fall.\"",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "sortOrder": 404,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDDianYuZhangBanGongShi"
+    },
+    "version": "4.1"
+  },
+  {
+    "id": 70400038,
+    "name": "The Court of Dried Springs",
+    "areaId": 5016,
+    "areaName": "Bayt Al-Sukr",
+    "description": "The ancient people of Gurabad memorialized the years of the gardens with wine, song, and dance. But forgetting caused all joys to wither and crumble to dust...",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 338,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMhuashendong"
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 70200027,
+    "name": "The Court of Pillars",
+    "areaId": 3900,
+    "areaName": "The Chasm: Underground Mines",
+    "description": "\"Despite the Traveler's warnings, I still followed in {M#his}{F#her} footsteps to arrive at this place.\"\n\"I can barely comprehend the sight of this huge sky-blue crystal pillar before me. It cannot be from this continent — only the heavens, with which it shares its shade, could have been its home.\"\n\"I have decided to explore deeper within through secret paths to uncover its secrets... I wonder how far I can press on, and what further records I shall leave behind...\"",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "showOnlyUnlocked": true,
+    "sortOrder": 127,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_JYDaSuiPianJieSuo"
+    },
+    "version": ""
+  },
+  {
+    "id": 70400039,
+    "name": "The Court of Withered Life",
+    "areaId": 5017,
+    "areaName": "Bayt Al-Hayah",
+    "description": "The ancient people of Gurabad once planted many-hued plants and succulent fungi along these halls and courts, but forgetting caused all life here to become barren...",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 339,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMcaoshendong"
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 70800054,
+    "name": "The Dark Fortress",
+    "areaId": 770200,
+    "areaName": "Dark Side of the Moon",
+    "description": "From amid the starry firmament returns the Dragon Lord of Darkness, come to shatter the throne of the winged usurper.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 654,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_YQYueBei"
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 70500007,
+    "name": "The Drunkard's Ship",
+    "areaId": 50724,
+    "areaName": "\"The Rusty Rudder\"",
+    "description": "A white ship that once glittered in the sun has now utterly rusted away. There are as many tales to be found here as currency, but outlanders who would step inside are as few as the moon.",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "sortOrder": 407,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDJiuDianChuanDian"
+    },
+    "version": "4.2"
+  },
+  {
+    "id": 70600039,
+    "name": "The End of An Ancient Dream",
+    "areaId": 560009,
+    "areaName": "Domus Aurea",
+    "description": "\"I had a dream... In that dream, even mortals had free will and their fates were undecided...\"",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "sortOrder": 439,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDJinSeDaTingYiCeng"
+    },
+    "version": "4.6"
+  },
+  {
+    "id": 70800061,
+    "name": "The Fallen Moongazer",
+    "areaId": 770012,
+    "areaName": "Moongazer",
+    "description": "The shattered space station and spaceship wreckage tell of the tragedy that once befell this place.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 661,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_YQSuenHuuaiTingJiPing"
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 70700019,
+    "name": "The Foothills Where the Night-Wind and Riddles Grow",
+    "areaId": 60503,
+    "areaName": "\"Masters of the Night-Wind\"",
+    "description": "Living with the Iktomisaurs, this is where the Masters of the Night-Wind, most mysterious of the six major tribes of Natlan, call home. It is said that at night, the members of the tribe and their saurians use glowing patterns to listen to the echoes of the silent kingdom of the night.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 519,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTLingShiLongBuLuo01"
+    },
+    "version": "5.2"
+  },
+  {
+    "id": 70400036,
+    "name": "The Forgotten River Valley",
+    "areaId": 5007,
+    "areaName": "Debris of Panjvahe",
+    "description": "This great river valley once irrigated Panjvahe. Here, the nobles of Gurabad once sailed in ornate boats, releasing their sleek hunting falcons...\nBut even those proud hawks would devolve into the wild red vultures of the desert.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 336,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMtujiuchaoxue"
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 70400007,
+    "name": "The Frontier Beneath the High Wall",
+    "areaId": 4404,
+    "areaName": "Caravan Ribat",
+    "description": "The mighty wall defends against the searing sandstorms but has also blocked the spread of wisdom's blessing. Is divine wisdom not meant to shine on all people?",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 307,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMFangShaBi"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 70400037,
+    "name": "The Gap of the Hidden Ruins",
+    "areaId": 5003,
+    "areaName": "Wadi Al-Majuj",
+    "description": "Mighty Gurabad and the monumental buildings raised in its heyday could not, in the end, escape falling into the dark valley rift.\nAnd as if their destruction was not humiliation enough, their mansions and estates would come to be nests for roving bandits...",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 337,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMjurenxiagu"
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 70400006,
+    "name": "The Garden of Deep Thought",
+    "areaId": 4401,
+    "areaName": "Pardis Dhyai",
+    "description": "Countless flowers lie within the garden, each more lovely than the most beautiful crystalfly. This is the paradise of people of goodwill.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 306,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMChanNaHuaYuan"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 70400016,
+    "name": "The Garden's New Sprouts",
+    "areaId": 4604,
+    "areaName": "Land of Grounded Dreams",
+    "description": "The forest will remember.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 316,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMWuLiuTuoBOSSZhanChang"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 70400026,
+    "name": "The Giant of the Wind-Eroded Valley",
+    "areaId": 4901,
+    "areaName": "Valley of Dahri",
+    "description": "The giant lies silent in the valley, and the demonic swarms from the abyss now seem almost like poetic exaggerations. Only a power great enough to destroy mountains serves as the best proof that what the researchers say is nothing but the truth.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 326,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMDaJiQiRen"
+    },
+    "version": "3.1"
+  },
+  {
+    "id": 70200026,
+    "name": "The Great Mushroom's Place",
+    "areaId": 3906,
+    "areaName": "The Glowing Narrows",
+    "description": "\"An underground cavern where a strange, gigantic mushroom grows. I could've sworn that I heard something strange calling to me. Perhaps it is just an illusion — or a hallucination, in which case this place must be full of poisonous gas, and I must leave as soon as possible.\"",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 126,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_JYDaMoGu"
+    },
+    "version": ""
+  },
+  {
+    "id": 70400004,
+    "name": "The Harbor Betwixt the Two Trees",
+    "areaId": 4200,
+    "areaName": "Ardravi Valley",
+    "description": "\"Bah! The lectures of the sages are beyond boring. Why don't we get ourselves some fine wine garnished with floral honey and set out on a journey across the seven seas?\"",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 304,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMAoMoSiGang"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 70800028,
+    "name": "The Harbor Where a Thousand Winds Converge",
+    "areaId": 10601,
+    "areaName": "Dornman Port",
+    "description": "In the air drifts a longing for distant lands and the future, carried here and entwined with the gentle harbor breeze.",
+    "regionId": 1,
+    "regionName": "Mondstadt",
+    "sortOrder": 628,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLJingFuGang"
+    },
+    "version": "6.5"
+  },
+  {
+    "id": 70200025,
+    "name": "The Inverted City",
+    "areaId": 3905,
+    "areaName": "Nameless Ruins",
+    "description": "\"As I was traveling alone, I discovered this vast and terrible ruin. Perhaps this is all that remains of an ancient civilization that was punished and destroyed. This ancient city seems to resist the presence of any outsiders... It might even have something to do with those purple-black crystals, or that mud-like substance.\"\n\"I stayed for a time, but I had to leave its ominous, upended silhouette behind.\"",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "showOnlyUnlocked": true,
+    "sortOrder": 125,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_JYDianDaoYiJiJieSuo"
+    },
+    "version": ""
+  },
+  {
+    "id": 70800057,
+    "name": "The Iridescent Lake",
+    "areaId": 770004,
+    "areaName": "Bubble Pool",
+    "description": "Into this lake flow milk-springs of many colors, forming a cradle for the newly born.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 657,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_YQYueXiangHu"
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 70400011,
+    "name": "The Land of Mawtiyima",
+    "areaId": 4101,
+    "areaName": "Mawtiyima Forest",
+    "description": "This is where the memories and dreams of the forest gather. It seems to have its own consciousness.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 311,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMDianDaoJuRenZhiBei"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 70400015,
+    "name": "The Littlest Dream",
+    "areaId": 4603,
+    "areaName": "Sand-Embraced Home",
+    "description": "They might have done so clumsily, but they made many preparations to welcome their Nara friend nonetheless.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 315,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMShaZhongGuLiMengJing"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 70400035,
+    "name": "The Lost Hermitage",
+    "areaId": 5021,
+    "areaName": "Apep's Resort",
+    "description": "It is said that a friend of King Deshret once built their court in a great cavern beneath the dunes.\nWenut served here as court officials, and flying serpents as companions. But today, both creatures have lost their noble wit and vigor.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 335,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMcaolongdong"
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 70600031,
+    "name": "The Lovely Legends of Petrichor",
+    "areaId": 50802,
+    "areaName": "Petrichor",
+    "description": "There are many beautiful and moving legends about Petrichor, but none of them have changed life in the little town.\nWhenever the sea breeze carries the sound of the evening bell away, the townsfolk know that another leisurely day has passed.",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "showOnlyUnlocked": true,
+    "sortOrder": 431,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDPeiTeLiKeZhen"
+    },
+    "version": "4.6"
+  },
+  {
+    "id": 70100001,
+    "name": "The Marsh of Celestial Guardians",
+    "areaId": 1103,
+    "areaName": "Starfell Lake",
+    "description": "A poem says that a star once fell to the earth, forming this lake. But other tales say that even the stars would descend to apprehend this sight, which shines as brightly as the Anemo Archon's eyes.",
+    "regionId": 1,
+    "regionName": "Mondstadt",
+    "sortOrder": 2,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_MDxingluohu"
+    },
+    "version": ""
+  },
+  {
+    "id": 70400021,
+    "name": "The Mausoleum of King Deshret",
+    "areaId": 4801,
+    "areaName": "The Mausoleum of King Deshret",
+    "description": "The huge cone is like a supporting pillar between the high sky and the yellow sands that has stood in the middle of the desert since time immemorial. Standing in front of it, be you a commoner, a wealthy man, or a well-informed researcher, you shall feel that you are but a few grains of sand all the same.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 321,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMChiWangLing"
+    },
+    "version": "3.1"
+  },
+  {
+    "id": 70300012,
+    "name": "The Moon-Bathed Deep",
+    "areaId": 3501,
+    "areaName": "Sangonomiya Shrine",
+    "description": "The entrance to Enkanomiya. The water in this pool shine year in and year out with light akin to that of the moon, hence the name \"Moon-Bathed.\"",
+    "regionId": 3,
+    "regionName": "Inazuma",
+    "sortOrder": 217,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_DQ2yuanxiagong"
+    },
+    "version": ""
+  },
+  {
+    "id": 70400030,
+    "name": "The Moonblue Canals",
+    "areaId": 5005,
+    "areaName": "The Sands of Al-Azif",
+    "description": "The ancient tales of the desert people tell of this place being the site where three canals met, nourishing fertile fields and rich gardens.\nBut nothing remains now of those halcyon days, only the dulled shades of a dream...",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 330,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMsanyunhe"
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 70800026,
+    "name": "The Moving Finger Writes",
+    "areaId": 10702,
+    "areaName": "Mahavaipulya Chamber",
+    "description": "The Path to the Heavens can only be constructed with one's memories and wisdom.",
+    "regionId": 105,
+    "regionName": "Temple of Space",
+    "showOnlyUnlocked": true,
+    "sortOrder": 626,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLShuJiDaMen"
+    },
+    "version": "6.5"
+  },
+  {
+    "id": 70800063,
+    "name": "\"The Next Journey\"",
+    "areaId": 770013,
+    "areaName": "Traveler's Crater",
+    "description": "\"May that night arrive beneath clear skies... with friends reunited.\"",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 663,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_YQLvXingZheFeChuan"
+    },
+    "version": "6.7"
+  },
+  {
+    "id": 70800030,
+    "name": "The Northerly Wind's Soft Hymn",
+    "areaId": 10600,
+    "areaName": "Windrest Peak",
+    "description": "\"Do you know the place where the Windrest Flowers bloom? O my beloved, how I wish to go there with you!\"",
+    "regionId": 1,
+    "regionName": "Mondstadt",
+    "sortOrder": 630,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLFengXiShan"
+    },
+    "version": "6.5"
+  },
+  {
+    "id": 70400032,
+    "name": "The Palace Abandoned by the Gods",
+    "areaId": 5002,
+    "areaName": "The Temples Forsaken",
+    "description": "The ruins of the temple of Gurabad. The desert songs say that long-lived giants once dwelled here.\nBut they were cast down into a rift in the earth within a single night, never to be seen again... and so did the great temple also become some ruins in a valley rift.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 332,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMliushayiji"
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 70400045,
+    "name": "The Paradise of Eternal Peace",
+    "areaId": 5019,
+    "areaName": "The Orchard of Pairidaeza",
+    "description": "\"...Its leaves shall not be seized by autumn's arms, and the circles of time shall not avail to subject its newborn spring-joy to the curse of years...\"",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 345,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMyonghenglvzhou"
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 70300011,
+    "name": "The Pearlescent Palace",
+    "areaId": 3501,
+    "areaName": "Sangonomiya Shrine",
+    "description": "This is the center of government and religion alike on Watatsumi Island. Shells and skerries flank the palace in which lie the relics of the serpent god.",
+    "regionId": 3,
+    "regionName": "Inazuma",
+    "sortOrder": 215,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_DQ2shanhugong"
+    },
+    "version": ""
+  },
+  {
+    "id": 70400010,
+    "name": "The Rain's End",
+    "areaId": 4406,
+    "description": "\"There is no rain here, and yet it is the birthplace of rain. The purification of Vana rains begins — and ends — here.\"",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 310,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMYuDeJinTou"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 70500001,
+    "name": "The Remnants of Brilliant Wisdom",
+    "areaId": 50500,
+    "areaName": "Fontaine Research Institute of Kinetic Energy Engineering Region",
+    "description": "When excess intelligence and passion came together, research brought about results in a manner that surpassed everyone's expectations. Now, however, there remains no one to applaud that achievement.",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "sortOrder": 401,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDKongZhongShuiTi"
+    },
+    "version": "4.1"
+  },
+  {
+    "id": 70300002,
+    "name": "The Sacred Forest in the Moonlight",
+    "areaId": 3106,
+    "areaName": "Chinju Forest",
+    "description": "Legend has it that in the past, this sacred forest was once home to many demons. To this day, the legend of the \"tanuki-bayashi\" still surrounds this tranquil woodland.",
+    "regionId": 3,
+    "regionName": "Inazuma",
+    "sortOrder": 204,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_DQshouhuzhisen"
+    },
+    "version": ""
+  },
+  {
+    "id": 70400070,
+    "name": "\"The Seaside Village\"",
+    "areaId": 50200,
+    "areaName": "Beryl Region",
+    "description": "Salsa once painted the scenery here.\nA beautiful seaside village whose peace and serenity evoke yearning for such a tranquil life in those who see it.",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "showOnlyUnlocked": true,
+    "sortOrder": 370,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDXiaoZhen"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 70300016,
+    "name": "The Silent Fishing Village",
+    "areaId": 3404,
+    "areaName": "Koseki Village",
+    "description": "The laughter of the old days and the cries of cicadas were at last lost to the thunder. The people of today only remember that this place was abandoned due to the furious, unchecked storms.",
+    "regionId": 3,
+    "regionName": "Inazuma",
+    "sortOrder": 211,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_DQ2yueshicun"
+    },
+    "version": ""
+  },
+  {
+    "id": 70700025,
+    "name": "The Story Recorded",
+    "areaId": 60502,
+    "areaName": "Malinalco Grotto",
+    "description": "Walls with graffiti that chronicles the stories of the heroes of the past. But are the stories recorded here true stories that once happened, or the shadows of another story...",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 525,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTTuYaDong"
+    },
+    "version": "5.2"
+  },
+  {
+    "id": 70300015,
+    "name": "The Stranded Flagship",
+    "areaId": 3403,
+    "areaName": "\"Seiraimaru\"",
+    "description": "This rundown atakebune warship was mighty once upon a time. In its remains, marked by starlit tears, one can still vaguely see the image of a vessel proudly sailing, blessed by the shrine maidens and villagers of a bygone age.",
+    "regionId": 3,
+    "regionName": "Inazuma",
+    "sortOrder": 212,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_DQ2qinglaiwan"
+    },
+    "version": ""
+  },
+  {
+    "id": 70400031,
+    "name": "The Tanit Encampment",
+    "areaId": 5001,
+    "areaName": "Tanit Camps",
+    "description": "Part of an ancient structure's ruins, once home to the ghosts of people of old...\nNow, it is the home of a desert tribe known as the Tanit.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 331,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMheishi"
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 70400033,
+    "name": "The Temple of Buried Dominion",
+    "areaId": 5015,
+    "areaName": "Bayt Al-Muazzam",
+    "description": "The ancient people of Gurabad used to worship their God King of the desert in these long halls and grand courts. But forgetting caused the gulf between the noble and the base to lose its meaning...",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 333,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMchiwangdong"
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 70400022,
+    "name": "The Thousands of Entombed Chambers",
+    "areaId": 4800,
+    "areaName": "Hypostyle Desert",
+    "description": "In dark places where the sands do not ravage, countless chambers and statues slumber, waiting for the time when their master shall visit them again...",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 322,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMDiXiaDongXue"
+    },
+    "version": "3.1"
+  },
+  {
+    "id": 70700041,
+    "name": "The Town in the Rock",
+    "areaId": 60807,
+    "areaName": "Villa Guiztli",
+    "description": "A quiet town has grown beneath a giant rock in the sea. The adorable residents stand ready to welcome guests from all over Teyvat.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 541,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTCiLiZhen"
+    },
+    "version": "5.8"
+  },
+  {
+    "id": 70200021,
+    "name": "The Underground Mines",
+    "areaId": 3900,
+    "areaName": "The Chasm: Underground Mines",
+    "description": "\"I once grew up at the mines of Mingyun Village. The miners' rowdy labor, their joys and sorrows... Those encompassed my entire childhood.\"\n\"Looking upon these underground tunnels, far more vast yet silent and deserted, these memories of yesteryear resurface in my mind... albeit sadder and more lonesome.\"",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 121,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_JYKaiCaiKuangQuZhu"
+    },
+    "version": ""
+  },
+  {
+    "id": 70700018,
+    "name": "The Unfinished Ashen City",
+    "areaId": 60602,
+    "areaName": "Ashflow Street",
+    "description": "On top of the ruins of a city built by a forgotten race, people once tried to build a new country. Now nothing is left but the ashes after the blaze, and the alliance once assembled for this purpose has long since scattered.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "showOnlyUnlocked": true,
+    "sortOrder": 518,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTHuiJinJieZhuView"
+    },
+    "version": "5.2"
+  },
+  {
+    "id": 70400003,
+    "name": "The Village by the River",
+    "areaId": 4202,
+    "areaName": "Vimara Village",
+    "description": "There is nothing to Vimara Village apart from a tranquil life. Come, exhausted traveler, rest here awhile.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 303,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMWeiMoZhuang"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 70400013,
+    "name": "The World of the Aranara",
+    "areaId": 4000,
+    "areaName": "Vanarana",
+    "description": "\"No matter how dark the sky and land may get, as long as your spirit emits warmth like a golden sun, there will always be hope.\"",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 313,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMHengNaLanNAMengJing"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 70500010,
+    "name": "The World's Amniotic Fluid",
+    "areaId": 50706,
+    "areaName": "Genesis of a Certain Micro-Universe",
+    "description": "This was once to be, again, the cradle for all life.",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "showOnlyUnlocked": true,
+    "sortOrder": 410,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDYuanShiTaiHai"
+    },
+    "version": "4.2"
+  },
+  {
+    "id": 70500002,
+    "name": "The Wreck of Shattered Dreams",
+    "areaId": 50501,
+    "areaName": "Central Laboratory Ruins",
+    "description": "When an ideal is destroyed, its most important responsibility is to hold its peace.\nHowever, some seem to believe that this burning energy serves some other purpose...",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "showOnlyUnlocked": true,
+    "sortOrder": 402,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDYiBianDaTing"
+    },
+    "version": "4.1"
+  },
+  {
+    "id": 70300009,
+    "name": "Tidal Flat Amidst the Flames of War",
+    "areaId": 3302,
+    "areaName": "Nazuchi Beach",
+    "description": "In the ancient language of the Inazuma ancestors, \"Nazuchi\" means \"to be tenderly caressed by the hands of the gods.\" Ironically, Nazuchi Beach has been ravaged by war since a thousand years ago and has become a place for scavengers and pirates, with few inhabitants.",
+    "regionId": 3,
+    "regionName": "Inazuma",
+    "sortOrder": 208,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_DQmingzhuitan"
+    },
+    "version": ""
+  },
+  {
+    "id": 70500009,
+    "name": "Tower of Gestalt",
+    "areaId": 50700,
+    "areaName": "Morte Region",
+    "description": "This was once many things and many dreams.",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "showOnlyUnlocked": true,
+    "sortOrder": 409,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDFengYinTower"
+    },
+    "version": "4.2"
+  },
+  {
+    "id": 70800019,
+    "name": "Tower Piercing into the Sky",
+    "areaId": 70506,
+    "areaName": "Pillar of Embla",
+    "description": "The tower once stood as the hubris of ambition, bearing the illusory dreams of the bedeviled skies. It was only when the tower shattered — along with the swelling ambition it represented — that the seed of \"Elysium\" finally broke through the earth.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "sortOrder": 619,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLYueZhiTa2"
+    },
+    "version": "6.4"
+  },
+  {
+    "id": 70400018,
+    "name": "Towers of Betrayal",
+    "areaId": 4700,
+    "areaName": "Land of Lower Setekh",
+    "description": "These huge obelisks have been standing here since the death of King Deshret. The desert dwellers call them the \"Towers of Betrayal\" and regard them as symbols of shame that serve as constant reminders of the fact that the desert kings had broken their oath with King Deshret...\nThe obelisks' true history could date back to a period preceding that of those short-lived desert kingdoms, but it has unfortunately long been forgotten.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 318,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMJuDaFangJianBei"
+    },
+    "version": "3.1"
+  },
+  {
+    "id": 70600012,
+    "name": "Trails of Laixin",
+    "areaId": 21105,
+    "areaName": "Mt. Laixin",
+    "description": "\"Though stalwart stone may sink, it shall return rite-rightly.\"",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "showOnlyUnlocked": true,
+    "sortOrder": 422,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYLaiXinShan"
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 70700013,
+    "name": "Trial Grounds of Restive Nightsouls",
+    "areaId": 60201,
+    "areaName": "Chamber of Night's Trial",
+    "description": "Through the blaze of battle alone can these unquiet Nightsouls be stilled to slumber!",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 513,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTYeZhiJingJiChang"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 70300018,
+    "name": "Tsurumi Island",
+    "areaId": 3600,
+    "areaName": "Tsurumi Island",
+    "description": "\"Pirka chikappo! Kapatcir kamuy!\"\n\"We slumber together in a spider-silk nest of fog.\"",
+    "regionId": 3,
+    "regionName": "Inazuma",
+    "showOnlyUnlocked": true,
+    "sortOrder": 218,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_DQ3heguan"
+    },
+    "version": ""
+  },
+  {
+    "id": 70200023,
+    "name": "Underground Waterway",
+    "areaId": 3903,
+    "areaName": "Underground Waterway",
+    "description": "\"As I was exploring by myself, I discovered this waterway. The waters here are clean and cool, perfect for taking a break and wash all the ill-fortune accumulated on the way off.\"\n\"There are some gentle elemental creatures nearby who move most slowly, rare beings who have no quarrel with the rest of the world... I drew the waterway on the map. I hope the Traveler can follow it and find this place.\"",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 123,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_JYDiXiaShuiZe"
+    },
+    "version": ""
+  },
+  {
+    "id": 70400050,
+    "name": "Valley of the Unsullied",
+    "areaId": 41001,
+    "areaName": "Tunigi Hollow",
+    "description": "\"...The filth pouring out from the abyss will eventually recede and the lost descendants of the Dahri will be shocked into uprightness. As a chorus of thousands sing their song, there will come a lull to the rains.\"",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 350,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMTuMiHeiYuan"
+    },
+    "version": "3.6"
+  },
+  {
+    "id": 70600004,
+    "name": "Valley of Vibrant Butterflies",
+    "areaId": 21103,
+    "areaName": "Yaodie Valley",
+    "description": "An adeptus's abode, far from the din of mortal comings and goings. In the distant past, it is said that the ancestral peoples who had lost their home due to war were taken in by an adeptus named Fujin, and here did they avoid the disaster that raged without. Thus did the flame of civilization endure rather than be snuffed out under titanic floods.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 414,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYYaoDieGu"
+    },
+    "version": "4.4"
+  },
+  {
+    "id": 70400009,
+    "name": "Varunastra",
+    "areaId": 4403,
+    "areaName": "Apam Woods",
+    "description": "The Varuna Contraption shows forth its power, bringing forth the water of life and turning Valuka into Vana, turning the barren lands into a land full of life.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 309,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMHuiLiuZhiZhu"
+    },
+    "version": "3.0"
+  },
+  {
+    "id": 70700011,
+    "name": "Venture to a Secret Isle",
+    "areaId": 60406,
+    "areaName": "Firethief's Secret Isle",
+    "description": "\"O puny people, o power-hungry race — what price are you willing to pay? What sacrifice will you make for that which you covet?\"",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 511,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTLongTiaoZhanDao"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 70400028,
+    "name": "Verdant Fields' Vantage Point",
+    "areaId": 4700,
+    "areaName": "Land of Lower Setekh",
+    "description": "From the barren desert, you can behold the forest realm of hidden wisdom, its verdant silhouette secure behind the mighty wall that blocks out the sandstorms, coldly looking down its nose at the desert realm swept by searing winds...\nSurely, the vassal lords whose fragmented kingdoms survived King Deshret's fall must also have looked upon that land of plenty with bitter jealousy...",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 328,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMYuanTiaoXuMiCheng"
+    },
+    "version": "3.1"
+  },
+  {
+    "id": 70400067,
+    "name": "\"View From Mont Automnequi\"",
+    "areaId": 50104,
+    "areaName": "West Slopes of Mont Automnequi",
+    "description": "Salsa once painted the scenery here.\nFrom Mont Automnequi, one can see the ridge of Elynas. Beneath the peaks and lakes, the homeland of the Melusines is hidden.",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "showOnlyUnlocked": true,
+    "sortOrder": 367,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDXiaoBaoDao"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 70200018,
+    "name": "View from The Chasm's Surface",
+    "areaId": 2200,
+    "areaName": "The Chasm",
+    "description": "\"When I first came here, the miraculous, terrifying geography silenced me... I have never forgotten the sense of utter awe and respect that I felt.\"\n\"But even such wondrous visions became monotonous after too much hustle and bustle on behalf of the Ministry of Civil Affairs...\"\n\"Speaking of which, I must thank the Traveler for helping me continue with my own adventure...\"",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "showOnlyUnlocked": true,
+    "sortOrder": 118,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_CYCengYanJuYuanZhu"
+    },
+    "version": ""
+  },
+  {
+    "id": 70200001,
+    "name": "Vigilant Guardians' Vantage Point",
+    "areaId": 2504,
+    "areaName": "Wangshu Inn",
+    "description": "The inn that stands at the southern end of Dihua Marsh seems to serve as something other than a resting place for guests. They say that Wangshu Inn is a haven for lovers' moonlit rendezvous. Folk stories also have it that even ones as august as the adepti sometimes bask in the moonlight here.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 105,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYwangshukezhan"
+    },
+    "version": ""
+  },
+  {
+    "id": 70300013,
+    "name": "Village of the People of the Deep",
+    "areaId": 3503,
+    "areaName": "Bourou Village",
+    "description": "An ancient village on Watatsumi Island. It is said that the ancestors of its people came from deep beneath the waves.\nIt is also an important rallying point for those who are opposed to the Vision Hunt Decree.",
+    "regionId": 3,
+    "regionName": "Inazuma",
+    "sortOrder": 216,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_DQ2wanglongcun"
+    },
+    "version": ""
+  },
+  {
+    "id": 70200008,
+    "name": "Weeping Garden",
+    "areaId": 2509,
+    "areaName": "Luhua Pool",
+    "description": "Legend has it that a deep, pure affection filled this ancient garden, creating the Luhua Pool as it is known today.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 112,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYluhuachi"
+    },
+    "version": ""
+  },
+  {
+    "id": 70400034,
+    "name": "Wenut Tunnels",
+    "areaId": 5014,
+    "areaName": "Wenut Tunnels",
+    "description": "The mortal palaces have long fallen, and the Wenut rule here now, transforming it into a court and garden more to their liking.",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "sortOrder": 334,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMshachongdong"
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 70400040,
+    "name": "Where a Titan's Shins Were Broken",
+    "areaId": 5008,
+    "areaName": "Wounded Shin Valley",
+    "description": "Wounded Shin Valley has been its moniker for a long time, but now that an iron giant has lost its footing in this place, its name surely bears some extra weight now, no?",
+    "regionId": 4,
+    "regionName": "Sumeru",
+    "showOnlyUnlocked": true,
+    "sortOrder": 340,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_XMjiqirenshakeng"
+    },
+    "version": "3.4"
+  },
+  {
+    "id": 70400059,
+    "name": "Where Dark Tides Echo",
+    "areaId": 50103,
+    "areaName": "Poisson",
+    "description": "Where the Spina di Rosula was born. Just as a tiny chick that will one day become a soaring eagle is hatched from an egg, so are grand and radiant ambitions hatched in a dark and cramped place.\nThe people of Poisson are like the residents of the Fleuve Cendre, and from the history of these places they understand that some things are worth being, and indeed must be, fought for and bought by blood.",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "sortOrder": 359,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDYuSengZhen"
+    },
+    "version": "4.0"
+  },
+  {
+    "id": 70700027,
+    "name": "Where Feathers Are Intertwined Like Flowers",
+    "areaId": 60901,
+    "areaName": "\"Flower-Feather Clan\"",
+    "description": "Living with the Qucusaurs, this is the home of the tribe known as the Flower-Feather Clan. Every day, members of the tribe fly with the Qucusaurs, patrolling their territory from the air.",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "sortOrder": 527,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTYiShouLongBuLuoZhuView01"
+    },
+    "version": "5.2"
+  },
+  {
+    "id": 70200013,
+    "name": "Where Merchants Flock And All Ships Dock",
+    "areaId": 2701,
+    "areaName": "Liyue Harbor",
+    "description": "A prosperous port city where a thousand ships drop anchor. Under the aegis of countless contracts and regulations, innumerable goods change hands and grace the seven nations with their presence. Welcome to Liyue, wayfaring Traveler.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 101,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYliyuegang"
+    },
+    "version": ""
+  },
+  {
+    "id": 70200004,
+    "name": "Where Mountains Peak Beyond the Clouds",
+    "areaId": 2601,
+    "areaName": "Jueyun Karst",
+    "description": "They say that the adepti dwell somewhere within these countless towering, cloud-ringed peaks. Few mortals may set foot here.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 109,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYjueyunjian"
+    },
+    "version": ""
+  },
+  {
+    "id": 70600035,
+    "name": "Where Only the Bell Tolls",
+    "areaId": 560003,
+    "areaName": "Portus Anticus",
+    "description": "This great cavern that sank beneath the waves was once a prosperous royal port. If the ancient bells' tolling could pierce the barrier of ocean, lost souls may yet find their homeward road.",
+    "regionId": 5,
+    "regionName": "Fontaine",
+    "sortOrder": 435,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_FDDaZhongDongXue"
+    },
+    "version": "4.6"
+  },
+  {
+    "id": 70300014,
+    "name": "Where Swirling Storm Clouds Gather",
+    "areaId": 3401,
+    "areaName": "Amakumo Peak",
+    "description": "The great battle where the sea and sky changed color have become lost to time, but the vast storms that were called upon at this time still remain.",
+    "regionId": 3,
+    "regionName": "Inazuma",
+    "sortOrder": 214,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_DQ2leibao"
+    },
+    "version": ""
+  },
+  {
+    "id": 70700010,
+    "name": "Where the Painted Realm Unfolds",
+    "areaId": 60400,
+    "areaName": "Coatepec Mountain",
+    "description": "A world born from wall graffiti, or one concealed by expressive writings... Who knows which of these it is?",
+    "regionId": 6,
+    "regionName": "Natlan",
+    "showOnlyUnlocked": true,
+    "sortOrder": 510,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NTLingXuDi"
+    },
+    "version": "5.0"
+  },
+  {
+    "id": 70300017,
+    "name": "Where the Provisional Head Priestess Lives",
+    "areaId": 3402,
+    "areaName": "Asase Shrine",
+    "description": "\"Hibiki will return.\"\n\"The shrine looks wonderful now, thanks to you. She will return very soon.\"",
+    "regionId": 3,
+    "regionName": "Inazuma",
+    "showOnlyUnlocked": true,
+    "sortOrder": 213,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_DQ2qianlaishenshe"
+    },
+    "version": ""
+  },
+  {
+    "id": 70100005,
+    "name": "Windswept Wilderness",
+    "areaId": 1201,
+    "areaName": "Windrise",
+    "description": "This plain bathes in an everlasting breeze. An ancient, monumental tree left behind by an ancient heroine speaks softly amidst the winds.",
+    "regionId": 1,
+    "regionName": "Mondstadt",
+    "sortOrder": 3,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_MDfengqidi"
+    },
+    "version": ""
+  },
+  {
+    "id": 70800022,
+    "name": "Wonderland in the Rabbit Hole",
+    "areaId": 70404,
+    "areaName": "The Witch's Garden",
+    "description": "The decorations that grace the garden are nothing more than ordinary sculptures, containing no magic that can halt the flow of time. In the witch's secret garden, there are no secrets — much like Fate, which prides itself on justice yet has never followed reason.",
+    "regionId": 7,
+    "regionName": "Nod-Krai",
+    "showOnlyUnlocked": true,
+    "sortOrder": 622,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_NDKLMoNvDong"
+    },
+    "version": "6.3"
+  },
+  {
+    "id": 70200014,
+    "name": "Yujing Terrace",
+    "areaId": 2701,
+    "areaName": "Liyue Harbor",
+    "description": "Far from the bustling harbor, the Yujing Terrace rises along with Mt. Tianheng. Here, the Qixing and the leaders of many enterprises tirelessly drive Liyue's prosperity and stability.",
+    "regionId": 2,
+    "regionName": "Liyue",
+    "sortOrder": 104,
+    "images": {
+      "filename_image": "UI_Codex_Scenery_LYyujingtai"
+    },
+    "version": ""
+  }
+]

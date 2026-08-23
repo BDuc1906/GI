@@ -79,8 +79,61 @@ export const TALENT_LABEL_VI: Record<string, string> = new Proxy(COMBAT_LABEL_VI
   },
 }) as Record<string, string>;
 
+// Bản đa ngôn ngữ của TALENT_LABEL_VI ở trên — nhận vào hàm dịch t() (namespace
+// "CharacterDetail", đã có sẵn 4 khóa combat cố định + khóa "passiveN" nhận
+// tham số {n}) thay vì map cứng tiếng Việt. Dùng ở trang /[locale]/characters/[id].
+export function getTalentLabel(t: (key: string, values?: Record<string, unknown>) => string, key: string): string {
+  const combatKeys = ["normalAttack", "elementalSkill", "elementalBurst", "alternateSprint"];
+  if (combatKeys.includes(key)) return t(key);
+  const match = /^passive(\d+)$/.exec(key);
+  if (match) return t("passiveN", { n: match[1] });
+  return key;
+}
+
 // formatNumber/formatSpecialized/StatByLevelRow: xem character-stats-format.ts
 // (re-export ở đầu file) — logic thật nằm ở đó, không định nghĩa lại ở đây.
+
+// Tên nguyên tố hợp lệ — dùng để nhận diện đúng file "rác" do bug bên
+// dưới gây ra (xem BAD_LOCAL_ELEMENT_ASSET). Khớp không phân biệt hoa
+// thường vì normalizeLocalAssetKey() (src/lib/local-image-name.ts) đã
+// hạ hết về chữ thường trước khi lưu vào URL.
+const ELEMENT_NAMES = ["anemo", "geo", "electro", "dendro", "hydro", "pyro", "cryo"];
+
+/**
+ * BUG THẬT (đã xác nhận qua scripts/debug-character-images.ts): script
+ * `scripts/auto-fill-local-images.ts` quét thư mục local `genshin-impact/`
+ * rồi dùng `findBestLocalAssetMatch()` (src/lib/local-image-name.ts) để tự
+ * điền `splashUrl` còn thiếu — thuật toán so khớp theo ký tự chung quá
+ * lỏng, nên với tên kiểu "Aether (Cryo)"/"Lumine (Geo)" (14 biến thể
+ * Traveler) nó khớp NHẦM sang các file chỉ đặt tên theo nguyên tố (vd
+ * "cryo.png", "geo.png" — nhiều khả năng là icon/badge nguyên tố chung,
+ * không phải ảnh nhân vật thật), rồi copy vào
+ * `public/local-genshin-assets/<element>.png` và ghi thẳng path đó vào
+ * cột `splashUrl`. Vì EntityCard ưu tiên `splashUrl` trước `iconUrl`
+ * (`c.splashUrl || c.iconUrl`), path rác này luôn được chọn hiển thị thay
+ * vì icon nhân vật thật đã mirror đúng ở `iconUrl`.
+ *
+ * Đã sửa tận gốc ở scripts/auto-fill-local-images.ts (bỏ qua Traveler +
+ * chặn match yếu vào file tên thuần nguyên tố) — hàm này là lớp chặn Ở
+ * TẦNG HIỂN THỊ, phòng trường hợp DB còn sót dữ liệu cũ chưa dọn (xem
+ * scripts/fix-character-image-mixup.ts).
+ */
+function isBadLocalElementAsset(url: string): boolean {
+  const match = /^\/local-genshin-assets\/([a-z0-9-]+)\.[a-z0-9]+$/i.exec(url.trim());
+  if (!match) return false;
+  return ELEMENT_NAMES.includes(match[1].toLowerCase());
+}
+
+export function resolveCharacterCardImage(c: {
+  splashUrl?: string | null;
+  iconUrl?: string | null;
+}): string | null {
+  const splash = c.splashUrl && !isBadLocalElementAsset(c.splashUrl) ? c.splashUrl : null;
+  // Danh sách/lưới nhân vật ưu tiên ICON (vuông, gọn, tải nhẹ hơn) thay vì
+  // splash art (dọc, nặng) — chỉ fallback về art nếu nhân vật đó thiếu icon.
+  return c.iconUrl || splash || null;
+}
+
 /**
  * Nếu đây là 1 biến thể Traveler (id "traveler-boy-<element>" /
  * "traveler-girl-<element>"), lấy thêm biến thể giới tính còn lại CÙNG
@@ -107,8 +160,8 @@ export async function resolveTravelerSibling(character: Character): Promise<{
 
   return {
     isTraveler: true,
-    boySplash: boy?.splashUrl || boy?.iconUrl || null,
-    girlSplash: girl?.splashUrl || girl?.iconUrl || null,
+    boySplash: boy ? resolveCharacterCardImage(boy) : null,
+    girlSplash: girl ? resolveCharacterCardImage(girl) : null,
   };
 }
 

@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
-import { rarityGlowClass, rarityStars, rarityTextClass } from "@/lib/theme";
-import { SafeImage } from "@/components/SafeImage";
+import { rarityStars, rarityColorVar } from "@/lib/theme";
 import { WeaponIcon } from "@/components/WeaponIcon";
+import { EntityCard } from "@/components/EntityCard";
 import { Pagination } from "@/components/Pagination";
 import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/pagination";
 import type { Metadata } from "next";
@@ -17,21 +17,19 @@ interface PageProps {
   searchParams: Promise<{ type?: string; rarity?: string; q?: string; page?: string }>;
 }
 
+// Cùng mật độ lưới với /characters — nhất quán toàn site, tận dụng màn
+// hình rộng thay vì dừng ở lg:6 như bản cũ.
+const DENSE_GRID = "grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3";
+
 export default async function WeaponsPage({ searchParams }: PageProps) {
   const { type, rarity, q, page: pageRaw } = await searchParams;
   const page = parsePageParam(pageRaw);
 
-  // Trước đây: `const where: any = {}`. Dùng type Prisma sinh sẵn để tránh
-  // lỗi field/kiểu dữ liệu sai chỉ lộ ra lúc chạy thay vì lúc build.
   const where: Prisma.WeaponWhereInput = {};
   if (type) where.type = { equals: type, mode: "insensitive" };
   if (rarity) where.rarity = Number(rarity);
   if (q) where.name = { contains: q, mode: "insensitive" };
 
-  // Trước đây findMany không có take/skip — tải TOÀN BỘ bảng vũ khí mỗi
-  // lần render trang này, dù layer API (/api/weapons) đã có phân trang
-  // chuẩn từ lâu. Số lượng vũ khí tăng dần theo từng bản game mới, nên đây
-  // là nợ kỹ thuật thật, không chỉ lý thuyết.
   const [weapons, total] = await Promise.all([
     prisma.weapon.findMany({
       where,
@@ -42,7 +40,6 @@ export default async function WeaponsPage({ searchParams }: PageProps) {
     prisma.weapon.count({ where }),
   ]);
   const totalPages = totalPagesFor(total);
-
   const types = ["Sword", "Claymore", "Polearm", "Bow", "Catalyst"];
 
   const buildQuery = (params: Record<string, string | undefined>) => {
@@ -50,8 +47,6 @@ export default async function WeaponsPage({ searchParams }: PageProps) {
     if (type) sp.set("type", type);
     if (rarity) sp.set("rarity", rarity);
     if (q) sp.set("q", q);
-    // Đổi filter (type/rarity/q) luôn quay về trang 1 — giữ "page" cũ ở
-    // đây sẽ dễ văng ra trang trống (vd đang ở trang 5, lọc còn 2 trang).
     Object.entries(params).forEach(([k, v]) => {
       if (v) sp.set(k, v);
       else sp.delete(k);
@@ -59,133 +54,107 @@ export default async function WeaponsPage({ searchParams }: PageProps) {
     return sp.toString();
   };
   const buildPageHref = (p: number) => `/weapons?${buildQuery({ page: p > 1 ? String(p) : undefined })}`;
+  const hasActiveFilters = Boolean(type || rarity || q);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="font-display text-4xl font-bold tracking-wide text-primary uppercase mb-2">
-          Kho Tàng Vũ Khí
-        </h1>
-        <p className="text-sm text-secondary">
-          Tìm thấy <span className="text-gold-bright font-semibold">{total}</span> thần binh tàng bảo
+      <div className="mb-7">
+        <h1 className="font-display text-display-2 font-semibold text-text-primary mb-2">Vũ khí</h1>
+        <p className="text-sm text-text-secondary">
+          Tìm thấy <span className="text-accent-bright font-semibold tabular-nums">{total}</span> vũ khí
         </p>
       </div>
 
-      <div className="mb-6">
-        <form method="GET" className="flex gap-2">
-          {type && <input type="hidden" name="type" value={type} />}
-          {rarity && <input type="hidden" name="rarity" value={rarity} />}
-          <input
-            type="text"
-            name="q"
-            defaultValue={q || ""}
-            placeholder="Tìm tên vũ khí..."
-            className="flex-1 rounded-lg border border-border bg-input px-3 py-2 text-sm text-primary placeholder:text-muted focus:outline-none focus:border-gold/50 transition-colors"
-          />
-          <button
-            type="submit"
-            className="rounded-lg bg-gold/10 border border-gold/40 px-4 py-2 text-sm font-medium text-gold-bright hover:bg-gold/20 transition-colors"
-          >
-            Tìm kiếm
-          </button>
-          {q && (
-            <Link
-              href={`/weapons?${buildQuery({ q: undefined })}`}
-              className="rounded-lg border border-red-900/60 bg-red-950/40 px-4 py-2 text-sm text-red-400 hover:bg-red-900/40 transition-colors"
-            >
-              Xóa
-            </Link>
-          )}
-        </form>
-      </div>
+      <form method="GET" className="flex gap-2 mb-5">
+        {type && <input type="hidden" name="type" value={type} />}
+        {rarity && <input type="hidden" name="rarity" value={rarity} />}
+        <input
+          type="text"
+          name="q"
+          defaultValue={q || ""}
+          placeholder="Tìm tên vũ khí..."
+          className="flex-1 rounded-lg border border-border px-3 py-2 text-sm placeholder:text-text-muted focus:outline-none focus:border-border-strong transition-colors"
+        />
+        <button type="submit" className="btn-accent rounded-lg px-4 py-2 text-sm">
+          Tìm kiếm
+        </button>
+      </form>
 
-      <div className="bg-card/40 backdrop-blur-md border border-border p-4 rounded-xl mb-8 flex flex-wrap gap-4 text-xs items-center">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-secondary font-medium mr-2">Phân loại dòng:</span>
-          {types.map((t) => {
-            const active = type === t;
-            return (
-              <Link
-                key={t}
-                href={`/weapons?${buildQuery({ type: active ? undefined : t })}`}
-                className={`px-3 py-1.5 rounded-full border transition-all flex items-center gap-1.5 font-medium ${
-                  active
-                    ? "border-gold bg-gold/20 text-gold-bright"
-                    : "border-border bg-card/60 hover:border-gold/50 text-primary"
-                }`}
-              >
-                <WeaponIcon type={t} size={16} />
-                {t}
-              </Link>
-            );
-          })}
+      <div className="surface-glass border border-border rounded-xl mb-8 px-4">
+        <div className="flex items-start gap-3 py-2.5 border-b border-border">
+          <span className="text-xs text-text-muted font-medium w-24 shrink-0 pt-1.5">Loại</span>
+          <div className="flex flex-wrap items-center gap-1.5">
+            {types.map((t) => {
+              const active = type === t;
+              return (
+                <Link
+                  key={t}
+                  href={`/weapons?${buildQuery({ type: active ? undefined : t })}`}
+                  aria-pressed={active}
+                  className="chip px-2.5 py-1 rounded-full flex items-center gap-1.5 text-xs"
+                >
+                  <WeaponIcon type={t} size={14} />
+                  {t}
+                </Link>
+              );
+            })}
+          </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-secondary font-medium mr-2 ml-2">Phẩm sao:</span>
-          {[3, 4, 5].map((r) => {
-            const active = rarity === String(r);
-            return (
+        <div className="flex items-start gap-3 py-2.5">
+          <span className="text-xs text-text-muted font-medium w-24 shrink-0 pt-1.5">Phẩm cấp</span>
+          <div className="flex flex-wrap items-center gap-1.5">
+            {[5, 4, 3].map((r) => {
+              const active = rarity === String(r);
+              return (
+                <Link
+                  key={r}
+                  href={`/weapons?${buildQuery({ rarity: active ? undefined : String(r) })}`}
+                  aria-pressed={active}
+                  className="chip px-2.5 py-1 rounded-full text-xs font-semibold"
+                  style={active ? { color: rarityColorVar(r), borderColor: rarityColorVar(r) } : undefined}
+                >
+                  {rarityStars(r)}
+                </Link>
+              );
+            })}
+            {hasActiveFilters && (
               <Link
-                key={r}
-                href={`/weapons?${buildQuery({ rarity: active ? undefined : String(r) })}`}
-                className={`px-3 py-1.5 rounded-full border transition-all font-bold text-rarity-star ${
-                  active
-                    ? "border-gold bg-gold/20"
-                    : "border-border bg-card/60 hover:border-gold/50"
-                }`}
+                href="/weapons"
+                className="ml-2 text-xs text-text-muted hover:text-text-primary transition-colors underline underline-offset-2"
               >
-                {rarityStars(r)}
+                Xóa tất cả bộ lọc
               </Link>
-            );
-          })}
+            )}
+          </div>
         </div>
-
-        {(type || rarity || q) && (
-          <Link
-            href="/weapons"
-            className="ml-auto px-4 py-1.5 rounded-full bg-red-950/40 border border-red-900/60 text-red-400 hover:bg-red-900/40 transition-colors font-semibold"
-          >
-            Xóa Lọc &times;
-          </Link>
-        )}
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-        {weapons.map((w, index) => (
-          <Link
-            key={w.id}
-            href={`/weapons/${w.id}`}
-            className={`relic-frame ${rarityGlowClass(w.rarity)} overflow-hidden group`}
-          >
-            <div className="relative aspect-square w-full bg-secondary/40 p-4 flex items-center justify-center overflow-hidden">
-              {w.iconUrl ? (
-                <SafeImage
-                  src={w.iconUrl}
-                  alt={w.name}
-                  fill
-                  priority={index < 6}
-                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 213px"
-                  className="object-contain p-2 group-hover:scale-110 transition-transform duration-300"
-                />
-              ) : (
-                <div className="text-muted text-xs">No Image</div>
-              )}
-            </div>
-            <div className="p-3 border-t border-border bg-card/80">
-              <div className="font-bold truncate text-primary group-hover:text-gold-bright transition-colors text-sm">
-                {w.name}
-              </div>
-              <div className="flex justify-between items-center mt-1">
-                <span className="text-[10px] text-secondary tracking-wider uppercase font-medium">{w.type}</span>
-                <span className={`text-[10px] tracking-tighter ${rarityTextClass(w.rarity)}`}>
-                  {rarityStars(w.rarity)}
-                </span>
-              </div>
-            </div>
+      {weapons.length === 0 ? (
+        <div className="text-center py-20 text-text-muted text-sm">
+          Không tìm thấy vũ khí phù hợp với bộ lọc.{" "}
+          <Link href="/weapons" className="underline underline-offset-2 hover:text-text-primary">
+            Xóa bộ lọc
           </Link>
-        ))}
-      </div>
+        </div>
+      ) : (
+        <div className={DENSE_GRID}>
+          {weapons.map((w, index) => (
+            <EntityCard
+              key={w.id}
+              href={`/weapons/${w.id}`}
+              name={w.name}
+              subtitle={w.type}
+              rarity={w.rarity}
+              imageSrc={w.iconUrl}
+              imageFit="contain"
+              compact
+              priority={index < 10}
+              elementColor={rarityColorVar(w.rarity)}
+            />
+          ))}
+        </div>
+      )}
 
       <Pagination page={page} totalPages={totalPages} buildHref={buildPageHref} />
     </div>

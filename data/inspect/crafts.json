@@ -1,0 +1,5201 @@
+[
+  {
+    "id": 11081,
+    "name": "Aberrant Core of the Deep Shadow",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140290,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112137,
+        "name": "Fractured Eye of the Deep Shadow",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.3"
+  },
+  {
+    "id": 12058,
+    "name": "Afterglow of Long Night Flint",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130190,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 114077,
+        "name": "Ember of Long Night Flint",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 11019,
+    "name": "Agent's Sacrificial Knife",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140050,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112029,
+        "name": "Hunter's Sacrificial Knife",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 15002,
+    "name": "Agnidus Agate Chunk",
+    "filterText": "Character Ascension Material",
+    "sortOrder": 109999,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 900,
+    "recipe": [
+      {
+        "id": 104112,
+        "name": "Agnidus Agate Fragment",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 15001,
+    "name": "Agnidus Agate Fragment",
+    "filterText": "Character Ascension Material",
+    "sortOrder": 110000,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 300,
+    "recipe": [
+      {
+        "id": 104111,
+        "name": "Agnidus Agate Sliver",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 15003,
+    "name": "Agnidus Agate Gemstone",
+    "filterText": "Character Ascension Material",
+    "sortOrder": 109998,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 2700,
+    "recipe": [
+      {
+        "id": 104113,
+        "name": "Agnidus Agate Chunk",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11058,
+    "name": "Alien Life Core",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140169,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112090,
+        "name": "Foreign Synapse",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 22001,
+    "name": "Anemoculus Resonance Stone",
+    "filterText": "Consumable",
+    "sortOrder": 100020,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 500,
+    "recipe": [
+      {
+        "id": 100057,
+        "name": "Dandelion Seed",
+        "count": 5
+      },
+      {
+        "id": 100023,
+        "name": "Cecilia",
+        "count": 5
+      },
+      {
+        "id": 101003,
+        "name": "Crystal Chunk",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12056,
+    "name": "Artful Device Inheritance",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130179,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 350,
+    "recipe": [
+      {
+        "id": 114074,
+        "name": "Artful Device Replica",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 12055,
+    "name": "Artful Device Replica",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130180,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 114073,
+        "name": "Artful Device Fragment",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 12057,
+    "name": "Artful Device Wish",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130178,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 1075,
+    "recipe": [
+      {
+        "id": 114075,
+        "name": "Artful Device Inheritance",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 11204,
+    "name": "Artificed Dynamic Gear",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150119,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112084,
+        "name": "Mechanical Spur Gear",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 12063,
+    "name": "Aureate Radiance of the Far-North Scions",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130198,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 1075,
+    "recipe": [
+      {
+        "id": 114083,
+        "name": "Oblation of the Far-North Scions",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 22042,
+    "name": "Berry Bait",
+    "filterText": "Bait",
+    "sortOrder": 160090,
+    "unlockRank": 28,
+    "resultCount": 10,
+    "moraCost": 0,
+    "recipe": [
+      {
+        "id": 101265,
+        "name": "Midsommar Berry",
+        "count": 1
+      },
+      {
+        "id": 110001,
+        "name": "Flour",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 11071,
+    "name": "Bewildering Broadleaf",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140240,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112116,
+        "name": "Refractive Bud",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.2"
+  },
+  {
+    "id": 12017,
+    "name": "Bit of Aerosiderite",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130049,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 350,
+    "recipe": [
+      {
+        "id": 114022,
+        "name": "Piece of Aerosiderite",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11009,
+    "name": "Black Bronze Horn",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140000,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112014,
+        "name": "Heavy Horn",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11010,
+    "name": "Black Crystal Horn",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 139999,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112015,
+        "name": "Black Bronze Horn",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12060,
+    "name": "Blaze of Long Night Flint",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130188,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 1075,
+    "recipe": [
+      {
+        "id": 114079,
+        "name": "Flare of Long Night Flint",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 11074,
+    "name": "Blazing Prismshell",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140249,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112120,
+        "name": "Warm Back-Shell",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.5"
+  },
+  {
+    "id": 12046,
+    "name": "Blazing Sacrificial Heart's Hesitance",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130150,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 114061,
+        "name": "Blazing Sacrificial Heart's Terror",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 12047,
+    "name": "Blazing Sacrificial Heart's Resolve",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130149,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 350,
+    "recipe": [
+      {
+        "id": 114062,
+        "name": "Blazing Sacrificial Heart's Hesitance",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 12048,
+    "name": "Blazing Sacrificial Heart's Splendor",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130148,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 1075,
+    "recipe": [
+      {
+        "id": 114063,
+        "name": "Blazing Sacrificial Heart's Resolve",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 30007,
+    "name": "Blue Dye",
+    "filterText": "Furnishing Creation Material",
+    "sortOrder": 170060,
+    "unlockRank": 28,
+    "resultCount": 1,
+    "moraCost": 0,
+    "recipe": [
+      {
+        "id": 100016,
+        "name": "Mint",
+        "count": 1
+      }
+    ],
+    "altrecipes": [
+      [
+        {
+          "id": 100021,
+          "name": "Wolfhook",
+          "count": 1
+        }
+      ],
+      [
+        {
+          "id": 101209,
+          "name": "Fluorescent Fungus",
+          "count": 1
+        }
+      ],
+      [
+        {
+          "id": 101234,
+          "name": "Tidalga",
+          "count": 1
+        }
+      ],
+      [
+        {
+          "id": 101249,
+          "name": "Quenepa Berry",
+          "count": 1
+        }
+      ]
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12005,
+    "name": "Boreal Wolf's Broken Fang",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130009,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 350,
+    "recipe": [
+      {
+        "id": 114006,
+        "name": "Boreal Wolf's Cracked Tooth",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12004,
+    "name": "Boreal Wolf's Cracked Tooth",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130010,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 114005,
+        "name": "Boreal Wolf's Milk Tooth",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12006,
+    "name": "Boreal Wolf's Nostalgia",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130008,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 1075,
+    "recipe": [
+      {
+        "id": 114007,
+        "name": "Boreal Wolf's Broken Fang",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12007,
+    "name": "Chains of the Dandelion Gladiator",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130020,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 114009,
+        "name": "Fetters of the Dandelion Gladiator",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11031,
+    "name": "Chaos Axis",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140070,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112047,
+        "name": "Chaos Gear",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11048,
+    "name": "Chaos Bolt",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140119,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112069,
+        "name": "Chaos Module",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11015,
+    "name": "Chaos Circuit",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140030,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112023,
+        "name": "Chaos Device",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11016,
+    "name": "Chaos Core",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140029,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112024,
+        "name": "Chaos Circuit",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11047,
+    "name": "Chaos Module",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140120,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112068,
+        "name": "Chaos Storage",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11032,
+    "name": "Chaos Oculus",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140069,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112048,
+        "name": "Chaos Axis",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12037,
+    "name": "Chapter of an Ancient Chord",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130120,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 114049,
+        "name": "Fragment of an Ancient Chord",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 11062,
+    "name": "Chasmlight Fin",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140189,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112096,
+        "name": "Lunar Fin",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.4"
+  },
+  {
+    "id": 12018,
+    "name": "Chunk of Aerosiderite",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130048,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 1075,
+    "recipe": [
+      {
+        "id": 114023,
+        "name": "Bit of Aerosiderite",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11038,
+    "name": "Concealed Talon",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140089,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112057,
+        "name": "Concealed Unguis",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11037,
+    "name": "Concealed Unguis",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140090,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112056,
+        "name": "Concealed Claw",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 22007,
+    "name": "Condensed Resin",
+    "filterText": "Consumable",
+    "sortOrder": 100000,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 100,
+    "recipe": [
+      {
+        "id": 100085,
+        "name": "Crystal Core",
+        "count": 1
+      },
+      {
+        "id": 106,
+        "name": "Original Resin",
+        "count": 60
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11042,
+    "name": "Crystalline Cyst Dust",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150089,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112060,
+        "name": "Luminescent Pollen",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11033,
+    "name": "Crystal Prism",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140080,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 25,
+    "recipe": [
+      {
+        "id": 112050,
+        "name": "Dismal Prism",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11039,
+    "name": "Dark Statuette",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140100,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112017,
+        "name": "Gloomy Statuette",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11013,
+    "name": "Dead Ley Line Leaves",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140020,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112020,
+        "name": "Dead Ley Line Branch",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11040,
+    "name": "Deathly Statuette",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140099,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112018,
+        "name": "Dark Statuette",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12001,
+    "name": "Debris of Decarabian's City",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130000,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 114001,
+        "name": "Tile of Decarabian's Tower",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12050,
+    "name": "Delirious Demeanor of the Sacred Lord",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130159,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 350,
+    "recipe": [
+      {
+        "id": 114066,
+        "name": "Delirious Desolation of the Sacred Lord",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 12049,
+    "name": "Delirious Desolation of the Sacred Lord",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130160,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 114065,
+        "name": "Delirious Decadence of the Sacred Lord",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 12051,
+    "name": "Delirious Divinity of the Sacred Lord",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130158,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 1075,
+    "recipe": [
+      {
+        "id": 114067,
+        "name": "Delirious Demeanor of the Sacred Lord",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 14007,
+    "name": "Dendrocide Potion",
+    "filterText": "Potion",
+    "sortOrder": 200060,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 100,
+    "recipe": [
+      {
+        "id": 100085,
+        "name": "Crystal Core",
+        "count": 1
+      },
+      {
+        "id": 101219,
+        "name": "Sumeru Rose",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 22057,
+    "name": "Dendroculus Resonance Stone",
+    "filterText": "Consumable",
+    "sortOrder": 100039,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 500,
+    "recipe": [
+      {
+        "id": 101215,
+        "name": "Nilotpala Lotus",
+        "count": 5
+      },
+      {
+        "id": 101213,
+        "name": "Rukkhashava Mushrooms",
+        "count": 5
+      },
+      {
+        "id": 101003,
+        "name": "Crystal Chunk",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11085,
+    "name": "Depleted Lunar Iron",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140310,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112143,
+        "name": "Fractured Lunar Iron",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.7"
+  },
+  {
+    "id": 14002,
+    "name": "Desiccant Potion",
+    "filterText": "Potion",
+    "sortOrder": 200010,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 100,
+    "recipe": [
+      {
+        "id": 100072,
+        "name": "Butterfly Wings",
+        "count": 1
+      },
+      {
+        "id": 100026,
+        "name": "Lotus Head",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12012,
+    "name": "Divine Body from Guyun",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130028,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 1075,
+    "recipe": [
+      {
+        "id": 114015,
+        "name": "Relic from Guyun",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11043,
+    "name": "Dormant Fungal Nucleus",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140110,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112062,
+        "name": "Inactivated Fungal Nucleus",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12035,
+    "name": "Dream of Scorching Might",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130109,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 350,
+    "recipe": [
+      {
+        "id": 114046,
+        "name": "Remnant Glow of Scorching Might",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12009,
+    "name": "Dream of the Dandelion Gladiator",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130018,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 1075,
+    "recipe": [
+      {
+        "id": 114011,
+        "name": "Shackles of the Dandelion Gladiator",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 14006,
+    "name": "Dustproof Potion",
+    "filterText": "Potion",
+    "sortOrder": 200050,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 100,
+    "recipe": [
+      {
+        "id": 100072,
+        "name": "Butterfly Wings",
+        "count": 1
+      },
+      {
+        "id": 100058,
+        "name": "Cor Lapis",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12039,
+    "name": "Echo of an Ancient Chord",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130118,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 1075,
+    "recipe": [
+      {
+        "id": 114051,
+        "name": "Movement of an Ancient Chord",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 22032,
+    "name": "Electroculus Resonance Stone",
+    "filterText": "Consumable",
+    "sortOrder": 100040,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 500,
+    "recipe": [
+      {
+        "id": 101205,
+        "name": "Naku Weed",
+        "count": 5
+      },
+      {
+        "id": 101202,
+        "name": "Sakura Bloom",
+        "count": 5
+      },
+      {
+        "id": 101008,
+        "name": "Amethyst Lump",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 22041,
+    "name": "Emberglow Bait",
+    "filterText": "Bait",
+    "sortOrder": 160080,
+    "unlockRank": 28,
+    "resultCount": 10,
+    "moraCost": 0,
+    "recipe": [
+      {
+        "id": 101251,
+        "name": "Embercore Flower",
+        "count": 1
+      },
+      {
+        "id": 100017,
+        "name": "Wheat",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": "5.2"
+  },
+  {
+    "id": 11026,
+    "name": "Energy Nectar",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150059,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112039,
+        "name": "Shimmering Nectar",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12042,
+    "name": "Essence of Pure Sacred Dewdrop",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130128,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 1075,
+    "recipe": [
+      {
+        "id": 114055,
+        "name": "Spring of Pure Sacred Dewdrop",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 30001,
+    "name": "Fabric",
+    "filterText": "Furnishing Creation Material",
+    "sortOrder": 170000,
+    "unlockRank": 28,
+    "resultCount": 10,
+    "moraCost": 0,
+    "recipe": [
+      {
+        "id": 100029,
+        "name": "Silk Flower",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 22036,
+    "name": "Fake Fly Bait",
+    "filterText": "Bait",
+    "sortOrder": 160030,
+    "unlockRank": 28,
+    "resultCount": 10,
+    "moraCost": 0,
+    "recipe": [
+      {
+        "id": 101202,
+        "name": "Sakura Bloom",
+        "count": 1
+      },
+      {
+        "id": 100032,
+        "name": "Horsetail",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 22035,
+    "name": "False Worm Bait",
+    "filterText": "Bait",
+    "sortOrder": 160020,
+    "unlockRank": 28,
+    "resultCount": 10,
+    "moraCost": 0,
+    "recipe": [
+      {
+        "id": 112002,
+        "name": "Slime Condensate",
+        "count": 1
+      },
+      {
+        "id": 100051,
+        "name": "Berry",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11030,
+    "name": "Famed Handguard",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150069,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112045,
+        "name": "Kageuchi Handguard",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 16005,
+    "name": "Fate's Yearning Essential Oil",
+    "sortOrder": 91020,
+    "unlockRank": 1,
+    "resultCount": 1,
+    "moraCost": 0,
+    "recipe": [
+      {
+        "id": 100489,
+        "name": "Fate's Yearning",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 14008,
+    "name": "Flaming Essential Oil",
+    "filterText": "Potion",
+    "sortOrder": 210000,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 100,
+    "recipe": [
+      {
+        "id": 100081,
+        "name": "Frog",
+        "count": 1
+      },
+      {
+        "id": 100053,
+        "name": "Flaming Flower Stamen",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12059,
+    "name": "Flare of Long Night Flint",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130189,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 350,
+    "recipe": [
+      {
+        "id": 114078,
+        "name": "Afterglow of Long Night Flint",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 22039,
+    "name": "Flashing Maintenance Mek Bait",
+    "filterText": "Bait",
+    "sortOrder": 160060,
+    "unlockRank": 28,
+    "resultCount": 10,
+    "moraCost": 0,
+    "recipe": [
+      {
+        "id": 101231,
+        "name": "Marcotte",
+        "count": 1
+      },
+      {
+        "id": 101001,
+        "name": "Iron Chunk",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 220030,
+    "name": "Floaty Splody",
+    "sortOrder": 89998,
+    "unlockRank": 21,
+    "resultCount": 20,
+    "moraCost": 0,
+    "recipe": [
+      {
+        "id": 100053,
+        "name": "Flaming Flower Stamen",
+        "count": 1
+      },
+      {
+        "id": 100082,
+        "name": "Luminescent Spine",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11006,
+    "name": "Forbidden Curse Scroll",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150019,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112009,
+        "name": "Sealed Scroll",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11057,
+    "name": "Foreign Synapse",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140170,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112089,
+        "name": "Rift Core",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 14014,
+    "name": "Forest Essential Oil",
+    "filterText": "Potion",
+    "sortOrder": 210060,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 100,
+    "recipe": [
+      {
+        "id": 100083,
+        "name": "Lizard Tail",
+        "count": 1
+      },
+      {
+        "id": 101219,
+        "name": "Sumeru Rose",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11028,
+    "name": "Fossilized Bone Shard",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140059,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112042,
+        "name": "Sturdy Bone Shard",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11083,
+    "name": "Fractured Flaming Hilt",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140300,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112140,
+        "name": "Faded Flaming Hilt",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.5"
+  },
+  {
+    "id": 12002,
+    "name": "Fragment of Decarabian's Epic",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 129999,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 350,
+    "recipe": [
+      {
+        "id": 114002,
+        "name": "Debris of Decarabian's City",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11212,
+    "name": "Frost-Etched Warrant",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150159,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112126,
+        "name": "Immaculate Warrant",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 14010,
+    "name": "Frosting Essential Oil",
+    "filterText": "Potion",
+    "sortOrder": 210020,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 100,
+    "recipe": [
+      {
+        "id": 100083,
+        "name": "Lizard Tail",
+        "count": 1
+      },
+      {
+        "id": 100052,
+        "name": "Mist Flower Corolla",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11076,
+    "name": "Frostnight's Glory",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140259,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112129,
+        "name": "Frostnight's Glow",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 11075,
+    "name": "Frostnight's Glow",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140260,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112128,
+        "name": "Frostnight's Glimmer",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 14003,
+    "name": "Frostshield Potion",
+    "filterText": "Potion",
+    "sortOrder": 200020,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 100,
+    "recipe": [
+      {
+        "id": 100085,
+        "name": "Crystal Core",
+        "count": 1
+      },
+      {
+        "id": 100052,
+        "name": "Mist Flower Corolla",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 22033,
+    "name": "Fruit Paste Bait",
+    "filterText": "Bait",
+    "sortOrder": 160000,
+    "unlockRank": 28,
+    "resultCount": 10,
+    "moraCost": 0,
+    "recipe": [
+      {
+        "id": 100002,
+        "name": "Sunsettia",
+        "count": 1
+      },
+      {
+        "id": 100017,
+        "name": "Wheat",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 22002,
+    "name": "Geoculus Resonance Stone",
+    "filterText": "Consumable",
+    "sortOrder": 100030,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 500,
+    "recipe": [
+      {
+        "id": 100058,
+        "name": "Cor Lapis",
+        "count": 5
+      },
+      {
+        "id": 100030,
+        "name": "Glaze Lily",
+        "count": 5
+      },
+      {
+        "id": 101003,
+        "name": "Crystal Chunk",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11077,
+    "name": "Glowing Remains",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140270,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112131,
+        "name": "Lightless Bone",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 12021,
+    "name": "Golden Branch of a Distant Sea",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130058,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 1075,
+    "recipe": [
+      {
+        "id": 114027,
+        "name": "Jade Branch of a Distant Sea",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12045,
+    "name": "Golden Goblet of the Pristine Sea",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130138,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 1075,
+    "recipe": [
+      {
+        "id": 114059,
+        "name": "Silver Goblet of the Pristine Sea",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 16003,
+    "name": "Golden House Maiden Essential Oil",
+    "sortOrder": 91000,
+    "unlockRank": 1,
+    "resultCount": 1,
+    "moraCost": 0,
+    "recipe": [
+      {
+        "id": 100487,
+        "name": "Golden House Maiden",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11024,
+    "name": "Golden Raven Insignia",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150049,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112036,
+        "name": "Silver Raven Insignia",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12030,
+    "name": "Golden Talisman of the Forest Dew",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130088,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 1075,
+    "recipe": [
+      {
+        "id": 114039,
+        "name": "Silver Talisman of the Forest Dew",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13019,
+    "name": "Guide to Admonition",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120090,
+    "unlockRank": 30,
+    "resultCount": 1,
+    "moraCost": 175,
+    "recipe": [
+      {
+        "id": 104329,
+        "name": "Teachings of Admonition",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13005,
+    "name": "Guide to Ballad",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120020,
+    "unlockRank": 30,
+    "resultCount": 1,
+    "moraCost": 175,
+    "recipe": [
+      {
+        "id": 104307,
+        "name": "Teachings of Ballad",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13035,
+    "name": "Guide to Conflict",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120170,
+    "unlockRank": 30,
+    "resultCount": 1,
+    "moraCost": 175,
+    "recipe": [
+      {
+        "id": 104353,
+        "name": "Teachings of Conflict",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 13031,
+    "name": "Guide to Contention",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120150,
+    "unlockRank": 30,
+    "resultCount": 1,
+    "moraCost": 175,
+    "recipe": [
+      {
+        "id": 104347,
+        "name": "Teachings of Contention",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 13009,
+    "name": "Guide to Diligence",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120040,
+    "unlockRank": 30,
+    "resultCount": 1,
+    "moraCost": 175,
+    "recipe": [
+      {
+        "id": 104313,
+        "name": "Teachings of Diligence",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13015,
+    "name": "Guide to Elegance",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120070,
+    "unlockRank": 30,
+    "resultCount": 1,
+    "moraCost": 175,
+    "recipe": [
+      {
+        "id": 104323,
+        "name": "Teachings of Elegance",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13039,
+    "name": "Guide to Elysium",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120190,
+    "unlockRank": 30,
+    "resultCount": 1,
+    "moraCost": 175,
+    "recipe": [
+      {
+        "id": 104359,
+        "name": "Teachings of Elysium",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 13025,
+    "name": "Guide to Equity",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120120,
+    "unlockRank": 30,
+    "resultCount": 1,
+    "moraCost": 175,
+    "recipe": [
+      {
+        "id": 104338,
+        "name": "Teachings of Equity",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 13001,
+    "name": "Guide to Freedom",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120000,
+    "unlockRank": 30,
+    "resultCount": 1,
+    "moraCost": 175,
+    "recipe": [
+      {
+        "id": 104301,
+        "name": "Teachings of Freedom",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13011,
+    "name": "Guide to Gold",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120050,
+    "unlockRank": 30,
+    "resultCount": 1,
+    "moraCost": 175,
+    "recipe": [
+      {
+        "id": 104316,
+        "name": "Teachings of Gold",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13021,
+    "name": "Guide to Ingenuity",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120100,
+    "unlockRank": 30,
+    "resultCount": 1,
+    "moraCost": 175,
+    "recipe": [
+      {
+        "id": 104332,
+        "name": "Teachings of Ingenuity",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13027,
+    "name": "Guide to Justice",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120130,
+    "unlockRank": 30,
+    "resultCount": 1,
+    "moraCost": 175,
+    "recipe": [
+      {
+        "id": 104341,
+        "name": "Teachings of Justice",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 13033,
+    "name": "Guide to Kindling",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120160,
+    "unlockRank": 30,
+    "resultCount": 1,
+    "moraCost": 175,
+    "recipe": [
+      {
+        "id": 104350,
+        "name": "Teachings of Kindling",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 13017,
+    "name": "Guide to Light",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120080,
+    "unlockRank": 30,
+    "resultCount": 1,
+    "moraCost": 175,
+    "recipe": [
+      {
+        "id": 104326,
+        "name": "Teachings of Light",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13037,
+    "name": "Guide to Moonlight",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120180,
+    "unlockRank": 30,
+    "resultCount": 1,
+    "moraCost": 175,
+    "recipe": [
+      {
+        "id": 104356,
+        "name": "Teachings of Moonlight",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 13029,
+    "name": "Guide to Order",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120140,
+    "unlockRank": 30,
+    "resultCount": 1,
+    "moraCost": 175,
+    "recipe": [
+      {
+        "id": 104344,
+        "name": "Teachings of Order",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 13023,
+    "name": "Guide to Praxis",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120110,
+    "unlockRank": 30,
+    "resultCount": 1,
+    "moraCost": 175,
+    "recipe": [
+      {
+        "id": 104335,
+        "name": "Teachings of Praxis",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13007,
+    "name": "Guide to Prosperity",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120030,
+    "unlockRank": 30,
+    "resultCount": 1,
+    "moraCost": 175,
+    "recipe": [
+      {
+        "id": 104310,
+        "name": "Teachings of Prosperity",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13003,
+    "name": "Guide to Resistance",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120010,
+    "unlockRank": 30,
+    "resultCount": 1,
+    "moraCost": 175,
+    "recipe": [
+      {
+        "id": 104304,
+        "name": "Teachings of Resistance",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13013,
+    "name": "Guide to Transience",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120060,
+    "unlockRank": 30,
+    "resultCount": 1,
+    "moraCost": 175,
+    "recipe": [
+      {
+        "id": 104320,
+        "name": "Teachings of Transience",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13041,
+    "name": "Guide to Vagrancy",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120200,
+    "unlockRank": 30,
+    "resultCount": 1,
+    "moraCost": 175,
+    "recipe": [
+      {
+        "id": 104362,
+        "name": "Teachings of Vagrancy",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 14011,
+    "name": "Gushing Essential Oil",
+    "filterText": "Potion",
+    "sortOrder": 210030,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 100,
+    "recipe": [
+      {
+        "id": 100083,
+        "name": "Lizard Tail",
+        "count": 1
+      },
+      {
+        "id": 100057,
+        "name": "Dandelion Seed",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11070,
+    "name": "Heart of the Secret Source",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140229,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112114,
+        "name": "Sheath of the Secret Source",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 14001,
+    "name": "Heatshield Potion",
+    "filterText": "Potion",
+    "sortOrder": 200000,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 100,
+    "recipe": [
+      {
+        "id": 100072,
+        "name": "Butterfly Wings",
+        "count": 1
+      },
+      {
+        "id": 100053,
+        "name": "Flaming Flower Stamen",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11082,
+    "name": "Hooked Beak of the Deep Shadow",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140289,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112138,
+        "name": "Aberrant Core of the Deep Shadow",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.3"
+  },
+  {
+    "id": 220031,
+    "name": "Hot Pod",
+    "sortOrder": 89997,
+    "unlockRank": 21,
+    "resultCount": 20,
+    "moraCost": 0,
+    "recipe": [
+      {
+        "id": 100053,
+        "name": "Flaming Flower Stamen",
+        "count": 1
+      },
+      {
+        "id": 100083,
+        "name": "Lizard Tail",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 22086,
+    "name": "Hydroculus Resonance Stone",
+    "filterText": "Consumable",
+    "sortOrder": 100050,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 500,
+    "recipe": [
+      {
+        "id": 101233,
+        "name": "Romaritime Flower",
+        "count": 5
+      },
+      {
+        "id": 101236,
+        "name": "Rainbow Rose",
+        "count": 5
+      },
+      {
+        "id": 101003,
+        "name": "Crystal Chunk",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 11067,
+    "name": "Ignited Seed of Life",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140220,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112110,
+        "name": "Ignited Stone",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 11068,
+    "name": "Ignited Seeing Eye",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140219,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112111,
+        "name": "Ignited Seed of Life",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 11072,
+    "name": "Illusory Leafcoil",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140239,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112117,
+        "name": "Bewildering Broadleaf",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.2"
+  },
+  {
+    "id": 11211,
+    "name": "Immaculate Warrant",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150160,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 25,
+    "recipe": [
+      {
+        "id": 112125,
+        "name": "Tattered Warrant",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 11020,
+    "name": "Inspector's Sacrificial Knife",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140049,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112030,
+        "name": "Agent's Sacrificial Knife",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 14005,
+    "name": "Insulation Potion",
+    "filterText": "Potion",
+    "sortOrder": 200040,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 100,
+    "recipe": [
+      {
+        "id": 100072,
+        "name": "Butterfly Wings",
+        "count": 1
+      },
+      {
+        "id": 100054,
+        "name": "Electro Crystal",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12028,
+    "name": "Iron Talisman of the Forest Dew",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130090,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 114037,
+        "name": "Copper Talisman of the Forest Dew",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12020,
+    "name": "Jade Branch of a Distant Sea",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130059,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 350,
+    "recipe": [
+      {
+        "id": 114026,
+        "name": "Jeweled Branch of a Distant Sea",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12019,
+    "name": "Jeweled Branch of a Distant Sea",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130060,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 114025,
+        "name": "Coral Branch of a Distant Sea",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11084,
+    "name": "Jeweled Flaming Hilt",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140299,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112141,
+        "name": "Fractured Flaming Hilt",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.5"
+  },
+  {
+    "id": 11029,
+    "name": "Kageuchi Handguard",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150070,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 25,
+    "recipe": [
+      {
+        "id": 112044,
+        "name": "Old Handguard",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11014,
+    "name": "Ley Line Sprout",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140019,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112021,
+        "name": "Dead Ley Line Leaves",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11022,
+    "name": "Lieutenant's Insignia",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150039,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112033,
+        "name": "Sergeant's Insignia",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11065,
+    "name": "Locus of a Clear Will",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140210,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112107,
+        "name": "Shard of a Shattered Will",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 11041,
+    "name": "Luminescent Pollen",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150090,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 25,
+    "recipe": [
+      {
+        "id": 112059,
+        "name": "Fungal Spores",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11061,
+    "name": "Lunar Fin",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140190,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112095,
+        "name": "Feathery Fin",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.4"
+  },
+  {
+    "id": 12010,
+    "name": "Lustrous Stone from Guyun",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130030,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 114013,
+        "name": "Luminous Sands from Guyun",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11052,
+    "name": "Marked Shell",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140139,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112075,
+        "name": "Sturdy Shell",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "3.4"
+  },
+  {
+    "id": 12027,
+    "name": "Mask of the Kijin",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130078,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 1075,
+    "recipe": [
+      {
+        "id": 114035,
+        "name": "Mask of the One-Horned",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12026,
+    "name": "Mask of the One-Horned",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130079,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 350,
+    "recipe": [
+      {
+        "id": 114034,
+        "name": "Mask of the Tiger's Bite",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12025,
+    "name": "Mask of the Tiger's Bite",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130080,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 114033,
+        "name": "Mask of the Wicked Lieutenant",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11203,
+    "name": "Mechanical Spur Gear",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150120,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 25,
+    "recipe": [
+      {
+        "id": 112083,
+        "name": "Meshing Gear",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 16006,
+    "name": "Mint Essential Oil",
+    "sortOrder": 91030,
+    "unlockRank": 1,
+    "resultCount": 1,
+    "moraCost": 0,
+    "recipe": [
+      {
+        "id": 100016,
+        "name": "Mint",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11017,
+    "name": "Mist Grass",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140040,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112026,
+        "name": "Mist Grass Pollen",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11018,
+    "name": "Mist Grass Wick",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140039,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112027,
+        "name": "Mist Grass",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11080,
+    "name": "Mistshroud Helmet",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140279,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112135,
+        "name": "Mistshroud Plate",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 11079,
+    "name": "Mistshroud Plate",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140280,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112134,
+        "name": "Mistshroud Manifestation",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 12014,
+    "name": "Mist Veiled Gold Elixir",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130039,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 350,
+    "recipe": [
+      {
+        "id": 114018,
+        "name": "Mist Veiled Mercury Elixir",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12013,
+    "name": "Mist Veiled Mercury Elixir",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130040,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 114017,
+        "name": "Mist Veiled Lead Elixir",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12015,
+    "name": "Mist Veiled Primo Elixir",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130038,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 1075,
+    "recipe": [
+      {
+        "id": 114019,
+        "name": "Mist Veiled Gold Elixir",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12038,
+    "name": "Movement of an Ancient Chord",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130119,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 350,
+    "recipe": [
+      {
+        "id": 114050,
+        "name": "Chapter of an Ancient Chord",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 15008,
+    "name": "Nagadus Emerald Chunk",
+    "filterText": "Character Ascension Material",
+    "sortOrder": 110019,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 900,
+    "recipe": [
+      {
+        "id": 104132,
+        "name": "Nagadus Emerald Fragment",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 15007,
+    "name": "Nagadus Emerald Fragment",
+    "filterText": "Character Ascension Material",
+    "sortOrder": 110020,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 300,
+    "recipe": [
+      {
+        "id": 104131,
+        "name": "Nagadus Emerald Sliver",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 15009,
+    "name": "Nagadus Emerald Gemstone",
+    "filterText": "Character Ascension Material",
+    "sortOrder": 110018,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 2700,
+    "recipe": [
+      {
+        "id": 104133,
+        "name": "Nagadus Emerald Chunk",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 16008,
+    "name": "Nameless Taboo Medicine of the Royal Court",
+    "sortOrder": 91050,
+    "unlockRank": 1,
+    "resultCount": 1,
+    "moraCost": 0,
+    "recipe": [
+      {
+        "id": 120245,
+        "name": "Strange Mushroom",
+        "count": 2
+      },
+      {
+        "id": 101217,
+        "name": "Kalpalata Lotus",
+        "count": 1
+      },
+      {
+        "id": 101219,
+        "name": "Sumeru Rose",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": "3.5"
+  },
+  {
+    "id": 12023,
+    "name": "Narukami's Affection",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130069,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 350,
+    "recipe": [
+      {
+        "id": 114030,
+        "name": "Narukami's Joy",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12022,
+    "name": "Narukami's Joy",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130070,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 114029,
+        "name": "Narukami's Wisdom",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12024,
+    "name": "Narukami's Valor",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130068,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 1075,
+    "recipe": [
+      {
+        "id": 114031,
+        "name": "Narukami's Affection",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11056,
+    "name": "Newborn Tainted Hydro Phantasm",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140159,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112087,
+        "name": "Scoop of Tainted Water",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 12053,
+    "name": "Night-Wind's Mystic Augury",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130169,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 350,
+    "recipe": [
+      {
+        "id": 114070,
+        "name": "Night-Wind's Mystic Premonition",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 12052,
+    "name": "Night-Wind's Mystic Premonition",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130170,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 114069,
+        "name": "Night-Wind's Mystic Consideration",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 12054,
+    "name": "Night-Wind's Mystic Revelation",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130168,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 1075,
+    "recipe": [
+      {
+        "id": 114071,
+        "name": "Night-Wind's Mystic Augury",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 12031,
+    "name": "Oasis Garden's Kindness",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130100,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 114041,
+        "name": "Oasis Garden's Reminiscence",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12032,
+    "name": "Oasis Garden's Mourning",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130099,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 350,
+    "recipe": [
+      {
+        "id": 114042,
+        "name": "Oasis Garden's Kindness",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12033,
+    "name": "Oasis Garden's Truth",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130098,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 1075,
+    "recipe": [
+      {
+        "id": 114043,
+        "name": "Oasis Garden's Mourning",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12062,
+    "name": "Oblation of the Far-North Scions",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130199,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 350,
+    "recipe": [
+      {
+        "id": 114082,
+        "name": "Unyielding Delusion of the Far-North Scions",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 12036,
+    "name": "Olden Days of Scorching Might",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130108,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 1075,
+    "recipe": [
+      {
+        "id": 114047,
+        "name": "Dream of Scorching Might",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11004,
+    "name": "Ominous Mask",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150009,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112006,
+        "name": "Stained Mask",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11060,
+    "name": "Operative's Constancy",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140179,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112093,
+        "name": "Operative's Standard Pocket Watch",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.1"
+  },
+  {
+    "id": 11059,
+    "name": "Operative's Standard Pocket Watch",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140180,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112092,
+        "name": "Old Operative's Pocket Watch",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.1"
+  },
+  {
+    "id": 13020,
+    "name": "Philosophies of Admonition",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120089,
+    "unlockRank": 40,
+    "resultCount": 1,
+    "moraCost": 550,
+    "recipe": [
+      {
+        "id": 104330,
+        "name": "Guide to Admonition",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13006,
+    "name": "Philosophies of Ballad",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120019,
+    "unlockRank": 40,
+    "resultCount": 1,
+    "moraCost": 550,
+    "recipe": [
+      {
+        "id": 104308,
+        "name": "Guide to Ballad",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13036,
+    "name": "Philosophies of Conflict",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120169,
+    "unlockRank": 40,
+    "resultCount": 1,
+    "moraCost": 550,
+    "recipe": [
+      {
+        "id": 104354,
+        "name": "Guide to Conflict",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 13032,
+    "name": "Philosophies of Contention",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120149,
+    "unlockRank": 40,
+    "resultCount": 1,
+    "moraCost": 550,
+    "recipe": [
+      {
+        "id": 104348,
+        "name": "Guide to Contention",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 13010,
+    "name": "Philosophies of Diligence",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120039,
+    "unlockRank": 40,
+    "resultCount": 1,
+    "moraCost": 550,
+    "recipe": [
+      {
+        "id": 104314,
+        "name": "Guide to Diligence",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13016,
+    "name": "Philosophies of Elegance",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120069,
+    "unlockRank": 40,
+    "resultCount": 1,
+    "moraCost": 550,
+    "recipe": [
+      {
+        "id": 104324,
+        "name": "Guide to Elegance",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13040,
+    "name": "Philosophies of Elysium",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120189,
+    "unlockRank": 40,
+    "resultCount": 1,
+    "moraCost": 550,
+    "recipe": [
+      {
+        "id": 104360,
+        "name": "Guide to Elysium",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 13026,
+    "name": "Philosophies of Equity",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120119,
+    "unlockRank": 40,
+    "resultCount": 1,
+    "moraCost": 550,
+    "recipe": [
+      {
+        "id": 104339,
+        "name": "Guide to Equity",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 13002,
+    "name": "Philosophies of Freedom",
+    "filterText": "Character Talent Material",
+    "sortOrder": 119999,
+    "unlockRank": 40,
+    "resultCount": 1,
+    "moraCost": 550,
+    "recipe": [
+      {
+        "id": 104302,
+        "name": "Guide to Freedom",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13012,
+    "name": "Philosophies of Gold",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120049,
+    "unlockRank": 40,
+    "resultCount": 1,
+    "moraCost": 550,
+    "recipe": [
+      {
+        "id": 104317,
+        "name": "Guide to Gold",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13022,
+    "name": "Philosophies of Ingenuity",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120099,
+    "unlockRank": 40,
+    "resultCount": 1,
+    "moraCost": 550,
+    "recipe": [
+      {
+        "id": 104333,
+        "name": "Guide to Ingenuity",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13028,
+    "name": "Philosophies of Justice",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120129,
+    "unlockRank": 40,
+    "resultCount": 1,
+    "moraCost": 550,
+    "recipe": [
+      {
+        "id": 104342,
+        "name": "Guide to Justice",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 13034,
+    "name": "Philosophies of Kindling",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120159,
+    "unlockRank": 40,
+    "resultCount": 1,
+    "moraCost": 550,
+    "recipe": [
+      {
+        "id": 104351,
+        "name": "Guide to Kindling",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 13018,
+    "name": "Philosophies of Light",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120079,
+    "unlockRank": 40,
+    "resultCount": 1,
+    "moraCost": 550,
+    "recipe": [
+      {
+        "id": 104327,
+        "name": "Guide to Light",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13038,
+    "name": "Philosophies of Moonlight",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120179,
+    "unlockRank": 40,
+    "resultCount": 1,
+    "moraCost": 550,
+    "recipe": [
+      {
+        "id": 104357,
+        "name": "Guide to Moonlight",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 13030,
+    "name": "Philosophies of Order",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120139,
+    "unlockRank": 40,
+    "resultCount": 1,
+    "moraCost": 550,
+    "recipe": [
+      {
+        "id": 104345,
+        "name": "Guide to Order",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 13024,
+    "name": "Philosophies of Praxis",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120109,
+    "unlockRank": 40,
+    "resultCount": 1,
+    "moraCost": 550,
+    "recipe": [
+      {
+        "id": 104336,
+        "name": "Guide to Praxis",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13008,
+    "name": "Philosophies of Prosperity",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120029,
+    "unlockRank": 40,
+    "resultCount": 1,
+    "moraCost": 550,
+    "recipe": [
+      {
+        "id": 104311,
+        "name": "Guide to Prosperity",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13004,
+    "name": "Philosophies of Resistance",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120009,
+    "unlockRank": 40,
+    "resultCount": 1,
+    "moraCost": 550,
+    "recipe": [
+      {
+        "id": 104305,
+        "name": "Guide to Resistance",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13014,
+    "name": "Philosophies of Transience",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120059,
+    "unlockRank": 40,
+    "resultCount": 1,
+    "moraCost": 550,
+    "recipe": [
+      {
+        "id": 104321,
+        "name": "Guide to Transience",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 13042,
+    "name": "Philosophies of Vagrancy",
+    "filterText": "Character Talent Material",
+    "sortOrder": 120199,
+    "unlockRank": 40,
+    "resultCount": 1,
+    "moraCost": 550,
+    "recipe": [
+      {
+        "id": 104363,
+        "name": "Guide to Vagrancy",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 12016,
+    "name": "Piece of Aerosiderite",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130050,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 114021,
+        "name": "Grain of Aerosiderite",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11034,
+    "name": "Polarizing Prism",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140079,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112051,
+        "name": "Crystal Prism",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 22005,
+    "name": "Portable Waypoint",
+    "filterText": "Consumable",
+    "sortOrder": 100010,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 500,
+    "recipe": [
+      {
+        "id": 112021,
+        "name": "Dead Ley Line Leaves",
+        "count": 1
+      },
+      {
+        "id": 100082,
+        "name": "Luminescent Spine",
+        "count": 2
+      },
+      {
+        "id": 101003,
+        "name": "Crystal Chunk",
+        "count": 5
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11210,
+    "name": "Precision Drive Shaft",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150149,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112123,
+        "name": "Reinforced Drive Shaft",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 15020,
+    "name": "Prithiva Topaz Chunk",
+    "filterText": "Character Ascension Material",
+    "sortOrder": 110059,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 900,
+    "recipe": [
+      {
+        "id": 104172,
+        "name": "Prithiva Topaz Fragment",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 15019,
+    "name": "Prithiva Topaz Fragment",
+    "filterText": "Character Ascension Material",
+    "sortOrder": 110060,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 300,
+    "recipe": [
+      {
+        "id": 104171,
+        "name": "Prithiva Topaz Sliver",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 15021,
+    "name": "Prithiva Topaz Gemstone",
+    "filterText": "Character Ascension Material",
+    "sortOrder": 110058,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 2700,
+    "recipe": [
+      {
+        "id": 104173,
+        "name": "Prithiva Topaz Chunk",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 14101,
+    "name": "\"Pure Water\"",
+    "filterText": "Food",
+    "sortOrder": 220000,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 100,
+    "recipe": [
+      {
+        "id": 100017,
+        "name": "Wheat",
+        "count": 3
+      },
+      {
+        "id": 100020,
+        "name": "Pinecone",
+        "count": 2
+      },
+      {
+        "id": 101234,
+        "name": "Tidalga",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": "4.1"
+  },
+  {
+    "id": 22103,
+    "name": "Pyroculus Resonance Stone",
+    "filterText": "Consumable",
+    "sortOrder": 100060,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 500,
+    "recipe": [
+      {
+        "id": 101249,
+        "name": "Quenepa Berry",
+        "count": 5
+      },
+      {
+        "id": 101247,
+        "name": "Sprayfeather Gill",
+        "count": 5
+      },
+      {
+        "id": 101003,
+        "name": "Crystal Chunk",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 11078,
+    "name": "Radiant Exoskeleton",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140269,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112132,
+        "name": "Glowing Remains",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 11050,
+    "name": "Radiant Prism",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140129,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112072,
+        "name": "Turbid Prism",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "3.1"
+  },
+  {
+    "id": 30002,
+    "name": "Red Dye",
+    "filterText": "Furnishing Creation Material",
+    "sortOrder": 170010,
+    "unlockRank": 28,
+    "resultCount": 1,
+    "moraCost": 0,
+    "recipe": [
+      {
+        "id": 100002,
+        "name": "Sunsettia",
+        "count": 1
+      }
+    ],
+    "altrecipes": [
+      [
+        {
+          "id": 100013,
+          "name": "Carrot",
+          "count": 1
+        }
+      ],
+      [
+        {
+          "id": 100022,
+          "name": "Valberry",
+          "count": 1
+        }
+      ],
+      [
+        {
+          "id": 101218,
+          "name": "Zaytun Peach",
+          "count": 1
+        }
+      ],
+      [
+        {
+          "id": 101251,
+          "name": "Embercore Flower",
+          "count": 1
+        }
+      ]
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 22034,
+    "name": "Redrot Bait",
+    "filterText": "Bait",
+    "sortOrder": 160010,
+    "unlockRank": 28,
+    "resultCount": 10,
+    "moraCost": 0,
+    "recipe": [
+      {
+        "id": 101204,
+        "name": "Dendrobium",
+        "count": 1
+      },
+      {
+        "id": 100064,
+        "name": "Fowl",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 22043,
+    "name": "Refreshing Lakka Bait",
+    "filterText": "Bait",
+    "sortOrder": 160100,
+    "unlockRank": 28,
+    "resultCount": 10,
+    "moraCost": 0,
+    "recipe": [
+      {
+        "id": 101264,
+        "name": "Lakkaberry",
+        "count": 1
+      },
+      {
+        "id": 100016,
+        "name": "Mint",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 11209,
+    "name": "Reinforced Drive Shaft",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150150,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 25,
+    "recipe": [
+      {
+        "id": 112122,
+        "name": "Broken Drive Shaft",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 12011,
+    "name": "Relic from Guyun",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130029,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 350,
+    "recipe": [
+      {
+        "id": 114014,
+        "name": "Lustrous Stone from Guyun",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12034,
+    "name": "Remnant Glow of Scorching Might",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130110,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 114045,
+        "name": "Echo of Scorching Might",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11046,
+    "name": "Rich Red Brocade",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150099,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112066,
+        "name": "Trimmed Red Silk",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11044,
+    "name": "Robust Fungal Nucleus",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140109,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112063,
+        "name": "Dormant Fungal Nucleus",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11208,
+    "name": "Saurian-Crowned Warrior's Golden Whistle",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150139,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112105,
+        "name": "Warrior's Metal Whistle",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 12003,
+    "name": "Scattered Piece of Decarabian's Dream",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 129998,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 1075,
+    "recipe": [
+      {
+        "id": 114003,
+        "name": "Fragment of Decarabian's Epic",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11055,
+    "name": "Scoop of Tainted Water",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140160,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112086,
+        "name": "Drop of Tainted Water",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 11005,
+    "name": "Sealed Scroll",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150020,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 25,
+    "recipe": [
+      {
+        "id": 112008,
+        "name": "Divining Scroll",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11205,
+    "name": "Seasoned Fang",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150130,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 25,
+    "recipe": [
+      {
+        "id": 112101,
+        "name": "Juvenile Fang",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 11021,
+    "name": "Sergeant's Insignia",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150040,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 25,
+    "recipe": [
+      {
+        "id": 112032,
+        "name": "Recruit's Insignia",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12008,
+    "name": "Shackles of the Dandelion Gladiator",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130019,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 350,
+    "recipe": [
+      {
+        "id": 114010,
+        "name": "Chains of the Dandelion Gladiator",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11007,
+    "name": "Sharp Arrowhead",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150030,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 25,
+    "recipe": [
+      {
+        "id": 112011,
+        "name": "Firm Arrowhead",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11069,
+    "name": "Sheath of the Secret Source",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140230,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112113,
+        "name": "Axis of the Secret Source",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 11025,
+    "name": "Shimmering Nectar",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150060,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 25,
+    "recipe": [
+      {
+        "id": 112038,
+        "name": "Whopperflower Nectar",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 15017,
+    "name": "Shivada Jade Chunk",
+    "filterText": "Character Ascension Material",
+    "sortOrder": 110049,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 900,
+    "recipe": [
+      {
+        "id": 104162,
+        "name": "Shivada Jade Fragment",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 15016,
+    "name": "Shivada Jade Fragment",
+    "filterText": "Character Ascension Material",
+    "sortOrder": 110050,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 300,
+    "recipe": [
+      {
+        "id": 104161,
+        "name": "Shivada Jade Sliver",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 15018,
+    "name": "Shivada Jade Gemstone",
+    "filterText": "Character Ascension Material",
+    "sortOrder": 110048,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 2700,
+    "recipe": [
+      {
+        "id": 104163,
+        "name": "Shivada Jade Chunk",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 14012,
+    "name": "Shocking Essential Oil",
+    "filterText": "Potion",
+    "sortOrder": 210040,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 100,
+    "recipe": [
+      {
+        "id": 100081,
+        "name": "Frog",
+        "count": 1
+      },
+      {
+        "id": 100054,
+        "name": "Electro Crystal",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11066,
+    "name": "Sigil of a Striding Will",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140209,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112108,
+        "name": "Locus of a Clear Will",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 12044,
+    "name": "Silver Goblet of the Pristine Sea",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130139,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 350,
+    "recipe": [
+      {
+        "id": 114058,
+        "name": "Wine Goblet of the Pristine Sea",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 11023,
+    "name": "Silver Raven Insignia",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150050,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 25,
+    "recipe": [
+      {
+        "id": 112035,
+        "name": "Treasure Hoarder Insignia",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12029,
+    "name": "Silver Talisman of the Forest Dew",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130089,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 350,
+    "recipe": [
+      {
+        "id": 114038,
+        "name": "Iron Talisman of the Forest Dew",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11002,
+    "name": "Slime Concentrate",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 149999,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112003,
+        "name": "Slime Secretions",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11001,
+    "name": "Slime Secretions",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150000,
+    "unlockRank": 1,
+    "resultCount": 1,
+    "moraCost": 25,
+    "recipe": [
+      {
+        "id": 112002,
+        "name": "Slime Condensate",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 22038,
+    "name": "Sour Bait",
+    "filterText": "Bait",
+    "sortOrder": 160050,
+    "unlockRank": 28,
+    "resultCount": 10,
+    "moraCost": 0,
+    "recipe": [
+      {
+        "id": 101230,
+        "name": "Bulle Fruit",
+        "count": 1
+      },
+      {
+        "id": 100017,
+        "name": "Wheat",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 16007,
+    "name": "Special Unmoving Essential Oil",
+    "sortOrder": 91040,
+    "unlockRank": 1,
+    "resultCount": 1,
+    "moraCost": 0,
+    "recipe": [
+      {
+        "id": 100058,
+        "name": "Cor Lapis",
+        "count": 2
+      },
+      {
+        "id": 100081,
+        "name": "Frog",
+        "count": 2
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11035,
+    "name": "Spectral Heart",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150080,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 25,
+    "recipe": [
+      {
+        "id": 112053,
+        "name": "Spectral Husk",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11036,
+    "name": "Spectral Nucleus",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150079,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112054,
+        "name": "Spectral Heart",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 22040,
+    "name": "Spinelgrain Bait",
+    "filterText": "Bait",
+    "sortOrder": 160070,
+    "unlockRank": 28,
+    "resultCount": 10,
+    "moraCost": 0,
+    "recipe": [
+      {
+        "id": 101245,
+        "name": "Spinel Fruit",
+        "count": 1
+      },
+      {
+        "id": 101243,
+        "name": "Grainfruit",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": "5.2"
+  },
+  {
+    "id": 11063,
+    "name": "Splintered Hilt",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140200,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112098,
+        "name": "Ruined Hilt",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.6"
+  },
+  {
+    "id": 12041,
+    "name": "Spring of Pure Sacred Dewdrop",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130129,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 350,
+    "recipe": [
+      {
+        "id": 114054,
+        "name": "Sublimation of Pure Sacred Dewdrop",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 11003,
+    "name": "Stained Mask",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150010,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 25,
+    "recipe": [
+      {
+        "id": 112005,
+        "name": "Damaged Mask",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11064,
+    "name": "Still-Smoldering Hilt",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140199,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112099,
+        "name": "Splintered Hilt",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.6"
+  },
+  {
+    "id": 220029,
+    "name": "Straight Shooter",
+    "sortOrder": 89999,
+    "unlockRank": 21,
+    "resultCount": 20,
+    "moraCost": 0,
+    "recipe": [
+      {
+        "id": 100053,
+        "name": "Flaming Flower Stamen",
+        "count": 1
+      },
+      {
+        "id": 100081,
+        "name": "Frog",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 14009,
+    "name": "Streaming Essential Oil",
+    "filterText": "Potion",
+    "sortOrder": 210010,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 100,
+    "recipe": [
+      {
+        "id": 100081,
+        "name": "Frog",
+        "count": 1
+      },
+      {
+        "id": 100026,
+        "name": "Lotus Head",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 14102,
+    "name": "Strength Tonic",
+    "filterText": "Food",
+    "sortOrder": 220010,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 100,
+    "recipe": [
+      {
+        "id": 101244,
+        "name": "Candlecap Mushroom",
+        "count": 2
+      },
+      {
+        "id": 101250,
+        "name": "Saurian Claw Succulent",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 11027,
+    "name": "Sturdy Bone Shard",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140060,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 25,
+    "recipe": [
+      {
+        "id": 112041,
+        "name": "Fragile Bone Shard",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11051,
+    "name": "Sturdy Shell",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140140,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112074,
+        "name": "Desiccated Shell",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "3.4"
+  },
+  {
+    "id": 12040,
+    "name": "Sublimation of Pure Sacred Dewdrop",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130130,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 114053,
+        "name": "Dross of Pure Sacred Dewdrop",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 22037,
+    "name": "Sugardew Bait",
+    "filterText": "Bait",
+    "sortOrder": 160040,
+    "unlockRank": 28,
+    "resultCount": 10,
+    "moraCost": 0,
+    "recipe": [
+      {
+        "id": 101216,
+        "name": "Harra Fruit",
+        "count": 1
+      },
+      {
+        "id": 101219,
+        "name": "Sumeru Rose",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11201,
+    "name": "Transoceanic Chunk",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150110,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 25,
+    "recipe": [
+      {
+        "id": 112080,
+        "name": "Transoceanic Pearl",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 11053,
+    "name": "Treasured Flower",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140150,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112077,
+        "name": "A Flower Yet to Bloom",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "3.6"
+  },
+  {
+    "id": 11045,
+    "name": "Trimmed Red Silk",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150100,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 25,
+    "recipe": [
+      {
+        "id": 112065,
+        "name": "Faded Red Satin",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11049,
+    "name": "Turbid Prism",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140130,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112071,
+        "name": "Damaged Prism",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "3.1"
+  },
+  {
+    "id": 11206,
+    "name": "Tyrant's Fang",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150129,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112102,
+        "name": "Seasoned Fang",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 11086,
+    "name": "Unblemished Lunar Iron",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140309,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112144,
+        "name": "Depleted Lunar Iron",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.7"
+  },
+  {
+    "id": 14013,
+    "name": "Unmoving Essential Oil",
+    "filterText": "Potion",
+    "sortOrder": 210050,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 100,
+    "recipe": [
+      {
+        "id": 100081,
+        "name": "Frog",
+        "count": 1
+      },
+      {
+        "id": 100058,
+        "name": "Cor Lapis",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12061,
+    "name": "Unyielding Delusion of the Far-North Scions",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130200,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 114081,
+        "name": "Sundered Glory of the Far-North Scions",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "6.0"
+  },
+  {
+    "id": 15011,
+    "name": "Vajrada Amethyst Chunk",
+    "filterText": "Character Ascension Material",
+    "sortOrder": 110029,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 900,
+    "recipe": [
+      {
+        "id": 104142,
+        "name": "Vajrada Amethyst Fragment",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 15010,
+    "name": "Vajrada Amethyst Fragment",
+    "filterText": "Character Ascension Material",
+    "sortOrder": 110030,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 300,
+    "recipe": [
+      {
+        "id": 104141,
+        "name": "Vajrada Amethyst Sliver",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 15012,
+    "name": "Vajrada Amethyst Gemstone",
+    "filterText": "Character Ascension Material",
+    "sortOrder": 110028,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 2700,
+    "recipe": [
+      {
+        "id": 104143,
+        "name": "Vajrada Amethyst Chunk",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 16004,
+    "name": "Valley Weaver Essential Oil",
+    "sortOrder": 91010,
+    "unlockRank": 1,
+    "resultCount": 1,
+    "moraCost": 0,
+    "recipe": [
+      {
+        "id": 100488,
+        "name": "Valley Weaver",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 15005,
+    "name": "Varunada Lazurite Chunk",
+    "filterText": "Character Ascension Material",
+    "sortOrder": 110009,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 900,
+    "recipe": [
+      {
+        "id": 104122,
+        "name": "Varunada Lazurite Fragment",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 15004,
+    "name": "Varunada Lazurite Fragment",
+    "filterText": "Character Ascension Material",
+    "sortOrder": 110010,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 300,
+    "recipe": [
+      {
+        "id": 104121,
+        "name": "Varunada Lazurite Sliver",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 15006,
+    "name": "Varunada Lazurite Gemstone",
+    "filterText": "Character Ascension Material",
+    "sortOrder": 110008,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 2700,
+    "recipe": [
+      {
+        "id": 104123,
+        "name": "Varunada Lazurite Chunk",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 15014,
+    "name": "Vayuda Turquoise Chunk",
+    "filterText": "Character Ascension Material",
+    "sortOrder": 110039,
+    "unlockRank": 35,
+    "resultCount": 1,
+    "moraCost": 900,
+    "recipe": [
+      {
+        "id": 104152,
+        "name": "Vayuda Turquoise Fragment",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 15013,
+    "name": "Vayuda Turquoise Fragment",
+    "filterText": "Character Ascension Material",
+    "sortOrder": 110040,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 300,
+    "recipe": [
+      {
+        "id": 104151,
+        "name": "Vayuda Turquoise Sliver",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 15015,
+    "name": "Vayuda Turquoise Gemstone",
+    "filterText": "Character Ascension Material",
+    "sortOrder": 110038,
+    "unlockRank": 45,
+    "resultCount": 1,
+    "moraCost": 2700,
+    "recipe": [
+      {
+        "id": 104153,
+        "name": "Vayuda Turquoise Chunk",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 11054,
+    "name": "Wanderer's Blooming Flower",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140149,
+    "unlockRank": 20,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 112078,
+        "name": "Treasured Flower",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "3.6"
+  },
+  {
+    "id": 11073,
+    "name": "Warm Back-Shell",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 140250,
+    "unlockRank": 15,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112119,
+        "name": "Cold-Cracked Shellshard",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.5"
+  },
+  {
+    "id": 11207,
+    "name": "Warrior's Metal Whistle",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150140,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 25,
+    "recipe": [
+      {
+        "id": 112104,
+        "name": "Sentry's Wooden Whistle",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "5.0"
+  },
+  {
+    "id": 11008,
+    "name": "Weathered Arrowhead",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150029,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112012,
+        "name": "Sharp Arrowhead",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 14004,
+    "name": "Windbarrier Potion",
+    "filterText": "Potion",
+    "sortOrder": 200030,
+    "unlockRank": 5,
+    "resultCount": 1,
+    "moraCost": 100,
+    "recipe": [
+      {
+        "id": 100085,
+        "name": "Crystal Core",
+        "count": 1
+      },
+      {
+        "id": 100057,
+        "name": "Dandelion Seed",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 12043,
+    "name": "Wine Goblet of the Pristine Sea",
+    "filterText": "Weapon Ascension Material",
+    "sortOrder": 130140,
+    "unlockRank": 25,
+    "resultCount": 1,
+    "moraCost": 125,
+    "recipe": [
+      {
+        "id": 114057,
+        "name": "Broken Goblet of the Pristine Sea",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 11202,
+    "name": "Xenochromatic Crystal",
+    "filterText": "Character and Weapon Enhancement Material",
+    "sortOrder": 150109,
+    "unlockRank": 10,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 112081,
+        "name": "Transoceanic Chunk",
+        "count": 3
+      }
+    ],
+    "images": {},
+    "version": "4.0"
+  },
+  {
+    "id": 200004,
+    "name": "Xiao Lantern",
+    "sortOrder": 90000,
+    "unlockRank": 23,
+    "resultCount": 1,
+    "moraCost": 50,
+    "recipe": [
+      {
+        "id": 200001,
+        "name": "Lantern Fiber",
+        "count": 1
+      },
+      {
+        "id": 200002,
+        "name": "Wick Material",
+        "count": 1
+      },
+      {
+        "id": 200003,
+        "name": "Plaustrite Shard",
+        "count": 1
+      }
+    ],
+    "images": {},
+    "version": ""
+  },
+  {
+    "id": 30005,
+    "name": "Yellow Dye",
+    "filterText": "Furnishing Creation Material",
+    "sortOrder": 170040,
+    "unlockRank": 28,
+    "resultCount": 1,
+    "moraCost": 0,
+    "recipe": [
+      {
+        "id": 100051,
+        "name": "Berry",
+        "count": 1
+      }
+    ],
+    "altrecipes": [
+      [
+        {
+          "id": 100058,
+          "name": "Cor Lapis",
+          "count": 1
+        }
+      ],
+      [
+        {
+          "id": 101231,
+          "name": "Marcotte",
+          "count": 1
+        }
+      ]
+    ],
+    "images": {},
+    "version": ""
+  }
+]

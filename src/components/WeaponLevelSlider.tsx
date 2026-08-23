@@ -1,37 +1,36 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import {
-  formatNumber,
-  formatSpecialized,
-} from "@/lib/character-stats-format";
+import { useTranslations } from "next-intl";
+import { formatNumber } from "@/lib/character-stats-format";
 
+/**
+ * Component này từng bị hỏng — file thực chất chứa nhầm toàn bộ code của
+ * trang weapons/[id]/page.tsx (lỗi swap nội dung có sẵn từ trước, phát
+ * hiện khi trang chi tiết vũ khí lỗi 500 "export WeaponLevelSlider was
+ * not found"). Viết lại từ đầu theo đúng khuôn mẫu CharacterLevelSlider.tsx
+ * (component chị em, cùng UI pattern thanh trượt cấp độ) vì bản gốc không
+ * còn tồn tại ở đâu trong source.
+ */
 export type WeaponStatByLevelRow = {
   level: number;
   ascension: number | null;
-  attack: number | null;
-  specialized: number | null;
+  baseAtk: number | null;
+  subStatValue: number | string | null;
 };
 
 interface Props {
   statsByLevel: WeaponStatByLevelRow[];
   subStatName: string | null;
+  elementColor?: string;
 }
 
-// Các mốc cấp bắt buộc phải đột phá mới lên được — giống CharacterLevelSlider.
 const ASCENSION_BREAKPOINT_LEVELS = [20, 40, 50, 60, 70, 80];
 
-/**
- * WeaponLevelSlider — bản song sinh của CharacterLevelSlider.tsx cho vũ
- * khí: kéo thanh trượt để xem ATK + chỉ số phụ ở bất kỳ cấp nào, tính
- * TỪ DỮ LIỆU THẬT ĐÃ SEED (Weapon.statsByLevel, nguồn:
- * genshindb.weapons(name).stats(level, ascension)) — không nội suy.
- *
- * Trước đây trang chi tiết vũ khí chỉ hiển thị 1 con số tĩnh `baseAtk`
- * (thực chất là ATK ở CẤP 1, vd "47.537" không làm tròn) và ghi nhầm là
- * "chỉ số cơ bản" cố định — không phản ánh ATK thật khi lên cấp/đột phá.
- */
-export function WeaponLevelSlider({ statsByLevel, subStatName }: Props) {
+export function WeaponLevelSlider({ statsByLevel, subStatName, elementColor }: Props) {
+  const t = useTranslations("LevelSlider");
+  const el = elementColor ?? "var(--accent-500)";
+
   const byLevel = useMemo(() => {
     const map = new Map<number, WeaponStatByLevelRow[]>();
     for (const row of statsByLevel) {
@@ -39,17 +38,11 @@ export function WeaponLevelSlider({ statsByLevel, subStatName }: Props) {
       arr.push(row);
       map.set(row.level, arr);
     }
-    for (const arr of map.values()) {
-      arr.sort((a, b) => (a.ascension ?? 0) - (b.ascension ?? 0));
-    }
+    for (const arr of map.values()) arr.sort((a, b) => (a.ascension ?? 0) - (b.ascension ?? 0));
     return map;
   }, [statsByLevel]);
 
-  const availableLevels = useMemo(
-    () => Array.from(byLevel.keys()).sort((a, b) => a - b),
-    [byLevel]
-  );
-
+  const availableLevels = useMemo(() => Array.from(byLevel.keys()).sort((a, b) => a - b), [byLevel]);
   const minLevel = availableLevels[0] ?? 1;
   const maxLevel = availableLevels[availableLevels.length - 1] ?? 90;
 
@@ -72,28 +65,20 @@ export function WeaponLevelSlider({ statsByLevel, subStatName }: Props) {
 
   const rowsAtLevel = byLevel.get(level) ?? [];
   const hasBothStates = rowsAtLevel.length === 2;
-  const row = hasBothStates
-    ? showAscended
-      ? rowsAtLevel[1]
-      : rowsAtLevel[0]
-    : rowsAtLevel[0];
+  const row = hasBothStates ? (showAscended ? rowsAtLevel[1] : rowsAtLevel[0]) : rowsAtLevel[0];
 
   if (!row || availableLevels.length === 0) return null;
 
   return (
-    <div className="relic-frame bg-card border border-border rounded-xl p-5">
+    <div className="surface-card p-5">
       <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-        <span className="font-display text-sm font-bold text-gold uppercase tracking-wide">
-          Cấp {level}
-          {hasBothStates && (showAscended ? " · Đã đột phá" : " · Chưa đột phá")}
+        <span className="text-eyebrow" style={{ color: el }}>
+          {t("level", { level })}
+          {hasBothStates && (showAscended ? ` · ${t("ascended")}` : ` · ${t("notAscended")}`)}
         </span>
         {hasBothStates && (
-          <button
-            type="button"
-            onClick={() => setShowAscended((v) => !v)}
-            className="text-xs text-gold-bright underline underline-offset-2"
-          >
-            Xem trạng thái {showAscended ? "trước" : "sau"} đột phá
+          <button type="button" onClick={() => setShowAscended((v) => !v)} className="text-xs underline underline-offset-2" style={{ color: el }}>
+            {showAscended ? t("viewBeforeAscension") : t("viewAfterAscension")}
           </button>
         )}
       </div>
@@ -104,8 +89,9 @@ export function WeaponLevelSlider({ statsByLevel, subStatName }: Props) {
         max={maxLevel}
         value={level}
         onChange={(e) => setLevel(snapToNearestAvailableLevel(Number(e.target.value)))}
-        className="w-full mb-4 accent-[#F4D03F]"
-        aria-label="Chọn cấp độ vũ khí"
+        className="w-full mb-4"
+        style={{ accentColor: el }}
+        aria-label={t("ariaSelectWeaponLevel")}
       />
 
       <div className="flex flex-wrap gap-2 mb-5">
@@ -117,11 +103,12 @@ export function WeaponLevelSlider({ statsByLevel, subStatName }: Props) {
               key={bp}
               type="button"
               onClick={() => setLevel(bp)}
-              className={`px-2 py-1 rounded text-xs border transition-colors ${
+              className="px-2 py-1 rounded text-xs border transition-colors tabular-nums"
+              style={
                 level === bp
-                  ? "border-gold-bright text-gold-bright"
-                  : "border-border text-muted hover:text-primary"
-              }`}
+                  ? { borderColor: el, color: el }
+                  : { borderColor: "var(--border-color)", color: "var(--text-muted)" }
+              }
             >
               {bp}
             </button>
@@ -129,22 +116,24 @@ export function WeaponLevelSlider({ statsByLevel, subStatName }: Props) {
       </div>
 
       <div className="grid grid-cols-2 gap-4 text-sm">
-        <StatBlock label="ATK nền" value={formatNumber(row.attack)} />
+        <StatBlock label={t("baseAtk")} value={formatNumber(row.baseAtk)} />
         <StatBlock
-          label={subStatName ?? "Chỉ số phụ"}
-          value={row.specialized !== null ? formatSpecialized(row.specialized, subStatName) : "—"}
-          gold
+          label={subStatName ?? t("subStat")}
+          value={row.subStatValue !== null && row.subStatValue !== undefined ? String(row.subStatValue) : "—"}
+          color={el}
         />
       </div>
     </div>
   );
 }
 
-function StatBlock({ label, value, gold }: { label: string; value: string; gold?: boolean }) {
+function StatBlock({ label, value, color }: { label: string; value: string; color?: string }) {
   return (
     <div>
-      <div className="text-xs text-muted uppercase tracking-wider mb-1">{label}</div>
-      <div className={`text-lg font-semibold ${gold ? "text-gold-bright" : "text-primary"}`}>{value}</div>
+      <div className="text-xs text-text-muted uppercase tracking-wide mb-1">{label}</div>
+      <div className="text-lg font-semibold tabular-nums" style={{ color: color ?? "var(--text-primary)" }}>
+        {value}
+      </div>
     </div>
   );
 }

@@ -92,4 +92,11 @@ export type CharacterData = {
   constellations: ConstellationEntry[] | null;
   talents: TalentEntry[] | null;
   missingTalentBookType: boolean;
+  genshinDbId?: string | null;
+  gender?: string | null;
+  bodyType?: string | null;
+  associationType?: string | null;
+  qualityType?: string | null;
+  birthdaymmdd?: string | null;
+  raw?: unknown; // Sử dụng chính xác kiểu `unknown` theo đúng hướng dẫn
 };

@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Five Stars",
+    "emoji": "<:Icon_5_Stars:770554303168512002>",
+    "image": "https://static.wikia.nocookie.net/gensin-impact/images/2/2b/Icon_5_Stars.png",
+    "version": ""
+  },
+  {
+    "name": "Four Stars",
+    "emoji": "<:Icon_4_Stars:770059094941499422>",
+    "image": "https://static.wikia.nocookie.net/gensin-impact/images/7/77/Icon_4_Stars.png",
+    "version": ""
+  },
+  {
+    "name": "One Stars",
+    "emoji": "<:Icon_1_Star:770552409994035200>",
+    "image": "https://static.wikia.nocookie.net/gensin-impact/images/b/b7/Icon_1_Star.png",
+    "version": ""
+  },
+  {
+    "name": "Three Stars",
+    "emoji": "<:Icon_3_Stars:770553506502541343>",
+    "image": "https://static.wikia.nocookie.net/gensin-impact/images/1/11/Icon_3_Stars.png",
+    "version": ""
+  },
+  {
+    "name": "Two Stars",
+    "emoji": "<:Icon_2_Stars:770552868499488808>",
+    "image": "https://static.wikia.nocookie.net/gensin-impact/images/6/64/Icon_2_Stars.png",
+    "version": ""
+  }
+]

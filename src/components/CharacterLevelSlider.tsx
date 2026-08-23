@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   formatNumber,
   formatSpecialized,
@@ -10,26 +11,18 @@ import {
 interface Props {
   statsByLevel: StatByLevelRow[];
   ascensionStat: string | null;
+  /** Màu nguyên tố của nhân vật — nhuộm thanh trượt và chỉ số đột phá,
+   *  thay cho vàng cố định — chỉ số đột phá thường CHÍNH LÀ 1 chỉ số
+   *  nguyên tố (vd "Pyro DMG Bonus") nên màu này có ý nghĩa thật. */
+  elementColor?: string;
 }
 
-// Các mốc cấp bắt buộc phải đột phá mới lên được — tại đúng các mốc này,
-// dữ liệu có 2 dòng cùng "level" nhưng khác "ascension" (trước/sau đột phá).
 const ASCENSION_BREAKPOINT_LEVELS = [20, 40, 50, 60, 70, 80];
 
-/**
- * CharacterLevelSlider — kéo thanh trượt để xem chỉ số nhân vật ở bất kỳ
- * cấp nào, tính real-time TỪ DỮ LIỆU THẬT ĐÃ SEED (statsByLevel), không
- * nội suy/ước lượng — nếu seed hiện tại chỉ có vài mốc rời rạc (13 dòng cũ),
- * component vẫn hoạt động đúng, chỉ là thanh trượt sẽ "nhảy cóc" giữa các
- * mốc đó thay vì mượt từng cấp; sau khi seed lại với STAT_BREAKPOINTS đã mở
- * rộng (scripts/seed-characters.ts, xem CHANGELOG) sẽ có đủ mọi cấp 1-90.
- *
- * Xử lý mốc đột phá (2 dòng cùng level): so sánh SỐ ascension thay vì giả
- * định ký hiệu "-"/"+" cụ thể nào — dòng có ascension NHỎ HƠN luôn là
- * "trước đột phá", dòng LỚN HƠN là "sau đột phá", đúng với mọi cách
- * genshin-db mã hoá giá trị này.
- */
-export function CharacterLevelSlider({ statsByLevel, ascensionStat }: Props) {
+export function CharacterLevelSlider({ statsByLevel, ascensionStat, elementColor }: Props) {
+  const t = useTranslations("LevelSlider");
+  const el = elementColor ?? "var(--accent-500)";
+
   const byLevel = useMemo(() => {
     const map = new Map<number, StatByLevelRow[]>();
     for (const row of statsByLevel) {
@@ -37,27 +30,17 @@ export function CharacterLevelSlider({ statsByLevel, ascensionStat }: Props) {
       arr.push(row);
       map.set(row.level, arr);
     }
-    for (const arr of map.values()) {
-      arr.sort((a, b) => (a.ascension ?? 0) - (b.ascension ?? 0));
-    }
+    for (const arr of map.values()) arr.sort((a, b) => (a.ascension ?? 0) - (b.ascension ?? 0));
     return map;
   }, [statsByLevel]);
 
-  const availableLevels = useMemo(
-    () => Array.from(byLevel.keys()).sort((a, b) => a - b),
-    [byLevel]
-  );
-
+  const availableLevels = useMemo(() => Array.from(byLevel.keys()).sort((a, b) => a - b), [byLevel]);
   const minLevel = availableLevels[0] ?? 1;
   const maxLevel = availableLevels[availableLevels.length - 1] ?? 90;
 
   const [level, setLevel] = useState(maxLevel);
-  // Mặc định hiển thị trạng thái ĐÃ đột phá khi đứng đúng 1 mốc lưỡng trạng thái.
   const [showAscended, setShowAscended] = useState(true);
 
-  // Thanh <input type="range"> chỉ hỗ trợ giá trị liên tục — nếu dữ liệu
-  // hiện chỉ có vài mốc rời rạc (chưa reseed), khi kéo tới 1 cấp không có
-  // trong danh sách, chọn cấp GẦN NHẤT có dữ liệu thay vì không hiển thị gì.
   function snapToNearestAvailableLevel(target: number): number {
     if (byLevel.has(target)) return target;
     let closest = availableLevels[0];
@@ -74,28 +57,20 @@ export function CharacterLevelSlider({ statsByLevel, ascensionStat }: Props) {
 
   const rowsAtLevel = byLevel.get(level) ?? [];
   const hasBothStates = rowsAtLevel.length === 2;
-  const row = hasBothStates
-    ? showAscended
-      ? rowsAtLevel[1]
-      : rowsAtLevel[0]
-    : rowsAtLevel[0];
+  const row = hasBothStates ? (showAscended ? rowsAtLevel[1] : rowsAtLevel[0]) : rowsAtLevel[0];
 
   if (!row || availableLevels.length === 0) return null;
 
   return (
-    <div className="relic-frame bg-card border border-border rounded-xl p-5">
+    <div className="surface-card p-5">
       <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-        <span className="font-display text-sm font-bold text-gold uppercase tracking-wide">
-          Cấp {level}
-          {hasBothStates && (showAscended ? " · Đã đột phá" : " · Chưa đột phá")}
+        <span className="text-eyebrow" style={{ color: el }}>
+          {t("level", { level })}
+          {hasBothStates && (showAscended ? ` · ${t("ascended")}` : ` · ${t("notAscended")}`)}
         </span>
         {hasBothStates && (
-          <button
-            type="button"
-            onClick={() => setShowAscended((v) => !v)}
-            className="text-xs text-gold-bright underline underline-offset-2"
-          >
-            Xem trạng thái {showAscended ? "trước" : "sau"} đột phá
+          <button type="button" onClick={() => setShowAscended((v) => !v)} className="text-xs underline underline-offset-2" style={{ color: el }}>
+            {showAscended ? t("viewBeforeAscension") : t("viewAfterAscension")}
           </button>
         )}
       </div>
@@ -106,8 +81,9 @@ export function CharacterLevelSlider({ statsByLevel, ascensionStat }: Props) {
         max={maxLevel}
         value={level}
         onChange={(e) => setLevel(snapToNearestAvailableLevel(Number(e.target.value)))}
-        className="w-full mb-4 accent-[#F4D03F]"
-        aria-label="Chọn cấp độ nhân vật"
+        className="w-full mb-4"
+        style={{ accentColor: el }}
+        aria-label={t("ariaSelectCharacterLevel")}
       />
 
       <div className="flex flex-wrap gap-2 mb-5">
@@ -119,11 +95,12 @@ export function CharacterLevelSlider({ statsByLevel, ascensionStat }: Props) {
               key={bp}
               type="button"
               onClick={() => setLevel(bp)}
-              className={`px-2 py-1 rounded text-xs border transition-colors ${
+              className="px-2 py-1 rounded text-xs border transition-colors tabular-nums"
+              style={
                 level === bp
-                  ? "border-gold-bright text-gold-bright"
-                  : "border-border text-muted hover:text-primary"
-              }`}
+                  ? { borderColor: el, color: el }
+                  : { borderColor: "var(--border-color)", color: "var(--text-muted)" }
+              }
             >
               {bp}
             </button>
@@ -135,20 +112,20 @@ export function CharacterLevelSlider({ statsByLevel, ascensionStat }: Props) {
         <StatBlock label="ATK" value={formatNumber(row.attack)} />
         <StatBlock label="DEF" value={formatNumber(row.defense)} />
         <StatBlock
-          label={ascensionStat ?? "Chỉ số đột phá"}
+          label={ascensionStat ?? t("ascensionStatFallback")}
           value={row.specialized !== null ? formatSpecialized(row.specialized, ascensionStat) : "—"}
-          gold
+          color={el}
         />
       </div>
     </div>
   );
 }
 
-function StatBlock({ label, value, gold }: { label: string; value: string; gold?: boolean }) {
+function StatBlock({ label, value, color }: { label: string; value: string; color?: string }) {
   return (
     <div>
-      <div className="text-xs text-muted uppercase tracking-wide mb-1">{label}</div>
-      <div className={`text-lg font-semibold ${gold ? "text-gold-bright" : "text-primary"}`}>
+      <div className="text-xs text-text-muted uppercase tracking-wide mb-1">{label}</div>
+      <div className="text-lg font-semibold tabular-nums" style={{ color: color ?? "var(--text-primary)" }}>
         {value}
       </div>
     </div>

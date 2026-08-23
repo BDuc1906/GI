@@ -1,9 +1,11 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 export function ThemeToggle() {
+  const t = useTranslations("Theme");
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
@@ -14,8 +16,8 @@ export function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="p-2 rounded-full border border-border bg-card text-secondary hover:border-gold hover:text-gold-bright transition-all"
-      aria-label="Chuyển đổi chế độ sáng/tối"
+      className="p-2 rounded-full border border-border bg-bg-card text-text-secondary hover:border-gold hover:text-gold-bright transition-all"
+      aria-label={t("toggleLabel")}
     >
       {theme === "dark" ? (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

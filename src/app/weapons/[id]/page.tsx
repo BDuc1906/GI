@@ -2,9 +2,12 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { SafeImage } from "@/components/SafeImage";
+import { SectionHeading } from "@/components/SectionHeading";
 import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
+import { Breadcrumb } from "@/components/Breadcrumb";
 import { WeaponLevelSlider, type WeaponStatByLevelRow } from "@/components/WeaponLevelSlider";
 import { formatNumber } from "@/lib/character-stats-format";
+import { rarityStars, rarityTextClass, rarityColorVar } from "@/lib/theme";
 import type { AscensionMaterialPhase } from "@/lib/character-helpers";
 
 interface PageProps {
@@ -28,19 +31,17 @@ export default async function WeaponDetail({ params }: PageProps) {
 
   const refinements = (w.passiveByRefinement as unknown[]) ?? [];
   const ascensionMaterials = (w.ascensionMaterials as unknown as AscensionMaterialPhase[]) ?? [];
-  // statsByLevel là dữ liệu THẬT theo cấp/mốc đột phá (xem
-  // scripts/seed-weapons.ts / scripts/fix-weapon-stats-by-level.ts). Vũ
-  // khí seed từ trước khi thêm field này có thể chưa có -> fallback về
-  // baseAtk/subStatValue tĩnh (đã làm tròn) bên dưới.
   const statsByLevel = (w.statsByLevel as unknown as WeaponStatByLevelRow[] | null) ?? null;
+  const rc = rarityColorVar(w.rarity);
 
-  // Lấy icon nguyên liệu từ bảng Material
+  const breadcrumbItems = [
+    { name: "LEIBO", path: "/" },
+    { name: "Vũ khí", path: "/weapons" },
+    { name: w.name, path: `/weapons/${w.id}` },
+  ];
+
   const materialIds = new Set<string>();
-  for (const phase of ascensionMaterials) {
-    for (const m of phase.materials) {
-      if (m.materialId) materialIds.add(m.materialId);
-    }
-  }
+  for (const phase of ascensionMaterials) for (const m of phase.materials) if (m.materialId) materialIds.add(m.materialId);
   const materialIcons = await prisma.material.findMany({
     where: { id: { in: Array.from(materialIds) } },
     select: { id: true, iconUrl: true },
@@ -49,72 +50,74 @@ export default async function WeaponDetail({ params }: PageProps) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <BreadcrumbJsonLd
-        items={[
-          { name: "LEIBO", path: "/" },
-          { name: "Vũ khí", path: "/weapons" },
-          { name: w.name, path: `/weapons/${w.id}` },
-        ]}
-      />
-      <div className="flex flex-col sm:flex-row gap-6 mb-8">
-        {w.iconUrl && (
-          <div className="relative w-40 h-40 rounded-xl border border-border bg-card shrink-0">
-            <SafeImage
-              src={w.iconUrl}
-              alt={w.name}
-              fill
-              sizes="160px"
-              className="object-contain p-2"
-              fallbackClassName="w-full h-full flex items-center justify-center text-muted text-[10px]"
-            />
+      <BreadcrumbJsonLd items={breadcrumbItems} />
+      <Breadcrumb items={breadcrumbItems} />
+
+      {/* Hero — viền trên nhuộm màu phẩm cấp (rarity), là yếu tố định danh
+          thật của vũ khí (vũ khí không có nguyên tố). */}
+      <div className="surface-card overflow-hidden mb-10" style={{ borderTop: `2.5px solid ${rc}` }}>
+        <div className="p-6 flex flex-col sm:flex-row gap-6">
+          {w.iconUrl && (
+            <div
+              className="relative w-40 h-40 rounded-xl bg-bg-elevated shrink-0"
+              style={{ border: `1px solid color-mix(in srgb, ${rc} 35%, var(--border-color))` }}
+            >
+              <SafeImage
+                src={w.iconUrl}
+                alt={w.name}
+                fill
+                sizes="160px"
+                className="object-contain p-3"
+                fallbackClassName="w-full h-full flex items-center justify-center text-text-muted text-[10px]"
+              />
+            </div>
+          )}
+          <div className="flex flex-col justify-center min-w-0">
+            <span className="text-eyebrow mb-2">{w.type}</span>
+            <h1 className="font-display text-display-2 font-semibold text-text-primary mb-2">{w.name}</h1>
+            <p className={`text-lg mb-4 ${rarityTextClass(w.rarity)}`}>{rarityStars(w.rarity)}</p>
+            {w.description && <p className="text-sm text-text-primary max-w-xl leading-relaxed bg-bg-elevated p-3 rounded-lg border border-border italic">{w.description}</p>}
           </div>
-        )}
-        <div>
-          <h1 className="text-3xl font-bold text-gold-bright">{w.name}</h1>
-          <p className="text-sm text-muted mb-4">{w.type} · {w.rarity}★</p>
-          {w.description && <p className="text-primary italic max-w-xl">{w.description}</p>}
         </div>
       </div>
 
-      {/* Chỉ số cơ bản */}
-      <section className="mb-8">
-        <h2 className="font-display text-xl font-bold mb-2 text-gold border-b border-border pb-2">Chỉ số cơ bản</h2>
+      <section className="mb-10">
+        <SectionHeading elementColor={rc}>Chỉ Số Cơ Bản</SectionHeading>
         {statsByLevel && statsByLevel.length > 0 ? (
-          <WeaponLevelSlider statsByLevel={statsByLevel} subStatName={w.subStatName} />
+          <WeaponLevelSlider statsByLevel={statsByLevel} subStatName={w.subStatName} elementColor={rc} />
         ) : (
-          // Fallback: chưa backfill statsByLevel cho vũ khí này — vẫn hiện
-          // số ĐÃ LÀM TRÒN (trước đây in thẳng baseAtk thô, vd "47.537").
-          <div className="flex gap-6 text-sm text-secondary">
-            <div>ATK nền: {formatNumber(w.baseAtk)}</div>
-            <div>{w.subStatName ?? "Chỉ số phụ"}: {w.subStatValue ?? "—"}</div>
+          <div className="surface-card p-5 flex gap-8 text-sm">
+            <div>
+              <div className="text-xs text-text-muted uppercase tracking-wide mb-1">ATK nền</div>
+              <div className="text-lg font-semibold text-text-primary tabular-nums">{formatNumber(w.baseAtk)}</div>
+            </div>
+            <div>
+              <div className="text-xs text-text-muted uppercase tracking-wide mb-1">{w.subStatName ?? "Chỉ số phụ"}</div>
+              <div className="text-lg font-semibold text-text-primary tabular-nums">{w.subStatValue ?? "—"}</div>
+            </div>
           </div>
         )}
       </section>
 
-      {/* Nguyên liệu đột phá */}
       {ascensionMaterials.length > 0 && (
-        <section className="mb-8">
-          <h2 className="font-display text-xl font-bold mb-4 text-gold border-b border-border pb-2">Nguyên liệu đột phá</h2>
+        <section className="mb-10">
+          <SectionHeading elementColor={rc}>Nguyên Liệu Đột Phá</SectionHeading>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {ascensionMaterials.map((phase) => (
-              <div key={phase.phase} className="relic-frame bg-card border border-border rounded-xl p-4">
-                <div className="text-xs font-bold uppercase tracking-wider text-gold mb-3">
-                  Giai đoạn {phase.phase}
-                </div>
+              <div key={phase.phase} className="surface-card p-4">
+                <div className="text-eyebrow mb-3" style={{ color: rc }}>Giai đoạn {phase.phase}</div>
                 <ul className="space-y-1.5 text-sm">
                   {phase.materials.map((m, j: number) => {
                     const iconUrl = m.materialId ? materialIconMap.get(m.materialId) : null;
                     return (
                       <li key={j} className="flex items-center justify-between gap-3">
                         <span className="flex items-center gap-2 min-w-0">
-                          <span className="relative w-6 h-6 shrink-0 rounded bg-secondary border border-border overflow-hidden">
-                            {iconUrl ? (
-                              <SafeImage src={iconUrl} alt={m.name ?? ""} fill sizes="24px" className="object-contain" />
-                            ) : null}
+                          <span className="relative w-6 h-6 shrink-0 rounded bg-bg-elevated border border-border overflow-hidden">
+                            {iconUrl ? <SafeImage src={iconUrl} alt={m.name ?? ""} fill sizes="24px" className="object-contain" /> : null}
                           </span>
-                          <span className="text-secondary truncate">{m.name}</span>
+                          <span className="text-text-secondary truncate">{m.name}</span>
                         </span>
-                        <span className="font-semibold text-primary shrink-0">
+                        <span className="font-semibold text-text-primary shrink-0 tabular-nums">
                           {m.count ? `x${m.count.toLocaleString("vi-VN")}` : ""}
                         </span>
                       </li>
@@ -127,17 +130,16 @@ export default async function WeaponDetail({ params }: PageProps) {
         </section>
       )}
 
-      {/* Hiệu ứng tinh luyện */}
       {w.effectName && refinements.length > 0 && (
         <section>
-          <h2 className="font-display text-xl font-bold mb-4 text-gold border-b border-border pb-2">{w.effectName}</h2>
+          <SectionHeading elementColor={rc}>{w.effectName}</SectionHeading>
           <div className="space-y-3">
             {refinements.map((r, i) => (
-              <div key={i} className="relic-frame bg-card border border-border rounded-lg p-3">
-                <div className="font-medium text-gold-bright mb-1">
+              <div key={i} className="surface-card p-4">
+                <div className="font-display font-semibold mb-1" style={{ color: rc }}>
                   Tinh luyện {i + 1}
                 </div>
-                <p className="text-sm text-secondary whitespace-pre-line">
+                <p className="text-sm text-text-secondary whitespace-pre-line">
                   {(r as { description?: string } | null)?.description ?? "—"}
                 </p>
               </div>

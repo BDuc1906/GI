@@ -76,22 +76,7 @@ async function resolveTalentMaterials(
 }
 
 /**
- * BUG ĐÃ SỬA (nhân vật hệ Pyro hiển thị "Unknown" nhưng icon vẫn là lửa):
- * trước đây `vision`/`weaponType` LUÔN fallback cứng về chuỗi 'Unknown' —
- * kể cả ở nhánh UPDATE của upsert bên dưới. Nếu 1 lần crawl bị trục trặc
- * tạm thời (genshin-db đổi tên, rớt mạng, ...) và trả về vision rỗng cho
- * MỘT nhân vật đã có dữ liệu đúng sẵn trong DB, nhánh update sẽ ghi đè
- * "Pyro" (đúng) thành "Unknown" ngay lập tức. Trong khi đó cột elementIcon
- * (ảnh) KHÔNG bị đổi theo vì elementIcon chỉ được set ở nhánh CREATE, cố
- * tình giữ nguyên ở nhánh update (xem comment ở Character.iconUrl trong
- * prisma/schema.prisma — tách 2 nhóm cột để không hoàn tác công mirror ảnh
- * sang R2). Hậu quả: nhân vật hiển thị ĐÚNG icon lửa nhưng text nguyên tố
- * lại là "Unknown" — 2 nguồn dữ liệu cùng mô tả 1 thứ nhưng lệch nhau.
- *
- * Sửa: chỉ fallback về 'Unknown' khi thật sự KHÔNG CÓ gì để giữ (tạo mới).
- * Khi update mà dữ liệu crawl mới bị thiếu, GIỮ NGUYÊN giá trị cũ đang có
- * trong DB thay vì ghi đè bằng 'Unknown', đồng thời cảnh báo ra console để
- * biết mà kiểm tra lại nguồn crawl cho nhân vật đó.
+ * Hàm giải quyết fallback trường dữ liệu khi bị thiếu từ file crawl
  */
 function resolveFallbackField(
   fresh: string | null | undefined,
@@ -111,10 +96,32 @@ function resolveFallbackField(
 }
 
 /**
- * Build payload từ CharacterData (không bao gồm 4 cột ảnh hiển thị).
- * `existing` là bản ghi hiện có trong DB (nếu đây là update) — dùng để
- * KHÔNG ghi đè vision/weaponType bằng 'Unknown' khi dữ liệu crawl bị thiếu
- * (xem resolveFallbackField ở trên).
+ * Trả về giá trị mới nếu có, ngược lại trả `undefined` (Prisma hiểu là "giữ
+ * nguyên giá trị cũ trong DB, đừng đụng vào field này") — NHƯNG khác bản cũ
+ * ở chỗ: BÁO ĐỘNG ra console khi rơi vào nhánh "giữ nguyên cũ" cho field
+ * thuộc `CORE_GAMEPLAY_FIELDS` (talents, constellations, statsByLevel...).
+ *
+ * LÝ DO CẦN HÀM NÀY: trước đây `data.X ? Y : undefined` cho các field này
+ * hoàn toàn im lặng khi crawl không lấy được dữ liệu mới (mạng lỗi,
+ * genshin-db đổi format, nhân vật vừa rebalance mà genshin-db chưa kịp cập
+ * nhật đúng...) — hậu quả: nhân vật được buff trong bản mới nhưng mô tả kỹ
+ * năng/số liệu vẫn hiển thị bản CŨ trên site, mà log seed vẫn báo "thành
+ * công" như bình thường, không ai biết để mà sửa. Đây CHÍNH LÀ nguyên nhân
+ * hiện tượng "buff không cập nhật" đã gặp — không phải seed chạy sai, mà là
+ * seed chạy "đúng" theo thiết kế cũ (im lặng bỏ qua) khi thiếu dữ liệu.
+ */
+function withStaleWarning<T>(fieldName: string, characterName: string, value: T | null | undefined): T | undefined {
+  if (value) return value;
+  console.warn(
+    `  ⚠️  ${characterName}: crawl không có dữ liệu mới cho "${fieldName}" — GIỮ NGUYÊN giá trị cũ trong DB ` +
+    `(có thể đã lỗi thời nếu nhân vật này vừa được rebalance/buff ở bản mới). Kiểm tra data/raw/characters.json ` +
+    `xem field này có rỗng không — nếu rỗng, lỗi nằm ở crawl-characters.ts / genshin-db, không phải ở seed.`
+  );
+  return undefined;
+}
+
+/**
+ * Build payload từ CharacterData (Bổ sung các trường mới từ ảnh yêu cầu)
  */
 async function toCharacterPayload(
   data: CharacterData,
@@ -138,23 +145,40 @@ async function toCharacterPayload(
     baseAtk: data.baseAtk,
     baseDef: data.baseDef,
     ascensionStat: data.ascensionStat,
-    ascensionMaterials: data.ascensionMaterials ? (await resolveAscensionMaterials(data.ascensionMaterials)) as any : undefined,
-    talentMaterials: data.talentMaterials ? (await resolveTalentMaterials(data.talentMaterials)) as any : undefined,
-    statsByLevel: data.statsByLevel ? (data.statsByLevel as any) : undefined,
+    ascensionMaterials: withStaleWarning(
+      "ascensionMaterials",
+      data.name,
+      data.ascensionMaterials ? await resolveAscensionMaterials(data.ascensionMaterials) : null
+    ) as any,
+    talentMaterials: withStaleWarning(
+      "talentMaterials",
+      data.name,
+      data.talentMaterials ? await resolveTalentMaterials(data.talentMaterials) : null
+    ) as any,
+    statsByLevel: withStaleWarning("statsByLevel", data.name, data.statsByLevel) as any,
     birthday: data.birthday,
     constellationName: data.constellationName,
-    voiceActors: data.voiceActors ? (data.voiceActors as any) : undefined,
+    voiceActors: withStaleWarning("voiceActors", data.name, data.voiceActors) as any,
     gameVersion: data.gameVersion,
     wikiUrl: data.wikiUrl,
-    constellations: data.constellations ? (data.constellations as any) : undefined,
-    talents: data.talents ? (data.talents as any) : undefined,
+    constellations: withStaleWarning("constellations", data.name, data.constellations) as any,
+    talents: withStaleWarning("talents", data.name, data.talents) as any,
+
+    // 👇 CÁC TRƯỜNG MỚI ĐƯỢC THÊM THEO HƯỚNG DẪN TRONG ẢNH
+    genshinDbId: data.genshinDbId ?? null,
+    gender: data.gender ?? null,
+    bodyType: data.bodyType ?? null,
+    associationType: data.associationType ?? null,
+    qualityType: data.qualityType ?? null,
+    birthdaymmdd: data.birthdaymmdd ?? null,
+    raw: data.raw ?? undefined, // prisma lưu Json type nhận undefined/object
   };
 }
 
 export async function seedCharacters(): Promise<void> {
-  let raw: string;
+  let rawData: string;
   try {
-    raw = fs.readFileSync(RAW_CHARACTERS_FILE, "utf-8");
+    rawData = fs.readFileSync(RAW_CHARACTERS_FILE, "utf-8");
   } catch (err) {
     throw new Error(
       `Không đọc được ${RAW_CHARACTERS_FILE} (${(err as Error).message}).\n` +
@@ -162,20 +186,21 @@ export async function seedCharacters(): Promise<void> {
     );
   }
 
-  const characters: CharacterData[] = JSON.parse(raw);
+  const characters: CharacterData[] = JSON.parse(rawData);
   console.log(`📖 Đã đọc ${characters.length} nhân vật từ data/raw/characters.json`);
+
+  // 🚀 TỐI ƯU: Nạp trước toàn bộ nhân vật hiện có để tránh N+1 Query
+  const allExistingChars = await prisma.character.findMany({
+    select: { id: true, vision: true, weaponType: true },
+  });
+  const existingMap = new Map(allExistingChars.map((c) => [c.id, c]));
 
   let count = 0;
   for (const data of characters) {
     try {
-      // Lấy vision/weaponType hiện có (nếu nhân vật đã tồn tại) để
-      // toCharacterPayload biết còn gì để "giữ nguyên" khi crawl thiếu dữ
-      // liệu — xem resolveFallbackField().
-      const existing = await prisma.character.findUnique({
-        where: { id: data.id },
-        select: { vision: true, weaponType: true },
-      });
+      const existing = existingMap.get(data.id);
       const payload = await toCharacterPayload(data, existing);
+      
       await prisma.character.upsert({
         where: { id: data.id },
         create: {
@@ -186,7 +211,7 @@ export async function seedCharacters(): Promise<void> {
           splashUrl: data.splashUrl,
           elementIcon: data.elementIcon,
         },
-        update: payload,
+        update: payload, // Tự động cập nhật các trường mới nhờ đã gộp vào payload bên trên
       });
       count++;
     } catch (err) {
