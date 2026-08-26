@@ -386,6 +386,14 @@
     "wave2": "Oleada 2 (versión 6.6)",
     "newWitchesWithHexerei": "New Witch, disponible en Hexerei (versión 6.6)",
     "versionLabel": "Copiado {version}",
-    "witchRevelationNote": "Nota: Es DIFERENTE de los Hexerei anteriores a pesar de tener el mismo nombre — este mecanismo está ligado a la reacción de Conducta Estelar (ver la pestaña \"Reino Astral\"), no al buff de la facción de Mondstadt."
+    "witchRevelationNote": "Nota: Es DIFERENTE de los Hexerei anteriores a pesar de tener el mismo nombre — este mecanismo está ligado a la reacción de Conducta Estelar (ver la pestaña \"Reino Astral\"), no al buff de la facción de Mondstadt.",
+    "tabFormula": "Fórmula de Daño",
+    "formulaIntro": "Datos obtenidos directamente de la KeQingMains Theorycrafting Library y la Wiki oficial de Genshin Impact, actualizados tras la mejora de la versión 5.2 a 4 reacciones (Sobrecarga/Superconducción/Destrozado/Electrocargado). Haz clic en cada fuente a continuación para verificarlo tú mismo.",
+    "reactionColumn": "Reacción",
+    "coefficientColumn": "Coeficiente base",
+    "sourceLabel": "Fuente",
+    "baseCoefficientTableTitle": "Tabla de Coeficientes Base — Reacciones de Transformación",
+    "baseCoefficientTableNote": "Usa este valor en la fórmula de Reacción de Transformación de arriba. Electrocargado puede activarse hasta 2 veces por ciclo, por lo que el daño total real puede ser el doble del valor mostrado abajo.",
+    "shatterNote": "se aplica al golpe de Destrozado, no a Congelado en sí"
   }
 }

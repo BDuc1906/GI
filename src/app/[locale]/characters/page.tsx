@@ -3,12 +3,14 @@ import { unstable_cache } from "next/cache";
 import type { Metadata } from "next";
 import type { Prisma } from "@prisma/client";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { prisma } from "@/lib/prisma";
-import { ElementIcon } from "@/components/ElementIcon";
-import { WeaponIcon } from "@/components/WeaponIcon";
-import { EntityCard } from "@/components/EntityCard";
-import { rarityStars, elementColorVar } from "@/lib/theme";
-import { resolveCharacterCardImage } from "@/lib/character-helpers";
+import { prisma } from "@/lib/db/prisma";
+import { ElementIcon } from "@/components/character/ElementIcon";
+import { WeaponIcon } from "@/components/weapon/WeaponIcon";
+import { EntityCard } from "@/components/ui/EntityCard";
+import { rarityStars, elementColorVar } from "@/lib/ui/theme";
+import { resolveCharacterCardImage } from "@/lib/game/character-helpers";
+import { withDbRetry } from "@/lib/db/db-retry";
+import { getLocalizedName } from "@/lib/i18n/entity-name";
 
 export async function generateMetadata({
   params,
@@ -101,10 +103,16 @@ export default async function CharactersPage({ params, searchParams }: PageProps
   if (rarityList.length > 0) where.rarity = { in: rarityList };
   if (q) where.name = { contains: q, mode: "insensitive" };
 
-  const characters = await prisma.character.findMany({
-    where,
-    orderBy: [{ rarity: "desc" }, { name: "asc" }],
-  });
+  // BUG ĐÃ SỬA: query chính của trang (chạy trên MỌI request, không có
+  // cache) trước đây không có retry — cùng lớp lỗi PrismaClientKnownRequestError
+  // P1017 "Server has closed the connection" đã sửa ở trang chủ, xảy ra
+  // khi Neon free tier vừa suspend compute xong đúng lúc request tới.
+  const characters = await withDbRetry(() =>
+    prisma.character.findMany({
+      where,
+      orderBy: [{ rarity: "desc" }, { name: "asc" }],
+    })
+  );
 
   const travelerByElement = new Map<string, { boy?: (typeof characters)[number]; girl?: (typeof characters)[number] }>();
   const nonTraveler: typeof characters = [];
@@ -285,6 +293,10 @@ export default async function CharactersPage({ params, searchParams }: PageProps
                   <EntityCard
                     key={`traveler-${el}`}
                     href={`/characters/${target.id}`}
+                    // "Traveler (Anemo)" v.v. — tên ghép cứng ở đây, KHÔNG
+                    // qua getLocalizedName (Character.name của 2 dòng
+                    // "Traveler (Boy/Girl)" trong DB không phải tên hiển
+                    // thị thật, chỉ dùng để phân biệt nội bộ).
                     name={`Traveler (${el})`}
                     subtitle="Sword"
                     rarity={target.rarity}
@@ -304,7 +316,7 @@ export default async function CharactersPage({ params, searchParams }: PageProps
           {sortedRarities.map((r) => (
             <div key={r} className="mb-8">
               {/* Tiêu đề nhóm rarity — sticky để không mất mốc khi cuộn dài,
-                  thay cho ranh giới 5★/4★ vô hình trước đây. */}
+                  thay cho ranh giới 5★/4★ vô hình như bản cũ. */}
               <div
                 className="sticky top-0 z-10 bg-bg-primary/90 backdrop-blur-sm py-2 mb-3 text-xs font-semibold tracking-wide"
                 style={{ color: `var(--rarity-${r >= 5 ? 5 : r === 4 ? 4 : 3})` }}
@@ -316,7 +328,7 @@ export default async function CharactersPage({ params, searchParams }: PageProps
                   <EntityCard
                     key={c.id}
                     href={`/characters/${c.id}`}
-                    name={c.name}
+                    name={getLocalizedName(c, locale)}
                     subtitle={c.weaponType}
                     rarity={c.rarity}
                     imageSrc={resolveCharacterCardImage(c)}

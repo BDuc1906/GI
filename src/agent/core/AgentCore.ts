@@ -3,19 +3,48 @@
  * AgentCore - Lõi AI Agent
  * Flow: Perceive (classify intent) → Think (chọn tool phù hợp) → Act
  * (LLM tự gọi tool trong tập đã giới hạn) → Learn (lưu memory)
+ *
+ * NÂNG CẤP AI SDK v3 -> v6 (2026-08) — các thay đổi so với bản gốc:
+ * - `CoreMessage` (v3/v4) đã bị xoá hẳn ở v6 -> dùng `ModelMessage`.
+ * - `maxSteps` (số) đã bị xoá khỏi streamText/generateText từ v5 ->
+ *   dùng `stopWhen: stepCountIs(n)` (SDK export tên này, KHÔNG phải
+ *   `isStepCount` — tsc đã báo rõ "Did you mean 'stepCountIs'?").
+ * - `step.toolResults[].result` đổi tên thành `.output` (nhất quán với
+ *   tool-call dùng `.input` thay vì `.args`).
+ * - `result.toDataStreamResponse()` không còn tồn tại từ v5. THAY VÌ
+ *   chuyển sang `toUIMessageStreamResponse()` rồi tự parse lại đúng
+ *   format SSE mới (dễ vỡ y hệt lỗi cũ nếu SDK đổi format lần nữa),
+ *   ở đây đọc THẲNG `result.fullStream` — một AsyncIterable có type
+ *   rõ ràng do chính SDK cung cấp, không phải "đoán format dây" nữa.
+ *   Xem `toStreamChunks()` bên dưới và `utils/stream.ts::createStream`.
+ * - `toStreamChunks()` được viết thành HÀM GENERIC theo `TOOLS extends
+ *   ToolSet` thay vì nhận tham số kiểu `ReturnType<typeof streamText>`
+ *   — lý do y hệt lý do đổi `AITool` trong ToolRegistry.ts: lấy
+ *   `ReturnType` của 1 hàm generic CHƯA GỌI khiến TS suy luận sai kiểu
+ *   hẹp nhất. Viết generic để TS suy luận TOOLS trực tiếp từ đối số
+ *   `result` thật được truyền vào lúc gọi (`this.toStreamChunks(result)`),
+ *   không suy luận qua chữ ký hàm chưa gọi.
  */
 
-import { streamText, generateText, type CoreMessage } from "ai";
+import {
+  streamText,
+  generateText,
+  stepCountIs,
+  type ModelMessage,
+  type ToolSet,
+  type StreamTextResult,
+} from "ai";
 import { createLLMClient } from "./llm-client";
 import { getSystemPrompt } from "./prompts";
 import { AgentMemory } from "./memory";
-import { ToolRegistry, type AITool } from "./ToolRegistry";
+import { ToolRegistry } from "./ToolRegistry";
 import { classifyIntent } from "./intent-classifier";
 import type { IntentResult } from "./schemas";
 import { getConfig, validateConfig } from "./config";
 import { telemetry } from "../utils/telemetry";
 import type { AuthenticatedUser } from "../utils/auth";
 import type { ToolContext } from "../tools/base.tool";
+import { createStream, type StreamChunk } from "../utils/stream";
 
 export interface AgentOptions {
   sessionId: string;
@@ -94,8 +123,8 @@ export class AgentCore {
 
   private async buildRequestParts(userMessage: string): Promise<{
     systemPrompt: string;
-    history: CoreMessage[];
-    tools: Record<string, AITool>;
+    history: ModelMessage[];
+    tools: ToolSet;
     intent: IntentResult;
   }> {
     const intent = await classifyIntent(userMessage);
@@ -106,7 +135,7 @@ export class AgentCore {
     const allowedTools = this.buildToolSubset(intent);
     const tools = this.toolRegistry.getAITools(this.toolContext, allowedTools);
 
-    const history = (await this.memory.getContext()) as unknown as CoreMessage[];
+    const history = (await this.memory.getContext()) as unknown as ModelMessage[];
 
     const systemPrompt = getSystemPrompt({
       userName: this.user.email || "Người dùng",
@@ -119,9 +148,10 @@ export class AgentCore {
   }
 
   /**
-   * Xử lý tin nhắn và trả về stream (định dạng AI SDK data stream —
-   * dùng trực tiếp làm body Response, hoặc chuyển qua
-   * utils/stream.ts::aiStreamToSSE nếu cần format SSE tuỳ biến).
+   * Xử lý tin nhắn và trả về stream ở đúng format `StreamChunk` nội bộ
+   * (utils/stream.ts) — route.ts (`/api/agent`) dùng thẳng kết quả này
+   * làm body Response, `useAgent.ts` phía client đọc thẳng, không cần
+   * qua bước chuyển đổi nào khác.
    */
   async processStream(userMessage: string): Promise<ReadableStream<Uint8Array>> {
     const startTime = Date.now();
@@ -133,16 +163,14 @@ export class AgentCore {
       system: systemPrompt,
       messages: [...history, { role: "user", content: userMessage }],
       tools,
-      maxSteps: this.maxSteps,
+      stopWhen: stepCountIs(this.maxSteps),
       onStepFinish: async (step) => {
-        if (step.toolResults) {
-          for (const tr of step.toolResults) {
-            await this.memory.addMessage({
-              role: "tool",
-              content: JSON.stringify(tr.result),
-              toolCallId: tr.toolCallId,
-            });
-          }
+        for (const tr of step.toolResults) {
+          await this.memory.addMessage({
+            role: "tool",
+            content: JSON.stringify(tr.output),
+            toolCallId: tr.toolCallId,
+          });
         }
         if (step.text) {
           await this.memory.addMessage({ role: "assistant", content: step.text });
@@ -157,16 +185,49 @@ export class AgentCore {
       },
     });
 
-    return result.toDataStreamResponse().body!;
+    return createStream(this.toStreamChunks(result));
+  }
+
+  /**
+   * Chuyển `fullStream` (typed, do chính AI SDK cung cấp) sang
+   * `StreamChunk` nội bộ mà `utils/stream.ts::createStream` và
+   * `useAgent.ts` đã hiểu sẵn từ trước — KHÔNG tự parse lại chuỗi text
+   * thô nào của SDK, tránh lặp lại lỗi "hand-parse dễ vỡ" của bản gốc.
+   */
+  private async *toStreamChunks<TOOLS extends ToolSet>(
+    result: StreamTextResult<TOOLS, any>
+  ): AsyncGenerator<StreamChunk> {
+    for await (const part of result.fullStream) {
+      switch (part.type) {
+        case "text-delta":
+          yield { type: "text", content: part.text };
+          break;
+        case "tool-call":
+          yield {
+            type: "tool-call",
+            data: { toolCallId: part.toolCallId, toolName: part.toolName, args: part.input },
+          };
+          break;
+        case "tool-result":
+          yield {
+            type: "tool-result",
+            data: { toolCallId: part.toolCallId, result: part.output },
+          };
+          break;
+        case "error":
+          yield { type: "error", content: String(part.error) };
+          break;
+        default:
+          // các type khác (start/finish/reasoning-*/source/tool-input-*...)
+          // bỏ qua có chủ đích — useAgent.ts hiện tại không đọc chúng
+          break;
+      }
+    }
   }
 
   /**
    * Xử lý tin nhắn và trả về text (không stream) — dùng generateText
-   * trực tiếp thay vì tự parse lại stream (BẢN CŨ đọc stream và tìm
-   * dòng `data: {type, text}` — sai định dạng thật của AI SDK data
-   * stream (thực tế là các dòng `0:"..."`, `9:{...}` — xem
-   * utils/stream.ts::aiStreamToSSE), nên fullText luôn rỗng). Dùng
-   * generateText tránh toàn bộ lớp parse dễ lệch này.
+   * trực tiếp.
    */
   async process(userMessage: string): Promise<string> {
     const { systemPrompt, history, tools } = await this.buildRequestParts(userMessage);
@@ -177,7 +238,7 @@ export class AgentCore {
       system: systemPrompt,
       messages: [...history, { role: "user", content: userMessage }],
       tools,
-      maxSteps: this.maxSteps,
+      stopWhen: stepCountIs(this.maxSteps),
     });
 
     await this.memory.addMessage({ role: "assistant", content: text });

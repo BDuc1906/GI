@@ -11,6 +11,7 @@ datasource db {
 model Character {
   id          String   @id            // slug, vd: "kazuha"
   name        String
+  nameTranslations Json?
   title       String?
   vision      String                  // nguyên tố: Anemo, Pyro, ...
   weaponType  String                  // Sword, Claymore, Polearm, Bow, Catalyst
@@ -104,6 +105,7 @@ model Character {
 model Material {
   id        String   @id // slug tên nguyên liệu, vd "vayuda-turquoise-sliver"
   name      String   @unique
+  nameTranslations Json?
   // Ảnh hiển thị — sở hữu bởi mirror-images-to-r2.ts sau lần mirror đầu.
   iconUrl   String?
   // Ảnh gốc (hotlink) — sở hữu bởi seed-helpers.ts::upsertMaterial, ghi đè
@@ -117,6 +119,7 @@ model Material {
 model Weapon {
   id          String   @id
   name        String
+  nameTranslations Json?
   type        String
   rarity      Int
   baseAtk     Float?
@@ -146,6 +149,7 @@ model Weapon {
 model ArtifactSet {
   id          String   @id
   name        String
+  nameTranslations Json?
   rarityRange Int[]
   // Trước đây thiếu field 1pc riêng -> code cũ nhét nhầm effect1Pc
   // vào fourPieceBonus cho các set cũ chỉ có 1pc+2pc (Berserker, Instructor...).
@@ -174,6 +178,7 @@ model ArtifactSet {
 model Domain {
   id          String   @id // slug từ tên gốc (đã bỏ số La Mã độ khó)
   name        String
+  nameTranslations Json?
   // "artifact" (Domain of Blessing, mở hằng ngày) | "weapon" (Domain of
   // Forgery) | "talent" (Domain of Mastery) — 2 loại sau chỉ mở 3 ngày/tuần
   // luân phiên, xem daysOfWeek.

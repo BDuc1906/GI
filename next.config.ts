@@ -1,6 +1,26 @@
 import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs";
 import createNextIntlPlugin from "next-intl/plugin";
+import { EventEmitter } from "node:events";
+
+// BUG NEXT.JS 16.3.0 (không phải lỗi của app): kể từ 16.3.0, nội bộ Next tự
+// gắn 6 listener "close" lên MỖI `ServerResponse` (tăng từ 5 ở Next 15 — do
+// tạo 2 AbortController: 1 cho request, 1 riêng cho middleware). Dự án này
+// dùng `next-intl` middleware (src/proxy.ts) + Sentry APM (2 listener nữa)
+// — đúng tổ hợp Next.js team xác nhận đẩy tổng listener lên 11, vượt ngưỡng
+// mặc định 10 của Node, gây warning "MaxListenersExceededWarning ... close
+// listeners added to [ServerResponse]" tràn ngập log dev. KHÔNG phải leak
+// thật (mỗi ServerResponse chỉ tính 1 lần, không tích luỹ qua nhiều
+// request — xem https://github.com/vercel/next.js/discussions/96973).
+//
+// ĐẶT Ở ĐÂY (thay vì trong instrumentation.ts) vì next.config.ts chạy
+// ĐỒNG BỘ ngay khi Next.js nạp config — luôn TRƯỚC khi server bắt đầu nhận
+// connection, ở mọi chế độ (`next dev`, `next start`, build) — không phụ
+// thuộc timing async của instrumentation register(), và không có khoảng hở
+// nào cho request lọt qua trước khi giới hạn được nâng. Việc restart lại
+// `npm run dev` sau khi sửa vẫn bắt buộc như mọi thay đổi trong
+// next.config.ts (Turbopack không hot-reload được file này).
+EventEmitter.defaultMaxListeners = 20;
 
 // Trỏ đúng vào src/i18n/request.ts — plugin này nối getRequestConfig() vào
 // pipeline build/runtime của Next.js (Webpack/Turbopack alias cho

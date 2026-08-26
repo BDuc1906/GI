@@ -10,7 +10,7 @@ import { z } from "zod";
 import { BaseTool, type ToolContext } from "./base.tool";
 import { DataSourceManager } from "@/lib/data-sources/DataSourceManager";
 import { createAuditLog } from "@/lib/agent/AuditLogger";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/db/prisma";
 import { EntityTypeSchema } from "@/agent/core/schemas";
 import type { EntityType, EntityRecordMap } from "@/agent/core/types";
 import type { Prisma } from "@prisma/client";

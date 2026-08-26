@@ -386,6 +386,14 @@
     "wave2": "第二波（版本6.6）",
     "newWitchesWithHexerei": "新女巫，Hexerei（版本6.6）可用",
     "versionLabel": "收到{version}",
-    "witchRevelationNote": "注意：尽管名字相同，它与上述六重奏不同——该机制与星体行导反应相关（见“星界”标签），而非蒙德派系增益。"
+    "witchRevelationNote": "注意：尽管名字相同，它与上述六重奏不同——该机制与星体行导反应相关（见“星界”标签），而非蒙德派系增益。",
+    "tabFormula": "伤害计算公式",
+    "formulaIntro": "数据直接来自 KeQingMains Theorycrafting Library 和《原神》官方Wiki,已根据5.2版本对4种反应(超载/超导/碎冰/感电)的强化更新。点击下方各来源可自行核对。",
+    "reactionColumn": "反应",
+    "coefficientColumn": "基础系数",
+    "sourceLabel": "来源",
+    "baseCoefficientTableTitle": "基础系数表 — 剧变反应",
+    "baseCoefficientTableNote": "请改用此数值代入上方的剧变反应公式。感电在一个循环内最多可触发2次,因此实际总伤害可能是下表数值的2倍。",
+    "shatterNote": "适用于碎冰的一击,而非冻结本身"
   }
 }

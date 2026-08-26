@@ -1,12 +1,12 @@
 
 import type { NextRequest } from "next/server";
 import { Prisma } from "@prisma/client";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/db/prisma";
 import { ok } from "@/lib/api/response";
 import { ApiError, withErrorHandling } from "@/lib/api/errors";
 import { withRateLimit } from "@/lib/api/rate-limit";
 import { buildMeta, parsePagination, parseSort } from "@/lib/api/query";
-import { genshinServerWeekdayName } from "@/lib/genshin-server-time";
+import { genshinServerWeekdayName } from "@/lib/game/genshin-server-time";
 
 export const revalidate = 3600; // Bí cảnh gần như không đổi giữa các lần deploy trong tuần
 

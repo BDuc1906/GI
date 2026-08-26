@@ -13,9 +13,9 @@
  *   ESLint `no-require-imports`.
  */
 
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/db/prisma";
 import type { EntityType, EntityRecordMap, LiveEntityData, AnyEntityRecord } from "@/agent/core/types";
-import { reactionsInvolving, ELEMENTAL_REACTIONS, type ElementalReaction } from "@/lib/element-reactions-data";
+import { reactionsInvolving, ELEMENTAL_REACTIONS, type ElementalReaction } from "@/lib/game/element-reactions-data";
 import { JmpBlueProvider } from "./live/JmpBlueProvider";
 import { AmbrProvider } from "./live/AmbrProvider";
 

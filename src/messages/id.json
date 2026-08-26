@@ -386,6 +386,14 @@
     "wave2": "Gelombang 2 (versi 6.6)",
     "newWitchesWithHexerei": "Penyihir baru, tersedia Hexerei (versi 6.6)",
     "versionLabel": "Salin {version}",
-    "witchRevelationNote": "Catatan: Mekanisme ini BERBEDA dari Hexerei di atas meskipun namanya sama — mekanisme ini terkait dengan reaksi Stellar-Conduct (lihat tab \"Astral Realm\"), bukan buff faksi Mondstadt."
+    "witchRevelationNote": "Catatan: Mekanisme ini BERBEDA dari Hexerei di atas meskipun namanya sama — mekanisme ini terkait dengan reaksi Stellar-Conduct (lihat tab \"Astral Realm\"), bukan buff faksi Mondstadt.",
+    "tabFormula": "Rumus Damage",
+    "formulaIntro": "Data diambil langsung dari KeQingMains Theorycrafting Library dan Wiki resmi Genshin Impact, diperbarui mengikuti buff versi 5.2 untuk 4 reaksi (Overloaded/Superconduct/Shattered/Electro-Charged). Klik setiap sumber di bawah untuk memverifikasi sendiri.",
+    "reactionColumn": "Reaksi",
+    "coefficientColumn": "Koefisien dasar",
+    "sourceLabel": "Sumber",
+    "baseCoefficientTableTitle": "Tabel Koefisien Dasar — Reaksi Transformatif",
+    "baseCoefficientTableNote": "Gunakan nilai ini pada rumus Reaksi Transformatif di atas. Electro-Charged bisa terjadi hingga 2 kali per siklus, jadi total damage sebenarnya bisa dua kali lipat dari nilai di bawah ini.",
+    "shatterNote": "berlaku untuk hit Shattered, bukan Frozen itu sendiri"
   }
 }

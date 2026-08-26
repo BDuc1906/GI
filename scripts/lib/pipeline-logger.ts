@@ -4,7 +4,7 @@
  * Helper ghi trạng thái pipeline vào database để dashboard admin hiển thị.
  */
 
-import { prisma } from '../../src/lib/prisma';
+import { prisma } from "../../src/lib/db/prisma";
 
 export interface PipelineDetails {
   rowsAffected?: number;

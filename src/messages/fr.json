@@ -386,6 +386,14 @@
     "wave2": "Vague 2 (version 6.6)",
     "newWitchesWithHexerei": "New Witch, disponible sur Hexerei (version 6.6)",
     "versionLabel": "Reçu {version}",
-    "witchRevelationNote": "Note : Il est DIFFÉRENT des Hexerei ci-dessus malgré le même nom — ce mécanisme est lié à la réaction de Conduite Stellaire (voir l’onglet « Royaume Astral »), pas au buff de faction de Mondstadt."
+    "witchRevelationNote": "Note : Il est DIFFÉRENT des Hexerei ci-dessus malgré le même nom — ce mécanisme est lié à la réaction de Conduite Stellaire (voir l’onglet « Royaume Astral »), pas au buff de faction de Mondstadt.",
+    "tabFormula": "Formule de Dégâts",
+    "formulaIntro": "Données tirées directement de la KeQingMains Theorycrafting Library et du Wiki officiel de Genshin Impact, mises à jour suite au buff de la version 5.2 sur 4 réactions (Surcharge/Supraconduction/Fracturation/Électrocution). Cliquez sur chaque source ci-dessous pour vérifier par vous-même.",
+    "reactionColumn": "Réaction",
+    "coefficientColumn": "Coefficient de base",
+    "sourceLabel": "Source",
+    "baseCoefficientTableTitle": "Tableau des Coefficients de Base — Réactions de Transformation",
+    "baseCoefficientTableNote": "Utilisez plutôt cette valeur dans la formule de Réaction de Transformation ci-dessus. L'Électrocution peut se déclencher jusqu'à 2 fois par cycle, donc les dégâts totaux réels peuvent être le double de la valeur indiquée ci-dessous.",
+    "shatterNote": "s'applique au coup de Fracturation, pas à Gelé lui-même"
   }
 }

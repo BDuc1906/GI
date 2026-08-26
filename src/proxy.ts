@@ -67,5 +67,22 @@ export const config = {
   // /_next (asset build của Next.js), /_vercel (asset nội bộ Vercel) và
   // mọi path có phần mở rộng file (favicon.ico, robots.txt, ảnh...) — các
   // path này không cần/không nên có tiền tố locale.
-  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
+  //
+  // BUG ĐÃ SỬA: thiếu "monitoring" trong danh sách loại trừ — đây là
+  // route Sentry tunnelRoute ("/monitoring", xem next.config.ts) dùng để
+  // gửi báo lỗi client-side vòng qua ad-blocker. Vì proxy này chặn MỌI
+  // path (kể cả "/monitoring") để chèn tiền tố locale, request tới
+  // "/monitoring" bị redirect thành "/vi/monitoring" (hoặc locale khác)
+  // TRƯỚC KHI tới được rewrite thật của Sentry (chỉ đăng ký đúng path
+  // "/monitoring", không phải bản có tiền tố locale) — kết quả là 404
+  // liên tục mỗi khi có lỗi client-side.
+  //
+  // LƯU Ý QUAN TRỌNG: từ Next.js 16, "middleware.ts" đã đổi tên thành
+  // "proxy.ts" (export function "proxy" thay vì "middleware") — file
+  // "middleware.ts" ở gốc dự án bị BỎ QUA HOÀN TOÀN, không báo lỗi/cảnh
+  // báo gì, khiến mọi sửa đổi ở đó vô tác dụng. File src/proxy.ts NÀY
+  // mới là file thật đang chạy — xoá hẳn middleware.ts ở gốc dự án để
+  // khỏi gây nhầm lẫn về sau (2 file cùng tồn tại rất dễ khiến người sau
+  // sửa nhầm file cũ).
+  matcher: ["/((?!api|monitoring|_next|_vercel|.*\\..*).*)"],
 };

@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { ElementIcon } from "@/components/ElementIcon";
-import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
-import { ReactionTabs } from "@/components/ReactionTabs";
+import { ElementIcon } from "@/components/character/ElementIcon";
+import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
+import { ReactionTabs } from "@/components/character/ReactionTabs";
 import {
   ELEMENTS,
   ELEMENT_ICON_URLS,
   reactionsInvolving,
-  type ReactionCategory,
-} from "@/lib/element-reactions-data";
+  reactionPillStyle,
+} from "@/lib/game/element-reactions-data";
+import { ReactionPillLink } from "@/components/glossary/ReactionPillLink";
 
 export async function generateMetadata({
   params,
@@ -19,17 +20,6 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "Elements" });
   return { title: t("metaTitle"), description: t("metaDescription") };
 }
-
-// Trùng với CATEGORY_COLOR trong ReactionTabs.tsx (cố ý không tách export
-// dùng chung — chỉ 5 dòng màu, tách ra thêm 1 file/export dùng chung sẽ
-// rườm rà hơn giá trị nó mang lại).
-const CATEGORY_COLOR: Record<ReactionCategory, string> = {
-  amplifying: "border-orange-500/50 bg-orange-500/10 text-orange-300",
-  transformative: "border-purple-500/50 bg-purple-500/10 text-purple-300",
-  additive: "border-emerald-500/50 bg-emerald-500/10 text-emerald-300",
-  lunar: "border-sky-400/50 bg-sky-400/10 text-sky-300",
-  stellar: "border-fuchsia-400/50 bg-fuchsia-400/10 text-fuchsia-300",
-};
 
 export default async function ElementsPage({
   params,
@@ -90,12 +80,12 @@ export default async function ElementsPage({
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {reactions.map((r) => (
-                    <span
+                    <ReactionPillLink
                       key={r.id}
-                      className={`text-xs px-3 py-1.5 rounded-full border font-medium ${CATEGORY_COLOR[r.category]}`}
-                    >
-                      {r.nameVi} ({r.name})
-                    </span>
+                      id={r.id}
+                      label={`${r.nameVi} (${r.name})`}
+                      style={reactionPillStyle(el.name)}
+                    />
                   ))}
                 </div>
               </div>

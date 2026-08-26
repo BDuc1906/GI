@@ -1,15 +1,16 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/db/prisma";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { SafeImage } from "@/components/SafeImage";
-import { SectionHeading } from "@/components/SectionHeading";
-import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
-import { Breadcrumb } from "@/components/Breadcrumb";
-import { WeaponLevelSlider, type WeaponStatByLevelRow } from "@/components/WeaponLevelSlider";
-import { formatNumber } from "@/lib/character-stats-format";
-import { rarityStars, rarityTextClass, rarityColorVar } from "@/lib/theme";
-import type { AscensionMaterialPhase } from "@/lib/character-helpers";
+import { SafeImage } from "@/components/ui/SafeImage";
+import { SectionHeading } from "@/components/layout/SectionHeading";
+import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
+import { Breadcrumb } from "@/components/layout/Breadcrumb";
+import { WeaponLevelSlider, type WeaponStatByLevelRow } from "@/components/weapon/WeaponLevelSlider";
+import { formatNumber } from "@/lib/game/character-stats-format";
+import { rarityStars, rarityTextClass, rarityColorVar } from "@/lib/ui/theme";
+import type { AscensionMaterialPhase } from "@/lib/game/character-helpers";
+import { GlossaryText } from "@/components/glossary/GlossaryText";
 
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -144,7 +145,7 @@ export default async function WeaponDetail({ params }: PageProps) {
                   {t("refinement", { n: i + 1 })}
                 </div>
                 <p className="text-sm text-text-secondary whitespace-pre-line">
-                  {(r as { description?: string } | null)?.description ?? "—"}
+                  <GlossaryText text={(r as { description?: string } | null)?.description ?? "—"} />
                 </p>
               </div>
             ))}

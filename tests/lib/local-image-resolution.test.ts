@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { normalizeLocalAssetKey, findBestLocalAssetMatch } from '@/lib/local-image-name';
+import { normalizeLocalAssetKey, findBestLocalAssetMatch } from "@/lib/game/local-image-name";
 
 describe('local image name normalization', () => {
   it('normalizes file names and aliases into the same key', () => {

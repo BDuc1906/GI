@@ -1,13 +1,14 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/db/prisma";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { rarityStars, rarityTextClass, elementColorVar } from "@/lib/theme";
-import { ElementIcon } from "@/components/ElementIcon";
-import { SafeImage } from "@/components/SafeImage";
-import { CharacterLevelSlider } from "@/components/CharacterLevelSlider";
-import { TalentMaterialSlider } from "@/components/TalentMaterialSlider";
-import { SectionHeading } from "@/components/SectionHeading";
-import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
+import { rarityStars, rarityTextClass, elementColorVar } from "@/lib/ui/theme";
+import { ElementIcon } from "@/components/character/ElementIcon";
+import { SafeImage } from "@/components/ui/SafeImage";
+import { CharacterLevelSlider } from "@/components/character/CharacterLevelSlider";
+import { TalentMaterialSlider } from "@/components/character/TalentMaterialSlider";
+import { SectionHeading } from "@/components/layout/SectionHeading";
+import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
+import { GlossaryText } from "@/components/glossary/GlossaryText";
 import type { Metadata } from "next";
 import {
   getTalentLabel,
@@ -19,7 +20,7 @@ import {
   type Talent,
   type TalentMaterialLevel,
   type VoiceActors,
-} from "@/lib/character-helpers";
+} from "@/lib/game/character-helpers";
 
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -236,7 +237,7 @@ export default async function CharacterDetail({ params }: PageProps) {
                 </div>
 
                 {tal.description && (
-                  <p className="text-sm text-text-secondary leading-relaxed whitespace-pre-line mb-3">{tal.description}</p>
+                  <p className="text-sm text-text-secondary leading-relaxed whitespace-pre-line mb-3"><GlossaryText text={tal.description} /></p>
                 )}
 
                 {tal.attributes && tal.attributes.length > 0 && (
@@ -287,7 +288,7 @@ export default async function CharacterDetail({ params }: PageProps) {
                     C{i + 1} · {cs.name}
                   </div>
                 </div>
-                <p className="text-sm text-text-secondary leading-relaxed whitespace-pre-line">{cs.description}</p>
+                <p className="text-sm text-text-secondary leading-relaxed whitespace-pre-line"><GlossaryText text={cs.description} /></p>
               </div>
             ))}
           </div>

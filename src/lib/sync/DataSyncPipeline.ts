@@ -25,7 +25,7 @@
  * fallback về hành vi cũ nguy hiểm.
  */
 
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/db/prisma";
 
 const WORKFLOW_FILE = "update-data.yml";
 const GITHUB_API = "https://api.github.com";

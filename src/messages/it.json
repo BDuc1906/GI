@@ -386,6 +386,14 @@
     "wave2": "Onda 2 (versione 6.6)",
     "newWitchesWithHexerei": "New Witch, disponibile Hexerei (versione 6.6)",
     "versionLabel": "Ricevuto {version}",
-    "witchRevelationNote": "Nota: È DIVERSO dagli Hexerei sopra nonostante lo stesso nome — questo meccanismo è legato alla reazione Stellar-Conduct (vedi la scheda \"Regno Astrale\"), non al buff della fazione di Mondstadt."
+    "witchRevelationNote": "Nota: È DIVERSO dagli Hexerei sopra nonostante lo stesso nome — questo meccanismo è legato alla reazione Stellar-Conduct (vedi la scheda \"Regno Astrale\"), non al buff della fazione di Mondstadt.",
+    "tabFormula": "Formula dei Danni",
+    "formulaIntro": "Dati presi direttamente dalla KeQingMains Theorycrafting Library e dalla Wiki ufficiale di Genshin Impact, aggiornati dopo il potenziamento della versione 5.2 a 4 reazioni (Sovraccarico/Superconduzione/Frantumazione/Elettrocarica). Clicca su ciascuna fonte qui sotto per verificare tu stesso.",
+    "reactionColumn": "Reazione",
+    "coefficientColumn": "Coefficiente base",
+    "sourceLabel": "Fonte",
+    "baseCoefficientTableTitle": "Tabella dei Coefficienti Base — Reazioni di Trasformazione",
+    "baseCoefficientTableNote": "Usa questo valore al posto della formula per le Reazioni di Trasformazione qui sopra. L'Elettrocarica può attivarsi fino a 2 volte per ciclo, quindi il danno totale reale può essere il doppio del valore mostrato sotto.",
+    "shatterNote": "si applica al colpo di Frantumazione, non a Congelamento in sé"
   }
 }

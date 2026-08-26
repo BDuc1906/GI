@@ -19,8 +19,8 @@
  * ép toàn bộ về JSON thuần trước khi lưu, Date tự động thành ISO string.
  */
 
-import { prisma } from "@/lib/prisma";
-import { logger } from "@/lib/logger";
+import { prisma } from "@/lib/db/prisma";
+import { logger } from "@/lib/infra/logger";
 import type { AuditLog } from "@prisma/client";
 import { Prisma } from "@prisma/client";
 

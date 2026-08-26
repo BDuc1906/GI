@@ -24,7 +24,7 @@ import {
   getStatsByLevel,
   getTalentsAndConstellations,
   resolveTravelerTalentBook,
-} from "../lib/genshin-pure-helpers.js";
+} from "../lib/genshin-pure-helpers";
 import type { CharacterData, VoiceActors } from "../../src/lib/data-sources/types";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));

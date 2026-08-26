@@ -16,16 +16,32 @@
  * - `getAITools()` trả về kiểu suy ra từ chính `ReturnType` của
  *   `createAITool()` (hàm `tool()` của SDK "ai") thay vì đoán tên type
  *   nội bộ của SDK — luôn khớp đúng dù SDK đổi tên type nội bộ.
+ *
+ * NÂNG CẤP AI SDK v3 -> v6 (2026-08):
+ * - `tool()` của SDK "ai" đổi field `parameters` -> `inputSchema` kể
+ *   từ v5 (field cũ `parameters` đã bị xoá hẳn, không phải deprecate).
+ *   `ToolDefinition.parameters` ở tầng NỘI BỘ của file này giữ nguyên
+ *   tên — chỉ đổi tên field lúc truyền vào `createAITool()` bên dưới,
+ *   để không phải sửa lan sang audit.tool.ts, fix.tool.ts, v.v. (các
+ *   tool đó vẫn khai báo `parameters = ZodSchema` như cũ).
+ * - `type AITool = ReturnType<typeof createAITool>` (cách viết ở bản
+ *   trước) KHÔNG còn dùng được ở v6: `tool()` giờ là hàm generic thật
+ *   sự, và lấy `ReturnType` của một hàm generic CHƯA ĐƯỢC GỌI khiến
+ *   TypeScript suy luận ra kiểu hẹp nhất có thể (`Tool<never, never>`)
+ *   thay vì kiểu tổng quát — không nhận được tool nào tạo ra từ dữ
+ *   liệu thật (luôn là `Tool<unknown, unknown>`). Thay bằng đúng 2 type
+ *   SDK xuất sẵn cho đúng mục đích này: `Tool<any, any>` (1 tool bất kỳ,
+ *   input/output chưa biết trước) và `ToolSet` (`Record<string, Tool>`,
+ *   đúng kiểu tham số `tools` mà `streamText`/`generateText` yêu cầu).
  */
 
 import { z } from "zod";
-import { tool as createAITool } from "ai";
+import { tool as createAITool, type Tool, type ToolSet } from "ai";
 import { SearchTool, FetchLiveTool, CompareTool, FixTool, SyncTool, AuditTool } from "../tools";
 import { getConfig } from "./config";
 import type { ToolContext, ToolResult } from "../tools/base.tool";
 
-type AITool = ReturnType<typeof createAITool>;
-export type { AITool };
+export type AITool = Tool<any, any>;
 
 export interface ToolDefinition {
   name: string;
@@ -77,8 +93,8 @@ export class ToolRegistry {
    *   sách này được đưa cho LLM — dùng để giới hạn theo intent đã phân
    *   loại (xem AgentCore.buildToolSubset).
    */
-  getAITools(context: ToolContext, allowedNames?: string[]): Record<string, AITool> {
-    const result: Record<string, AITool> = {};
+  getAITools(context: ToolContext, allowedNames?: string[]): ToolSet {
+    const result: ToolSet = {};
 
     for (const [name, def] of this.tools) {
       if (def.permission === "admin") continue; // admin tool KHÔNG bao giờ để LLM tự gọi
@@ -86,7 +102,7 @@ export class ToolRegistry {
 
       result[name] = createAITool({
         description: def.description,
-        parameters: def.parameters,
+        inputSchema: def.parameters, // "parameters" -> "inputSchema" (đổi tên field từ AI SDK v5)
         execute: async (params: unknown) => {
           const result = await def.execute(params, context);
           return result.success ? result.data : { error: result.error };

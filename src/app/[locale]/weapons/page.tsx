@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { Prisma } from "@prisma/client";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { prisma } from "@/lib/prisma";
-import { rarityStars, rarityColorVar } from "@/lib/theme";
-import { WeaponIcon } from "@/components/WeaponIcon";
-import { EntityCard } from "@/components/EntityCard";
-import { Pagination } from "@/components/Pagination";
-import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/pagination";
+import { prisma } from "@/lib/db/prisma";
+import { rarityStars, rarityColorVar } from "@/lib/ui/theme";
+import { WeaponIcon } from "@/components/weapon/WeaponIcon";
+import { EntityCard } from "@/components/ui/EntityCard";
+import { Pagination } from "@/components/ui/Pagination";
+import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/ui/pagination";
 import type { Metadata } from "next";
+import { withDbRetry } from "@/lib/db/db-retry";
 
 export async function generateMetadata({
   params,
@@ -41,15 +42,18 @@ export default async function WeaponsPage({ params, searchParams }: PageProps) {
   if (rarity) where.rarity = Number(rarity);
   if (q) where.name = { contains: q, mode: "insensitive" };
 
-  const [weapons, total] = await Promise.all([
-    prisma.weapon.findMany({
-      where,
-      orderBy: [{ rarity: "desc" }, { name: "asc" }],
-      skip: (page - 1) * LIST_PAGE_SIZE,
-      take: LIST_PAGE_SIZE,
-    }),
-    prisma.weapon.count({ where }),
-  ]);
+  // BUG ĐÃ SỬA: cùng lớp lỗi P1017 đã sửa ở trang chủ/characters/domains.
+  const [weapons, total] = await withDbRetry(() =>
+    Promise.all([
+      prisma.weapon.findMany({
+        where,
+        orderBy: [{ rarity: "desc" }, { name: "asc" }],
+        skip: (page - 1) * LIST_PAGE_SIZE,
+        take: LIST_PAGE_SIZE,
+      }),
+      prisma.weapon.count({ where }),
+    ])
+  );
   const totalPages = totalPagesFor(total);
   const types = ["Sword", "Claymore", "Polearm", "Bow", "Catalyst"];
 

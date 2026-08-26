@@ -4,13 +4,14 @@ import { hasLocale } from "next-intl";
 import { NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { ThemeProvider } from "@/components/ThemeProvider";
-import { SiteNav } from "@/components/SiteNav";
-import { ChatWidget } from "@/components/ChatWidget";
-import { CommandPalette } from "@/components/CommandPalette";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { SiteNav } from "@/components/layout/SiteNav";
+import { ChatWidget } from "@/components/chat/ChatWidget";
+import { CommandPalette } from "@/components/search/CommandPalette";
+import { GlossaryProvider } from "@/components/glossary/GlossaryProvider";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
-import { spectral, beVietnamPro } from "@/lib/fonts";
+import { spectral, beVietnamPro } from "@/lib/ui/fonts";
 
 // Cùng biến/fallback với sitemap.ts và robots.ts — một nguồn duy nhất cho
 // domain thật, tránh lệch nhau giữa các file.
@@ -124,44 +125,46 @@ export default async function LocaleLayout({
   };
 
   return (
-    <html lang={locale} suppressHydrationWarning>
-      <body className={`${spectral.variable} ${beVietnamPro.variable} font-body`}>
+    <html lang={locale} suppressHydrationWarning data-scroll-behavior="smooth">
+      <body className={`${spectral.variable} ${beVietnamPro.variable} font-body`} suppressHydrationWarning>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_JSON_LD) }}
         />
         <NextIntlClientProvider>
           <ThemeProvider>
-            <SiteNav />
-            <main className="max-w-7xl mx-auto px-4 md:px-8 py-8">
-              {children}
-            </main>
-            <footer className="border-t border-border mt-8">
-              <div className="max-w-7xl mx-auto px-4 md:px-8 py-6 text-center text-xs text-[color:var(--text-muted)]">
-                {t.rich("disclaimer", {
-                  brandLink: (chunks) => (
-                    <a
-                      href="https://www.hoyoverse.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline hover:text-[color:var(--gold-bright)] transition-colors"
-                    >
-                      {chunks}
-                    </a>
-                  ),
-                })}
-                <br />
-                <Link href="/privacy" className="underline hover:text-[color:var(--gold-bright)] transition-colors">
-                  {t("privacy")}
-                </Link>
-                {" · "}
-                <Link href="/terms" className="underline hover:text-[color:var(--gold-bright)] transition-colors">
-                  {t("terms")}
-                </Link>
-              </div>
-            </footer>
-            <ChatWidget />
-            <CommandPalette />
+            <GlossaryProvider>
+              <SiteNav />
+              <main className="max-w-7xl mx-auto px-4 md:px-8 py-8">
+                {children}
+              </main>
+              <footer className="border-t border-border mt-8">
+                <div className="max-w-7xl mx-auto px-4 md:px-8 py-6 text-center text-xs text-[color:var(--text-muted)]">
+                  {t.rich("disclaimer", {
+                    brandLink: (chunks) => (
+                      <a
+                        href="https://www.hoyoverse.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline hover:text-[color:var(--gold-bright)] transition-colors"
+                      >
+                        {chunks}
+                      </a>
+                    ),
+                  })}
+                  <br />
+                  <Link href="/privacy" className="underline hover:text-[color:var(--gold-bright)] transition-colors">
+                    {t("privacy")}
+                  </Link>
+                  {" · "}
+                  <Link href="/terms" className="underline hover:text-[color:var(--gold-bright)] transition-colors">
+                    {t("terms")}
+                  </Link>
+                </div>
+              </footer>
+              <ChatWidget />
+              <CommandPalette />
+            </GlossaryProvider>
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>

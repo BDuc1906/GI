@@ -1,7 +1,7 @@
 
 import type { NextRequest } from "next/server";
 import { Prisma } from "@prisma/client";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/db/prisma";
 import { ok } from "@/lib/api/response";
 import { ApiError, withErrorHandling } from "@/lib/api/errors";
 import { withRateLimit } from "@/lib/api/rate-limit";

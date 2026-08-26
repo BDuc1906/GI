@@ -1,12 +1,13 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/db/prisma";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { SafeImage } from "@/components/SafeImage";
-import { SectionHeading } from "@/components/SectionHeading";
-import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
-import { Breadcrumb } from "@/components/Breadcrumb";
-import { rarityColorVar } from "@/lib/theme";
+import { SafeImage } from "@/components/ui/SafeImage";
+import { SectionHeading } from "@/components/layout/SectionHeading";
+import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
+import { Breadcrumb } from "@/components/layout/Breadcrumb";
+import { rarityColorVar } from "@/lib/ui/theme";
+import { GlossaryText } from "@/components/glossary/GlossaryText";
 
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -100,19 +101,19 @@ export default async function ArtifactDetail({ params }: PageProps) {
         {a.onePieceBonus && (
           <div className="surface-card p-4">
             <div className="font-semibold text-text-primary mb-1">{t("onePieceEffect")}</div>
-            <p className="text-sm text-text-secondary leading-relaxed">{a.onePieceBonus}</p>
+            <p className="text-sm text-text-secondary leading-relaxed"><GlossaryText text={a.onePieceBonus} /></p>
           </div>
         )}
         {a.twoPieceBonus && (
           <div className="surface-card p-4">
             <div className="font-semibold text-text-primary mb-1">{t("twoPieceEffect")}</div>
-            <p className="text-sm text-text-secondary leading-relaxed">{a.twoPieceBonus}</p>
+            <p className="text-sm text-text-secondary leading-relaxed"><GlossaryText text={a.twoPieceBonus} /></p>
           </div>
         )}
         {a.fourPieceBonus && (
           <div className="surface-card p-4" style={{ borderColor: `color-mix(in srgb, ${rc} 30%, var(--border-color))` }}>
             <div className="font-semibold mb-1" style={{ color: rc }}>{t("fourPieceEffect")}</div>
-            <p className="text-sm text-text-secondary leading-relaxed">{a.fourPieceBonus}</p>
+            <p className="text-sm text-text-secondary leading-relaxed"><GlossaryText text={a.fourPieceBonus} /></p>
           </div>
         )}
       </section>

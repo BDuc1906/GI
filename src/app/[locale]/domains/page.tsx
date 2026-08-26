@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { Prisma } from "@prisma/client";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { prisma } from "@/lib/prisma";
-import { SafeImage } from "@/components/SafeImage";
-import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
-import { Pagination } from "@/components/Pagination";
-import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/pagination";
+import { prisma } from "@/lib/db/prisma";
+import { SafeImage } from "@/components/ui/SafeImage";
+import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
+import { Pagination } from "@/components/ui/Pagination";
+import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/ui/pagination";
 import type { Metadata } from "next";
+import { withDbRetry } from "@/lib/db/db-retry";
 
 export async function generateMetadata({
   params,
@@ -43,16 +44,21 @@ export default async function DomainsPage({ params, searchParams }: PageProps) {
   if (category && CATEGORIES.includes(category as (typeof CATEGORIES)[number])) where.category = category;
   if (q) where.name = { contains: q, mode: "insensitive" };
 
-  const [domains, total] = await Promise.all([
-    prisma.domain.findMany({
-      where,
-      orderBy: [{ category: "asc" }, { name: "asc" }],
-      skip: (page - 1) * LIST_PAGE_SIZE,
-      take: LIST_PAGE_SIZE,
-      select: { id: true, name: true, category: true, regionName: true, imageUrl: true, imageUrlOriginal: true },
-    }),
-    prisma.domain.count({ where }),
-  ]);
+  // BUG ĐÃ SỬA: cùng lớp lỗi P1017 "Server has closed the connection" ở
+  // trang chủ/characters — bọc withDbRetry để chịu được đúng lúc Neon
+  // free tier vừa suspend compute xong.
+  const [domains, total] = await withDbRetry(() =>
+    Promise.all([
+      prisma.domain.findMany({
+        where,
+        orderBy: [{ category: "asc" }, { name: "asc" }],
+        skip: (page - 1) * LIST_PAGE_SIZE,
+        take: LIST_PAGE_SIZE,
+        select: { id: true, name: true, category: true, regionName: true, imageUrl: true, imageUrlOriginal: true },
+      }),
+      prisma.domain.count({ where }),
+    ])
+  );
   const totalPages = totalPagesFor(total);
 
   const buildQuery = (params: Record<string, string | undefined>) => {

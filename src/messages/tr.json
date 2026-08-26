@@ -386,6 +386,14 @@
     "wave2": "Wave 2 (sürüm 6.6)",
     "newWitchesWithHexerei": "New Witch, mevcut Hexerei (sürüm 6.6)",
     "versionLabel": "Kopya {version}",
-    "witchRevelationNote": "Not: Aynı isme rağmen yukarıdaki Hexerei'den FARKLIDIR — bu mekanizma Yıldız-Davranış tepkisine bağlıdır (\"Astral Alem\" sekmesine bakınız), Mondstadt fraksiyon güçlendirmesine değil."
+    "witchRevelationNote": "Not: Aynı isme rağmen yukarıdaki Hexerei'den FARKLIDIR — bu mekanizma Yıldız-Davranış tepkisine bağlıdır (\"Astral Alem\" sekmesine bakınız), Mondstadt fraksiyon güçlendirmesine değil.",
+    "tabFormula": "Hasar Formülü",
+    "formulaIntro": "Veriler doğrudan KeQingMains Theorycrafting Library ve resmi Genshin Impact Wiki'sinden alınmıştır, 5.2 sürümünde 4 tepkimeye (Aşırı Yük/Süper İletken/Parçalanma/Elektro Yüklü) gelen güçlendirmeye göre güncellenmiştir. Kendiniz doğrulamak için aşağıdaki her bir kaynağa tıklayabilirsiniz.",
+    "reactionColumn": "Tepkime",
+    "coefficientColumn": "Temel katsayı",
+    "sourceLabel": "Kaynak",
+    "baseCoefficientTableTitle": "Temel Katsayı Tablosu — Dönüştürücü Tepkimeler",
+    "baseCoefficientTableNote": "Yukarıdaki Dönüştürücü Tepkime formülü yerine bu değeri kullanın. Elektro Yüklü bir döngüde 2 kez tetiklenebilir, bu yüzden gerçek toplam hasar aşağıdaki değerin iki katı olabilir.",
+    "shatterNote": "Parçalanma vuruşuna uygulanır, Donmuş durumunun kendisine değil"
   }
 }

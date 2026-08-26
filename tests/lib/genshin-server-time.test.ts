@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   genshinServerWeekdayIndex,
   genshinServerWeekdayName,
-} from "@/lib/genshin-server-time";
+} from "@/lib/game/genshin-server-time";
 
 describe("genshinServerWeekdayIndex (server Châu Á, UTC+8, reset 4h sáng)", () => {
   it("03:59 sáng giờ server (ngay TRƯỚC mốc reset) vẫn tính là ngày hôm trước", () => {

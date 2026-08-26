@@ -2,6 +2,15 @@
 /**
  * Zod Schemas - Định nghĩa cấu trúc dữ liệu cho AI Agent
  * Validate input/output đảm bảo an toàn trước khi gọi tool
+ *
+ * SỬA CHO ZOD v4 (2026-08) — 2 thay đổi API không liên quan tới AI SDK,
+ * nhưng lộ ra khi tsc chạy lại lần đầu sau khi nâng zod lên v4:
+ * - `z.record(valueSchema)` (1 tham số) đã bị xoá. Zod v4 bắt buộc khai
+ *   báo rõ cả kiểu key: `z.record(z.string(), valueSchema)`. Ở đây key
+ *   luôn là string (tên field tuỳ ý client gửi lên), nên dùng
+ *   `z.record(z.string(), z.unknown())`.
+ * - `ZodError.errors` đổi tên thành `ZodError.issues` (giữ cùng hình
+ *   dạng dữ liệu, chỉ đổi tên property).
  */
 
 import { z } from "zod";
@@ -52,7 +61,7 @@ export const ToolInvocationSchema = z.object({
   id: z.string(),
   tool: z.string(),
   status: z.enum(["pending", "running", "done", "error"]),
-  params: z.record(z.unknown()),
+  params: z.record(z.string(), z.unknown()),
   result: z.unknown().optional(),
   error: z.string().optional(),
 });
@@ -115,7 +124,7 @@ export const SearchParamsSchema = z.object({
 export const FixParamsSchema = z.object({
   type: EntityTypeSchema,
   id: z.string().min(1),
-  fields: z.record(z.unknown()).optional(),
+  fields: z.record(z.string(), z.unknown()).optional(),
   reason: z.string().optional(),
 });
 
@@ -157,7 +166,7 @@ export function validate<T>(
     if (error instanceof z.ZodError) {
       return {
         success: false,
-        error: error.errors.map((e) => `${e.path.join(".")}: ${e.message}`).join(", "),
+        error: error.issues.map((e) => `${e.path.join(".")}: ${e.message}`).join(", "),
       };
     }
     return { success: false, error: String(error) };

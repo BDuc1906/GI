@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { getTranslations } from "next-intl/server";
-import { prisma } from "@/lib/prisma";
-import { getWeaponTypeLabel } from "@/lib/weapon-type-label";
+import { prisma } from "@/lib/db/prisma";
+import { getWeaponTypeLabel } from "@/lib/game/weapon-type-label";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";

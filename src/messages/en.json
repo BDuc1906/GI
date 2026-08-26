@@ -386,6 +386,14 @@
     "wave2": "Wave 2 (version 6.6)",
     "newWitchesWithHexerei": "New Witch, available Hexerei (version 6.6)",
     "versionLabel": "Copy {version}",
-    "witchRevelationNote": "Note: It is DIFFERENT from the Hexerei above despite the same name — this mechanism is tied to the Stellar-Conduct reaction (see the \"Astral Realm\" tab), not the Mondstadt faction buff."
+    "witchRevelationNote": "Note: It is DIFFERENT from the Hexerei above despite the same name — this mechanism is tied to the Stellar-Conduct reaction (see the \"Astral Realm\" tab), not the Mondstadt faction buff.",
+    "tabFormula": "Damage Formula",
+    "formulaIntro": "Figures sourced directly from the KeQingMains Theorycrafting Library and the official Genshin Impact Wiki, updated for the 5.2 buff to 4 reactions (Overloaded/Superconduct/Shattered/Electro-Charged). Click each source below to verify yourself.",
+    "reactionColumn": "Reaction",
+    "coefficientColumn": "Base coefficient",
+    "sourceLabel": "Source",
+    "baseCoefficientTableTitle": "Base Coefficient Table — Transformative Reactions",
+    "baseCoefficientTableNote": "Use this in the Transformative Reaction formula above instead. Electro-Charged can trigger twice per cycle, so actual total damage can be double the value shown below.",
+    "shatterNote": "applies to the Shatter hit, not Frozen itself"
   }
 }

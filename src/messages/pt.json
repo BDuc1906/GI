@@ -386,6 +386,14 @@
     "wave2": "Onda 2 (versão 6.6)",
     "newWitchesWithHexerei": "New Witch, disponível para Hexerei (versão 6.6)",
     "versionLabel": "Copiar {version}",
-    "witchRevelationNote": "Nota: É DIFERENTE dos Hexerei acima apesar do mesmo nome — este mecanismo está ligado à reação de Conduta Estelar (ver o separador \"Reino Astral\"), não ao buff da facção de Mondstadt."
+    "witchRevelationNote": "Nota: É DIFERENTE dos Hexerei acima apesar do mesmo nome — este mecanismo está ligado à reação de Conduta Estelar (ver o separador \"Reino Astral\"), não ao buff da facção de Mondstadt.",
+    "tabFormula": "Fórmula de Dano",
+    "formulaIntro": "Dados retirados diretamente da KeQingMains Theorycrafting Library e da Wiki oficial de Genshin Impact, atualizados após o buff da versão 5.2 para 4 reações (Sobrecarga/Supercondução/Estilhaçado/Eletrocarregado). Clique em cada fonte abaixo para conferir você mesmo.",
+    "reactionColumn": "Reação",
+    "coefficientColumn": "Coeficiente base",
+    "sourceLabel": "Fonte",
+    "baseCoefficientTableTitle": "Tabela de Coeficientes Base — Reações de Transformação",
+    "baseCoefficientTableNote": "Use este valor na fórmula de Reação de Transformação acima. Eletrocarregado pode ativar até 2 vezes por ciclo, então o dano total real pode ser o dobro do valor mostrado abaixo.",
+    "shatterNote": "aplica-se ao golpe de Estilhaçado, não ao Congelado em si"
   }
 }

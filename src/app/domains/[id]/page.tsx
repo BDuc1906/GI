@@ -1,9 +1,9 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/db/prisma";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { SafeImage } from "@/components/SafeImage";
-import { BreadcrumbJsonLd } from "@/components/BreadcrumbJsonLd";
-import { Breadcrumb } from "@/components/Breadcrumb";
+import { SafeImage } from "@/components/ui/SafeImage";
+import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
+import { Breadcrumb } from "@/components/layout/Breadcrumb";
 
 interface PageProps {
   params: Promise<{ id: string }>;

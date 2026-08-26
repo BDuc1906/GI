@@ -1,11 +1,11 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { prisma } from "@/lib/prisma";
-import { elementColorVar, rarityColorVar } from "@/lib/theme";
-import { ElementIcon } from "@/components/ElementIcon";
-import { SafeImage } from "@/components/SafeImage";
-import { EntityCard } from "@/components/EntityCard";
-import { resolveCharacterCardImage } from "@/lib/character-helpers";
+import { prisma } from "@/lib/db/prisma";
+import { elementColorVar, rarityColorVar } from "@/lib/ui/theme";
+import { ElementIcon } from "@/components/character/ElementIcon";
+import { SafeImage } from "@/components/ui/SafeImage";
+import { EntityCard } from "@/components/ui/EntityCard";
+import { resolveCharacterCardImage } from "@/lib/game/character-helpers";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 interface PageProps {

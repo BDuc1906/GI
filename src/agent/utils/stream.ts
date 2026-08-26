@@ -2,6 +2,14 @@
 /**
  * Stream Utilities - Xử lý streaming response
  * Dùng Server-Sent Events (SSE) để gửi dữ liệu real-time
+ *
+ * NÂNG CẤP AI SDK v3 -> v6 (2026-08): đã XOÁ `aiStreamToSSE()` — hàm
+ * này tự parse tay 3 prefix "0:"/"9:"/"a:" của "AI SDK Data Stream
+ * Protocol" (chỉ tồn tại ở v3/v4). Từ v5, `AgentCore.processStream()`
+ * không còn trả về stream thô của SDK nữa — nó tự chuyển `fullStream`
+ * (typed) sang đúng `StreamChunk` bên dưới rồi mới trả ra
+ * (xem AgentCore.ts::toStreamChunks), nên không còn bước "parse lại"
+ * nào ở tầng route.ts cần tới hàm này.
  */
 
 // KHÔNG import ReadableStream từ "node:stream/web" — bản gốc import nó
@@ -11,10 +19,10 @@
 // trong tsconfig.json) là đúng loại cần dùng ở đây — route Next.js trả
 // Web ReadableStream, không phải Node stream.
 
-// Payload thật của AI SDK cho tool-call/tool-result (prefix "9:"/"a:"
-// trong data stream protocol) — field name lấy đúng theo SDK, KHÔNG
-// dùng `any`. `unknown` cho "args"/"result" vì đây là tham số/kết quả
-// của TOOL BẤT KỲ (mỗi tool 1 hình dạng khác nhau), phía nhận
+// Payload thật của StreamChunk cho tool-call/tool-result trong hệ SSE
+// NỘI BỘ (do createStream() sinh ra) — không liên quan tới format dây
+// nội bộ của AI SDK. `unknown` cho "args"/"result" vì đây là tham số/
+// kết quả của TOOL BẤT KỲ (mỗi tool 1 hình dạng khác nhau), phía nhận
 // (useAgent.ts) đã tự biết cách xử lý dựa trên `toolName`.
 export interface ToolCallData {
   toolCallId: string;
@@ -34,7 +42,11 @@ export interface StreamChunk {
 }
 
 /**
- * Tạo ReadableStream từ chunks
+ * Tạo ReadableStream (SSE) từ 1 AsyncGenerator<StreamChunk> bất kỳ.
+ * Đây là "cửa ra" duy nhất cho mọi nguồn dữ liệu stream trong agent —
+ * AgentCore.toStreamChunks() sinh ra generator, hàm này chỉ lo phần
+ * đóng gói SSE (`data: ...\n\n`) + xử lý lỗi, không quan tâm dữ liệu
+ * đến từ đâu.
  */
 export function createStream(
   generator: AsyncGenerator<StreamChunk>
@@ -55,86 +67,6 @@ export function createStream(
         };
         controller.enqueue(
           new TextEncoder().encode(`data: ${JSON.stringify(errorChunk)}\n\n`)
-        );
-        controller.close();
-      }
-    },
-  });
-}
-
-/**
- * Chuyển đổi AI stream thành SSE stream
- *
- * VÁ LỖI: bản gốc chỉ xử lý prefix "0:" (text) và "9:" (tool call) của
- * AI SDK data stream protocol, bỏ sót "a:" (tool RESULT — kết quả sau
- * khi tool chạy xong). Hệ quả: `useAgent.ts` phía client không bao giờ
- * biết 1 tool call đã "done" hay "error", chỉ thấy mãi ở trạng thái
- * "running". Thêm xử lý "a:" để khớp đủ vòng đời tool call ↔ tool
- * result mà `ToolInvocation.status` ở client đã định nghĩa sẵn.
- */
-export function aiStreamToSSE(
-  aiStream: ReadableStream<Uint8Array>
-): ReadableStream<Uint8Array> {
-  const decoder = new TextDecoder();
-  const encoder = new TextEncoder();
-
-  return new ReadableStream({
-    async start(controller) {
-      const reader = aiStream.getReader();
-
-      try {
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-
-          const text = decoder.decode(value);
-          // Parse AI SDK stream format
-          const lines = text.split("\n");
-          for (const line of lines) {
-            if (line.startsWith("0:")) {
-              // text chunk
-              const content = line.slice(2);
-              const chunk: StreamChunk = { type: "text", content };
-              controller.enqueue(
-                encoder.encode(`data: ${JSON.stringify(chunk)}\n\n`)
-              );
-            } else if (line.startsWith("9:")) {
-              // tool call — LƯU Ý: type "tool-call", KHÔNG phải "tool"
-              // (useAgent.ts trước đây chờ "tool" — lệch tên, đã sửa ở
-              // đó cho khớp với type thật gửi từ đây).
-              try {
-                const data = JSON.parse(line.slice(2)) as ToolCallData;
-                const chunk: StreamChunk = { type: "tool-call", data };
-                controller.enqueue(
-                  encoder.encode(`data: ${JSON.stringify(chunk)}\n\n`)
-                );
-              } catch {
-                // Bỏ qua
-              }
-            } else if (line.startsWith("a:")) {
-              // tool result — TRƯỚC ĐÂY hoàn toàn bị bỏ qua
-              try {
-                const data = JSON.parse(line.slice(2)) as ToolResultData;
-                const chunk: StreamChunk = { type: "tool-result", data };
-                controller.enqueue(
-                  encoder.encode(`data: ${JSON.stringify(chunk)}\n\n`)
-                );
-              } catch {
-                // Bỏ qua
-              }
-            }
-          }
-        }
-
-        controller.enqueue(encoder.encode("data: [DONE]\n\n"));
-        controller.close();
-      } catch (error) {
-        const errorChunk: StreamChunk = {
-          type: "error",
-          content: error instanceof Error ? error.message : String(error),
-        };
-        controller.enqueue(
-          encoder.encode(`data: ${JSON.stringify(errorChunk)}\n\n`)
         );
         controller.close();
       }

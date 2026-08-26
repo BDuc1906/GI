@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
-import { prisma } from "@/lib/prisma";
-import { withDbRetry } from "@/lib/db-retry";
+import { prisma } from "@/lib/db/prisma";
+import { withDbRetry } from "@/lib/db/db-retry";
 import { routing } from "@/i18n/routing";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";

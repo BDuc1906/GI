@@ -2,12 +2,16 @@
 /**
  * API Route: /api/agent
  * Chat với AI Agent - hỗ trợ streaming
+ *
+ * NÂNG CẤP AI SDK v3 -> v6 (2026-08): bỏ import/gọi `aiStreamToSSE` —
+ * hàm đó đã bị xoá khỏi utils/stream.ts vì `AgentCore.processStream()`
+ * giờ tự trả về đúng SSE nội bộ (StreamChunk) rồi, không cần bước
+ * "parse lại format dây của AI SDK" ở tầng route nữa.
  */
 
 import { NextRequest } from "next/server";
 import { AgentCore } from "@/agent/core/AgentCore";
 import { getAuthenticatedUser } from "@/agent/utils/auth";
-import { aiStreamToSSE } from "@/agent/utils/stream";
 import { withRateLimit } from "@/lib/api/rate-limit";
 import { getConfig } from "@/agent/core/config";
 import { fail } from "@/lib/api/response";
@@ -40,8 +44,7 @@ async function handler(req: NextRequest) {
       useDb: true,
     });
 
-    const stream = await agent.processStream(message);
-    const sseStream = aiStreamToSSE(stream);
+    const sseStream = await agent.processStream(message);
 
     return new Response(sseStream, {
       headers: {

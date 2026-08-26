@@ -386,6 +386,14 @@
     "wave2": "Welle 2 (Version 6.6)",
     "newWitchesWithHexerei": "Neue Hexe, verfügbar Hexerei (Version 6.6)",
     "versionLabel": "Kopie {version}",
-    "witchRevelationNote": "Hinweis: Es ist ANDERS als die oben genannte Hexerei, trotz desselben Namens – dieser Mechanismus ist mit der Stern-Conduct-Reaktion verbunden (siehe den Tab \"Astrales Reich\"), nicht mit dem Mondstadter Fraktionsbuff."
+    "witchRevelationNote": "Hinweis: Es ist ANDERS als die oben genannte Hexerei, trotz desselben Namens – dieser Mechanismus ist mit der Stern-Conduct-Reaktion verbunden (siehe den Tab \"Astrales Reich\"), nicht mit dem Mondstadter Fraktionsbuff.",
+    "tabFormula": "Schadensformel",
+    "formulaIntro": "Werte direkt aus der KeQingMains Theorycrafting Library und dem offiziellen Genshin Impact Wiki, aktualisiert für das 5.2-Buff für 4 Reaktionen (Überladung/Superleiter/Zerschmettert/Elektroschock). Klicke unten auf jede Quelle, um selbst nachzuprüfen.",
+    "reactionColumn": "Reaktion",
+    "coefficientColumn": "Basiskoeffizient",
+    "sourceLabel": "Quelle",
+    "baseCoefficientTableTitle": "Basiskoeffizienten-Tabelle — Umwandlungsreaktionen",
+    "baseCoefficientTableNote": "Verwende diesen Wert stattdessen in der obigen Formel für Umwandlungsreaktionen. Elektroschock kann bis zu zweimal pro Zyklus ausgelöst werden, daher kann der tatsächliche Gesamtschaden doppelt so hoch sein wie der unten angegebene Wert.",
+    "shatterNote": "gilt für den Zerschmettert-Treffer, nicht für Gefroren selbst"
   }
 }

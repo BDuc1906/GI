@@ -1,12 +1,13 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { prisma } from "../../lib/prisma";
-import { ElementIcon } from "../../components/ElementIcon";
-import { HomeHero } from "../../components/HomeHero";
-import { ScrollReveal } from "../../components/ScrollReveal";
-import { EntityCard } from "../../components/EntityCard";
-import { elementColorVar } from "../../lib/theme";
-import { genshinServerWeekdayIndex } from "../../lib/genshin-server-time";
+import { prisma } from "../../lib/db/prisma";
+import { ElementIcon } from "../../components/character/ElementIcon";
+import { HomeHero } from "../../components/layout/HomeHero";
+import { ScrollReveal } from "../../components/ui/ScrollReveal";
+import { EntityCard } from "../../components/ui/EntityCard";
+import { elementColorVar } from "../../lib/ui/theme";
+import { genshinServerWeekdayIndex } from "../../lib/game/genshin-server-time";
+import { withDbRetry } from "@/lib/db/db-retry";
 
 export const revalidate = 60;
 export const dynamic = "force-dynamic";
@@ -38,37 +39,44 @@ export default async function Home({
     talent: t("categoryTalentBook"),
   };
 
-  const [charCount, weaponCount, artifactCount] = await Promise.all([
-    prisma.character.count(),
-    prisma.weapon.count(),
-    prisma.artifactSet.count(),
-  ]);
-
-  const latestCharacters = await prisma.character.findMany({
-    // 9 item = 1 tile 2x2 (4 đơn vị) + 8 tile đơn (8 đơn vị) = 12 đơn vị
-    // diện tích, chia hết cho mọi mốc cột đang dùng (2/3/4/6) → lưới bento
-    // luôn kín khít, không hở ô ở bất kỳ kích thước màn hình nào.
-    take: 9,
-    orderBy: { updatedAt: "desc" },
-    select: { id: true, name: true, vision: true, weaponType: true, rarity: true, iconUrl: true, elementIcon: true },
-  });
-
-  const latestWeapons = await prisma.weapon.findMany({
-    take: 6,
-    orderBy: { updatedAt: "desc" },
-    select: { id: true, name: true, type: true, rarity: true, iconUrl: true },
-  });
-
-  // Bí cảnh mở hôm nay — cùng logic "giờ server + mốc đổi ngày 4h sáng" với
-  // trang /domains, để banner trang chủ và trang lịch bí cảnh luôn khớp
-  // nhau (không phải dữ liệu trang trí, đúng danh sách hôm nay mở).
+  // BUG ĐÃ SỬA: trước đây 5 lời gọi Prisma này chạy tách rời (3 cái đầu
+  // Promise.all, 2 cái sau await tuần tự) — KHÔNG có retry, nên chỉ cần
+  // 1 trong 5 request trúng đúng lúc Neon free tier vừa suspend compute
+  // xong là cả trang chủ crash với PrismaClientKnownRequestError
+  // "Server has closed the connection" (P1017). sitemap.ts đã có sẵn
+  // `withDbRetry` xử lý đúng vấn đề này — gộp cả 5 query vào 1
+  // Promise.all rồi bọc withDbRetry, theo đúng khuôn mẫu đó.
   const todayKey = WEEKDAY_KEYS[genshinServerWeekdayIndex()];
-  const domainsToday = await prisma.domain.findMany({
-    where: { OR: [{ daysOfWeek: { isEmpty: true } }, { daysOfWeek: { has: todayKey } }] },
-    orderBy: { category: "asc" },
-    select: { id: true, name: true, category: true },
-    take: 6,
-  });
+
+  const [charCount, weaponCount, artifactCount, latestCharacters, latestWeapons, domainsToday] = await withDbRetry(() =>
+    Promise.all([
+      prisma.character.count(),
+      prisma.weapon.count(),
+      prisma.artifactSet.count(),
+      prisma.character.findMany({
+        // 9 item = 1 tile 2x2 (4 đơn vị) + 8 tile đơn (8 đơn vị) = 12 đơn vị
+        // diện tích, chia hết cho mọi mốc cột đang dùng (2/3/4/6) → lưới bento
+        // luôn kín khít, không hở ô ở bất kỳ kích thước màn hình nào.
+        take: 9,
+        orderBy: { updatedAt: "desc" },
+        select: { id: true, name: true, vision: true, weaponType: true, rarity: true, iconUrl: true, elementIcon: true },
+      }),
+      prisma.weapon.findMany({
+        take: 6,
+        orderBy: { updatedAt: "desc" },
+        select: { id: true, name: true, type: true, rarity: true, iconUrl: true },
+      }),
+      // Bí cảnh mở hôm nay — cùng logic "giờ server + mốc đổi ngày 4h sáng"
+      // với trang /domains, để banner trang chủ và trang lịch bí cảnh luôn
+      // khớp nhau (không phải dữ liệu trang trí, đúng danh sách hôm nay mở).
+      prisma.domain.findMany({
+        where: { OR: [{ daysOfWeek: { isEmpty: true } }, { daysOfWeek: { has: todayKey } }] },
+        orderBy: { category: "asc" },
+        select: { id: true, name: true, category: true },
+        take: 6,
+      }),
+    ])
+  );
 
   const stats = [
     { label: t("statCharacters"), count: charCount },

@@ -1,11 +1,11 @@
 import type { NextRequest } from 'next/server';
 import { Prisma } from '@prisma/client';
-import { prisma } from '@/lib/prisma';
+import { prisma } from "@/lib/db/prisma";
 import { ok } from '@/lib/api/response';
 import { withErrorHandling } from '@/lib/api/errors';
 import { withRateLimit } from '@/lib/api/rate-limit';
 import { buildMeta, parsePagination, parseRarityList, parseSort } from '@/lib/api/query';
-import { logger } from '@/lib/logger'; // Thêm dòng này
+import { logger } from "@/lib/infra/logger"; // Thêm dòng này
 
 export const revalidate = 60;
 export const dynamic = 'force-dynamic';

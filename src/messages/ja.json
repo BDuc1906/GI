@@ -386,6 +386,14 @@
     "wave2": "ウェーブ2(バージョン6.6)",
     "newWitchesWithHexerei": "New Witch、Hexerei(バージョン6.6)が利用可能です",
     "versionLabel": "{version} コピー",
-    "witchRevelationNote": "注:名前は同じですが、上記のヘクセレイとは異なります。この機構は恒星行動反応(「アストラル・レルム」タブ参照)に結びついており、モンドシュタット派閥のバフではありません。"
+    "witchRevelationNote": "注:名前は同じですが、上記のヘクセレイとは異なります。この機構は恒星行動反応(「アストラル・レルム」タブ参照)に結びついており、モンドシュタット派閥のバフではありません。",
+    "tabFormula": "ダメージ計算式",
+    "formulaIntro": "KeQingMains Theorycrafting Libraryと公式Genshin Impact Wikiから直接引用したデータ。バージョン5.2での4つの反応(過負荷/超電導/凍結解除/感電)の強化に合わせて更新済み。下記の各ソースをクリックして自分で確認できます。",
+    "reactionColumn": "反応",
+    "coefficientColumn": "基礎係数",
+    "sourceLabel": "出典",
+    "baseCoefficientTableTitle": "基礎係数表 — 増幅反応",
+    "baseCoefficientTableNote": "上記の増幅反応の計算式の代わりにこの値を使用してください。感電は1サイクルで最大2回発生することがあるため、実際の合計ダメージは以下の値の2倍になる場合があります。",
+    "shatterNote": "凍結解除のヒットに適用され、凍結自体には適用されません"
   }
 }

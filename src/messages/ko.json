@@ -386,6 +386,14 @@
     "wave2": "웨이브 2 (버전 6.6)",
     "newWitchesWithHexerei": "뉴 위치, 헥세레이 이용 가능 (버전 6.6)",
     "versionLabel": "{version} 복사",
-    "witchRevelationNote": "참고: 이름은 같지만 위의 헥세레이와는 다릅니다 — 이 메커니즘은 몬드슈타트 진영 버프가 아니라 별의 행동 반응('아스트랄 렐름' 탭 참조)과 연관되어 있습니다."
+    "witchRevelationNote": "참고: 이름은 같지만 위의 헥세레이와는 다릅니다 — 이 메커니즘은 몬드슈타트 진영 버프가 아니라 별의 행동 반응('아스트랄 렐름' 탭 참조)과 연관되어 있습니다.",
+    "tabFormula": "피해량 공식",
+    "formulaIntro": "KeQingMains Theorycrafting Library와 공식 원신 위키에서 직접 가져온 수치이며, 5.2 버전의 4개 반응(과부하/초전도/빙결 해제/감전) 상향에 맞춰 업데이트되었습니다. 아래 각 출처를 클릭해 직접 확인할 수 있습니다.",
+    "reactionColumn": "반응",
+    "coefficientColumn": "기본 계수",
+    "sourceLabel": "출처",
+    "baseCoefficientTableTitle": "기본 계수표 — 증폭 반응",
+    "baseCoefficientTableNote": "위의 증폭 반응 공식 대신 이 값을 사용하세요. 감전은 한 주기에 최대 2번 발동할 수 있어 실제 총 피해량이 아래 값의 2배가 될 수 있습니다.",
+    "shatterNote": "빙결 해제 타격에 적용되며, 빙결 자체에는 적용되지 않습니다"
   }
 }

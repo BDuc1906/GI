@@ -13,7 +13,7 @@
  * build thay vì runtime.
  */
 
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/db/prisma";
 import { DataSourceManager } from "@/lib/data-sources/DataSourceManager";
 import { DiffEngine } from "@/lib/sync/DiffEngine";
 import { createAuditLog } from "@/lib/agent/AuditLogger";
