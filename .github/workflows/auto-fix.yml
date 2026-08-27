@@ -1,0 +1,88 @@
+name: Auto Fix Data
+
+# Tự động quét & sửa dữ liệu production lệch với nguồn live — KHÔNG
+# CẦN admin bấm gì (thay cho việc gọi tay POST /api/admin/fix).
+#
+# QUAN TRỌNG — khác với ci.yml/update-data.yml: 2 workflow đó chỉ chạy
+# trên Postgres service container TẠM (dữ liệu test, xoá sau khi job
+# xong). Workflow NÀY ghi thẳng vào DATABASE PRODUCTION THẬT, vì mục
+# đích của AutoFixEngine chính là sửa dữ liệu đang hiển thị cho user.
+#
+# Vì vậy PHẢI cấu hình các secret sau trong GitHub → Settings →
+# Environments → tạo environment tên "production" (khuyến nghị bật
+# "Required reviewers" hoặc ít nhất giới hạn ai được sửa secret của
+# environment này, KHÁC với secrets thường của repo):
+#   - DATABASE_URL, DIRECT_URL   (đúng connection string Postgres THẬT
+#     đang dùng trên Vercel — copy từ Vercel → Settings → Environment
+#     Variables, KHÔNG phải chuỗi postgres:postgres@localhost của CI)
+#   - AGENT_LIVE_PROVIDER        (nếu dùng, để AutoFixEngine có gì đối
+#     chiếu — không set thì job tự no-op an toàn, không lỗi)
+#   - OPS_WEBHOOK_URL            (Discord webhook để nhận thông báo,
+#     xem src/lib/infra/notify.ts — không bắt buộc nhưng nên có)
+
+on:
+  schedule:
+    # 4:00 UTC+7 = 21:00 UTC hàng ngày — lệch giờ với update-data.yml
+    # (chạy 22:00 UTC thứ 4) để 2 job không cùng ghi DB một lúc.
+    - cron: '0 21 * * *'
+  workflow_dispatch: # vẫn cho phép chạy tay khi cần kiểm tra ngay
+
+concurrency:
+  group: auto-fix-data
+  cancel-in-progress: false # không huỷ nửa chừng 1 lần đang ghi DB thật
+
+jobs:
+  auto-fix:
+    name: Quét, tự sửa, rồi tự kiểm tra lại
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Prisma generate
+        run: npx prisma generate
+
+      - name: Quét & tự sửa (AutoFixEngine)
+        run: npx tsx scripts/pipeline/auto-fix.ts
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          AGENT_LIVE_PROVIDER: ${{ vars.AGENT_LIVE_PROVIDER }}
+          OPS_WEBHOOK_URL: ${{ secrets.OPS_WEBHOOK_URL }}
+
+      # Đợi rồi kiểm tra lại — bắt các trường hợp nguồn live trả dữ
+      # liệu tạm thời/lỗi đúng lúc auto-fix chạy. 30 phút đủ để phân
+      # biệt "lỗi tạm thời" (thường tự hết sau vài phút) với "dữ liệu
+      # live đã đổi thật" (ổn định qua nhiều lần đọc).
+      - name: Đợi 30 phút trước khi kiểm tra lại
+        run: sleep 1800
+
+      - name: Kiểm tra lại + tự revert nếu live không còn khớp
+        run: npx tsx scripts/pipeline/verify-rollback.ts --window-minutes=40
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          AGENT_LIVE_PROVIDER: ${{ vars.AGENT_LIVE_PROVIDER }}
+          OPS_WEBHOOK_URL: ${{ secrets.OPS_WEBHOOK_URL }}
+
+      - name: Tạo issue nếu cả 2 bước trên fail
+        if: failure()
+        uses: actions/github-script@v9
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🚨 Workflow auto-fix thất bại',
+              body: `Xem chi tiết: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+              labels: ['auto-fix', 'bug'],
+            })
