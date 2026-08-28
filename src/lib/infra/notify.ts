@@ -5,6 +5,7 @@
  * - Pipeline thành công/thất bại
  * - Mirror ảnh lỗi
  * - Seed thất bại
+ * - AutoFixEngine tự sửa hoặc tự revert dữ liệu (source: "auto-fix")
  *
  * Tự tắt nếu thiếu OPS_WEBHOOK_URL (không throw, không crash).
  */
@@ -12,7 +13,7 @@
 const MAX_CONTENT_LENGTH = 1900; // Discord giới hạn 2000 ký tự, để dư ra
 
 export interface NotifyOptions {
-  source: 'seed' | 'mirror-images' | 'crawl' | 'update-data' | 'verify';
+  source: 'seed' | 'mirror-images' | 'crawl' | 'update-data' | 'verify' | 'auto-fix';
   severity: 'info' | 'warning' | 'error';
   title: string;
   detail?: string;

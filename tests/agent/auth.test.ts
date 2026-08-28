@@ -1,5 +1,5 @@
 // tests/agent/auth.test.ts
-import { describe, expect, it, beforeEach, afterEach } from "vitest";
+import { describe, expect, it, afterEach } from "vitest";
 import type { NextRequest } from "next/server";
 import { getAuthenticatedUser, requireAdmin } from "@/agent/utils/auth";
 

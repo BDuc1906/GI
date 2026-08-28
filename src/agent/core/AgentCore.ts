@@ -17,13 +17,16 @@
  *   ở đây đọc THẲNG `result.fullStream` — một AsyncIterable có type
  *   rõ ràng do chính SDK cung cấp, không phải "đoán format dây" nữa.
  *   Xem `toStreamChunks()` bên dưới và `utils/stream.ts::createStream`.
- * - `toStreamChunks()` được viết thành HÀM GENERIC theo `TOOLS extends
- *   ToolSet` thay vì nhận tham số kiểu `ReturnType<typeof streamText>`
- *   — lý do y hệt lý do đổi `AITool` trong ToolRegistry.ts: lấy
- *   `ReturnType` của 1 hàm generic CHƯA GỌI khiến TS suy luận sai kiểu
- *   hẹp nhất. Viết generic để TS suy luận TOOLS trực tiếp từ đối số
- *   `result` thật được truyền vào lúc gọi (`this.toStreamChunks(result)`),
- *   không suy luận qua chữ ký hàm chưa gọi.
+ * - `toStreamChunks()` (hàm generator LỒNG BÊN TRONG `processStream()`,
+ *   không phải method riêng của class) đọc thẳng `result.fullStream` mà
+ *   KHÔNG annotate type nào cho tham số `result` cả — nó lấy `result` từ
+ *   closure của chính `processStream()`, nơi TypeScript đã tự suy luận
+ *   đúng, đầy đủ kiểu cụ thể (không phải kiểu hẹp nhất do generic chưa
+ *   gọi) ngay từ lời gọi `streamText({...})` phía trên. Cách này né
+ *   HẲN việc phải viết ra kiểu `StreamTextResult<TOOLS, ...>` bằng tay
+ *   (bản trước từng thử `unknown`/`never` cho tham số Output đều không
+ *   thoả ràng buộc `Output<any, any, any>` của SDK, phải dùng `any`) —
+ *   không viết type đó ra thì không cần lo nó là gì.
  */
 
 import {
@@ -32,7 +35,6 @@ import {
   stepCountIs,
   type ModelMessage,
   type ToolSet,
-  type StreamTextResult,
 } from "ai";
 import { createLLMClient } from "./llm-client";
 import { getSystemPrompt } from "./prompts";
@@ -185,44 +187,38 @@ export class AgentCore {
       },
     });
 
-    return createStream(this.toStreamChunks(result));
-  }
-
-  /**
-   * Chuyển `fullStream` (typed, do chính AI SDK cung cấp) sang
-   * `StreamChunk` nội bộ mà `utils/stream.ts::createStream` và
-   * `useAgent.ts` đã hiểu sẵn từ trước — KHÔNG tự parse lại chuỗi text
-   * thô nào của SDK, tránh lặp lại lỗi "hand-parse dễ vỡ" của bản gốc.
-   */
-  private async *toStreamChunks<TOOLS extends ToolSet>(
-    result: StreamTextResult<TOOLS, any>
-  ): AsyncGenerator<StreamChunk> {
-    for await (const part of result.fullStream) {
-      switch (part.type) {
-        case "text-delta":
-          yield { type: "text", content: part.text };
-          break;
-        case "tool-call":
-          yield {
-            type: "tool-call",
-            data: { toolCallId: part.toolCallId, toolName: part.toolName, args: part.input },
-          };
-          break;
-        case "tool-result":
-          yield {
-            type: "tool-result",
-            data: { toolCallId: part.toolCallId, result: part.output },
-          };
-          break;
-        case "error":
-          yield { type: "error", content: String(part.error) };
-          break;
-        default:
-          // các type khác (start/finish/reasoning-*/source/tool-input-*...)
-          // bỏ qua có chủ đích — useAgent.ts hiện tại không đọc chúng
-          break;
+    // Đọc thẳng result.fullStream ngay tại đây (không tách hàm riêng,
+    // không annotate type) — xem lý do ở comment đầu file.
+    async function* toStreamChunks(): AsyncGenerator<StreamChunk> {
+      for await (const part of result.fullStream) {
+        switch (part.type) {
+          case "text-delta":
+            yield { type: "text", content: part.text };
+            break;
+          case "tool-call":
+            yield {
+              type: "tool-call",
+              data: { toolCallId: part.toolCallId, toolName: part.toolName, args: part.input },
+            };
+            break;
+          case "tool-result":
+            yield {
+              type: "tool-result",
+              data: { toolCallId: part.toolCallId, result: part.output },
+            };
+            break;
+          case "error":
+            yield { type: "error", content: String(part.error) };
+            break;
+          default:
+            // các type khác (start/finish/reasoning-*/source/tool-input-*...)
+            // bỏ qua có chủ đích — useAgent.ts hiện tại không đọc chúng
+            break;
+        }
       }
     }
+
+    return createStream(toStreamChunks());
   }
 
   /**

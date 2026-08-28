@@ -38,6 +38,10 @@ export function ScrollReveal({
     // Nếu trình duyệt không hỗ trợ IntersectionObserver (hiếm ở 2026),
     // hiện luôn nội dung thay vì để nó kẹt ở trạng thái ẩn vĩnh viễn.
     if (typeof IntersectionObserver === "undefined") {
+      // Fallback hiếm khi trình duyệt không hỗ trợ IntersectionObserver:
+      // không có API nào để subscribe, nên không có cách nào khác ngoài
+      // set thẳng ngay trong nhánh này.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setVisible(true);
       return;
     }

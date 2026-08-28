@@ -24,24 +24,22 @@
  *   tên — chỉ đổi tên field lúc truyền vào `createAITool()` bên dưới,
  *   để không phải sửa lan sang audit.tool.ts, fix.tool.ts, v.v. (các
  *   tool đó vẫn khai báo `parameters = ZodSchema` như cũ).
- * - `type AITool = ReturnType<typeof createAITool>` (cách viết ở bản
- *   trước) KHÔNG còn dùng được ở v6: `tool()` giờ là hàm generic thật
- *   sự, và lấy `ReturnType` của một hàm generic CHƯA ĐƯỢC GỌI khiến
- *   TypeScript suy luận ra kiểu hẹp nhất có thể (`Tool<never, never>`)
- *   thay vì kiểu tổng quát — không nhận được tool nào tạo ra từ dữ
- *   liệu thật (luôn là `Tool<unknown, unknown>`). Thay bằng đúng 2 type
- *   SDK xuất sẵn cho đúng mục đích này: `Tool<any, any>` (1 tool bất kỳ,
- *   input/output chưa biết trước) và `ToolSet` (`Record<string, Tool>`,
- *   đúng kiểu tham số `tools` mà `streamText`/`generateText` yêu cầu).
+ * - KHÔNG tự khai type "AITool" riêng nữa (bản trước từng thử
+ *   `type AITool = ReturnType<typeof createAITool>` rồi `Tool<any,any>`
+ *   — cả 2 đều có vấn đề: cái đầu suy luận sai kiểu hẹp nhất vì lấy
+ *   ReturnType của hàm generic CHƯA GỌI; cái sau phải viết literal
+ *   `any`). `getAITools()` giờ trả thẳng `ToolSet` (type SDK xuất sẵn,
+ *   đúng nghĩa "map nhiều tool, input/output khác nhau") — gán từng
+ *   `createAITool({...})` (đã có kiểu suy luận đúng, cụ thể, không
+ *   phải `any`) trực tiếp vào object kiểu `ToolSet` mà không cần một
+ *   type trung gian nào cả.
  */
 
 import { z } from "zod";
-import { tool as createAITool, type Tool, type ToolSet } from "ai";
+import { tool as createAITool, type ToolSet } from "ai";
 import { SearchTool, FetchLiveTool, CompareTool, FixTool, SyncTool, AuditTool } from "../tools";
 import { getConfig } from "./config";
 import type { ToolContext, ToolResult } from "../tools/base.tool";
-
-export type AITool = Tool<any, any>;
 
 export interface ToolDefinition {
   name: string;

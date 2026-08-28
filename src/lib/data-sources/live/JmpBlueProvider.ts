@@ -78,18 +78,11 @@ interface JmpBlueDomainRaw {
   description?: string;
 }
 
-interface JmpBlueMaterialRaw {
-  name?: string;
-  description?: string;
-}
-
-type JmpBlueRawByType = {
-  character: JmpBlueCharacterRaw;
-  weapon: JmpBlueWeaponRaw;
-  artifact: JmpBlueArtifactRaw;
-  material: JmpBlueMaterialRaw;
-  domain: JmpBlueDomainRaw;
-};
+// SỬA (lint no-unused-vars): type `JmpBlueRawByType` (đã xoá) từng gộp cả
+// 5 interface ở trên, và interface `JmpBlueMaterialRaw` CHỈ được dùng bởi
+// chính type tổng hợp đó — material bị chặn ngay từ đầu fetchOne() với
+// throw (xem bên dưới) nên không có hàm parse riêng nào cần tới field
+// này. Xoá luôn `JmpBlueMaterialRaw`, không cần thay thế.
 
 async function fetchJson<T>(url: string): Promise<T> {
   const controller = new AbortController();

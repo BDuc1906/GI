@@ -32,7 +32,9 @@ let MANUAL_ICON_OVERRIDES: Record<string, string> = {};
 try {
   MANUAL_ICON_OVERRIDES = JSON.parse(fs.readFileSync(imageOverridesPath, "utf-8"));
   console.log(`📖 Đã đọc image-overrides.json (${Object.keys(MANUAL_ICON_OVERRIDES).length} override)`);
-} catch (err) {
+} catch {
+  // Không dùng tới lỗi cụ thể — chỉ cần biết đọc thất bại để rơi về
+  // override rỗng, xem cảnh báo bên dưới.
   console.warn(`⚠️ Không đọc được ${imageOverridesPath}, sử dụng override rỗng.`);
 }
 loadManualOverrides(MANUAL_ICON_OVERRIDES);

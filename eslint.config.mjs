@@ -1,18 +1,15 @@
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
 import nextPlugin from "@next/eslint-plugin-next";
 import reactPlugin from "eslint-plugin-react";
 import reactHooksPlugin from "eslint-plugin-react-hooks";
 import jsxA11yPlugin from "eslint-plugin-jsx-a11y";
 import importPlugin from "eslint-plugin-import";
+import tseslint from "typescript-eslint";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+void __dirname; // giữ lại vì có thể cần cho cấu hình khác sau này
 
 // Lọc chỉ giữ rule "@next/next/*" từ configs tổng hợp của
 // @next/eslint-plugin-next — configs đó liệt kê SẴN cả rule tên
@@ -31,13 +28,32 @@ const eslintConfig = [
     ignores: [".next/**", "node_modules/**", "next-env.d.ts"],
   },
 
-  // CHỈ extend "next/typescript" qua FlatCompat — an toàn, không đụng vào
-  // react/react-hooks/jsx-a11y. Phần còn lại của "next/core-web-vitals"
-  // (xem node_modules/eslint-config-next/index.js) được khai tay bên dưới
-  // để né bug "Converting circular structure to JSON" của FlatCompat khi
-  // xử lý "plugin:react/recommended" / "plugin:react-hooks/recommended"
-  // (github.com/eslint/eslint/issues/20237 — bug đang mở, chưa có bản vá).
-  ...compat.extends("next/typescript"),
+  // TRƯỚC ĐÂY dùng `...compat.extends("next/typescript")` (FlatCompat) —
+  // ĐÃ BỎ vì đây chính là nguyên nhân "Converting circular structure to
+  // JSON" (github.com/eslint/eslint/issues/20237, bug đang mở của chính
+  // ESLint, không phải lỗi ở project này): `next/typescript` nạp
+  // `typescript-eslint` (bản NESTED bên trong eslint-config-next) qua
+  // lớp tương thích cấu hình kiểu cũ (`.eslintrc`) — cấu hình
+  // `configs['flat/all']` của typescript-eslint tự tham chiếu vòng lặp
+  // đến chính plugin, và FlatCompat cố JSON.stringify để validate/hiển
+  // thị lỗi thì crash. Giờ import `typescript-eslint` TRỰC TIẾP (bản ở
+  // top-level, khai trong package.json) và dùng thẳng
+  // `tseslint.configs.recommended` — vốn ĐÃ LÀ flat config chuẩn, không
+  // cần qua lớp compat nào cả, nên không thể dính bug này nữa.
+  ...tseslint.configs.recommended,
+
+  {
+    rules: {
+      // Quy ước trong toàn bộ src/agent/tools/*.tool.ts: tham số bắt
+      // buộc phải khai (khớp chữ ký BaseTool.run()) nhưng chưa dùng tới
+      // đặt tên bắt đầu bằng "_" (vd "_context") — cấu hình rule để
+      // công nhận quy ước này thay vì phải sửa từng file.
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
+    },
+  },
 
   {
     plugins: {
@@ -49,7 +65,13 @@ const eslintConfig = [
     },
     settings: {
       react: {
-        version: "detect",
+        // TRƯỚC ĐÂY: version: "detect" — bỏ, vì đường code tự dò
+        // version của eslint-plugin-react gọi context.getFilename(),
+        // một API đã bị ESLint 10 xoá khỏi flat config context, khiến
+        // rule "react/display-name" crash ("getFilename is not a
+        // function"). Khai thẳng version (khớp "react": "^19.0.0" ở
+        // package.json) để bỏ qua hẳn bước tự dò này.
+        version: "19.0.0",
       },
     },
     rules: {

@@ -9,6 +9,11 @@ export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
+  // Pattern "mounted flag" chuẩn của next-themes để né hydration mismatch
+  // (server luôn render mặc định "chưa mounted", chỉ đọc theme thật sau
+  // mount ở client) — không có cách nào tránh set-state ở đây mà vẫn giữ
+  // đúng hành vi này.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setMounted(true), []);
 
   if (!mounted) return null;

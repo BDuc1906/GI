@@ -73,7 +73,9 @@ async function main() {
 
   const breakpoints = buildStatBreakpoints();
   let ok = 0;
-  let failed: Array<{ level: number; ascension?: string; error: string }> = [];
+  // SỬA (lint prefer-const): chỉ .push() vào mảng này, không bao giờ
+  // gán lại chính biến `failed` — dùng const.
+  const failed: Array<{ level: number; ascension?: string; error: string }> = [];
   const rows: unknown[] = [];
 
   for (const [level, ascension] of breakpoints) {

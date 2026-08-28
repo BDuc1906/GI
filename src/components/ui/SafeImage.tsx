@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -74,7 +73,10 @@ export function SafeImage({
     .map(toProxiedUrl);
 
   const [src, setSrc] = useState<string | undefined>(candidates[0]);
-  const [attemptIndex, setAttemptIndex] = useState(0);
+  // SỬA (lint no-unused-vars): `attemptIndex` được set nhưng không bao
+  // giờ đọc lại ở đâu trong component — xoá state chết này, không cần
+  // thay thế bằng gì (mỗi lần thử lại, `src` tự đổi giá trị nên Image
+  // đã tự re-render đúng, không cần đếm số lần thử để làm gì khác).
   const [broken, setBroken] = useState(false);
 
   useEffect(() => {
@@ -86,10 +88,12 @@ export function SafeImage({
       .filter((u): u is string => typeof u === "string" && !!u)
       .map(toProxiedUrl);
 
+    // Effect này CHÍNH LÀ để đồng bộ state nội bộ (src/broken) với props
+    // từ bên ngoài mỗi khi props đổi (đúng định nghĩa "sync với external
+    // input"), không phải side-effect thừa.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setSrc(nextCandidates[0] ?? undefined);
-    setAttemptIndex(0);
     setBroken(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [srcProp, fallbackSrc, fallbackSrcs]);
 
   const handleError = () => {
@@ -99,7 +103,6 @@ export function SafeImage({
 
     if (next && next !== src) {
       setSrc(next);
-      setAttemptIndex(nextIndex + 1);
       return;
     }
 

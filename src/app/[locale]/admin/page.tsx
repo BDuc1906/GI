@@ -63,9 +63,13 @@ export default function AdminPage() {
   const [lastFixResult, setLastFixResult] = useState<FixScanSummary | null>(null);
   const [refreshToken, setRefreshToken] = useState(0);
 
-  // Đọc admin key đã lưu ở lần trước (chỉ trong trình duyệt này)
+  // Đọc admin key đã lưu ở lần trước (chỉ trong trình duyệt này) — effect
+  // ĐÚNG công dụng: đọc localStorage phải hoãn tới sau hydrate để tránh
+  // lệch SSR/client (server không có localStorage), không phải setState
+  // thừa.
   useEffect(() => {
     const saved = window.localStorage.getItem(ADMIN_KEY_STORAGE);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (saved) setAdminKey(saved);
   }, []);
 
@@ -94,6 +98,9 @@ export default function AdminPage() {
   }, [adminKey]);
 
   useEffect(() => {
+    // fetch lần đầu ngay khi mount/đổi refreshToken, không chỉ chờ tick
+    // đầu của setInterval bên dưới — effect polling hợp lệ, có cleanup.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchPipelineStatus();
     const interval = setInterval(fetchPipelineStatus, 30000);
     return () => clearInterval(interval);

@@ -42,7 +42,9 @@ let talentBookSeriesByCharacter: Record<string, string> = {};
 try {
   talentBookSeriesByCharacter = JSON.parse(fs.readFileSync(mappingPath, "utf-8"));
   console.log(`📖 Đã đọc talent-book-mapping.json (${Object.keys(talentBookSeriesByCharacter).length} nhân vật)`);
-} catch (err) {
+} catch {
+  // Không dùng tới lỗi cụ thể — chỉ cần biết đọc thất bại để rơi về
+  // mapping rỗng, xem cảnh báo bên dưới.
   console.warn(`⚠️ Không đọc được ${mappingPath}, sử dụng mapping rỗng.`);
 }
 
@@ -174,7 +176,9 @@ async function crawlCharacters() {
   console.log(`📋 Tìm thấy ${names.length} nhân vật.`);
 
   const characters: CharacterData[] = [];
-  let missingBookType: string[] = [];
+  // SỬA (lint prefer-const): chỉ .push() vào mảng này, không bao giờ
+  // gán lại chính biến `missingBookType` — dùng const.
+  const missingBookType: string[] = [];
 
   for (const name of names) {
     const data = crawlCharacter(name);

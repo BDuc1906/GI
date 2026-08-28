@@ -56,11 +56,9 @@ interface AmbrArtifactRaw {
   levelList?: Record<string, string>;
 }
 
-type AmbrRawByType = {
-  character: AmbrCharacterRaw;
-  weapon: AmbrWeaponRaw;
-  artifact: AmbrArtifactRaw;
-};
+// SỬA (lint no-unused-vars): type `AmbrRawByType` gộp cả 3 interface
+// trên nhưng không được dùng ở đâu trong file này (mỗi hàm parse đã
+// nhận thẳng đúng interface tương ứng) — xoá, không cần thay thế.
 
 async function fetchJson<T>(url: string): Promise<T> {
   const controller = new AbortController();

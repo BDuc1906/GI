@@ -103,6 +103,9 @@ export function CommandPalette() {
     if (!open) return;
     const q = query.trim();
     if (!q) {
+      // reset state khi query rỗng, nhánh thoát sớm của effect debounce
+      // fetch, không phải setState đồng bộ không điều kiện ở toàn bộ effect.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setData(EMPTY);
       setLoading(false);
       return;

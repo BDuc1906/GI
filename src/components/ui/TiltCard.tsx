@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 
 /**
  * Thay thế cho <Link> thường ở các card nhân vật/vũ khí — thêm 2 hiệu ứng
@@ -32,11 +32,18 @@ export function TiltCard({
   const ref = useRef<HTMLAnchorElement>(null);
   const reducedMotion = useRef(false);
 
-  if (typeof window !== "undefined" && reducedMotion.current === false) {
+  // SỬA (lint react-hooks/refs — bug thật, không phải false positive):
+  // trước đây đọc/ghi `reducedMotion.current` NGAY TRONG LÚC RENDER, điều
+  // React khuyến cáo không nên làm (ref không phải giá trị dùng để render,
+  // chỉ nên đụng tới trong effect/handler). Chuyển vào useEffect chạy 1
+  // lần sau mount — `handleMove` chỉ có thể được gọi sau khi người dùng
+  // tương tác, tức LUÔN sau khi component đã mount, nên không mất tác
+  // dụng gì so với bản cũ.
+  useEffect(() => {
     reducedMotion.current = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
-  }
+  }, []);
 
   function handleMove(e: React.MouseEvent<HTMLAnchorElement>) {
     if (reducedMotion.current) return;

@@ -48,6 +48,9 @@ export function SearchBar() {
     abortRef.current?.abort();
 
     if (query.length < MIN_QUERY_LENGTH) {
+      // reset state khi query quá ngắn, nhánh thoát sớm của effect
+      // debounce fetch, không phải setState đồng bộ không điều kiện.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setData(null);
       setLoading(false);
       return;
