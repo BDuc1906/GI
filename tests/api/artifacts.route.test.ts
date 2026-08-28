@@ -5,7 +5,7 @@ const mockPrisma = vi.hoisted(() => ({
   artifactSet: { findMany: vi.fn(), count: vi.fn(), findUnique: vi.fn() },
 }));
 
-vi.mock("@/lib/prisma", () => ({ prisma: mockPrisma }));
+vi.mock("@/lib/db/prisma", () => ({ prisma: mockPrisma }));
 
 const { GET: listArtifacts } = await import("@/app/api/artifacts/route");
 const { GET: getArtifact } = await import("@/app/api/artifacts/[id]/route");

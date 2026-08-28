@@ -11,7 +11,7 @@ const mockPrisma = vi.hoisted(() => ({
   domain: { count: vi.fn() },
 }));
 
-vi.mock("@/lib/prisma", () => ({ prisma: mockPrisma }));
+vi.mock("@/lib/db/prisma", () => ({ prisma: mockPrisma }));
 
 const { GET: health } = await import("@/app/api/health/route");
 

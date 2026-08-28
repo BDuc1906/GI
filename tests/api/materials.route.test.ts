@@ -5,7 +5,7 @@ const mockPrisma = vi.hoisted(() => ({
   material: { findMany: vi.fn(), count: vi.fn(), findUnique: vi.fn() },
 }));
 
-vi.mock("@/lib/prisma", () => ({ prisma: mockPrisma }));
+vi.mock("@/lib/db/prisma", () => ({ prisma: mockPrisma }));
 
 const { GET: listMaterials } = await import("@/app/api/materials/route");
 const { GET: getMaterial } = await import("@/app/api/materials/[id]/route");

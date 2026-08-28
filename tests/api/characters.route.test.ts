@@ -9,7 +9,7 @@ const mockPrisma = vi.hoisted(() => ({
   },
 }));
 
-vi.mock("@/lib/prisma", () => ({ prisma: mockPrisma }));
+vi.mock("@/lib/db/prisma", () => ({ prisma: mockPrisma }));
 
 const { GET: listCharacters } = await import("@/app/api/characters/route");
 const { GET: getCharacter } = await import("@/app/api/characters/[id]/route");

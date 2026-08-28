@@ -5,7 +5,7 @@ const mockPrisma = vi.hoisted(() => ({
   domain: { findMany: vi.fn(), count: vi.fn(), findUnique: vi.fn() },
 }));
 
-vi.mock("@/lib/prisma", () => ({ prisma: mockPrisma }));
+vi.mock("@/lib/db/prisma", () => ({ prisma: mockPrisma }));
 
 const { GET: listDomains } = await import("@/app/api/domains/route");
 const { GET: getDomain } = await import("@/app/api/domains/[id]/route");
