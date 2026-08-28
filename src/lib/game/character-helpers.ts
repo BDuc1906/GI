@@ -82,7 +82,20 @@ export const TALENT_LABEL_VI: Record<string, string> = new Proxy(COMBAT_LABEL_VI
 // Bản đa ngôn ngữ của TALENT_LABEL_VI ở trên — nhận vào hàm dịch t() (namespace
 // "CharacterDetail", đã có sẵn 4 khóa combat cố định + khóa "passiveN" nhận
 // tham số {n}) thay vì map cứng tiếng Việt. Dùng ở trang /[locale]/characters/[id].
-export function getTalentLabel(t: (key: string, values?: Record<string, unknown>) => string, key: string): string {
+//
+// SỬA type tham số `t`: trước đây khai `values?: Record<string, unknown>` —
+// quá RỘNG so với `Translator` thật của next-intl (chỉ chấp nhận
+// `Record<string, string | number | Date>` cho values, để đúng chuẩn định
+// dạng ICU message). Một hàm chỉ hứa hẹn nhận `string | number | Date`
+// không thể gán được vào vị trí đòi hỏi nhận ĐƯỢC BẤT KỲ `unknown` nào —
+// TypeScript báo lỗi ở đây là ĐÚNG (tham số hàm phản biến), không phải
+// false positive. Thu hẹp lại đúng theo cách hàm này thực sự được gọi
+// (`{ n: match[1] }`, `match[1]` luôn là `string`) — khớp chính xác với
+// kiểu `Translator` thật, không mất gì so với hành vi cũ.
+export function getTalentLabel(
+  t: (key: string, values?: Record<string, string | number | Date>) => string,
+  key: string
+): string {
   const combatKeys = ["normalAttack", "elementalSkill", "elementalBurst", "alternateSprint"];
   if (combatKeys.includes(key)) return t(key);
   const match = /^passive(\d+)$/.exec(key);

@@ -21,13 +21,25 @@ import { Link } from "@/i18n/navigation";
  *   "ánh sáng nguyên tố" nhưng tối giản — không phải particle/3D nặng.
  * - Bố cục giữ nguyên cấu trúc cũ (title, tagline, mô tả, 2 nút) để không
  *   phá vỡ nội dung, chỉ nâng cấp cách trình bày.
+ * - SỬA: thêm dải số liệu (stats) dưới 2 nút CTA — page.tsx đã tính sẵn
+ *   số nhân vật/vũ khí/di vật và truyền xuống từ trước
+ *   (`<HomeHero stats={stats} />`), nhưng component chưa từng khai báo
+ *   prop này nên dữ liệu bị bỏ phí hoàn toàn (lỗi kiểu "Property 'stats'
+ *   does not exist" khi bật lại typecheck). Style dùng lại đúng tông
+ *   text-secondary/gold-bright sẵn có, cùng nhịp animate-fade-in-up với
+ *   2 đoạn mô tả phía trên.
  *
  * Tôn trọng prefers-reduced-motion: tắt hết animation nếu người dùng bật.
  */
 
 const TITLE = "LEIBO";
 
-export function HomeHero() {
+interface HomeHeroStat {
+  label: string;
+  count: number;
+}
+
+export function HomeHero({ stats }: { stats?: HomeHeroStat[] }) {
   const t = useTranslations("Hero");
   const glowRef = useRef<HTMLDivElement>(null);
 
@@ -116,6 +128,19 @@ export function HomeHero() {
             {t("weaponArsenal")}
           </Link>
         </div>
+
+        {stats && stats.length > 0 && (
+          <div className="flex flex-wrap justify-center gap-x-10 gap-y-4 mt-14 animate-fade-in-up [animation-delay:950ms]">
+            {stats.map((s) => (
+              <div key={s.label} className="text-center">
+                <div className="font-display text-2xl md:text-3xl font-semibold text-gold-bright">
+                  {s.count}+
+                </div>
+                <div className="text-xs md:text-sm text-text-muted mt-1">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
