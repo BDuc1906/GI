@@ -30,7 +30,7 @@
     "db:full": "npm run data:update && npm run data:crawl && npm run db:seed && npm run images:mirror"
   },
   "dependencies": {
-    "@ai-sdk/google": "^3.0.113",
+    "@ai-sdk/google": "^4.0.61",
     "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^7.9.1",
     "@sentry/nextjs": "^10.69.0",
