@@ -68,7 +68,9 @@
     "clearAllFilters": "Effacer tous les filtres",
     "noResults": "Aucun personnage ne correspond aux filtres.",
     "clearFilters": "Effacer les filtres",
-    "rarityGroupCount": "{count} personnages"
+    "rarityGroupCount": "{count} personnages",
+    "traveler": "Voyageur",
+    "noElement": "Aucun élément"
   },
   "Pagination": {
     "navLabel": "Navigation des pages",
@@ -363,12 +365,27 @@
     "toolRunningNamed": "En cours {tool}...",
     "toolProcessing": "Traitement..."
   },
+  "Region": {
+    "Mondstadt": "Mondstadt",
+    "Liyue": "Liyue",
+    "Inazuma": "Inazuma",
+    "Sumeru": "Sumeru",
+    "Fontaine": "Fontaine",
+    "Natlan": "Natlan",
+    "Snezhnaya": "Snezhnaya",
+    "Nod-Krai": "Nod-Krai"
+  },
+  "Glossary": {
+    "close": "Close",
+    "relatedCharacters": "Related characters:",
+    "clickForDetails": "Click for details"
+  },
   "ReactionTabs": {
     "categoryAmplifying": "Amplification",
     "categoryTransformative": "Transformation",
-    "categoryAdditive": "Accessoires",
-    "categoryLunar": "Lune",
-    "categoryStellar": "Essence",
+    "categoryAdditive": "Additive",
+    "categoryLunar": "Lunaire",
+    "categoryStellar": "Stellaire",
     "tabStandard": "Réactions élémentaires",
     "tabLunar": "Réaction lunaire",
     "tabStellar": "Stellar Glimmer",

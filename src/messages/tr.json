@@ -68,7 +68,9 @@
     "clearAllFilters": "Tüm filtreleri temizle",
     "noResults": "Filtrelerle eşleşen karakter yok.",
     "clearFilters": "Filtreleri temizle",
-    "rarityGroupCount": "{count} karakter"
+    "rarityGroupCount": "{count} karakter",
+    "traveler": "Gezgin",
+    "noElement": "Elementsiz"
   },
   "Pagination": {
     "navLabel": "Sayfa gezinme",
@@ -363,12 +365,27 @@
     "toolRunningNamed": "Koşuyorum {tool}...",
     "toolProcessing": "İşleme..."
   },
+  "Region": {
+    "Mondstadt": "Mondstadt",
+    "Liyue": "Liyue",
+    "Inazuma": "Inazuma",
+    "Sumeru": "Sumeru",
+    "Fontaine": "Fontaine",
+    "Natlan": "Natlan",
+    "Snezhnaya": "Snezhnaya",
+    "Nod-Krai": "Nod-Krai"
+  },
+  "Glossary": {
+    "close": "Close",
+    "relatedCharacters": "Related characters:",
+    "clickForDetails": "Click for details"
+  },
   "ReactionTabs": {
     "categoryAmplifying": "Güçlendirme",
-    "categoryTransformative": "Dönüşüm",
-    "categoryAdditive": "Eklentiler",
+    "categoryTransformative": "Dönüştürücü",
+    "categoryAdditive": "Ekleyici",
     "categoryLunar": "Ay",
-    "categoryStellar": "Özün",
+    "categoryStellar": "Yıldız",
     "tabStandard": "Elementsel Reaksiyonlar",
     "tabLunar": "Ay Tepkisi",
     "tabStellar": "Yıldız Parıltısı",

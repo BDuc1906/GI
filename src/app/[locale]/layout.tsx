@@ -1,8 +1,10 @@
+
 import "../globals.css";
 import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
 import { NextIntlClientProvider } from "next-intl";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Suspense } from "react";
+import { getTranslations, getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { SiteNav } from "@/components/layout/SiteNav";
@@ -109,6 +111,15 @@ export default async function LocaleLayout({
   // static song song.
   setRequestLocale(locale);
 
+  // Truyền tường minh locale + messages thay vì dựa vào cơ chế "tự động
+  // kế thừa" của NextIntlClientProvider (dùng khi bỏ trống props) — cơ chế
+  // đó không ổn định khi build production bằng Turbopack (next-intl v4 +
+  // Turbopack production là tổ hợp còn mới), gây lỗi "context from
+  // NextIntlClientProvider was not found" ngẫu nhiên ở MỌI trang, chỉ lộ
+  // ra ở `next start`, không lộ ở `next dev`. Truyền tay là cách chính
+  // thống, ổn định, next-intl docs khuyến nghị cho trường hợp cần chắc chắn.
+  const messages = await getMessages();
+
   const t = await getTranslations({ locale, namespace: "Layout" });
   const tMeta = await getTranslations({ locale, namespace: "Metadata" });
 
@@ -131,10 +142,20 @@ export default async function LocaleLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_JSON_LD) }}
         />
-        <NextIntlClientProvider>
+        <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider>
             <GlossaryProvider>
-              <SiteNav />
+              {/* CHẨN ĐOÁN 2026-08: bọc Suspense quanh SiteNav — đây là
+                  client component ĐẦU TIÊN render trên MỌI trang, gọi
+                  useTranslations("Nav") ngay dòng đầu hàm, không có
+                  Suspense boundary nào phía trên ngoài chính
+                  NextIntlClientProvider. Cùng pattern nghi vấn đã thử với
+                  HomeHero (không hiệu quả vì HomeHero chỉ ở trang chủ,
+                  còn lỗi xảy ra ở MỌI trang — SiteNav mới khớp đúng phạm
+                  vi lỗi thật). */}
+              <Suspense fallback={null}>
+                <SiteNav />
+              </Suspense>
               <main className="max-w-7xl mx-auto px-4 md:px-8 py-8">
                 {children}
               </main>

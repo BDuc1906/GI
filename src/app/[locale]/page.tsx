@@ -1,4 +1,6 @@
-import { getTranslations } from "next-intl/server";
+
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Suspense } from "react";
 import { Link } from "@/i18n/navigation";
 import { prisma } from "../../lib/db/prisma";
 import { ElementIcon } from "../../components/character/ElementIcon";
@@ -8,9 +10,21 @@ import { EntityCard } from "../../components/ui/EntityCard";
 import { elementColorVar } from "../../lib/ui/theme";
 import { genshinServerWeekdayIndex } from "../../lib/game/genshin-server-time";
 import { withDbRetry } from "@/lib/db/db-retry";
+import { getLocalizedName } from "@/lib/i18n/entity-name";
 
+// CHẨN ĐOÁN 2026-08: đã bỏ `export const dynamic = "force-dynamic"` —
+// đây là trang DUY NHẤT trong toàn site ép force-dynamic (mọi trang khác
+// đều để Next.js tự quyết định render động/tĩnh), không có comment giải
+// thích lý do tồn tại, và mâu thuẫn với `revalidate = 60` ngay bên dưới
+// (force-dynamic tắt hẳn cache nên revalidate=60 trước giờ vô tác dụng).
+// Nghi vấn: kết hợp force-dynamic + không có <Suspense> bọc phần nội dung
+// động khớp với tính năng "Instant Navigation" mới ở Next.js 16.3 (route
+// "block" khi không có Suspense boundary) — nếu đây đúng là nguyên nhân
+// crash "NextIntlClientProvider context not found" chỉ xảy ra ở production,
+// bỏ force-dynamic sẽ hết lỗi. Nếu build lỗi/crash quay lại, cần thêm lại
+// dòng dynamic = "force-dynamic" NHƯNG bọc phần nội dung động trong
+// <Suspense> thay vì để nguyên như cũ.
 export const revalidate = 60;
-export const dynamic = "force-dynamic";
 
 const WEEKDAY_KEYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
@@ -25,13 +39,12 @@ function SectionHeader({ title, href, viewAllLabel }: { title: string; href: str
   );
 }
 
-export default async function Home({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
+export default async function Home(props: PageProps<"/[locale]">) {
+  const { params } = props;
   const { locale } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "Home" });
+  const tWeaponType = await getTranslations({ locale, namespace: "WeaponType" });
 
   const CATEGORY_LABEL: Record<string, string> = {
     artifact: t("categoryArtifact"),
@@ -59,12 +72,12 @@ export default async function Home({
         // luôn kín khít, không hở ô ở bất kỳ kích thước màn hình nào.
         take: 9,
         orderBy: { updatedAt: "desc" },
-        select: { id: true, name: true, vision: true, weaponType: true, rarity: true, iconUrl: true, elementIcon: true },
+        select: { id: true, name: true, nameTranslations: true, vision: true, weaponType: true, rarity: true, iconUrl: true, elementIcon: true },
       }),
       prisma.weapon.findMany({
         take: 6,
         orderBy: { updatedAt: "desc" },
-        select: { id: true, name: true, type: true, rarity: true, iconUrl: true },
+        select: { id: true, name: true, nameTranslations: true, type: true, rarity: true, iconUrl: true },
       }),
       // Bí cảnh mở hôm nay — cùng logic "giờ server + mốc đổi ngày 4h sáng"
       // với trang /domains, để banner trang chủ và trang lịch bí cảnh luôn
@@ -72,7 +85,7 @@ export default async function Home({
       prisma.domain.findMany({
         where: { OR: [{ daysOfWeek: { isEmpty: true } }, { daysOfWeek: { has: todayKey } }] },
         orderBy: { category: "asc" },
-        select: { id: true, name: true, category: true },
+        select: { id: true, name: true, nameTranslations: true, category: true },
         take: 6,
       }),
     ])
@@ -86,7 +99,15 @@ export default async function Home({
 
   return (
     <div className="relative min-h-screen">
-      <HomeHero stats={stats} />
+      {/* CHẨN ĐOÁN 2026-08: bọc Suspense quanh HomeHero — nghi vấn race
+          condition khi streaming SSR, HomeHero (không phụ thuộc dữ liệu
+          async, render đồng bộ, không có Suspense boundary nào phía trên
+          ngoài chính NextIntlClientProvider) có thể được client hydrate
+          trước khi payload messages của NextIntlClientProvider truyền
+          xong, gây mất context đúng lúc hydrate. */}
+      <Suspense fallback={null}>
+        <HomeHero stats={stats} />
+      </Suspense>
 
       <ScrollReveal>
         <section className="mb-10 mt-4">
@@ -104,8 +125,8 @@ export default async function Home({
               <EntityCard
                 key={c.id}
                 href={`/characters/${c.id}`}
-                name={c.name}
-                subtitle={c.weaponType}
+                name={getLocalizedName(c, locale)}
+                subtitle={tWeaponType(c.weaponType as "Sword" | "Claymore" | "Polearm" | "Bow" | "Catalyst")}
                 rarity={c.rarity}
                 imageSrc={c.iconUrl}
                 imageFit="contain"
@@ -147,7 +168,7 @@ export default async function Home({
                     <span className="text-[10px] text-text-muted uppercase tracking-wide">
                       {CATEGORY_LABEL[d.category] ?? d.category}
                     </span>
-                    {d.name}
+                    {getLocalizedName(d, locale)}
                   </Link>
                 ))}
               </div>
@@ -167,8 +188,8 @@ export default async function Home({
               <EntityCard
                 key={w.id}
                 href={`/weapons/${w.id}`}
-                name={w.name}
-                subtitle={w.type}
+                name={getLocalizedName(w, locale)}
+                subtitle={tWeaponType(w.type as "Sword" | "Claymore" | "Polearm" | "Bow" | "Catalyst")}
                 rarity={w.rarity}
                 imageSrc={w.iconUrl}
                 imageFit="contain"

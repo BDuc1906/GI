@@ -68,7 +68,9 @@
     "clearAllFilters": "Xóa tất cả bộ lọc",
     "noResults": "Không tìm thấy nhân vật phù hợp với bộ lọc.",
     "clearFilters": "Xóa bộ lọc",
-    "rarityGroupCount": "{count} nhân vật"
+    "rarityGroupCount": "{count} nhân vật",
+    "traveler": "Nhà Lữ Hành",
+    "noElement": "Không nguyên tố"
   },
   "Pagination": {
     "navLabel": "Điều hướng trang",
@@ -362,6 +364,21 @@
     "toolFetchingHistory": "Đang lấy lịch sử...",
     "toolRunningNamed": "Đang chạy {tool}...",
     "toolProcessing": "Đang xử lý..."
+  },
+  "Region": {
+    "Mondstadt": "Mondstadt",
+    "Liyue": "Liyue",
+    "Inazuma": "Inazuma",
+    "Sumeru": "Sumeru",
+    "Fontaine": "Fontaine",
+    "Natlan": "Natlan",
+    "Snezhnaya": "Snezhnaya",
+    "Nod-Krai": "Nod-Krai"
+  },
+  "Glossary": {
+    "close": "Đóng",
+    "relatedCharacters": "Nhân vật liên quan:",
+    "clickForDetails": "Bấm để xem chi tiết"
   },
   "ReactionTabs": {
     "categoryAmplifying": "Khuếch đại",

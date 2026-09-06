@@ -1,3 +1,4 @@
+
 import { prisma } from "@/lib/db/prisma";
 import type { Character } from "@prisma/client";
 import {
@@ -5,6 +6,7 @@ import {
   formatSpecialized,
   type StatByLevelRow,
 } from "@/lib/game/character-stats-format";
+import { getLocalizedName } from "@/lib/i18n/entity-name";
 
 export { formatNumber, formatSpecialized, type StatByLevelRow };
 
@@ -179,13 +181,26 @@ export async function resolveTravelerSibling(character: Character): Promise<{
 }
 
 /**
- * Icon nguyên liệu đột phá được lưu ở bảng Material riêng (không lặp lại
- * trong JSON của từng nhân vật) — gom hết materialId xuất hiện trong 6
- * giai đoạn rồi query 1 lần duy nhất, tránh N+1 query trong lúc render.
+ * Icon + tên đã dịch của nguyên liệu đột phá — được lưu ở bảng Material
+ * riêng (không lặp lại trong JSON của từng nhân vật/vũ khí) — gom hết
+ * materialId xuất hiện trong các giai đoạn rồi query 1 lần duy nhất,
+ * tránh N+1 query trong lúc render.
+ *
+ * BUG ĐÃ SỬA (2026-09): trước đây chỉ select `iconUrl`, còn TÊN nguyên
+ * liệu hiển thị (`m.name` ở phía component) lấy từ snapshot tiếng Anh lưu
+ * cứng trong JSON `ascensionMaterials`/`talentMaterials` tại thời điểm
+ * crawl — không bao giờ được dịch, nên trang chi tiết nhân vật/vũ khí ở
+ * MỌI ngôn ngữ khác tiếng Anh đều hiện tên nguyên liệu bằng tiếng Anh
+ * (vd "Oasis Garden's Kindness" ngay cả khi xem bản zh-CN). Giờ select
+ * thêm `name` + `nameTranslations` từ bảng Material (đã có bản dịch đủ 15
+ * ngôn ngữ, cùng cơ chế với tên nhân vật/vũ khí) và trả về tên đã dịch
+ * sẵn theo locale — phía component chỉ cần đọc thẳng, không cần tự gọi
+ * getLocalizedName nữa.
  */
 export async function getMaterialIconMap(
-  ascensionMaterials: AscensionMaterialPhase[]
-): Promise<Map<string, string | null>> {
+  ascensionMaterials: AscensionMaterialPhase[],
+  locale: string
+): Promise<Map<string, { iconUrl: string | null; localizedName: string }>> {
   const materialIds = Array.from(
     new Set(
       ascensionMaterials
@@ -196,10 +211,12 @@ export async function getMaterialIconMap(
 
   if (materialIds.length === 0) return new Map();
 
-  const materialIcons = await prisma.material.findMany({
+  const materials = await prisma.material.findMany({
     where: { id: { in: materialIds } },
-    select: { id: true, iconUrl: true },
+    select: { id: true, iconUrl: true, name: true, nameTranslations: true },
   });
 
-  return new Map(materialIcons.map((m) => [m.id, m.iconUrl]));
+  return new Map(
+    materials.map((m) => [m.id, { iconUrl: m.iconUrl, localizedName: getLocalizedName(m, locale) }])
+  );
 }

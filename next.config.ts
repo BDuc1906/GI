@@ -1,3 +1,4 @@
+
 import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs";
 import createNextIntlPlugin from "next-intl/plugin";
@@ -125,6 +126,24 @@ function contentSecurityPolicy(): string {
 }
 
 const nextConfig: NextConfig = {
+  // CHẨN ĐOÁN 2026-08: Turbopack production có bug đã biết (Next.js team
+  // xác nhận, xem github.com/vercel/next.js/issues/86099) — không trace
+  // đúng các package dùng dynamic require/import "quá động" (module xác
+  // định lúc chạy, không tĩnh), làm hỏng chunk gốc dùng chung. Sentry
+  // (@sentry/nextjs) dùng OpenTelemetry nội bộ, thuộc đúng nhóm package
+  // này. Loại các gói đó khỏi việc Turbopack cố bundle — để Node.js tự
+  // require thẳng lúc chạy thay vì qua Turbopack, đúng cách Next.js team
+  // khuyến nghị làm workaround cho bug class này.
+  serverExternalPackages: [
+    "@sentry/nextjs",
+    "@sentry/node",
+    "@sentry/opentelemetry",
+    "@opentelemetry/api",
+    "@opentelemetry/instrumentation",
+    "@opentelemetry/sdk-trace-node",
+    "@opentelemetry/resources",
+  ],
+
   images: {
     remotePatterns: resolveRemotePatterns(),
   },

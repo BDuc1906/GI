@@ -1,3 +1,4 @@
+
 import { prisma } from "@/lib/db/prisma";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -5,6 +6,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { SafeImage } from "@/components/ui/SafeImage";
 import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
+import { getLocalizedName } from "@/lib/i18n/entity-name";
 
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -29,6 +31,7 @@ interface DomainMaterialEntry {
 const DOMAIN_SELECT = {
   id: true,
   name: true,
+  nameTranslations: true,
   category: true,
   regionName: true,
   description: true,
@@ -53,7 +56,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     talent: t("categoryTalent"),
   };
   return {
-    title: `${d.name} — LEIBO`,
+    title: `${getLocalizedName(d, locale)} — LEIBO`,
     description: d.description ?? t("metaDescriptionFallback", { category: categoryLabel[d.category] ?? d.category, region: d.regionName ?? "Teyvat" }),
   };
 }
@@ -85,7 +88,7 @@ export default async function DomainDetail({ params }: PageProps) {
   const breadcrumbItems = [
     { name: "LEIBO", path: "/" },
     { name: t("breadcrumbDomains"), path: "/domains" },
-    { name: d.name, path: `/domains/${d.id}` },
+    { name: getLocalizedName(d, locale), path: `/domains/${d.id}` },
   ];
 
   const materials = (d.materials as unknown as DomainMaterialEntry[]) ?? [];
@@ -132,7 +135,7 @@ export default async function DomainDetail({ params }: PageProps) {
           <div className="text-xs uppercase tracking-wider text-text-secondary font-medium mb-1">
             {CATEGORY_LABEL[d.category] ?? d.category}
           </div>
-          <h1 className="text-3xl font-bold text-gold-bright">{d.name}</h1>
+          <h1 className="text-3xl font-bold text-gold-bright">{getLocalizedName(d, locale)}</h1>
           <p className="text-sm text-text-muted mb-4">
             {d.regionName ?? "Teyvat"}
             {d.recommendedLevel ? ` · ${t("recommendedLevel", { level: d.recommendedLevel })}` : ""}
