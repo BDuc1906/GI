@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  release:
+    name: Version
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          # SỬA (2026-09): trước đây là 22, lệch với mọi workflow khác
+          # (ci.yml, auto-fix.yml, update-data.yml đều dùng 24) — không có
+          # rủi ro cụ thể nào từ việc lệch này (đây là 2 phiên bản LTS đều
+          # ổn), nhưng dùng chung 1 version cho cả CI giúp dễ nhớ và tránh
+          # trường hợp 1 dependency có hành vi khác nhau tinh vi giữa 2
+          # runtime version trong các workflow khác nhau.
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create Version Pull Request
+        uses: changesets/action@v1
+        with:
+          version: npx changeset version
+          publish: npx changeset tag
+          commit: "chore: version skills"
+          title: "chore: version skills"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
