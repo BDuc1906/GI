@@ -1,3 +1,4 @@
+
 "use client";
 
 /**
@@ -12,9 +13,17 @@
  * src/app/[locale]/layout.tsx để tính năng có hiệu lực TOÀN WEB — bất
  * cứ trang con nào cũng dùng được <GlossaryTerm>/<GlossaryText> mà
  * không cần tự thêm provider riêng.
+ *
+ * ĐA NGÔN NGỮ (2026-08): lấy locale hiện tại qua useLocale() của
+ * next-intl (component này luôn nằm trong <NextIntlClientProvider>,
+ * xem layout.tsx), truyền xuống getGlossaryTerm() để tra đúng bản dịch.
+ * "Đóng" (aria-label nút X) và "Nhân vật liên quan:" chuyển qua
+ * next-intl thay vì hardcode tiếng Việt — xem namespace "Glossary" ở
+ * messages/*.json.
  */
 import { createContext, useContext, useState, useCallback, useEffect, useRef } from "react";
-import { GLOSSARY_MAP } from "@/lib/i18n/glossary";
+import { useLocale, useTranslations } from "next-intl";
+import { getGlossaryTerm } from "@/lib/i18n/glossary";
 
 interface GlossaryContextValue {
   openTermId: string | null;
@@ -33,6 +42,8 @@ export function useGlossary(): GlossaryContextValue {
 }
 
 export function GlossaryProvider({ children }: { children: React.ReactNode }) {
+  const locale = useLocale();
+  const t = useTranslations("Glossary");
   const [openTermId, setOpenTermId] = useState<string | null>(null);
   const open = useCallback((id: string) => setOpenTermId(id), []);
   const close = useCallback(() => setOpenTermId(null), []);
@@ -47,7 +58,7 @@ export function GlossaryProvider({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [openTermId, close]);
 
-  const term = openTermId ? GLOSSARY_MAP[openTermId] : null;
+  const term = openTermId ? getGlossaryTerm(openTermId, locale) : undefined;
   const dialogRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -94,7 +105,7 @@ export function GlossaryProvider({ children }: { children: React.ReactNode }) {
               <button
                 type="button"
                 onClick={close}
-                aria-label="Đóng"
+                aria-label={t("close")}
                 className="shrink-0 rounded-full w-7 h-7 flex items-center justify-center text-text-muted hover:text-[color:var(--text)] hover:bg-white/5 transition-colors"
               >
                 ✕
@@ -103,7 +114,7 @@ export function GlossaryProvider({ children }: { children: React.ReactNode }) {
             <p className="text-sm text-text-muted leading-relaxed whitespace-pre-line">{term.detail}</p>
             {term.requiresCharacters && (
               <p className="text-xs text-text-muted mt-3 pt-3 border-t border-border">
-                <span className="font-medium text-[color:var(--text)]">Nhân vật liên quan: </span>
+                <span className="font-medium text-[color:var(--text)]">{t("relatedCharacters")} </span>
                 {term.requiresCharacters}
               </p>
             )}

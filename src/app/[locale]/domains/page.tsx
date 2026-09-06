@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import { Prisma } from "@prisma/client";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -8,6 +9,7 @@ import { Pagination } from "@/components/ui/Pagination";
 import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/ui/pagination";
 import type { Metadata } from "next";
 import { withDbRetry } from "@/lib/db/db-retry";
+import { getLocalizedName } from "@/lib/i18n/entity-name";
 
 export async function generateMetadata({
   params,
@@ -54,7 +56,7 @@ export default async function DomainsPage({ params, searchParams }: PageProps) {
         orderBy: [{ category: "asc" }, { name: "asc" }],
         skip: (page - 1) * LIST_PAGE_SIZE,
         take: LIST_PAGE_SIZE,
-        select: { id: true, name: true, category: true, regionName: true, imageUrl: true, imageUrlOriginal: true },
+        select: { id: true, name: true, nameTranslations: true, category: true, regionName: true, imageUrl: true, imageUrlOriginal: true },
       }),
       prisma.domain.count({ where }),
     ])
@@ -151,7 +153,7 @@ export default async function DomainsPage({ params, searchParams }: PageProps) {
                   <SafeImage
                     src={d.imageUrl}
                     fallbackSrcs={[d.imageUrlOriginal]}
-                    alt={d.name}
+                    alt={getLocalizedName(d, locale)}
                     fill
                     sizes="64px"
                     className="object-cover"
@@ -163,7 +165,7 @@ export default async function DomainsPage({ params, searchParams }: PageProps) {
               <div className="min-w-0 flex flex-col justify-center">
                 <div className="text-eyebrow mb-1">{CATEGORY_LABEL[d.category] ?? d.category}</div>
                 <div className="font-semibold truncate text-text-primary group-hover:text-accent-bright transition-colors text-sm">
-                  {d.name}
+                  {getLocalizedName(d, locale)}
                 </div>
                 {d.regionName && <div className="text-xs text-text-muted mt-0.5">{d.regionName}</div>}
               </div>

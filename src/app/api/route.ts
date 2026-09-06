@@ -14,6 +14,14 @@ export async function GET() {
       domains: { list: "GET /api/domains", detail: "GET /api/domains/:id" },
       materials: { list: "GET /api/materials", detail: "GET /api/materials/:id" },
       search: { combined: "GET /api/search?q=..." },
+      build: {
+        recommend: "GET /api/build?characterId=...",
+        compare: "GET /api/build/compare?characterId1=...&characterId2=...",
+        artifact: "GET /api/build/artifact?characterId=...",
+        domain: "GET /api/build/domain?characterId=...",
+        fullPlan: "GET /api/build/full?characterId=...",
+        team: "GET /api/build/team?characterId=...",
+      },
       health: { check: "GET /api/health" },
     },
     // "docs/api.md" trong repo KHÔNG được Next.js serve như route web (chỉ

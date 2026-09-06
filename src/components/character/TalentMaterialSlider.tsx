@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useMemo, useState } from "react";
@@ -7,7 +8,7 @@ import type { TalentMaterialLevel } from "@/lib/game/character-helpers";
 
 interface Props {
   talentMaterials: TalentMaterialLevel[];
-  materialIconMap: Record<string, string | null | undefined>;
+  materialIconMap: Record<string, { iconUrl: string | null; localizedName: string } | undefined>;
   /** Màu nguyên tố của nhân vật — nhuộm thanh trượt và nhãn cấp hiện tại. */
   elementColor?: string;
 }
@@ -103,14 +104,14 @@ export function TalentMaterialSlider({ talentMaterials, materialIconMap, element
           )}
           {current && materials.length === 0 && <span className="text-xs text-text-muted">{t("noMaterialDataForLevel")}</span>}
           {materials.map((m, idx) => {
-            const iconUrl = m.materialId ? materialIconMap[m.materialId] : null;
+            const material = m.materialId ? materialIconMap[m.materialId] : null;
             const formattedCount = m.count ? m.count.toLocaleString(locale) : "";
             return (
               <span key={idx} className="flex items-center gap-1.5 bg-bg-card px-2.5 py-1 rounded-full border border-border text-xs">
                 <span className="relative w-5 h-5 shrink-0">
-                  {iconUrl ? <SafeImage src={iconUrl} alt={m.name || ""} fill className="object-contain" sizes="20px" /> : null}
+                  {material?.iconUrl ? <SafeImage src={material.iconUrl} alt={material?.localizedName || m.name || ""} fill className="object-contain" sizes="20px" /> : null}
                 </span>
-                <span className="text-text-secondary">{m.name}</span>
+                <span className="text-text-secondary">{material?.localizedName ?? m.name}</span>
                 <span className="text-text-primary font-medium tabular-nums">×{formattedCount}</span>
               </span>
             );

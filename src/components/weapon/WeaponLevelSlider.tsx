@@ -1,8 +1,10 @@
+
 "use client";
 
 import { useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { formatNumber, formatSpecialized } from "@/lib/game/character-stats-format";
+import { translateStatName } from "@/lib/game/stat-name-translations";
 
 /**
  * Component này từng bị hỏng — file thực chất chứa nhầm toàn bộ code của
@@ -41,6 +43,7 @@ const ASCENSION_BREAKPOINT_LEVELS = [20, 40, 50, 60, 70, 80];
 
 export function WeaponLevelSlider({ statsByLevel, subStatName, elementColor }: Props) {
   const t = useTranslations("LevelSlider");
+  const locale = useLocale();
   const el = elementColor ?? "var(--accent-500)";
 
   const byLevel = useMemo(() => {
@@ -128,12 +131,12 @@ export function WeaponLevelSlider({ statsByLevel, subStatName, elementColor }: P
       </div>
 
       <div className="grid grid-cols-2 gap-4 text-sm">
-        <StatBlock label={t("baseAtk")} value={formatNumber(row.baseAtk)} />
+        <StatBlock label={t("baseAtk")} value={formatNumber(row.baseAtk, locale)} />
         <StatBlock
-          label={subStatName ?? t("subStat")}
+          label={subStatName ? translateStatName(subStatName, locale) : t("subStat")}
           value={
             typeof row.subStatValue === "number"
-              ? formatSpecialized(row.subStatValue, subStatName)
+              ? formatSpecialized(row.subStatValue, subStatName, locale)
               : row.subStatValue !== null && row.subStatValue !== undefined
                 ? String(row.subStatValue)
                 : "—"

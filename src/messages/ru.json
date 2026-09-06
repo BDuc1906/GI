@@ -68,7 +68,9 @@
     "clearAllFilters": "Сбросить все фильтры",
     "noResults": "Нет персонажей, соответствующих фильтрам.",
     "clearFilters": "Сбросить фильтры",
-    "rarityGroupCount": "{count} персонажей"
+    "rarityGroupCount": "{count} персонажей",
+    "traveler": "Путешественник",
+    "noElement": "Без стихии"
   },
   "Pagination": {
     "navLabel": "Навигация по страницам",
@@ -363,12 +365,27 @@
     "toolRunningNamed": "Бег {tool}...",
     "toolProcessing": "Обработка..."
   },
+  "Region": {
+    "Mondstadt": "Мондштадт",
+    "Liyue": "Ли Юэ",
+    "Inazuma": "Инадзума",
+    "Sumeru": "Сумеру",
+    "Fontaine": "Фонтейн",
+    "Natlan": "Натлан",
+    "Snezhnaya": "Snezhnaya",
+    "Nod-Krai": "Нод-Край"
+  },
+  "Glossary": {
+    "close": "Close",
+    "relatedCharacters": "Related characters:",
+    "clickForDetails": "Click for details"
+  },
   "ReactionTabs": {
     "categoryAmplifying": "Усиление",
     "categoryTransformative": "Трансформация",
-    "categoryAdditive": "Дополнения",
-    "categoryLunar": "Луна",
-    "categoryStellar": "Сущность",
+    "categoryAdditive": "Аддитивная",
+    "categoryLunar": "Лунный",
+    "categoryStellar": "Звёздный",
     "tabStandard": "Элементные реакции",
     "tabLunar": "Лунная реакция",
     "tabStellar": "Stellar Glimmer",

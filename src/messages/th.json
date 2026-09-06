@@ -68,7 +68,9 @@
     "clearAllFilters": "ล้างตัวกรองทั้งหมด",
     "noResults": "ไม่พบตัวละครที่ตรงกับตัวกรอง",
     "clearFilters": "ล้างตัวกรอง",
-    "rarityGroupCount": "{count} ตัวละคร"
+    "rarityGroupCount": "{count} ตัวละคร",
+    "traveler": "นักเดินทาง",
+    "noElement": "ไม่มีธาตุ"
   },
   "Pagination": {
     "navLabel": "การนำทางหน้า",
@@ -363,12 +365,27 @@
     "toolRunningNamed": "กําลังวิ่ง {tool}...",
     "toolProcessing": "กําลังประมวลผล..."
   },
+  "Region": {
+    "Mondstadt": "Mondstadt",
+    "Liyue": "Liyue",
+    "Inazuma": "Inazuma",
+    "Sumeru": "Sumeru",
+    "Fontaine": "Fontaine",
+    "Natlan": "Natlan",
+    "Snezhnaya": "Snezhnaya",
+    "Nod-Krai": "Nod-Krai"
+  },
+  "Glossary": {
+    "close": "Close",
+    "relatedCharacters": "Related characters:",
+    "clickForDetails": "Click for details"
+  },
   "ReactionTabs": {
     "categoryAmplifying": "การขยายเสียง",
     "categoryTransformative": "การเปลี่ยนแปลง",
-    "categoryAdditive": "ส่วนเสริม",
+    "categoryAdditive": "การเติมแต่ง",
     "categoryLunar": "ดวงจันทร์",
-    "categoryStellar": "แก่นแท้",
+    "categoryStellar": "ดาวฤกษ์",
     "tabStandard": "ปฏิกิริยาธาตุ",
     "tabLunar": "ปฏิกิริยาดวงจันทร์",
     "tabStellar": "แสงระยิบระยับดาว",

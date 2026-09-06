@@ -68,7 +68,9 @@
     "clearAllFilters": "Hapus semua filter",
     "noResults": "Tidak ada karakter yang cocok dengan filter.",
     "clearFilters": "Hapus filter",
-    "rarityGroupCount": "{count} karakter"
+    "rarityGroupCount": "{count} karakter",
+    "traveler": "Traveler",
+    "noElement": "Tanpa Elemen"
   },
   "Pagination": {
     "navLabel": "Navigasi halaman",
@@ -363,12 +365,27 @@
     "toolRunningNamed": "Berjalan {tool}...",
     "toolProcessing": "Memproses..."
   },
+  "Region": {
+    "Mondstadt": "Mondstadt",
+    "Liyue": "Liyue",
+    "Inazuma": "Inazuma",
+    "Sumeru": "Sumeru",
+    "Fontaine": "Fontaine",
+    "Natlan": "Natlan",
+    "Snezhnaya": "Snezhnaya",
+    "Nod-Krai": "Nod-Krai"
+  },
+  "Glossary": {
+    "close": "Close",
+    "relatedCharacters": "Related characters:",
+    "clickForDetails": "Click for details"
+  },
   "ReactionTabs": {
     "categoryAmplifying": "Amplifikasi",
-    "categoryTransformative": "Transformasi",
-    "categoryAdditive": "Add-on",
+    "categoryTransformative": "Transformatif",
+    "categoryAdditive": "Aditif",
     "categoryLunar": "bulan",
-    "categoryStellar": "Esensi",
+    "categoryStellar": "Bintang",
     "tabStandard": "Reaksi Elemental",
     "tabLunar": "reaksi bulan",
     "tabStellar": "Kilau Bintang",

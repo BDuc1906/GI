@@ -1,12 +1,14 @@
+
 "use client";
 
 import { useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import {
   formatNumber,
   formatSpecialized,
   type StatByLevelRow,
 } from "@/lib/game/character-stats-format";
+import { translateStatName } from "@/lib/game/stat-name-translations";
 
 interface Props {
   statsByLevel: StatByLevelRow[];
@@ -21,6 +23,7 @@ const ASCENSION_BREAKPOINT_LEVELS = [20, 40, 50, 60, 70, 80];
 
 export function CharacterLevelSlider({ statsByLevel, ascensionStat, elementColor }: Props) {
   const t = useTranslations("LevelSlider");
+  const locale = useLocale();
   const el = elementColor ?? "var(--accent-500)";
 
   const byLevel = useMemo(() => {
@@ -108,12 +111,12 @@ export function CharacterLevelSlider({ statsByLevel, ascensionStat, elementColor
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
-        <StatBlock label="HP" value={formatNumber(row.hp)} />
-        <StatBlock label="ATK" value={formatNumber(row.attack)} />
-        <StatBlock label="DEF" value={formatNumber(row.defense)} />
+        <StatBlock label="HP" value={formatNumber(row.hp, locale)} />
+        <StatBlock label="ATK" value={formatNumber(row.attack, locale)} />
+        <StatBlock label="DEF" value={formatNumber(row.defense, locale)} />
         <StatBlock
-          label={ascensionStat ?? t("ascensionStatFallback")}
-          value={row.specialized !== null ? formatSpecialized(row.specialized, ascensionStat) : "—"}
+          label={ascensionStat ? translateStatName(ascensionStat, locale) : t("ascensionStatFallback")}
+          value={row.specialized !== null ? formatSpecialized(row.specialized, ascensionStat, locale) : "—"}
           color={el}
         />
       </div>

@@ -68,7 +68,9 @@
     "clearAllFilters": "清除所有筛选",
     "noResults": "没有符合筛选条件的角色。",
     "clearFilters": "清除筛选",
-    "rarityGroupCount": "{count} 个角色"
+    "rarityGroupCount": "{count} 个角色",
+    "traveler": "旅行者",
+    "noElement": "无元素"
   },
   "Pagination": {
     "navLabel": "分页导航",
@@ -363,12 +365,27 @@
     "toolRunningNamed": "运行{tool}......",
     "toolProcessing": "处理......"
   },
+  "Region": {
+    "Mondstadt": "蒙德",
+    "Liyue": "璃月",
+    "Inazuma": "稻妻",
+    "Sumeru": "须弥",
+    "Fontaine": "枫丹",
+    "Natlan": "纳塔",
+    "Snezhnaya": "Snezhnaya",
+    "Nod-Krai": "挪德卡莱"
+  },
+  "Glossary": {
+    "close": "Close",
+    "relatedCharacters": "Related characters:",
+    "clickForDetails": "Click for details"
+  },
   "ReactionTabs": {
     "categoryAmplifying": "放大",
-    "categoryTransformative": "转变",
-    "categoryAdditive": "附加组件",
+    "categoryTransformative": "转化",
+    "categoryAdditive": "加成",
     "categoryLunar": "月亮",
-    "categoryStellar": "本质",
+    "categoryStellar": "恒星",
     "tabStandard": "元素反应",
     "tabLunar": "月球反应",
     "tabStellar": "星光闪耀",

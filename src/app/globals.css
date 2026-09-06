@@ -253,6 +253,7 @@ tr:nth-child(even) { background: color-mix(in srgb, var(--bg-elevated) 50%, tran
   transition: transform 0.15s ease-out;
   position: relative;
   will-change: transform;
+  border-radius: var(--radius-card);
 }
 .tilt-card::before {
   content: ""; position: absolute; inset: 0; border-radius: inherit;
@@ -260,7 +261,14 @@ tr:nth-child(even) { background: color-mix(in srgb, var(--bg-elevated) 50%, tran
   opacity: 0; transition: opacity 0.25s ease; pointer-events: none; z-index: 1;
 }
 .tilt-card:hover::before { opacity: 1; }
-@media (prefers-reduced-motion: reduce) { .tilt-card { transform: none !important; transition: none !important; } .tilt-card::before { display: none; } }
+.tilt-card:focus-visible {
+  outline: 2px solid var(--accent-bright);
+  outline-offset: 4px;
+}
+@media (prefers-reduced-motion: reduce) { 
+  .tilt-card { transform: none !important; transition: none !important; } 
+  .tilt-card::before { display: none; } 
+}
 
 .bg-grain { position: relative; }
 .bg-grain::after {
@@ -281,4 +289,27 @@ tr:nth-child(even) { background: color-mix(in srgb, var(--bg-elevated) 50%, tran
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+}
+
+/* ===== Screen reader only (accessibility) ===== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+.focus\:not-sr-only:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
 }

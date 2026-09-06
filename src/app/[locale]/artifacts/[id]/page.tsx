@@ -1,3 +1,4 @@
+
 import { prisma } from "@/lib/db/prisma";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -8,6 +9,7 @@ import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { rarityColorVar } from "@/lib/ui/theme";
 import { GlossaryText } from "@/components/glossary/GlossaryText";
+import { getLocalizedName } from "@/lib/i18n/entity-name";
 
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -19,7 +21,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const a = await prisma.artifactSet.findUnique({ where: { id } });
   if (!a) return { title: t("notFoundTitle") };
   return {
-    title: `${a.name} — LEIBO`,
+    title: `${getLocalizedName(a, locale)} — LEIBO`,
     description: a.fourPieceBonus ?? a.twoPieceBonus ?? t("metaDescriptionFallback", { range: a.rarityRange.join("/") }),
   };
 }
@@ -64,7 +66,7 @@ export default async function ArtifactDetail({ params }: PageProps) {
   const breadcrumbItems = [
     { name: "LEIBO", path: "/" },
     { name: t("breadcrumbArtifacts"), path: "/artifacts" },
-    { name: a.name, path: `/artifacts/${a.id}` },
+    { name: getLocalizedName(a, locale), path: `/artifacts/${a.id}` },
   ];
 
   return (
@@ -91,7 +93,7 @@ export default async function ArtifactDetail({ params }: PageProps) {
           )}
           <div className="flex flex-col justify-center">
             <span className="text-eyebrow mb-2" style={{ color: rc }}>{t("artifactSetLabel")}</span>
-            <h1 className="font-display text-display-2 font-semibold text-text-primary mb-2">{a.name}</h1>
+            <h1 className="font-display text-display-2 font-semibold text-text-primary mb-2">{getLocalizedName(a, locale)}</h1>
             <p className="text-sm font-semibold" style={{ color: rc }}>{a.rarityRange.join("/")}★</p>
           </div>
         </div>

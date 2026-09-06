@@ -1,0 +1,102 @@
+name: PR Preview
+
+# Deploy 1 bản preview lên Vercel cho mỗi Pull Request nhắm vào `main`,
+# rồi comment link preview thẳng vào PR — xem trực tiếp thay đổi chạy
+# thật trước khi merge, không cần đợi merge xong mới biết đúng/sai.
+#
+# KHÁC với job deploy-production trong ci.yml:
+#   - KHÔNG chạy `prisma migrate deploy` / `db:seed` — preview không nên
+#     tự động đổi schema/dữ liệu production. Nếu PR có đổi schema, job
+#     `build` trong ci.yml đã tự kiểm tra migrate trên DB tạm (service
+#     container) rồi — preview ở đây chỉ cần build+deploy CODE để xem UI,
+#     không đụng gì tới DB thật.
+#   - Dùng `vercel pull --environment=preview` — biến môi trường
+#     (DATABASE_URL...) lấy từ scope "Preview" đã cấu hình sẵn trong
+#     Vercel Dashboard → Settings → Environment Variables, KHÔNG phải
+#     GitHub Secrets. CẦN ĐẢM BẢO scope Preview trong Vercel đã có
+#     DATABASE_URL/DIRECT_URL trỏ đúng nơi trước khi dùng workflow này —
+#     khuyến nghị trỏ vào cùng DB production ở chế độ chỉ đọc, vì trang
+#     chủ yếu SSR/ISR đọc dữ liệu, không viết.
+#
+# Chạy ĐỘC LẬP với ci.yml (không đợi ci.yml pass trước) — cùng cách
+# Vercel's Git integration gốc hoạt động: deploy preview để người xem
+# tự đối chiếu bằng mắt, còn việc CHẶN merge vào `main` do branch
+# protection rule (yêu cầu ci.yml pass) đảm nhiệm riêng, không phải
+# workflow này.
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    name: Deploy Preview
+    runs-on: ubuntu-latest
+    # Cho phép workflow này comment vào PR.
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel preview environment info
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Build project artifacts
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy preview to Vercel
+        id: deploy
+        run: |
+          url=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Comment preview URL on PR
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const marker = "<!-- pr-preview-comment -->";
+            const body = `${marker}\n🔗 **Preview:** ${{ steps.deploy.outputs.url }}\n\n_Cập nhật lại mỗi khi có commit mới trên PR này._`;
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const existing = comments.find((c) => c.body.includes(marker));
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }

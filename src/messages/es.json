@@ -68,7 +68,9 @@
     "clearAllFilters": "Borrar todos los filtros",
     "noResults": "Ningún personaje coincide con los filtros.",
     "clearFilters": "Borrar filtros",
-    "rarityGroupCount": "{count} personajes"
+    "rarityGroupCount": "{count} personajes",
+    "traveler": "Viajero",
+    "noElement": "Sin elemento"
   },
   "Pagination": {
     "navLabel": "Navegación de páginas",
@@ -363,12 +365,27 @@
     "toolRunningNamed": "Corriendo {tool}...",
     "toolProcessing": "Procesando..."
   },
+  "Region": {
+    "Mondstadt": "Mondstadt",
+    "Liyue": "Liyue",
+    "Inazuma": "Inazuma",
+    "Sumeru": "Sumeru",
+    "Fontaine": "Fontaine",
+    "Natlan": "Natlan",
+    "Snezhnaya": "Snezhnaya",
+    "Nod-Krai": "Nod Krai"
+  },
+  "Glossary": {
+    "close": "Close",
+    "relatedCharacters": "Related characters:",
+    "clickForDetails": "Click for details"
+  },
   "ReactionTabs": {
     "categoryAmplifying": "Amplificación",
     "categoryTransformative": "Transformación",
-    "categoryAdditive": "Complementos",
-    "categoryLunar": "Luna",
-    "categoryStellar": "Esencia",
+    "categoryAdditive": "Aditiva",
+    "categoryLunar": "Lunar",
+    "categoryStellar": "Estelar",
     "tabStandard": "Reacciones Elementales",
     "tabLunar": "Reacción lunar",
     "tabStellar": "Brillo Estelar",

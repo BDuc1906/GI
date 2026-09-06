@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ElementIcon } from "@/components/character/ElementIcon";
@@ -8,6 +9,8 @@ import {
   ELEMENT_ICON_URLS,
   reactionsInvolving,
   reactionPillStyle,
+  getElementName,
+  getReactionName,
 } from "@/lib/game/element-reactions-data";
 import { ReactionPillLink } from "@/components/glossary/ReactionPillLink";
 
@@ -46,19 +49,22 @@ export default async function ElementsPage({
       <section className="mb-10">
         <h2 className="font-display text-xl font-bold mb-4 text-gold border-b border-border pb-2">{t("sevenElements")}</h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-3">
-          {ELEMENTS.map((el) => (
-            <a
-              key={el.id}
-              href={`#reactions-${el.id}`}
-              className="relic-frame bg-bg-card border border-border rounded-xl p-4 flex flex-col items-center gap-2 hover:border-gold/50 transition-colors"
-            >
-              <ElementIcon vision={el.name} iconUrl={ELEMENT_ICON_URLS[el.name]} size={40} />
-              <div className="text-center">
-                <div className="font-semibold text-text-primary text-sm">{el.name}</div>
-                <div className="text-xs text-text-muted">{el.nameVi}</div>
-              </div>
-            </a>
-          ))}
+          {ELEMENTS.map((el) => {
+            const displayName = getElementName(el, locale);
+            return (
+              <a
+                key={el.id}
+                href={`#reactions-${el.id}`}
+                className="relic-frame bg-bg-card border border-border rounded-xl p-4 flex flex-col items-center gap-2 hover:border-gold/50 transition-colors"
+              >
+                <ElementIcon vision={el.name} iconUrl={ELEMENT_ICON_URLS[el.name]} size={40} />
+                <div className="text-center">
+                  <div className="font-semibold text-text-primary text-sm">{displayName}</div>
+                  {displayName !== el.name && <div className="text-xs text-text-muted">{el.name}</div>}
+                </div>
+              </a>
+            );
+          })}
         </div>
       </section>
 
@@ -72,21 +78,27 @@ export default async function ElementsPage({
           {ELEMENTS.map((el) => {
             const reactions = reactionsInvolving(el.name);
             if (reactions.length === 0) return null;
+            const elDisplayName = getElementName(el, locale);
             return (
               <div key={el.id} id={`reactions-${el.id}`} className="scroll-mt-24">
                 <div className="flex items-center gap-2 mb-3">
                   <ElementIcon vision={el.name} iconUrl={ELEMENT_ICON_URLS[el.name]} size={24} />
-                  <h3 className="font-semibold text-text-primary">{el.name} ({el.nameVi})</h3>
+                  <h3 className="font-semibold text-text-primary">
+                    {elDisplayName !== el.name ? `${elDisplayName} (${el.name})` : el.name}
+                  </h3>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {reactions.map((r) => (
-                    <ReactionPillLink
-                      key={r.id}
-                      id={r.id}
-                      label={`${r.nameVi} (${r.name})`}
-                      style={reactionPillStyle(el.name)}
-                    />
-                  ))}
+                  {reactions.map((r) => {
+                    const rDisplayName = getReactionName(r, locale);
+                    return (
+                      <ReactionPillLink
+                        key={r.id}
+                        id={r.id}
+                        label={rDisplayName !== r.name ? `${rDisplayName} (${r.name})` : r.name}
+                        style={reactionPillStyle(el.name)}
+                      />
+                    );
+                  })}
                 </div>
               </div>
             );

@@ -1,24 +1,23 @@
+
 // src/app/admin/page.tsx
 /**
  * Trang quản trị — dashboard cho pipeline crawl/seed + điều khiển AI
  * Agent (fix/sync) + lịch sử thay đổi dữ liệu.
  *
- * TRƯỚC ĐÂY: file này 0 byte (chưa ai viết). Có 1 bản dashboard pipeline
- * đã được viết đầy đủ nhưng đặt NHẦM CHỖ ở `src/app/api/admin/page.tsx`
- * (route thật của nó vô tình là URL "/api/admin" — rất dễ nhầm với API
- * route, và không nằm cạnh các API admin khác về mặt điều hướng). Trang
- * này lấy lại đúng phần dashboard pipeline đó (đổi sang dùng token màu
- * theo theme thay vì hex cứng — để tôn trọng dark/light mode của
- * ThemeToggle), rồi ghép thêm 3 phần AI Agent còn thiếu: điều khiển
- * fix/sync thủ công, chi tiết lần quét gần nhất, lịch sử audit log.
- *
- * XOÁ file `src/app/api/admin/page.tsx` cũ sau khi áp dụng file này,
- * để không còn 2 trang admin trùng chức năng ở 2 URL khác nhau.
+ * ĐA NGÔN NGỮ (2026-09): trang này từng hardcode 100% tiếng Việt dù nằm
+ * trong route [locale] — 4 component con (StatsCards, AgentControlPanel,
+ * DataHealth, RecentActivity) đã dùng useTranslations("Admin") đúng chuẩn
+ * từ trước, và bản dịch namespace "Admin" cho cả 15 ngôn ngữ đã có sẵn
+ * trong messages/*.json — chỉ riêng file page.tsx (cấp cha) là chưa nối
+ * vào, giờ đã sửa. Đây là trang nội bộ chỉ admin dùng (không phải nội
+ * dung public), nhưng vẫn dịch cho đủ vì có thể admin không phải lúc nào
+ * cũng thao tác bằng tiếng Việt.
  */
 
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { StatsCards } from "@/components/admin/StatsCards";
 import { AgentControlPanel } from "@/components/admin/AgentControlPanel";
 import { DataHealth, type FixScanSummary } from "@/components/admin/DataHealth";
@@ -39,14 +38,6 @@ interface LatestStatus {
   [name: string]: { status: string; startedAt: string; id: string };
 }
 
-const PIPELINE_LABELS: Record<string, string> = {
-  crawl: "Crawl dữ liệu",
-  seed: "Seed database",
-  mirror: "Mirror ảnh",
-  "update-data": "Cập nhật dữ liệu",
-  "agent-sync": "Agent trigger sync",
-};
-
 function formatDuration(ms: number | null): string {
   if (!ms) return "—";
   if (ms < 1000) return `${ms}ms`;
@@ -55,6 +46,19 @@ function formatDuration(ms: number | null): string {
 }
 
 export default function AdminPage() {
+  const t = useTranslations("Admin");
+  const locale = useLocale();
+
+  // Nhãn pipeline dịch được — đặt TRONG component (không phải hằng số
+  // module-level như bản cũ) vì cần gọi t(), chỉ tính lại khi locale đổi.
+  const PIPELINE_LABELS: Record<string, string> = {
+    crawl: t("pipelineCrawl"),
+    seed: t("pipelineSeed"),
+    mirror: t("pipelineMirror"),
+    "update-data": t("pipelineUpdateData"),
+    "agent-sync": t("pipelineAgentSync"),
+  };
+
   const [adminKey, setAdminKey] = useState("");
   const [runs, setRuns] = useState<PipelineRun[]>([]);
   const [latestStatus, setLatestStatus] = useState<LatestStatus>({});
@@ -111,20 +115,20 @@ export default function AdminPage() {
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="font-display text-3xl font-bold text-gold-bright">📊 Bảng điều khiển Admin</h1>
-            <p className="text-sm text-text-secondary mt-1">Pipeline dữ liệu + AI Agent</p>
+            <h1 className="font-display text-3xl font-bold text-gold-bright">📊 {t("title")}</h1>
+            <p className="text-sm text-text-secondary mt-1">{t("subtitle")}</p>
           </div>
           <button
             onClick={() => setRefreshToken(Date.now())}
             className="px-4 py-2 bg-bg-card border border-border rounded-lg hover:border-gold/50 transition-colors text-sm"
           >
-            🔄 Refresh
+            🔄 {t("refresh")}
           </button>
         </div>
 
         {!adminKey && (
           <div className="bg-bg-card border border-gold/30 rounded-xl p-4 mb-8 text-sm text-text-secondary">
-            Nhập Admin Key ở panel &quot;Điều khiển AI Agent&quot; bên dưới để xem dữ liệu pipeline và audit log.
+            {t("enterAdminKeyHint")}
           </div>
         )}
 
@@ -155,17 +159,17 @@ export default function AdminPage() {
         <div className="bg-bg-card border border-border rounded-xl overflow-hidden">
           <div className="px-4 py-3 border-b border-border">
             <h2 className="text-sm font-semibold text-text-secondary uppercase tracking-wider">
-              📋 Lịch sử pipeline ({runs.length}) {loading && <span className="text-text-muted normal-case">— đang tải...</span>}
+              📋 {t("pipelineHistory", { count: runs.length })} {loading && <span className="text-text-muted normal-case">— {t("loading")}</span>}
             </h2>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead className="bg-bg-secondary">
                 <tr>
-                  <th className="px-4 py-2 text-left text-text-secondary font-medium">Pipeline</th>
-                  <th className="px-4 py-2 text-left text-text-secondary font-medium">Trạng thái</th>
-                  <th className="px-4 py-2 text-left text-text-secondary font-medium">Bắt đầu</th>
-                  <th className="px-4 py-2 text-left text-text-secondary font-medium">Thời gian</th>
+                  <th className="px-4 py-2 text-left text-text-secondary font-medium">{t("colPipeline")}</th>
+                  <th className="px-4 py-2 text-left text-text-secondary font-medium">{t("colStatus")}</th>
+                  <th className="px-4 py-2 text-left text-text-secondary font-medium">{t("colStartedAt")}</th>
+                  <th className="px-4 py-2 text-left text-text-secondary font-medium">{t("colDuration")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -173,16 +177,16 @@ export default function AdminPage() {
                   <tr key={run.id} className="border-t border-border hover:bg-bg-secondary transition-colors">
                     <td className="px-4 py-2 text-text-primary">{PIPELINE_LABELS[run.name] || run.name}</td>
                     <td className="px-4 py-2">
-                      {run.status === "success" && <span className="text-green-400">✅ Thành công</span>}
+                      {run.status === "success" && <span className="text-green-400">✅ {t("statusSuccess")}</span>}
                       {run.status === "failed" && (
                         <span className="text-red-400 cursor-help" title={run.error || undefined}>
-                          ❌ Thất bại
+                          ❌ {t("statusFailed")}
                         </span>
                       )}
-                      {run.status === "started" && <span className="text-yellow-400">⏳ Đang chạy</span>}
+                      {run.status === "started" && <span className="text-yellow-400">⏳ {t("statusRunning")}</span>}
                     </td>
                     <td className="px-4 py-2 text-text-secondary">
-                      {new Date(run.startedAt).toLocaleString("vi-VN", { hour12: false })}
+                      {new Date(run.startedAt).toLocaleString(locale, { hour12: false })}
                     </td>
                     <td className="px-4 py-2 text-text-secondary">{formatDuration(run.durationMs)}</td>
                   </tr>
@@ -190,7 +194,7 @@ export default function AdminPage() {
                 {!loading && runs.length === 0 && (
                   <tr>
                     <td colSpan={4} className="px-4 py-8 text-center text-text-muted">
-                      {adminKey ? "Chưa có pipeline nào chạy." : "Nhập Admin Key để xem lịch sử."}
+                      {adminKey ? t("noRunsYet") : t("enterAdminKeyToView")}
                     </td>
                   </tr>
                 )}
@@ -199,7 +203,7 @@ export default function AdminPage() {
           </div>
         </div>
 
-        <div className="mt-6 text-xs text-text-muted text-center">Tự động refresh mỗi 30 giây</div>
+        <div className="mt-6 text-xs text-text-muted text-center">{t("autoRefreshNote")}</div>
       </div>
     </div>
   );

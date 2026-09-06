@@ -24,6 +24,9 @@ model Character {
   // (vd HoYoLAB changelog hoặc fandom wiki scrape riêng).
   releaseDate DateTime?
   description String?  @db.Text
+  // Bản dịch mô tả (bio/quote) qua Azure Translator — { [locale]: string },
+  // KHÔNG có "vi" (vi lấy trực tiếp từ cột `description` gốc).
+  descriptionTranslations Json?
   // ---- Ảnh HIỂN THỊ (dùng trong toàn bộ UI) ----
   // Sở hữu: scripts/mirror-images-to-r2.ts SAU LẦN MIRROR ĐẦU TIÊN. Trước
   // đó (nhân vật vừa seed, chưa mirror lần nào) do scripts/seed-characters.ts
@@ -76,7 +79,13 @@ model Character {
   gameVersion String?                 // phiên bản game nhân vật ra mắt, vd "1.6"
   wikiUrl     String?
   constellations Json?                // [{ level, name, description }] x6 — cung mệnh kỹ năng
+  // Bản dịch constellations qua Azure Translator — { [locale]: [{ name,
+  // description }] }, khớp theo INDEX (luôn đúng 6 phần tử cố định).
+  constellationsTranslations Json?
   talents        Json?                // [{ key, name, description }] — đòn thường/kỹ năng/trọng kích/passive
+  // Bản dịch talents qua Azure Translator — { [locale]: [{ key, name,
+  // description, attributeLabels }] }, khớp theo `key` khi render.
+  talentsTranslations Json?
   // Field genshin-db gốc, KHÔNG có trước đây — cần để join với Talent/
   // Constellation/Outfit (3 bảng mới) vì chúng dùng đúng id này, không
   // phải Character.id (slug riêng của app).
@@ -131,7 +140,12 @@ model Weapon {
   // duy nhất trên trang chi tiết vũ khí (đã bỏ effectDescriptionR1/R5 vì
   // trùng lặp dữ liệu và không được UI dùng tới).
   passiveByRefinement Json?
+  // Bản dịch passiveByRefinement qua Azure Translator — { [locale]: [{
+  // description }] }, khớp theo INDEX (5 mốc tinh luyện R1-R5 cố định).
+  passiveByRefinementTranslations Json?
   description String?  @db.Text
+  // Bản dịch mô tả vũ khí qua Azure Translator — { [locale]: string }.
+  descriptionTranslations Json?
   // Ảnh hiển thị — sở hữu bởi mirror-images-to-r2.ts sau lần mirror đầu.
   iconUrl     String?
   // Ảnh gốc (hotlink) — sở hữu bởi seed-weapons.ts, ghi đè tự do mỗi lần

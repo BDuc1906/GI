@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import { Prisma } from "@prisma/client";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -8,6 +9,7 @@ import { Pagination } from "@/components/ui/Pagination";
 import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/ui/pagination";
 import type { Metadata } from "next";
 import { withDbRetry } from "@/lib/db/db-retry";
+import { getLocalizedName } from "@/lib/i18n/entity-name";
 
 export async function generateMetadata({
   params,
@@ -109,7 +111,7 @@ export default async function ArtifactsPage({ params, searchParams }: PageProps)
               <EntityCard
                 key={a.id}
                 href={`/artifacts/${a.id}`}
-                name={a.name}
+                name={getLocalizedName(a, locale)}
                 subtitle={t("rarityBadge", { range: range.join("–") })}
                 rarity={maxRarity}
                 imageSrc={a.iconUrl}
