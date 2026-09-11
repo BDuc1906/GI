@@ -123,7 +123,11 @@ async function main() {
       if (group === "reaction" && field === "description") {
         const r = insertLocaleIntoField(src, `id: "${id}", descriptionTranslations:`, "descriptionTranslations", locale, value);
         src = r.src;
-        r.changed ? localeInserted++ : localeSkipped++;
+        if (r.changed) {
+          localeInserted++;
+        } else {
+          localeSkipped++;
+        }
         continue;
       }
       if (group === "reaction" && field === "name") {
@@ -170,14 +174,22 @@ async function main() {
         const fieldName = field === "name" ? "nameTranslations" : "descriptionTranslations";
         const r = insertLocaleIntoField(src, `id: "${id}", nameTranslations:`, fieldName, locale, value);
         src = r.src;
-        r.changed ? localeInserted++ : localeSkipped++;
+        if (r.changed) {
+          localeInserted++;
+        } else {
+          localeSkipped++;
+        }
         continue;
       }
       if (group === "formula" && (field === "title" || field === "explanation")) {
         const fieldName = field === "title" ? "titleTranslations" : "explanationTranslations";
         const r = insertLocaleIntoField(src, `category: "${id}",\n    titleTranslations:`, fieldName, locale, value);
         src = r.src;
-        r.changed ? localeInserted++ : localeSkipped++;
+        if (r.changed) {
+          localeInserted++;
+        } else {
+          localeSkipped++;
+        }
         continue;
       }
       // lunar.*, hexerei.*, witchRevelation.*, lunar.scaling.* — các field

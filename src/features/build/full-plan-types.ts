@@ -1,5 +1,5 @@
+
 import type { BuildRecommendation } from "./types";
-import type { BuildComparison } from "./compare-types";
 import type { ArtifactRecommendation } from "./artifact-types";
 import type { DomainRecommendation } from "./domain-types";
 

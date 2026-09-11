@@ -1,5 +1,9 @@
+
 import { prisma } from "@/lib/db/prisma";
 import type { FullBuildPlan } from "./full-plan-types";
+import type { BuildRecommendation } from "./types";
+import type { ArtifactRecommendation } from "./artifact-types";
+import type { DomainRecommendation } from "./domain-types";
 import { BuildService } from "./service";
 import { ArtifactRecommendationService } from "./artifact-service";
 import { DomainRecommendationService } from "./domain-service";
@@ -62,9 +66,9 @@ export class FullBuildPlanService {
 
   private generateComprehensiveSummary(
     characterName: string,
-    weaponRec: any,
-    artifactRec: any,
-    domainRec: any
+    weaponRec: BuildRecommendation | null,
+    artifactRec: ArtifactRecommendation | null,
+    domainRec: DomainRecommendation | null
   ): string {
     const parts: string[] = [`Bản đồ xây dựng hoàn chỉnh cho ${characterName}:`];
 
