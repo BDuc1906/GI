@@ -39,8 +39,18 @@ function SectionHeader({ title, href, viewAllLabel }: { title: string; href: str
   );
 }
 
-export default async function Home(props: PageProps<"/[locale]">) {
-  const { params } = props;
+// SỬA (2026-09): trước đây dùng `PageProps<"/[locale]">` — type này do
+// Next.js TỰ SINH vào `.next/types/` sau khi `next build`/`next dev` chạy
+// ít nhất 1 lần, KHÔNG tồn tại nếu chỉ chạy `tsc --noEmit` độc lập (đúng
+// tình huống job `lint-and-typecheck` trong CI: typecheck chạy TRƯỚC job
+// build riêng, `.next/types` chưa từng được sinh ra). Đổi sang khai type
+// cục bộ tường minh — đúng quy ước mọi page.tsx khác trong dự án đang
+// dùng, và không phụ thuộc vào việc build trước.
+interface HomePageProps {
+  params: Promise<{ locale: string }>;
+}
+
+export default async function Home({ params }: HomePageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "Home" });

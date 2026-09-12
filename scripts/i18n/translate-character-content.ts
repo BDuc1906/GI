@@ -58,14 +58,21 @@ import { prisma } from "../../src/lib/db/prisma";
 
 const ALL_LOCALES = ["zh-CN", "zh-TW", "ja", "ko", "id", "th", "de", "fr", "it", "pt", "es", "ru", "tr"];
 
-const AZURE_LANG_CODE = {
+const AZURE_LANG_CODE: Record<string, string> = {
   "zh-CN": "zh-Hans", "zh-TW": "zh-Hant", ja: "ja", ko: "ko",
   id: "id", th: "th", de: "de", fr: "fr", it: "it", pt: "pt-pt", es: "es", ru: "ru", tr: "tr",
 };
 
 const AZURE_ENDPOINT = "https://api.cognitive.microsofttranslator.com";
 
-function parseArgs() {
+interface ParsedArgs {
+  dryRun: boolean;
+  onlyLocales: string[] | null;
+  only: "characters" | "weapons" | null;
+  limit: number | null;
+}
+
+function parseArgs(): ParsedArgs {
   const args = process.argv.slice(2);
   const dryRun = args.includes("--dry-run");
   const localeArg = args.find((a) => a.startsWith("--locale="));
@@ -74,27 +81,41 @@ function parseArgs() {
   return {
     dryRun,
     onlyLocales: localeArg ? localeArg.split("=")[1].split(",") : null,
-    only: onlyArg ? onlyArg.split("=")[1] : null,
+    only: onlyArg ? (onlyArg.split("=")[1] as "characters" | "weapons") : null,
     limit: limitArg ? Number(limitArg.split("=")[1]) : null,
   };
 }
 
-function protectPlaceholders(text) {
+interface ProtectedText {
+  protectedText: string;
+  restore: (translated: string) => string;
+}
+
+function protectPlaceholders(text: string): ProtectedText {
   if (!text) return { protectedText: text, restore: (t) => t };
-  const tokens = [];
+  const tokens: string[] = [];
   const protectedText = text.replace(/\{[^}]+\}|<[^>]+>/g, (match) => {
     tokens.push(match);
     return "\u00a7" + (tokens.length - 1) + "\u00a7";
   });
-  const restore = (translated) =>
+  const restore = (translated: string) =>
     translated.replace(/\u00a7(\d+)\u00a7/g, (_, i) => tokens[Number(i)] ?? "");
   return { protectedText, restore };
 }
 
-async function translateBatch(texts, targetLang, apiKey, region) {
+async function translateBatch(
+  texts: string[],
+  targetLang: string,
+  apiKey: string | undefined,
+  region: string | undefined
+): Promise<string[]> {
   if (texts.length === 0) return [];
   const url = AZURE_ENDPOINT + "/translate?api-version=3.0&from=en&to=" + targetLang;
-  const headers = { "Ocp-Apim-Subscription-Key": apiKey, "Content-Type": "application/json" };
+  // apiKey chỉ có thể là undefined khi đang ở chế độ --dry-run — nhánh đó
+  // luôn `continue` trước khi gọi tới hàm này (xem translateCharacterRecord/
+  // translateWeaponRecord), nên fallback "" ở đây thuần tuý để thoả mãn
+  // type checker, không bao giờ thực sự tạo ra request với key rỗng.
+  const headers: Record<string, string> = { "Ocp-Apim-Subscription-Key": apiKey ?? "", "Content-Type": "application/json" };
   if (region) headers["Ocp-Apim-Subscription-Region"] = region;
 
   const MAX_RETRIES = 6;
@@ -107,15 +128,20 @@ async function translateBatch(texts, targetLang, apiKey, region) {
       continue;
     }
     if (!res.ok) throw new Error("Azure Translator error " + res.status + ": " + (await res.text()));
-    const data = await res.json();
+    const data = (await res.json()) as { translations: { text: string }[] }[];
     return data.map((item) => item.translations[0].text);
   }
   throw new Error("Still 429 after " + MAX_RETRIES + " retries.");
 }
 
-async function translateStrings(texts, targetLang, apiKey, region) {
+async function translateStrings(
+  texts: string[],
+  targetLang: string,
+  apiKey: string | undefined,
+  region: string | undefined
+): Promise<string[]> {
   const protectedItems = texts.map(protectPlaceholders);
-  const results = new Array(texts.length);
+  const results: string[] = new Array(texts.length);
   const BATCH_SIZE = 50;
   for (let i = 0; i < protectedItems.length; i += BATCH_SIZE) {
     const batch = protectedItems.slice(i, i + BATCH_SIZE);
@@ -127,15 +153,86 @@ async function translateStrings(texts, targetLang, apiKey, region) {
 }
 
 let totalCharsDryRun = 0;
+const charsByLocale: Record<string, number> = {};
 
-async function translateCharacterRecord(character, locales, apiKey, region, dryRun) {
+function addDryRunChars(locale: string, count: number): void {
+  totalCharsDryRun += count;
+  charsByLocale[locale] = (charsByLocale[locale] ?? 0) + count;
+}
+
+interface TalentAttributeRow {
+  label: string;
+  values: string[];
+}
+
+interface TalentRecord {
+  key: string;
+  name: string;
+  description: string;
+  attributes: TalentAttributeRow[] | null;
+}
+
+interface ConstellationRecord {
+  name: string;
+  description: string;
+}
+
+interface RefinementRecord {
+  description: string;
+}
+
+interface TalentTranslationEntry {
+  key: string;
+  name: string;
+  description: string;
+  attributeLabels: string[];
+}
+
+interface ConstellationTranslationEntry {
+  name: string;
+  description: string;
+}
+
+interface RefinementTranslationEntry {
+  description: string;
+}
+
+/** 1 "việc cần dịch" — discriminated union theo `type`, field phụ (ti/ri/
+ * ci/pi) optional vì mỗi loại job chỉ dùng 1 tập con khác nhau. */
+interface TranslateJob {
+  type: "description" | "talent.name" | "talent.description" | "talent.attrLabel" | "cs.name" | "cs.description" | "passive";
+  text: string;
+  ti?: number;
+  ri?: number;
+  ci?: number;
+  pi?: number;
+}
+
+interface CharacterRow {
+  id: string;
+  description: string | null;
+  talents: unknown;
+  constellations: unknown;
+  descriptionTranslations: unknown;
+  talentsTranslations: unknown;
+  constellationsTranslations: unknown;
+}
+
+async function translateCharacterRecord(
+  character: CharacterRow,
+  locales: string[],
+  apiKey: string | undefined,
+  region: string | undefined,
+  dryRun: boolean
+): Promise<boolean> {
   const description = character.description ?? "";
-  const talents = character.talents ?? [];
-  const constellations = character.constellations ?? [];
+  const talents = (character.talents as TalentRecord[] | null) ?? [];
+  const constellations = (character.constellations as ConstellationRecord[] | null) ?? [];
 
-  const descTranslations = character.descriptionTranslations ?? {};
-  const talentsTranslations = character.talentsTranslations ?? {};
-  const constellationsTranslations = character.constellationsTranslations ?? {};
+  const descTranslations = (character.descriptionTranslations as Record<string, string> | null) ?? {};
+  const talentsTranslations = (character.talentsTranslations as Record<string, TalentTranslationEntry[]> | null) ?? {};
+  const constellationsTranslations =
+    (character.constellationsTranslations as Record<string, ConstellationTranslationEntry[]> | null) ?? {};
 
   let changed = false;
 
@@ -145,7 +242,7 @@ async function translateCharacterRecord(character, locales, apiKey, region, dryR
     const hasConstellations = constellations.length === 0 || locale in constellationsTranslations;
     if (hasDesc && hasTalents && hasConstellations) continue;
 
-    const jobs = [];
+    const jobs: TranslateJob[] = [];
     if (description && !hasDesc) jobs.push({ type: "description", text: description });
     if (!hasTalents) {
       talents.forEach((tal, ti) => {
@@ -164,7 +261,7 @@ async function translateCharacterRecord(character, locales, apiKey, region, dryR
     }
 
     const texts = jobs.map((j) => j.text ?? "");
-    totalCharsDryRun += texts.join("").length;
+    addDryRunChars(locale, texts.join("").length);
     if (dryRun) continue;
 
     const azureTarget = AZURE_LANG_CODE[locale];
@@ -175,24 +272,26 @@ async function translateCharacterRecord(character, locales, apiKey, region, dryR
       descTranslations[locale] = translated[idx];
     }
     if (!hasTalents) {
-      const talentEntries = talents.map((tal) => ({
+      const talentEntries: TalentTranslationEntry[] = talents.map((tal) => ({
         key: tal.key,
         name: "",
         description: "",
         attributeLabels: (tal.attributes ?? []).map(() => ""),
       }));
       jobs.forEach((j, idx) => {
-        if (j.type === "talent.name") talentEntries[j.ti].name = translated[idx];
-        if (j.type === "talent.description") talentEntries[j.ti].description = translated[idx];
-        if (j.type === "talent.attrLabel") talentEntries[j.ti].attributeLabels[j.ri] = translated[idx];
+        if (j.type === "talent.name" && j.ti !== undefined) talentEntries[j.ti].name = translated[idx];
+        if (j.type === "talent.description" && j.ti !== undefined) talentEntries[j.ti].description = translated[idx];
+        if (j.type === "talent.attrLabel" && j.ti !== undefined && j.ri !== undefined) {
+          talentEntries[j.ti].attributeLabels[j.ri] = translated[idx];
+        }
       });
       talentsTranslations[locale] = talentEntries;
     }
     if (!hasConstellations) {
-      const csEntries = constellations.map(() => ({ name: "", description: "" }));
+      const csEntries: ConstellationTranslationEntry[] = constellations.map(() => ({ name: "", description: "" }));
       jobs.forEach((j, idx) => {
-        if (j.type === "cs.name") csEntries[j.ci].name = translated[idx];
-        if (j.type === "cs.description") csEntries[j.ci].description = translated[idx];
+        if (j.type === "cs.name" && j.ci !== undefined) csEntries[j.ci].name = translated[idx];
+        if (j.type === "cs.description" && j.ci !== undefined) csEntries[j.ci].description = translated[idx];
       });
       constellationsTranslations[locale] = csEntries;
     }
@@ -212,12 +311,27 @@ async function translateCharacterRecord(character, locales, apiKey, region, dryR
   return changed;
 }
 
-async function translateWeaponRecord(weapon, locales, apiKey, region, dryRun) {
-  const description = weapon.description ?? "";
-  const passives = weapon.passiveByRefinement ?? [];
+interface WeaponRow {
+  id: string;
+  description: string | null;
+  passiveByRefinement: unknown;
+  descriptionTranslations: unknown;
+  passiveByRefinementTranslations: unknown;
+}
 
-  const descTranslations = weapon.descriptionTranslations ?? {};
-  const passivesTranslations = weapon.passiveByRefinementTranslations ?? {};
+async function translateWeaponRecord(
+  weapon: WeaponRow,
+  locales: string[],
+  apiKey: string | undefined,
+  region: string | undefined,
+  dryRun: boolean
+): Promise<boolean> {
+  const description = weapon.description ?? "";
+  const passives = (weapon.passiveByRefinement as RefinementRecord[] | null) ?? [];
+
+  const descTranslations = (weapon.descriptionTranslations as Record<string, string> | null) ?? {};
+  const passivesTranslations =
+    (weapon.passiveByRefinementTranslations as Record<string, RefinementTranslationEntry[]> | null) ?? {};
 
   let changed = false;
 
@@ -226,12 +340,12 @@ async function translateWeaponRecord(weapon, locales, apiKey, region, dryRun) {
     const hasPassives = passives.length === 0 || locale in passivesTranslations;
     if (hasDesc && hasPassives) continue;
 
-    const jobs = [];
+    const jobs: TranslateJob[] = [];
     if (description && !hasDesc) jobs.push({ type: "description", text: description });
     if (!hasPassives) passives.forEach((p, pi) => jobs.push({ type: "passive", pi, text: p.description }));
 
     const texts = jobs.map((j) => j.text ?? "");
-    totalCharsDryRun += texts.join("").length;
+    addDryRunChars(locale, texts.join("").length);
     if (dryRun) continue;
 
     const azureTarget = AZURE_LANG_CODE[locale];
@@ -242,8 +356,10 @@ async function translateWeaponRecord(weapon, locales, apiKey, region, dryRun) {
       descTranslations[locale] = translated[idx];
     }
     if (!hasPassives) {
-      const passiveEntries = passives.map(() => ({ description: "" }));
-      jobs.forEach((j, idx) => { if (j.type === "passive") passiveEntries[j.pi].description = translated[idx]; });
+      const passiveEntries: RefinementTranslationEntry[] = passives.map(() => ({ description: "" }));
+      jobs.forEach((j, idx) => {
+        if (j.type === "passive" && j.pi !== undefined) passiveEntries[j.pi].description = translated[idx];
+      });
       passivesTranslations[locale] = passiveEntries;
     }
     changed = true;
@@ -295,8 +411,14 @@ async function main() {
 
   if (dryRun) {
     console.log("\n--------------------------------");
-    console.log("Estimated total characters to translate (all selected locales combined): " + totalCharsDryRun.toLocaleString());
-    console.log("Azure F0 free tier: 2,000,000 characters/month.");
+    console.log("Ước tính số ký tự cần dịch THEO TỪNG NGÔN NGỮ:");
+    const sorted = Object.entries(charsByLocale).sort((a, b) => b[1] - a[1]);
+    for (const [locale, count] of sorted) {
+      console.log("  " + locale.padEnd(6) + count.toLocaleString().padStart(12) + " ký tự");
+    }
+    console.log("--------------------------------");
+    console.log("Tổng cộng: " + totalCharsDryRun.toLocaleString() + " ký tự.");
+    console.log("Azure F0 free tier: 2.000.000 ký tự/tháng.");
     console.log("Run again WITHOUT --dry-run (with AZURE_TRANSLATOR_KEY) to translate for real.");
   }
 
