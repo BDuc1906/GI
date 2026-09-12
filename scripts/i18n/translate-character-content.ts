@@ -55,6 +55,7 @@
  */
 
 import { prisma } from "../../src/lib/db/prisma";
+import type { Prisma } from "@prisma/client";
 
 const ALL_LOCALES = ["zh-CN", "zh-TW", "ja", "ko", "id", "th", "de", "fr", "it", "pt", "es", "ru", "tr"];
 
@@ -302,9 +303,18 @@ async function translateCharacterRecord(
     await prisma.character.update({
       where: { id: character.id },
       data: {
-        descriptionTranslations: descTranslations,
-        talentsTranslations,
-        constellationsTranslations,
+        descriptionTranslations: descTranslations as Prisma.InputJsonValue,
+        // Ép kiểu qua `unknown` trước rồi mới sang InputJsonValue — cần
+        // thiết cho 2 field này (nhưng KHÔNG cần cho descriptionTranslations
+        // ở trên) vì TalentTranslationEntry[]/ConstellationTranslationEntry[]
+        // là interface có field cụ thể (không phải index signature), TS coi
+        // là "không đủ overlap" để ép thẳng 1 bước sang InputJsonValue dù
+        // cấu trúc dữ liệu thực tế hoàn toàn hợp lệ làm JSON. Đây là cách
+        // TypeScript tự đề xuất khi gặp lỗi TS2352 (xem thông báo lỗi gốc:
+        // "convert the expression to 'unknown' first"), không phải mẹo vá
+        // liều — vẫn giữ nguyên type-safety ở MỌI chỗ khác trong file.
+        talentsTranslations: talentsTranslations as unknown as Prisma.InputJsonValue,
+        constellationsTranslations: constellationsTranslations as unknown as Prisma.InputJsonValue,
       },
     });
   }
@@ -368,7 +378,10 @@ async function translateWeaponRecord(
   if (changed && !dryRun) {
     await prisma.weapon.update({
       where: { id: weapon.id },
-      data: { descriptionTranslations: descTranslations, passiveByRefinementTranslations: passivesTranslations },
+      data: {
+        descriptionTranslations: descTranslations as Prisma.InputJsonValue,
+        passiveByRefinementTranslations: passivesTranslations as unknown as Prisma.InputJsonValue,
+      },
     });
   }
   return changed;
