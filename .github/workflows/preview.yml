@@ -41,6 +41,16 @@ jobs:
     permissions:
       pull-requests: write
       contents: read
+    # BUG ĐÃ SỬA (2026-09): thiếu 2 biến này khiến `npm ci` (tự chạy hook
+    # postinstall: prisma generate) báo lỗi PrismaConfigEnvError ngay từ
+    # bước cài dependency — giống hệt lỗi từng gặp ở ci.yml, chỉ là quên
+    # áp dụng fix tương tự sang file này. Giá trị ở đây CHỈ để thoả mãn
+    # `prisma generate` (không thực sự kết nối DB) — build/deploy preview
+    # dùng DATABASE_URL thật lấy qua `vercel pull --environment=preview`
+    # ở bước riêng bên dưới, không liên quan tới 2 biến giả này.
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
+      DIRECT_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
 
     steps:
       - uses: actions/checkout@v7
