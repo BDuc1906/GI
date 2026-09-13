@@ -1,9 +1,10 @@
 
 import type { NextRequest } from "next/server";
-import { prisma } from "@/lib/db/prisma";
 import { ok } from "@/lib/api/response";
 import { ApiError, withErrorHandling } from "@/lib/api/errors";
 import { withRateLimit } from "@/lib/api/rate-limit";
+import { SearchService } from "@/features/search/service";
+import { searchRepository } from "@/features/search/repository";
 
 export const revalidate = 30;
 
@@ -14,6 +15,8 @@ export const dynamic = "force-dynamic";
 
 const MAX_PER_TYPE = 50;
 const DEFAULT_PER_TYPE = 12;
+
+const searchService = new SearchService(searchRepository);
 
 /**
  * GET /api/search?q=...
@@ -33,61 +36,33 @@ const DEFAULT_PER_TYPE = 12;
  * với endpoint đơn.
  */
 export const GET = withErrorHandling(
-  withRateLimit(
-    async (req: NextRequest) => {
-      const { searchParams } = new URL(req.url);
-      const q = (searchParams.get("q") ?? "").trim();
-      if (!q) throw ApiError.badRequest('Thiếu tham số bắt buộc "q"');
+  withRateLimit(async (req: NextRequest) => {
+    const { searchParams } = new URL(req.url);
+    const q = (searchParams.get("q") ?? "").trim();
+    if (!q) throw ApiError.badRequest('Thiếu tham số bắt buộc "q"');
 
-      const limitRaw = searchParams.get("limit");
-      let perType = DEFAULT_PER_TYPE;
-      if (limitRaw !== null) {
-        const n = Number(limitRaw);
-        if (!Number.isInteger(n) || n < 1) {
-          throw ApiError.badRequest('Tham số "limit" phải là số nguyên dương', { value: limitRaw });
-        }
-        perType = Math.min(n, MAX_PER_TYPE);
+    const limitRaw = searchParams.get("limit");
+    let perType = DEFAULT_PER_TYPE;
+    if (limitRaw !== null) {
+      const n = Number(limitRaw);
+      if (!Number.isInteger(n) || n < 1) {
+        throw ApiError.badRequest('Tham số "limit" phải là số nguyên dương', { value: limitRaw });
       }
+      perType = Math.min(n, MAX_PER_TYPE);
+    }
 
-      const [characters, weapons, artifacts, domains] = await Promise.all([
-        prisma.character.findMany({
-          where: { name: { contains: q, mode: "insensitive" } },
-          orderBy: [{ rarity: "desc" }, { name: "asc" }],
-          take: perType,
-          select: { id: true, name: true, vision: true, weaponType: true, rarity: true, iconUrl: true, elementIcon: true },
-        }),
-        prisma.weapon.findMany({
-          where: { name: { contains: q, mode: "insensitive" } },
-          orderBy: [{ rarity: "desc" }, { name: "asc" }],
-          take: perType,
-          select: { id: true, name: true, type: true, rarity: true, iconUrl: true },
-        }),
-        prisma.artifactSet.findMany({
-          where: { name: { contains: q, mode: "insensitive" } },
-          orderBy: { name: "asc" },
-          take: perType,
-          select: { id: true, name: true, rarityRange: true, iconUrl: true },
-        }),
-        prisma.domain.findMany({
-          where: { name: { contains: q, mode: "insensitive" } },
-          orderBy: { name: "asc" },
-          take: perType,
-          select: { id: true, name: true, category: true, imageUrl: true },
-        }),
-      ]);
+    const result = await searchService.search(q, { limit: perType });
 
-      return ok(
-        {
-          query: q,
-          total: characters.length + weapons.length + artifacts.length + domains.length,
-          characters,
-          weapons,
-          artifacts,
-          domains,
-        },
-        { maxAgeSec: 30 }
-      );
-    },
-    { prefix: "search", limit: 30 }
-  )
+    return ok(
+      {
+        query: result.query,
+        total: result.total,
+        characters: result.characters,
+        weapons: result.weapons,
+        artifacts: result.artifacts,
+        domains: result.domains,
+      },
+      { maxAgeSec: 30 }
+    );
+  }, { prefix: "search", limit: 30 })
 );

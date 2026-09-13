@@ -1,10 +1,10 @@
 import type { NextRequest } from "next/server";
 import { Prisma } from "@prisma/client";
-import { prisma } from "@/lib/db/prisma";
 import { ok } from "@/lib/api/response";
 import { withErrorHandling } from "@/lib/api/errors";
 import { withRateLimit } from "@/lib/api/rate-limit";
 import { buildMeta, parsePagination, parseRarityList, parseSort } from "@/lib/api/query";
+import { WeaponsService } from "@/features/weapons/service";
 
 export const revalidate = 60;
 
@@ -24,6 +24,8 @@ const LIST_SELECT = {
   iconUrl: true,
 } satisfies Prisma.WeaponSelect;
 
+const weaponsService = new WeaponsService();
+
 /**
  * GET /api/weapons
  *
@@ -35,34 +37,34 @@ const LIST_SELECT = {
  *  - page, limit
  */
 export const GET = withErrorHandling(
-  withRateLimit(
-    async (req: NextRequest) => {
-      const { searchParams } = new URL(req.url);
-      const pagination = parsePagination(searchParams);
-      const sort = parseSort(searchParams.get("sort"), SORT_FIELDS, { field: "rarity", dir: "desc" });
-      const rarity = parseRarityList(searchParams.get("rarity"));
+  withRateLimit(async (req: NextRequest) => {
+    const { searchParams } = new URL(req.url);
+    const pagination = parsePagination(searchParams);
+    const sort = parseSort(searchParams.get("sort"), SORT_FIELDS, { field: "rarity", dir: "desc" });
+    const rarity = parseRarityList(searchParams.get("rarity"));
 
-      const q = searchParams.get("q")?.trim();
-      const type = splitList(searchParams.get("type"));
+    const q = searchParams.get("q")?.trim();
+    const type = splitList(searchParams.get("type"));
 
-      const where: Prisma.WeaponWhereInput = {
-        ...(q ? { name: { contains: q, mode: "insensitive" } } : {}),
-        ...(type ? { type: { in: type, mode: "insensitive" } } : {}),
-        ...(rarity ? { rarity: { in: rarity } } : {}),
-      };
+    const where: Prisma.WeaponWhereInput = {
+      ...(q ? { name: { contains: q, mode: "insensitive" } } : {}),
+      ...(type ? { type: { in: type, mode: "insensitive" } } : {}),
+      ...(rarity ? { rarity: { in: rarity } } : {}),
+    };
 
-      const orderBy: Prisma.WeaponOrderByWithRelationInput[] =
-        sort.field === "name" ? [{ name: sort.dir }] : [{ [sort.field]: sort.dir }, { name: "asc" }];
+    const orderBy: Prisma.WeaponOrderByWithRelationInput[] =
+      sort.field === "name" ? [{ name: sort.dir }] : [{ [sort.field]: sort.dir }, { name: "asc" }];
 
-      const [items, total] = await Promise.all([
-        prisma.weapon.findMany({ where, orderBy, skip: pagination.skip, take: pagination.take, select: LIST_SELECT }),
-        prisma.weapon.count({ where }),
-      ]);
+    const result = await weaponsService.list({
+      where,
+      orderBy,
+      skip: pagination.skip,
+      take: pagination.take,
+      select: LIST_SELECT,
+    });
 
-      return ok(items, { meta: buildMeta(pagination, total) });
-    },
-    { prefix: "weapons" }
-  )
+    return ok(result.items, { meta: buildMeta(pagination, result.total) });
+  }, { prefix: "weapons" })
 );
 
 function splitList(raw: string | null): string[] | undefined {

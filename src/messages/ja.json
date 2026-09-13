@@ -68,7 +68,9 @@
     "clearAllFilters": "すべてのフィルターを解除",
     "noResults": "条件に一致するキャラクターが見つかりません。",
     "clearFilters": "フィルターを解除",
-    "rarityGroupCount": "{count} 件のキャラクター"
+    "rarityGroupCount": "{count} 件のキャラクター",
+    "traveler": "旅人",
+    "noElement": "無属性"
   },
   "Pagination": {
     "navLabel": "ページ移動",
@@ -363,12 +365,27 @@
     "toolRunningNamed": "走る{tool}...",
     "toolProcessing": "処理中..."
   },
+  "Region": {
+    "Mondstadt": "モンド",
+    "Liyue": "璃月",
+    "Inazuma": "稲妻",
+    "Sumeru": "スメール",
+    "Fontaine": "フォンテーヌ",
+    "Natlan": "ナタ",
+    "Snezhnaya": "Snezhnaya",
+    "Nod-Krai": "ナド・クライ"
+  },
+  "Glossary": {
+    "close": "Close",
+    "relatedCharacters": "Related characters:",
+    "clickForDetails": "Click for details"
+  },
   "ReactionTabs": {
     "categoryAmplifying": "増幅",
-    "categoryTransformative": "変容",
-    "categoryAdditive": "アドオン",
-    "categoryLunar": "月",
-    "categoryStellar": "本質",
+    "categoryTransformative": "変形",
+    "categoryAdditive": "加算",
+    "categoryLunar": "ルナ",
+    "categoryStellar": "ステラー",
     "tabStandard": "元素反応",
     "tabLunar": "月の反応",
     "tabStellar": "ステラー・グリマー",

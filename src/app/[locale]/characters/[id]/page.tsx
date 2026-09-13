@@ -1,3 +1,4 @@
+
 import { prisma } from "@/lib/db/prisma";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -21,9 +22,21 @@ import {
   type TalentMaterialLevel,
   type VoiceActors,
 } from "@/lib/game/character-helpers";
+import { getLocalizedName } from "@/lib/i18n/entity-name";
+import { getElementNameByKey } from "@/lib/game/element-reactions-data";
+import {
+  getLocalizedDescription,
+  getLocalizedTalents,
+  getLocalizedConstellations,
+} from "@/lib/i18n/localized-content";
 
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
+}
+
+async function tWeaponTypeMeta(type: string, locale: string): Promise<string> {
+  const t = await getTranslations({ locale, namespace: "WeaponType" });
+  return t(type as "Sword" | "Claymore" | "Polearm" | "Bow" | "Catalyst");
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -32,23 +45,39 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const c = await prisma.character.findUnique({ where: { id } });
   if (!c) return { title: t("notFoundTitle") };
   return {
-    title: `${c.name} — LEIBO`,
-    description: c.description ?? `${c.vision} · ${c.weaponType} · ${c.rarity}★`,
+    title: `${getLocalizedName(c, locale)} — LEIBO`,
+    description: getLocalizedDescription(c, locale) ?? `${getElementNameByKey(c.vision, locale)} · ${await tWeaponTypeMeta(c.weaponType, locale)} · ${c.rarity}★`,
   };
 }
 
 export default async function CharacterDetail({ params }: PageProps) {
   const { locale, id } = await params;
   setRequestLocale(locale);
+  const tWeaponType = await getTranslations({ locale, namespace: "WeaponType" });
+  const tRegion = await getTranslations({ locale, namespace: "Region" });
   const t = await getTranslations({ locale, namespace: "CharacterDetail" });
+  // "traveler" chỉ có bản dịch trong namespace Characters (dùng chung với
+  // trang danh sách nhân vật) — namespace CharacterDetail không có key
+  // này, gọi t("traveler") ở đây từng in ra literal "CharacterDetail.traveler"
+  // trên MỌI ngôn ngữ. Lấy đúng namespace thay vì tạo bản dịch trùng lặp.
+  const tCharacters = await getTranslations({ locale, namespace: "Characters" });
   const c = await prisma.character.findUnique({ where: { id } });
   if (!c) return notFound();
 
   const { isTraveler, boySplash, girlSplash } = await resolveTravelerSibling(c);
   const el = elementColorVar(c.vision);
 
-  const constellations = (c.constellations as unknown as Constellation[]) ?? [];
-  const talents = (c.talents as unknown as Talent[]) ?? [];
+  const constellations = getLocalizedConstellations(
+    (c.constellations as unknown as Constellation[]) ?? [],
+    c.constellationsTranslations,
+    locale
+  );
+  const talents = getLocalizedTalents(
+    (c.talents as unknown as Talent[]) ?? [],
+    c.talentsTranslations,
+    locale
+  );
+  const localizedDescription = getLocalizedDescription(c, locale);
   const ascensionMaterials = (c.ascensionMaterials as unknown as AscensionMaterialPhase[]) ?? [];
   const statsByLevel = (c.statsByLevel as unknown as StatByLevelRow[]) ?? [];
   const voiceActors = (c.voiceActors as unknown as VoiceActors) ?? null;
@@ -57,12 +86,19 @@ export default async function CharacterDetail({ params }: PageProps) {
   const materialIds = new Set<string>();
   for (const phase of ascensionMaterials) for (const m of phase.materials) if (m.materialId) materialIds.add(m.materialId);
   for (const levelData of talentMaterials) for (const m of levelData.materials) if (m.materialId) materialIds.add(m.materialId);
-  const materialIconsRaw = await prisma.material.findMany({
+  // BUG ĐÃ SỬA (2026-09): trước đây chỉ select iconUrl — tên nguyên liệu
+  // hiển thị (cả ở phần đột phá lẫn TalentMaterialSlider) dùng snapshot
+  // tiếng Anh cứng trong JSON, không bao giờ được dịch. Giờ select thêm
+  // name+nameTranslations và dịch qua getLocalizedName.
+  const materialRows = await prisma.material.findMany({
     where: { id: { in: Array.from(materialIds) } },
-    select: { id: true, iconUrl: true },
+    select: { id: true, iconUrl: true, name: true, nameTranslations: true },
   });
-  const materialIconMap = new Map(materialIconsRaw.map((m) => [m.id, m.iconUrl]));
-  const materialIconRecord: Record<string, string | null | undefined> = Object.fromEntries(materialIconMap);
+  const materialIconMap = new Map(
+    materialRows.map((m) => [m.id, { iconUrl: m.iconUrl, localizedName: getLocalizedName(m, locale) }])
+  );
+  const materialIconRecord: Record<string, { iconUrl: string | null; localizedName: string } | undefined> =
+    Object.fromEntries(materialIconMap);
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
@@ -70,7 +106,7 @@ export default async function CharacterDetail({ params }: PageProps) {
         items={[
           { name: "LEIBO", path: "/" },
           { name: t("breadcrumbCharacters"), path: "/characters" },
-          { name: isTraveler ? `Traveler (${c.vision})` : c.name, path: `/characters/${c.id}` },
+          { name: isTraveler ? `${tCharacters("traveler")} (${getElementNameByKey(c.vision, locale)})` : getLocalizedName(c, locale), path: `/characters/${c.id}` },
         ]}
       />
 
@@ -130,12 +166,12 @@ export default async function CharacterDetail({ params }: PageProps) {
             <div className="flex items-center gap-2 mb-3">
               <ElementIcon vision={c.vision} iconUrl={c.elementIcon} size={22} />
               <span className="text-eyebrow" style={{ color: el }}>
-                {c.vision} · {c.weaponType}
+                {getElementNameByKey(c.vision, locale)} · {tWeaponType(c.weaponType as "Sword" | "Claymore" | "Polearm" | "Bow" | "Catalyst")}
               </span>
             </div>
 
             <h1 className="font-display text-display-2 font-semibold text-text-primary mb-1">
-              {isTraveler ? `Traveler (${c.vision})` : c.name}
+              {isTraveler ? `${tCharacters("traveler")} (${getElementNameByKey(c.vision, locale)})` : getLocalizedName(c, locale)}
             </h1>
 
             {c.title && <p className="text-sm text-text-muted italic mb-3">&ldquo;{c.title}&rdquo;</p>}
@@ -144,7 +180,7 @@ export default async function CharacterDetail({ params }: PageProps) {
 
             {(c.region || c.affiliation) && (
               <p className="text-xs text-text-muted mb-2 font-medium uppercase tracking-wider">
-                {c.region && <>{t("region")}: <span className="text-text-primary">{c.region}</span></>}
+                {c.region && <>{t("region")}: <span className="text-text-primary">{tRegion(c.region as "Mondstadt" | "Liyue" | "Inazuma" | "Sumeru" | "Fontaine" | "Natlan" | "Snezhnaya" | "Nod-Krai")}</span></>}
                 {c.region && c.affiliation && <span className="mx-2 text-border">·</span>}
                 {c.affiliation && <>{t("affiliation")}: <span className="text-text-primary">{c.affiliation}</span></>}
               </p>
@@ -158,9 +194,9 @@ export default async function CharacterDetail({ params }: PageProps) {
               </div>
             )}
 
-            {c.description && (
+            {localizedDescription && (
               <p className="text-sm text-text-primary max-w-xl leading-relaxed bg-bg-elevated p-3 rounded-lg border border-border italic mb-3">
-                {c.description}
+                {localizedDescription}
               </p>
             )}
 
@@ -198,14 +234,14 @@ export default async function CharacterDetail({ params }: PageProps) {
                 <div className="text-eyebrow mb-3" style={{ color: el }}>{t("phase", { phase: phase.phase })}</div>
                 <ul className="space-y-1.5 text-sm">
                   {phase.materials.map((m, j) => {
-                    const iconUrl = m.materialId ? materialIconMap.get(m.materialId) : null;
+                    const material = m.materialId ? materialIconMap.get(m.materialId) : null;
                     return (
                       <li key={j} className="flex items-center justify-between gap-3">
                         <span className="flex items-center gap-2 min-w-0">
                           <span className="relative w-6 h-6 shrink-0 rounded bg-bg-elevated border border-border overflow-hidden">
-                            {iconUrl ? <SafeImage src={iconUrl} alt={m.name ?? ""} fill className="object-contain" sizes="24px" /> : null}
+                            {material?.iconUrl ? <SafeImage src={material.iconUrl} alt={material?.localizedName ?? m.name ?? ""} fill className="object-contain" sizes="24px" /> : null}
                           </span>
-                          <span className="text-text-secondary truncate">{m.name}</span>
+                          <span className="text-text-secondary truncate">{material?.localizedName ?? m.name}</span>
                         </span>
                         <span className="font-semibold text-text-primary shrink-0 tabular-nums">
                           {m.count ? `x${m.count.toLocaleString(locale)}` : ""}

@@ -1,3 +1,4 @@
+
 /**
  * src/lib/character-stats-format.ts
  *
@@ -22,9 +23,16 @@ export type StatByLevelRow = {
   specialized: number | null;
 };
 
-export function formatNumber(n: number | null | undefined): string {
+// BUG ĐÃ SỬA (2026-09): trước đây hard-code `.toLocaleString("vi-VN")` —
+// bảng chỉ số theo cấp độ trên MỌI trang chi tiết nhân vật/vũ khí luôn
+// hiện số kiểu Việt Nam (dấu phẩy thập phân, dấu chấm ngăn cách nghìn,
+// vd "1.234,5") bất kể người dùng đang chọn ngôn ngữ nào. Giờ nhận thêm
+// tham số `locale`, mặc định "en" nếu không truyền (an toàn cho call site
+// cũ chưa kịp cập nhật) — dùng đúng locale hiện tại để format số theo quy
+// ước bản địa tương ứng (vd "1,234.5" cho en, "1.234,5" vẫn đúng cho vi/de).
+export function formatNumber(n: number | null | undefined, locale: string = "en"): string {
   if (n === null || n === undefined) return "—";
-  return Math.round(n).toLocaleString("vi-VN");
+  return Math.round(n).toLocaleString(locale);
 }
 
 /**
@@ -38,16 +46,17 @@ export function formatNumber(n: number | null | undefined): string {
  */
 export function formatSpecialized(
   n: number | null | undefined,
-  ascensionStatLabel: string | null | undefined
+  ascensionStatLabel: string | null | undefined,
+  locale: string = "en"
 ): string {
   if (n === null || n === undefined) return "—";
   const isFlatElementalMastery = (ascensionStatLabel ?? "")
     .toLowerCase()
     .includes("elemental mastery");
   if (isFlatElementalMastery) {
-    return formatNumber(n);
+    return formatNumber(n, locale);
   }
-  return `${(n * 100).toLocaleString("vi-VN", {
+  return `${(n * 100).toLocaleString(locale, {
     minimumFractionDigits: 1,
     maximumFractionDigits: 1,
   })}%`;

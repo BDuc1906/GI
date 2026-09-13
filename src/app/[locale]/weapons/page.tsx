@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import { Prisma } from "@prisma/client";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -9,6 +10,7 @@ import { Pagination } from "@/components/ui/Pagination";
 import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/ui/pagination";
 import type { Metadata } from "next";
 import { withDbRetry } from "@/lib/db/db-retry";
+import { getLocalizedName } from "@/lib/i18n/entity-name";
 
 export async function generateMetadata({
   params,
@@ -33,6 +35,7 @@ export default async function WeaponsPage({ params, searchParams }: PageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "Weapons" });
+  const tWeaponType = await getTranslations({ locale, namespace: "WeaponType" });
 
   const { type, rarity, q, page: pageRaw } = await searchParams;
   const page = parsePageParam(pageRaw);
@@ -102,17 +105,17 @@ export default async function WeaponsPage({ params, searchParams }: PageProps) {
         <div className="flex items-start gap-3 py-2.5 border-b border-border">
           <span className="text-xs text-text-muted font-medium w-24 shrink-0 pt-1.5">{t("filterType")}</span>
           <div className="flex flex-wrap items-center gap-1.5">
-            {types.map((t) => {
-              const active = type === t;
+            {types.map((weaponType) => {
+              const active = type === weaponType;
               return (
                 <Link
-                  key={t}
-                  href={`/weapons?${buildQuery({ type: active ? undefined : t })}`}
+                  key={weaponType}
+                  href={`/weapons?${buildQuery({ type: active ? undefined : weaponType })}`}
                   aria-pressed={active}
                   className="chip px-2.5 py-1 rounded-full flex items-center gap-1.5 text-xs"
                 >
-                  <WeaponIcon type={t} size={14} />
-                  {t}
+                  <WeaponIcon type={weaponType} size={14} />
+                  {tWeaponType(weaponType as "Sword" | "Claymore" | "Polearm" | "Bow" | "Catalyst")}
                 </Link>
               );
             })}
@@ -161,7 +164,7 @@ export default async function WeaponsPage({ params, searchParams }: PageProps) {
             <EntityCard
               key={w.id}
               href={`/weapons/${w.id}`}
-              name={w.name}
+              name={getLocalizedName(w, locale)}
               subtitle={w.type}
               rarity={w.rarity}
               imageSrc={w.iconUrl}

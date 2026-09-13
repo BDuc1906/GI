@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/db/prisma";
@@ -7,6 +8,7 @@ import { SafeImage } from "@/components/ui/SafeImage";
 import { EntityCard } from "@/components/ui/EntityCard";
 import { resolveCharacterCardImage } from "@/lib/game/character-helpers";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getLocalizedName } from "@/lib/i18n/entity-name";
 
 interface PageProps {
   params: Promise<{ locale: string }>;
@@ -31,6 +33,7 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "Search" });
+  const tWeaponType = await getTranslations({ locale, namespace: "WeaponType" });
 
   const { q } = await searchParams;
   const query = (q ?? "").trim();
@@ -49,25 +52,25 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
       where: { name: { contains: query, mode: "insensitive" } },
       orderBy: [{ rarity: "desc" }, { name: "asc" }],
       take: MAX_RESULTS_PER_TYPE,
-      select: { id: true, name: true, vision: true, weaponType: true, rarity: true, iconUrl: true, splashUrl: true, elementIcon: true },
+      select: { id: true, name: true, nameTranslations: true, vision: true, weaponType: true, rarity: true, iconUrl: true, splashUrl: true, elementIcon: true },
     }),
     prisma.weapon.findMany({
       where: { name: { contains: query, mode: "insensitive" } },
       orderBy: [{ rarity: "desc" }, { name: "asc" }],
       take: MAX_RESULTS_PER_TYPE,
-      select: { id: true, name: true, type: true, rarity: true, iconUrl: true },
+      select: { id: true, name: true, nameTranslations: true, type: true, rarity: true, iconUrl: true },
     }),
     prisma.artifactSet.findMany({
       where: { name: { contains: query, mode: "insensitive" } },
       orderBy: { name: "asc" },
       take: MAX_RESULTS_PER_TYPE,
-      select: { id: true, name: true, rarityRange: true, iconUrl: true },
+      select: { id: true, name: true, nameTranslations: true, rarityRange: true, iconUrl: true },
     }),
     prisma.domain.findMany({
       where: { name: { contains: query, mode: "insensitive" } },
       orderBy: { name: "asc" },
       take: MAX_RESULTS_PER_TYPE,
-      select: { id: true, name: true, category: true, imageUrl: true, imageUrlOriginal: true },
+      select: { id: true, name: true, nameTranslations: true, category: true, imageUrl: true, imageUrlOriginal: true },
     }),
   ]);
 
@@ -102,8 +105,8 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
               <EntityCard
                 key={c.id}
                 href={`/characters/${c.id}`}
-                name={c.name}
-                subtitle={c.weaponType}
+                name={getLocalizedName(c, locale)}
+                subtitle={tWeaponType(c.weaponType as "Sword" | "Claymore" | "Polearm" | "Bow" | "Catalyst")}
                 rarity={c.rarity}
                 imageSrc={resolveCharacterCardImage(c)}
                 aspect="portrait"
@@ -123,8 +126,8 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
               <EntityCard
                 key={w.id}
                 href={`/weapons/${w.id}`}
-                name={w.name}
-                subtitle={w.type}
+                name={getLocalizedName(w, locale)}
+                subtitle={tWeaponType(w.type as "Sword" | "Claymore" | "Polearm" | "Bow" | "Catalyst")}
                 rarity={w.rarity}
                 imageSrc={w.iconUrl}
                 imageFit="contain"
@@ -146,7 +149,7 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
                 <EntityCard
                   key={a.id}
                   href={`/artifacts/${a.id}`}
-                  name={a.name}
+                  name={getLocalizedName(a, locale)}
                   subtitle={`${rarityRange.join("–")}★`}
                   rarity={maxRarity}
                   imageSrc={a.iconUrl}
@@ -173,7 +176,7 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
                   )}
                 </div>
                 <div className="min-w-0 flex flex-col justify-center">
-                  <div className="font-semibold truncate text-text-primary group-hover:text-accent-bright transition-colors text-sm">{d.name}</div>
+                  <div className="font-semibold truncate text-text-primary group-hover:text-accent-bright transition-colors text-sm">{getLocalizedName(d, locale)}</div>
                   <div className="text-eyebrow mt-1">{d.category}</div>
                 </div>
               </Link>

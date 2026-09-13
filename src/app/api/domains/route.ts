@@ -1,12 +1,12 @@
 
 import type { NextRequest } from "next/server";
 import { Prisma } from "@prisma/client";
-import { prisma } from "@/lib/db/prisma";
 import { ok } from "@/lib/api/response";
 import { ApiError, withErrorHandling } from "@/lib/api/errors";
 import { withRateLimit } from "@/lib/api/rate-limit";
 import { buildMeta, parsePagination, parseSort } from "@/lib/api/query";
 import { genshinServerWeekdayName } from "@/lib/game/genshin-server-time";
+import { DomainsService } from "@/features/domains/service";
 
 export const revalidate = 3600; // Bí cảnh gần như không đổi giữa các lần deploy trong tuần
 
@@ -24,6 +24,8 @@ const WEEKDAYS = [
   "Saturday",
 ] as const;
 
+const domainsService = new DomainsService();
+
 /**
  * GET /api/domains
  *
@@ -37,56 +39,48 @@ const WEEKDAYS = [
  *  - sort, page, limit
  */
 export const GET = withErrorHandling(
-  withRateLimit(
-    async (req: NextRequest) => {
-      const { searchParams } = new URL(req.url);
-      const pagination = parsePagination(searchParams);
-      const sort = parseSort(searchParams.get("sort"), SORT_FIELDS, { field: "name", dir: "asc" });
+  withRateLimit(async (req: NextRequest) => {
+    const { searchParams } = new URL(req.url);
+    const pagination = parsePagination(searchParams);
+    const sort = parseSort(searchParams.get("sort"), SORT_FIELDS, { field: "name", dir: "asc" });
 
-      const q = searchParams.get("q")?.trim();
-      const category = splitList(searchParams.get("category"));
-      if (category) {
-        for (const c of category) {
-          if (!CATEGORIES.includes(c as (typeof CATEGORIES)[number])) {
-            throw ApiError.badRequest(`Tham số "category" không hợp lệ: "${c}"`, { allowed: CATEGORIES });
-          }
+    const q = searchParams.get("q")?.trim();
+    const category = splitList(searchParams.get("category"));
+    if (category) {
+      for (const c of category) {
+        if (!CATEGORIES.includes(c as (typeof CATEGORIES)[number])) {
+          throw ApiError.badRequest(`Tham số "category" không hợp lệ: "${c}"`, { allowed: CATEGORIES });
         }
       }
+    }
 
-      const today = searchParams.get("today") === "true";
-      let day = searchParams.get("day")?.trim();
-      if (today) {
-        day = genshinServerWeekdayName();
-      }
-      if (day && !WEEKDAYS.includes(day as (typeof WEEKDAYS)[number])) {
-        throw ApiError.badRequest(`Tham số "day" không hợp lệ: "${day}"`, { allowed: WEEKDAYS });
-      }
+    const today = searchParams.get("today") === "true";
+    let day = searchParams.get("day")?.trim();
+    if (today) {
+      day = genshinServerWeekdayName();
+    }
+    if (day && !WEEKDAYS.includes(day as (typeof WEEKDAYS)[number])) {
+      throw ApiError.badRequest(`Tham số "day" không hợp lệ: "${day}"`, { allowed: WEEKDAYS });
+    }
 
-      const where: Prisma.DomainWhereInput = {
-        ...(q ? { name: { contains: q, mode: "insensitive" } } : {}),
-        ...(category ? { category: { in: category } } : {}),
-        // daysOfWeek rỗng ([]) nghĩa là domain thánh di vật (mở hằng ngày)
-        // -> luôn khớp. Ngược lại phải chứa đúng "day" được lọc.
-        ...(day ? { OR: [{ daysOfWeek: { isEmpty: true } }, { daysOfWeek: { has: day } }] } : {}),
-      };
+    const where: Prisma.DomainWhereInput = {
+      ...(q ? { name: { contains: q, mode: "insensitive" } } : {}),
+      ...(category ? { category: { in: category } } : {}),
+      ...(day ? { OR: [{ daysOfWeek: { isEmpty: true } }, { daysOfWeek: { has: day } }] } : {}),
+    };
 
-      const orderBy: Prisma.DomainOrderByWithRelationInput[] =
-        sort.field === "name" ? [{ name: sort.dir }] : [{ [sort.field]: sort.dir }, { name: "asc" }];
+    const orderBy: Prisma.DomainOrderByWithRelationInput[] =
+      sort.field === "name" ? [{ name: sort.dir }] : [{ [sort.field]: sort.dir }, { name: "asc" }];
 
-      const [items, total] = await Promise.all([
-        prisma.domain.findMany({
-          where,
-          orderBy,
-          skip: pagination.skip,
-          take: pagination.take,
-        }),
-        prisma.domain.count({ where }),
-      ]);
+    const result = await domainsService.list({
+      where,
+      orderBy,
+      skip: pagination.skip,
+      take: pagination.take,
+    });
 
-      return ok(items, { meta: buildMeta(pagination, total), maxAgeSec: 3600 });
-    },
-    { prefix: "domains" }
-  )
+    return ok(result.items, { meta: buildMeta(pagination, result.total), maxAgeSec: 3600 });
+  }, { prefix: "domains" })
 );
 
 function splitList(raw: string | null): string[] | undefined {

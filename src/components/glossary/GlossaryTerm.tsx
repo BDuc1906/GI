@@ -1,3 +1,4 @@
+
 "use client";
 
 /**
@@ -12,12 +13,19 @@
  * Dùng trực tiếp khi biết chắc id: <GlossaryTerm id="vaporize">Bốc Hơi</GlossaryTerm>
  * Hoặc dùng gián tiếp qua <GlossaryText text="..."/> để tự động quét và
  * bọc từ khóa trong 1 đoạn văn bản bất kỳ — xem GlossaryText.tsx.
+ *
+ * ĐA NGÔN NGỮ (2026-08): lấy locale qua useLocale(), truyền vào
+ * getGlossaryTerm() để tooltip hiện đúng bản dịch. "Bấm để xem chi
+ * tiết" chuyển qua next-intl (namespace "Glossary") thay vì hardcode.
  */
-import { GLOSSARY_MAP } from "@/lib/i18n/glossary";
+import { useLocale, useTranslations } from "next-intl";
+import { getGlossaryTerm } from "@/lib/i18n/glossary";
 import { useGlossary } from "./GlossaryProvider";
 
 export function GlossaryTerm({ id, children }: { id: string; children: React.ReactNode }) {
-  const term = GLOSSARY_MAP[id];
+  const locale = useLocale();
+  const t = useTranslations("Glossary");
+  const term = getGlossaryTerm(id, locale);
   const { open } = useGlossary();
 
   if (!term) return <>{children}</>;
@@ -45,7 +53,7 @@ export function GlossaryTerm({ id, children }: { id: string; children: React.Rea
           {term.title}
         </span>
         <span className="block text-text-muted">{term.summary}</span>
-        <span className="block text-text-muted/70 mt-1 italic">Bấm để xem chi tiết</span>
+        <span className="block text-text-muted/70 mt-1 italic">{t("clickForDetails")}</span>
       </span>
     </span>
   );

@@ -68,7 +68,9 @@
     "clearAllFilters": "모든 필터 지우기",
     "noResults": "필터와 일치하는 캐릭터가 없습니다.",
     "clearFilters": "필터 지우기",
-    "rarityGroupCount": "{count}개의 캐릭터"
+    "rarityGroupCount": "{count}개의 캐릭터",
+    "traveler": "여행자",
+    "noElement": "속성 없음"
   },
   "Pagination": {
     "navLabel": "페이지 이동",
@@ -363,12 +365,27 @@
     "toolRunningNamed": "{tool}를 달리고 있어...",
     "toolProcessing": "처리 중..."
   },
+  "Region": {
+    "Mondstadt": "몬드",
+    "Liyue": "리월",
+    "Inazuma": "이나즈마",
+    "Sumeru": "수메르",
+    "Fontaine": "폰타인",
+    "Natlan": "나타",
+    "Snezhnaya": "Snezhnaya",
+    "Nod-Krai": "노드크라이"
+  },
+  "Glossary": {
+    "close": "Close",
+    "relatedCharacters": "Related characters:",
+    "clickForDetails": "Click for details"
+  },
   "ReactionTabs": {
     "categoryAmplifying": "증폭",
-    "categoryTransformative": "변신",
-    "categoryAdditive": "애드온",
-    "categoryLunar": "문",
-    "categoryStellar": "본질",
+    "categoryTransformative": "변형",
+    "categoryAdditive": "가산",
+    "categoryLunar": "루나",
+    "categoryStellar": "스텔라",
     "tabStandard": "원소 반응",
     "tabLunar": "달 반응",
     "tabStellar": "스텔라 글리머",

@@ -1,3 +1,4 @@
+
 "use client";
 
 /**
@@ -18,13 +19,21 @@
  *   // Sau — mọi tên phản ứng/cộng hưởng nhắc tới trong r.description
  *   // (vd Hyperbloom mô tả có nhắc "Sum Suê") sẽ tự thành link chéo
  *   <p><GlossaryText text={r.description} /></p>
+ *
+ * ĐA NGÔN NGỮ (2026-08): lấy locale qua useLocale(), truyền vào
+ * findGlossaryMatches() để quét đúng bộ từ khóa theo ngôn ngữ (vd khi
+ * locale="en", quét theo "Vaporize" thay vì "Bốc Hơi"). Text truyền vào
+ * component này vẫn phải là text ĐÃ đúng locale từ nơi gọi — component
+ * chỉ quét/link, không tự dịch nội dung text.
  */
 import { Fragment } from "react";
+import { useLocale } from "next-intl";
 import { findGlossaryMatches } from "@/lib/i18n/glossary";
 import { GlossaryTerm } from "./GlossaryTerm";
 
 export function GlossaryText({ text, excludeId }: { text: string; excludeId?: string }) {
-  const matches = findGlossaryMatches(text).filter((m) => m.termId !== excludeId);
+  const locale = useLocale();
+  const matches = findGlossaryMatches(text, locale).filter((m) => m.termId !== excludeId);
   if (matches.length === 0) return <>{text}</>;
 
   const nodes: React.ReactNode[] = [];

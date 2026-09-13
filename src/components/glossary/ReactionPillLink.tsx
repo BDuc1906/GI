@@ -1,3 +1,4 @@
+
 "use client";
 
 /**
@@ -10,9 +11,14 @@
  * element-reactions-data.ts), không phải màu cố định của phản ứng.
  * Hover dùng thuộc tính `title` gốc của trình duyệt — nhẹ, không đụng
  * tới màu/khung của pill.
+ *
+ * ĐA NGÔN NGỮ (2026-08): GLOSSARY_MAP tĩnh cũ đã đổi thành
+ * getGlossaryTerm(id, locale) — lấy locale qua useLocale() để tooltip
+ * (title) hiện đúng bản dịch.
  */
 import type { CSSProperties } from "react";
-import { GLOSSARY_MAP } from "@/lib/i18n/glossary";
+import { useLocale } from "next-intl";
+import { getGlossaryTerm } from "@/lib/i18n/glossary";
 import { useGlossary } from "./GlossaryProvider";
 
 export function ReactionPillLink({
@@ -24,8 +30,9 @@ export function ReactionPillLink({
   label: string;
   style: CSSProperties;
 }) {
+  const locale = useLocale();
   const { open } = useGlossary();
-  const term = GLOSSARY_MAP[id];
+  const term = getGlossaryTerm(id, locale);
 
   return (
     <button

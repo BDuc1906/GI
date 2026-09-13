@@ -36,6 +36,18 @@ jobs:
     name: Quét, tự sửa, rồi tự kiểm tra lại
     runs-on: ubuntu-latest
     environment: production
+    # BUG ĐÃ SỬA (2026-09): thiếu 2 biến này khiến bước `npm ci` (tự chạy
+    # hook postinstall: prisma generate) báo PrismaConfigEnvError ngay từ
+    # đầu — giống hệt lỗi từng gặp ở ci.yml/preview.yml. Giá trị GIẢ ở
+    # đây CHỈ để thoả mãn `prisma generate` (lệnh này không thực sự mở
+    # kết nối DB, chỉ đọc schema.prisma để sinh client) — 2 bước ghi DB
+    # PRODUCTION THẬT bên dưới ("Quét & tự sửa", "Kiểm tra lại") vẫn dùng
+    # `secrets.DATABASE_URL`/`secrets.DIRECT_URL` thật qua `env:` riêng
+    # của từng step, KHÔNG bị giá trị giả ở đây ghi đè (env của step luôn
+    # ưu tiên hơn env của job cho cùng 1 key).
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
+      DIRECT_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
 
     steps:
       - uses: actions/checkout@v7

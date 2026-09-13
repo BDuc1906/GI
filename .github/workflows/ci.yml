@@ -6,9 +6,18 @@ on:
   pull_request:
     branches: [main]
 
+# DB giả (service container) — build của app này chạy ISR (revalidate) nên
+# `next build` thực sự query DB, không thể giả bằng URL rỗng.
+#
+# SỬA (2026-09): trước đây chỉ khai báo 1 lần ở đây (cấp workflow) rồi
+# trông chờ mọi job/step tự kế thừa — về lý thuyết GitHub Actions có kế
+# thừa `env:` cấp workflow xuống mọi job, nhưng job `lint-and-typecheck`
+# vẫn báo thiếu `DIRECT_URL` ngay ở bước `npm ci` (hook `postinstall` tự
+# chạy `prisma generate`, đọc biến này qua `prisma.config.ts`). Để không
+# phụ thuộc vào việc kế thừa ngầm nữa, giờ khai báo TƯỜNG MINH lại ở từng
+# job có chạy lệnh cần DB — an toàn hơn và tự mô tả rõ job đó cần gì mà
+# không cần đọc ngược lên đầu file.
 env:
-  # DB thật (service container) — build của app này chạy ISR (revalidate)
-  # nên `next build` thực sự query DB, không thể giả bằng URL rỗng.
   DATABASE_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
   DIRECT_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
 
@@ -22,6 +31,12 @@ jobs:
   lint-and-typecheck:
     name: Lint & Typecheck
     runs-on: ubuntu-latest
+    # Khai báo tường minh lại (xem giải thích ở env cấp workflow phía
+    # trên) — `npm ci` ở bước dưới tự chạy hook `postinstall: prisma
+    # generate`, cần DIRECT_URL đọc được NGAY tại thời điểm đó.
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
+      DIRECT_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
     steps:
       - uses: actions/checkout@v7
 
@@ -29,27 +44,15 @@ jobs:
         with:
           node-version: 24
           cache: npm
-      - name: DEBUG - kiem tra file
-        run: |
-          pwd
-          ls -la
-          echo "---git ls-files---"
-          git ls-files | grep -i lock
-          echo "---package-lock.json size---"
-          wc -c package-lock.json || echo "KHONG TON TAI"
-          echo "---.gitignore---"
-          cat .gitignore || echo "KHONG CO .gitignore"
+
       - name: Install dependencies
         run: npm ci
-
-      - name: Prisma generate
-        run: npx prisma generate
 
       - name: Lint
         run: npm run lint
 
       - name: Typecheck
-        run: npx tsc --noEmit
+        run: npm run typecheck
 
       - name: Test
         # Vitest mock hoàn toàn "@prisma/client" (xem tests/setup.ts) nên
@@ -61,6 +64,9 @@ jobs:
     name: Migrate & Build
     runs-on: ubuntu-latest
     needs: lint-and-typecheck
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
+      DIRECT_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
 
     services:
       postgres:
@@ -87,9 +93,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Prisma generate
-        run: npx prisma generate
 
       - name: Apply migrations
         run: npx prisma migrate deploy
@@ -101,6 +104,9 @@ jobs:
     name: API smoke test
     runs-on: ubuntu-latest
     needs: build
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
+      DIRECT_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
 
     services:
       postgres:
@@ -124,12 +130,9 @@ jobs:
         with:
           node-version: 24
           cache: npm
-           
+
       - name: Install dependencies
         run: npm ci
-
-      - name: Prisma generate
-        run: npx prisma generate
 
       - name: Apply migrations
         run: npx prisma migrate deploy
@@ -142,21 +145,14 @@ jobs:
         # Dùng `background: true` — cơ chế GỐC của GitHub Actions (không
         # phải shell hack, không phải action bên thứ ba) dành riêng cho
         # đúng use case này: chạy một tiến trình dài hạn (server, DB...)
-        # sống xuyên suốt các step tiếp theo trong cùng job. Runner tự
-        # quản lý lifecycle của tiến trình này (start, log, dừng đúng
-        # cách) thay vì để mình tự chế bằng `&`/`nohup`, vốn phụ thuộc
-        # vào chi tiết triển khai không được đảm bảo ổn định.
+        # sống xuyên suốt các step tiếp theo trong cùng job.
         run: npm run start -- -p 3000
         background: true
 
       - name: Wait for server to be ready
         # LƯU Ý: đây là step bình thường (poll bằng wait-on), KHÔNG dùng
         # từ khoá `wait:`. `wait: server` nghĩa là "chờ tiến trình nền đó
-        # tự KẾT THÚC" — với 1 server thì nó không bao giờ tự thoát, nên
-        # dùng `wait:` ở đây sẽ treo job mãi mãi. `wait:`/`wait-all` chỉ
-        # dùng để đồng bộ SAU KHI đã xong việc với tiến trình nền (ví dụ
-        # để lấy log/outputs hoặc phát hiện nó có lỡ crash hay không),
-        # không phải để chờ nó "sẵn sàng".
+        # tự KẾT THÚC" — với 1 server thì nó không bao giờ tự thoát.
         run: npx wait-on http://localhost:3000/api/health -t 60000
 
       - name: Check /api index
@@ -185,12 +181,9 @@ jobs:
           test "$status" = "404"
 
       - name: Stop server
-        # Dừng tiến trình nền một cách "sạch" (SIGTERM, sau đó SIGKILL
-        # nếu không thoát kịp) thay vì để job kết thúc rồi runner tự dọn
-        # ngầm — rõ ràng, tường minh, đúng tinh thần quản lý lifecycle
-        # thay vì trông chờ vào hành vi ngầm định. Step `cancel` luôn tự
-        # chạy mặc định (kể cả khi step trước đó fail), không cần/không
-        # hỗ trợ `if:`.
+        # Dừng tiến trình nền một cách "sạch" (SIGTERM, sau đó SIGKILL nếu
+        # không thoát kịp). Step `cancel` luôn tự chạy mặc định (kể cả khi
+        # step trước đó fail), không cần/không hỗ trợ `if:`.
         cancel: server
 
   # ────────────────────────────────────────────────────────────────────
@@ -224,17 +217,15 @@ jobs:
         run: npm install --global vercel@latest
 
       - name: Apply migrations to production database
-        # QUAN TRỌNG: khác với DATABASE_URL/DIRECT_URL giả ở đầu file (chỉ
-        # dùng cho job test ở trên) — đây là DIRECT_URL THẬT của Neon
-        # production, lấy từ GitHub Secrets. prisma.config.ts đọc
-        # DIRECT_URL cho mọi lệnh `prisma migrate`, nên KHÔNG cần set
-        # DATABASE_URL ở bước này.
+        # DIRECT_URL THẬT của Neon production, lấy từ GitHub Secrets —
+        # KHÁC với DATABASE_URL/DIRECT_URL giả ở đầu file (chỉ dùng cho
+        # các job test ở trên). prisma.config.ts đọc DIRECT_URL cho mọi
+        # lệnh `prisma migrate`, nên không cần set DATABASE_URL ở bước này.
         #
-        # Retry 3 lần: đã xác nhận bằng tay là lỗi P1001/ECONNREFUSED ở bước
-        # này chỉ thoáng qua (kết nối trực tiếp từ máy khác thành công cùng
-        # thời điểm CI báo lỗi) — nhiều khả năng do độ trễ/nghẽn mạng ngẫu
-        # nhiên giữa GitHub Actions runner và Neon, không phải lỗi ổn định
-        # cần sửa cấu hình hay code.
+        # Retry 3 lần: đã xác nhận bằng tay lỗi P1001/ECONNREFUSED ở bước
+        # này chỉ thoáng qua (kết nối trực tiếp từ máy khác thành công
+        # cùng thời điểm CI báo lỗi) — nhiều khả năng do độ trễ/nghẽn mạng
+        # ngẫu nhiên giữa GitHub Actions runner và Neon.
         run: |
           for attempt in 1 2 3; do
             npx prisma migrate deploy && exit 0
@@ -246,28 +237,9 @@ jobs:
         env:
           DIRECT_URL: ${{ secrets.PROD_DIRECT_URL }}
 
-      # ────────────────────────────────────────────────────────────────
-      # MỚI THÊM: seed dữ liệu game (data/raw/*.json) vào DB production.
-      #
-      # TRƯỚC ĐÂY: bước này không tồn tại ở đâu cả — update-data.yml chỉ
-      # seed vào DB test tạm trong CI rồi mở PR chứa diff data/raw/*.json;
-      # không có workflow nào chạy `db:seed` nhắm vào production sau khi
-      # PR đó được merge. Kết quả: DB production không bao giờ tự cập
-      # nhật dù cron crawl chạy đúng lịch hàng tuần và PR được merge đều.
-      #
-      # AN TOÀN vì sao: scripts/seed-characters.ts (+ seed-weapons.ts,
-      # seed-artifacts.ts, seed-domains.ts) đọc dữ liệu từ file
-      # data/raw/*.json ĐÃ COMMIT trong repo — không gọi genshin-db trực
-      # tiếp, không có dữ liệu "sống" chưa qua kiểm soát nào ghi vào DB ở
-      # bước này. Tới lúc code chạm nhánh main (đã qua review PR data
-      # update + toàn bộ lint/typecheck/test/build/smoke-test ở các job
-      # trước), nội dung data/raw/*.json đang nằm trong checkout này CHÍNH
-      # LÀ bản đã được duyệt — seed lại vào production chỉ là "phát lại"
-      # đúng dữ liệu đó, không phải nguồn mới không kiểm soát.
-      #
-      # Đặt SAU bước migrate (đảm bảo schema đã khớp trước khi ghi dữ
-      # liệu) và TRƯỚC khi build/deploy Vercel (nếu seed lỗi thì dừng
-      # luôn, không deploy code trỏ vào dữ liệu seed dở dang).
+      # Seed dữ liệu game (data/raw/*.json, đã qua review PR + CI) vào DB
+      # production — an toàn vì scripts/seed đọc từ file ĐÃ COMMIT trong
+      # repo, không gọi genshin-db trực tiếp lúc này.
       - name: Seed production database with latest game data
         run: npm run db:seed
         env:
@@ -281,10 +253,9 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Build project artifacts
-        # Ép Node ưu tiên IPv4 khi resolve DNS (đề phòng khác biệt IPv4/IPv6
-        # giữa Prisma Rust engine và thư viện `pg`). Retry 3 lần cho cùng lý
-        # do đã xác nhận ở bước migrate — lỗi P1001/ECONNREFUSED giữa GitHub
-        # Actions runner và Neon là thoáng qua, không ổn định.
+        # Ép Node ưu tiên IPv4 khi resolve DNS (đề phòng khác biệt IPv4/
+        # IPv6 giữa Prisma Rust engine và thư viện `pg`). Retry 3 lần cùng
+        # lý do đã xác nhận ở bước migrate.
         run: |
           for attempt in 1 2 3; do
             vercel build --prod --token=${{ secrets.VERCEL_TOKEN }} && exit 0
