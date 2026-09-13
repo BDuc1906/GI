@@ -1,3 +1,4 @@
+
 name: Update Game Data
 
 on:
@@ -58,12 +59,18 @@ jobs:
         run: npm run data:crawl
 
       - name: Run seed on test DB
-        run: npm run db:seed
+        # BUG ĐÃ SỬA (2026-09): `npm run db:seed` gọi kèm cờ
+        # `--env-file=.env` (định nghĩa trong package.json) — file .env
+        # không tồn tại trên CI (gitignore, biến môi trường đã được bơm
+        # qua `env:` cấp workflow ở đầu file rồi), khiến tsx thoát lỗi
+        # "node: .env: not found" trước khi seed.ts kịp chạy dòng nào.
+        # Gọi thẳng tsx bỏ qua cờ đó, không cần đụng package.json.
+        run: npx tsx scripts/seed/seed.ts
 
       - name: Run integrity verification
         id: verify
         continue-on-error: true
-        run: npm run db:verify
+        run: npx tsx scripts/seed/verify-seed-integrity.ts
 
       - name: Check for changes in data/raw/
         id: diff

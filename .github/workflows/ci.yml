@@ -240,8 +240,16 @@ jobs:
       # Seed dữ liệu game (data/raw/*.json, đã qua review PR + CI) vào DB
       # production — an toàn vì scripts/seed đọc từ file ĐÃ COMMIT trong
       # repo, không gọi genshin-db trực tiếp lúc này.
+      #
+      # BUG ĐÃ SỬA (2026-09): gọi thẳng `npx tsx scripts/seed/seed.ts`
+      # thay vì `npm run db:seed` — script đó định nghĩa trong
+      # package.json kèm cờ `--env-file=.env` (chỉ dùng cho máy local có
+      # file .env thật). Trên CI không có file .env (bị gitignore, biến
+      # môi trường được GitHub Actions bơm thẳng qua `env:` bên dưới rồi)
+      # nên tsx báo lỗi "node: .env: not found" và thoát mã 9 ngay lập
+      # tức, chưa kịp chạy dòng nào của seed.ts.
       - name: Seed production database with latest game data
-        run: npm run db:seed
+        run: npx tsx scripts/seed/seed.ts
         env:
           DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
           DIRECT_URL: ${{ secrets.PROD_DIRECT_URL }}
