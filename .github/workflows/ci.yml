@@ -237,17 +237,20 @@ jobs:
         env:
           DIRECT_URL: ${{ secrets.PROD_DIRECT_URL }}
 
-      # Seed dữ liệu game (data/raw/*.json, đã qua review PR + CI) vào DB
-      # production — an toàn vì scripts/seed đọc từ file ĐÃ COMMIT trong
-      # repo, không gọi genshin-db trực tiếp lúc này.
-      #
-      # BUG ĐÃ SỬA (2026-09): gọi thẳng `npx tsx scripts/seed/seed.ts`
-      # thay vì `npm run db:seed` — script đó định nghĩa trong
-      # package.json kèm cờ `--env-file=.env` (chỉ dùng cho máy local có
-      # file .env thật). Trên CI không có file .env (bị gitignore, biến
-      # môi trường được GitHub Actions bơm thẳng qua `env:` bên dưới rồi)
-      # nên tsx báo lỗi "node: .env: not found" và thoát mã 9 ngay lập
-      # tức, chưa kịp chạy dòng nào của seed.ts.
+      # BUG ĐÃ SỬA (2026-09): seed.ts đọc dữ liệu từ data/raw/*.json, thư
+      # mục này bị .gitignore cố ý (xem comment trong .gitignore — file
+      # sinh lại được bất kỳ lúc nào bằng data:crawl, không commit để
+      # tránh file lớn/lệch dữ liệu nằm trong git). Vì vậy checkout code
+      # xong sẽ KHÔNG có sẵn file này — phải tự crawl trước khi seed,
+      # đúng pattern update-data.yml đã làm. `data:crawl` đọc từ package
+      # `genshin-db` cài sẵn qua npm (dữ liệu đóng gói offline, không gọi
+      # API mạng ngoài) nên nhanh và không phụ thuộc dịch vụ bên thứ ba.
+      - name: Crawl latest game data
+        run: npm run data:crawl
+
+      # Seed dữ liệu game (vừa crawl ở bước trên) vào DB production — an
+      # toàn vì scripts/seed đọc từ file local vừa tạo, không tự gọi
+      # genshin-db lần nữa.
       - name: Seed production database with latest game data
         run: npx tsx scripts/seed/seed.ts
         env:
