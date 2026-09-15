@@ -1,3 +1,4 @@
+
 import { assertEnv } from "../../src/lib/infra/env";
 
 assertEnv();
@@ -74,16 +75,41 @@ async function main(): Promise<void> {
     console.log('=== ALL DATA SEEDED SUCCESSFULLY ===');
   } catch (error) {
     const errMsg = error instanceof Error ? `${error.name}: ${error.message}` : String(error);
-    logger.error('❌ Seeding halted due to critical error', { error });
-    await endPipelineFailure(pipeline.id, errMsg);
+    const errStack = error instanceof Error ? error.stack : undefined;
+    // BUG ĐÃ SỬA (2026-09): trước đây `logger.error(msg, { error })` truyền
+    // thẳng object Error — winston (định dạng JSON ở production) không tự
+    // serialize được Error (message/stack là non-enumerable), luôn in ra
+    // "error":{} rỗng, không có cách nào biết lỗi thật là gì từ log CI.
+    logger.error('❌ Seeding halted due to critical error', { error: errMsg, stack: errStack });
 
-    await notifyOps({
-      source: 'seed',
-      severity: 'error',
-      title: 'Seed database thất bại, dừng giữa chừng',
-      detail: errMsg,
-    });
+    // BUG ĐÃ SỬA: 2 lệnh dưới đây (ghi trạng thái fail vào DB + gửi
+    // Discord webhook) trước đây gọi trực tiếp KHÔNG có try/catch riêng —
+    // nếu chính DB write ở endPipelineFailure() cũng thất bại (thường
+    // cùng nguyên nhân gốc với lỗi seed ban đầu, vd Neon tạm ngắt kết
+    // nối), nó ném lỗi MỚI khiến code nhảy thẳng ra khỏi catch block,
+    // KHÔNG BAO GIỜ chạy tới console.error(error)/process.exit(1) bên
+    // dưới — log CI dừng đột ngột ngay sau dòng logger.error(), không có
+    // cách nào biết lỗi gốc là gì. Bọc riêng để 1 lỗi phụ không nuốt mất
+    // lỗi chính.
+    try {
+      await endPipelineFailure(pipeline.id, errMsg);
+    } catch (secondaryError) {
+      console.error('⚠️ Không ghi được trạng thái fail vào DB (lỗi phụ, không phải lỗi seed gốc):', secondaryError);
+    }
 
+    try {
+      await notifyOps({
+        source: 'seed',
+        severity: 'error',
+        title: 'Seed database thất bại, dừng giữa chừng',
+        detail: errMsg,
+      });
+    } catch (secondaryError) {
+      console.error('⚠️ Không gửi được thông báo Discord (lỗi phụ, không phải lỗi seed gốc):', secondaryError);
+    }
+
+    // Luôn in đủ lỗi GỐC ra console — CHẮC CHẮN chạy được dù 2 khối try/
+    // catch ở trên có lỗi phụ hay không, vì giờ nằm sau khi đã catch hết.
     console.error('❌ Seeding halted due to critical error:');
     console.error(error);
     process.exit(1);
@@ -92,7 +118,9 @@ async function main(): Promise<void> {
 
 main()
   .catch((e) => {
-    logger.error('Unhandled error in seed', { error: e });
+    const msg = e instanceof Error ? `${e.name}: ${e.message}` : String(e);
+    const stack = e instanceof Error ? e.stack : undefined;
+    logger.error('Unhandled error in seed', { error: msg, stack });
     console.error(e);
     process.exit(1);
   })

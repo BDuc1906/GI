@@ -36,6 +36,13 @@ jobs:
     name: Quét, tự sửa, rồi tự kiểm tra lại
     runs-on: ubuntu-latest
     environment: production
+    # Cần "issues: write" cho step "Tạo issue nếu cả 2 bước trên fail" ở
+    # cuối file — không khai permissions ở đây thì job chỉ được quyền mặc
+    # định của repo (có thể là read-only tuỳ cấu hình Settings → Actions →
+    # General → Workflow permissions), khiến bước tạo issue báo 403.
+    permissions:
+      contents: read
+      issues: write
     # BUG ĐÃ SỬA (2026-09): thiếu 2 biến này khiến bước `npm ci` (tự chạy
     # hook postinstall: prisma generate) báo PrismaConfigEnvError ngay từ
     # đầu — giống hệt lỗi từng gặp ở ci.yml/preview.yml. Giá trị GIẢ ở

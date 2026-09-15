@@ -1,4 +1,8 @@
+
 import { createRequire } from "module";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 import { prisma } from "../../src/lib/db/prisma";
 import { slugify, upsertMaterial } from "../lib/seed-helpers";
 // getUiAssetUrl chỉ tồn tại ở scripts/lib/genshin-pure-helpers.ts —
@@ -10,6 +14,80 @@ import { getUiAssetUrl } from "../lib/genshin-pure-helpers";
 
 const require = createRequire(import.meta.url);
 const genshindb = require("genshin-db") as typeof import("genshin-db");
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// Domain nào không tự xác minh được ảnh nào còn sống (kể cả sau khi thử
+// hết ứng viên tự động) sẽ được liệt kê ở đây rồi in cảnh báo tổng ở cuối
+// — người vận hành tự tìm URL đúng, điền vào domain-image-overrides.json,
+// chạy lại seed là DB cập nhật ngay, không cần sửa code.
+const domainsWithoutVerifiedImage: string[] = [];
+
+let domainImageOverrides: Record<string, string> = {};
+try {
+  const raw = fs.readFileSync(path.join(__dirname, "../data/domain-image-overrides.json"), "utf-8");
+  domainImageOverrides = JSON.parse(raw);
+} catch {
+  domainImageOverrides = {};
+}
+
+/**
+ * Kiểm tra 1 URL ảnh có thực sự tải được không (HEAD request, timeout 5s).
+ *
+ * LÝ DO CẦN HÀM NÀY: đã xác nhận bằng thực nghiệm (fetch tay + log runtime
+ * thật) rằng getUiAssetUrl() (gi.yatta.moe) — dù tài liệu ghi "dump TOÀN
+ * BỘ asset UI_*" và đã dùng làm nguồn chính cho icon kỹ năng/cung mệnh —
+ * KHÔNG bao phủ loại ảnh nền bí cảnh (`UI_DungeonPic_*`), trả 404 cho phần
+ * lớn domain. enka.network cũng 404 y hệt (dự đoán trước đó, đã biết).
+ * Thay vì tiếp tục ĐOÁN xem nguồn nào "chắc đúng" (không thể xác minh 100%
+ * mà không thực sự gọi thử), giờ THỰC SỰ gọi HEAD tới từng ứng viên trước
+ * khi ghi vào DB — chỉ lưu URL đã xác nhận sống, không bao giờ lưu 1 link
+ * chắc chắn chết nữa.
+ */
+async function urlExists(url: string): Promise<boolean> {
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000);
+    const res = await fetch(url, { method: "HEAD", signal: controller.signal });
+    clearTimeout(timeout);
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Tìm URL ảnh domain còn sống, theo thứ tự ưu tiên:
+ *   1. Override thủ công trong domain-image-overrides.json (nếu có) — tin
+ *      tưởng tuyệt đối, KHÔNG verify lại (người điền đã tự xác nhận).
+ *   2. gi.yatta.moe (getUiAssetUrl) — verify bằng HEAD request thật.
+ *   3. enka.network (dạng URL cũ) — verify bằng HEAD request thật, phòng
+ *      trường hợp gi.yatta.moe lỗi nhưng enka.network lại có (hiếm nhưng
+ *      không loại trừ, 2 nguồn mirror độc lập nhau).
+ * Không có ứng viên nào sống -> null (KHÔNG đoán bừa) + ghi nhận vào
+ * domainsWithoutVerifiedImage để cảnh báo cuối script.
+ */
+async function resolveDomainImageUrl(domainId: string, filename: string | undefined): Promise<string | null> {
+  const override = domainImageOverrides[domainId];
+  if (typeof override === "string" && override.startsWith("http")) return override;
+
+  if (!filename) {
+    domainsWithoutVerifiedImage.push(domainId);
+    return null;
+  }
+
+  const candidates = [getUiAssetUrl(filename), `https://enka.network/ui/${filename}.png`].filter(
+    (u): u is string => !!u
+  );
+
+  for (const url of candidates) {
+    if (await urlExists(url)) return url;
+  }
+
+  domainsWithoutVerifiedImage.push(domainId);
+  return null;
+}
+
 
 // domainType (raw enum trong data gốc) -> category dùng trong schema của ta.
 // Xác nhận bằng cách soi trực tiếp dữ liệu thật (không đoán theo tên hiển
@@ -109,23 +187,18 @@ export async function seedDomains(): Promise<void> {
       // scripts/mirror-images-to-r2.ts sở hữu sau lần mirror đầu tiên và
       // KHÔNG được set ở nhánh `update` bên dưới.
       //
-      // BUG ĐÃ SỬA: trước đây dùng getEnkaUrl() để build URL này
-      // (`https://enka.network/ui/${filename}.png`) — SAI cùng lớp lỗi đã
-      // từng sửa cho icon kỹ năng/cung mệnh (xem comment trong
-      // scripts/lib/seed-helpers.ts::getUiAssetUrl): enka.network CHỈ
-      // mirror ảnh THẬT SỰ hiển thị trên chính trang showcase của nó
-      // (avatar/vũ khí/thánh di vật), KHÔNG phải toàn bộ asset UI_* của
-      // game. Ảnh bí cảnh (dạng "UI_DungeonPic_*") không nằm trong tập đó
-      // nên enka.network trả 404 gần như 100% số lần — toàn bộ ảnh bí
-      // cảnh trên trang /domains vỡ hết dù DB seed "thành công" bình
-      // thường, không có gì báo lỗi ra ngoài lúc seed.
-      //
-      // getUiAssetUrl() trỏ sang gi.yatta.moe (Project Amber) — dump TOÀN
-      // BỘ asset UI_* của game, đã dùng làm nguồn CHÍNH cho icon kỹ
-      // năng/cung mệnh, domain gi.yatta.moe cũng đã có sẵn trong
-      // HOTLINK_REMOTE_PATTERNS ở next.config.ts nên không cần sửa gì
-      // thêm ở đó.
-      const imageUrlOriginal = getUiAssetUrl(d.images?.filename_image);
+      // BUG ĐÃ SỬA (2 LẦN): lần 1 đổi enka.network -> gi.yatta.moe
+      // (getUiAssetUrl) vì enka.network chỉ mirror ảnh hiển thị trên
+      // chính site nó, không có ảnh bí cảnh. Lần 2 (2026-09): xác nhận
+      // bằng thực nghiệm (fetch tay + log runtime thật) rằng gi.yatta.moe
+      // CŨNG 404 phần lớn ảnh `UI_DungeonPic_*` dù tài liệu ghi "dump
+      // toàn bộ asset UI_*" — tài liệu không đúng 100% cho riêng loại
+      // asset này. Giờ KHÔNG còn tin mù 1 nguồn nào nữa — gọi
+      // resolveDomainImageUrl() để thực sự HEAD-check từng ứng viên,
+      // dùng override thủ công nếu có, và trả về null (chứ không phải 1
+      // URL đoán bừa) nếu không nguồn nào xác minh được.
+      const domainId = slugify(baseName);
+      const imageUrlOriginal = await resolveDomainImageUrl(domainId, d.images?.filename_image);
 
       const payload = {
         name: baseName,
@@ -146,11 +219,10 @@ export async function seedDomains(): Promise<void> {
         gameVersion: d.version ?? null,
       };
 
-      const id = slugify(baseName);
       await prisma.domain.upsert({
-        where: { id },
+        where: { id: domainId },
         // Record mới -> chưa mirror lần nào, tạm hiển thị thẳng bằng hotlink.
-        create: { id, ...payload, imageUrl: imageUrlOriginal },
+        create: { id: domainId, ...payload, imageUrl: imageUrlOriginal },
         // Record đã tồn tại -> KHÔNG đụng imageUrl.
         update: payload,
       });
@@ -159,5 +231,15 @@ export async function seedDomains(): Promise<void> {
       console.warn(`⚠ Skipped domain group "${baseName}":`, (err as Error).message);
     }
   }
+  if (domainsWithoutVerifiedImage.length) {
+    console.warn(
+      `\n⚠ ${domainsWithoutVerifiedImage.length} domain KHÔNG tìm được ảnh nào còn sống ` +
+      `(đã thử gi.yatta.moe + enka.network, cả 2 đều 404):\n` +
+      domainsWithoutVerifiedImage.map((id) => `   - ${id}`).join("\n") +
+      `\n→ Tự tìm URL ảnh đúng (khuyến nghị: Genshin Impact Wiki trên Fandom) rồi thêm vào ` +
+      `scripts/data/domain-image-overrides.json theo key = domain slug ở trên, chạy lại seed.`
+    );
+  }
+
   console.log(`✔ Seeded ${count} domains (gộp từ ${allNames.length} entry gốc theo độ khó)`);
 }

@@ -1,3 +1,4 @@
+
 /**
  * scripts/pipeline/crawl-characters.ts
  *
@@ -50,6 +51,49 @@ try {
 
 const resolveTalentBook = createTalentBookResolver(talentBookSeriesByCharacter);
 const bossMaterialNames = buildBossMaterialNameSet(genshindb);
+
+// Gom tên nhân vật đã gặp `raw.url` với cấu trúc lạ (không có key
+// "fandom") — in ra 1 lần cảnh báo tổng ở cuối script thay vì spam từng
+// dòng khi crawl 122 nhân vật, để không bị chìm giữa log bình thường
+// nhưng vẫn chắc chắn không bị bỏ sót nếu genshin-db đổi cấu trúc.
+const wikiUrlShapeWarnings: string[] = [];
+
+/**
+ * Trích URL wiki thật từ field `raw.url` của genshin-db.
+ *
+ * ĐÃ XÁC MINH BẰNG DỮ LIỆU THẬT (data/inspect/character-sample-full.json,
+ * nhân vật Hu Tao): `raw.url` không phải string mà là object dạng
+ * `{ fandom: "https://genshin-impact.fandom.com/wiki/Hu_Tao" }`. Đây LÀ
+ * hình dạng chuẩn của genshin-db, không phải dữ liệu lỗi/không đồng nhất
+ * — nhân vật không có wiki thì `raw.url` là `undefined`, không phải
+ * object rỗng.
+ *
+ * Nếu genshin-db đổi cấu trúc trong tương lai (vd đổi key "fandom" thành
+ * tên khác, hoặc thêm nguồn thứ 2 như "hoyolab"), hàm này KHÔNG âm thầm
+ * trả về null — nó cố lấy giá trị string đầu tiên tìm được trong object
+ * (đủ dùng ngay, không mất dữ liệu) VÀ ghi lại tên nhân vật vào
+ * `wikiUrlShapeWarnings` để in cảnh báo rõ ràng ở cuối lần crawl, thay vì
+ * lặng lẽ mất dữ liệu như bug gốc.
+ */
+function extractWikiUrl(rawUrl: unknown, characterName: string): string | null {
+  if (rawUrl === undefined || rawUrl === null) return null;
+  if (typeof rawUrl === "string") return rawUrl;
+
+  if (typeof rawUrl === "object") {
+    const obj = rawUrl as Record<string, unknown>;
+    if (typeof obj.fandom === "string") return obj.fandom;
+
+    // Cấu trúc lạ, không có "fandom" như mong đợi — vẫn cố cứu dữ liệu
+    // bằng cách lấy giá trị string đầu tiên tìm được trong object, đồng
+    // thời gắn cờ cảnh báo để không bị lặp lại âm thầm lần sau.
+    const firstStringValue = Object.values(obj).find((v): v is string => typeof v === "string");
+    wikiUrlShapeWarnings.push(characterName);
+    return firstStringValue ?? null;
+  }
+
+  wikiUrlShapeWarnings.push(characterName);
+  return null;
+}
 
 /**
  * Crawl một nhân vật và trả về CharacterData
@@ -146,7 +190,23 @@ function crawlCharacter(name: string): CharacterData | null {
       constellationName: raw.constellation || null,
       voiceActors,
       gameVersion: raw.version || null,
-      wikiUrl: raw.url || null,
+      // BUG ĐÃ SỬA (2026-09) — SỬA ĐÚNG BẢN CHẤT, không phải né tránh:
+      // genshin-db trả `raw.url` LUÔN Ở DẠNG OBJECT, vd
+      // { fandom: "https://genshin-impact.fandom.com/wiki/Hu_Tao" } —
+      // không phải string như code cũ giả định. Field `raw.url || null`
+      // trước đây "tình cờ" chạy đúng cho nhân vật KHÔNG có wiki URL
+      // (raw.url === undefined -> null, Prisma vui), nhưng với 49/122
+      // nhân vật CÓ wiki URL thật, nó gán nguyên Object vào cột String?
+      // khiến Prisma từ chối và crash TOÀN BỘ record nhân vật đó (không
+      // chỉ riêng field wikiUrl) — xác nhận bằng cách in thử
+      // data/inspect/character-sample-full.json.
+      //
+      // Đã kiểm tra: hiện genshin-db chỉ thấy dùng key con "fandom" cho
+      // nguồn wiki duy nhất. Trích đúng chuỗi đó ra thay vì vứt bỏ dữ
+      // liệu thật; nếu tương lai genshin-db đổi cấu trúc key (vd thêm
+      // "hoyolab") mà không khớp "fandom", in cảnh báo ra console để lộ
+      // ra ngay lần crawl kế tiếp thay vì âm thầm mất dữ liệu lần nữa.
+      wikiUrl: extractWikiUrl(raw.url, raw.name),
       constellations,
       talents,
       missingTalentBookType: !bookType,
@@ -210,6 +270,15 @@ async function crawlCharacters() {
       `\n⚠ ${missingBookType.length} nhân vật thiếu talent book type:\n` +
       missingBookType.map((n) => `   - ${n}`).join("\n") +
       `\n→ Cập nhật scripts/data/talent-book-mapping.json và chạy lại crawl.`
+    );
+  }
+
+  if (wikiUrlShapeWarnings.length) {
+    console.warn(
+      `\n⚠ ${wikiUrlShapeWarnings.length} nhân vật có raw.url cấu trúc KHÁC key "fandom" đã biết:\n` +
+      wikiUrlShapeWarnings.map((n) => `   - ${n}`).join("\n") +
+      `\n→ genshin-db có thể đã đổi cấu trúc url. Kiểm tra data/inspect/character-sample-full.json ` +
+      `cho các nhân vật này, cập nhật extractWikiUrl() trong file này nếu cần.`
     );
   }
 
