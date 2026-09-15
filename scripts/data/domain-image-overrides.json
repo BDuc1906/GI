@@ -1,0 +1,4 @@
+{
+  "_comment": "Domain nào seedDomains() không tự xác minh được ảnh nào còn sống (xem cảnh báo cuối log `npm run db:seed`) sẽ được liệt kê ra ở đó. Tự tìm URL ảnh đúng (khuyến nghị: Genshin Impact Wiki chính thức trên Fandom, tìm trang bí cảnh tương ứng, chuột phải vào ảnh lấy link trực tiếp .png), rồi thêm vào đây theo key = domain slug (xem cột `id` trong bảng Domain, dạng kebab-case của tên).",
+  "_example_key_format": "domain-of-blessing-fires-of-purification"
+}
