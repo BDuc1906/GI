@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           # SỬA (2026-09): trước đây là 22, lệch với mọi workflow khác
           # (ci.yml, auto-fix.yml, update-data.yml đều dùng 24) — không có
