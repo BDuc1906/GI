@@ -22,10 +22,10 @@ jobs:
       DIRECT_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           # SỬA (2026-09): trước đây là 22, lệch với mọi workflow khác
           # (ci.yml, auto-fix.yml, update-data.yml đều dùng 24) — không có
@@ -39,7 +39,7 @@ jobs:
         run: npm ci
 
       - name: Create Version Pull Request
-        uses: changesets/action@v1
+        uses: changesets/action@v2
         with:
           version: npx changeset version
           publish: npx changeset tag
