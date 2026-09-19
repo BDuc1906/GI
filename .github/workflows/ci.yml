@@ -263,6 +263,17 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
+      # DEBUG TẠM THỜI — xoá sau khi xác nhận đúng host. Chỉ in phần HOST
+      # (không in password) của DATABASE_URL mà `vercel pull` vừa tải về,
+      # để xác nhận build này có thực sự dùng đúng host -pooler mới hay
+      # vẫn đang dùng giá trị cũ/sai (vd sửa nhầm project, hoặc Vercel
+      # chưa lưu kịp thay đổi trước khi job này chạy).
+      - name: DEBUG - kiem tra host DATABASE_URL vua pull ve
+        run: |
+          echo "Host trong .vercel/.env.production.local:"
+          grep "^DATABASE_URL=" .vercel/.env.production.local | sed -E 's#.*@([^:/?]+).*#  DATABASE_URL host: \1#'
+          grep "^DIRECT_URL=" .vercel/.env.production.local | sed -E 's#.*@([^:/?]+).*#  DIRECT_URL host: \1#'
+
       - name: Build project artifacts
         # Ép Node ưu tiên IPv4 khi resolve DNS (đề phòng khác biệt IPv4/
         # IPv6 giữa Prisma Rust engine và thư viện `pg`). Retry 3 lần cùng
