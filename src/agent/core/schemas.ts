@@ -19,18 +19,17 @@ import { z } from "zod";
 // Loại entity Agent được phép thao tác
 // ==========================================
 // CHỈ gồm các loại đã có bảng + dữ liệu thật trong Prisma schema.
-// "enemy" ĐÃ BỊ LOẠI khỏi danh sách này — DB chưa có model Enemy (xem
-// comment "sẽ nối vào bảng Enemy khi làm giai đoạn Enemies/Bosses"
-// trong prisma/schema.prisma). Trước đây agent quảng cáo hỗ trợ
-// "enemy" nhưng mọi tool gọi tới đều throw lỗi runtime vì không có gì
-// để query — thà không hỗ trợ còn hơn giả vờ hỗ trợ rồi lỗi khó hiểu.
-// Thêm lại "enemy" vào đây NGAY SAU KHI có model Enemy thật.
+// Đã thêm enemy, achievement, food, geography - các bảng mới từ genshin-db
 export const EntityTypeSchema = z.enum([
   "character",
   "weapon",
   "material",
   "domain",
   "artifact",
+  "enemy",
+  "achievement",
+  "food",
+  "geography",
 ]);
 export type EntityType = z.infer<typeof EntityTypeSchema>;
 

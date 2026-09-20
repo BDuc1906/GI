@@ -2,7 +2,9 @@ import type { ReactNode, CSSProperties } from "react";
 import Link from "next/link";
 import { SafeImage } from "./SafeImage";
 import { TiltCard } from "./TiltCard";
-import { rarityDotClass, rarityRibbonClass, rarityStars } from "@/lib/ui/theme";
+import { ElementalFrame } from "./ElementalFrame";
+import { RarityStars } from "./RarityStars";
+import { rarityDotClass, rarityRibbonClass, rarityStars, elementColorVar } from "@/lib/ui/theme";
 
 interface EntityCardProps {
   href: string;
@@ -28,6 +30,14 @@ interface EntityCardProps {
    *  ảnh sẽ không lấp hết chiều cao 2 hàng, khiến tile không thẳng đáy
    *  với các card nhỏ bên cạnh. */
   imageGrow?: boolean;
+  /** Frame style: none, simple, ornate, premium */
+  frameStyle?: "none" | "simple" | "ornate" | "premium";
+  /** Background type: none, elemental-gradient, solid */
+  backgroundType?: "none" | "elemental-gradient" | "solid";
+  /** Element name for styling (Pyro, Hydro, etc.) */
+  element?: string;
+  /** Use enhanced RarityStars component instead of text */
+  useEnhancedStars?: boolean;
   priority?: boolean;
   sizes?: string;
   cornerBadge?: ReactNode;
@@ -68,6 +78,10 @@ export function EntityCard({
   aspect = "square",
   compact = false,
   imageGrow = false,
+  frameStyle = "none",
+  backgroundType = "none",
+  element,
+  useEnhancedStars = false,
   priority = false,
   sizes = DEFAULT_SIZES,
   cornerBadge,
@@ -76,8 +90,17 @@ export function EntityCard({
   wrapperClassName,
 }: EntityCardProps) {
   const style = elementColor ? ({ "--el": elementColor } as CSSProperties) : undefined;
+  const effectiveElement = element || (elementColor ? undefined : "Pyro"); // Fallback for frame
+  const finalElementColor = elementColor || elementColorVar(effectiveElement || "Pyro");
 
   const imageShapeClass = imageGrow ? "flex-1" : aspect === "portrait" ? "aspect-[3/4]" : "aspect-square";
+
+  // Background gradient based on element
+  const backgroundStyle = backgroundType === "elemental-gradient" ? {
+    background: `linear-gradient(135deg, ${finalElementColor}20 0%, transparent 50%, ${finalElementColor}10 100%)`
+  } : backgroundType === "solid" ? {
+    background: `${finalElementColor}15`
+  } : {};
 
   const inner = (
     <div style={style} className="h-full flex flex-col">
@@ -86,6 +109,7 @@ export function EntityCard({
         className={`relative w-full overflow-hidden ${imageShapeClass} ${
           imageFit === "contain" ? "bg-bg-elevated p-3" : "bg-bg-elevated"
         }`}
+        style={backgroundStyle}
       >
         {imageSlot ? (
           imageSlot
@@ -121,7 +145,11 @@ export function EntityCard({
             <span className="text-eyebrow">{subtitle}</span>
             <span className="flex items-center gap-1.5" aria-label={`${rarity} sao`}>
               <span className={rarityDotClass(rarity)} aria-hidden />
-              <span className="text-[10px] text-text-muted tracking-tight">{rarityStars(rarity)}</span>
+              {useEnhancedStars ? (
+                <RarityStars count={rarity} size="sm"  />
+              ) : (
+                <span className="text-[10px] text-text-muted tracking-tight">{rarityStars(rarity)}</span>
+              )}
             </span>
           </div>
         )}
@@ -129,19 +157,29 @@ export function EntityCard({
     </div>
   );
 
+  const cardContent = frameStyle !== "none" ? (
+    <ElementalFrame 
+      element={effectiveElement || "Pyro"}
+      variant={frameStyle}
+      animated={!compact}
+    >
+      {inner}
+    </ElementalFrame>
+  ) : inner;
+
   const cardClass = `surface-card entity-elemental relative overflow-hidden group h-full flex flex-col ${wrapperClassName ?? ""}`.trim();
 
   if (compact) {
     return (
       <Link href={href} className={cardClass}>
-        {inner}
+        {cardContent}
       </Link>
     );
   }
 
   return (
     <TiltCard href={href} className={cardClass}>
-      {inner}
+      {cardContent}
     </TiltCard>
   );
 }

@@ -187,16 +187,66 @@ jobs:
         cancel: server
 
   # ────────────────────────────────────────────────────────────────────
-  # CD — chỉ chạy khi push thẳng vào main (không chạy cho PR) và chỉ sau
-  # khi lint/typecheck/test + migrate/build + smoke-test API đều pass.
-  # Đây là job duy nhất chạm vào DB production thật và deploy thật lên
-  # Vercel — Vercel Git integration đã bị tắt qua ignoreCommand trong
-  # vercel.json, nên job này là con đường DUY NHẤT đưa code lên production.
+  # CD Staging — deploy preview cho PR
+  # ────────────────────────────────────────────────────────────────────
+  deploy-staging:
+    name: Deploy to Vercel (Staging)
+    runs-on: ubuntu-latest
+    needs: api-smoke-test
+    if: github.event_name == 'pull_request'
+    environment: staging
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel environment info
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Build project artifacts
+        run: |
+          for attempt in 1 2 3; do
+            vercel build --token=${{ secrets.VERCEL_TOKEN }} && exit 0
+            echo "Lần $attempt thất bại, thử lại sau $((attempt * 10))s..."
+            sleep $((attempt * 10))
+          done
+          echo "Đã thử 3 lần đều thất bại."
+          exit 1
+        env:
+          NODE_OPTIONS: --dns-result-order=ipv4first
+
+      - name: Deploy to Vercel (Preview)
+        id: deploy
+        run: |
+          url=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Summary
+        run: |
+          echo "Deployed to staging: ${{ steps.deploy.outputs.url }}" >> "$GITHUB_STEP_SUMMARY"
+
+  # ────────────────────────────────────────────────────────────────────
+  # CD Production — chỉ deploy code, không touch data
   # ────────────────────────────────────────────────────────────────────
   deploy-production:
     name: Deploy to Vercel (Production)
     runs-on: ubuntu-latest
-    needs: api-smoke-test
+    needs: [api-smoke-test, deploy-staging]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     environment: production
     permissions:
@@ -217,15 +267,6 @@ jobs:
         run: npm install --global vercel@latest
 
       - name: Apply migrations to production database
-        # DIRECT_URL THẬT của Neon production, lấy từ GitHub Secrets —
-        # KHÁC với DATABASE_URL/DIRECT_URL giả ở đầu file (chỉ dùng cho
-        # các job test ở trên). prisma.config.ts đọc DIRECT_URL cho mọi
-        # lệnh `prisma migrate`, nên không cần set DATABASE_URL ở bước này.
-        #
-        # Retry 3 lần: đã xác nhận bằng tay lỗi P1001/ECONNREFUSED ở bước
-        # này chỉ thoáng qua (kết nối trực tiếp từ máy khác thành công
-        # cùng thời điểm CI báo lỗi) — nhiều khả năng do độ trễ/nghẽn mạng
-        # ngẫu nhiên giữa GitHub Actions runner và Neon.
         run: |
           for attempt in 1 2 3; do
             npx prisma migrate deploy && exit 0
@@ -237,47 +278,13 @@ jobs:
         env:
           DIRECT_URL: ${{ secrets.PROD_DIRECT_URL }}
 
-      # BUG ĐÃ SỬA (2026-09): seed.ts đọc dữ liệu từ data/raw/*.json, thư
-      # mục này bị .gitignore cố ý (xem comment trong .gitignore — file
-      # sinh lại được bất kỳ lúc nào bằng data:crawl, không commit để
-      # tránh file lớn/lệch dữ liệu nằm trong git). Vì vậy checkout code
-      # xong sẽ KHÔNG có sẵn file này — phải tự crawl trước khi seed,
-      # đúng pattern update-data.yml đã làm. `data:crawl` đọc từ package
-      # `genshin-db` cài sẵn qua npm (dữ liệu đóng gói offline, không gọi
-      # API mạng ngoài) nên nhanh và không phụ thuộc dịch vụ bên thứ ba.
-      - name: Crawl latest game data
-        run: npm run data:crawl
-
-      # Seed dữ liệu game (vừa crawl ở bước trên) vào DB production — an
-      # toàn vì scripts/seed đọc từ file local vừa tạo, không tự gọi
-      # genshin-db lần nữa.
-      - name: Seed production database with latest game data
-        run: npx tsx scripts/seed/seed.ts
-        env:
-          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
-          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL }}
-
       - name: Pull Vercel environment info
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
-      # DEBUG TẠM THỜI — xoá sau khi xác nhận đúng host. Chỉ in phần HOST
-      # (không in password) của DATABASE_URL mà `vercel pull` vừa tải về,
-      # để xác nhận build này có thực sự dùng đúng host -pooler mới hay
-      # vẫn đang dùng giá trị cũ/sai (vd sửa nhầm project, hoặc Vercel
-      # chưa lưu kịp thay đổi trước khi job này chạy).
-      - name: DEBUG - kiem tra host DATABASE_URL vua pull ve
-        run: |
-          echo "Host trong .vercel/.env.production.local:"
-          grep "^DATABASE_URL=" .vercel/.env.production.local | sed -E 's#.*@([^:/?]+).*#  DATABASE_URL host: \1#'
-          grep "^DIRECT_URL=" .vercel/.env.production.local | sed -E 's#.*@([^:/?]+).*#  DIRECT_URL host: \1#'
-
       - name: Build project artifacts
-        # Ép Node ưu tiên IPv4 khi resolve DNS (đề phòng khác biệt IPv4/
-        # IPv6 giữa Prisma Rust engine và thư viện `pg`). Retry 3 lần cùng
-        # lý do đã xác nhận ở bước migrate.
         run: |
           for attempt in 1 2 3; do
             vercel build --prod --token=${{ secrets.VERCEL_TOKEN }} && exit 0

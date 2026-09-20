@@ -26,7 +26,8 @@
     "tagline": "Der umfassende Genshin-Impact-Begleiter",
     "description": "Entdecke detaillierte Daten zu Charakteren, Waffen und Artefakten — aktualisiert aus offiziellen Quellen.",
     "exploreCharacters": "Charaktere entdecken",
-    "weaponArsenal": "Waffenarsenal"
+    "weaponArsenal": "Waffenarsenal",
+    "searchPlaceholder": "Schnell suchen (Charaktere, Waffen, Artefakte, Materialien, Quests)..."
   },
   "Home": {
     "latestCharacters": "Kürzlich aktualisierte Charaktere",
@@ -258,6 +259,7 @@
     "title": "Admin-Dashboard",
     "subtitle": "Datenpipeline + KI-Agent",
     "refresh": "Aktualisieren",
+    "statsOverview": "Statusübersicht",
     "enterAdminKeyHint": "Geben Sie den Admin-Schlüssel im untenstehenden Panel \"AI Agent Control\" ein, um die Daten der Pipeline und des Audit-Logs einzusehen.",
     "pipelineCrawl": "Data Crawl",
     "pipelineSeed": "Saatgutdatenbank",

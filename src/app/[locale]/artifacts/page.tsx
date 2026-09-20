@@ -118,6 +118,9 @@ export default async function ArtifactsPage({ params, searchParams }: PageProps)
                 imageFit="contain"
                 compact
                 priority={index < 10}
+                frameStyle="simple"
+                backgroundType="solid"
+                useEnhancedStars={true}
                 elementColor={rarityColorVar(maxRarity)}
               />
             );

@@ -26,7 +26,8 @@
     "tagline": "The complete Genshin Impact companion",
     "description": "Explore detailed data on characters, weapons and artifacts — updated from official sources.",
     "exploreCharacters": "Explore characters",
-    "weaponArsenal": "Weapon arsenal"
+    "weaponArsenal": "Weapon arsenal",
+    "searchPlaceholder": "Search characters, weapons, artifacts..."
   },
   "Home": {
     "latestCharacters": "Recently updated characters",
@@ -40,7 +41,19 @@
     "categoryArtifact": "Artifact",
     "categoryWeaponMaterial": "Weapon material",
     "categoryTalentBook": "Talent book",
-    "footerNote": "Data sourced from genshin-db and Enka Network. LEIBO is not affiliated with miHoYo."
+    "footerNote": "Data sourced from genshin-db and Enka Network. LEIBO is not affiliated with miHoYo.",
+    "featuredCharacter": "Featured Character",
+    "quickLinks": "Quick Links",
+    "domains": "Domains",
+    "domainsDesc": "Domain schedule and rewards",
+    "elements": "Elements",
+    "elementsDesc": "Element system and reactions",
+    "artifacts": "Artifacts",
+    "artifactsDesc": "Artifact sets and bonuses"
+  },
+  "Elements": {
+    "title": "Elements",
+    "description": "The 7 elements of Teyvat and their reactions"
   },
   "ErrorPage": {
     "title": "Something Went Wrong",
@@ -258,6 +271,7 @@
     "title": "Admin Dashboard",
     "subtitle": "Data Pipeline + AI Agent",
     "refresh": "Refresh",
+    "statsOverview": "Status Overview",
     "enterAdminKeyHint": "Enter the Admin Key in the \"AI Agent Control\" panel below to view pipeline and audit log data.",
     "pipelineCrawl": "Data Crawl",
     "pipelineSeed": "Seed database",

@@ -1,4 +1,3 @@
-
 /**
  * src/lib/i18n/glossary.ts
  *
@@ -23,14 +22,26 @@
 import {
   ELEMENTAL_REACTIONS,
   ELEMENTAL_RESONANCES,
+  DAMAGE_FORMULAS,
+  TRANSFORMATIVE_BASE_COEFFICIENT,
   elementColor,
   reactionAccentColor,
   getReactionName,
   getReactionDescription,
   getResonanceName,
   getResonanceDescription,
+  getFormulaExplanation,
   type ElementalReaction,
+  type ReactionCategory,
+  type DamageFormulaCategory,
 } from "../game/element-reactions-data";
+
+// "lunar" và "stellar" dùng CHUNG 1 khối công thức "lunarStellar" trong
+// DAMAGE_FORMULAS — 3 category còn lại map thẳng 1-1.
+function formulaCategoryFor(category: ReactionCategory): DamageFormulaCategory {
+  if (category === "lunar" || category === "stellar") return "lunarStellar";
+  return category;
+}
 
 export interface GlossaryTerm {
   id: string;
@@ -43,6 +54,19 @@ export interface GlossaryTerm {
   badge: string; // "Biến đổi" / "Khuếch đại" / "Cộng hưởng Nguyên tố"...
   summary: string; // 1 câu ngắn cho tooltip khi hover
   detail: string; // mô tả đầy đủ cho popup khi bấm
+  // Công thức tính sát thương của phản ứng này — CHỈ có ở glossary term
+  // dựng từ 1 phản ứng (buildReactionTerms), không có ở cộng hưởng
+  // (buildResonanceTerms, cộng hưởng không có 1 công thức sát thương
+  // riêng theo phản ứng). Thêm field này (2026-09) vì trước đây popup
+  // chi tiết chỉ lặp lại ĐÚNG y hệt đoạn mô tả đã thấy ở nơi khác trên
+  // trang — không có thông tin gì thêm, người dùng bấm vào xong thấy vô
+  // ích. Giờ bấm vào có thêm công thức + hệ số nền + nguồn trích dẫn.
+  formula?: {
+    formulaLatex: string;
+    explanation: string;
+    coefficient?: number;
+    sourceUrl: string;
+  };
   requiresCharacters?: string;
   accentColor: string; // hex — viền/màu chữ của chip + tiêu đề popup
 }
@@ -79,6 +103,7 @@ function buildReactionTerms(locale: string): GlossaryTerm[] {
   const isVi = locale === "vi";
   return ELEMENTAL_REACTIONS.map((r) => {
     if (isVi) {
+      const f = DAMAGE_FORMULAS[formulaCategoryFor(r.category)];
       return {
         id: r.id,
         keywords: r.nameVi !== r.name ? [r.nameVi, r.name] : [r.name],
@@ -86,12 +111,19 @@ function buildReactionTerms(locale: string): GlossaryTerm[] {
         badge: categoryLabel(r.category, locale),
         summary: firstSentence(r.description),
         detail: r.description,
+        formula: {
+          formulaLatex: f.formulaLatex,
+          explanation: getFormulaExplanation(f, locale),
+          coefficient: TRANSFORMATIVE_BASE_COEFFICIENT[r.id],
+          sourceUrl: f.sourceUrl,
+        },
         requiresCharacters: r.requiresCharacters,
         accentColor: reactionAccentColor(r),
       };
     }
     const displayName = getReactionName(r, locale);
     const description = getReactionDescription(r, locale);
+    const f = DAMAGE_FORMULAS[formulaCategoryFor(r.category)];
     return {
       id: r.id,
       keywords: uniq([displayName, r.name]),
@@ -99,6 +131,12 @@ function buildReactionTerms(locale: string): GlossaryTerm[] {
       badge: categoryLabel(r.category, locale),
       summary: firstSentence(description),
       detail: description,
+      formula: {
+        formulaLatex: f.formulaLatex,
+        explanation: getFormulaExplanation(f, locale),
+        coefficient: TRANSFORMATIVE_BASE_COEFFICIENT[r.id],
+        sourceUrl: f.sourceUrl,
+      },
       requiresCharacters: r.requiresCharacters,
       accentColor: reactionAccentColor(r),
     };

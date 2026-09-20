@@ -3,9 +3,10 @@ import Link from "next/link";
 import { Prisma } from "@prisma/client";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { prisma } from "@/lib/db/prisma";
-import { rarityStars, rarityColorVar } from "@/lib/ui/theme";
+import { rarityColorVar } from "@/lib/ui/theme";
 import { WeaponIcon } from "@/components/weapon/WeaponIcon";
 import { EntityCard } from "@/components/ui/EntityCard";
+import { RarityStars } from "@/components/ui/RarityStars";
 import { Pagination } from "@/components/ui/Pagination";
 import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/ui/pagination";
 import type { Metadata } from "next";
@@ -135,7 +136,7 @@ export default async function WeaponsPage({ params, searchParams }: PageProps) {
                   className="chip px-2.5 py-1 rounded-full text-xs font-semibold"
                   style={active ? { color: rarityColorVar(r), borderColor: rarityColorVar(r) } : undefined}
                 >
-                  {rarityStars(r)}
+                  <RarityStars count={r} size="sm"  />
                 </Link>
               );
             })}
@@ -171,6 +172,9 @@ export default async function WeaponsPage({ params, searchParams }: PageProps) {
               imageFit="contain"
               compact
               priority={index < 10}
+              frameStyle="simple"
+              backgroundType="solid"
+              useEnhancedStars={true}
               elementColor={rarityColorVar(w.rarity)}
             />
           ))}

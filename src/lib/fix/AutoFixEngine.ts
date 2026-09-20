@@ -152,6 +152,18 @@ export class AutoFixEngine {
       case "artifact":
         rows = await prisma.artifactSet.findMany({ select: { id: true } });
         break;
+      case "enemy":
+        rows = await prisma.enemy.findMany({ select: { id: true } });
+        break;
+      case "achievement":
+        rows = await prisma.achievement.findMany({ select: { id: true } });
+        break;
+      case "food":
+        rows = await prisma.food.findMany({ select: { id: true } });
+        break;
+      case "geography":
+        rows = await prisma.geography.findMany({ select: { id: true } });
+        break;
     }
     return rows.map((r) => r.id);
   }
@@ -172,6 +184,16 @@ export class AutoFixEngine {
         return prisma.domain.update({ where: { id }, data: data as Prisma.DomainUpdateInput });
       case "artifact":
         return prisma.artifactSet.update({ where: { id }, data: data as Prisma.ArtifactSetUpdateInput });
+      case "enemy":
+        return prisma.enemy.update({ where: { id }, data: data as Prisma.EnemyUpdateInput });
+      case "achievement":
+        return prisma.achievement.update({ where: { id }, data: data as Prisma.AchievementUpdateInput });
+      case "food":
+        return prisma.food.update({ where: { id }, data: data as Prisma.FoodUpdateInput });
+      case "geography":
+        return prisma.geography.update({ where: { id }, data: data as Prisma.GeographyUpdateInput });
+      default:
+        throw new Error(`Unsupported entity type: ${type}`);
     }
   }
 

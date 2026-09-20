@@ -258,6 +258,7 @@
     "title": "Dashboard amministrativo",
     "subtitle": "Data Pipeline + AI Agent",
     "refresh": "Refresh",
+    "statsOverview": "Panoramica dello stato",
     "enterAdminKeyHint": "Inserisci la Chiave Amministrativa nel pannello \"AI Agent Control\" qui sotto per visualizzare i dati di pipeline e log di audit.",
     "pipelineCrawl": "Scansione dati",
     "pipelineSeed": "Database seed",

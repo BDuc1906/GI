@@ -71,7 +71,16 @@ Toàn bộ endpoint (trừ `/api` và `/api/health`) đều giới hạn theo IP
 | `/api/artifacts*`              | 60 request/phút |
 | `/api/materials*`              | 60 request/phút |
 | `/api/domains*`                 | 60 request/phút |
+| `/api/enemies*`                | 60 request/phút |
+| `/api/achievements*`           | 60 request/phút |
+| `/api/food*`                   | 60 request/phút |
+| `/api/geography*`              | 60 request/phút |
+| `/api/crafts*`                 | 60 request/phút |
 | `/api/search`                  | 30 request/phút (chạy 4 query song song mỗi lần gọi) |
+| `/api/tools/dps`               | 30 request/phút |
+| `/api/tools/team-builder`      | 30 request/phút |
+| `/api/tools/material-calculator`| 30 request/phút |
+| `/api/tools/meta-tracker`      | 10 request/phút |
 
 Vượt giới hạn → `429 RATE_LIMITED`, kèm header:
 
@@ -271,3 +280,205 @@ curl "https://<domain>/api/search?q=kazuha&limit=5"
 
 Muốn xem đầy đủ, phân trang được: gọi thẳng `/api/characters?q=...`,
 `/api/weapons?q=...`, `/api/artifacts?q=...`, hoặc `/api/domains?q=...`.
+
+---
+
+## `GET /api/enemies` — danh sách quái vật
+
+| Param        | Ví dụ      | Ghi chú                                              |
+|--------------|------------|------------------------------------------------------|
+| `q`          | `hilichurl`| Tìm theo tên, không phân biệt hoa/thường             |
+| `monsterType`| `Humanoid`  | Lọc loại quái                                        |
+| `enemyType`  | `Common`    | Lọc sub-type quái                                    |
+| `isBoss`     | `true`      | Chỉ boss quái                                        |
+| `weeklyBoss` | `true`      | Chỉ weekly boss                                      |
+| `difficulty` | `hard`      | Lọc độ khó (`easy`, `medium`, `hard`, `very hard`)    |
+| `sort`       | `-level`    | `name` \| `level` \| `isBoss` \| `difficulty` \| `createdAt` (mặc định `name`) |
+| `page`,`limit` |        |                                                      |
+
+```bash
+curl "https://<domain>/api/enemies?isBoss=true&sort=-level&limit=10"
+```
+
+---
+
+## `GET /api/enemies/:id` — chi tiết quái vật
+
+Trả về toàn bộ field của quái vật, gồm `stats`, `weaknesses`, `resistances`,
+`immunities`, `dropRates`, `spawnRegions`, `behavior`, `domains`, `difficulty`.
+
+---
+
+## `POST /api/tools/dps` — tính toán DPS
+
+Tính toán DPS dựa trên character, weapon, artifact stats, và target enemy.
+
+| Body Field        | Type     | Ghi chú                                      |
+|-------------------|----------|----------------------------------------------|
+| `characterId`     | string   | Character ID (bắt buộc)                      |
+| `weaponId`        | string   | Weapon ID (optional)                         |
+| `level`           | number   | Character level (1-90, mặc định 90)          |
+| `talentLevels`    | object   | Talent levels (1-10, mặc định 10)            |
+| `artifactStats`   | object   | Artifact stats (hp, atk, def, em, er, cr, cd)|
+| `targetEnemy`     | object   | Target enemy info (level, defense, resistance)|
+| `includeBreakdown`| boolean  | Include detailed breakdown (mặc định false)  |
+
+```bash
+curl -X POST "https://<domain>/api/tools/dps" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "characterId": "kazuha",
+    "level": 90,
+    "talentLevels": { "normalAttack": 10, "elementalSkill": 10, "elementalBurst": 10 },
+    "artifactStats": { "atk": 2000, "em": 300, "cr": 60, "cd": 120 },
+    "includeBreakdown": true
+  }'
+```
+
+---
+
+## `POST /api/tools/team-builder` — phân tích đội hình
+
+Phân tích team composition, tính elemental reactions, synergies, và weaknesses.
+
+| Body Field | Type     | Ghi chú                                    |
+|------------|----------|--------------------------------------------|
+| `characters`| array    | Team members (1-4 characters)              |
+| `name`      | string   | Team name (optional)                       |
+
+```bash
+curl -X POST "https://<domain>/api/tools/team-builder" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "characters": [
+      { "id": "kazuha", "name": "Kazuha", "vision": "Anemo", "weaponType": "Sword", "role": "main DPS" },
+      { "id": "bennett", "name": "Bennett", "vision": "Pyro", "weaponType": "Sword", "role": "support" }
+    ]
+  }'
+```
+
+---
+
+## `GET /api/tools/team-builder` — gợi ý đội hình
+
+Gợi ý optimal team cho một character cụ thể.
+
+| Param       | Bắt buộc | Ghi chú                |
+|-------------|----------|------------------------|
+| `characterId`| Có       | Character ID           |
+
+```bash
+curl "https://<domain>/api/tools/team-builder?characterId=kazuha"
+```
+
+---
+
+## `POST /api/tools/material-calculator` — tính toán nguyên liệu
+
+Tính toán nguyên liệu cần thiết cho ascension và talent upgrade.
+
+| Body Field           | Type     | Ghi chú                                      |
+|----------------------|----------|----------------------------------------------|
+| `characterId`        | string   | Character ID (bắt buộc)                      |
+| `currentLevel`       | number   | Current level (1-90, mặc định 1)             |
+| `targetLevel`        | number   | Target level (1-90, mặc định 90)             |
+| `includeTalent`      | boolean  | Include talent materials (mặc định false)   |
+| `talentLevels`       | object   | Current talent levels (mặc định 1)           |
+| `targetTalentLevels` | object   | Target talent levels (mặc định 10)           |
+
+```bash
+curl -X POST "https://<domain>/api/tools/material-calculator" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "characterId": "kazuha",
+    "currentLevel": 1,
+    "targetLevel": 90,
+    "includeTalent": true
+  }'
+```
+
+---
+
+## `GET /api/tools/meta-tracker` — theo dõi meta
+
+Get meta analysis và recommendations.
+
+| Param | Bắt buộc | Ghi chú                                                |
+|-------|----------|--------------------------------------------------------|
+| `type` | Không    | Report type: `general`, `characters`, `teams`, `counters` (mặc định `general`) |
+
+```bash
+curl "https://<domain>/api/tools/meta-tracker?type=general"
+```
+
+---
+
+## `GET /api/achievements` — danh sách thành tựu
+
+| Param        | Ví dụ      | Ghi chú                                    |
+|--------------|------------|--------------------------------------------|
+| `q`          | `combat`   | Tìm theo tên                                |
+| `isHidden`   | `true`     | Chỉ thành tựu ẩn                           |
+| `groupId`    | `combat`   | Lọc theo achievement group                 |
+| `sort`       | `-sortOrder| `name` \| `sortOrder` \| `createdAt` (mặc định `sortOrder`) |
+| `page`,`limit` |        |                                            |
+
+---
+
+## `GET /api/achievements/:id` — chi tiết thành tựu
+
+Trả về toàn bộ field của thành tựu.
+
+---
+
+## `GET /api/food` — danh sách đồ ăn
+
+| Param     | Ví dụ    | Ghi chú                                      |
+|-----------|----------|----------------------------------------------|
+| `q`       | `mondstadt`| Tìm theo tên                                |
+| `foodtype`| `Recovery`| Lọc theo loại đồ ăn                         |
+| `rarity`  | `3`       | Lọc theo phẩm cấp (1-5)                     |
+| `sort`    | `-rarity` | `name` \| `rarity` \| `foodtype` \| `createdAt` (mặc định `name`) |
+| `page`,`limit` |       |                                              |
+
+---
+
+## `GET /api/food/:id` — chi tiết đồ ăn
+
+Trả về toàn bộ field của đồ ăn, gồm recipe và effects.
+
+---
+
+## `GET /api/geography` — danh sách địa lý
+
+| Param       | Ví dụ      | Ghi chú                                    |
+|-------------|------------|--------------------------------------------|
+| `q`         | `mondstadt`| Tìm theo tên                                |
+| `regionName`| `Mondstadt`| Lọc theo khu vực                           |
+| `areaName`  | `City`     | Lọc theo sub-area                          |
+| `sort`      | `name`     | `name` \| `regionName` \| `areaName` \| `createdAt` (mặc định `name`) |
+| `page`,`limit` |        |                                            |
+
+---
+
+## `GET /api/geography/:id` — chi tiết địa lý
+
+Trả về toàn bộ field của địa điểm.
+
+---
+
+## `GET /api/crafts` — danh sách chế tạo
+
+| Param     | Ví dụ    | Ghi chú                                      |
+|-----------|----------|----------------------------------------------|
+| `q`       | `alchemy`| Tìm theo tên                                |
+| `minRank` | `3`       | Minimum adventure rank (mặc định không lọc) |
+| `maxRank` | `10`      | Maximum adventure rank (mặc định không lọc) |
+| `sort`    | `-unlockRank| `name` \| `unlockRank` \| `moraCost` \| `createdAt` (mặc định `name`) |
+| `page`,`limit` |       |                                              |
+
+---
+
+## `GET /api/crafts/:id` — chi tiết chế tạo
+
+Trả về toàn bộ field của công thức chế tạo, gồm materials và results.

@@ -6,7 +6,9 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { SafeImage } from "@/components/ui/SafeImage";
 import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
+import { ElementalFrame } from "@/components/ui/ElementalFrame";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
+import { elementColorVar } from "@/lib/ui/theme";
 
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -117,32 +119,42 @@ export default async function DomainDetail({ params }: PageProps) {
     <div className="max-w-4xl mx-auto px-4 py-8">
       <BreadcrumbJsonLd items={breadcrumbItems} />
       <Breadcrumb items={breadcrumbItems} />
-      <div className="flex flex-col sm:flex-row gap-6 mb-8">
-        {d.imageUrl && (
-          <div className="relative w-40 h-40 rounded-xl border border-border bg-bg-card shrink-0 overflow-hidden">
-            <SafeImage
-              src={d.imageUrl}
-              fallbackSrcs={[d.imageUrlOriginal]}
-              alt={d.name}
-              fill
-              sizes="160px"
-              className="object-cover"
-              fallbackClassName="w-full h-full flex items-center justify-center text-text-muted text-[10px]"
-            />
+      
+      <ElementalFrame 
+        element={d.category === "artifact" ? "Geo" : d.category === "weapon" ? "Electro" : "Hydro"} 
+        variant="ornate" 
+        animated={true}
+        className="mb-8"
+      >
+        <div className="flex flex-col sm:flex-row gap-6 p-6">
+          {d.imageUrl && (
+            <div className="relative w-40 h-40 rounded-xl border border-border bg-bg-card shrink-0 overflow-hidden">
+              <SafeImage
+                src={d.imageUrl}
+                fallbackSrcs={[d.imageUrlOriginal]}
+                alt={d.name}
+                fill
+                sizes="160px"
+                className="object-cover"
+                fallbackClassName="w-full h-full flex items-center justify-center text-text-muted text-[10px]"
+              />
+            </div>
+          )}
+          <div>
+            <div className="text-xs uppercase tracking-wider text-text-secondary font-medium mb-1">
+              {CATEGORY_LABEL[d.category] ?? d.category}
+            </div>
+            <h1 className="text-3xl font-bold text-gold-bright game-title-glow" style={{ '--el': elementColorVar(d.category === "artifact" ? "Geo" : d.category === "weapon" ? "Electro" : "Hydro") } as React.CSSProperties}>
+              {getLocalizedName(d, locale)}
+            </h1>
+            <p className="text-sm text-text-muted mb-4">
+              {d.regionName ?? "Teyvat"}
+              {d.recommendedLevel ? ` · ${t("recommendedLevel", { level: d.recommendedLevel })}` : ""}
+            </p>
+            {d.description && <p className="text-text-primary italic max-w-xl game-subtitle">{d.description}</p>}
           </div>
-        )}
-        <div>
-          <div className="text-xs uppercase tracking-wider text-text-secondary font-medium mb-1">
-            {CATEGORY_LABEL[d.category] ?? d.category}
-          </div>
-          <h1 className="text-3xl font-bold text-gold-bright">{getLocalizedName(d, locale)}</h1>
-          <p className="text-sm text-text-muted mb-4">
-            {d.regionName ?? "Teyvat"}
-            {d.recommendedLevel ? ` · ${t("recommendedLevel", { level: d.recommendedLevel })}` : ""}
-          </p>
-          {d.description && <p className="text-text-primary italic max-w-xl">{d.description}</p>}
         </div>
-      </div>
+      </ElementalFrame>
 
       {/* Lịch mở */}
       <section className="mb-8">

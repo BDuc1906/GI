@@ -26,6 +26,10 @@ const ENDPOINT_BY_TYPE: Record<EntityType, string> = {
   artifact: "artifacts",
   material: "materials",
   domain: "domains",
+  enemy: "enemies",
+  achievement: "achievements",
+  food: "foods",
+  geography: "geographies",
 };
 
 // ---- Shape JSON thật của genshin.jmp.blue (verify 10/08/2026) ----

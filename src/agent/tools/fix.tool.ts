@@ -125,6 +125,16 @@ export class FixTool extends BaseTool<FixParams, FixResult<EntityType>> {
         return prisma.domain.findUnique({ where: { id } });
       case "artifact":
         return prisma.artifactSet.findUnique({ where: { id } });
+      case "enemy":
+        return prisma.enemy.findUnique({ where: { id } });
+      case "achievement":
+        return prisma.achievement.findUnique({ where: { id } });
+      case "food":
+        return prisma.food.findUnique({ where: { id } });
+      case "geography":
+        return prisma.geography.findUnique({ where: { id } });
+      default:
+        return null;
     }
   }
 
@@ -144,6 +154,16 @@ export class FixTool extends BaseTool<FixParams, FixResult<EntityType>> {
         return prisma.domain.update({ where: { id }, data: data as Prisma.DomainUpdateInput });
       case "artifact":
         return prisma.artifactSet.update({ where: { id }, data: data as Prisma.ArtifactSetUpdateInput });
+      case "enemy":
+        return prisma.enemy.update({ where: { id }, data: data as Prisma.EnemyUpdateInput });
+      case "achievement":
+        return prisma.achievement.update({ where: { id }, data: data as Prisma.AchievementUpdateInput });
+      case "food":
+        return prisma.food.update({ where: { id }, data: data as Prisma.FoodUpdateInput });
+      case "geography":
+        return prisma.geography.update({ where: { id }, data: data as Prisma.GeographyUpdateInput });
+      default:
+        throw new Error(`Unsupported entity type: ${type}`);
     }
   }
 }

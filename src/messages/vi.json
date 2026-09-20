@@ -26,7 +26,8 @@
     "tagline": "Cẩm nang Genshin Impact toàn diện",
     "description": "Khám phá dữ liệu chi tiết về nhân vật, vũ khí và thánh di vật – được cập nhật từ nguồn chính thức.",
     "exploreCharacters": "Khám phá nhân vật",
-    "weaponArsenal": "Kho vũ khí"
+    "weaponArsenal": "Kho vũ khí",
+    "searchPlaceholder": "Tìm kiếm nhanh mọi thứ (Nhân vật, Vũ khí, Thánh di vật, Nguyên liệu, Nhiệm vụ)..."
   },
   "Home": {
     "latestCharacters": "Nhân vật mới cập nhật",
@@ -40,7 +41,50 @@
     "categoryArtifact": "Thánh di vật",
     "categoryWeaponMaterial": "Nguyên liệu vũ khí",
     "categoryTalentBook": "Sách thiên phú",
-    "footerNote": "Dữ liệu được lấy từ genshin-db và Enka Network. LEIBO không thuộc sở hữu của miHoYo."
+    "footerNote": "Dữ liệu được lấy từ genshin-db và Enka Network. LEIBO không thuộc sở hữu của miHoYo.",
+    "featuredCharacter": "Nhân vật nổi bật",
+    "quickLinks": "Liên kết nhanh",
+    "domains": "Bí cảnh",
+    "domainsDesc": "Lịch bí cảnh và phần thưởng",
+    "elements": "Nguyên tố",
+    "elementsDesc": "Hệ thống nguyên tố và phản ứng",
+    "artifacts": "Thánh di vật",
+    "artifactsDesc": "Bộ thánh di vật và set bonus"
+  },
+  "Elements": {
+    "title": "Nguyên Tố",
+    "description": "7 nguyên tố của Teyvat và phản ứng của chúng"
+  },
+  "Enemies": {
+    "title": "Kẻ Địch",
+    "description": "Danh sách toàn bộ kẻ địch trong game"
+  },
+  "Achievements": {
+    "title": "Thành Tự",
+    "description": "Danh sách toàn bộ thành tự và phần thưởng",
+    "achievementGroups": "Nhóm thành tự",
+    "achievements": "Thành tự (hiển thị 100 đầu)"
+  },
+  "Food": {
+    "title": "Đồ Ăn",
+    "description": "Danh sách toàn bộ đồ ăn và công thức"
+  },
+  "Geography": {
+    "title": "Địa Lý",
+    "description": "Danh sách toàn bộ địa điểm trong game"
+  },
+  "Materials": {
+    "title": "Nguyên Liệu",
+    "description": "Danh sách toàn bộ nguyên liệu đột phá và nâng cấp"
+  },
+  "Navigation": {
+    "title": "Lối tắt tra cứu nhanh"
+  },
+  "Tools": {
+    "title": "Công cụ & Tiện ích"
+  },
+  "Version": {
+    "title": "Cập nhật phiên bản mới"
   },
   "ErrorPage": {
     "title": "Đã Có Lỗi Xảy Ra",
@@ -258,6 +302,7 @@
     "title": "Bảng điều khiển Admin",
     "subtitle": "Pipeline dữ liệu + AI Agent",
     "refresh": "Refresh",
+    "statsOverview": "Tổng quan trạng thái",
     "enterAdminKeyHint": "Nhập Admin Key ở panel \"Điều khiển AI Agent\" bên dưới để xem dữ liệu pipeline và audit log.",
     "pipelineCrawl": "Crawl dữ liệu",
     "pipelineSeed": "Seed database",
@@ -295,6 +340,8 @@
     "nRecordsSkipped": "{count} bản ghi bị bỏ qua (xem chi tiết ở panel \"Kết quả lần quét\" bên dưới).",
     "syncWorkflowTriggered": "Đã trigger workflow đồng bộ.",
     "agentControlTitle": "Điều khiển AI Agent",
+    "lastScanResult": "Kết quả lần quét gần nhất",
+    "agentAuditHistory": "Lịch sử AI Agent sửa dữ liệu",
     "adminKeyLabel": "Admin Key (Authorization: Bearer …)",
     "adminKeyPlaceholder": "Dán ADMIN_API_KEY của bạn",
     "adminKeyStorageNote": "Chỉ lưu trong trình duyệt này (localStorage) — không gửi đi đâu ngoài các request admin bên dưới.",

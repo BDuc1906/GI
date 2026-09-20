@@ -26,7 +26,8 @@
     "tagline": "全面的原神攻略手册",
     "description": "探索角色、武器和圣遗物的详细数据——数据来自官方来源并持续更新。",
     "exploreCharacters": "探索角色",
-    "weaponArsenal": "武器库"
+    "weaponArsenal": "武器库",
+    "searchPlaceholder": "快速搜索（角色、武器、圣遗物、材料、任务）..."
   },
   "Home": {
     "latestCharacters": "最新更新的角色",
@@ -40,7 +41,15 @@
     "categoryArtifact": "圣遗物",
     "categoryWeaponMaterial": "武器材料",
     "categoryTalentBook": "天赋书",
-    "footerNote": "数据来自 genshin-db 和 Enka Network。LEIBO 与 miHoYo 无关。"
+    "footerNote": "数据来自 genshin-db 和 Enka Network。LEIBO 与 miHoYo 无关。",
+    "featuredCharacter": "精选角色",
+    "quickLinks": "快速链接",
+    "domains": "秘境",
+    "domainsDesc": "秘境日程和奖励",
+    "elements": "元素",
+    "elementsDesc": "元素系统和反应",
+    "artifacts": "圣遗物",
+    "artifactsDesc": "圣遗物套装和加成"
   },
   "ErrorPage": {
     "title": "出错了",
@@ -258,6 +267,7 @@
     "title": "管理仪表盘",
     "subtitle": "数据管道 + AI 代理",
     "refresh": "刷新",
+    "statsOverview": "状态概览",
     "enterAdminKeyHint": "在下方的“AI 代理控制”面板中输入管理员密钥，即可查看管道和审计日志数据。",
     "pipelineCrawl": "数据爬取",
     "pipelineSeed": "种子数据库",
