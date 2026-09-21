@@ -15,7 +15,7 @@
  *    `no-explicit-any` muốn chặn).
  */
 
-import type { Character, Weapon, Material, Domain, ArtifactSet } from "@prisma/client";
+import type { Character, Weapon, Material, Domain, ArtifactSet, Enemy, Achievement, Food, Geography } from "@prisma/client";
 import type { EntityType } from "./schemas";
 
 // Re-export để các file khác chỉ cần import từ 1 chỗ (types.ts) thay vì
@@ -29,13 +29,17 @@ export interface EntityRecordMap {
   material: Material;
   domain: Domain;
   artifact: ArtifactSet;
+  enemy: Enemy;
+  achievement: Achievement;
+  food: Food;
+  geography: Geography;
 }
 
 /** Type Prisma cụ thể ứng với 1 EntityType — dùng trong hàm generic. */
 export type EntityRecord<T extends EntityType> = EntityRecordMap[T];
 
 /** Hợp của toàn bộ record entity — dùng khi không cần biết cụ thể loại nào. */
-export type AnyEntityRecord = Character | Weapon | Material | Domain | ArtifactSet;
+export type AnyEntityRecord = Character | Weapon | Material | Domain | ArtifactSet | Enemy | Achievement | Food | Geography;
 
 /**
  * Dữ liệu 1 phần từ nguồn "live" (API ngoài) — LUÔN là Partial vì

@@ -1,90 +1,105 @@
 @import "tailwindcss";
 
 /* ==========================================================================
- * LEIBO — Design System 2026 (v2: "Codex")
+ * LEIBO — Design System 2026 (v3: "Immersive Minimalism")
  * --------------------------------------------------------------------------
- * Thesis: một cuốn bách khoa thần thoại (Teyvat) được trình bày như một
- * công cụ tra cứu hiện đại. Chất liệu thị giác lấy thẳng từ chủ đề: 7 màu
- * nguyên tố chính thức của game làm hệ màu tương tác — KHÔNG phải 1 accent
- * đơn sắc phủ khắp mọi thứ như bản trước.
- *
- * Nguyên tắc:
- * 1. Nền trung tính "codex" (giấy cổ số hoá), không đen phẳng, không be.
- * 2. Vàng (--rarity-5) CHỈ còn ý nghĩa phẩm cấp 5★ — không còn là màu
- *    "hover chung" của toàn site.
- * 3. Mỗi entity (nhân vật/vũ khí) phát sáng theo ĐÚNG màu nguyên tố của
- *    chính nó khi tương tác — ẩn dụ trực tiếp cơ chế "phản ứng nguyên tố".
- * 4. Signature: Vision Ring (conic-gradient 7 màu) — dùng ở đúng 3 nơi:
- *    logo, hero, loading state. Không lặp lại thêm.
+ * Principles:
+ * 1. Immersive Minimalism: Clean, focused, content-first design
+ * 2. Micro-interactions: Subtle, purposeful animations
+ * 3. Spatial Motion: Smooth, physics-based transitions
+ * 4. Ultimate Performance: Hardware-accelerated, minimal reflows
+ * 5. Adaptive Typography: Fluid, accessible, responsive
  * ========================================================================== */
 
 :root {
-  --bg-primary: #0c0c0e;
-  --bg-secondary: #131316;
-  --bg-card: #17171b;
-  --bg-elevated: #1e1e23;
-  --bg-input: #1a1a1e;
+  /* === Color System - Minimalist Palette === */
+  --bg-primary: #0a0a0c;
+  --bg-secondary: #111114;
+  --bg-card: #151519;
+  --bg-elevated: #1c1c21;
+  --bg-input: #18181c;
 
-  --text-primary: #f2efe9;
-  --text-secondary: #a3a09b;
-  --text-muted: #6f6c68;
-  --text-inverted: #0c0c0e;
+  --text-primary: #f5f2ec;
+  --text-secondary: #9e9b95;
+  --text-muted: #6a6763;
+  --text-inverted: #0a0a0c;
 
-  --border-color: #26262b;
-  --border-strong: #37373f;
+  --border-color: #222227;
+  --border-strong: #33333a;
 
-  --accent-500: #c9a05a;
-  --accent-bright: #f0c95e;
+  /* Element Colors - Subtle, game-accurate */
+  --el-pyro: #ff6b3d;
+  --el-hydro: #32b4e6;
+  --el-anemo: #5cd4bc;
+  --el-electro: #b075dd;
+  --el-dendro: #9dcf46;
+  --el-cryo: #8ce4ec;
+  --el-geo: #deb348;
 
-  --rarity-5: #f0c95e;
-  --rarity-4: #b18cd9;
-  --rarity-3: #7fa8c9;
+  /* Rarity Colors - Minimalist */
+  --rarity-5: #eac557;
+  --rarity-4: #a788d4;
+  --rarity-3: #7aa5c6;
 
-  --el-pyro: #ff7043;
-  --el-hydro: #35b8ea;
-  --el-anemo: #5fd6be;
-  --el-electro: #b17ae0;
-  --el-dendro: #a4d24a;
-  --el-cryo: #8fe6ee;
-  --el-geo: #e0b64c;
+  /* Typography - System fonts, excellent readability */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, monospace;
 
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 10px 28px -10px rgba(0, 0, 0, 0.55);
-  --radius-card: 10px;
+  /* Spacing - Consistent scale */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+
+  /* Border Radius - Minimalist */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* Shadows - Subtle, layered */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+
+  /* Transitions - Optimized */
+  --transition-fast: 150ms ease-out;
+  --transition-base: 250ms ease-out;
+  --transition-slow: 350ms ease-out;
 }
 
 [data-theme="light"] {
-  --bg-primary: #f7f4ee;
-  --bg-secondary: #fffdf9;
-  --bg-card: #fffdf9;
-  --bg-elevated: #f0ebe0;
-  --bg-input: #efe9dd;
+  --bg-primary: #faf8f2;
+  --bg-secondary: #fffef9;
+  --bg-card: #fffef9;
+  --bg-elevated: #f4efe4;
+  --bg-input: #f3ede3;
 
-  --text-primary: #17150f;
-  --text-secondary: #55503f;
-  --text-muted: #857f6d;
-  --text-inverted: #f7f4ee;
+  --text-primary: #161410;
+  --text-secondary: #524f3d;
+  --text-muted: #837f6d;
+  --text-inverted: #faf8f2;
 
-  --border-color: #e2d9c4;
-  --border-strong: #cabf9f;
+  --border-color: #e1d8c3;
+  --border-strong: #c9bfa3;
 
-  --accent-500: #a9793a;
-  --accent-bright: #8a5e26;
+  --el-pyro: #d94d1f;
+  --el-hydro: #1684ac;
+  --el-anemo: #21937e;
+  --el-electro: #764fb0;
+  --el-dendro: #6b9220;
+  --el-cryo: #2898a8;
+  --el-geo: #9c7120;
 
-  --rarity-5: #c98a1f;
-  --rarity-4: #8a5fb8;
-  --rarity-3: #3f7ea3;
+  --rarity-5: #c7881d;
+  --rarity-4: #885eb8;
+  --rarity-3: #3d7ea5;
 
-  --el-pyro: #d94f22;
-  --el-hydro: #1786b0;
-  --el-anemo: #24947e;
-  --el-electro: #7d4fb0;
-  --el-dendro: #6f9424;
-  --el-cryo: #2c9aa8;
-  --el-geo: #9c7422;
-
-  --shadow-sm: 0 1px 2px rgba(30, 22, 8, 0.07);
-  --shadow-md: 0 10px 26px -12px rgba(30, 22, 8, 0.16);
+  --shadow-sm: 0 1px 2px rgba(28, 20, 8, 0.06);
+  --shadow-md: 0 4px 12px rgba(28, 20, 8, 0.12);
+  --shadow-lg: 0 8px 24px rgba(28, 20, 8, 0.18);
 }
 
 @theme inline {
@@ -98,200 +113,218 @@
   --color-text-inverted: var(--text-inverted);
   --color-border: var(--border-color);
   --color-border-strong: var(--border-strong);
-  --color-accent: var(--accent-500);
-  --color-accent-bright: var(--accent-bright);
   --color-rarity-5: var(--rarity-5);
   --color-rarity-4: var(--rarity-4);
   --color-rarity-3: var(--rarity-3);
-
-  /* Alias tương thích ngược — CHỈ để các trang chưa migrate sang token mới
-     (vd /elements, /domains, ThemeToggle, ReactionTabs, khu /admin tại thời
-     điểm viết dòng này) không bị mất màu hoàn toàn khi globals.css này thay
-     thế bản cũ. Trỏ thẳng về token v2, không phải giá trị hardcode riêng.
-     XOÁ 2 dòng dưới sau khi toàn bộ trang còn lại đã chuyển sang dùng
-     text-accent/text-accent-bright/rarityColorVar. */
-  --color-gold: var(--accent-500);
-  --color-gold-bright: var(--accent-bright);
+  /* Token "gold" đã được dùng ~120 chỗ (text-gold-bright, bg-gold/10, border-gold/50...)
+   * nhưng trước đây chưa được định nghĩa ở đâu → các class đó không có tác dụng. */
+  --color-gold: var(--rarity-5);
+  --color-gold-bright: var(--rarity-5);
 }
 
-* { transition: background-color 0.2s ease, border-color 0.2s ease, color 0.15s ease; }
+/* NOTE: Đã xoá reset `* { margin: 0; padding: 0; box-sizing: border-box }`.
+ * Tailwind v4 Preflight đã reset sẵn; đặt reset không nằm trong @layer sẽ đè
+ * toàn bộ utility p-*, m-*, mx-auto, space-*... (unlayered CSS thắng layered CSS). */
 
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
   line-height: 1.6;
+  font-family: var(--font-sans);
   font-feature-settings: "kern" 1, "liga" 1;
-}
-.font-body { font-family: var(--font-body), "Be Vietnam Pro", sans-serif; }
-.font-display { font-family: var(--font-display), "Spectral", Georgia, serif; font-optical-sizing: auto; }
-.tabular-nums { font-variant-numeric: tabular-nums; }
-
-/* ===== Type scale — "cổ thư" (serif display lớn, tracking âm nhẹ) ===== */
-.text-display-1 { font-size: clamp(3rem, 7vw, 6.5rem); line-height: 0.98; letter-spacing: -0.015em; }
-.text-display-2 { font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.12; letter-spacing: -0.005em; }
-.text-display-3 { font-size: clamp(1.15rem, 1.6vw, 1.5rem); line-height: 1.25; }
-.text-eyebrow { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
-
-/* ===== Vision Ring — chữ ký thị giác duy nhất, dùng ĐÚNG 3 nơi ===== */
-.vision-ring {
-  background: conic-gradient(
-    from 0deg,
-    var(--el-pyro), var(--el-geo), var(--el-electro),
-    var(--el-dendro), var(--el-anemo), var(--el-cryo),
-    var(--el-hydro), var(--el-pyro)
-  );
-}
-.vision-ring-mask {
-  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2.5px));
-  mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2.5px));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-/* ===== Surfaces ===== */
+/* === Adaptive Typography - Fluid, Accessible === */
+:root {
+  --fluid-text-xl: clamp(1.5rem, 3vw, 2.5rem);
+  --fluid-text-lg: clamp(1.25rem, 2.5vw, 1.75rem);
+  --fluid-text-base: clamp(1rem, 1.5vw, 1.125rem);
+  --fluid-text-sm: clamp(0.875rem, 1vw, 1rem);
+  --fluid-text-xs: clamp(0.75rem, 0.875vw, 0.875rem);
+}
+
+.text-fluid-xl { font-size: var(--fluid-text-xl); line-height: 1.2; font-weight: 600; }
+.text-fluid-lg { font-size: var(--fluid-text-lg); line-height: 1.3; font-weight: 500; }
+.text-fluid-base { font-size: var(--fluid-text-base); line-height: 1.5; }
+.text-fluid-sm { font-size: var(--fluid-text-sm); line-height: 1.6; }
+.text-fluid-xs { font-size: var(--fluid-text-xs); line-height: 1.4; letter-spacing: 0.05em; text-transform: uppercase; }
+
+/* === Micro-interactions - Subtle, Purposeful === */
+.interactive {
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+  cursor: pointer;
+}
+
+.interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.interactive:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+/* === Spatial Motion - Smooth, Physics-based === */
+.motion-enter {
+  animation: motion-slide-up var(--transition-base) cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes motion-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.motion-scale {
+  animation: motion-scale-in var(--transition-base) cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes motion-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* === Surfaces - Clean, Minimalist === */
 .surface-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-card);
+  border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-}
-.surface-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--border-strong); }
-
-.surface-glass {
-  background: color-mix(in srgb, var(--bg-primary) 80%, transparent);
-  backdrop-filter: blur(14px) saturate(1.1);
-  -webkit-backdrop-filter: blur(14px) saturate(1.1);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
 }
 
-/* Alias tương thích ngược — /domains, /domains/[id], /elements,
-   ReactionTabs.tsx chưa migrate vẫn dùng class .relic-frame trực tiếp.
-   XOÁ sau khi các trang đó chuyển sang .surface-card. */
-.relic-frame {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-}
-.relic-frame:hover {
+.surface-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
   border-color: var(--border-strong);
 }
 
-/* ===== Rarity — ribbon góc nhỏ, chỉ vàng dành riêng cho 5★ ===== */
-/* border-width co giãn theo clamp() thay vì cố định 30px — với lưới
-   compact mới (card ~110-140px thay vì 213px), 30px cố định sẽ chiếm tới
-   ~25% bề rộng card và che mất icon. */
-.rarity-ribbon { position: absolute; top: 0; right: 0; width: 0; height: 0; border-style: solid; border-width: 0 clamp(14px, 16%, 30px) clamp(14px, 16%, 30px) 0; pointer-events: none; }
-.rarity-ribbon-5 { border-color: transparent var(--rarity-5) transparent transparent; }
-.rarity-ribbon-4 { border-color: transparent var(--rarity-4) transparent transparent; }
-.rarity-ribbon-3 { border-color: transparent var(--rarity-3) transparent transparent; }
-.rarity-dot { width: 6px; height: 6px; border-radius: 999px; display: inline-block; }
-.rarity-dot-5 { background: var(--rarity-5); box-shadow: 0 0 6px color-mix(in srgb, var(--rarity-5) 60%, transparent); }
-.rarity-dot-4 { background: var(--rarity-4); }
-.rarity-dot-3 { background: var(--rarity-3); }
-
-/* ===== Entity glow theo nguyên tố — ẩn dụ "phản ứng" khi chạm vào card =====
-   --el custom property được set INLINE bởi component theo vision riêng của
-   từng nhân vật/vũ khí — đây là lý do site không còn 1 màu hover duy nhất. */
-.entity-elemental {
-  --el: var(--accent-500);
-  transition: transform 0.2s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+.surface-elevated {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
 }
-.entity-elemental:hover {
-  box-shadow: 0 10px 32px -12px color-mix(in srgb, var(--el) 55%, transparent);
-  border-color: color-mix(in srgb, var(--el) 45%, var(--border-strong));
-}
-.entity-elemental:hover .entity-elemental-bar { background: var(--el); }
-.entity-elemental-bar { height: 2px; background: var(--border-color); transition: background 0.25s ease; }
 
-/* ===== Form controls ===== */
-input, button, select { background: var(--bg-input); border-color: var(--border-color); color: var(--text-primary); }
-input::placeholder { color: var(--text-muted); }
-button:hover { border-color: var(--border-strong); }
+/* === Typography Accessible === */
+@layer base {
+  a {
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
 
-.btn-accent { background: var(--accent-500); color: var(--text-inverted); font-weight: 600; transition: background-color 0.2s, transform 0.2s; }
-.btn-accent:hover { background: var(--accent-bright); transform: translateY(-1px); }
-
-.chip { border: 1px solid var(--border-color); background: var(--bg-elevated); color: var(--text-secondary); transition: all 0.15s ease; }
-.chip:hover { border-color: var(--border-strong); color: var(--text-primary); }
-.chip[aria-pressed="true"] { border-color: var(--accent-500); background: color-mix(in srgb, var(--accent-500) 14%, transparent); color: var(--accent-bright); font-weight: 600; }
-
-.divider-hairline { height: 1px; background: var(--border-color); }
-
-a { color: var(--text-primary); transition: color 0.15s; }
-a:hover { color: var(--accent-bright); }
-
-table { border-collapse: collapse; width: 100%; }
-th, td { border-color: var(--border-color); padding: 0.75rem 1rem; text-align: left; }
-th { background: var(--bg-elevated); color: var(--text-secondary); font-weight: 600; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.06em; }
-tr { border-bottom: 1px solid var(--border-color); }
-tr:nth-child(even) { background: color-mix(in srgb, var(--bg-elevated) 50%, transparent); }
-
-.skill-icon-frame { background: radial-gradient(circle, #26262c 0%, #16161a 100%); border-color: color-mix(in srgb, var(--accent-500) 35%, transparent); }
-
-/* ===== Animations ===== */
-@keyframes letter-in { from { opacity: 0; transform: translateY(0.35em); } to { opacity: 1; transform: translateY(0); } }
-.animate-letter-in { animation: letter-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-@keyframes fade-in-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.animate-fade-in-up { opacity: 0; animation: fade-in-up 0.6s ease-out forwards; }
-@keyframes reveal-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-.reveal-hidden { opacity: 0; }
-.reveal-visible { animation: reveal-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-@keyframes ring-spin { to { transform: rotate(360deg); } }
-.animate-ring-spin { animation: ring-spin 8s linear infinite; }
-
-@media (prefers-reduced-motion: reduce) {
-  .animate-letter-in, .animate-fade-in-up, .reveal-hidden, .reveal-visible, .animate-ring-spin {
-    animation: none !important; opacity: 1 !important; transform: none !important;
+  a:hover {
+    color: var(--rarity-5);
   }
 }
 
-.tilt-card {
-  --tilt-x: 0deg; --tilt-y: 0deg; --shine-x: 50%; --shine-y: 50%;
-  transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
-  transition: transform 0.15s ease-out;
-  position: relative;
-  will-change: transform;
-  border-radius: var(--radius-card);
-}
-.tilt-card::before {
-  content: ""; position: absolute; inset: 0; border-radius: inherit;
-  background: radial-gradient(220px circle at var(--shine-x) var(--shine-y), color-mix(in srgb, var(--el, var(--accent-bright)) 16%, transparent), transparent 60%);
-  opacity: 0; transition: opacity 0.25s ease; pointer-events: none; z-index: 1;
-}
-.tilt-card:hover::before { opacity: 1; }
-.tilt-card:focus-visible {
-  outline: 2px solid var(--accent-bright);
-  outline-offset: 4px;
-}
-@media (prefers-reduced-motion: reduce) { 
-  .tilt-card { transform: none !important; transition: none !important; } 
-  .tilt-card::before { display: none; } 
+/* === Form Controls - Minimalist === */
+@layer base {
+  input, button, select {
+    background: var(--bg-input);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: var(--radius-sm);
+    padding: var(--space-sm) var(--space-md);
+    font-family: inherit;
+    font-size: var(--fluid-text-base);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  input:focus, button:focus, select:focus {
+    outline: none;
+    border-color: var(--rarity-5);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--rarity-5) 20%, transparent);
+  }
+
+  input::placeholder {
+    color: var(--text-muted);
+  }
 }
 
-.bg-grain { position: relative; }
-.bg-grain::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0; opacity: 0.3;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
-  mix-blend-mode: overlay;
+/* === Buttons - Minimalist === */
+.btn-primary {
+  background: var(--rarity-5);
+  color: var(--text-inverted);
+  font-weight: 600;
+  border: none;
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast), transform var(--transition-fast);
 }
 
-/* ===== Bổ sung 2026: a11y focus ring + cuộn mượt =====
- * Trước đây không có style riêng cho :focus-visible — điều hướng bàn
- * phím qua card/link không có phản hồi thị giác rõ ràng. */
+.btn-primary:hover {
+  background: color-mix(in srgb, var(--rarity-5) 90%, #000);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  font-weight: 500;
+  border: 1px solid var(--border-color);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-card);
+  border-color: var(--border-strong);
+}
+
+/* === Accessibility - Focus Management === */
 :focus-visible {
-  outline: 2px solid var(--accent-bright);
+  outline: 2px solid var(--rarity-5);
   outline-offset: 2px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
 }
 
-html { scroll-behavior: smooth; }
+/* === Performance - Reduced Motion === */
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
-/* ===== Screen reader only (accessibility) ===== */
+/* === Utility Classes === */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+.grid-responsive {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-md);
+}
+
+/* === Screen Reader Only === */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -303,13 +336,93 @@ html { scroll-behavior: smooth; }
   white-space: nowrap;
   border-width: 0;
 }
-.focus\:not-sr-only:focus {
-  position: static;
-  width: auto;
-  height: auto;
-  padding: inherit;
-  margin: inherit;
-  overflow: visible;
-  clip: auto;
-  white-space: normal;
+
+/* === Element-specific styles for compatibility === */
+.entity-elemental {
+  --el: var(--rarity-5);
+  transition: transform var(--transition-fast), box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+.entity-elemental:hover {
+  box-shadow: 0 0 20px color-mix(in srgb, var(--el) 40%, transparent);
+  border-color: color-mix(in srgb, var(--el) 50%, var(--border-strong));
+}
+
+/* === Rarity Stars - Minimalist === */
+.rarity-star {
+  color: var(--rarity-5);
+  font-size: 12px;
+  line-height: 1;
+}
+
+.rarity-star-4 { color: var(--rarity-4); }
+.rarity-star-3 { color: var(--rarity-3); }
+
+/* === Micro-interactions - Hover States === */
+.hover-lift {
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.hover-glow {
+  transition: box-shadow var(--transition-base);
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px color-mix(in srgb, var(--rarity-5) 30%, transparent);
+}
+
+/* === Spatial Motion - Staggered Animations === */
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+.stagger-5 { animation-delay: 0.25s; }
+
+/* === Responsive Grid === */
+@media (max-width: 640px) {
+  .grid-responsive {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .grid-responsive {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* === Smooth Scrolling === */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* === Accessibility - High Contrast Mode === */
+@media (prefers-contrast: more) {
+  :root {
+    --border-color: #444;
+    --border-strong: #666;
+  }
+}
+
+/* === Print Styles === */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+  
+  .no-print {
+    display: none;
+  }
 }

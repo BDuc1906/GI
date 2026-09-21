@@ -1,4 +1,3 @@
-
 "use client";
 
 /**
@@ -112,6 +111,37 @@ export function GlossaryProvider({ children }: { children: React.ReactNode }) {
               </button>
             </div>
             <p className="text-sm text-text-muted leading-relaxed whitespace-pre-line">{term.detail}</p>
+
+            {/* Công thức tính sát thương — thêm 2026-09, vì trước đây
+                popup chi tiết chỉ lặp lại đúng đoạn mô tả đã thấy ở nơi
+                khác trên trang, bấm vào xong không có thêm thông tin gì.
+                Số liệu lấy từ DAMAGE_FORMULAS/TRANSFORMATIVE_BASE_COEFFICIENT
+                (tra cứu KeQingMains + Wiki), kèm link nguồn công khai. */}
+            {term.formula && (
+              <div className="mt-3 rounded-lg border border-border/60 bg-bg-elevated px-3 py-2.5">
+                <p className="break-words font-mono text-xs leading-relaxed text-gold-bright">
+                  {term.formula.formulaLatex}
+                </p>
+                {term.formula.coefficient !== undefined && (
+                  <p className="mt-1.5 text-xs text-text-secondary">
+                    Base coefficient{" "}
+                    <span className="font-semibold text-gold-bright">
+                      {term.formula.coefficient.toFixed(2)}×
+                    </span>
+                  </p>
+                )}
+                <p className="mt-1.5 text-xs leading-relaxed text-text-muted">{term.formula.explanation}</p>
+                <a
+                  href={term.formula.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-1.5 inline-block text-[11px] text-text-muted underline decoration-dotted underline-offset-2 hover:text-gold-bright"
+                >
+                  Source: {term.formula.sourceUrl.replace(/^https?:\/\//, "")}
+                </a>
+              </div>
+            )}
+
             {term.requiresCharacters && (
               <p className="text-xs text-text-muted mt-3 pt-3 border-t border-border">
                 <span className="font-medium text-[color:var(--text)]">{t("relatedCharacters")} </span>

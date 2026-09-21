@@ -258,6 +258,7 @@
     "title": "管理儀表板",
     "subtitle": "資料管線 + AI 代理",
     "refresh": "刷新",
+    "statsOverview": "狀態概覽",
     "enterAdminKeyHint": "在下方的「AI Agent Control」面板輸入管理金鑰，即可查看管線與審計日誌資料。",
     "pipelineCrawl": "資料爬蟲",
     "pipelineSeed": "種子資料庫",

@@ -258,6 +258,7 @@
     "title": "แดชบอร์ดผู้ดูแลระบบ",
     "subtitle": "Data Pipeline + AI Agent",
     "refresh": "รีเฟรช",
+    "statsOverview": "ภาพรวมสถานะ",
     "enterAdminKeyHint": "ป้อนคีย์ผู้ดูแลระบบในแผง \"AI Agent Control\" ด้านล่างเพื่อดูข้อมูลกระบวนการและบันทึกการตรวจสอบ",
     "pipelineCrawl": "การรวบรวมข้อมูล",
     "pipelineSeed": "ฐานข้อมูลเมล็ดพันธุ์",

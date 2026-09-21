@@ -1,51 +1,22 @@
-
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
-import { Link } from "@/i18n/navigation";
 import { prisma } from "../../lib/db/prisma";
-import { ElementIcon } from "../../components/character/ElementIcon";
-import { HomeHero } from "../../components/layout/HomeHero";
-import { ScrollReveal } from "../../components/ui/ScrollReveal";
+import { WikiHero } from "../../components/layout/WikiHero";
+import { QuickNavigation } from "../../components/layout/QuickNavigation";
+import { WikiToolsHub } from "../../components/layout/WikiToolsHub";
+import { VersionHub } from "../../components/layout/VersionHub";
+import { ServerTimers } from "../../components/layout/ServerTimers";
+import { BeginnerGuides } from "../../components/layout/BeginnerGuides";
+import { ExtendedDatabase } from "../../components/layout/ExtendedDatabase";
+import { CommunitySection } from "../../components/layout/CommunitySection";
+import { PatchTimeline } from "../../components/layout/PatchTimeline";
+import { ElementThemeToggle } from "../../components/layout/ElementThemeToggle";
 import { EntityCard } from "../../components/ui/EntityCard";
-import { elementColorVar } from "../../lib/ui/theme";
-import { genshinServerWeekdayIndex } from "../../lib/game/genshin-server-time";
 import { withDbRetry } from "@/lib/db/db-retry";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 
-// CHẨN ĐOÁN 2026-08: đã bỏ `export const dynamic = "force-dynamic"` —
-// đây là trang DUY NHẤT trong toàn site ép force-dynamic (mọi trang khác
-// đều để Next.js tự quyết định render động/tĩnh), không có comment giải
-// thích lý do tồn tại, và mâu thuẫn với `revalidate = 60` ngay bên dưới
-// (force-dynamic tắt hẳn cache nên revalidate=60 trước giờ vô tác dụng).
-// Nghi vấn: kết hợp force-dynamic + không có <Suspense> bọc phần nội dung
-// động khớp với tính năng "Instant Navigation" mới ở Next.js 16.3 (route
-// "block" khi không có Suspense boundary) — nếu đây đúng là nguyên nhân
-// crash "NextIntlClientProvider context not found" chỉ xảy ra ở production,
-// bỏ force-dynamic sẽ hết lỗi. Nếu build lỗi/crash quay lại, cần thêm lại
-// dòng dynamic = "force-dynamic" NHƯNG bọc phần nội dung động trong
-// <Suspense> thay vì để nguyên như cũ.
 export const revalidate = 60;
 
-const WEEKDAY_KEYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-function SectionHeader({ title, href, viewAllLabel }: { title: string; href: string; viewAllLabel: string }) {
-  return (
-    <div className="flex items-center justify-between mb-6">
-      <h2 className="font-display text-display-2 font-semibold text-text-primary">{title}</h2>
-      <Link href={href} className="text-sm text-text-secondary hover:text-accent-bright transition-colors flex items-center gap-1">
-        {viewAllLabel} <span aria-hidden>→</span>
-      </Link>
-    </div>
-  );
-}
-
-// SỬA (2026-09): trước đây dùng `PageProps<"/[locale]">` — type này do
-// Next.js TỰ SINH vào `.next/types/` sau khi `next build`/`next dev` chạy
-// ít nhất 1 lần, KHÔNG tồn tại nếu chỉ chạy `tsc --noEmit` độc lập (đúng
-// tình huống job `lint-and-typecheck` trong CI: typecheck chạy TRƯỚC job
-// build riêng, `.next/types` chưa từng được sinh ra). Đổi sang khai type
-// cục bộ tường minh — đúng quy ước mọi page.tsx khác trong dự án đang
-// dùng, và không phụ thuộc vào việc build trước.
 interface HomePageProps {
   params: Promise<{ locale: string }>;
 }
@@ -56,160 +27,113 @@ export default async function Home({ params }: HomePageProps) {
   const t = await getTranslations({ locale, namespace: "Home" });
   const tWeaponType = await getTranslations({ locale, namespace: "WeaponType" });
 
-  const CATEGORY_LABEL: Record<string, string> = {
-    artifact: t("categoryArtifact"),
-    weapon: t("categoryWeaponMaterial"),
-    talent: t("categoryTalentBook"),
-  };
-
-  // BUG ĐÃ SỬA: trước đây 5 lời gọi Prisma này chạy tách rời (3 cái đầu
-  // Promise.all, 2 cái sau await tuần tự) — KHÔNG có retry, nên chỉ cần
-  // 1 trong 5 request trúng đúng lúc Neon free tier vừa suspend compute
-  // xong là cả trang chủ crash với PrismaClientKnownRequestError
-  // "Server has closed the connection" (P1017). sitemap.ts đã có sẵn
-  // `withDbRetry` xử lý đúng vấn đề này — gộp cả 5 query vào 1
-  // Promise.all rồi bọc withDbRetry, theo đúng khuôn mẫu đó.
-  const todayKey = WEEKDAY_KEYS[genshinServerWeekdayIndex()];
-
-  const [charCount, weaponCount, artifactCount, latestCharacters, latestWeapons, domainsToday] = await withDbRetry(() =>
+  // Fetch data tối giản
+  const [charCount, featuredCharacter, trendingCharacters] = await withDbRetry(() =>
     Promise.all([
       prisma.character.count(),
-      prisma.weapon.count(),
-      prisma.artifactSet.count(),
+      prisma.character.findFirst({
+        orderBy: { rarity: 'desc' },
+        select: { id: true, name: true, nameTranslations: true, vision: true, weaponType: true, rarity: true, iconUrl: true },
+      }),
       prisma.character.findMany({
-        // 9 item = 1 tile 2x2 (4 đơn vị) + 8 tile đơn (8 đơn vị) = 12 đơn vị
-        // diện tích, chia hết cho mọi mốc cột đang dùng (2/3/4/6) → lưới bento
-        // luôn kín khít, không hở ô ở bất kỳ kích thước màn hình nào.
-        take: 9,
-        orderBy: { updatedAt: "desc" },
-        select: { id: true, name: true, nameTranslations: true, vision: true, weaponType: true, rarity: true, iconUrl: true, elementIcon: true },
-      }),
-      prisma.weapon.findMany({
         take: 6,
-        orderBy: { updatedAt: "desc" },
-        select: { id: true, name: true, nameTranslations: true, type: true, rarity: true, iconUrl: true },
-      }),
-      // Bí cảnh mở hôm nay — cùng logic "giờ server + mốc đổi ngày 4h sáng"
-      // với trang /domains, để banner trang chủ và trang lịch bí cảnh luôn
-      // khớp nhau (không phải dữ liệu trang trí, đúng danh sách hôm nay mở).
-      prisma.domain.findMany({
-        where: { OR: [{ daysOfWeek: { isEmpty: true } }, { daysOfWeek: { has: todayKey } }] },
-        orderBy: { category: "asc" },
-        select: { id: true, name: true, nameTranslations: true, category: true },
-        take: 6,
+        orderBy: { updatedAt: 'desc' },
+        select: { id: true, name: true, nameTranslations: true, vision: true, weaponType: true, rarity: true, iconUrl: true },
       }),
     ])
   );
 
-  const stats = [
-    { label: t("statCharacters"), count: charCount },
-    { label: t("statWeapons"), count: weaponCount },
-    { label: t("statArtifacts"), count: artifactCount },
-  ];
-
   return (
-    <div className="relative min-h-screen">
-      {/* CHẨN ĐOÁN 2026-08: bọc Suspense quanh HomeHero — nghi vấn race
-          condition khi streaming SSR, HomeHero (không phụ thuộc dữ liệu
-          async, render đồng bộ, không có Suspense boundary nào phía trên
-          ngoài chính NextIntlClientProvider) có thể được client hydrate
-          trước khi payload messages của NextIntlClientProvider truyền
-          xong, gây mất context đúng lúc hydrate. */}
+    <div className="min-h-screen bg-bg-primary">
+      <ElementThemeToggle />
       <Suspense fallback={null}>
-        <HomeHero stats={stats} />
+        <WikiHero />
       </Suspense>
 
-      <ScrollReveal>
-        <section className="mb-10 mt-4">
-          <SectionHeader title={t("latestCharacters")} href="/characters" viewAllLabel={t("viewAll")} />
-          {/* Bố cục bento: nhân vật mới nhất chiếm ô 2x2 nổi bật, 5 nhân vật
-              còn lại xếp icon nhỏ xung quanh — thay cho lưới đều tăm tắp
-              trước đây, tạo phân cấp thị giác ngay từ ô đầu tiên. */}
-          {/* grid-flow-row-dense: an toàn dự phòng nếu sau này đổi "take"
-              mà quên tính lại chia hết cho các mốc cột. Card KHÔNG bọc
-              thêm <div> — EntityCard tự nhận wrapperClassName để chính
-              nó là grid item, "h-full" mới stretch đúng theo track (xem
-              comment trong EntityCard.tsx). */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 grid-flow-row-dense">
-            {latestCharacters.map((c, index) => (
-              <EntityCard
-                key={c.id}
-                href={`/characters/${c.id}`}
-                name={getLocalizedName(c, locale)}
-                subtitle={tWeaponType(c.weaponType as "Sword" | "Claymore" | "Polearm" | "Bow" | "Catalyst")}
-                rarity={c.rarity}
-                imageSrc={c.iconUrl}
-                imageFit="contain"
-                priority={index < 6}
-                elementColor={elementColorVar(c.vision)}
-                cornerBadge={<ElementIcon vision={c.vision} iconUrl={c.elementIcon} size={index === 0 ? 20 : 16} />}
-                wrapperClassName={index === 0 ? "col-span-2 row-span-2" : undefined}
-                imageGrow={index === 0}
-                // Tile 2x2 to gấp ~3 lần card thường — sizes mặc định (thiết
-                // kế cho ~130px) sẽ khiến Next/Image chọn nhầm ảnh độ phân
-                // giải thấp rồi CSS phóng to, gây mờ/vỡ hạt như ảnh chụp bạn
-                // gửi. Khớp gần đúng theo % chiều rộng khung 2 cột thật.
-                sizes={
-                  index === 0
-                    ? "(max-width: 640px) 100vw, (max-width: 768px) 66vw, (max-width: 1024px) 50vw, 420px"
-                    : undefined
-                }
-              />
-            ))}
+      {/* Server Timers */}
+      <ServerTimers />
+
+      {/* Quick Navigation Categories */}
+      <QuickNavigation />
+
+      {/* Wiki Tools Hub */}
+      <WikiToolsHub />
+
+      {/* Version Hub & Banners */}
+      <VersionHub />
+
+      {/* Beginner Guides */}
+      <BeginnerGuides />
+
+      {/* Extended Database */}
+      <ExtendedDatabase />
+
+      {/* Community Section */}
+      <CommunitySection />
+
+      {/* Featured Character */}
+      {featuredCharacter && (
+        <section className="max-w-7xl mx-auto px-4 md:px-8 py-12">
+          <div className="text-center mb-8">
+            <h2 className="font-display text-2xl font-bold text-text-primary mb-2">
+              ⭐ Nhân vật nổi bật
+            </h2>
+            <p className="text-text-secondary">Character với độ hiếm cao nhất</p>
+          </div>
+          <div className="max-w-md mx-auto">
+            <EntityCard
+              href={`/characters/${featuredCharacter.id}`}
+              name={getLocalizedName(featuredCharacter, locale)}
+              subtitle={tWeaponType(featuredCharacter.weaponType as "Sword" | "Claymore" | "Polearm" | "Bow" | "Catalyst")}
+              rarity={featuredCharacter.rarity}
+              imageSrc={featuredCharacter.iconUrl}
+              imageFit="contain"
+              element={featuredCharacter.vision}
+              frameStyle="premium"
+              backgroundType="elemental-gradient"
+              imageGrow={true}
+              sizes="(max-width: 768px) 100vw, 400px"
+            />
           </div>
         </section>
-      </ScrollReveal>
-
-      {domainsToday.length > 0 && (
-        <ScrollReveal delay={80}>
-          <section className="mb-10">
-            <div className="surface-glass border border-border rounded-xl px-5 py-4 flex flex-wrap items-center gap-x-6 gap-y-3">
-              <div className="flex items-center gap-2 shrink-0">
-                <span className="w-2 h-2 rounded-full bg-accent-bright" aria-hidden />
-                <span className="text-eyebrow text-accent-bright">{t("domainsToday")}</span>
-              </div>
-              <div className="flex flex-wrap gap-x-5 gap-y-1.5 flex-1 min-w-0">
-                {domainsToday.map((d) => (
-                  <Link
-                    key={d.id}
-                    href={`/domains/${d.id}`}
-                    className="text-sm text-text-secondary hover:text-text-primary transition-colors flex items-center gap-1.5"
-                  >
-                    <span className="text-[10px] text-text-muted uppercase tracking-wide">
-                      {CATEGORY_LABEL[d.category] ?? d.category}
-                    </span>
-                    {getLocalizedName(d, locale)}
-                  </Link>
-                ))}
-              </div>
-              <Link href="/domains" className="text-xs text-text-muted hover:text-text-primary transition-colors shrink-0 underline underline-offset-2">
-                {t("viewFullSchedule")} →
-              </Link>
-            </div>
-          </section>
-        </ScrollReveal>
       )}
 
-      <ScrollReveal delay={140}>
-        <section>
-          <SectionHeader title={t("latestWeapons")} href="/weapons" viewAllLabel={t("viewAll")} />
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-            {latestWeapons.map((w) => (
-              <EntityCard
-                key={w.id}
-                href={`/weapons/${w.id}`}
-                name={getLocalizedName(w, locale)}
-                subtitle={tWeaponType(w.type as "Sword" | "Claymore" | "Polearm" | "Bow" | "Catalyst")}
-                rarity={w.rarity}
-                imageSrc={w.iconUrl}
-                imageFit="contain"
-              />
-            ))}
+      {/* Trending Characters */}
+      <section className="max-w-7xl mx-auto px-4 md:px-8 py-12">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h2 className="font-display text-2xl font-bold text-text-primary mb-2">
+              Nhân vật mới cập nhật
+            </h2>
+            <p className="text-text-secondary">Cập nhật gần đây</p>
           </div>
-        </section>
-      </ScrollReveal>
+          <div className="flex items-center gap-4 text-sm text-text-muted">
+            <span>Tổng: {charCount} nhân vật</span>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          {trendingCharacters.map((c) => (
+            <EntityCard
+              key={c.id}
+              href={`/characters/${c.id}`}
+              name={getLocalizedName(c, locale)}
+              subtitle={tWeaponType(c.weaponType as "Sword" | "Claymore" | "Polearm" | "Bow" | "Catalyst")}
+              rarity={c.rarity}
+              imageSrc={c.iconUrl}
+              imageFit="contain"
+              element={c.vision}
+              frameStyle="simple"
+              backgroundType="solid"
+            />
+          ))}
+        </div>
+      </section>
 
-      <footer className="mt-20 pt-8 border-t border-border text-center text-xs text-text-muted">
+      {/* Patch Timeline */}
+      <PatchTimeline />
+
+      {/* Footer */}
+      <footer className="max-w-7xl mx-auto px-4 md:px-8 py-12 border-t border-border text-center text-sm text-text-muted">
         <p>{t("footerNote")}</p>
       </footer>
     </div>

@@ -45,6 +45,9 @@ const HOTLINK_REMOTE_PATTERNS: RemotePattern[] = [
   // trên mọi trang render icon kỹ năng/cung mệnh (vd trang chi tiết nhân
   // vật, /characters).
   { protocol: "https", hostname: "gi.yatta.moe" },
+  // Genshin-db images (genshin.jmp.blue)
+  { protocol: "https", hostname: "genshin.jmp.blue" },
+  { protocol: "https", hostname: "api.genshin.dev" },
 ];
 
 /**

@@ -13,7 +13,7 @@ import { CommandPalette } from "@/components/search/CommandPalette";
 import { GlossaryProvider } from "@/components/glossary/GlossaryProvider";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
-import { spectral, beVietnamPro } from "@/lib/ui/fonts";
+import { inter } from "@/lib/ui/fonts";
 
 // Cùng biến/fallback với sitemap.ts và robots.ts — một nguồn duy nhất cho
 // domain thật, tránh lệch nhau giữa các file.
@@ -137,7 +137,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning data-scroll-behavior="smooth">
-      <body className={`${spectral.variable} ${beVietnamPro.variable} font-body`} suppressHydrationWarning>
+      <body className={`${inter.variable} font-body`} suppressHydrationWarning>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_JSON_LD) }}

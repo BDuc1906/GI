@@ -258,6 +258,7 @@
     "title": "管理ダッシュボード",
     "subtitle": "データパイプライン+AIエージェント",
     "refresh": "リフレッシュ",
+    "statsOverview": "ステータス概要",
     "enterAdminKeyHint": "下の「AIエージェントコントロール」パネルから管理者キーを入力して、パイプラインおよび監査ログのデータをご覧ください。",
     "pipelineCrawl": "データクロール",
     "pipelineSeed": "種子データベース",

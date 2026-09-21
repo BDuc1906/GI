@@ -258,6 +258,7 @@
     "title": "Панель управления админом",
     "subtitle": "Data Pipeline + AI Agent",
     "refresh": "Обновление",
+    "statsOverview": "Обзор состояния",
     "enterAdminKeyHint": "Введите ключ администратора в панель «AI Agent Control» ниже, чтобы просмотреть данные конвейера и аудита журналов.",
     "pipelineCrawl": "Сканирование данных",
     "pipelineSeed": "База данных посевных данных",

@@ -258,6 +258,7 @@
     "title": "Admin Dashboard",
     "subtitle": "Veri Boru Hattı + Yapay Zeka Ajanı",
     "refresh": "Yenileme",
+    "statsOverview": "Durum Özeti",
     "enterAdminKeyHint": "Aşağıdaki \"AI Agent Control\" paneline Admin Anahtarını girerek pipeline ve denetim günlüğü verilerini görebilirsiniz.",
     "pipelineCrawl": "Veri taraması",
     "pipelineSeed": "Tohum veritabanı",

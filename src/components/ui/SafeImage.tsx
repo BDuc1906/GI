@@ -79,22 +79,23 @@ export function SafeImage({
   // đã tự re-render đúng, không cần đếm số lần thử để làm gì khác).
   const [broken, setBroken] = useState(false);
 
-  useEffect(() => {
-    const nextCandidates = [
-      ...(typeof srcProp === "string" ? [srcProp] : []),
-      ...(fallbackSrc ? [fallbackSrc] : []),
-      ...(fallbackSrcs ?? []),
-    ]
-      .filter((u): u is string => typeof u === "string" && !!u)
-      .map(toProxiedUrl);
+  // SỬA: trước đây effect phụ thuộc thẳng vào `fallbackSrcs` (mảng). Cha nào
+  // truyền mảng MỚI mỗi lần render (vd. ServerTimersClient render lại mỗi giây
+  // vì đồng hồ) thì effect chạy lại, reset `src` về ứng viên đầu tiên → ảnh đã
+  // chuyển sang URL dự phòng lại bị kéo về URL lỗi, nháy liên tục. Dùng khoá
+  // chuỗi (nội dung danh sách) thay vì tham chiếu mảng: chỉ reset khi danh
+  // sách URL THỰC SỰ đổi.
+  const candidatesKey = candidates.join("\n");
 
+  useEffect(() => {
+    const list = candidatesKey ? candidatesKey.split("\n") : [];
     // Effect này CHÍNH LÀ để đồng bộ state nội bộ (src/broken) với props
     // từ bên ngoài mỗi khi props đổi (đúng định nghĩa "sync với external
     // input"), không phải side-effect thừa.
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setSrc(nextCandidates[0] ?? undefined);
+    setSrc(list[0] ?? undefined);
     setBroken(false);
-  }, [srcProp, fallbackSrc, fallbackSrcs]);
+  }, [candidatesKey]);
 
   const handleError = () => {
     const currentIndex = candidates.findIndex((candidate) => candidate === src);

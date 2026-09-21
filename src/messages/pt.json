@@ -258,6 +258,7 @@
     "title": "Painel de Administração",
     "subtitle": "Data Pipeline + AI Agent",
     "refresh": "Atualizar",
+    "statsOverview": "Resumo do Status",
     "enterAdminKeyHint": "Introduza a Chave de Administração no painel \"Controlo de Agente IA\" abaixo para visualizar os dados do pipeline e dos registos de auditoria.",
     "pipelineCrawl": "Rastreamento de Dados",
     "pipelineSeed": "Base de dados seed",

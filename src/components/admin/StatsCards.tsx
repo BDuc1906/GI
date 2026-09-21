@@ -13,10 +13,10 @@ interface StatsCardsProps {
   latestStatus: Record<string, LatestStatusEntry>;
 }
 
-const STATUS_BORDER_CLASS: Record<string, string> = {
-  started: "border-yellow-500/30",
-  success: "border-green-500/30",
-  failed: "border-red-500/30",
+const STATUS_TEXT_CLASS: Record<string, string> = {
+  started: "text-yellow-400",
+  success: "text-green-400",
+  failed: "text-red-400",
 };
 
 export function StatsCards({ latestStatus }: StatsCardsProps) {
@@ -32,15 +32,9 @@ export function StatsCards({ latestStatus }: StatsCardsProps) {
   };
 
   const STATUS_LABEL: Record<string, string> = {
-    started: `⏳ ${t("statusRunning")}`,
-    success: `✅ ${t("statusSuccess")}`,
-    failed: `❌ ${t("statusFailed")}`,
-  };
-
-  const STATUS_TEXT_CLASS: Record<string, string> = {
-    started: "text-yellow-400",
-    success: "text-green-400",
-    failed: "text-red-400",
+    started: `⚡ ${t("statusRunning")}`,
+    success: `✨ ${t("statusSuccess")}`,
+    failed: `💥 ${t("statusFailed")}`,
   };
 
   function formatTime(dateStr: string): string {
@@ -51,7 +45,7 @@ export function StatsCards({ latestStatus }: StatsCardsProps) {
 
   if (pipelineNames.length === 0) {
     return (
-      <div className="bg-bg-card border border-border rounded-xl p-6 text-center text-text-muted text-sm">
+      <div className="bg-bg-card border border-border rounded-xl p-6 text-center text-text-muted text-sm font-medium">
         {t("noRunsYet")}
       </div>
     );
@@ -61,14 +55,18 @@ export function StatsCards({ latestStatus }: StatsCardsProps) {
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
       {pipelineNames.map((name) => {
         const entry = latestStatus[name];
-        const borderClass = STATUS_BORDER_CLASS[entry.status] || "border-border";
+        const statusColor = STATUS_TEXT_CLASS[entry.status] || "text-text-muted";
+        
         return (
-          <div key={name} className={`bg-bg-card border rounded-xl p-4 ${borderClass}`}>
-            <div className="text-xs text-text-secondary uppercase tracking-wider">
+          <div 
+            key={name} 
+            className="bg-bg-card border border-border rounded-xl p-4"
+          >
+            <div className="text-xs text-text-secondary uppercase tracking-wider font-semibold mb-2">
               {PIPELINE_LABELS[name] || name}
             </div>
-            <div className="flex items-center gap-2 mt-1">
-              <span className={`text-lg font-semibold ${STATUS_TEXT_CLASS[entry.status] || "text-text-muted"}`}>
+            <div className="flex items-center gap-2">
+              <span className={`text-lg font-semibold ${statusColor}`}>
                 {STATUS_LABEL[entry.status] || entry.status}
               </span>
               {entry.status === "started" && (

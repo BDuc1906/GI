@@ -69,6 +69,30 @@ export class DataSourceManager {
           take: limit,
         });
 
+      case "enemy":
+        return prisma.enemy.findMany({
+          where: { OR: [{ id: { contains: q, mode: "insensitive" } }, { name: { contains: q, mode: "insensitive" } }] },
+          take: limit,
+        });
+
+      case "achievement":
+        return prisma.achievement.findMany({
+          where: { OR: [{ id: { contains: q, mode: "insensitive" } }, { name: { contains: q, mode: "insensitive" } }] },
+          take: limit,
+        });
+
+      case "food":
+        return prisma.food.findMany({
+          where: { OR: [{ id: { contains: q, mode: "insensitive" } }, { name: { contains: q, mode: "insensitive" } }] },
+          take: limit,
+        });
+
+      case "geography":
+        return prisma.geography.findMany({
+          where: { OR: [{ id: { contains: q, mode: "insensitive" } }, { name: { contains: q, mode: "insensitive" } }] },
+          take: limit,
+        });
+
       case "reaction": {
         // Dữ liệu tĩnh, không phân trang qua Prisma — lọc tay theo tên
         // (Anh/Việt) hoặc theo tên nguyên tố liên quan.
@@ -125,6 +149,14 @@ export class DataSourceManager {
         return prisma.domain.findUnique({ where: { id } }) as Promise<EntityRecordMap[T] | null>;
       case "artifact":
         return prisma.artifactSet.findUnique({ where: { id } }) as Promise<EntityRecordMap[T] | null>;
+      case "enemy":
+        return prisma.enemy.findUnique({ where: { id } }) as Promise<EntityRecordMap[T] | null>;
+      case "achievement":
+        return prisma.achievement.findUnique({ where: { id } }) as Promise<EntityRecordMap[T] | null>;
+      case "food":
+        return prisma.food.findUnique({ where: { id } }) as Promise<EntityRecordMap[T] | null>;
+      case "geography":
+        return prisma.geography.findUnique({ where: { id } }) as Promise<EntityRecordMap[T] | null>;
       default: {
         const _exhaustive: never = type;
         throw new Error(`Loại dữ liệu không được hỗ trợ: ${_exhaustive}`);

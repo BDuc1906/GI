@@ -258,6 +258,7 @@
     "title": "Dasbor Admin",
     "subtitle": "Data Pipeline + Agen AI",
     "refresh": "Segarkan",
+    "statsOverview": "Ringkasan Status",
     "enterAdminKeyHint": "Masukkan Admin Key di panel \"AI Agent Control\" di bawah ini untuk melihat data pipeline dan log audit.",
     "pipelineCrawl": "Data Crawl",
     "pipelineSeed": "Database seed",

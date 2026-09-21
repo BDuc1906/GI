@@ -258,6 +258,7 @@
     "title": "Tableau de bord administratif",
     "subtitle": "Data Pipeline + AI Agent",
     "refresh": "Rafraîchissement",
+    "statsOverview": "Aperçu de l'état",
     "enterAdminKeyHint": "Saisissez la clé d’administration dans le panneau « AI Agent Control » ci-dessous pour consulter les données du pipeline et des journaux d’audit.",
     "pipelineCrawl": "Exploration de données",
     "pipelineSeed": "Base de données de graines",

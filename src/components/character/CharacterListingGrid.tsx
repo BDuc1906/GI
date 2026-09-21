@@ -3,7 +3,7 @@ import { getTranslations } from "next-intl/server";
 import type { Character } from "@prisma/client";
 import { ElementIcon } from "@/components/character/ElementIcon";
 import { EntityCard } from "@/components/ui/EntityCard";
-import { rarityStars, elementColorVar } from "@/lib/ui/theme";
+import { elementColorVar } from "@/lib/ui/theme";
 import { resolveCharacterCardImage } from "@/lib/game/character-helpers";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { getElementNameByKey } from "@/lib/game/element-reactions-data";
@@ -67,8 +67,12 @@ export async function CharacterListingGrid({ locale, grouping }: CharacterListin
                 imageFit="contain"
                 compact
                 priority={index < 10}
+                element={el}
+                frameStyle="simple"
+                backgroundType="elemental-gradient"
+                useEnhancedStars={true}
                 elementColor={elementColorVar(el)}
-                cornerBadge={<ElementIcon vision={el} iconUrl={target.elementIcon} size={14} />}
+                cornerBadge={<ElementIcon vision={el} iconUrl={target.elementIcon} size={14} animated={true} glow={true} />}
               />
             );
           })}
@@ -83,7 +87,7 @@ export async function CharacterListingGrid({ locale, grouping }: CharacterListin
             className="sticky top-0 z-10 bg-bg-primary/90 backdrop-blur-sm py-2 mb-3 text-xs font-semibold tracking-wide"
             style={{ color: `var(--rarity-${r >= 5 ? 5 : r === 4 ? 4 : 3})` }}
           >
-            {rarityStars(r)} · {t("rarityGroupCount", { count: rarityGroups.get(r)!.length })}
+            {"★".repeat(r)} · {t("rarityGroupCount", { count: rarityGroups.get(r)!.length })}
           </div>
           <div className={DENSE_GRID}>
             {rarityGroups.get(r)!.map((c: Character, index: number) => (
@@ -98,8 +102,12 @@ export async function CharacterListingGrid({ locale, grouping }: CharacterListin
                 imageFit="contain"
                 compact
                 priority={index < 10}
+                element={c.vision}
+                frameStyle="simple"
+                backgroundType="elemental-gradient"
+                useEnhancedStars={true}
                 elementColor={elementColorVar(c.vision)}
-                cornerBadge={<ElementIcon vision={c.vision} iconUrl={c.elementIcon} size={14} />}
+                cornerBadge={<ElementIcon vision={c.vision} iconUrl={c.elementIcon} size={14} animated={true} glow={true} />}
               />
             ))}
           </div>

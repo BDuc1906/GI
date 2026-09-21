@@ -18,14 +18,6 @@ interface ActionResult {
   detail?: string;
 }
 
-/**
- * Panel điều khiển thủ công: nhập ADMIN_API_KEY (lưu trong localStorage
- * của trình duyệt admin — KHÔNG gửi lên đâu khác ngoài header
- * Authorization của chính các request /api/admin/* dưới đây), trigger
- * "Quét & tự sửa dữ liệu" (AutoFixEngine) hoặc "Đồng bộ dữ liệu"
- * (trigger workflow GitHub Actions — xem DataSyncPipeline, KHÔNG ghi
- * thẳng DB).
- */
 export function AgentControlPanel({ adminKey, onAdminKeyChange, onActionComplete, onFixResult }: AgentControlPanelProps) {
   const t = useTranslations("Admin");
   const [running, setRunning] = useState<"fix" | "sync" | null>(null);
@@ -90,13 +82,13 @@ export function AgentControlPanel({ adminKey, onAdminKeyChange, onActionComplete
   }
 
   return (
-    <div className="bg-bg-card border border-border rounded-xl p-4">
-      <h2 className="text-sm font-semibold text-text-secondary uppercase tracking-wider mb-3">
+    <div className="bg-bg-card border border-border rounded-xl p-6">
+      <h2 className="text-sm font-semibold text-text-secondary uppercase tracking-wider mb-4">
         🤖 {t("agentControlTitle")}
       </h2>
 
-      <div className="mb-4">
-        <label className="block text-xs text-text-muted mb-1" htmlFor="admin-key-input">
+      <div className="mb-6">
+        <label className="block text-xs text-text-muted mb-2 font-medium" htmlFor="admin-key-input">
           {t("adminKeyLabel")}
         </label>
         <input
@@ -105,24 +97,24 @@ export function AgentControlPanel({ adminKey, onAdminKeyChange, onActionComplete
           value={adminKey}
           onChange={(e) => onAdminKeyChange(e.target.value)}
           placeholder={t("adminKeyPlaceholder")}
-          className="w-full px-3 py-2 rounded-lg bg-[var(--bg-input)] border border-border text-text-primary text-sm outline-none focus:border-gold/60"
+          className="w-full px-4 py-3 rounded-lg bg-bg-input border border-border text-text-primary text-sm outline-none focus:border-border-strong transition-all"
           autoComplete="off"
         />
-        <p className="text-[10px] text-text-muted mt-1">{t("adminKeyStorageNote")}</p>
+        <p className="text-[10px] text-text-muted mt-2 font-medium">{t("adminKeyStorageNote")}</p>
       </div>
 
       <div className="flex flex-wrap gap-3">
         <button
           onClick={runFix}
           disabled={running !== null}
-          className="px-4 py-2 rounded-lg border border-border bg-[var(--bg-input)] hover:border-gold/50 text-sm text-text-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-6 py-3 rounded-lg border border-border bg-bg-input hover:border-border-strong text-sm text-text-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
         >
           {running === "fix" ? `⏳ ${t("scanning")}` : `🔍 ${t("scanAndAutoFix")}`}
         </button>
         <button
           onClick={runSync}
           disabled={running !== null}
-          className="px-4 py-2 rounded-lg border border-border bg-[var(--bg-input)] hover:border-gold/50 text-sm text-text-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-6 py-3 rounded-lg border border-border bg-bg-input hover:border-border-strong text-sm text-text-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
         >
           {running === "sync" ? `⏳ ${t("triggering")}` : `🔄 ${t("syncViaGithubActions")}`}
         </button>
@@ -135,11 +127,11 @@ export function AgentControlPanel({ adminKey, onAdminKeyChange, onActionComplete
           }`}
         >
           <p>{result.ok ? "✅" : "⚠️"} {result.message}</p>
-          {result.detail && <p className="text-xs mt-1 opacity-80 break-all">{result.detail}</p>}
+          {result.detail && <p className="text-xs mt-1 opacity-80 break-all font-medium">{result.detail}</p>}
         </div>
       )}
 
-      <p className="text-[11px] text-text-muted mt-3">
+      <p className="text-[11px] text-text-muted mt-4 font-medium">
         {t.rich("syncFootnote", {
           code: (chunks) => <code className="text-text-secondary">{chunks}</code>,
         })}

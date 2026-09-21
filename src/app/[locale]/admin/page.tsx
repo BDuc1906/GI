@@ -1,17 +1,9 @@
-
 // src/app/admin/page.tsx
 /**
  * Trang quản trị — dashboard cho pipeline crawl/seed + điều khiển AI
  * Agent (fix/sync) + lịch sử thay đổi dữ liệu.
  *
- * ĐA NGÔN NGỮ (2026-09): trang này từng hardcode 100% tiếng Việt dù nằm
- * trong route [locale] — 4 component con (StatsCards, AgentControlPanel,
- * DataHealth, RecentActivity) đã dùng useTranslations("Admin") đúng chuẩn
- * từ trước, và bản dịch namespace "Admin" cho cả 15 ngôn ngữ đã có sẵn
- * trong messages/*.json — chỉ riêng file page.tsx (cấp cha) là chưa nối
- * vào, giờ đã sửa. Đây là trang nội bộ chỉ admin dùng (không phải nội
- * dung public), nhưng vẫn dịch cho đủ vì có thể admin không phải lúc nào
- * cũng thao tác bằng tiếng Việt.
+ * UI đơn giản, hiện đại 2026 - không fancy effects, không màu mè
  */
 
 "use client";
@@ -49,8 +41,6 @@ export default function AdminPage() {
   const t = useTranslations("Admin");
   const locale = useLocale();
 
-  // Nhãn pipeline dịch được — đặt TRONG component (không phải hằng số
-  // module-level như bản cũ) vì cần gọi t(), chỉ tính lại khi locale đổi.
   const PIPELINE_LABELS: Record<string, string> = {
     crawl: t("pipelineCrawl"),
     seed: t("pipelineSeed"),
@@ -67,10 +57,6 @@ export default function AdminPage() {
   const [lastFixResult, setLastFixResult] = useState<FixScanSummary | null>(null);
   const [refreshToken, setRefreshToken] = useState(0);
 
-  // Đọc admin key đã lưu ở lần trước (chỉ trong trình duyệt này) — effect
-  // ĐÚNG công dụng: đọc localStorage phải hoãn tới sau hydrate để tránh
-  // lệch SSR/client (server không có localStorage), không phải setState
-  // thừa.
   useEffect(() => {
     const saved = window.localStorage.getItem(ADMIN_KEY_STORAGE);
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -102,8 +88,6 @@ export default function AdminPage() {
   }, [adminKey]);
 
   useEffect(() => {
-    // fetch lần đầu ngay khi mount/đổi refreshToken, không chỉ chờ tick
-    // đầu của setInterval bên dưới — effect polling hợp lệ, có cleanup.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchPipelineStatus();
     const interval = setInterval(fetchPipelineStatus, 30000);
@@ -111,99 +95,160 @@ export default function AdminPage() {
   }, [fetchPipelineStatus, refreshToken]);
 
   return (
-    <div className="min-h-screen bg-bg-primary text-text-primary p-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="font-display text-3xl font-bold text-gold-bright">📊 {t("title")}</h1>
-            <p className="text-sm text-text-secondary mt-1">{t("subtitle")}</p>
+    <div className="min-h-screen bg-bg-primary text-text-primary p-4 md:p-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Header Section */}
+        <div className="bg-bg-card border border-border rounded-xl p-6 md:p-8 mb-8">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <h1 className="font-display text-3xl md:text-4xl font-bold text-gold-bright mb-2">
+                📊 {t("title")}
+              </h1>
+              <p className="text-sm text-text-secondary font-medium">{t("subtitle")}</p>
+            </div>
+            <button
+              onClick={() => setRefreshToken(Date.now())}
+              className="px-6 py-3 bg-bg-input border border-border rounded-lg hover:border-border-strong transition-colors text-sm font-semibold"
+            >
+              🔄 {t("refresh")}
+            </button>
           </div>
-          <button
-            onClick={() => setRefreshToken(Date.now())}
-            className="px-4 py-2 bg-bg-card border border-border rounded-lg hover:border-gold/50 transition-colors text-sm"
-          >
-            🔄 {t("refresh")}
-          </button>
         </div>
 
+        {/* Alert Messages */}
         {!adminKey && (
-          <div className="bg-bg-card border border-gold/30 rounded-xl p-4 mb-8 text-sm text-text-secondary">
+          <div className="bg-bg-card border border-border rounded-xl p-4 mb-6 text-sm text-text-secondary">
             {t("enterAdminKeyHint")}
           </div>
         )}
 
         {error && (
-          <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 mb-8 text-sm text-red-400">
+          <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 mb-6 text-sm text-red-400">
             ⚠️ {error}
           </div>
         )}
 
+        {/* Stats Cards */}
         <div className="mb-8">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-1 h-6 bg-gold-bright rounded-full" />
+            <h2 className="font-display text-xl font-semibold text-text-primary">
+              {t("statsOverview")}
+            </h2>
+          </div>
           <StatsCards latestStatus={latestStatus} />
         </div>
 
+        {/* Main Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <AgentControlPanel
-            adminKey={adminKey}
-            onAdminKeyChange={handleAdminKeyChange}
-            onActionComplete={() => setRefreshToken(Date.now())}
-            onFixResult={setLastFixResult}
-          />
-          <DataHealth lastScan={lastFixResult} />
+          <div>
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-1 h-6 bg-electro-glow rounded-full" />
+              <h2 className="font-display text-xl font-semibold text-text-primary">
+                {t("agentControlTitle")}
+              </h2>
+            </div>
+            <AgentControlPanel
+              adminKey={adminKey}
+              onAdminKeyChange={handleAdminKeyChange}
+              onActionComplete={() => setRefreshToken(Date.now())}
+              onFixResult={setLastFixResult}
+            />
+          </div>
+          <div>
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-1 h-6 bg-dendro-glow rounded-full" />
+              <h2 className="font-display text-xl font-semibold text-text-primary">
+                {t("lastScanResult")}
+              </h2>
+            </div>
+            <DataHealth lastScan={lastFixResult} />
+          </div>
         </div>
 
+        {/* Recent Activity */}
         <div className="mb-8">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-1 h-6 bg-hydro-glow rounded-full" />
+            <h2 className="font-display text-xl font-semibold text-text-primary">
+              {t("agentAuditHistory")}
+            </h2>
+          </div>
           <RecentActivity adminKey={adminKey} refreshToken={refreshToken} />
         </div>
 
-        <div className="bg-bg-card border border-border rounded-xl overflow-hidden">
-          <div className="px-4 py-3 border-b border-border">
-            <h2 className="text-sm font-semibold text-text-secondary uppercase tracking-wider">
+        {/* Pipeline History */}
+        <div className="mb-8">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-1 h-6 bg-geo-glow rounded-full" />
+            <h2 className="font-display text-xl font-semibold text-text-primary">
               📋 {t("pipelineHistory", { count: runs.length })} {loading && <span className="text-text-muted normal-case">— {t("loading")}</span>}
             </h2>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-bg-secondary">
-                <tr>
-                  <th className="px-4 py-2 text-left text-text-secondary font-medium">{t("colPipeline")}</th>
-                  <th className="px-4 py-2 text-left text-text-secondary font-medium">{t("colStatus")}</th>
-                  <th className="px-4 py-2 text-left text-text-secondary font-medium">{t("colStartedAt")}</th>
-                  <th className="px-4 py-2 text-left text-text-secondary font-medium">{t("colDuration")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {runs.map((run) => (
-                  <tr key={run.id} className="border-t border-border hover:bg-bg-secondary transition-colors">
-                    <td className="px-4 py-2 text-text-primary">{PIPELINE_LABELS[run.name] || run.name}</td>
-                    <td className="px-4 py-2">
-                      {run.status === "success" && <span className="text-green-400">✅ {t("statusSuccess")}</span>}
-                      {run.status === "failed" && (
-                        <span className="text-red-400 cursor-help" title={run.error || undefined}>
-                          ❌ {t("statusFailed")}
-                        </span>
-                      )}
-                      {run.status === "started" && <span className="text-yellow-400">⏳ {t("statusRunning")}</span>}
-                    </td>
-                    <td className="px-4 py-2 text-text-secondary">
-                      {new Date(run.startedAt).toLocaleString(locale, { hour12: false })}
-                    </td>
-                    <td className="px-4 py-2 text-text-secondary">{formatDuration(run.durationMs)}</td>
-                  </tr>
-                ))}
-                {!loading && runs.length === 0 && (
+          
+          <div className="bg-bg-card border border-border rounded-xl overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="bg-bg-secondary">
                   <tr>
-                    <td colSpan={4} className="px-4 py-8 text-center text-text-muted">
-                      {adminKey ? t("noRunsYet") : t("enterAdminKeyToView")}
-                    </td>
+                    <th className="px-4 py-3 text-left text-text-secondary font-medium tracking-wider uppercase text-xs">
+                      {t("colPipeline")}
+                    </th>
+                    <th className="px-4 py-3 text-left text-text-secondary font-medium tracking-wider uppercase text-xs">
+                      {t("colStatus")}
+                    </th>
+                    <th className="px-4 py-3 text-left text-text-secondary font-medium tracking-wider uppercase text-xs">
+                      {t("colStartedAt")}
+                    </th>
+                    <th className="px-4 py-3 text-left text-text-secondary font-medium tracking-wider uppercase text-xs">
+                      {t("colDuration")}
+                    </th>
                   </tr>
-                )}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {runs.map((run) => {
+                    const statusColor = run.status === "success" ? "text-green-400" : run.status === "failed" ? "text-red-400" : "text-yellow-400";
+                    
+                    return (
+                      <tr 
+                        key={run.id} 
+                        className="border-t border-border hover:bg-bg-secondary/50 transition-colors"
+                      >
+                        <td className="px-4 py-3 text-text-primary font-medium">{PIPELINE_LABELS[run.name] || run.name}</td>
+                        <td className="px-4 py-3">
+                          <span className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-semibold ${statusColor}`}>
+                            {run.status === "success" && "✨"}
+                            {run.status === "failed" && "💥"}
+                            {run.status === "started" && "⚡"}
+                            {run.status === "success" && t("statusSuccess")}
+                            {run.status === "failed" && t("statusFailed")}
+                            {run.status === "started" && t("statusRunning")}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 text-text-secondary">
+                          {new Date(run.startedAt).toLocaleString(locale, { hour12: false })}
+                        </td>
+                        <td className="px-4 py-3 text-text-secondary font-mono">{formatDuration(run.durationMs)}</td>
+                      </tr>
+                    );
+                  })}
+                  {!loading && runs.length === 0 && (
+                    <tr>
+                      <td colSpan={4} className="px-4 py-8 text-center text-text-muted font-medium">
+                        {adminKey ? t("noRunsYet") : t("enterAdminKeyToView")}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
-        <div className="mt-6 text-xs text-text-muted text-center">{t("autoRefreshNote")}</div>
+        {/* Footer */}
+        <div className="text-center text-xs text-text-muted mt-8 mb-4 font-medium">
+          {t("autoRefreshNote")}
+        </div>
       </div>
     </div>
   );

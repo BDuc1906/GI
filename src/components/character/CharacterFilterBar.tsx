@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { ElementIcon } from "@/components/character/ElementIcon";
 import { WeaponIcon } from "@/components/weapon/WeaponIcon";
-import { rarityStars } from "@/lib/ui/theme";
+import { RarityStars } from "@/components/ui/RarityStars";
 import { getElementNameByKey } from "@/lib/game/element-reactions-data";
 import {
   buildFilterQuery,
@@ -77,7 +77,7 @@ export async function CharacterFilterBar({
                 aria-pressed={isActive}
                 className="chip px-2.5 py-1 rounded-full flex items-center gap-1.5 text-xs"
               >
-                <ElementIcon vision={v} iconUrl={elementIcon} size={14} />
+                <ElementIcon vision={v} iconUrl={elementIcon} size={14}  glow={isActive} />
                 {v === "None" ? t("noElement") : getElementNameByKey(v, locale)}
               </Link>
             );
@@ -117,9 +117,10 @@ export async function CharacterFilterBar({
               key={r}
               href={`/characters?${buildFilterQuery(filters, { rarity: String(r) }, { toggle: true })}`}
               aria-pressed={filters.rarity.includes(r)}
-              className="chip px-2.5 py-1 rounded-full text-xs text-[color:var(--rarity-5)] font-semibold"
+              className="chip px-2.5 py-1 rounded-full text-xs font-semibold"
+              style={filters.rarity.includes(r) ? { color: r >= 5 ? 'var(--rarity-5)' : 'var(--rarity-4)', borderColor: r >= 5 ? 'var(--rarity-5)' : 'var(--rarity-4)' } : undefined}
             >
-              {rarityStars(r)}
+              <RarityStars count={r} size="sm"  />
             </Link>
           ))}
           {activeFilters && (

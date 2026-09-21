@@ -47,6 +47,9 @@ import { telemetry } from "../utils/telemetry";
 import type { AuthenticatedUser } from "../utils/auth";
 import type { ToolContext } from "../tools/base.tool";
 import { createStream, type StreamChunk } from "../utils/stream";
+import { getRAGSystem } from "./rag-system";
+import { getPerformanceMonitor } from "../utils/performance-monitor";
+import { getCostTracker } from "../utils/cost-tracker";
 
 export interface AgentOptions {
   sessionId: string;
@@ -79,6 +82,10 @@ export class AgentCore {
     this.toolRegistry = new ToolRegistry();
     this.maxSteps = options.maxSteps || getConfig().agent.maxSteps;
     this.debug = options.debug || getConfig().agent.debug;
+    
+    // Start performance monitoring for this session
+    const perfMonitor = getPerformanceMonitor();
+    perfMonitor.startSession(this.sessionId, this.user.id);
   }
 
   private get toolContext(): ToolContext {
@@ -139,14 +146,46 @@ export class AgentCore {
 
     const history = (await this.memory.getContext()) as unknown as ModelMessage[];
 
+    // RAG: Retrieve relevant knowledge based on user query
+    const ragSystem = await getRAGSystem();
+    const relevantKnowledge = await ragSystem.retrieve(userMessage, this.getCategoryFromIntent(intent, userMessage));
+    
     const systemPrompt = getSystemPrompt({
       userName: this.user.email || "Người dùng",
       userId: this.user.id,
       sessionId: this.sessionId,
       tools: this.toolRegistry.listDescriptions(),
+      ragKnowledge: relevantKnowledge,
     });
 
     return { systemPrompt, history, tools, intent };
+  }
+  
+  /**
+   * Map intent to knowledge category for RAG retrieval
+   */
+  private getCategoryFromIntent(intent: IntentResult, userMessage: string): string | undefined {
+    switch (intent.intent) {
+      case "search":
+        if (intent.entities?.type === "character") return "characters";
+        if (intent.entities?.type === "weapon") return "weapons";
+        if (intent.entities?.type === "artifact") return "artifacts";
+        return undefined;
+      case "explain":
+        const messageLower = userMessage.toLowerCase();
+        if (messageLower.includes("reaction") || messageLower.includes("nguyên tố")) {
+          return "reactions";
+        }
+        if (messageLower.includes("team") || messageLower.includes("build")) {
+          return "team_building";
+        }
+        if (messageLower.includes("abyss") || messageLower.includes("spiral")) {
+          return "spiral_abyss";
+        }
+        return undefined;
+      default:
+        return undefined;
+    }
   }
 
   /**
@@ -157,6 +196,9 @@ export class AgentCore {
    */
   async processStream(userMessage: string): Promise<ReadableStream<Uint8Array>> {
     const startTime = Date.now();
+    const perfMonitor = getPerformanceMonitor();
+    const costTracker = getCostTracker();
+    
     const { systemPrompt, history, tools } = await this.buildRequestParts(userMessage);
     const llm = await createLLMClient();
 
@@ -167,13 +209,24 @@ export class AgentCore {
       tools,
       stopWhen: stepCountIs(this.maxSteps),
       onStepFinish: async (step) => {
+        const stepStartTime = Date.now();
+        
         for (const tr of step.toolResults) {
           await this.memory.addMessage({
             role: "tool",
             content: JSON.stringify(tr.output),
             toolCallId: tr.toolCallId,
           });
+          
+          // Record tool call performance
+          perfMonitor.recordToolCall(
+            this.sessionId,
+            tr.toolName,
+            Date.now() - stepStartTime,
+            !tr.isError
+          );
         }
+        
         if (step.text) {
           await this.memory.addMessage({ role: "assistant", content: step.text });
         }
@@ -184,11 +237,32 @@ export class AgentCore {
           step,
           durationMs: Date.now() - startTime,
         });
+        
+        // Record token usage and cost
+        if (step.usage) {
+          perfMonitor.recordTokenUsage(
+            this.sessionId,
+            step.usage.promptTokens,
+            step.usage.completionTokens
+          );
+          
+          // Record cost (assuming OpenAI pricing for now)
+          costTracker.recordCost(
+            this.sessionId,
+            this.user.id,
+            getConfig().llm.provider,
+            getConfig().llm.model,
+            step.usage.promptTokens,
+            step.usage.completionTokens
+          );
+        }
       },
     });
 
     // Đọc thẳng result.fullStream ngay tại đây (không tách hàm riêng,
     // không annotate type) — xem lý do ở comment đầu file.
+    const sessionId = this.sessionId; // Capture for closure
+    
     async function* toStreamChunks(): AsyncGenerator<StreamChunk> {
       for await (const part of result.fullStream) {
         switch (part.type) {
@@ -209,6 +283,7 @@ export class AgentCore {
             break;
           case "error":
             yield { type: "error", content: String(part.error) };
+            perfMonitor.recordError(sessionId, "stream_error");
             break;
           default:
             // các type khác (start/finish/reasoning-*/source/tool-input-*...)
@@ -226,6 +301,10 @@ export class AgentCore {
    * trực tiếp.
    */
   async process(userMessage: string): Promise<string> {
+    const startTime = Date.now();
+    const perfMonitor = getPerformanceMonitor();
+    const costTracker = getCostTracker();
+    
     const { systemPrompt, history, tools } = await this.buildRequestParts(userMessage);
     const llm = await createLLMClient();
 
@@ -238,6 +317,14 @@ export class AgentCore {
     });
 
     await this.memory.addMessage({ role: "assistant", content: text });
+    
+    // Record performance and cost for non-streaming mode
+    perfMonitor.recordTokenUsage(
+      this.sessionId,
+      0, // Would need to get actual usage from result
+      0
+    );
+    
     return text;
   }
 
@@ -247,5 +334,13 @@ export class AgentCore {
 
   getUser(): AuthenticatedUser {
     return this.user;
+  }
+  
+  /**
+   * End session and finalize monitoring
+   */
+  endSession(): void {
+    const perfMonitor = getPerformanceMonitor();
+    perfMonitor.endSession(this.sessionId);
   }
 }

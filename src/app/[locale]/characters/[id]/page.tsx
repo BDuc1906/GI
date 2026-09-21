@@ -2,9 +2,11 @@
 import { prisma } from "@/lib/db/prisma";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { rarityStars, rarityTextClass, elementColorVar } from "@/lib/ui/theme";
+import { elementColorVar } from "@/lib/ui/theme";
 import { ElementIcon } from "@/components/character/ElementIcon";
 import { SafeImage } from "@/components/ui/SafeImage";
+import { RarityStars } from "@/components/ui/RarityStars";
+import { ElementalFrame } from "@/components/ui/ElementalFrame";
 import { CharacterLevelSlider } from "@/components/character/CharacterLevelSlider";
 import { TalentMaterialSlider } from "@/components/character/TalentMaterialSlider";
 import { SectionHeading } from "@/components/layout/SectionHeading";
@@ -113,9 +115,11 @@ export default async function CharacterDetail({ params }: PageProps) {
       {/* Hero — viền trên nhuộm đúng màu nguyên tố của nhân vật này, thay
           cho glow vàng chung của bản cũ. Đây là điểm chạm đầu tiên nhắc
           người xem: mỗi nhân vật thuộc về 1 nguyên tố cụ thể. */}
-      <div
-        className="surface-card overflow-hidden mb-10"
-        style={{ borderTop: `2.5px solid ${el}` }}
+      <ElementalFrame 
+        element={c.vision} 
+        variant="premium" 
+        
+        className="mb-10 overflow-hidden"
       >
         <div className="p-6 flex flex-col sm:flex-row gap-6">
           {isTraveler ? (
@@ -170,13 +174,15 @@ export default async function CharacterDetail({ params }: PageProps) {
               </span>
             </div>
 
-            <h1 className="font-display text-display-2 font-semibold text-text-primary mb-1">
+            <h1 className="font-display text-display-2 font-semibold text-text-primary mb-1 game-title-glow" style={{ '--el': el } as React.CSSProperties}>
               {isTraveler ? `${tCharacters("traveler")} (${getElementNameByKey(c.vision, locale)})` : getLocalizedName(c, locale)}
             </h1>
 
-            {c.title && <p className="text-sm text-text-muted italic mb-3">&ldquo;{c.title}&rdquo;</p>}
+            {c.title && <p className="text-sm text-text-muted italic mb-3 game-subtitle">&ldquo;{c.title}&rdquo;</p>}
 
-            <p className={`text-lg mb-4 ${rarityTextClass(c.rarity)}`}>{rarityStars(c.rarity)}</p>
+            <div className="mb-4">
+              <RarityStars count={c.rarity} size="lg"  />
+            </div>
 
             {(c.region || c.affiliation) && (
               <p className="text-xs text-text-muted mb-2 font-medium uppercase tracking-wider">
@@ -216,7 +222,7 @@ export default async function CharacterDetail({ params }: PageProps) {
             )}
           </div>
         </div>
-      </div>
+      </ElementalFrame>
 
       {statsByLevel.length > 0 && (
         <section className="mb-10">

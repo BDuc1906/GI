@@ -253,6 +253,7 @@ model AgentSession {
   // Mặc định "[]" khớp giá trị khởi tạo DbMemory.getOrCreateSession truyền vào.
   messages  Json     @default("[]")
   metadata  Json     @default("{}")
+  // Metadata có thể chứa user feedback cho continuous learning
   // Không @default ở DB — DbMemory luôn set thủ công lúc update, còn lúc
   // create Prisma tự điền timestamp hiện tại nhờ @updatedAt (đúng hành vi
   // đã có từ migration gốc: cột NOT NULL nhưng không có DB-level default).
@@ -373,12 +374,39 @@ model Enemy {
   enemyType    String?
   categoryType String?
   categoryText String?
+  // Thêm stats chi tiết cho enemy
+  level        Int?
+  hp           Int?
+  atk          Int?
+  def          Int?
+  // Weaknesses - các nguyên tố nhân yếu
+  weaknesses   String[] // ["Pyro", "Cryo", "Electro", "Hydro", "Anemo", "Geo", "Dendro", "Physical"]
+  resistances  String[] // Các nguyên tố có kháng
+  // Immunities - các nguyên tố miễn nhiễm hoàn toàn
+  immunities   String[]
+  // Drop rates - tỉ lệ rớt item
+  dropRates    Json? // { materialId: number, tier: number }
+  // Behavior
+  behavior     String? // "passive", "aggressive", "mobile", "stationary"
+  // Spawn locations
+  spawnRegions String[]
+  // Boss information
+  isBoss       Boolean  @default(false)
+  weeklyBoss   Boolean  @default(false)
+  // Encounter information
+  domains       String[] // Các domain xuất hiện
+  // Challenge rating
+  difficulty    String? // "easy", "medium", "hard", "very hard"
   raw          Json
   updatedAt    DateTime @updatedAt
   createdAt    DateTime @default(now())
 
   @@index([monsterType])
   @@index([enemyType])
+  @@index([categoryType])
+  @@index([isBoss])
+  @@index([weeklyBoss])
+  @@index([level])
 }
 
 model Food {
