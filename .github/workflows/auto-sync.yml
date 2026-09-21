@@ -12,8 +12,8 @@ on:
         description: 'Force update even if version is same'
         required: false
         default: 'false'
-        type: choice:
-          options:
+        type: choice
+        options:
             - 'true'
             - 'false'
   
