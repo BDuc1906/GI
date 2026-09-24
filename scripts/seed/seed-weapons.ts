@@ -1,6 +1,7 @@
 import { createRequire } from "module";
 import { prisma } from "../../src/lib/db/prisma";
 import { getEnkaUrl, slugify, upsertMaterial } from "../lib/seed-helpers";
+import { logDataSyncChange } from "../lib/audit-diff";
 
 const require = createRequire(import.meta.url);
 const genshindb = require("genshin-db") as typeof import("genshin-db");
@@ -125,9 +126,18 @@ export async function seedWeapons(): Promise<void> {
         description: w.description || null,
         iconUrlOriginal,
         ascensionMaterials: ascensionMaterials as any,
+        // BỔ SUNG 2026-09: theo dõi phiên bản game vũ khí ra mắt — xem
+        // comment ở Weapon.gameVersion trong prisma/schema.prisma.
+        gameVersion: w.version || null,
       };
 
       const id = slugify(w.name);
+      // Đọc record cũ TRƯỚC khi upsert — cần cho audit-diff bên dưới
+      // (xem scripts/lib/audit-diff.ts, cùng pattern đã nối ở
+      // seed-characters.ts, "chuẩn wiki lớn, làm tốt hơn": ghi lịch sử
+      // thay đổi thay vì âm thầm ghi đè mất giá trị cũ).
+      const existing = await prisma.weapon.findUnique({ where: { id } });
+
       await prisma.weapon.upsert({
         where: { id },
         // Record mới -> chưa mirror lần nào, tạm hiển thị thẳng bằng hotlink.
@@ -135,6 +145,17 @@ export async function seedWeapons(): Promise<void> {
         // Record đã tồn tại -> KHÔNG đụng iconUrl.
         update: payload,
       });
+
+      await logDataSyncChange({
+        entityType: "weapon",
+        entityId: id,
+        oldRecord: existing,
+        newRecord: payload,
+        source: "seed-weapons",
+      }).catch((err) => {
+        console.warn(`⚠️ Không ghi được AuditLog cho weapon "${w.name}":`, (err as Error).message);
+      });
+
       count++;
     } catch (err) {
       console.warn(`⚠ Skipped weapon "${name}":`, (err as Error).message);

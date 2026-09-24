@@ -10,6 +10,7 @@
  * 5. Adaptive prompt optimization
  */
 
+import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/db/prisma";
 
 interface UserFeedback {
@@ -66,14 +67,18 @@ class ContinuousLearningSystem {
     
     this.feedbackBuffer.push(feedbackWithTimestamp);
     
-    // Save to database
+    // Save to database — cột `metadata` là Json nên Date phải được
+    // serialize thành ISO string trước (Prisma không nhận Date trong Json).
     try {
+      const { timestamp, ...feedbackFields } = feedbackWithTimestamp;
+      const feedbackJson: Prisma.InputJsonObject = {
+        ...feedbackFields,
+        timestamp: timestamp.toISOString(),
+      };
       await prisma.agentSession.update({
         where: { id: feedback.sessionId },
         data: {
-          metadata: {
-            feedback: feedbackWithTimestamp as Record<string, unknown>
-          }
+          metadata: { feedback: feedbackJson }
         }
       });
     } catch (err) {

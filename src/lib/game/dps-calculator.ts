@@ -58,7 +58,43 @@ interface DamageModifiers {
   defenseReduction: number;
   damageBonus: number;
   vulnerability: number;
+  /**
+   * Phản ứng nguyên tố áp dụng cho combo đang tính (mặc định "Vaporize" —
+   * GIỮ NGUYÊN hành vi cũ, vì trước đây `calculateExpectedDPS` hardcode
+   * "Vaporize" không tham số hoá được).
+   */
+  reaction?: ReactionType;
+  /**
+   * Chiều phản ứng — quyết định hệ số nhân KHÁC NHAU cho Vaporize/Melt
+   * (2 phản ứng transformative-nhân-đôi duy nhất có chiều thuận/nghịch
+   * khác hệ số; các phản ứng transformative khác không phân biệt chiều).
+   * "forward" = nguyên tố CHÍNH gây phản ứng mạnh hơn (Hydro→Pyro cho
+   * Vaporize, Pyro→Cryo cho Melt) = hệ số 2.0x.
+   * "reverse" = chiều còn lại (Pyro→Hydro, Cryo→Pyro) = hệ số 1.5x.
+   * Mặc định "forward" — khớp hành vi cũ (luôn trả 2.0x cho cả 2 phản ứng
+   * này trước khi có tham số này).
+   */
+  reactionDirection?: ReactionDirection;
 }
+
+type ReactionType =
+  | "Vaporize"
+  | "Melt"
+  | "Overload"
+  | "Superconduct"
+  | "Electro-Charged"
+  | "Shatter"
+  | "Burning"
+  | "Bloom"
+  | "Hyperbloom"
+  | "Burgeon"
+  | "Quicken"
+  | "Aggravate"
+  | "Spread"
+  | "Crystallize"
+  | "Frozen";
+
+type ReactionDirection = "forward" | "reverse";
 
 interface DPSCalculationResult {
   expectedDPS: number;
@@ -152,20 +188,21 @@ class DPSCalculator {
    * Calculate reaction damage multiplier
    */
   calculateReactionMultiplier(
-    reaction: string,
+    reaction: ReactionType,
     em: number,
-    level: number
+    level: number,
+    direction: ReactionDirection = "forward"
   ): number {
     const levelBonus = 1 + (level / 9) * 2.78; // Level-based scaling
     
     switch (reaction) {
       case "Vaporize":
-        // Hydro on Pyro: 2.0x, Pyro on Hydro: 1.5x
-        return 2.0 * levelBonus;
+        // Hydro on Pyro (forward): 2.0x, Pyro on Hydro (reverse): 1.5x
+        return (direction === "forward" ? 2.0 : 1.5) * levelBonus;
       
       case "Melt":
-        // Pyro on Cryo: 2.0x, Cryo on Pyro: 1.5x
-        return 2.0 * levelBonus;
+        // Pyro on Cryo (forward): 2.0x, Cryo on Pyro (reverse): 1.5x
+        return (direction === "forward" ? 2.0 : 1.5) * levelBonus;
       
       case "Overload":
         // Transformative reaction with EM scaling
@@ -207,16 +244,34 @@ class DPSCalculator {
         return (1 + emBonusBurgeon) * levelBonus * 2; // 2x base multiplier
       
       case "Quicken":
-        // Base multiplier for Quicken aura
-        return 1.15 * levelBonus;
+        // BUG ĐÃ SỬA (2026-09): Quicken tự nó KHÔNG gây sát thương trực tiếp
+        // (theo Genshin Wiki + mọi nguồn chính thức) — nó chỉ áp trạng thái
+        // "Quickened" lên địch để Aggravate/Spread kích hoạt sau đó. Giá trị
+        // cũ (1.15 * levelBonus) thực ra là hằng số của ADDITIVE REACTION
+        // MULTIPLIER của Aggravate bị gán nhầm vào case này.
+        return 1.0;
       
-      case "Aggravate":
-        // Electro on Quicken: 1.5x damage boost
-        return 1.5 * levelBonus;
+      case "Aggravate": {
+        // BUG ĐÃ SỬA (2026-09): công thức cũ (1.5 * levelBonus, không có hệ
+        // số EM) sai cả hằng số lẫn thiếu hẳn phần EM. Công thức Additive
+        // Reaction chính thức (nguồn: Genshin Wiki "Elemental Reaction",
+        // KQM Theorycrafting Library "Damage Formula"):
+        //   AdditiveReactionDmg = ReactionMultiplier × LevelMultiplier
+        //                         × (1 + 5×EM/(1200+EM) + ReactionBonus)
+        //   ReactionMultiplier(Aggravate) = 1.15 (KHÔNG PHẢI 1.5)
+        // reactionBonus (từ set 4 món, buff nội tại...) chưa model được ở
+        // hàm này (chưa có input), tạm coi = 0 — xem TODO trong docstring.
+        const emBonusAggravate = (5 * em) / (1200 + em);
+        return 1.15 * (1 + emBonusAggravate) * levelBonus;
+      }
       
-      case "Spread":
-        // Dendro on Quicken: 1.25x damage boost
-        return 1.25 * levelBonus;
+      case "Spread": {
+        // BUG ĐÃ SỬA (2026-09): hằng số 1.25 đúng, nhưng thiếu hoàn toàn hệ
+        // số EM — ở EM cao (vd 800), bỏ sót gần +100% sát thương thực tế.
+        // Cùng công thức Additive Reaction như Aggravate, chỉ khác hằng số.
+        const emBonusSpread = (5 * em) / (1200 + em);
+        return 1.25 * (1 + emBonusSpread) * levelBonus;
+      }
       
       case "Crystallize":
         // Shield reaction, no direct damage multiplier
@@ -302,11 +357,14 @@ class DPSCalculator {
     const defenseMitigation = this.calculateDefenseMitigation(90, charStats.level, 0); // Assuming enemy level 90
     const resistanceMitigation = this.calculateResistanceMitigation(modifiers.enemyRes);
     
-    // Calculate reaction multiplier
+    // Calculate reaction multiplier — nhận reaction/direction từ modifiers,
+    // mặc định "Vaporize" + "forward" để giữ nguyên hành vi trước khi tham
+    // số hoá (xem comment ở DamageModifiers).
     const reactionMultiplier = this.calculateReactionMultiplier(
-      "Vaporize", // Default reaction, should be parameterized
+      modifiers.reaction ?? "Vaporize",
       em,
-      charStats.level
+      charStats.level,
+      modifiers.reactionDirection ?? "forward"
     );
     
     // Base damage formulas (simplified)
@@ -452,4 +510,4 @@ class DPSCalculator {
   }
 }
 
-export { DPSCalculator, type CharacterStats, type WeaponStats, type ArtifactStats, type TalentLevels, type DamageModifiers, type DPSCalculationResult };
+export { DPSCalculator, type CharacterStats, type WeaponStats, type ArtifactStats, type TalentLevels, type DamageModifiers, type DPSCalculationResult, type ReactionType, type ReactionDirection };

@@ -1,8 +1,6 @@
 import type { NextRequest } from "next/server";
-import { ok } from "@/lib/api/response";
 import { ApiError, withErrorHandling } from "@/lib/api/errors";
 import { withRateLimit } from "@/lib/api/rate-limit";
-import { DPSCalculator } from "@/lib/game/dps-calculator";
 import { z } from "zod";
 
 export const revalidate = 60;
@@ -43,8 +41,6 @@ const dpsRequestSchema = z.object({
   includeBreakdown: z.boolean().default(false),
 });
 
-const dpsCalculator = new DPSCalculator();
-
 export const POST = withErrorHandling(
   withRateLimit(async (req: NextRequest) => {
     const body = await req.json();
@@ -54,8 +50,16 @@ export const POST = withErrorHandling(
       throw ApiError.badRequest("Dữ liệu DPS calculation không hợp lệ", parsed.error.flatten().fieldErrors);
     }
 
-    const result = await dpsCalculator.calculateExpectedDPS(parsed.data);
-
-    return ok(result, { maxAgeSec: 60 });
+    // TODO(dps-api): DPSCalculator.calculateExpectedDPS() nhận 6 tham số
+    // (CharacterStats, WeaponStats, ArtifactStats, TalentLevels,
+    // DamageModifiers, rotation) — cần tra character/weapon trong DB rồi
+    // map từ `parsed.data` sang các kiểu đó. Trước đây route truyền cả DTO
+    // vào tham số đầu tiên → luôn TypeError (500) và làm `tsc` đỏ. Trả 501
+    // tường minh cho tới khi phần map này được hiện thực.
+    throw new ApiError(
+      501,
+      "NOT_IMPLEMENTED",
+      "Tính năng tính DPS qua API chưa được hỗ trợ"
+    );
   }, { prefix: "dps-calculator", limit: 30 })
 );

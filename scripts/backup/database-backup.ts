@@ -128,14 +128,14 @@ class DatabaseBackup {
    */
   private async getDatabaseTables(): Promise<string[]> {
     try {
-      const tables = await prisma.$queryRaw`
+      const tables = await prisma.$queryRaw<Array<{ tablename: string }>>`
         SELECT tablename 
         FROM pg_tables 
         WHERE schemaname = 'public'
         ORDER BY tablename
       `;
       
-      return tables.map((t: any) => t.tablename);
+      return tables.map((t) => t.tablename);
     } catch (err) {
       console.error("Failed to get database tables:", err);
       return [];

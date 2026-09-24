@@ -1,0 +1,93 @@
+name: Data Quality Monitor
+
+# Lấp khoảng trống đã audit ngày 2026-09-22: monitor:dashboard tồn tại
+# nhưng KHÔNG có workflow nào gọi nó — chỉ chạy tay. Nối vào lịch tự động,
+# theo ĐÚNG pattern đã có ở update-data.yml (chạy xong → nếu có vấn đề →
+# tự tạo GitHub Issue, không cần ai bấm gì trên đường happy-path; nếu có
+# vấn đề thật, Issue hiện ra để người duy nhất của dự án tự quyết định xử
+# lý — không tự "sửa" data theo phỏng đoán ở bước kiểm tra chất lượng).
+on:
+  schedule:
+    # 6:00 UTC+7 = 23:00 UTC — chạy 1h SAU auto-fix.yml (21:00 UTC) và
+    # update-data.yml (thứ 4, 22:00 UTC), để luôn đo trên dữ liệu MỚI
+    # NHẤT vừa được các workflow kia cập nhật, không đo trên data cũ.
+    - cron: '0 23 * * *'
+  workflow_dispatch:
+
+env:
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  DIRECT_URL: ${{ secrets.DIRECT_URL }}
+
+concurrency:
+  group: data-quality-monitor
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run data quality dashboard (JSON mode)
+        id: dashboard
+        continue-on-error: true
+        run: npm run monitor:dashboard -- --json
+
+      - name: Read quality report
+        id: report
+        run: |
+          CRITICAL=$(node -e "console.log(JSON.parse(require('fs').readFileSync('scripts/monitoring/quality-report.json','utf-8')).criticalCount)")
+          SCORE=$(node -e "console.log(JSON.parse(require('fs').readFileSync('scripts/monitoring/quality-report.json','utf-8')).qualityScore)")
+          echo "critical=$CRITICAL" >> $GITHUB_OUTPUT
+          echo "score=$SCORE" >> $GITHUB_OUTPUT
+
+      - name: Create issue if critical alerts found (tránh trùng lặp)
+        if: steps.report.outputs.critical != '0'
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const fs = require('fs');
+            const report = JSON.parse(fs.readFileSync('scripts/monitoring/quality-report.json', 'utf-8'));
+
+            // Tránh spam issue mỗi ngày cho CÙNG 1 vấn đề chưa xử lý —
+            // tìm issue "data-quality" đang mở, nếu có thì comment thêm
+            // vào đó thay vì tạo issue mới.
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'data-quality',
+            });
+
+            const alertLines = report.alerts
+              .map(a => `- **[${a.level.toUpperCase()}]** ${a.message}`)
+              .join('\n');
+            const body = `Data Quality Monitor phát hiện vấn đề cần kiểm tra tay (score ${report.qualityScore.toFixed(0)}/100).\n\n${alertLines}\n\n` +
+              `Xem chi tiết: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+
+            if (existing.data.length > 0) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.data[0].number,
+                body: `🔴 Vẫn còn ${report.criticalCount} critical alert(s) ở lần chạy hôm nay:\n\n${body}`,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `🔴 Data quality: ${report.criticalCount} critical alert(s) — score ${report.qualityScore.toFixed(0)}/100`,
+                body: body + `\n\n_Issue này KHÔNG tự đóng — đóng tay sau khi đã xử lý xong. Lần chạy sau nếu vẫn còn alert sẽ comment thêm vào issue này thay vì tạo issue mới._`,
+                labels: ['data-quality', 'bug'],
+              });
+            }

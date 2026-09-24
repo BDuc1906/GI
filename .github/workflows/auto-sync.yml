@@ -21,6 +21,23 @@ on:
   repository_dispatch:
     types: [genshin-db-update]
 
+# BUG ĐÃ SỬA (2026-09): thiếu 2 biến này khiến `npm ci` (hook postinstall:
+# prisma generate) báo PrismaConfigEnvError ngay ở bước cài dependency —
+# giống hệt lỗi đã fix ở ci.yml/preview.yml/auto-fix.yml/release.yml, chỉ
+# là quên áp dụng sang file này. Giá trị GIẢ ở đây chỉ để thoả mãn `prisma
+# generate` (không thực sự mở kết nối) — các bước ghi DB thật bên dưới vẫn
+# dùng `secrets.DATABASE_URL` riêng qua `env:` của từng step.
+env:
+  DATABASE_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
+  DIRECT_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
+
+# Không để 2 lần chạy (schedule trùng workflow_dispatch tay, hoặc double
+# trigger) ghi đè nhau lên cùng 1 DB production — cùng lý do auto-fix.yml/
+# full-pipeline.yml đều có concurrency group riêng.
+concurrency:
+  group: auto-sync-game-data
+  cancel-in-progress: false
+
 jobs:
   check-update:
     name: Check for genshin-db Update
@@ -32,10 +49,10 @@ jobs:
     
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: '24'
           cache: 'npm'
@@ -79,10 +96,10 @@ jobs:
     
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: '24'
           cache: 'npm'
@@ -108,25 +125,33 @@ jobs:
       - name: Seed database
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        # BUG ĐÃ SỬA (2026-09): `npm run db:seed` gọi kèm cờ --env-file=.env
+        # (định nghĩa trong package.json) — không tồn tại trên CI (gitignore,
+        # biến môi trường đã bơm qua `env:` ở step này rồi), khiến tsx thoát
+        # lỗi "node: .env: not found" trước khi seed.ts chạy dòng nào. Gọi
+        # thẳng tsx bỏ qua cờ đó — cùng fix đã áp dụng ở update-data.yml.
         run: |
           echo "💾 Seeding database with new data..."
-          npm run db:seed
+          npx tsx scripts/seed/seed.ts
           echo "✅ Database seeded successfully"
       
       - name: Verify data integrity
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        # Lý do bỏ `npm run db:verify`: xem comment ở step "Seed database" —
+        # cùng cờ --env-file=.env cứng trong package.json.
         run: |
           echo "🔍 Verifying data integrity..."
-          npm run db:verify
+          npx tsx scripts/seed/verify-seed-integrity.ts
           echo "✅ Data integrity verified"
       
       - name: Seed enhanced enemy data
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        # Lý do bỏ `npm run db:seed:enemies`: xem comment ở step "Seed database".
         run: |
           echo "👾 Seeding enhanced enemy data..."
-          npm run db:seed:enemies
+          npx tsx scripts/seed/seed-enemies-enhanced.ts
           echo "✅ Enhanced enemy data seeded"
       
       - name: Mirror images to R2
@@ -135,9 +160,10 @@ jobs:
           CLOUDFLARE_R2_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET_ACCESS_KEY }}
           CLOUDFLARE_R2_BUCKET: ${{ secrets.CLOUDFLARE_R2_BUCKET }}
           CLOUDFLARE_R2_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_R2_ACCOUNT_ID }}
+        # Lý do bỏ `npm run images:mirror`: xem comment ở step "Seed database".
         run: |
           echo "🖼️ Mirroring images to R2..."
-          npm run images:mirror
+          npx tsx scripts/images/mirror-images-to-r2.ts
           echo "✅ Images mirrored successfully"
       
       - name: Run tests
@@ -200,7 +226,7 @@ jobs:
     
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       
       - name: Create backup
         env:

@@ -98,6 +98,7 @@ async function scanForReview(): Promise<Record<string, ReviewRecord[]>> {
     select: {
       id: true,
       name: true,
+      description: true,
       descriptionTranslations: true,
       talentsTranslations: true,
       constellationsTranslations: true,
@@ -210,6 +211,7 @@ async function scanForReview(): Promise<Record<string, ReviewRecord[]>> {
     select: {
       id: true,
       name: true,
+      description: true,
       descriptionTranslations: true,
       passiveByRefinementTranslations: true,
     },

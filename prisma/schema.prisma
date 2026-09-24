@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -120,6 +119,13 @@ model Material {
   // Ảnh gốc (hotlink) — sở hữu bởi seed-helpers.ts::upsertMaterial, ghi đè
   // tự do mỗi lần seed. Xem comment chi tiết ở Character.iconUrlOriginal.
   iconUrlOriginal String?
+  // Phiên bản game material này xuất hiện, vd "3.0" — cùng lý do và
+  // nguồn dữ liệu với Weapon.gameVersion. Material.version có thể rỗng
+  // ("") cho vật liệu có từ bản 1.0 launch (genshin-db không đánh dấu
+  // version cho nội dung ra mắt cùng lúc với game) — giữ nguyên chuỗi
+  // rỗng đó thay vì tự suy ra "1.0", vì "rỗng" và "1.0" mang ý nghĩa
+  // khác nhau (biết chắc launch, so với có thể chỉ là thiếu dữ liệu).
+  gameVersion String?
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
 }
@@ -152,6 +158,12 @@ model Weapon {
   // seed. Xem comment chi tiết ở Character.iconUrlOriginal.
   iconUrlOriginal String?
   ascensionMaterials Json?
+  // Phiên bản game vũ khí này ra mắt, vd "1.0" — lấy từ field `.version`
+  // genshin-db trả về (đã verify tồn tại cho MỌI weapon, không riêng gì
+  // Character). BỔ SUNG 2026-09 — trước đây trường này bị bỏ sót dù
+  // Character/Domain đã có `gameVersion` từ lâu, và genshin-db LUÔN có
+  // sẵn field này (không cần thêm dependency/nguồn dữ liệu mới).
+  gameVersion String?
   updatedAt   DateTime @updatedAt
   createdAt   DateTime @default(now())
 
@@ -177,6 +189,9 @@ model ArtifactSet {
   // seed. Xem comment chi tiết ở Character.iconUrlOriginal. (Riêng các ảnh
   // trong `pieces` JSON không bị mirror nên không cần cột Original tương ứng.)
   iconUrlOriginal String?
+  // Phiên bản game artifact set này ra mắt, vd "1.2" — cùng lý do và
+  // nguồn dữ liệu với Weapon.gameVersion ở trên.
+  gameVersion String?
   updatedAt   DateTime @updatedAt
   createdAt   DateTime @default(now())
 
