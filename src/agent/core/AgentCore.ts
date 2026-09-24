@@ -223,7 +223,7 @@ export class AgentCore {
             this.sessionId,
             tr.toolName,
             Date.now() - stepStartTime,
-            !tr.isError
+            "isError" in tr ? !tr.isError : true
           );
         }
         
@@ -240,20 +240,33 @@ export class AgentCore {
         
         // Record token usage and cost
         if (step.usage) {
+          const promptTokens = "promptTokens" in step.usage && typeof step.usage.promptTokens === "number"
+            ? step.usage.promptTokens
+            : 0;
+          const completionTokens = "completionTokens" in step.usage && typeof step.usage.completionTokens === "number"
+            ? step.usage.completionTokens
+            : 0;
+
           perfMonitor.recordTokenUsage(
             this.sessionId,
-            step.usage.promptTokens,
-            step.usage.completionTokens
+            promptTokens,
+            completionTokens
           );
-          
+
           // Record cost (assuming OpenAI pricing for now)
+          const config = getConfig();
+          const provider = "provider" in config.llm && typeof config.llm.provider === "string"
+            ? config.llm.provider
+            : "openai";
+          const model = config.llm.model;
+
           costTracker.recordCost(
             this.sessionId,
             this.user.id,
-            getConfig().llm.provider,
-            getConfig().llm.model,
-            step.usage.promptTokens,
-            step.usage.completionTokens
+            provider,
+            model,
+            promptTokens,
+            completionTokens
           );
         }
       },
@@ -301,9 +314,9 @@ export class AgentCore {
    * trực tiếp.
    */
   async process(userMessage: string): Promise<string> {
-    const startTime = Date.now();
+    const _startTime = Date.now();
     const perfMonitor = getPerformanceMonitor();
-    const costTracker = getCostTracker();
+    const _costTracker = getCostTracker();
     
     const { systemPrompt, history, tools } = await this.buildRequestParts(userMessage);
     const llm = await createLLMClient();

@@ -16,7 +16,6 @@ const LIST_SELECT = {
   enemyType: true,
   categoryType: true,
   categoryText: true,
-  level: true,
   hp: true,
   atk: true,
   def: true,

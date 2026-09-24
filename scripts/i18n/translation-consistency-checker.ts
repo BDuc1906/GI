@@ -65,14 +65,14 @@ try {
   const glossaryContent = fs.readFileSync(GLOSSARY_PATH, "utf-8");
   glossary = JSON.parse(glossaryContent);
   console.log(`✅ Đã load glossary với ${Object.keys(glossary).length} categories`);
-} catch (err) {
+} catch {
   console.warn(`⚠️ Không đọc được glossary từ ${GLOSSARY_PATH}`);
 }
 
 /**
  * Kiểm tra terminology consistency
  */
-function checkTerminologyConsistency(
+function _checkTerminologyConsistency(
   text: string,
   expectedTerm: string,
   locale: string,

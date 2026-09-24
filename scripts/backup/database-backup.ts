@@ -149,7 +149,7 @@ class DatabaseBackup {
     try {
       const packageJson = JSON.parse(fs.readFileSync("package.json", "utf-8"));
       return packageJson.dependencies["genshin-db"].replace(/[\^~]/g, "");
-    } catch (err) {
+    } catch {
       return "unknown";
     }
   }
@@ -187,7 +187,7 @@ class DatabaseBackup {
   /**
    * Upload backup to cloud storage
    */
-  private async uploadToCloud(filePath: string, metadata: BackupMetadata): Promise<void> {
+  private async uploadToCloud(_filePath: string, _metadata: BackupMetadata): Promise<void> {
     console.log("☁️ Uploading backup to cloud...");
     
     // Would implement actual cloud upload here

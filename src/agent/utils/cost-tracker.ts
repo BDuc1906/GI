@@ -123,7 +123,7 @@ class CostTracker {
   /**
    * Update budget tracking
    */
-  private updateBudgetTracking(cost: number): void {
+  private updateBudgetTracking(_cost: number): void {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);

@@ -117,8 +117,6 @@ export function ServerTimersClient({ abyssArt, abyssIcons }: ServerTimersClientP
         {/* Spiral Abyss — tile nền ảnh, chữ căn giữa */}
         <ArtTile
           label="La Hoàn Thâm Cảnh"
-          art={abyssArt}
-          icon={abyssIcons}
           accent="var(--el-electro)"
           className="h-full min-h-40"
         >

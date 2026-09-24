@@ -2,7 +2,7 @@ import type { NextRequest } from "next/server";
 import { ok } from "@/lib/api/response";
 import { ApiError, withErrorHandling } from "@/lib/api/errors";
 import { withRateLimit } from "@/lib/api/rate-limit";
-import { MaterialCalculator } from "@/lib/game/material-calculator";
+import { MaterialCalculator, type AscensionPlan, type TalentPlan } from "@/lib/game/material-calculator";
 import { z } from "zod";
 
 export const revalidate = 60;
@@ -57,7 +57,7 @@ export const POST = withErrorHandling(
       character.vision
     );
 
-    let result: any = { ascension: ascensionPlan };
+    const result: { ascension: AscensionPlan; talent?: TalentPlan } = { ascension: ascensionPlan };
 
     if (parsed.data.includeTalent) {
       const talentPlan = materialCalculator.calculateTalentMaterials(

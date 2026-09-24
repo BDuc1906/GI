@@ -142,7 +142,7 @@ class DPSCalculator {
   calculateER(artifacts: ArtifactStats): number {
     const er = 1 + (artifacts.subStats.erPercent / 100) +
              (artifacts.sandsMainStat === "Energy Recharge%" ? artifacts.sandsValue / 100 : 0) +
-             (artifacts.gobletMainStat === "Energy Recharge%" ? artifacts.gobletValue / 0) +
+             (artifacts.gobletMainStat === "Energy Recharge%" ? artifacts.gobletValue / 100 : 0) +
              (artifacts.circletMainStat === "Energy Recharge%" ? artifacts.circletValue / 100 : 0);
     
     return er;
@@ -235,7 +235,7 @@ class DPSCalculator {
    * Calculate defense mitigation
    */
   calculateDefenseMitigation(defenderLevel: number, attackerLevel: number, defense: number): number {
-    const levelDiff = defenderLevel - attackerLevel;
+    const _levelDiff = defenderLevel - attackerLevel;
     const levelRatio = (defenderLevel + 100) / (attackerLevel + 100);
     
     const defenseMultiplier = defense / (defense + (defenderLevel + 100) * (1 + levelRatio * 0.5));
@@ -276,7 +276,7 @@ class DPSCalculator {
     }
   ): DPSCalculationResult {
     const totalATK = this.calculateTotalATK(charStats, weapon, artifacts);
-    const totalHP = this.calculateTotalHP(charStats, artifacts);
+    const _totalHP = this.calculateTotalHP(charStats, artifacts);
     const em = this.calculateEM(artifacts);
     const cv = this.calculateCV(artifacts);
     const er = this.calculateER(artifacts);
@@ -295,7 +295,7 @@ class DPSCalculator {
                       (artifacts.sandsMainStat.includes("DMG%") ? artifacts.sandsValue / 100 : 0);
     
     // Calculate elemental damage bonus if applicable
-    const elementalDmgBonus = 1 + (artifacts.gobletMainStat.includes("Elemental DMG%") ? 
+    const _elementalDmgBonus = 1 + (artifacts.gobletMainStat.includes("Elemental DMG%") ?
                                     artifacts.gobletValue / 100 : 0);
     
     // Calculate mitigation
@@ -405,7 +405,7 @@ class DPSCalculator {
     // Basic formula: ER needed to burst every rotation
     // This is a simplified calculation
     const particlesPerSecond = 3; // Average particle generation
-    const energyRegen = 0.167; // Base energy regen per second
+    const _energyRegen = 0.167; // Base energy regen per second
     
     const targetUptime = 0.9; // 90% burst uptime target
     const rotationTime = 10; // 10-second rotation

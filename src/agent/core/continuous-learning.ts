@@ -72,7 +72,7 @@ class ContinuousLearningSystem {
         where: { id: feedback.sessionId },
         data: {
           metadata: {
-            feedback: feedbackWithTimestamp
+            feedback: feedbackWithTimestamp as Record<string, unknown>
           }
         }
       });
@@ -130,7 +130,7 @@ class ContinuousLearningSystem {
     
     // Analyze feedback patterns
     const negativeFeedback = this.feedbackBuffer.filter(f => f.feedback === "negative");
-    const positiveFeedback = this.feedbackBuffer.filter(f => f.feedback === "positive");
+    const _positiveFeedback = this.feedbackBuffer.filter(f => f.feedback === "positive");
     
     // Identify common issues from negative feedback
     const commonIssues = this.analyzeCommonIssues(negativeFeedback);

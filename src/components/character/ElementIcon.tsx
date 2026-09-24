@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { elementColorVar } from "@/lib/ui/theme";
 
@@ -66,7 +67,7 @@ export function ElementIcon({
       )}
       
       {/* Main icon */}
-      <img
+      <Image
         src={iconUrl}
         alt={vision}
         width={size}
@@ -74,6 +75,7 @@ export function ElementIcon({
         className="relative z-10 object-contain"
         style={glowStyle}
         loading="lazy"
+        unoptimized
         onError={() => setBroken(true)}
       />
     </div>

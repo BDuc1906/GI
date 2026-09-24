@@ -1,7 +1,7 @@
 // src/lib/game/meta-tracker.ts
 /**
  * Real-time Meta Tracking và Analysis
- * 
+ *
  * Features:
  * 1. Track current meta teams and compositions
  * 2. Analyze usage rates and win rates
@@ -43,12 +43,12 @@ class MetaTracker {
   private currentMeta: Map<string, MetaTeam> = new Map();
   private historicalMeta: Map<string, MetaShift[]> = new Map();
   private characterMeta: Map<string, CharacterMeta> = new Map();
-  
+
   constructor() {
     this.initializeCurrentMeta();
     this.initializeCharacterMeta();
   }
-  
+
   /**
    * Initialize current meta data (would be updated from external sources in production)
    */
@@ -127,12 +127,12 @@ class MetaTracker {
         lastUpdated: new Date()
       }
     ];
-    
+
     metaTeams.forEach(team => {
       this.currentMeta.set(team.name, team);
     });
   }
-  
+
   /**
    * Initialize character meta data
    */
@@ -238,53 +238,53 @@ class MetaTracker {
         metaTier: "B"
       }
     ];
-    
+
     characterMetas.forEach(charMeta => {
       this.characterMeta.set(charMeta.characterId, charMeta);
     });
   }
-  
+
   /**
    * Get current meta teams
    */
   getCurrentMeta(): MetaTeam[] {
     return Array.from(this.currentMeta.values()).sort((a, b) => b.usageRate - a.usageRate);
   }
-  
+
   /**
    * Get character meta information
    */
   getCharacterMeta(characterId: string): CharacterMeta | null {
     return this.characterMeta.get(characterId) || null;
   }
-  
+
   /**
    * Get top meta teams by usage rate
    */
   getTopMetaTeams(limit: number = 5): MetaTeam[] {
     return this.getCurrentMeta().slice(0, limit);
   }
-  
+
   /**
    * Get meta teams by difficulty
    */
   getMetaTeamsByDifficulty(difficulty: "easy" | "medium" | "hard"): MetaTeam[] {
     return this.getCurrentMeta().filter(team => team.difficulty === difficulty);
   }
-  
+
   /**
    * Detect meta shifts compared to previous data
    */
   detectMetaShifts(): MetaShift[] {
     const shifts: MetaShift[] = [];
-    
+
     for (const [teamName, currentTeam] of this.currentMeta.entries()) {
       const historicalData = this.historicalMeta.get(teamName);
-      
+
       if (historicalData && historicalData.length > 0) {
         const previousUsage = historicalData[historicalData.length - 1].currentUsage;
         const change = currentTeam.usageRate - previousUsage;
-        
+
         let trend: "rising" | "stable" | "falling";
         if (change > 0.05) {
           trend = "rising";
@@ -293,7 +293,7 @@ class MetaTracker {
         } else {
           trend = "stable";
         }
-        
+
         shifts.push({
           teamName,
           previousUsage,
@@ -304,23 +304,23 @@ class MetaTracker {
         });
       }
     }
-    
+
     return shifts.sort((a, b) => Math.abs(b.change) - Math.abs(a.change));
   }
-  
+
   /**
    * Update meta data (would be called from external data source)
    */
   updateMetaData(newTeams: MetaTeam[]): void {
     for (const newTeam of newTeams) {
       const existingTeam = this.currentMeta.get(newTeam.name);
-      
+
       if (existingTeam) {
         // Record historical data
         if (!this.historicalMeta.has(newTeam.name)) {
           this.historicalMeta.set(newTeam.name, []);
         }
-        
+
         this.historicalMeta.get(newTeam.name)!.push({
           teamName: newTeam.name,
           previousUsage: existingTeam.usageRate,
@@ -330,30 +330,30 @@ class MetaTracker {
           detectedAt: new Date()
         });
       }
-      
+
       this.currentMeta.set(newTeam.name, newTeam);
     }
   }
-  
+
   /**
    * Get team recommendations based on available characters
    */
   getTeamRecommendations(availableCharacters: string[]): MetaTeam[] {
     const recommendations: MetaTeam[] = [];
-    
+
     for (const team of this.currentMeta.values()) {
-      const hasAllCharacters = team.composition.every(char => 
+      const hasAllCharacters = team.composition.every(char =>
         availableCharacters.includes(char.toLowerCase())
       );
-      
+
       if (hasAllCharacters) {
         recommendations.push(team);
       }
     }
-    
+
     return recommendations.sort((a, b) => b.winRate - a.winRate);
   }
-  
+
   /**
    * Analyze counter relationships
    */
@@ -362,19 +362,19 @@ class MetaTracker {
     weakAgainst: string[];
   } {
     const charMeta = this.characterMeta.get(characterId);
-    
+
     if (!charMeta) {
       return { counters: [], weakAgainst: [] };
     }
-    
+
     return {
       counters: charMeta.counters,
-      weakAgainst: charMeta.synergies.filter(s => 
+      weakAgainst: charMeta.synergies.filter(s =>
         this.characterMeta.get(s)?.counters.includes(characterId)
       )
     };
   }
-  
+
   /**
    * Generate meta analysis report
    */
@@ -384,36 +384,54 @@ class MetaTracker {
     const topCharacters = Array.from(this.characterMeta.values())
       .sort((a, b) => b.usageRate - a.usageRate)
       .slice(0, 10);
-    
-    return `
-## Genshin Impact Meta Analysis Report
 
-### Top Meta Teams
-${topTeams.map((team, i) => 
-  `${i + 1}. ${team.name} (${(team.usageRate * 100).toFixed(1)}% usage, ${(team.winRate * 100).toFixed(1)}% win rate)
+    const topTeamsSection = topTeams.map((team, i) =>
+      `${i + 1}. ${team.name} (${(team.usageRate * 100).toFixed(1)}% usage, ${(team.winRate * 100).toFixed(1)}% win rate)
    - Composition: ${team.composition.join(", ")}
    - Difficulty: ${team.difficulty}
    - Avg Clear Time: ${team.averageClearTime}s`
-`).join("\n")}
+    ).join("\n");
 
-### Top Characters by Usage
-${topCharacters.map((char, i) => 
-  `${i + 1}. ${char.characterName} (${(char.usageRate * 100).toFixed(1)}% usage, Tier ${char.metaTier})
+    const topCharactersSection = topCharacters.map((char, i) =>
+      `${i + 1}. ${char.characterName} (${(char.usageRate * 100).toFixed(1)}% usage, Tier ${char.metaTier})
    - Avg Placement: ${char.averagePlacement.toFixed(1)}
    - Synergies: ${char.synergies.join(", ")}
-   - Counters: ${char.counters.join(", ")}
-`).join("\n")}
+   - Counters: ${char.counters.join(", ")}`
+    ).join("\n");
+
+    const metaShiftsSection = shifts.length > 0
+      ? shifts.slice(0, 5).map(shift =>
+          `- ${shift.teamName}: ${shift.trend} (${shift.change > 0 ? "+" : ""}${(shift.change * 100).toFixed(1)}%)`
+        ).join("\n")
+      : "No significant meta shifts detected";
+
+    const anemoPercentage = ((Array.from(this.currentMeta.values()).filter(t =>
+      t.composition.some((c: string) =>
+        c.toLowerCase().includes("kazuha") ||
+        c.toLowerCase().includes("venti") ||
+        c.toLowerCase().includes("sucrose")
+      )
+    ).length / this.currentMeta.size) * 100).toFixed(1);
+
+    const averageWinRate = (Array.from(this.currentMeta.values()).reduce((sum, t) => sum + t.winRate, 0) / this.currentMeta.size * 100).toFixed(1);
+
+    const report = `## Genshin Impact Meta Analysis Report
+
+### Top Meta Teams
+${topTeamsSection}
+
+### Top Characters by Usage
+${topCharactersSection}
 
 ### Meta Shifts Detected
-${shifts.length > 0 ? shifts.slice(0, 5).map(shift => 
-  `- ${shift.teamName}: ${shift.trend} (${shift.change > 0 ? "+" : ""}${(shift.change * 100).toFixed(1)}%)`
-`).join("\n") : "No significant meta shifts detected"}
+${metaShiftsSection}
 
 ### Meta Analysis Summary
 - Total tracked teams: ${this.currentMeta.size}
-- Average team win rate: ${(Array.from(this.currentMeta.values()).reduce((sum, t) => sum + t.winRate, 0) / this.currentMeta.size * 100).toFixed(1)}%
-- Most popular element: Anemo (present in ${(Array.from(this.currentMeta.values()).filter(t => t.composition.some(c => c.toLowerCase().includes("kazuha") || c.toLowerCase().includes("venti") || c.toLowerCase().includes("sucrose"))).length / this.currentMeta.size * 100).toFixed(1)}% of top teams)
-`.trim();
+- Average team win rate: ${averageWinRate}%
+- Most popular element: Anemo (present in ${anemoPercentage}% of top teams)`;
+
+    return report.trim();
   }
 }
 

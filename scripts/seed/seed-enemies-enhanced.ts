@@ -151,7 +151,7 @@ function extractWeaknesses(name: string, category: string): string[] {
 /**
  * Extract resistance information từ tên enemy
  */
-function extractResistances(name: string, category: string): string[] {
+function extractResistances(name: string, _category: string): string[] {
   const nameLower = name.toLowerCase();
   
   // Check predefined resistances
@@ -186,7 +186,7 @@ function extractImmunities(name: string): string[] {
 /**
  * Determine if enemy is a boss
  */
-function isBossEnemy(name: string, category: string): boolean {
+function isBossEnemy(name: string, _category: string): boolean {
   const nameLower = name.toLowerCase();
   
   // Weekly bosses

@@ -54,7 +54,7 @@ export const POST = withErrorHandling(
       throw ApiError.badRequest("Dữ liệu DPS calculation không hợp lệ", parsed.error.flatten().fieldErrors);
     }
 
-    const result = await dpsCalculator.calculateDPS(parsed.data);
+    const result = await dpsCalculator.calculateExpectedDPS(parsed.data);
 
     return ok(result, { maxAgeSec: 60 });
   }, { prefix: "dps-calculator", limit: 30 })

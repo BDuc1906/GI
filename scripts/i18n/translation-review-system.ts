@@ -42,7 +42,7 @@ interface ReviewRecord {
   createdAt: Date;
 }
 
-interface ReviewQueue {
+interface _ReviewQueue {
   locale: string;
   pending: number;
   approved: number;
@@ -71,7 +71,7 @@ function loadReviewStatus(): Record<string, ReviewRecord[]> {
       const content = fs.readFileSync(REVIEW_STATUS_FILE, "utf-8");
       return JSON.parse(content);
     }
-  } catch (err) {
+  } catch {
     console.warn("⚠️ Không đọc được review status file, tạo mới");
   }
   return {};

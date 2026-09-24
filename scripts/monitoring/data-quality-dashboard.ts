@@ -13,6 +13,7 @@
  */
 
 import { prisma } from "../../src/lib/db/prisma";
+import * as fs from "fs";
 
 interface QualityMetrics {
   dataFreshness: {
@@ -152,7 +153,7 @@ class DataQualityDashboard {
    */
   private async getSyncStatus(): Promise<QualityMetrics["syncStatus"]> {
     try {
-      const packageJson = JSON.parse(await require("fs").promises.readFile("package.json", "utf-8"));
+      const packageJson = JSON.parse(await fs.promises.readFile("package.json", "utf-8"));
       const currentVersion = packageJson.dependencies["genshin-db"].replace(/[\^~]/g, "");
       
       // Would get latest version from npm
@@ -167,7 +168,7 @@ class DataQualityDashboard {
         currentVersion,
         latestVersion
       };
-    } catch (err) {
+    } catch {
       return {
         lastSync: new Date(),
         lastSyncSuccess: false,

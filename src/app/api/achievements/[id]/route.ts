@@ -7,7 +7,7 @@ export const revalidate = 60;
 export const dynamic = "force-dynamic";
 
 export const GET = withErrorHandling(
-  withRateLimit(async (req: NextRequest, { params }: { params: Promise<{ id: string }> }) => {
+  withRateLimit(async (req: NextRequest, { params }: { params: Promise<Record<string, string>> }) => {
     const { id } = await params;
 
     const { prisma } = await import("@/lib/db/prisma");

@@ -6,15 +6,6 @@ import { getContinuousLearningSystem } from "@/agent/core/continuous-learning";
 
 export const dynamic = "force-dynamic";
 
-const feedbackSchema = {
-  sessionId: "string",
-  messageId: "string",
-  feedback: "positive" | "negative" | "neutral",
-  rating: "number", // 1-5
-  comment: "string",
-  category: "accuracy" | "helpfulness" | "clarity" | "completeness" | "other"
-};
-
 export const POST = withErrorHandling(
   withRateLimit(async (req: NextRequest) => {
     const body = await req.json();
@@ -55,7 +46,7 @@ export const POST = withErrorHandling(
 );
 
 export const GET = withErrorHandling(
-  withRateLimit(async (req: NextRequest) => {
+  withRateLimit(async (_req: NextRequest) => {
     const learningSystem = getContinuousLearningSystem();
     const metrics = learningSystem.getMetrics();
     const suggestions = learningSystem.suggestPromptImprovements();
