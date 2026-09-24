@@ -1,0 +1,99 @@
+name: Translation Consistency Monitor
+
+# Lấp khoảng trống đã audit ngày 2026-09-22: 3 script i18n (translate-with-
+# glossary / translation-review-system / translation-consistency-checker)
+# không hề được workflow nào gọi — chỉ chạy tay. Workflow này nối
+# translation-consistency-checker.ts (đã xác nhận CHỈ ĐỌC DB, không có
+# .update()/.create() nào — an toàn 100% để chạy tự động không cần review)
+# vào lịch, tự báo qua GitHub Issue khi có vấn đề.
+#
+# CHỦ Ý KHÔNG nối translate-with-glossary.ts (script SINH bản dịch mới
+# bằng Azure Translator rồi ghi thẳng vào DB) vào workflow tự động này —
+# khác với dữ liệu số liệu (ATK/HP/...) có thể verify khách quan bằng
+# verify-seed-integrity.ts, CHẤT LƯỢNG bản dịch máy mới sinh ra KHÔNG có
+# cách nào CI tự kiểm chứng được (không có "đúng/sai" nhị phân như số
+# liệu) — nên KHÔNG auto-merge được an toàn theo đúng pattern đã có ở
+# update-data.yml. Xem mục "Hướng cải thiện tiếp theo" trong
+# LEIBO_IMPROVEMENT_PLAN.md để biết thiết kế đề xuất cho bước này (xuất
+# bản dịch mới ra PR để review, thay vì ghi thẳng DB không ai xem).
+on:
+  schedule:
+    # 6:30 UTC+7 = 23:30 UTC — chạy sau data-quality-monitor.yml (23:00 UTC)
+    - cron: '30 23 * * *'
+  workflow_dispatch:
+
+env:
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  DIRECT_URL: ${{ secrets.DIRECT_URL }}
+
+concurrency:
+  group: i18n-consistency-monitor
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run translation consistency checker (read-only)
+        run: npx tsx scripts/i18n/translation-consistency-checker.ts --check-terminology --check-formatting --check-length
+
+      - name: Read consistency report
+        id: report
+        run: |
+          ERRORS=$(node -e "console.log(JSON.parse(require('fs').readFileSync('scripts/i18n/consistency-report.json','utf-8')).bySeverity.error || 0)")
+          echo "errors=$ERRORS" >> $GITHUB_OUTPUT
+
+      - name: Create/update issue if consistency errors found (tránh trùng lặp)
+        if: steps.report.outputs.errors != '0'
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const fs = require('fs');
+            const report = JSON.parse(fs.readFileSync('scripts/i18n/consistency-report.json', 'utf-8'));
+
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'i18n-consistency',
+            });
+
+            const topIssues = report.issues
+              .filter(i => i.severity === 'error')
+              .slice(0, 15)
+              .map(i => `- [${i.locale}] ${i.entityType} "${i.entityName}" (${i.field}): ${i.description}`)
+              .join('\n');
+            const body = `Translation Consistency Monitor tìm thấy ${report.bySeverity.error} lỗi (severity=error), ` +
+              `tổng ${report.totalIssues} issue.\n\n**15 lỗi đầu tiên:**\n${topIssues}\n\n` +
+              `Xem đầy đủ: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}\n\n` +
+              `Chạy lại tay để re-generate các bản dịch bị lỗi:\n` +
+              `\`npm run i18n:translate-with-glossary -- --locale=<locale> --only=<characters|weapons>\``;
+
+            if (existing.data.length > 0) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.data[0].number,
+                body: `🟡 Lần chạy hôm nay:\n\n${body}`,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `🟡 Translation consistency: ${report.bySeverity.error} error(s) found`,
+                body: body + `\n\n_Issue này KHÔNG tự đóng — đóng tay sau khi đã xử lý xong._`,
+                labels: ['i18n-consistency'],
+              });
+            }

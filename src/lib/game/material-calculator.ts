@@ -147,7 +147,7 @@ class MaterialCalculator {
     ],
     9: [
       { materialId: "talent4", materialName: "Talent Book 4", quantity: 20, tier: 4 },
-      { materialId: "boss8", materialName: "Boss Material", rarity: 16, tier: 4 }
+      { materialId: "boss8", materialName: "Boss Material", quantity: 16, tier: 4 }
     ],
     10: [
       { materialId: "talent4", materialName: "Talent Book 4", quantity: 24, tier: 4 },
@@ -359,7 +359,7 @@ class MaterialCalculator {
       );
       
       schedule.push({
-        day: day as any,
+        day: day as "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday",
         domains,
         characters: charactersForDay.map(c => c.name),
         materials: materialsForDay
@@ -430,7 +430,7 @@ class MaterialCalculator {
     for (const plan of plans) {
       allMaterials.push(...plan.materials);
       totalResin += plan.totalResinNeeded;
-      totalDays += plan.farmingDays || 0;
+      totalDays += "farmingDays" in plan ? plan.farmingDays : 0;
     }
     
     // Aggregate all materials
@@ -440,10 +440,10 @@ class MaterialCalculator {
     const priorityList = aggregatedMaterials.map(material => ({
       material,
       needed: material.quantity,
-      priority: material.tier >= 3 ? "high" : material.tier === 2 ? "medium" : "low"
+      priority: material.tier >= 3 ? "high" : material.tier === 2 ? "medium" : "low" as const
     })).sort((a, b) => {
-      const priorityOrder = { high: 0, medium: 1, low: 2 };
-      return priorityOrder[a.priority] - priorityOrder[b.priority];
+      const priorityOrder: Record<"high" | "medium" | "low", number> = { high: 0, medium: 1, low: 2 };
+      return priorityOrder[a.priority as keyof typeof priorityOrder] - priorityOrder[b.priority as keyof typeof priorityOrder];
     });
     
     return {

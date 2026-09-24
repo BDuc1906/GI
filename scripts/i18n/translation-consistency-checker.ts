@@ -15,7 +15,12 @@
  *   npx tsx --env-file=.env scripts/i18n/translation-consistency-checker.ts
  *
  *   --locale=ja              Check chỉ locale cụ thể
- *   --fix-terminology        Auto-fix terminology inconsistencies
+ *   --check-terminology      Check thuật ngữ có dùng đúng theo glossary
+ *   --fix-terminology        Xuất danh sách bản dịch dùng sai thuật ngữ
+ *                            ra terminology-fix-queue.json (tự bật kèm
+ *                            --check-terminology) — KHÔNG tự ghi đè DB,
+ *                            xem comment ở main() lý do không tự động
+ *                            "đoán-sửa" text được.
  *   --check-formatting       Check formatting consistency
  *   --check-length           Check length consistency
  */
@@ -56,7 +61,32 @@ function parseArgs() {
     fixTerminology: args.includes("--fix-terminology"),
     checkFormatting: args.includes("--check-formatting"),
     checkLength: args.includes("--check-length"),
+    checkTerminology: args.includes("--check-terminology"),
   };
+}
+
+// Danh sách category KHÔNG phải thuật ngữ game thật (metadata mô tả bản
+// thân file glossary) — phải loại trừ khi quét, nếu không "metadata" sẽ
+// bị coi như 1 category thuật ngữ và gây false-positive khi so khớp.
+const NON_TERM_CATEGORIES = new Set(["metadata"]);
+
+/**
+ * Quét xem những thuật ngữ NÀO trong glossary thực sự xuất hiện trong
+ * `sourceText` (mô tả gốc, thường là tiếng Anh từ genshin-db) — chỉ những
+ * thuật ngữ này mới cần kiểm tra bản dịch có dùng đúng thuật ngữ tương
+ * ứng hay không. So khớp case-sensitive theo nguyên văn key trong
+ * glossary (vd "Pyro", "CRIT Rate") vì đây đều là danh từ riêng/thuật
+ * ngữ game, viết hoa sai cũng coi là không khớp.
+ */
+function findGlossaryTermsInText(sourceText: string): string[] {
+  const found: string[] = [];
+  for (const [categoryName, category] of Object.entries(glossary)) {
+    if (NON_TERM_CATEGORIES.has(categoryName)) continue;
+    for (const term of Object.keys(category)) {
+      if (sourceText.includes(term)) found.push(term);
+    }
+  }
+  return found;
 }
 
 // Load glossary
@@ -65,11 +95,25 @@ try {
   const glossaryContent = fs.readFileSync(GLOSSARY_PATH, "utf-8");
   glossary = JSON.parse(glossaryContent);
   console.log(`✅ Đã load glossary với ${Object.keys(glossary).length} categories`);
-} catch (err) {
+} catch {
   console.warn(`⚠️ Không đọc được glossary từ ${GLOSSARY_PATH}`);
 }
 
 /**
+ * BUG ĐÃ SỬA (2026-09): hàm này được viết nhưng chưa từng được gọi ở đâu
+ * cả — tên hàm bị gắn prefix "_" để NÉ cảnh báo "unused function" của
+ * eslint thay vì nối dây vào `checkCharacters`/`checkWeapons` thật. Hệ
+ * quả: flag `--fix-terminology` documented trong docstring đầu file
+ * hoàn toàn KHÔNG LÀM GÌ CẢ (chỉ parse flag ở `parseArgs()`, không có
+ * logic nào đọc giá trị đó) — người chạy tưởng đã auto-fix nhưng thực
+ * ra không có check terminology nào chạy hết. Đã nối dây thật (xem
+ * `findGlossaryTermsInText()` + lời gọi trong `checkCharacters`/
+ * `checkWeapons` bên dưới) cho field `description` — CHƯA áp dụng cho
+ * `talents`/`constellations` vì 2 field đó có bug riêng (xem comment
+ * "Would need original text here" ở `checkFormattingConsistency` calls
+ * bên dưới — đang so sánh bản dịch với chính nó, cần restructure sâu
+ * hơn để có text nguồn thật, để lại cho lần sửa sau).
+ *
  * Kiểm tra terminology consistency
  */
 function checkTerminologyConsistency(
@@ -272,7 +316,7 @@ function checkMissingTranslations(
  */
 async function checkCharacters(
   locales: string[],
-  options: { checkFormatting: boolean; checkLength: boolean }
+  options: { checkFormatting: boolean; checkLength: boolean; checkTerminology: boolean }
 ): Promise<ConsistencyIssue[]> {
   console.log("🔍 Checking character translations consistency...");
   
@@ -305,6 +349,15 @@ async function checkCharacters(
       );
       issues.push(...missingIssues);
       
+      // BUG ĐÃ SỬA (2026-09): trước đây `checkTerminologyConsistency` (khi
+      // đó tên `_checkTerminologyConsistency`) được viết nhưng chưa từng
+      // gọi — không có kiểm tra terminology nào chạy thật cả. Nối dây tại
+      // đây: quét glossary term nào xuất hiện trong `char.description`
+      // gốc, rồi kiểm tra từng locale có dùng đúng thuật ngữ tương ứng.
+      const glossaryTerms = options.checkTerminology
+        ? findGlossaryTermsInText(char.description)
+        : [];
+
       if (descTranslations) {
         for (const locale of locales) {
           if (descTranslations[locale]) {
@@ -332,6 +385,19 @@ async function checkCharacters(
                 "description"
               );
               issues.push(...lengthIssues);
+            }
+
+            for (const term of glossaryTerms) {
+              const termIssues = checkTerminologyConsistency(
+                descTranslations[locale],
+                term,
+                locale,
+                "character",
+                char.id,
+                char.name,
+                "description"
+              );
+              issues.push(...termIssues);
             }
           }
         }
@@ -394,7 +460,7 @@ async function checkCharacters(
  */
 async function checkWeapons(
   locales: string[],
-  options: { checkFormatting: boolean; checkLength: boolean }
+  options: { checkFormatting: boolean; checkLength: boolean; checkTerminology: boolean }
 ): Promise<ConsistencyIssue[]> {
   console.log("🔍 Checking weapon translations consistency...");
   
@@ -425,6 +491,10 @@ async function checkWeapons(
       );
       issues.push(...missingIssues);
       
+      const glossaryTerms = options.checkTerminology
+        ? findGlossaryTermsInText(weapon.description)
+        : [];
+
       if (descTranslations) {
         for (const locale of locales) {
           if (descTranslations[locale]) {
@@ -452,6 +522,19 @@ async function checkWeapons(
                 "description"
               );
               issues.push(...lengthIssues);
+            }
+
+            for (const term of glossaryTerms) {
+              const termIssues = checkTerminologyConsistency(
+                descTranslations[locale],
+                term,
+                locale,
+                "weapon",
+                weapon.id,
+                weapon.name,
+                "description"
+              );
+              issues.push(...termIssues);
             }
           }
         }
@@ -553,6 +636,9 @@ async function main() {
   const options = {
     checkFormatting: args.checkFormatting,
     checkLength: args.checkLength,
+    // Mặc định BẬT khi có --fix-terminology (fix cần có issue để fix)
+    // hoặc khi người dùng tự bật bằng --check-terminology.
+    checkTerminology: args.checkTerminology || args.fixTerminology,
   };
   
   const characterIssues = await checkCharacters(locales, options);
@@ -567,6 +653,33 @@ async function main() {
   const reportPath = path.join(__dirname, "consistency-report.json");
   fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
   console.log(`\n📄 Report saved to ${reportPath}`);
+
+  // BUG ĐÃ SỬA (2026-09): `--fix-terminology` trước đây được document
+  // nhưng không làm gì cả (flag parse xong rồi bỏ xó). Việc "tự đoán và
+  // ghi đè thẳng vào DB" ở đây KHÔNG an toàn để tự động hoàn toàn — sai 1
+  // thuật ngữ có thể làm sai cả câu, và không có DB thật để kiểm chứng
+  // logic replace lúc viết code này. Thay vào đó: xuất ra 1 file JSON
+  // "cần dịch lại" theo đúng field mà `translate-with-glossary.ts` đã hỗ
+  // trợ lọc qua `--only`, để bước dịch lại (có gọi Azure Translator thật,
+  // áp glossary đúng cách) xử lý — KHÔNG tự đoán-ghi-đè text ở đây.
+  if (args.fixTerminology) {
+    const terminologyIssues = allIssues.filter((i) => i.type === "terminology");
+    const needsRetranslation = Array.from(
+      new Map(
+        terminologyIssues.map((i) => [
+          `${i.entityType}:${i.entityId}:${i.field}:${i.locale}`,
+          { entityType: i.entityType, entityId: i.entityId, entityName: i.entityName, field: i.field, locale: i.locale },
+        ])
+      ).values()
+    );
+    const fixQueuePath = path.join(__dirname, "terminology-fix-queue.json");
+    fs.writeFileSync(fixQueuePath, JSON.stringify(needsRetranslation, null, 2));
+    console.log(
+      `\n🔧 --fix-terminology: tìm thấy ${needsRetranslation.length} bản dịch dùng sai thuật ngữ.\n` +
+      `   Đã ghi danh sách vào ${fixQueuePath} — chạy lại dịch cho các mục này bằng:\n` +
+      `   npm run i18n:translate-with-glossary -- --locale=<locale> --only=<characters|weapons>`
+    );
+  }
   
   await prisma.$disconnect();
 }

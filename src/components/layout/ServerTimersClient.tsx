@@ -3,14 +3,7 @@
 import { useState, useEffect } from "react";
 import { ArtTile } from "@/components/ui/ArtTile";
 
-interface ServerTimersClientProps {
-  /** Ảnh ngang toàn khung cho tile La Hoàn Thâm Cảnh (danh sách ứng viên). */
-  abyssArt: string[];
-  /** Icon quái Abyss — hình chìm dự phòng khi không có/không tải được abyssArt. */
-  abyssIcons: string[];
-}
-
-export function ServerTimersClient({ abyssArt, abyssIcons }: ServerTimersClientProps) {
+export function ServerTimersClient() {
   const [asiaTime, setAsiaTime] = useState("");
   const [americaTime, setAmericaTime] = useState("");
   const [europeTime, setEuropeTime] = useState("");
@@ -117,8 +110,6 @@ export function ServerTimersClient({ abyssArt, abyssIcons }: ServerTimersClientP
         {/* Spiral Abyss — tile nền ảnh, chữ căn giữa */}
         <ArtTile
           label="La Hoàn Thâm Cảnh"
-          art={abyssArt}
-          icon={abyssIcons}
           accent="var(--el-electro)"
           className="h-full min-h-40"
         >

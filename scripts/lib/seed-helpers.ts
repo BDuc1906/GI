@@ -9,6 +9,7 @@
  */
 
 import type { Prisma } from "@prisma/client";
+import type { Material } from "@prisma/client";
 import {
   getEnkaUrl,
   getElementIconUrl,
@@ -16,6 +17,7 @@ import {
   slugify,
   getMaterialIconFilename,
 } from "./genshin-pure-helpers";
+import { logDataSyncChange } from "./audit-diff";
 
 export { getEnkaUrl, getElementIconUrl, getBestImageUrl, slugify, getMaterialIconFilename };
 
@@ -87,6 +89,10 @@ export async function upsertMaterial(
   prisma: {
     material: {
       upsert: (args: Prisma.MaterialUpsertArgs) => Promise<unknown>;
+      // BỔ SUNG 2026-09 cho audit-diff bên dưới — optional để không bắt
+      // buộc caller nào khác (nếu có) phải đổi type khi truyền prisma
+      // giả/mock chỉ có `upsert`.
+      findUnique?: (args: { where: { id: string } }) => Promise<Material | null>;
     };
   },
   genshindb: { materials: MaterialsFn },
@@ -138,10 +144,41 @@ export async function upsertMaterial(
     }
   }
 
+  // BỔ SUNG 2026-09: theo dõi phiên bản game material xuất hiện — xem
+  // comment ở Material.gameVersion trong prisma/schema.prisma. `raw` ở
+  // đây là kết quả tra genshindb.materials() từ 1 trong 3 bước trên
+  // (có thể null nếu cả 3 bước đều fail, giống hệt lý do iconUrl có thể
+  // null).
+  const gameVersion =
+    raw && typeof raw === "object" && "version" in raw
+      ? ((raw as { version?: string }).version || null)
+      : null;
+
+  // Đọc record cũ TRƯỚC khi upsert — cho audit-diff (xem
+  // scripts/lib/audit-diff.ts, cùng pattern đã nối ở
+  // seed-characters.ts/seed-weapons.ts/seed-artifacts.ts). `findUnique`
+  // optional trên type tham số `prisma` nên phải guard bằng `?.` — nếu
+  // caller nào đó truyền prisma giả không có `findUnique` (không xảy ra
+  // trong thực tế, mọi call site đều truyền prisma client thật), bỏ qua
+  // audit log thay vì crash.
+  const existing = (await prisma.material.findUnique?.({ where: { id } })) ?? null;
+
+  const payload = { iconUrlOriginal: iconUrl, gameVersion };
   await prisma.material.upsert({
     where: { id },
-    create: { id, name: materialName, iconUrl, iconUrlOriginal: iconUrl },
-    update: { iconUrlOriginal: iconUrl },
+    create: { id, name: materialName, iconUrl, ...payload },
+    update: payload,
   });
+
+  await logDataSyncChange({
+    entityType: "material",
+    entityId: id,
+    oldRecord: existing,
+    newRecord: { name: materialName, iconUrl, ...payload },
+    source: "seed-material",
+  }).catch((err) => {
+    console.warn(`⚠️ Không ghi được AuditLog cho material "${materialName}":`, (err as Error).message);
+  });
+
   return id;
 }

@@ -1,10 +1,10 @@
-
 import { createRequire } from "module";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { prisma } from "../../src/lib/db/prisma";
 import { slugify, upsertMaterial } from "../lib/seed-helpers";
+import { logDataSyncChange } from "../lib/audit-diff";
 // getUiAssetUrl chỉ tồn tại ở scripts/lib/genshin-pure-helpers.ts —
 // scripts/lib/seed-helpers.ts chỉ re-export getEnkaUrl/getElementIconUrl/
 // getBestImageUrl/slugify/getMaterialIconFilename từ file đó (xem đầu file
@@ -219,6 +219,10 @@ export async function seedDomains(): Promise<void> {
         gameVersion: d.version ?? null,
       };
 
+      // Đọc record cũ TRƯỚC khi upsert — cho audit-diff (xem
+      // scripts/lib/audit-diff.ts, cùng pattern các seed script khác).
+      const existingDomain = await prisma.domain.findUnique({ where: { id: domainId } });
+
       await prisma.domain.upsert({
         where: { id: domainId },
         // Record mới -> chưa mirror lần nào, tạm hiển thị thẳng bằng hotlink.
@@ -226,6 +230,17 @@ export async function seedDomains(): Promise<void> {
         // Record đã tồn tại -> KHÔNG đụng imageUrl.
         update: payload,
       });
+
+      await logDataSyncChange({
+        entityType: "domain",
+        entityId: domainId,
+        oldRecord: existingDomain,
+        newRecord: payload,
+        source: "seed-domains",
+      }).catch((err) => {
+        console.warn(`⚠️ Không ghi được AuditLog cho domain "${baseName}":`, (err as Error).message);
+      });
+
       count++;
     } catch (err) {
       console.warn(`⚠ Skipped domain group "${baseName}":`, (err as Error).message);

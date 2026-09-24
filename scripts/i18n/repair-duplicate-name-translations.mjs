@@ -48,7 +48,7 @@ function findMatchingBrace(src, openIdx) {
 /** Chuyển `{ "en": "...", "ja": "..." }` (cú pháp TS/JS, key có thể có
  * hoặc không có dấu ngoặc kép) thành object JS thật để merge an toàn. */
 function parseLooseObjectLiteral(text) {
-  // eslint-disable-next-line no-new-func
+   
   return Function(`"use strict"; return (${text});`)();
 }
 

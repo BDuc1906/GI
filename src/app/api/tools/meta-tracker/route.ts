@@ -18,19 +18,20 @@ export const GET = withErrorHandling(
 
     switch (reportType) {
       case "general":
-        result = await metaTracker.generateMetaReport();
+        result = metaTracker.generateMetaReport();
         break;
       case "characters":
-        result = await metaTracker.getCharacterMetaAnalysis();
+        result = metaTracker.getCurrentMeta();
         break;
       case "teams":
-        result = await metaTracker.getPopularTeams();
+        result = metaTracker.getTopMetaTeams(5);
         break;
       case "counters":
-        result = await metaTracker.getCounterRelationships();
+        const characterId = searchParams.get("characterId");
+        result = characterId ? metaTracker.analyzeCounterRelationships(characterId) : { counters: [], weakAgainst: [] };
         break;
       default:
-        result = await metaTracker.generateMetaReport();
+        result = metaTracker.generateMetaReport();
     }
 
     return ok(result, { maxAgeSec: 300 });

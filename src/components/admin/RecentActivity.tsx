@@ -58,7 +58,7 @@ export function RecentActivity({ adminKey, refreshToken }: RecentActivityProps) 
     return () => {
       cancelled = true;
     };
-  }, [adminKey, refreshToken]);
+  }, [adminKey, refreshToken, t]);
 
   if (!adminKey) {
     return (

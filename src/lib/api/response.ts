@@ -1,4 +1,3 @@
-
 import { NextResponse } from "next/server";
 
 /**
@@ -7,6 +6,25 @@ import { NextResponse } from "next/server";
  *
  * Success: { success: true, data, meta? }
  * Error:   { success: false, error: { code, message, details? } }
+ *
+ * BỔ SUNG (2026-09-22) — VỀ CACHE, ĐỌC KỸ TRƯỚC KHI SỬA BẤT KỲ ROUTE NÀO:
+ * Mọi route trong `src/app/api/**\/route.ts` đều khai `export const
+ * revalidate = N` VÀ `export const dynamic = "force-dynamic"` cùng lúc.
+ * Đã verify qua Next.js changelog: `force-dynamic` bắt route LUÔN chạy lại
+ * trên server mỗi request — cơ chế cache nội bộ của Next (Data Cache/Full
+ * Route Cache) đọc `revalidate` bị BỎ QUA HOÀN TOÀN khi có `force-dynamic`.
+ * `dynamic = "force-dynamic"` vẫn cần thiết (route đọc query string qua
+ * `request.nextUrl.searchParams`, nếu không khai tường minh Next sẽ ném
+ * lỗi build khi tự dò dynamic/static).
+ *
+ * CACHE THẬT SỰ hoạt động là header `Cache-Control` do `ok()` set bên
+ * dưới, dựa vào `maxAgeSec` truyền vào — được CDN (Vercel Edge Network)
+ * và trình duyệt tôn trọng ĐỘC LẬP với cơ chế cache nội bộ của Next.js.
+ * `export const revalidate = N` ở mỗi route giờ CHỈ còn giá trị tài liệu
+ * (ghi lại chủ đích cache bao lâu) — PHẢI giữ khớp với `maxAgeSec` truyền
+ * cho `ok()` ở cùng file, nếu không người đọc code sẽ hiểu sai route đó
+ * cache bao lâu. Đã audit toàn bộ 27 route (2026-09-22): mọi route đều
+ * khớp đúng giữa `revalidate` và `maxAgeSec` tại thời điểm này.
  */
 export interface ApiMeta {
   page: number;

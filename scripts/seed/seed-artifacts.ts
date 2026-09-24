@@ -1,6 +1,7 @@
 import { createRequire } from "module";
 import { prisma } from "../../src/lib/db/prisma";
 import { getEnkaUrl, slugify } from "../lib/seed-helpers";
+import { logDataSyncChange } from "../lib/audit-diff";
 
 const require = createRequire(import.meta.url);
 const genshindb = require("genshin-db") as typeof import("genshin-db");
@@ -50,9 +51,16 @@ export async function seedArtifacts(): Promise<void> {
         fourPieceBonus,
         pieces: pieces as any,
         iconUrlOriginal,
+        // BỔ SUNG 2026-09: theo dõi phiên bản game artifact set ra mắt —
+        // xem comment ở ArtifactSet.gameVersion trong prisma/schema.prisma.
+        gameVersion: a.version || null,
       };
 
       const id = slugify(a.name);
+
+      // Đọc record cũ TRƯỚC khi upsert — cho audit-diff (xem
+      // scripts/lib/audit-diff.ts, cùng pattern seed-characters.ts).
+      const existing = await prisma.artifactSet.findUnique({ where: { id } });
 
       await prisma.artifactSet.upsert({
         where: { id },
@@ -61,6 +69,21 @@ export async function seedArtifacts(): Promise<void> {
         // Record đã tồn tại -> KHÔNG đụng iconUrl.
         update: { ...basePayload, rarityRange: { set: rarityRange } }, // { set: [...] } bắt buộc cho mảng khi update
       });
+
+      // Dùng `rarityRange` (mảng thường), KHÔNG dùng `{ set: rarityRange }`
+      // (cú pháp riêng của Prisma cho update field mảng) — DB thật lưu
+      // mảng thường, so diff với wrapper `{set:...}` sẽ luôn "khác nhau"
+      // giả (false positive) dù dữ liệu không đổi gì.
+      await logDataSyncChange({
+        entityType: "artifactSet",
+        entityId: id,
+        oldRecord: existing,
+        newRecord: { ...basePayload, rarityRange },
+        source: "seed-artifacts",
+      }).catch((err) => {
+        console.warn(`⚠️ Không ghi được AuditLog cho artifact set "${a.name}":`, (err as Error).message);
+      });
+
       count++;
     } catch (err) {
       console.warn(`⚠ Skipped artifact set "${name}":`, (err as Error).message);

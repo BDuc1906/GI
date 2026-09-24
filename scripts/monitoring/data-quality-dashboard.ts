@@ -13,6 +13,11 @@
  */
 
 import { prisma } from "../../src/lib/db/prisma";
+import * as fs from "fs";
+import * as path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 interface QualityMetrics {
   dataFreshness: {
@@ -152,7 +157,7 @@ class DataQualityDashboard {
    */
   private async getSyncStatus(): Promise<QualityMetrics["syncStatus"]> {
     try {
-      const packageJson = JSON.parse(await require("fs").promises.readFile("package.json", "utf-8"));
+      const packageJson = JSON.parse(await fs.promises.readFile("package.json", "utf-8"));
       const currentVersion = packageJson.dependencies["genshin-db"].replace(/[\^~]/g, "");
       
       // Would get latest version from npm
@@ -167,7 +172,7 @@ class DataQualityDashboard {
         currentVersion,
         latestVersion
       };
-    } catch (err) {
+    } catch {
       return {
         lastSync: new Date(),
         lastSyncSuccess: false,
@@ -315,8 +320,41 @@ class DataQualityDashboard {
 }
 
 // CLI interface
+//
+// BỔ SUNG (2026-09): trước đây script chỉ print ra console, KHÔNG có
+// output máy đọc được và KHÔNG BAO GIỜ exit non-zero dù có alert
+// "critical" — nghĩa là một workflow CI gọi script này sẽ luôn "pass"
+// bất kể chất lượng dữ liệu tệ tới đâu, không thể tự động hoá được bước
+// "báo động khi có vấn đề". Thêm `--json` (ghi report ra file, đúng
+// pattern đã dùng ở translation-consistency-checker.ts) + exit code
+// khác 0 khi có alert "critical", để workflow tự động dựa vào đó quyết
+// định có tạo GitHub Issue hay không — KHÔNG đổi hành vi mặc định khi
+// chạy tay không kèm cờ (vẫn chỉ print, exit 0 như cũ).
 async function main() {
   const dashboard = new DataQualityDashboard();
+  const jsonMode = process.argv.includes("--json");
+
+  if (jsonMode) {
+    const metrics = await dashboard.getQualityMetrics();
+    const qualityScore = dashboard.calculateQualityScore(metrics);
+    const alerts = dashboard.generateAlerts(metrics);
+    const criticalCount = alerts.filter((a) => a.level === "critical").length;
+
+    const reportPath = path.join(__dirname, "quality-report.json");
+    fs.writeFileSync(
+      reportPath,
+      JSON.stringify({ qualityScore, metrics, alerts, criticalCount }, null, 2)
+    );
+    console.log(`📄 Report saved to ${reportPath}`);
+    await dashboard.printDashboard();
+
+    if (criticalCount > 0) {
+      console.error(`\n🔴 ${criticalCount} critical alert(s) — exiting non-zero for CI`);
+      process.exitCode = 1;
+    }
+    return;
+  }
+
   await dashboard.printDashboard();
 }
 

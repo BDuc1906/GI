@@ -78,7 +78,15 @@ class RAGSystem {
     
     const characterChunks: KnowledgeChunk[] = characters.map(char => ({
       id: `char-${char.id}`,
-      content: this.buildCharacterContent(char),
+      content: this.buildCharacterContent({
+        name: char.name,
+        vision: char.vision,
+        weaponType: char.weaponType,
+        rarity: char.rarity,
+        description: char.description,
+        talents: Array.isArray(char.talents) ? char.talents : undefined,
+        constellations: Array.isArray(char.constellations) ? char.constellations : undefined,
+      }),
       source: "database",
       category: "characters",
       tags: [char.vision, char.weaponType, `rarity-${char.rarity}`],
@@ -107,7 +115,12 @@ class RAGSystem {
     
     const weaponChunks: KnowledgeChunk[] = weapons.map(weapon => ({
       id: `weapon-${weapon.id}`,
-      content: this.buildWeaponContent(weapon),
+      content: this.buildWeaponContent({
+        name: weapon.name,
+        type: weapon.type,
+        rarity: weapon.rarity,
+        passiveByRefinement: Array.isArray(weapon.passiveByRefinement) ? weapon.passiveByRefinement : undefined,
+      }),
       source: "database",
       category: "weapons",
       tags: [weapon.type, `rarity-${weapon.rarity}`],
@@ -139,10 +152,32 @@ class RAGSystem {
   /**
    * Build character content chunk
    */
-  private buildCharacterContent(character: any): string {
+  private buildCharacterContent(character: {
+    name: string;
+    vision: string;
+    weaponType: string;
+    rarity: number;
+    description: string | null;
+    talents?: unknown[];
+    constellations?: unknown[];
+  }): string {
     const talents = character.talents || [];
     const constellations = character.constellations || [];
-    
+
+    const talentDescriptions = talents
+      .filter((t): t is { name: string; description: string } =>
+        typeof t === "object" && t !== null && "name" in t && "description" in t
+      )
+      .map((t, i) => `${i + 1}. ${t.name}: ${t.description}`)
+      .join("\n");
+
+    const constellationDescriptions = constellations
+      .filter((c): c is { name: string; description: string } =>
+        typeof c === "object" && c !== null && "name" in c && "description" in c
+      )
+      .map((c, i) => `C${i + 1}. ${c.name}: ${c.description}`)
+      .join("\n");
+
     return `
 Character: ${character.name}
 Vision: ${character.vision}
@@ -152,10 +187,10 @@ Rarity: ${character.rarity}★
 Description: ${character.description || "N/A"}
 
 Talents:
-${talents.map((t: any, i: number) => `${i + 1}. ${t.name}: ${t.description}`).join("\n")}
+${talentDescriptions}
 
 Constellations:
-${constellations.map((c: any, i: number) => `C${i + 1}. ${c.name}: ${c.description}`).join("\n")}
+${constellationDescriptions}
 
 Stats progression available for levels 1-90.
 `.trim();
@@ -164,16 +199,28 @@ Stats progression available for levels 1-90.
   /**
    * Build weapon content chunk
    */
-  private buildWeaponContent(weapon: any): string {
+  private buildWeaponContent(weapon: {
+    name: string;
+    type: string;
+    rarity: number;
+    passiveByRefinement?: unknown[];
+  }): string {
     const passives = weapon.passiveByRefinement || [];
-    
+
+    const passiveDescriptions = passives
+      .filter((p): p is { description: string } =>
+        typeof p === "object" && p !== null && "description" in p
+      )
+      .map((p, i) => `R${i + 1}: ${p.description}`)
+      .join("\n");
+
     return `
 Weapon: ${weapon.name}
 Type: ${weapon.type}
 Rarity: ${weapon.rarity}★
 
 Refinement Effects:
-${passives.map((p: any, i: number) => `R${i + 1}: ${p.description}`).join("\n")}
+${passiveDescriptions}
 
 Stats progression available for levels 1-90.
 `.trim();

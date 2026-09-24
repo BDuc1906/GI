@@ -67,7 +67,7 @@ try {
   const glossaryContent = fs.readFileSync(GLOSSARY_PATH, "utf-8");
   glossary = JSON.parse(glossaryContent);
   console.log(`✅ Đã load glossary với ${Object.keys(glossary).length} categories`);
-} catch (err) {
+} catch {
   console.warn(`⚠️ Không đọc được glossary từ ${GLOSSARY_PATH}, tiếp tục without glossary`);
 }
 
@@ -98,7 +98,7 @@ function applyGlossary(text: string, targetLang: string): {
       // Thay thế term bằng placeholder
       const regex = new RegExp(`\\b${term}\\b`, "gi");
       if (regex.test(protectedText)) {
-        protectedText = protectedText.replace(regex, (match) => {
+        protectedText = protectedText.replace(regex, (_match) => {
           tokens.push(targetTerm);
           glossaryTerms.push(term);
           return `§GLOSSARY${tokens.length - 1}§`;

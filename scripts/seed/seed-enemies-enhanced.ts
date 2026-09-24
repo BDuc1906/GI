@@ -7,6 +7,7 @@
 
 import { createRequire } from "module";
 import { prisma } from "../../src/lib/db/prisma";
+import { logDataSyncChange } from "../lib/audit-diff";
 
 const require = createRequire(import.meta.url);
 const genshindb = require("genshin-db") as typeof import("genshin-db");
@@ -151,7 +152,7 @@ function extractWeaknesses(name: string, category: string): string[] {
 /**
  * Extract resistance information từ tên enemy
  */
-function extractResistances(name: string, category: string): string[] {
+function extractResistances(name: string, _category: string): string[] {
   const nameLower = name.toLowerCase();
   
   // Check predefined resistances
@@ -186,7 +187,7 @@ function extractImmunities(name: string): string[] {
 /**
  * Determine if enemy is a boss
  */
-function isBossEnemy(name: string, category: string): boolean {
+function isBossEnemy(name: string, _category: string): boolean {
   const nameLower = name.toLowerCase();
   
   // Weekly bosses
@@ -386,6 +387,27 @@ export async function seedEnhancedEnemies(): Promise<void> {
   let updatedCount = 0;
   for (const enemy of enhancedEnemies) {
     try {
+      const updatePayload = {
+        level: enemy.level,
+        hp: enemy.hp,
+        atk: enemy.atk,
+        def: enemy.def,
+        weaknesses: enemy.weaknesses,
+        resistances: enemy.resistances,
+        immunities: enemy.immunities,
+        dropRates: enemy.dropRates,
+        behavior: enemy.behavior,
+        spawnRegions: enemy.spawnRegions,
+        isBoss: enemy.isBoss,
+        weeklyBoss: enemy.weeklyBoss,
+        domains: enemy.domains,
+        difficulty: enemy.difficulty
+      };
+
+      // Đọc record cũ TRƯỚC khi upsert — cho audit-diff (xem
+      // scripts/lib/audit-diff.ts, cùng pattern các seed script khác).
+      const existingEnemy = await prisma.enemy.findUnique({ where: { id: enemy.id } });
+
       await prisma.enemy.upsert({
         where: { id: enemy.id },
         create: {
@@ -396,40 +418,22 @@ export async function seedEnhancedEnemies(): Promise<void> {
           enemyType: enemy.enemyType,
           categoryType: enemy.categoryType,
           categoryText: enemy.categoryText,
-          level: enemy.level,
-          hp: enemy.hp,
-          atk: enemy.atk,
-          def: enemy.def,
-          weaknesses: enemy.weaknesses,
-          resistances: enemy.resistances,
-          immunities: enemy.immunities,
-          dropRates: enemy.dropRates,
-          behavior: enemy.behavior,
-          spawnRegions: enemy.spawnRegions,
-          isBoss: enemy.isBoss,
-          weeklyBoss: enemy.weeklyBoss,
-          domains: enemy.domains,
-          difficulty: enemy.difficulty,
-          raw: enemy.raw
+          raw: enemy.raw,
+          ...updatePayload,
         },
-        update: {
-          level: enemy.level,
-          hp: enemy.hp,
-          atk: enemy.atk,
-          def: enemy.def,
-          weaknesses: enemy.weaknesses,
-          resistances: enemy.resistances,
-          immunities: enemy.immunities,
-          dropRates: enemy.dropRates,
-          behavior: enemy.behavior,
-          spawnRegions: enemy.spawnRegions,
-          isBoss: enemy.isBoss,
-          weeklyBoss: enemy.weeklyBoss,
-          domains: enemy.domains,
-          difficulty: enemy.difficulty
-        }
+        update: updatePayload
       });
-      
+
+      await logDataSyncChange({
+        entityType: "enemy",
+        entityId: enemy.id,
+        oldRecord: existingEnemy,
+        newRecord: updatePayload,
+        source: "seed-enemies-enhanced",
+      }).catch((err) => {
+        console.warn(`⚠️ Không ghi được AuditLog cho enemy "${enemy.name}":`, (err as Error).message);
+      });
+
       updatedCount++;
     } catch (err) {
       console.warn(`⚠️ Failed to upsert enemy ${enemy.id}:`, err);

@@ -15,6 +15,7 @@ const require = createRequire(import.meta.url);
 const genshindb = require("genshin-db") as typeof import("genshin-db");
 
 import { prisma } from "../../src/lib/db/prisma";
+import { logDataSyncChange } from "../lib/audit-diff";
 import { upsertMaterial, loadManualOverrides } from "../lib/seed-helpers";
 import type {
   CharacterData,
@@ -191,18 +192,22 @@ export async function seedCharacters(): Promise<void> {
   const characters: CharacterData[] = JSON.parse(rawData);
   console.log(`📖 Đã đọc ${characters.length} nhân vật từ data/raw/characters.json`);
 
-  // 🚀 TỐI ƯU: Nạp trước toàn bộ nhân vật hiện có để tránh N+1 Query
-  const allExistingChars = await prisma.character.findMany({
-    select: { id: true, vision: true, weaponType: true },
-  });
+  // 🚀 TỐI ƯU: Nạp trước toàn bộ nhân vật hiện có để tránh N+1 Query.
+  // BỎ `select` hẹp (trước chỉ lấy id/vision/weaponType) để lấy FULL
+  // record — cần đủ field để tính diff ghi AuditLog bên dưới (xem
+  // scripts/lib/audit-diff.ts). `toCharacterPayload()` chỉ đọc đúng 2
+  // field vision/weaponType từ tham số này nên KHÔNG bị ảnh hưởng bởi
+  // việc object giờ có thêm nhiều field khác (TypeScript structural
+  // typing chấp nhận object "thừa" field khi không phải object literal).
+  const allExistingChars = await prisma.character.findMany();
   const existingMap = new Map(allExistingChars.map((c) => [c.id, c]));
 
   let count = 0;
   for (const data of characters) {
     try {
-      const existing = existingMap.get(data.id);
-      const payload = await toCharacterPayload(data, existing);
-      
+      const existingFull = existingMap.get(data.id);
+      const payload = await toCharacterPayload(data, existingFull);
+
       await prisma.character.upsert({
         where: { id: data.id },
         create: {
@@ -215,6 +220,24 @@ export async function seedCharacters(): Promise<void> {
         },
         update: payload, // Tự động cập nhật các trường mới nhờ đã gộp vào payload bên trên
       });
+
+      // BỔ SUNG (2026-09-22): "chuẩn theo wiki lớn, làm tốt hơn" — ghi
+      // lịch sử thay đổi vào AuditLog (đã có sẵn bảng, trước đây chỉ AI
+      // Agent/AutoFixEngine ghi, seed/crawl thường không ghi gì). Xem
+      // scripts/lib/audit-diff.ts để biết lý do và thiết kế đầy đủ.
+      // Không await tuần tự để tránh làm chậm vòng lặp — nhưng vẫn cần
+      // bắt lỗi riêng để 1 lần ghi audit log fail không làm hỏng cả bước
+      // seed (dữ liệu chính đã upsert thành công ở trên rồi).
+      await logDataSyncChange({
+        entityType: "character",
+        entityId: data.id,
+        oldRecord: existingFull ?? null,
+        newRecord: payload,
+        source: "seed-characters",
+      }).catch((err) => {
+        console.warn(`⚠️ Không ghi được AuditLog cho "${data.name}":`, (err as Error).message);
+      });
+
       count++;
     } catch (err) {
       console.warn(`⚠️ Skipped character "${data.name}" (${data.id}):`, (err as Error).message);

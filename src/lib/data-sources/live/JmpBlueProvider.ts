@@ -11,7 +11,7 @@
  * `JmpBlue*Raw` bên dưới — field ĐÃ VERIFY (character, weapon) khai
  * required, field CHƯA VERIFY (base stats nhân vật, artifact bonus)
  * khai optional (`?`) để phản ánh đúng mức độ chắc chắn thật, không
- * bịa ra vẻ chắc chắn giả. Không còn `raw: any` ở bất kỳ đâu.
+ * bịa ra vẻ chắc chắn giả. Không còn raw type không rõ ràng.
  */
 
 import type { EntityType, LiveEntityData } from "@/agent/core/types";
