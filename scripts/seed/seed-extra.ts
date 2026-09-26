@@ -31,13 +31,16 @@ const DATA_RAW_DIR = path.join(process.cwd(), "data", "raw");
  * dùng `name` làm khoá chính thay vì `id`.
  */
 async function upsertRawWithAudit(params: {
-  // `any` có chủ đích: mỗi Prisma delegate (`prisma.achievement`,
-  // `prisma.enemy`...) có type `findUnique`/`upsert` RIÊNG (WhereUniqueInput
-  // khác nhau cho từng model — `{id}` vs `{name}`), TypeScript không cho
-  // 15 delegate khác nhau đó cùng khớp 1 interface chung dù cấu trúc thật
-  // sự giống hệt nhau lúc runtime. File này vốn đã dùng `any` rộng rãi
-  // (readRaw() trả `any[]`) nên không phải giảm mức an toàn kiểu so với
-  // phần còn lại của file.
+  // `any` có chủ đích — ĐÃ THỬ THAY BẰNG GENERIC (2026-09-22) và xác nhận
+  // KHÔNG chạy được thật, không phải đoán: TypeScript báo lỗi cụ thể ở 7/15
+  // model (Food, Geography, Namecard, Outfit, Rarity, Talent, Windglider) vì
+  // `findUnique`/`upsert` của Prisma dùng generic có ràng buộc riêng từng
+  // model (`SelectSubset<T, FoodFindUniqueArgs>`...) — không unify được với
+  // 1 interface chung dù cấu trúc runtime giống hệt nhau. Đây là giới hạn đã
+  // biết khi viết wrapper generic quanh Prisma Client delegate mà không có
+  // codegen hỗ trợ riêng. File này vốn đã dùng `any` rộng rãi (readRaw() trả
+  // `any[]`) nên không phải giảm mức an toàn kiểu so với phần còn lại của
+  // file.
   model: any;
   whereKey: string;
   whereValue: string;
