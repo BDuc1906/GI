@@ -2,6 +2,18 @@ import { ArtTile } from "@/components/ui/ArtTile";
 
 /**
  * Wiki Tools Hub - Công cụ & Tiện ích (tile nền gradient, chữ căn giữa)
+ *
+ * BỔ SUNG (2026-09-22) — BUG ĐÃ SỬA: 2 tile "Máy tính nguyên liệu" và
+ * "Trình tối ưu thánh di vật" trước đây trỏ tới `/characters`/`/artifacts`
+ * (trang danh sách thường) dù TÊN TILE hứa hẹn 1 công cụ tính toán tương
+ * tác. Đã verify: backend logic THẬT SỰ tồn tại (`material-calculator.ts`
+ * 15KB, `/api/tools/material-calculator`) nhưng KHÔNG CÓ UI nào gọi tới —
+ * người dùng bấm vào tile, kỳ vọng 1 form nhập liệu + kết quả tính toán,
+ * nhưng chỉ thấy lại đúng trang danh sách nhân vật/artifact bình thường.
+ * Đây không phải lỗi 404 (không báo lỗi gì) nhưng là hứa hẹn sai — có hại
+ * cho niềm tin người dùng hơn cả 404. Đánh dấu "Sắp ra mắt" cho tới khi
+ * thực sự có UI cho 4 API /api/tools/* (dps/material-calculator/
+ * team-builder/meta-tracker — cả 4 hiện đều "mồ côi", 0 UI nào gọi tới).
  */
 export async function WikiToolsHub() {
   const tools = [
@@ -21,16 +33,18 @@ export async function WikiToolsHub() {
     },
     {
       label: "Máy tính nguyên liệu",
-      href: "/characters",
+      // ĐÃ LÀM (2026-09-22): trang UI thật ở /tools/material-calculator,
+      // gọi /api/tools/material-calculator (backend có từ trước).
+      href: "/tools/material-calculator",
       description: "Tính nguyên liệu nâng cấp",
       tag: "Tool",
       accent: "var(--rarity-5)",
     },
     {
       label: "Trình tối ưu thánh di vật",
-      href: "/artifacts",
-      description: "Tối ưu chỉ số build",
-      tag: "Tool",
+      // CHƯA LÀM: cùng lý do — chưa có UI cho công cụ này.
+      description: "Tối ưu chỉ số build (sắp ra mắt)",
+      tag: "Sắp ra mắt",
       accent: "var(--el-dendro)",
     },
   ];
