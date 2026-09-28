@@ -57,3 +57,65 @@ describe("calculateReactionMultiplier — Aggravate/Spread/Quicken (công thức
     expect(result).toBeCloseTo(1.15 * levelBonus, 5);
   });
 });
+
+describe("calculateReactionMultiplier — hệ số cơ bản Transformative Reaction (KQM/Genshin Wiki)", () => {
+  const level = 90;
+  const levelBonus = 1 + (level / 9) * 2.78;
+
+  it.each([
+    ["Burning", 0.25],
+    ["Swirl", 0.6],
+    ["Superconduct", 1.5],
+    ["Electro-Charged", 2.0],
+    ["Bloom", 2.0],
+    ["Overload", 2.75],
+    ["Burgeon", 3.0],
+    ["Hyperbloom", 3.0],
+    ["Shatter", 3.0],
+  ] as const)("%s ở 0 EM khớp đúng hệ số cơ bản chính thức ×levelBonus", (reaction, coefficient) => {
+    const result = calc.calculateReactionMultiplier(reaction, 0, level);
+    expect(result).toBeCloseTo(coefficient * levelBonus, 5);
+  });
+
+  it("Hyperbloom mạnh hơn Superconduct đúng tỉ lệ 3.0/1.5 = 2x ở cùng EM/level", () => {
+    const hyperbloom = calc.calculateReactionMultiplier("Hyperbloom", 500, level);
+    const superconduct = calc.calculateReactionMultiplier("Superconduct", 500, level);
+    expect(hyperbloom / superconduct).toBeCloseTo(2.0, 5);
+  });
+
+  it("EM cao hơn luôn cho sát thương transformative cao hơn (mọi phản ứng)", () => {
+    const low = calc.calculateReactionMultiplier("Overload", 0, level);
+    const high = calc.calculateReactionMultiplier("Overload", 1000, level);
+    expect(high).toBeGreaterThan(low);
+  });
+});
+
+describe("calculateDefenseMitigation — công thức DEF Multiplier chính thức", () => {
+  it("cùng level, không giảm/bỏ qua DEF -> giảm còn đúng 50% (ví dụ chính thức trên Genshin Wiki)", () => {
+    const result = calc.calculateDefenseMitigation(90, 90, 0, 0);
+    expect(result).toBeCloseTo(0.5, 5);
+  });
+
+  it("nhân vật cấp thấp hơn địch -> DEF Multiplier < 0.5 (bất lợi hơn)", () => {
+    const lowLevel = calc.calculateDefenseMitigation(1, 90, 0, 0);
+    const equalLevel = calc.calculateDefenseMitigation(90, 90, 0, 0);
+    expect(lowLevel).toBeLessThan(equalLevel);
+  });
+
+  it("giảm DEF địch (defenseReduction) làm DEF Multiplier tăng (đỡ bị giảm sát thương hơn)", () => {
+    const noReduction = calc.calculateDefenseMitigation(90, 90, 0, 0);
+    const withReduction = calc.calculateDefenseMitigation(90, 90, 20, 0); // vd Zhongli -20%
+    expect(withReduction).toBeGreaterThan(noReduction);
+  });
+
+  it("bỏ qua DEF hoàn toàn (defenseIgnore=100) -> DEF Multiplier = 1.0 (không giảm sát thương gì)", () => {
+    const result = calc.calculateDefenseMitigation(90, 90, 0, 100);
+    expect(result).toBeCloseTo(1.0, 5);
+  });
+
+  it("mặc định (không truyền defenseReduction/defenseIgnore) vẫn tính đúng như truyền 0", () => {
+    const withDefaults = calc.calculateDefenseMitigation(90, 90);
+    const explicit = calc.calculateDefenseMitigation(90, 90, 0, 0);
+    expect(withDefaults).toBeCloseTo(explicit, 10);
+  });
+});

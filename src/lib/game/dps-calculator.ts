@@ -55,7 +55,21 @@ interface TalentLevels {
 
 interface DamageModifiers {
   enemyRes: number;
+  /** % giảm DEF địch (0-100), vd Zhongli/Xiangling giảm 20% -> truyền 20. */
   defenseReduction: number;
+  /**
+   * % bỏ qua DEF địch hoàn toàn cho đòn đánh này (0-100) — khác cơ chế
+   * với defenseReduction (giảm CHỈ SỐ DEF thật) dù công thức chính thức
+   * nhân 2 hệ số này với nhau. Optional, mặc định 0 (không có nhân vật
+   * nào trong build có % bỏ qua DEF thì để mặc định).
+   */
+  defenseIgnore?: number;
+  /**
+   * Level của kẻ địch — BẮT BUỘC cho công thức DEF Multiplier chính thức
+   * (xem `calculateDefenseMitigation`). Mặc định 90 (nội dung cuối game
+   * phổ biến nhất — La Hoàn Thâm Cảnh tầng 12).
+   */
+  enemyLevel?: number;
   damageBonus: number;
   vulnerability: number;
   /**
@@ -88,6 +102,7 @@ type ReactionType =
   | "Bloom"
   | "Hyperbloom"
   | "Burgeon"
+  | "Swirl" // BỔ SUNG (2026-09-22): trước đây thiếu hẳn phản ứng Anemo này
   | "Quicken"
   | "Aggravate"
   | "Spread"
@@ -205,43 +220,44 @@ class DPSCalculator {
         return (direction === "forward" ? 2.0 : 1.5) * levelBonus;
       
       case "Overload":
-        // Transformative reaction with EM scaling
-        const emBonusOverload = 16 * em / (em + 2000);
-        return (1 + emBonusOverload) * levelBonus;
-      
       case "Superconduct":
-        // Transformative reaction with EM scaling
-        const emBonusSuperconduct = 16 * em / (em + 2000);
-        return (1 + emBonusSuperconduct) * levelBonus;
-      
       case "Electro-Charged":
-        // Transformative reaction with EM scaling
-        const emBonusEC = 16 * em / (em + 2000);
-        return (1 + emBonusEC) * levelBonus;
-      
       case "Shatter":
-        // Additional damage multiplier
-        return 1.5 * levelBonus;
-      
       case "Burning":
-        // DoT reaction with EM scaling
-        const emBonusBurning = 16 * em / (em + 2000);
-        return (1 + emBonusBurning) * levelBonus;
-      
       case "Bloom":
-        // Base damage with EM scaling
-        const emBonusBloom = 16 * em / (em + 2000);
-        return (1 + emBonusBloom) * levelBonus;
-      
       case "Hyperbloom":
-        // High damage transformative reaction
-        const emBonusHyperbloom = 16 * em / (em + 2000);
-        return (1 + emBonusHyperbloom) * levelBonus * 3; // 3x base multiplier
-      
       case "Burgeon":
-        // AoE transformative reaction
-        const emBonusBurgeon = 16 * em / (em + 2000);
-        return (1 + emBonusBurgeon) * levelBonus * 2; // 2x base multiplier
+      case "Swirl": {
+        // BUG ĐÃ SỬA (2026-09-22): TOÀN BỘ 8 case này trước đây SAI hệ số cơ
+        // bản (Base Reaction Coefficient) — hầu hết mặc định hệ số ~1.0 do
+        // thiếu hằng số nhân, trừ Hyperbloom (đã đúng, x3) và Burgeon (sai,
+        // x2 thay vì x3). Riêng Shatter còn sai cả CÔNG THỨC (trước đây
+        // dùng công thức flat "1.5 * levelBonus" không có EM — case riêng,
+        // không đi qua nhánh EM-scaling chung với các Transformative khác).
+        // "Swirl" (phản ứng Anemo) trước đây KHÔNG TỒN TẠI trong switch này
+        // — thiếu hẳn 1 loại phản ứng rất phổ biến trong thực chiến.
+        //
+        // Hệ số chính thức (nguồn: KQM Theorycrafting Library "Damage
+        // Formula" — https://library.keqingmains.com, đối chiếu khớp với
+        // Genshin Wiki "Damage" trang Transformative Reaction):
+        //   Burning=0.25, Swirl=0.6, Superconduct=1.5,
+        //   Electro-Charged=2.0, Bloom=2.0, Overloaded=2.75,
+        //   Burgeon=Hyperbloom=Shattered=3.0
+        // Công thức: BaseCoefficient × LevelMultiplier × (1 + 16×EM/(EM+2000))
+        const BASE_REACTION_COEFFICIENT: Record<string, number> = {
+          Burning: 0.25,
+          Swirl: 0.6,
+          Superconduct: 1.5,
+          "Electro-Charged": 2.0,
+          Bloom: 2.0,
+          Overload: 2.75,
+          Burgeon: 3.0,
+          Hyperbloom: 3.0,
+          Shatter: 3.0,
+        };
+        const emBonus = (16 * em) / (em + 2000);
+        return BASE_REACTION_COEFFICIENT[reaction] * (1 + emBonus) * levelBonus;
+      }
       
       case "Quicken":
         // BUG ĐÃ SỬA (2026-09): Quicken tự nó KHÔNG gây sát thương trực tiếp
@@ -287,15 +303,36 @@ class DPSCalculator {
   }
   
   /**
-   * Calculate defense mitigation
+   * BUG ĐÃ SỬA (2026-09-22): công thức cũ hoàn toàn không khớp công thức
+   * chính thức của game (đã verify qua Genshin Wiki "DEF" + "Damage") —
+   * dùng 1 tham số "defense" (chỉ số DEF phẳng của địch) trong khi công
+   * thức thật của game KHÔNG cần biết chỉ số DEF địch là bao nhiêu, chỉ
+   * cần Level 2 bên + % giảm DEF/% bỏ qua DEF. Hệ quả nghiêm trọng hơn:
+   * hàm được gọi với `defense` LUÔN LÀ 0 (hardcode ở
+   * `calculateExpectedDPS`) — nghĩa là DEF mitigation trước đây LUÔN trả
+   * về 1.0 (không giảm sát thương gì cả) bất kể enemy hay
+   * `modifiers.defenseReduction` là gì — field `defenseReduction` đã thu
+   * thập ở API/UI nhưng CHƯA TỪNG được dùng tới trong tính toán thật.
+   *
+   * Công thức chính thức (Genshin Wiki "DEF", mục "DEF Multiplier"):
+   *   DEF Multiplier = (CharLevel + 100)
+   *     / [ (CharLevel + 100) + (EnemyLevel + 100) × (1-DefRed) × (1-DefIgnore) ]
+   * Ở mức level ngang nhau, không giảm DEF gì -> DEF Multiplier = 0.5
+   * (nhân vật chỉ gây được 50% sát thương gốc) — đã verify khớp với ví dụ
+   * chính thức trên wiki ("damage is halved (50%) relative to attack
+   * power at equal foe levels").
    */
-  calculateDefenseMitigation(defenderLevel: number, attackerLevel: number, defense: number): number {
-    const _levelDiff = defenderLevel - attackerLevel;
-    const levelRatio = (defenderLevel + 100) / (attackerLevel + 100);
-    
-    const defenseMultiplier = defense / (defense + (defenderLevel + 100) * (1 + levelRatio * 0.5));
-    
-    return Math.max(0.1, 1 - defenseMultiplier); // Minimum 10% damage
+  calculateDefenseMitigation(
+    characterLevel: number,
+    enemyLevel: number,
+    defenseReductionPercent: number = 0,
+    defenseIgnorePercent: number = 0
+  ): number {
+    const defReduction = Math.min(1, Math.max(0, defenseReductionPercent / 100));
+    const defIgnore = Math.min(1, Math.max(0, defenseIgnorePercent / 100));
+    const k = (1 - defReduction) * (1 - defIgnore);
+
+    return (characterLevel + 100) / (characterLevel + 100 + (enemyLevel + 100) * k);
   }
   
   /**
@@ -336,25 +373,50 @@ class DPSCalculator {
     const cv = this.calculateCV(artifacts);
     const er = this.calculateER(artifacts);
     
-    // Calculate critical hit rate and damage
-    const critRate = Math.min(1, (artifacts.subStats.critRate + 
+    // BUG ĐÃ SỬA (2026-09-22): thiếu hoàn toàn baseline 5% CRIT Rate / 50%
+    // CRIT DMG mà MỌI nhân vật có sẵn trước khi cộng artifact — đã verify
+    // qua Genshin Wiki ("all characters regardless of quality or weapon
+    // start with 5% Base CRIT Rate"; 50% base CRIT DMG là hằng số hiển thị
+    // trên mọi bảng chỉ số nhân vật trong game, không đổi qua các bản).
+    // Thiếu baseline này khiến build "0 substat crit" trước đây tính ra
+    // 0% CR/0% CD — sai hoàn toàn, thực tế luôn có sẵn 5%/50% tối thiểu.
+    const BASE_CRIT_RATE = 5; // %
+    const BASE_CRIT_DMG = 50; // %
+    const critRate = Math.min(1, (BASE_CRIT_RATE + artifacts.subStats.critRate + 
                    (artifacts.circletMainStat === "CRIT Rate%" ? artifacts.circletValue : 0)) / 100);
-    const critDmg = 1 + (artifacts.subStats.critDmg + 
+    const critDmg = 1 + (BASE_CRIT_DMG + artifacts.subStats.critDmg + 
                   (artifacts.circletMainStat === "CRIT DMG%" ? artifacts.circletValue : 0)) / 100;
     
     const avgCritMultiplier = 1 - critRate + critRate * critDmg;
     
-    // Calculate damage bonuses
+    // Calculate damage bonuses. Goblet là slot DUY NHẤT có thể roll DMG%
+    // nguyên tố/vật lý trong game thật (Sands không bao giờ có DMG% làm
+    // main stat — chỉ ATK%/HP%/DEF%/EM/ER%) — nhánh check sandsMainStat
+    // giữ lại phòng hờ (không gây sai số, chỉ không bao giờ trigger với
+    // input hợp lệ theo game thật).
+    // BỎ dead code (2026-09-22): trước có biến `_elementalDmgBonus` tính
+    // lại CHÍNH XÁC cùng 1 giá trị goblet DMG% nhưng gắn `_` (không bao
+    // giờ dùng) — dễ khiến người đọc tưởng goblet DMG% CHƯA được cộng vào
+    // đâu cả. Thực ra `dmgBonus` phía trên ĐÃ cộng đúng rồi (check
+    // `.includes("DMG%")` khớp cả "Elemental DMG%" lẫn "Physical DMG%").
     const dmgBonus = 1 + (modifiers.damageBonus / 100) +
                       (artifacts.gobletMainStat.includes("DMG%") ? artifacts.gobletValue / 100 : 0) +
                       (artifacts.sandsMainStat.includes("DMG%") ? artifacts.sandsValue / 100 : 0);
     
-    // Calculate elemental damage bonus if applicable
-    const _elementalDmgBonus = 1 + (artifacts.gobletMainStat.includes("Elemental DMG%") ?
-                                    artifacts.gobletValue / 100 : 0);
-    
     // Calculate mitigation
-    const defenseMitigation = this.calculateDefenseMitigation(90, charStats.level, 0); // Assuming enemy level 90
+    // BUG ĐÃ SỬA (2026-09-22): trước đây gọi `calculateDefenseMitigation(90,
+    // charStats.level, 0)` — tham số thứ 3 (defense) LUÔN = 0, khiến DEF
+    // mitigation luôn = 1.0 (không giảm gì), bỏ qua hoàn toàn
+    // `modifiers.defenseReduction` dù field này đã có sẵn trong input.
+    // Thứ tự tham số cũ cũng SAI (defenderLevel trước attackerLevel) —
+    // hàm mới nhận (characterLevel, enemyLevel, %DEF giảm, %DEF bỏ qua)
+    // đúng thứ tự công thức chính thức.
+    const defenseMitigation = this.calculateDefenseMitigation(
+      charStats.level,
+      modifiers.enemyLevel ?? 90,
+      modifiers.defenseReduction,
+      modifiers.defenseIgnore ?? 0
+    );
     const resistanceMitigation = this.calculateResistanceMitigation(modifiers.enemyRes);
     
     // Calculate reaction multiplier — nhận reaction/direction từ modifiers,

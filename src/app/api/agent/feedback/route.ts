@@ -48,8 +48,12 @@ export const POST = withErrorHandling(
 export const GET = withErrorHandling(
   withRateLimit(async (_req: NextRequest) => {
     const learningSystem = getContinuousLearningSystem();
-    const metrics = learningSystem.getMetrics();
-    const suggestions = learningSystem.suggestPromptImprovements();
+    // BUG ĐÃ SỬA (2026-09-22): `getMetrics()`/`suggestPromptImprovements()`
+    // giờ là async — tính lại từ DB mỗi lần gọi thay vì đọc state
+    // in-memory (vốn không bền vững qua các serverless instance khác
+    // nhau). Xem comment chi tiết ở continuous-learning.ts.
+    const metrics = await learningSystem.getMetrics();
+    const suggestions = await learningSystem.suggestPromptImprovements();
     
     return ok({
       metrics,

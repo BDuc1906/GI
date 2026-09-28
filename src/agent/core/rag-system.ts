@@ -39,7 +39,24 @@ class RAGSystem {
   constructor(config?: Partial<RAGConfig>) {
     this.config = {
       maxChunks: config?.maxChunks || 5,
-      minSimilarity: config?.minSimilarity || 0.7,
+      // BUG ĐÃ SỬA (2026-09-22): ngưỡng cũ 0.7 được đặt như thể `matchScore`
+      // (xem `retrieveChunks`) là cosine similarity chuẩn 0-1 — nhưng đây
+      // chỉ là hệ thống điểm cộng dồn thủ công (+1.0 khớp nguyên câu,
+      // +0.5/tag khớp, +0.3/từ khớp riêng lẻ dài >3 ký tự), KHÔNG chuẩn
+      // hoá về 0-1. Hệ quả: bất kỳ câu hỏi nào không khớp NGUYÊN VĂN
+      // substring và không khớp tag nào — chỉ khớp rời rạc theo từ — cần
+      // ÍT NHẤT 3 từ cùng khớp (0.3×3=0.9) mới vượt ngưỡng 0.7; 1-2 từ
+      // khớp (0.3-0.6) luôn bị loại dù rõ ràng có liên quan. Vì AgentCore
+      // gọi `retrieve(userMessage, ...)` với NGUYÊN CÂU HỎI thô của người
+      // dùng (không phải câu đã được viết khớp với knowledge base), phần
+      // lớn câu hỏi tự nhiên rơi vào đúng trường hợp này — RAG context trả
+      // về RỖNG cho rất nhiều câu hỏi hợp lệ, khiến AI Agent trả lời không
+      // có ngữ cảnh grounded (tăng rủi ro hallucination) mà không ai biết.
+      // Hạ ngưỡng xuống 0.3 (đúng bằng 1 từ khớp riêng lẻ) — mức sàn hợp
+      // lý cho 1 thuật toán từ khoá thô, thay vì ngưỡng chỉ hợp lý cho
+      // cosine similarity thật (thứ dự án chưa có, xem mục pgvector trong
+      // LEIBO_IMPROVEMENT_PLAN.md để biết hướng làm đúng lâu dài).
+      minSimilarity: config?.minSimilarity ?? 0.3,
       categories: config?.categories || [
         "characters",
         "weapons", 
