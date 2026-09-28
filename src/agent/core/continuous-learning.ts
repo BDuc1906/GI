@@ -10,7 +10,7 @@
  * 5. Adaptive prompt optimization
  */
 
-import type { Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/db/prisma";
 
 interface UserFeedback {
@@ -43,7 +43,85 @@ interface KnowledgeUpdate {
   timestamp: Date;
 }
 
+/**
+ * Tính `LearningMetrics` từ một MẢNG feedback (đã sắp xếp theo thời
+ * gian) — logic giống hệt `updateMetrics()` gốc (exponential moving
+ * average cho categoryScores, mean động cho averageRating) nhưng viết
+ * dạng HÀM THUẦN (fold trên mảng) thay vì mutate state instance, để
+ * `getMetrics()` DB-driven tái dùng được và để test được không cần mock
+ * Prisma/DB.
+ */
+export function computeMetricsFromFeedback(feedbackList: UserFeedback[]): LearningMetrics {
+  const metrics: LearningMetrics = {
+    totalFeedback: 0,
+    positiveFeedback: 0,
+    negativeFeedback: 0,
+    averageRating: 0,
+    accuracyScore: 0.5,
+    helpfulnessScore: 0.5,
+    categoryScores: {},
+  };
+
+  for (const feedback of feedbackList) {
+    metrics.totalFeedback++;
+    if (feedback.feedback === "positive") metrics.positiveFeedback++;
+    else if (feedback.feedback === "negative") metrics.negativeFeedback++;
+
+    const totalRating = metrics.averageRating * (metrics.totalFeedback - 1) + feedback.rating;
+    metrics.averageRating = totalRating / metrics.totalFeedback;
+
+    if (!metrics.categoryScores[feedback.category]) {
+      metrics.categoryScores[feedback.category] = 0.5;
+    }
+    const ratingNormalized = (feedback.rating - 1) / 4;
+    metrics.categoryScores[feedback.category] =
+      metrics.categoryScores[feedback.category] * 0.9 + ratingNormalized * 0.1;
+
+    if (feedback.category === "accuracy") {
+      metrics.accuracyScore = metrics.categoryScores[feedback.category];
+    } else if (feedback.category === "helpfulness") {
+      metrics.helpfulnessScore = metrics.categoryScores[feedback.category];
+    }
+  }
+
+  return metrics;
+}
+
+/**
+ * Gợi ý cải thiện prompt dựa trên metrics đã tính — tách thành hàm thuần
+ * (nhận metrics làm tham số) thay vì đọc `this.metrics`, vì `getMetrics()`
+ * giờ tính động từ DB thay vì đọc state instance (xem comment ở đó).
+ */
+export function suggestPromptImprovementsFor(metrics: LearningMetrics): string[] {
+  const suggestions: string[] = [];
+
+  if (metrics.accuracyScore < 0.6) {
+    suggestions.push("Consider improving RAG knowledge base for better accuracy");
+  }
+  if (metrics.helpfulnessScore < 0.6) {
+    suggestions.push("Consider adding more detailed explanations and examples");
+  }
+  if ((metrics.categoryScores["clarity"] ?? 0.5) < 0.6) {
+    suggestions.push("Consider simplifying responses and using clearer language");
+  }
+  if ((metrics.categoryScores["completeness"] ?? 0.5) < 0.6) {
+    suggestions.push("Consider providing more comprehensive answers covering all aspects");
+  }
+
+  return suggestions;
+}
+
 class ContinuousLearningSystem {
+  // ⚠️ GIỚI HẠN CÒN LẠI (chưa sửa, ghi rõ để không ai tưởng đã hoàn
+  // thiện): `feedbackBuffer` và `knowledgeUpdates` VẪN in-memory — trên
+  // serverless nhiều instance, ngưỡng "đủ 10 feedback thì tự tạo
+  // knowledge update" (`processLearningBatch`) có thể không bao giờ đạt
+  // đúng vì feedback rải rác qua nhiều instance khác nhau, và
+  // `knowledgeUpdates` sinh ra có thể mất khi instance đó bị thu hồi.
+  // Khác với `getMetrics()` (đã sửa, tính từ DB) — mục "Knowledge Updates
+  // Pending" trong report vẫn có thể không phản ánh đúng thực tế. Muốn
+  // sửa triệt để cần 1 bảng DB riêng cho `KnowledgeUpdate` (việc lớn hơn,
+  // cần quyết định schema — để lại cho lần sau).
   private feedbackBuffer: UserFeedback[] = [];
   private knowledgeUpdates: KnowledgeUpdate[] = [];
   private metrics: LearningMetrics = {
@@ -67,25 +145,39 @@ class ContinuousLearningSystem {
     
     this.feedbackBuffer.push(feedbackWithTimestamp);
     
-    // Save to database — cột `metadata` là Json nên Date phải được
-    // serialize thành ISO string trước (Prisma không nhận Date trong Json).
+    // BUG ĐÃ SỬA (2026-09-22) — MẤT DỮ LIỆU: trước đây ghi
+    // `metadata: { feedback: feedbackJson }` — GHI ĐÈ toàn bộ field
+    // `metadata` mỗi lần gọi, thay vì cộng dồn. 1 session thường có NHIỀU
+    // tin nhắn, mỗi tin có thể nhận feedback riêng — feedback của tin
+    // nhắn trước bị XOÁ MẤT ngay khi tin nhắn sau nhận feedback mới, âm
+    // thầm không báo lỗi gì. Đã sửa: đọc `metadata` hiện có trước, CỘNG
+    // DỒN vào mảng `feedbackHistory` thay vì thay thế.
     try {
       const { timestamp, ...feedbackFields } = feedbackWithTimestamp;
       const feedbackJson: Prisma.InputJsonObject = {
         ...feedbackFields,
         timestamp: timestamp.toISOString(),
       };
+
+      const existing = await prisma.agentSession.findUnique({
+        where: { id: feedback.sessionId },
+        select: { metadata: true },
+      });
+      const existingMetadata = (existing?.metadata as { feedbackHistory?: Prisma.InputJsonObject[] } | null) ?? {};
+      const feedbackHistory = Array.isArray(existingMetadata.feedbackHistory) ? existingMetadata.feedbackHistory : [];
+
       await prisma.agentSession.update({
         where: { id: feedback.sessionId },
         data: {
-          metadata: { feedback: feedbackJson }
+          metadata: { ...existingMetadata, feedbackHistory: [...feedbackHistory, feedbackJson] },
         }
       });
     } catch (err) {
       console.error("Failed to save feedback to database:", err);
     }
     
-    // Update metrics
+    // Update metrics (in-memory — CHỈ đúng trong phạm vi 1 process/request;
+    // xem `getMetrics()` bên dưới để biết cách tính đúng, bền vững qua DB).
     this.updateMetrics(feedbackWithTimestamp);
     
     // Trigger learning if enough feedback collected
@@ -198,10 +290,54 @@ class ContinuousLearningSystem {
   }
   
   /**
-   * Get current learning metrics
+   * BUG ĐÃ SỬA (2026-09-22): trước đây `getMetrics()` chỉ đọc `this.metrics`
+   * — state in-memory của MỘT instance `ContinuousLearningSystem`. Trên
+   * serverless (Vercel), mỗi request có thể chạy trên instance KHÁC NHAU
+   * — `GET /api/agent/feedback` gần như chắc chắn trả về metrics rỗng
+   * (0 feedback) dù đã có hàng trăm feedback thật được lưu trong DB, vì
+   * instance xử lý GET không phải instance đã xử lý các POST trước đó.
+   * Đã sửa: tính lại metrics TỪ ĐẦU, TỪ DB, mỗi lần gọi — chậm hơn 1 chút
+   * (query + fold trong bộ nhớ) nhưng ĐÚNG và BỀN VỮNG qua mọi instance.
+   *
+   * Giới hạn 500 session gần nhất (theo `updatedAt`) để tránh quét toàn
+   * bộ bảng khi lượng feedback lớn dần — đủ cho mục đích "xu hướng gần
+   * đây", không cần chính xác tuyệt đối lịch sử toàn thời gian.
    */
-  getMetrics(): LearningMetrics {
-    return { ...this.metrics };
+  async getMetrics(): Promise<LearningMetrics> {
+    const feedbackList = await this.fetchRecentFeedbackFromDb();
+    return computeMetricsFromFeedback(feedbackList);
+  }
+
+  private async fetchRecentFeedbackFromDb(): Promise<UserFeedback[]> {
+    const sessions = await prisma.agentSession.findMany({
+      where: { metadata: { path: ["feedbackHistory"], not: Prisma.JsonNull } },
+      orderBy: { updatedAt: "desc" },
+      take: 500,
+      select: { metadata: true },
+    });
+
+    const all: UserFeedback[] = [];
+    for (const session of sessions) {
+      const metadata = session.metadata as { feedbackHistory?: Array<Record<string, unknown>> } | null;
+      const history = metadata?.feedbackHistory;
+      if (!Array.isArray(history)) continue;
+      for (const raw of history) {
+        if (!raw || typeof raw !== "object") continue;
+        all.push({
+          sessionId: String(raw.sessionId ?? ""),
+          userId: String(raw.userId ?? ""),
+          messageId: String(raw.messageId ?? ""),
+          feedback: (raw.feedback as UserFeedback["feedback"]) ?? "neutral",
+          rating: Number(raw.rating ?? 0),
+          comment: String(raw.comment ?? ""),
+          category: (raw.category as UserFeedback["category"]) ?? "other",
+          timestamp: new Date(String(raw.timestamp ?? 0)),
+        });
+      }
+    }
+    // Fold theo đúng thứ tự thời gian (updateMetrics gốc là exponential
+    // moving average — PHỤ THUỘC THỨ TỰ, phải sort trước khi fold lại).
+    return all.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
   }
   
   /**
@@ -219,53 +355,43 @@ class ContinuousLearningSystem {
   }
   
   /**
-   * Suggest prompt improvements based on feedback
+   * Suggest prompt improvements based on feedback — giờ tính từ DB (xem
+   * `getMetrics()`) thay vì state in-memory `this.metrics` đã lỗi thời
+   * trên serverless.
    */
-  suggestPromptImprovements(): string[] {
-    const suggestions: string[] = [];
-    
-    if (this.metrics.accuracyScore < 0.6) {
-      suggestions.push("Consider improving RAG knowledge base for better accuracy");
-    }
-    
-    if (this.metrics.helpfulnessScore < 0.6) {
-      suggestions.push("Consider adding more detailed explanations and examples");
-    }
-    
-    if (this.metrics.categoryScores["clarity"] < 0.6) {
-      suggestions.push("Consider simplifying responses and using clearer language");
-    }
-    
-    if (this.metrics.categoryScores["completeness"] < 0.6) {
-      suggestions.push("Consider providing more comprehensive answers covering all aspects");
-    }
-    
-    return suggestions;
+  async suggestPromptImprovements(): Promise<string[]> {
+    const metrics = await this.getMetrics();
+    return suggestPromptImprovementsFor(metrics);
   }
   
   /**
-   * Generate learning report
+   * Generate learning report — giờ tính từ DB (xem `getMetrics()`).
    */
-  generateLearningReport(): string {
+  async generateLearningReport(): Promise<string> {
+    const metrics = await this.getMetrics();
+    const suggestions = suggestPromptImprovementsFor(metrics);
+    const positivePercent = metrics.totalFeedback > 0 ? (metrics.positiveFeedback / metrics.totalFeedback) * 100 : 0;
+    const negativePercent = metrics.totalFeedback > 0 ? (metrics.negativeFeedback / metrics.totalFeedback) * 100 : 0;
+
     const report = `
 ## Continuous Learning Report
 
 ### Metrics
-- Total Feedback: ${this.metrics.totalFeedback}
-- Positive Feedback: ${this.metrics.positiveFeedback} (${((this.metrics.positiveFeedback / this.metrics.totalFeedback) * 100).toFixed(1)}%)
-- Negative Feedback: ${this.metrics.negativeFeedback} (${((this.metrics.negativeFeedback / this.metrics.totalFeedback) * 100).toFixed(1)}%)
-- Average Rating: ${this.metrics.averageRating.toFixed(2)}/5
+- Total Feedback: ${metrics.totalFeedback}
+- Positive Feedback: ${metrics.positiveFeedback} (${positivePercent.toFixed(1)}%)
+- Negative Feedback: ${metrics.negativeFeedback} (${negativePercent.toFixed(1)}%)
+- Average Rating: ${metrics.averageRating.toFixed(2)}/5
 
 ### Category Scores
-${Object.entries(this.metrics.categoryScores).map(([cat, score]) => 
+${Object.entries(metrics.categoryScores).map(([cat, score]) => 
   `- ${cat}: ${(score * 100).toFixed(1)}%`
 ).join("\n")}
 
 ### Knowledge Updates Pending
-${this.knowledgeUpdates.length} updates ready for review
+${this.knowledgeUpdates.length} updates ready for review (⚠️ in-memory, xem giới hạn ở comment class)
 
 ### Suggested Improvements
-${this.suggestPromptImprovements().map(s => `- ${s}`).join("\n") || "No specific suggestions at this time"}
+${suggestions.map(s => `- ${s}`).join("\n") || "No specific suggestions at this time"}
 `.trim();
     
     return report;
