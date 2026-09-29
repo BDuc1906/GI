@@ -13,35 +13,28 @@ interface CharacterOption {
   elementIcon: string | null;
 }
 
-interface MaterialRequirement {
-  materialId: string;
-  materialName: string;
+// Khớp response của /api/tools/material-calculator (dữ liệu THẬT từ DB —
+// xem real-material-plan.ts). Không còn resin/số ngày farm: DB không có tỉ
+// lệ rớt thật nên không ước lượng, tránh hiển thị số bịa.
+interface PlanMaterial {
+  materialId?: string;
+  name: string;
   quantity: number;
-  tier: number;
-  domain?: string;
-  dropRate?: number;
 }
 
-interface AscensionPlan {
-  characterName: string;
-  currentLevel: number;
-  targetLevel: number;
-  materials: MaterialRequirement[];
-  totalResinNeeded: number;
-  farmingDays: number;
-  recommendedDomains: string[];
-}
-
-interface TalentPlan {
-  characterName: string;
-  materials: MaterialRequirement[];
-  totalResinNeeded: number;
-  recommendedDomains: string[];
+interface MatchedDomain {
+  id: string;
+  name: string;
+  category: string;
+  daysOfWeek: string[];
+  dropsMaterials: string[];
 }
 
 interface CalculatorResult {
-  ascension: AscensionPlan;
-  talent?: TalentPlan;
+  characterName: string;
+  ascension: { currentLevel: number; targetLevel: number; materials: PlanMaterial[] };
+  talent?: { materials: PlanMaterial[] };
+  domains: MatchedDomain[];
 }
 
 export function MaterialCalculatorClient({ characters }: { characters: CharacterOption[] }) {
@@ -212,56 +205,62 @@ export function MaterialCalculatorClient({ characters }: { characters: Character
   );
 }
 
+const DAY_VI: Record<string, string> = {
+  Monday: "Thứ 2",
+  Tuesday: "Thứ 3",
+  Wednesday: "Thứ 4",
+  Thursday: "Thứ 5",
+  Friday: "Thứ 6",
+  Saturday: "Thứ 7",
+  Sunday: "Chủ nhật",
+};
+
 function ResultPanel({ result }: { result: CalculatorResult }) {
   return (
     <div className="space-y-6">
       <MaterialPlanCard
         title={`Đột phá: cấp ${result.ascension.currentLevel} → ${result.ascension.targetLevel}`}
-        plan={result.ascension}
+        materials={result.ascension.materials}
       />
-      {result.talent && <MaterialPlanCard title="Nguyên liệu thiên phú" plan={result.talent} />}
+      {result.talent && <MaterialPlanCard title="Nguyên liệu thiên phú" materials={result.talent.materials} />}
+      {result.domains.length > 0 && (
+        <div className="bg-bg-card border-2 border-border rounded-xl p-5">
+          <h3 className="font-display text-lg font-bold text-text-primary mb-3">Bí cảnh có rớt nguyên liệu cần</h3>
+          <div className="space-y-2">
+            {result.domains.map((d) => (
+              <div key={d.id} className="bg-bg-primary border border-border rounded-lg p-3 text-sm">
+                <div className="text-text-primary font-medium">{d.name}</div>
+                <div className="text-xs text-text-muted mt-1">
+                  {d.daysOfWeek.length > 0
+                    ? `Mở: ${d.daysOfWeek.map((day) => DAY_VI[day] ?? day).join(", ")}`
+                    : "Mở hằng ngày"}
+                  {" · "}Rớt: {d.dropsMaterials.join(", ")}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
-function MaterialPlanCard({
-  title,
-  plan,
-}: {
-  title: string;
-  plan: { materials: MaterialRequirement[]; totalResinNeeded: number; recommendedDomains: string[]; farmingDays?: number };
-}) {
+function MaterialPlanCard({ title, materials }: { title: string; materials: PlanMaterial[] }) {
   return (
     <div className="bg-bg-card border-2 border-gold/30 rounded-xl p-5">
       <h3 className="font-display text-lg font-bold text-text-primary mb-3">{title}</h3>
-
-      <div className="flex flex-wrap gap-4 mb-4 text-sm">
-        <div>
-          <span className="text-text-muted">Resin ước tính: </span>
-          <span className="text-gold-bright font-semibold">{plan.totalResinNeeded.toLocaleString("vi-VN")}</span>
+      {materials.length === 0 ? (
+        <p className="text-sm text-text-muted">Không cần nguyên liệu nào trong khoảng này.</p>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+          {materials.map((m) => (
+            <div key={m.name} className="bg-bg-primary border border-border rounded-lg p-3">
+              <div className="text-sm text-text-primary font-medium truncate">{m.name}</div>
+              <div className="text-xs text-text-muted mt-1">×{m.quantity.toLocaleString("vi-VN")}</div>
+            </div>
+          ))}
         </div>
-        {plan.farmingDays != null && (
-          <div>
-            <span className="text-text-muted">Số ngày farm ước tính: </span>
-            <span className="text-gold-bright font-semibold">{plan.farmingDays}</span>
-          </div>
-        )}
-        {plan.recommendedDomains.length > 0 && (
-          <div>
-            <span className="text-text-muted">Bí cảnh gợi ý: </span>
-            <span className="text-text-primary">{plan.recommendedDomains.join(", ")}</span>
-          </div>
-        )}
-      </div>
-
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-        {plan.materials.map((m) => (
-          <div key={`${m.materialId}-${m.tier}`} className="bg-bg-primary border border-border rounded-lg p-3">
-            <div className="text-sm text-text-primary font-medium truncate">{m.materialName}</div>
-            <div className="text-xs text-text-muted mt-1">×{m.quantity.toLocaleString("vi-VN")}</div>
-          </div>
-        ))}
-      </div>
+      )}
     </div>
   );
 }

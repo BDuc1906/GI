@@ -9,11 +9,11 @@ interface MaterialCalculatorPageProps {
 export const dynamic = "force-dynamic";
 
 /**
- * BỔ SUNG (2026-09-22): `/api/tools/material-calculator` có backend đầy
- * đủ (`MaterialCalculator` — 15 KB logic tính nguyên liệu nâng cấp thật)
- * nhưng trước đây KHÔNG CÓ trang UI nào gọi tới — tile "Máy tính nguyên
- * liệu" trên trang chủ trỏ nhầm sang `/characters` (đã sửa thành "Sắp ra
- * mắt" ở lượt trước). Đây là trang UI THẬT đầu tiên cho công cụ này.
+ * BỔ SUNG (2026-09-22): trang UI cho `/api/tools/material-calculator`.
+ * LƯU Ý LỊCH SỬ: bản đầu của trang này gọi backend dùng bảng vật liệu
+ * hardcode GIẢ ("Jewel Sliver", "Boss Material"...) — đã phát hiện và sửa:
+ * backend giờ tính từ dữ liệu thật trong DB (`Character.ascensionMaterials`
+ * /`talentMaterials`, `Domain.materials`), xem `real-material-plan.ts`.
  *
  * Chỉ fetch field cần cho picker (không fetch toàn bộ record nặng) —
  * danh sách nhân vật nhỏ (~122), truyền thẳng làm props cho client

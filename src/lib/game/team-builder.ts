@@ -73,14 +73,24 @@ class TeamBuilder {
    * Get resonance effect for an element
    */
   private getResonanceEffect(element: string): string {
+    // BUG ĐÃ SỬA (2026-09-22): 4/7 hiệu ứng (Anemo, Electro, Dendro, Hydro)
+    // sai — đã verify qua nhiều nguồn nhất quán (genshin.gg, Icy Veins,
+    // GameRant, GameVika). Electro trước đây bịa HOÀN TOÀN ("-30% ER
+    // requirement, +30% energy recovery" — không liên quan gì tới hiệu
+    // ứng thật là sinh hạt Electro). Anemo sai cả 3 số (CD kỹ năng -5%
+    // không phải -15%, thiếu +10% tốc chạy, stamina -15% không phải
+    // -10%). Dendro sai bản chất (+50 EM CỐ ĐỊNH, không phải +30% theo
+    // %) và thiếu hẳn cơ chế cộng EM tạm thời sau phản ứng. Hydro có
+    // mệnh đề bịa ("-40% Hydro effect duration" — thực ra mệnh đề "giảm
+    // 40% thời lượng" chỉ có ở Cryo/Electro Resonance, áp nhầm sang Hydro).
     const effects: Record<string, string> = {
       "Pyro": "Pyro Resonance: +25% ATK and +15% Pyro reaction damage",
-      "Hydro": "Hydro Resonance: +25% HP and -40% Hydro effect duration",
-      "Anemo": "Anemo Resonance: -15% skill cooldown and -10% stamina consumption",
-      "Electro": "Electro Resonance: -30% Energy Recharge requirement and +30% Elemental Energy recovery",
-      "Cryo": "Cryo Resonance: +15% CRIT Rate against Cryo-affected enemies",
+      "Hydro": "Hydro Resonance: +25% Max HP",
+      "Anemo": "Anemo Resonance: -15% stamina consumption, +10% movement SPD, -5% skill cooldown",
+      "Electro": "Electro Resonance: Superconduct/Overloaded/Electro-Charged/Quicken/Aggravate/Hyperbloom có 100% cơ hội sinh 1 hạt Electro (hồi 5s); giảm 40% thời gian bị ảnh hưởng bởi Hydro",
+      "Cryo": "Cryo Resonance: +15% CRIT Rate against Frozen/Cryo-affected enemies; giảm 40% thời gian bị ảnh hưởng bởi Electro",
       "Geo": "Geo Resonance: +15% shield strength and +15% damage when shielded",
-      "Dendro": "Dendro Resonance: +30% Elemental Mastery for reactions involving Dendro"
+      "Dendro": "Dendro Resonance: +50 Elemental Mastery cố định. Sau khi kích hoạt Burning/Quicken/Bloom, cả đội +30 EM trong 6s; sau Aggravate/Spread/Hyperbloom/Burgeon, cả đội +20 EM trong 6s"
     };
     
     return effects[element] || `${element} Resonance: Elemental bonus`;
@@ -105,7 +115,12 @@ class TeamBuilder {
       ["Cryo", "Hydro", "Frozen", 1.0, "high"],
       ["Pyro", "Dendro", "Burning", 1.0, "medium"],
       ["Hydro", "Dendro", "Bloom", 1.0, "high"],
-      ["Electro", "Dendro", "Quicken", 1.15, "medium"],
+      // BUG ĐÃ SỬA (2026-09-22): Quicken tự nó KHÔNG gây sát thương trực
+      // tiếp (đã verify qua Genshin Wiki — chỉ áp trạng thái để
+      // Aggravate/Spread kích hoạt sau đó), multiplier=1.15 cũ là số của
+      // Aggravate bị gán nhầm (đúng bug đã sửa ở dps-calculator.ts trước
+      // đó). Multiplier=0 phản ánh đúng: Quicken không tự gây DMG.
+      ["Electro", "Dendro", "Quicken", 0, "medium"],
       ["Geo", "any", "Crystallize", 1.0, "medium"]
     ];
     
