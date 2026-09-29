@@ -67,9 +67,12 @@ model Character {
   // materialId trỏ tới Material.id — join lúc render để lấy iconUrl,
   // "name" giữ lại làm fallback hiển thị nếu Material chưa/không seed được.
   ascensionMaterials Json?
+  // Nguyên liệu nâng thiên phú theo cấp: [{ level, materials: [{ materialId?,
+  // name, count }] }] (level 2-10). Dùng bởi /api/tools/material-calculator.
+  // (Comment cũ đặt ở đây mô tả nhầm shape của statsByLevel — đã sửa.)
+  talentMaterials Json?
   // Chỉ số HP/ATK/DEF/chỉ số phụ ở các mốc cấp + trước/sau đột phá:
   // [{ level, ascension, hp, attack, defense, specialized }]
-  talentMaterials Json?
   statsByLevel Json?
   birthday    String?                 // vd "October 29"
   // Tên "chòm sao bản mệnh" (flavor, khác 6 cung mệnh kỹ năng bên dưới), vd "Acer Palmatum"

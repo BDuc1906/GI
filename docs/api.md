@@ -80,7 +80,6 @@ Toàn bộ endpoint (trừ `/api` và `/api/health`) đều giới hạn theo IP
 | `/api/tools/dps`               | 30 request/phút |
 | `/api/tools/team-builder`      | 30 request/phút |
 | `/api/tools/material-calculator`| 30 request/phút |
-| `/api/tools/meta-tracker`      | 10 request/phút |
 
 Vượt giới hạn → `429 RATE_LIMITED`, kèm header:
 
@@ -395,20 +394,6 @@ curl -X POST "https://<domain>/api/tools/material-calculator" \
     "targetLevel": 90,
     "includeTalent": true
   }'
-```
-
----
-
-## `GET /api/tools/meta-tracker` — theo dõi meta
-
-Get meta analysis và recommendations.
-
-| Param | Bắt buộc | Ghi chú                                                |
-|-------|----------|--------------------------------------------------------|
-| `type` | Không    | Report type: `general`, `characters`, `teams`, `counters` (mặc định `general`) |
-
-```bash
-curl "https://<domain>/api/tools/meta-tracker?type=general"
 ```
 
 ---

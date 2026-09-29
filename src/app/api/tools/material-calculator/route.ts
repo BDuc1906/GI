@@ -2,10 +2,20 @@ import type { NextRequest } from "next/server";
 import { ok } from "@/lib/api/response";
 import { ApiError, withErrorHandling } from "@/lib/api/errors";
 import { withRateLimit } from "@/lib/api/rate-limit";
-import { MaterialCalculator, type AscensionPlan, type TalentPlan } from "@/lib/game/material-calculator";
+import {
+  buildAscensionPlan,
+  buildTalentPlan,
+  matchDomains,
+  type MatchedDomain,
+  type PlanMaterial,
+  type RawAscensionPhase,
+  type RawDomain,
+  type RawTalentLevel,
+} from "@/lib/game/real-material-plan";
 import { z } from "zod";
 
 export const revalidate = 60;
+// Cache thật: xem comment "VỀ CACHE" ở src/lib/api/response.ts (revalidate ở đây chỉ để tài liệu, force-dynamic vô hiệu hoá nó).
 export const dynamic = "force-dynamic";
 
 const materialCalculatorRequestSchema = z.object({
@@ -25,7 +35,25 @@ const materialCalculatorRequestSchema = z.object({
   }).optional(),
 });
 
-const materialCalculator = new MaterialCalculator();
+/**
+ * BUG NGHIÊM TRỌNG ĐÃ SỬA (2026-09-22): route này trước đây gọi
+ * `MaterialCalculator.calculateAscensionMaterials()` — hàm dùng bảng
+ * hardcode GIẢ ("Jewel Sliver", "Local Specialty", "Boss Material" — tên
+ * chung chung, không phải vật liệu thật của nhân vật nào; còn map nhầm
+ * nguyên tố Anemo sang gem của Electro, và gán nguyên tố -> "vùng" bí
+ * cảnh vô nghĩa). Trong khi DB ĐÃ CÓ dữ liệu thật đầy đủ:
+ * `Character.ascensionMaterials`/`talentMaterials` (seed từ genshin-db,
+ * vd Diluc -> "Agnidus Agate Sliver", "Small Lamp Grass", "Recruit's
+ * Insignia") và `Domain.materials` + `daysOfWeek` thật. Giờ tính từ dữ
+ * liệu thật; KHÔNG còn ước lượng resin/số ngày farm vì cần tỉ lệ rớt
+ * thật mà DB không có — thà không hiện còn hơn hiện số bịa.
+ */
+interface MaterialPlanResult {
+  characterName: string;
+  ascension: { currentLevel: number; targetLevel: number; materials: PlanMaterial[] };
+  talent?: { materials: PlanMaterial[] };
+  domains: MatchedDomain[];
+}
 
 export const POST = withErrorHandling(
   withRateLimit(async (req: NextRequest) => {
@@ -42,7 +70,8 @@ export const POST = withErrorHandling(
       select: {
         id: true,
         name: true,
-        vision: true,
+        ascensionMaterials: true,
+        talentMaterials: true,
       },
     });
 
@@ -50,23 +79,57 @@ export const POST = withErrorHandling(
       throw ApiError.notFound("Không tìm thấy nhân vật");
     }
 
-    const ascensionPlan = materialCalculator.calculateAscensionMaterials(
-      character.name,
+    const ascensionMaterials = buildAscensionPlan(
+      character.ascensionMaterials as unknown as RawAscensionPhase[] | null,
       parsed.data.currentLevel,
-      parsed.data.targetLevel,
-      character.vision
+      parsed.data.targetLevel
     );
-
-    const result: { ascension: AscensionPlan; talent?: TalentPlan } = { ascension: ascensionPlan };
-
-    if (parsed.data.includeTalent) {
-      const talentPlan = materialCalculator.calculateTalentMaterials(
-        character.name,
-        parsed.data.talentLevels || { normalAttack: 1, elementalSkill: 1, elementalBurst: 1 },
-        parsed.data.targetTalentLevels || { normalAttack: 10, elementalSkill: 10, elementalBurst: 10 },
-        character.vision
+    if (ascensionMaterials === null) {
+      throw new ApiError(
+        422,
+        "MISSING_MATERIAL_DATA",
+        `Nhân vật "${character.name}" chưa có dữ liệu nguyên liệu đột phá trong DB`
       );
-      result.talent = talentPlan;
+    }
+
+    const result: MaterialPlanResult = {
+      characterName: character.name,
+      ascension: {
+        currentLevel: parsed.data.currentLevel,
+        targetLevel: parsed.data.targetLevel,
+        materials: ascensionMaterials,
+      },
+      domains: [],
+    };
+
+    let talentMaterials: PlanMaterial[] = [];
+    if (parsed.data.includeTalent) {
+      const planned = buildTalentPlan(
+        character.talentMaterials as unknown as RawTalentLevel[] | null,
+        parsed.data.talentLevels || { normalAttack: 1, elementalSkill: 1, elementalBurst: 1 },
+        parsed.data.targetTalentLevels || { normalAttack: 10, elementalSkill: 10, elementalBurst: 10 }
+      );
+      if (planned === null) {
+        throw new ApiError(
+          422,
+          "MISSING_MATERIAL_DATA",
+          `Nhân vật "${character.name}" chưa có dữ liệu nguyên liệu thiên phú trong DB`
+        );
+      }
+      talentMaterials = planned;
+      result.talent = { materials: talentMaterials };
+    }
+
+    // Bí cảnh THẬT có rớt nguyên liệu cần (loại Mora — bí cảnh nào cũng có).
+    const neededNames = [...ascensionMaterials, ...talentMaterials]
+      .map((m) => m.name)
+      .filter((n) => n !== "Mora");
+    if (neededNames.length > 0) {
+      const domains = await prisma.domain.findMany({
+        where: { category: { in: ["weapon", "talent"] } },
+        select: { id: true, name: true, category: true, daysOfWeek: true, materials: true },
+      });
+      result.domains = matchDomains(domains as unknown as RawDomain[], neededNames);
     }
 
     return ok(result, { maxAgeSec: 60 });
