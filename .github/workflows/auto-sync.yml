@@ -86,139 +86,80 @@ jobs:
   update-and-sync:
     name: Update and Sync Game Data
     runs-on: ubuntu-latest
-    needs: [check-update, create-backup]
+    needs: check-update
     if: needs.check-update.outputs.should_update == 'true'
-    
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: leibo_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
           node-version: '24'
           cache: 'npm'
-      
+
       - name: Install dependencies
         run: npm ci
-      
+
+      - name: Apply migrations to validation database
+        run: npx prisma migrate deploy
+
       - name: Update genshin-db
         run: |
           echo "🔄 Updating genshin-db to latest version..."
           npm update genshin-db
           NEW_VERSION=$(node -p "require('./package.json').dependencies['genshin-db'].replace(/[\^~]/g, '')")
           echo "✅ Updated to genshin-db v$NEW_VERSION"
-      
+
       - name: Crawl game data
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
           echo "📊 Crawling game data from genshin-db..."
           npm run data:crawl
           echo "✅ Game data crawled successfully"
-      
-      - name: Seed database
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        # BUG ĐÃ SỬA (2026-09): `npm run db:seed` gọi kèm cờ --env-file=.env
-        # (định nghĩa trong package.json) — không tồn tại trên CI (gitignore,
-        # biến môi trường đã bơm qua `env:` ở step này rồi), khiến tsx thoát
-        # lỗi "node: .env: not found" trước khi seed.ts chạy dòng nào. Gọi
-        # thẳng tsx bỏ qua cờ đó — cùng fix đã áp dụng ở update-data.yml.
-        run: |
-          echo "💾 Seeding database with new data..."
-          npx tsx scripts/seed/seed.ts
-          echo "✅ Database seeded successfully"
-      
-      - name: Verify data integrity
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        # Lý do bỏ `npm run db:verify`: xem comment ở step "Seed database" —
-        # cùng cờ --env-file=.env cứng trong package.json.
-        run: |
-          echo "🔍 Verifying data integrity..."
-          npx tsx scripts/seed/verify-seed-integrity.ts
-          echo "✅ Data integrity verified"
-      
-      - name: Seed enhanced enemy data
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        # Lý do bỏ `npm run db:seed:enemies`: xem comment ở step "Seed database".
-        run: |
-          echo "👾 Seeding enhanced enemy data..."
-          npx tsx scripts/seed/seed-enemies-enhanced.ts
-          echo "✅ Enhanced enemy data seeded"
-      
-      - name: Mirror images to R2
-        env:
-          CLOUDFLARE_R2_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
-          CLOUDFLARE_R2_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET_ACCESS_KEY }}
-          CLOUDFLARE_R2_BUCKET: ${{ secrets.CLOUDFLARE_R2_BUCKET }}
-          CLOUDFLARE_R2_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_R2_ACCOUNT_ID }}
-        # Lý do bỏ `npm run images:mirror`: xem comment ở step "Seed database".
-        run: |
-          echo "🖼️ Mirroring images to R2..."
-          npx tsx scripts/images/mirror-images-to-r2.ts
-          echo "✅ Images mirrored successfully"
-      
+
       - name: Run tests
-        run: |
-          echo "🧪 Running tests..."
-          npm test
-          echo "✅ All tests passed"
-      
+        run: npm run test
+
       - name: Type check
-        run: |
-          echo "🔍 Type checking..."
-          npm run typecheck
-          echo "✅ Type check passed"
-      
+        run: npm run typecheck
+
       - name: Lint
-        run: |
-          echo "🔍 Linting..."
-          npm run lint
-          echo "✅ Linting passed"
-      
-      - name: Build
-        run: |
-          echo "🏗️ Building project..."
-          npm run build
-          echo "✅ Build successful"
-      
-  notify-result:
-    name: Notify Sync Result
-    runs-on: ubuntu-latest
-    needs: [check-update, update-and-sync]
-    if: always()
-    
-    steps:
-      - name: Send notification
-        run: |
-          if [ "${{ needs.update-and-sync.result }}" = "success" ]; then
-            echo "✅ Auto-sync completed successfully"
-            echo "Version: ${{ needs.check-update.outputs.new_version }}"
-            # Would send Discord/Slack notification here
-          elif [ "${{ needs.check-update.outputs.should_update }}" = "false" ]; then
-            echo "ℹ️ No update needed - already on latest version"
-          else
-            echo "❌ Auto-sync failed - manual intervention required"
-            # Would send alert notification here
-          fi
+        run: npm run lint
 
-  create-backup:
-    name: Create and Verify Production Database Backup
-    runs-on: ubuntu-latest
-    needs: check-update
-    if: needs.check-update.outputs.should_update == 'true'
-    env:
-      BACKUP_S3_BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
-      AWS_REGION: ${{ secrets.AWS_REGION }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      DIRECT_URL: ${{ secrets.DIRECT_URL }}
+      - name: Seed validation database
+        run: npx tsx scripts/seed/seed.ts
 
-    steps:
-      - name: Validate backup configuration
+      - name: Seed enhanced enemy data in validation database
+        run: npx tsx scripts/seed/seed-enemies-enhanced.ts
+
+      - name: Verify validation database integrity
+        run: npx tsx scripts/seed/verify-seed-integrity.ts
+
+      - name: Build against validation database
+        run: npm run build
+
+      - name: Create, verify, and upload production database backup
+        env:
+          BACKUP_S3_BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
         run: |
           set -euo pipefail
           : "${BACKUP_S3_BUCKET:?Missing BACKUP_S3_BUCKET secret}"
@@ -227,10 +168,6 @@ jobs:
           : "${AWS_SECRET_ACCESS_KEY:?Missing AWS_SECRET_ACCESS_KEY secret}"
           : "${DIRECT_URL:?Missing DIRECT_URL secret}"
 
-      - name: Create, verify, and upload backup
-        id: backup
-        run: |
-          set -euo pipefail
           backup_name="leibo-$(date -u +%Y%m%dT%H%M%SZ)-${GITHUB_RUN_ID}.dump"
           backup_file="$(mktemp --suffix=.dump)"
           checksum_file="${backup_file}.sha256"
@@ -253,10 +190,49 @@ jobs:
             --region "$AWS_REGION" \
             --query ContentLength --output text)
           test "$uploaded_size" = "$(stat -c %s "$backup_file")"
-          echo "key=$backup_key" >> "$GITHUB_OUTPUT"
+          printf 'Verified production database backup: %s\n' "$backup_key" >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Summarize backup
+      - name: Seed production database
         env:
-          BACKUP_KEY: ${{ steps.backup.outputs.key }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: npx tsx scripts/seed/seed.ts
+
+      - name: Seed enhanced enemy data in production
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: npx tsx scripts/seed/seed-enemies-enhanced.ts
+
+      - name: Verify production database integrity
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: npx tsx scripts/seed/verify-seed-integrity.ts
+
+      - name: Mirror images to R2
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          R2_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET_NAME: ${{ secrets.CLOUDFLARE_R2_BUCKET }}
+          R2_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_R2_ACCOUNT_ID }}
+          R2_PUBLIC_URL: ${{ secrets.R2_PUBLIC_URL }}
+        run: npx tsx scripts/images/mirror-images-to-r2.ts
+
+  notify-result:
+    name: Notify Sync Result
+    runs-on: ubuntu-latest
+    needs: [check-update, update-and-sync]
+    if: always()
+    
+    steps:
+      - name: Send notification
         run: |
-          printf 'Verified production database backup: %s\n' "$BACKUP_KEY" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${{ needs.update-and-sync.result }}" = "success" ]; then
+            echo "✅ Auto-sync completed successfully"
+            echo "Version: ${{ needs.check-update.outputs.new_version }}"
+            # Would send Discord/Slack notification here
+          elif [ "${{ needs.check-update.outputs.should_update }}" = "false" ]; then
+            echo "ℹ️ No update needed - already on latest version"
+          else
+            echo "❌ Auto-sync failed - manual intervention required"
+            # Would send alert notification here
+          fi

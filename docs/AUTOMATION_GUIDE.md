@@ -131,11 +131,15 @@ CLOUDFLARE_R2_ACCESS_KEY_ID    # R2 access key
 CLOUDFLARE_R2_SECRET_ACCESS_KEY # R2 secret key
 CLOUDFLARE_R2_BUCKET            # R2 bucket name
 CLOUDFLARE_R2_ACCOUNT_ID       # R2 account ID
+R2_PUBLIC_URL                  # Public custom-domain URL for mirrored images
 AWS_ACCESS_KEY_ID              # AWS access key (for S3 backup)
 AWS_SECRET_ACCESS_KEY          # AWS secret key (for S3 backup)
 AWS_REGION                     # AWS region containing the backup bucket
 BACKUP_S3_BUCKET               # S3 bucket for backups
 ```
+
+The S3 credentials need `s3:PutObject` and `s3:GetObject` access to
+`database-backups/*`. Configure an S3 lifecycle rule for backup retention.
 
 ## 🔔 THIẾT LẬP GIẢI THIÊM
 
