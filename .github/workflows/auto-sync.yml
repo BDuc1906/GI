@@ -34,6 +34,9 @@ env:
 # Không để 2 lần chạy (schedule trùng workflow_dispatch tay, hoặc double
 # trigger) ghi đè nhau lên cùng 1 DB production — cùng lý do auto-fix.yml/
 # full-pipeline.yml đều có concurrency group riêng.
+# Job sync production chỉ chạy sau khi pg_dump được xác minh và tải lên S3.
+# Cần cấu hình DIRECT_URL, AWS_REGION, AWS_ACCESS_KEY_ID,
+# AWS_SECRET_ACCESS_KEY và BACKUP_S3_BUCKET trong GitHub Secrets.
 concurrency:
   group: auto-sync-game-data
   cancel-in-progress: false
@@ -65,33 +68,25 @@ jobs:
         run: |
           # Get current version from package.json
           CURRENT_VERSION=$(node -p "require('./package.json').dependencies['genshin-db'].replace(/[\^~]/g, '')")
-          echo "current_version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "current_version=$CURRENT_VERSION" >> "$GITHUB_OUTPUT"
           
           # Get latest version from npm
           LATEST_VERSION=$(npm view genshin-db version)
-          echo "new_version=$LATEST_VERSION" >> $GITHUB_OUTPUT
+          echo "new_version=$LATEST_VERSION" >> "$GITHUB_OUTPUT"
           
           # Check if update needed
           if [ "$CURRENT_VERSION" != "$LATEST_VERSION" ] || [ "${{ github.event.inputs.force_update }}" = "true" ]; then
-            echo "should_update=true" >> $GITHUB_OUTPUT
+            echo "should_update=true" >> "$GITHUB_OUTPUT"
             echo "✅ Update available: $CURRENT_VERSION → $LATEST_VERSION"
           else
-            echo "should_update=false" >> $GITHUB_OUTPUT
+            echo "should_update=false" >> "$GITHUB_OUTPUT"
             echo "ℹ️ Already on latest version: $CURRENT_VERSION"
           fi
       
-      - name: Create backup before update
-        if: steps.check.outputs.should_update == 'true'
-        run: |
-          echo "Creating backup before update..."
-          # Backup current database state would go here
-          # For now, just mark the intention
-          echo "BACKUP_CREATED=true" >> $GITHUB_ENV
-
   update-and-sync:
     name: Update and Sync Game Data
     runs-on: ubuntu-latest
-    needs: check-update
+    needs: [check-update, create-backup]
     if: needs.check-update.outputs.should_update == 'true'
     
     steps:
@@ -190,14 +185,6 @@ jobs:
           npm run build
           echo "✅ Build successful"
       
-      - name: Run smoke tests
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: |
-          echo "💨 Running smoke tests..."
-          # Add smoke test command here
-          echo "✅ Smoke tests passed"
-
   notify-result:
     name: Notify Sync Result
     runs-on: ubuntu-latest
@@ -219,28 +206,57 @@ jobs:
           fi
 
   create-backup:
-    name: Create Database Backup
+    name: Create and Verify Production Database Backup
     runs-on: ubuntu-latest
     needs: check-update
     if: needs.check-update.outputs.should_update == 'true'
-    
+    env:
+      BACKUP_S3_BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      DIRECT_URL: ${{ secrets.DIRECT_URL }}
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v7
-      
-      - name: Create backup
+      - name: Validate backup configuration
+        run: |
+          set -euo pipefail
+          : "${BACKUP_S3_BUCKET:?Missing BACKUP_S3_BUCKET secret}"
+          : "${AWS_REGION:?Missing AWS_REGION secret}"
+          : "${AWS_ACCESS_KEY_ID:?Missing AWS_ACCESS_KEY_ID secret}"
+          : "${AWS_SECRET_ACCESS_KEY:?Missing AWS_SECRET_ACCESS_KEY secret}"
+          : "${DIRECT_URL:?Missing DIRECT_URL secret}"
+
+      - name: Create, verify, and upload backup
+        id: backup
+        run: |
+          set -euo pipefail
+          backup_name="leibo-$(date -u +%Y%m%dT%H%M%SZ)-${GITHUB_RUN_ID}.dump"
+          backup_file="$(mktemp --suffix=.dump)"
+          checksum_file="${backup_file}.sha256"
+          backup_key="database-backups/${backup_name}"
+          trap 'rm -f "$backup_file" "$checksum_file"' EXIT
+
+          pg_dump --format=custom --no-owner --no-acl \
+            --file="$backup_file" "$DIRECT_URL"
+          test -s "$backup_file"
+          pg_restore --list "$backup_file" > /dev/null
+          sha256sum "$backup_file" > "$checksum_file"
+
+          aws s3 cp "$backup_file" "s3://${BACKUP_S3_BUCKET}/${backup_key}" \
+            --region "$AWS_REGION" --only-show-errors
+          aws s3 cp "$checksum_file" "s3://${BACKUP_S3_BUCKET}/${backup_key}.sha256" \
+            --region "$AWS_REGION" --only-show-errors
+          uploaded_size=$(aws s3api head-object \
+            --bucket "$BACKUP_S3_BUCKET" \
+            --key "$backup_key" \
+            --region "$AWS_REGION" \
+            --query ContentLength --output text)
+          test "$uploaded_size" = "$(stat -c %s "$backup_file")"
+          echo "key=$backup_key" >> "$GITHUB_OUTPUT"
+
+      - name: Summarize backup
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          BACKUP_S3_BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          BACKUP_KEY: ${{ steps.backup.outputs.key }}
         run: |
-          echo "💾 Creating database backup..."
-          # Would implement actual backup here
-          echo "✅ Backup created successfully"
-      
-      - name: Backup retention
-        run: |
-          echo "🗄️ Managing backup retention..."
-          # Keep backups for 30 days
-          echo "✅ Old backups cleaned up"
+          printf 'Verified production database backup: `%s`\n' "$BACKUP_KEY" >> "$GITHUB_STEP_SUMMARY"

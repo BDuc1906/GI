@@ -117,9 +117,8 @@ npm run backup:create
 - **< 60**: Critical
 
 ### Backup Retention
-- Keep 30 most recent backups
-- Automatic cleanup old backups
-- Checksum verification
+- `auto-sync.yml` creates a PostgreSQL custom-format dump, validates it with `pg_restore --list`, and uploads it with a SHA-256 sidecar to S3 before any production sync.
+- The workflow verifies the uploaded dump's size. Configure an S3 lifecycle rule to set the desired retention period; the workflow does not delete old backups.
 
 ## ⚙️ CẤU HÌNH GITHUB SECRETS
 
@@ -127,12 +126,14 @@ Cần thêm secrets vào GitHub repository:
 
 ```
 DATABASE_URL                    # PostgreSQL connection string
+DIRECT_URL                      # Direct PostgreSQL connection for migrations and backups
 CLOUDFLARE_R2_ACCESS_KEY_ID    # R2 access key
 CLOUDFLARE_R2_SECRET_ACCESS_KEY # R2 secret key
 CLOUDFLARE_R2_BUCKET            # R2 bucket name
 CLOUDFLARE_R2_ACCOUNT_ID       # R2 account ID
 AWS_ACCESS_KEY_ID              # AWS access key (for S3 backup)
 AWS_SECRET_ACCESS_KEY          # AWS secret key (for S3 backup)
+AWS_REGION                     # AWS region containing the backup bucket
 BACKUP_S3_BUCKET               # S3 bucket for backups
 ```
 
