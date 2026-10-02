@@ -98,9 +98,6 @@ jobs:
     permissions:
       contents: read
       issues: write
-    env:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
-      DIRECT_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
 
     steps:
       - uses: actions/checkout@v7

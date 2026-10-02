@@ -6,20 +6,8 @@ on:
   pull_request:
     branches: [main]
 
-# DB giả (service container) — build của app này chạy ISR (revalidate) nên
-# `next build` thực sự query DB, không thể giả bằng URL rỗng.
-#
-# SỬA (2026-09): trước đây chỉ khai báo 1 lần ở đây (cấp workflow) rồi
-# trông chờ mọi job/step tự kế thừa — về lý thuyết GitHub Actions có kế
-# thừa `env:` cấp workflow xuống mọi job, nhưng job `lint-and-typecheck`
-# vẫn báo thiếu `DIRECT_URL` ngay ở bước `npm ci` (hook `postinstall` tự
-# chạy `prisma generate`, đọc biến này qua `prisma.config.ts`). Để không
-# phụ thuộc vào việc kế thừa ngầm nữa, giờ khai báo TƯỜNG MINH lại ở từng
-# job có chạy lệnh cần DB — an toàn hơn và tự mô tả rõ job đó cần gì mà
-# không cần đọc ngược lên đầu file.
-env:
-  DATABASE_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
-  DIRECT_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
+# Jobs using the disposable Postgres service set their URLs locally below.
+# Deploy jobs intentionally receive Vercel's Preview/Production environment.
 
 # Hủy các run cũ hơn của cùng 1 branch/PR khi có push mới — tránh chạy
 # song song nhiều lần cho cùng 1 chuỗi commit, tốn phút GitHub Actions.
@@ -31,12 +19,6 @@ jobs:
   lint-and-typecheck:
     name: Lint & Typecheck
     runs-on: ubuntu-latest
-    # Khai báo tường minh lại (xem giải thích ở env cấp workflow phía
-    # trên) — `npm ci` ở bước dưới tự chạy hook `postinstall: prisma
-    # generate`, cần DIRECT_URL đọc được NGAY tại thời điểm đó.
-    env:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
-      DIRECT_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
     steps:
       - uses: actions/checkout@v7
 
