@@ -52,3 +52,4 @@ repomix-output.xml
 
 *.msi
 *.exe
+.env*
