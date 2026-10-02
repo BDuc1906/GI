@@ -48,8 +48,8 @@ jobs:
         run: |
           CRITICAL=$(node -e "console.log(JSON.parse(require('fs').readFileSync('scripts/monitoring/quality-report.json','utf-8')).criticalCount)")
           SCORE=$(node -e "console.log(JSON.parse(require('fs').readFileSync('scripts/monitoring/quality-report.json','utf-8')).qualityScore)")
-          echo "critical=$CRITICAL" >> $GITHUB_OUTPUT
-          echo "score=$SCORE" >> $GITHUB_OUTPUT
+          echo "critical=$CRITICAL" >> "$GITHUB_OUTPUT"
+          echo "score=$SCORE" >> "$GITHUB_OUTPUT"
 
       - name: Create issue if critical alerts found (tránh trùng lặp)
         if: steps.report.outputs.critical != '0'

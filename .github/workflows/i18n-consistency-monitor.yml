@@ -53,7 +53,7 @@ jobs:
         id: report
         run: |
           ERRORS=$(node -e "console.log(JSON.parse(require('fs').readFileSync('scripts/i18n/consistency-report.json','utf-8')).bySeverity.error || 0)")
-          echo "errors=$ERRORS" >> $GITHUB_OUTPUT
+          echo "errors=$ERRORS" >> "$GITHUB_OUTPUT"
 
       - name: Create/update issue if consistency errors found (tránh trùng lặp)
         if: steps.report.outputs.errors != '0'
