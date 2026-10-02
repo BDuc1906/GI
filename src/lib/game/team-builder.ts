@@ -1,4 +1,6 @@
 // src/lib/game/team-builder.ts
+import { ELEMENTAL_RESONANCES, getResonanceDescription } from "./element-reactions-data";
+
 /**
  * Team Builder Tool với Elemental Reaction Simulator
  * 
@@ -72,28 +74,20 @@ class TeamBuilder {
   /**
    * Get resonance effect for an element
    */
+  /**
+   * BUG ĐÃ SỬA (2026-09-22): trước đây file này tự duy trì 1 bảng hiệu
+   * ứng cộng hưởng RIÊNG, tách biệt với `element-reactions-data.ts`
+   * (nguồn đã được audit kỹ, đầy đủ 14 ngôn ngữ, khớp xác nhận qua nhiều
+   * nguồn độc lập) — 2 bảng dữ liệu cùng mô tả 1 cơ chế game, dễ LỆCH
+   * NHAU theo thời gian khi chỉ 1 bên được sửa (đúng như đã xảy ra: bảng
+   * ở đây từng sai 4/7 hiệu ứng trong khi bảng kia đã đúng sẵn). Đã sửa
+   * triệt để: dùng THẲNG `ELEMENTAL_RESONANCES` làm nguồn sự thật duy
+   * nhất, không tự giữ bản sao nữa.
+   */
   private getResonanceEffect(element: string): string {
-    // BUG ĐÃ SỬA (2026-09-22): 4/7 hiệu ứng (Anemo, Electro, Dendro, Hydro)
-    // sai — đã verify qua nhiều nguồn nhất quán (genshin.gg, Icy Veins,
-    // GameRant, GameVika). Electro trước đây bịa HOÀN TOÀN ("-30% ER
-    // requirement, +30% energy recovery" — không liên quan gì tới hiệu
-    // ứng thật là sinh hạt Electro). Anemo sai cả 3 số (CD kỹ năng -5%
-    // không phải -15%, thiếu +10% tốc chạy, stamina -15% không phải
-    // -10%). Dendro sai bản chất (+50 EM CỐ ĐỊNH, không phải +30% theo
-    // %) và thiếu hẳn cơ chế cộng EM tạm thời sau phản ứng. Hydro có
-    // mệnh đề bịa ("-40% Hydro effect duration" — thực ra mệnh đề "giảm
-    // 40% thời lượng" chỉ có ở Cryo/Electro Resonance, áp nhầm sang Hydro).
-    const effects: Record<string, string> = {
-      "Pyro": "Pyro Resonance: +25% ATK and +15% Pyro reaction damage",
-      "Hydro": "Hydro Resonance: +25% Max HP",
-      "Anemo": "Anemo Resonance: -15% stamina consumption, +10% movement SPD, -5% skill cooldown",
-      "Electro": "Electro Resonance: Superconduct/Overloaded/Electro-Charged/Quicken/Aggravate/Hyperbloom có 100% cơ hội sinh 1 hạt Electro (hồi 5s); giảm 40% thời gian bị ảnh hưởng bởi Hydro",
-      "Cryo": "Cryo Resonance: +15% CRIT Rate against Frozen/Cryo-affected enemies; giảm 40% thời gian bị ảnh hưởng bởi Electro",
-      "Geo": "Geo Resonance: +15% shield strength and +15% damage when shielded",
-      "Dendro": "Dendro Resonance: +50 Elemental Mastery cố định. Sau khi kích hoạt Burning/Quicken/Bloom, cả đội +30 EM trong 6s; sau Aggravate/Spread/Hyperbloom/Burgeon, cả đội +20 EM trong 6s"
-    };
-    
-    return effects[element] || `${element} Resonance: Elemental bonus`;
+    const resonance = ELEMENTAL_RESONANCES.find((r) => r.element === element);
+    if (!resonance) return `${element} Resonance: Elemental bonus`;
+    return `${resonance.nameVi ?? element} Resonance: ${getResonanceDescription(resonance, "vi")}`;
   }
   
   /**
@@ -104,17 +98,25 @@ class TeamBuilder {
     const elements = team.characters.map(c => c.vision);
     
     // Common reaction combinations
+    // BUG ĐÃ SỬA (2026-09-22): Overload/Superconduct/Electro-Charged/
+    // Burning/Bloom trước đây đều dùng placeholder ~1.0 — ĐÚNG BUG GỐC đã
+    // tìm và sửa ở `dps-calculator.ts` (xem `TRANSFORMATIVE_BASE_
+    // COEFFICIENT` trong `element-reactions-data.ts`, nguồn xác nhận qua
+    // KQM Theorycrafting Library). Sửa lại khớp đúng hệ số chính thức:
+    // Overloaded=2.75, Superconduct=1.5, Electro-Charged=2.0, Burning=
+    // 0.25, Bloom=2.0. Frozen không có hệ số sát thương (chỉ CC, không
+    // gây DMG trực tiếp) — giữ 1.0 chỉ mang tính hiển thị "có xảy ra".
     const reactionPairs: Array<[string, string, string, number, string]> = [
       ["Pyro", "Hydro", "Vaporize", 2.0, "high"],
       ["Hydro", "Pyro", "Vaporize", 1.5, "high"],
       ["Cryo", "Pyro", "Melt", 2.0, "high"],
       ["Pyro", "Cryo", "Melt", 1.5, "high"],
-      ["Pyro", "Electro", "Overload", 1.0, "medium"],
-      ["Cryo", "Electro", "Superconduct", 1.0, "medium"],
-      ["Electro", "Hydro", "Electro-Charged", 1.0, "high"],
+      ["Pyro", "Electro", "Overload", 2.75, "medium"],
+      ["Cryo", "Electro", "Superconduct", 1.5, "medium"],
+      ["Electro", "Hydro", "Electro-Charged", 2.0, "high"],
       ["Cryo", "Hydro", "Frozen", 1.0, "high"],
-      ["Pyro", "Dendro", "Burning", 1.0, "medium"],
-      ["Hydro", "Dendro", "Bloom", 1.0, "high"],
+      ["Pyro", "Dendro", "Burning", 0.25, "medium"],
+      ["Hydro", "Dendro", "Bloom", 2.0, "high"],
       // BUG ĐÃ SỬA (2026-09-22): Quicken tự nó KHÔNG gây sát thương trực
       // tiếp (đã verify qua Genshin Wiki — chỉ áp trạng thái để
       // Aggravate/Spread kích hoạt sau đó), multiplier=1.15 cũ là số của

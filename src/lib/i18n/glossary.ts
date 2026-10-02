@@ -148,9 +148,20 @@ function buildResonanceTerms(locale: string): GlossaryTerm[] {
   return ELEMENTAL_RESONANCES.map((res) => {
     const name = getResonanceName(res, locale);
     const description = getResonanceDescription(res, locale);
-    const requiresText = isVi
-      ? `Cần ≥2 nhân vật ${res.element === "Anemo" || res.element === "Electro" ? "hệ" : "nguyên tố"} ${res.element} trong 4 vị trí đầu đội hình.`
-      : `Requires ≥2 ${res.element} characters in the first 4 team slots.`;
+    // BUG ĐÃ SỬA (2026-09-22): trước đây suy luận "Cần ≥2 nhân vật nguyên
+    // tố X" cho MỌI entry dựa vào `res.element` — đúng cho 7/8 cộng hưởng,
+    // nhưng "Protective Canopy" (element: "Unique") kích hoạt theo điều
+    // kiện HOÀN TOÀN KHÁC (4 nguyên tố khác nhau, không phải ≥2 cùng
+    // nguyên tố) — suy luận chung sẽ sinh câu vô nghĩa "Cần ≥2 nhân vật
+    // nguyên tố Unique". Xử lý riêng case này.
+    const requiresText =
+      res.element === "Unique"
+        ? isVi
+          ? "Cần 4 nhân vật thuộc 4 nguyên tố khác nhau trong đội hình."
+          : "Requires 4 party members of 4 different elements."
+        : isVi
+        ? `Cần ≥2 nhân vật ${res.element === "Anemo" || res.element === "Electro" ? "hệ" : "nguyên tố"} ${res.element} trong 4 vị trí đầu đội hình.`
+        : `Requires ≥2 ${res.element} characters in the first 4 team slots.`;
     return {
       id: `resonance-${res.id}`,
       keywords: [name],
