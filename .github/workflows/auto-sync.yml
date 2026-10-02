@@ -259,4 +259,4 @@ jobs:
         env:
           BACKUP_KEY: ${{ steps.backup.outputs.key }}
         run: |
-          printf 'Verified production database backup: `%s`\n' "$BACKUP_KEY" >> "$GITHUB_STEP_SUMMARY"
+          printf 'Verified production database backup: %s\n' "$BACKUP_KEY" >> "$GITHUB_STEP_SUMMARY"
