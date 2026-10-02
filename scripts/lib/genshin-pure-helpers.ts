@@ -376,6 +376,30 @@ const TRAVELER_ELEMENT_TO_BOOK: Record<string, string> = {
  * "does not provide an export named 'resolveTravelerTalentBook'" ngay khi
  * chạy `npm run data:crawl`. Thêm hàm bọc map này lại.
  */
+/**
+ * BỔ SUNG (2026-09-22): danh sách 122 "nhân vật" của genshin-db lẫn cả
+ * "Manekin"/"Manekina" — NPC đồng hành tạm thời từ sự kiện (quà tặng từ
+ * "Octavia", khám phá "Miliastra Wonderland"), KHÔNG phải nhân vật chơi
+ * được. Trước khi sửa, 2 "nhân vật" này hiện trên trang với
+ * `elementText: "None"` (vỡ icon nguyên tố) và KHÔNG có talents nào cả
+ * (tên tra cứu không khớp entry nào trong talents() folder của
+ * genshin-db).
+ *
+ * Phân biệt với nhân vật giao thoa THẬT (vd Aloy — Horizon Zero Dawn,
+ * nhận qua code đổi thưởng, hoàn toàn chơi được) cần kết hợp 2 điều
+ * kiện: `qualityType` có hậu tố "_SP" VÀ `title` rỗng. Chỉ check 1 điều
+ * kiện sẽ sai: riêng "_SP" cũng khớp Aloy (có title thật "Savior From
+ * Another World"); riêng "title rỗng" cũng khớp Aether/Lumine (Traveler
+ * — THẬT, title luôn rỗng do không có title cố định, nhưng qualityType
+ * KHÔNG có hậu tố "_SP"). Đã verify tổ hợp này trên toàn bộ 122 entry
+ * hiện tại — CHỈ Manekin/Manekina khớp cả hai, không false positive.
+ */
+export function isNonPlayableSpecialCharacter(raw: { qualityType?: unknown; title?: unknown }): boolean {
+  const isSpecialQuality = typeof raw.qualityType === "string" && raw.qualityType.endsWith("_SP");
+  const hasEmptyTitle = !raw.title;
+  return isSpecialQuality && hasEmptyTitle;
+}
+
 export function resolveTravelerTalentBook(vision?: string | null): string | null {
   if (!vision) return null;
   return TRAVELER_ELEMENT_TO_BOOK[vision.trim()] ?? null;
@@ -644,13 +668,25 @@ export function getTalentsAndConstellations(
       (rawTalents as (RawTalentsResult & { costs?: RawTalentCosts }) | null)?.costs
     );
 
+    // BỔ SUNG (2026-09-22): trước đây rỗng mảng talents/constellations im
+    // lặng, không ai biết — đúng nguyên nhân khiến bug Traveler (Aether/
+    // Lumine tra nhầm key, xem crawl-characters.ts) không bị phát hiện
+    // suốt thời gian dài. Log cảnh báo khi KHÔNG tìm thấy gì cho 1 nhân
+    // vật đáng lẽ phải có dữ liệu (characterName hợp lệ nhưng
+    // talents/constellations đều rỗng) để lần sau có bug tương tự sẽ hiện
+    // ra ngay trong log crawl, không cần người dùng tự phát hiện.
+    if (talents.length === 0 && constellations.length === 0) {
+      console.warn(`⚠️ getTalentsAndConstellations: không tìm thấy dữ liệu talents/constellations nào cho "${characterName}" — có thể tên tra cứu không khớp genshin-db.`);
+    }
+
     return {
       talents: talents.length ? talents : null,
       constellations: constellations.length ? constellations : null,
       talentMaterials,
       bookType,
     };
-  } catch {
+  } catch (err) {
+    console.warn(`⚠️ getTalentsAndConstellations("${characterName}") lỗi:`, err instanceof Error ? err.message : err);
     return { talents: null, constellations: null, talentMaterials: null, bookType: null };
   }
 }
