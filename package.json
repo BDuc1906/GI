@@ -28,7 +28,6 @@
     "images:mirror": "tsx --env-file=.env scripts/images/mirror-images-to-r2.ts",
     "data:update": "tsx scripts/sync/update-data.ts",
     "db:full": "npm run data:update && npm run data:crawl && npm run db:seed && npm run images:mirror",
-    "db:seed:enemies": "tsx --env-file=.env scripts/seed/seed-enemies-enhanced.ts",
     "i18n:translate": "node scripts/i18n/i18n-translate.mjs",
     "i18n:translate-with-glossary": "tsx --env-file=.env scripts/i18n/translate-with-glossary.ts",
     "i18n:review": "tsx --env-file=.env scripts/i18n/translation-review-system.ts",
