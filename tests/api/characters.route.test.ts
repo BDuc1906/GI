@@ -50,9 +50,14 @@ describe("GET /api/characters", () => {
 
     const [[findManyArgs]] = mockPrisma.character.findMany.mock.calls;
     expect(findManyArgs.where).toMatchObject({
-      name: { contains: "kaze", mode: "insensitive" },
-      vision: { in: ["Anemo", "Pyro"], mode: "insensitive" },
-      rarity: { in: [5] },
+      AND: [
+        {
+          name: { contains: "kaze", mode: "insensitive" },
+          vision: { in: ["Anemo", "Pyro"], mode: "insensitive" },
+          rarity: { in: [5] },
+        },
+        { id: { notIn: ["manekin", "manekina"] } },
+      ],
     });
   });
 
