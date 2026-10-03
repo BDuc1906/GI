@@ -15,6 +15,7 @@ import type { AscensionMaterialPhase } from "@/lib/game/character-helpers";
 import { GlossaryText } from "@/components/glossary/GlossaryText";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { getLocalizedDescription, getLocalizedRefinements } from "@/lib/i18n/localized-content";
+import { createLocalizedMetadata } from "@/lib/seo/metadata";
 
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -29,11 +30,22 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale, id } = await params;
   const t = await getTranslations({ locale, namespace: "WeaponDetail" });
   const w = await prisma.weapon.findUnique({ where: { id } });
-  if (!w) return { title: t("notFoundTitle") };
-  return {
+  if (!w) {
+    return createLocalizedMetadata({
+      locale,
+      pathname: `weapons/${id}`,
+      title: t("notFoundTitle"),
+      robots: { index: false, follow: false },
+    });
+  }
+  return createLocalizedMetadata({
+    locale,
+    pathname: `weapons/${id}`,
     title: `${getLocalizedName(w, locale)} — LEIBO`,
-    description: getLocalizedDescription(w, locale) ?? t("metaDescriptionFallback", { type: await tWeaponTypeMeta(w.type, locale), rarity: w.rarity }),
-  };
+    description:
+      getLocalizedDescription(w, locale) ??
+      t("metaDescriptionFallback", { type: await tWeaponTypeMeta(w.type, locale), rarity: w.rarity }),
+  });
 }
 
 export default async function WeaponDetail({ params }: PageProps) {
@@ -76,7 +88,7 @@ export default async function WeaponDetail({ params }: PageProps) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <BreadcrumbJsonLd items={breadcrumbItems} />
+      <BreadcrumbJsonLd locale={locale} items={breadcrumbItems} />
       <Breadcrumb items={breadcrumbItems} />
 
       {/* Hero — viền trên nhuộm màu phẩm cấp (rarity), là yếu tố định danh

@@ -3,8 +3,9 @@ import { prisma } from "@/lib/db/prisma";
 import { withDbRetry } from "@/lib/db/db-retry";
 import { routing } from "@/i18n/routing";
 import { PLAYABLE_CHARACTER_FILTER } from "@/lib/game/character-catalog";
+import { getSiteUrl } from "@/lib/seo/metadata";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const SITE_URL = getSiteUrl();
 
 // QUAN TRỌNG: `sitemap.ts` được Next.js biên dịch thành 1 route riêng
 // (`/sitemap.xml/route.js`) và mặc định bị prerender TĨNH lúc build —

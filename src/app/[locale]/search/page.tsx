@@ -9,6 +9,7 @@ import { EntityCard } from "@/components/ui/EntityCard";
 import { resolveCharacterCardImage } from "@/lib/game/character-helpers";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
+import { createLocalizedMetadata } from "@/lib/seo/metadata";
 
 interface PageProps {
   params: Promise<{ locale: string }>;
@@ -22,11 +23,13 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
   const { q } = await searchParams;
   const query = (q ?? "").trim();
   const t = await getTranslations({ locale, namespace: "Search" });
-  return {
+  return createLocalizedMetadata({
+    locale,
+    pathname: "search",
     title: query ? t("metaTitleQuery", { query }) : t("metaTitleEmpty"),
     description: t("metaDescription"),
     robots: { index: false, follow: true },
-  };
+  });
 }
 
 export default async function SearchPage({ params, searchParams }: PageProps) {

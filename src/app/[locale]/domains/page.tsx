@@ -10,6 +10,7 @@ import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/ui/paginati
 import type { Metadata } from "next";
 import { withDbRetry } from "@/lib/db/db-retry";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
+import { createLocalizedMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata({
   params,
@@ -18,7 +19,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Domains" });
-  return { title: t("metaTitle"), description: t("metaDescription") };
+  return createLocalizedMetadata({
+    locale,
+    pathname: "domains",
+    title: t("metaTitle"),
+    description: t("metaDescription"),
+  });
 }
 
 interface PageProps {
@@ -78,6 +84,7 @@ export default async function DomainsPage({ params, searchParams }: PageProps) {
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <BreadcrumbJsonLd
+        locale={locale}
         items={[
           { name: "LEIBO", path: "/" },
           { name: t("title"), path: "/domains" },

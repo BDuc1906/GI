@@ -10,6 +10,7 @@ import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { rarityColorVar } from "@/lib/ui/theme";
 import { GlossaryText } from "@/components/glossary/GlossaryText";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
+import { createLocalizedMetadata } from "@/lib/seo/metadata";
 
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -19,11 +20,23 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale, id } = await params;
   const t = await getTranslations({ locale, namespace: "ArtifactDetail" });
   const a = await prisma.artifactSet.findUnique({ where: { id } });
-  if (!a) return { title: t("notFoundTitle") };
-  return {
+  if (!a) {
+    return createLocalizedMetadata({
+      locale,
+      pathname: `artifacts/${id}`,
+      title: t("notFoundTitle"),
+      robots: { index: false, follow: false },
+    });
+  }
+  return createLocalizedMetadata({
+    locale,
+    pathname: `artifacts/${id}`,
     title: `${getLocalizedName(a, locale)} — LEIBO`,
-    description: a.fourPieceBonus ?? a.twoPieceBonus ?? t("metaDescriptionFallback", { range: a.rarityRange.join("/") }),
-  };
+    description:
+      a.fourPieceBonus ??
+      a.twoPieceBonus ??
+      t("metaDescriptionFallback", { range: a.rarityRange.join("/") }),
+  });
 }
 
 function resolvePieceImage(val: unknown): string | null {
@@ -71,7 +84,7 @@ export default async function ArtifactDetail({ params }: PageProps) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <BreadcrumbJsonLd items={breadcrumbItems} />
+      <BreadcrumbJsonLd locale={locale} items={breadcrumbItems} />
       <Breadcrumb items={breadcrumbItems} />
 
       <div className="surface-card overflow-hidden mb-10" style={{ borderTop: `2.5px solid ${rc}` }}>

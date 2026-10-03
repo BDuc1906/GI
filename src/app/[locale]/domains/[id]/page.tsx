@@ -9,6 +9,7 @@ import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { ElementalFrame } from "@/components/ui/ElementalFrame";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { elementColorVar } from "@/lib/ui/theme";
+import { createLocalizedMetadata } from "@/lib/seo/metadata";
 
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -51,16 +52,30 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale, id } = await params;
   const t = await getTranslations({ locale, namespace: "DomainDetail" });
   const d = await prisma.domain.findUnique({ where: { id }, select: DOMAIN_SELECT });
-  if (!d) return { title: t("notFoundTitle") };
+  if (!d) {
+    return createLocalizedMetadata({
+      locale,
+      pathname: `domains/${id}`,
+      title: t("notFoundTitle"),
+      robots: { index: false, follow: false },
+    });
+  }
   const categoryLabel: Record<string, string> = {
     artifact: t("categoryArtifact"),
     weapon: t("categoryWeapon"),
     talent: t("categoryTalent"),
   };
-  return {
+  return createLocalizedMetadata({
+    locale,
+    pathname: `domains/${id}`,
     title: `${getLocalizedName(d, locale)} — LEIBO`,
-    description: d.description ?? t("metaDescriptionFallback", { category: categoryLabel[d.category] ?? d.category, region: d.regionName ?? "Teyvat" }),
-  };
+    description:
+      d.description ??
+      t("metaDescriptionFallback", {
+        category: categoryLabel[d.category] ?? d.category,
+        region: d.regionName ?? "Teyvat",
+      }),
+  });
 }
 
 export default async function DomainDetail({ params }: PageProps) {
@@ -117,7 +132,7 @@ export default async function DomainDetail({ params }: PageProps) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <BreadcrumbJsonLd items={breadcrumbItems} />
+      <BreadcrumbJsonLd locale={locale} items={breadcrumbItems} />
       <Breadcrumb items={breadcrumbItems} />
       
       <ElementalFrame 

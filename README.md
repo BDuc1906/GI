@@ -49,7 +49,7 @@ Dự án được thiết kế theo hướng **production-ready**: có migration
 | 🗺️ **Bí cảnh** | Lịch mở theo ngày trong tuần, nguyên liệu đặc trưng, gợi ý "hôm nay nên đánh gì" |
 | 🔍 **Tìm kiếm tổng hợp** | Tìm kiếm xuyên suốt 4 loại dữ liệu (nhân vật, vũ khí, thánh di vật, bí cảnh) trong một endpoint |
 | 🌗 **Dark / Light mode** | Chuyển giao diện mượt mà bằng `next-themes` |
-| 🗺️ **SEO tự động** | `sitemap.xml` / `robots.txt` sinh động theo dữ liệu thật trong DB |
+| 🗺️ **SEO tự động** | Metadata đa ngôn ngữ, canonical/hreflang, OG/Twitter cards, structured data, `sitemap.xml` và `robots.txt` |
 | 🛡️ **API an toàn** | Envelope response chuẩn hoá, phân trang có giới hạn, xử lý lỗi tập trung |
 
 ---
@@ -115,8 +115,8 @@ npm install
    ```env
    DATABASE_URL="postgresql://<user>:<password>@<host>-pooler.neon.tech/<db>?sslmode=require"
    DIRECT_URL="postgresql://<user>:<password>@<host>.neon.tech/<db>?sslmode=require"
-   # Chỉ cần khi deploy thật (sinh sitemap.xml / robots.txt đúng domain)
-   NEXT_PUBLIC_SITE_URL="https://your-domain.com"
+   # Tuỳ chọn: chỉ đặt nếu muốn dùng domain riêng thay cho domain *.vercel.app
+   # NEXT_PUBLIC_SITE_URL="https://example.com"
 
    # Bắt buộc khi deploy production — thiếu 2 biến này, rate limiting sẽ
    # TỰ TẮT (API vẫn chạy bình thường, chỉ log 1 dòng cảnh báo), tức là
@@ -304,7 +304,7 @@ vercel build --prod
 vercel deploy --prebuilt --prod
 ```
 
-Nhớ set `NEXT_PUBLIC_SITE_URL` đúng domain thật trong Vercel Project Settings, nếu không `sitemap.xml`/`robots.txt` sẽ trỏ về `localhost:3000`.
+Nếu có domain riêng, đặt `NEXT_PUBLIC_SITE_URL` trong Vercel Project Settings thành **origin chính thức** (ví dụ `https://example.com`, không có path hoặc dấu `/` cuối). Nếu chưa có domain riêng, để biến này trống: ứng dụng tự dùng domain production `*.vercel.app` do Vercel cấp. URL này được dùng thống nhất cho canonical, hreflang, Open Graph, structured data, `sitemap.xml`, `robots.txt` và breadcrumb JSON-LD; `http://localhost:3000` chỉ là fallback chạy local.
 
 ---
 

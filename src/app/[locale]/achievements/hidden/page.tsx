@@ -1,6 +1,16 @@
 import { setRequestLocale } from "next-intl/server";
 import { prisma } from "@/lib/db/prisma";
 import { Link } from "@/i18n/navigation";
+import { createStaticPageMetadata } from "@/lib/seo/metadata";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  return createStaticPageMetadata(locale, "achievements/hidden");
+}
 
 interface HiddenAchievementsPageProps {
   params: Promise<{ locale: string }>;

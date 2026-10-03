@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getCharacterListing, parseCharacterFilters } from "@/features/characters/listing";
 import { CharacterFilterBar } from "@/components/character/CharacterFilterBar";
 import { CharacterListingGrid } from "@/components/character/CharacterListingGrid";
+import { createLocalizedMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata({
   params,
@@ -11,10 +12,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Characters" });
-  return {
+  return createLocalizedMetadata({
+    locale,
+    pathname: "characters",
     title: t("metaTitle"),
     description: t("metaDescription"),
-  };
+  });
 }
 
 interface PageProps {

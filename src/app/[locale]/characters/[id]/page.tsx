@@ -32,6 +32,7 @@ import {
   getLocalizedConstellations,
 } from "@/lib/i18n/localized-content";
 import { isNonPlayableCharacterId } from "@/lib/game/character-catalog";
+import { createLocalizedMetadata } from "@/lib/seo/metadata";
 
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -45,13 +46,34 @@ async function tWeaponTypeMeta(type: string, locale: string): Promise<string> {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, id } = await params;
   const t = await getTranslations({ locale, namespace: "CharacterDetail" });
-  if (isNonPlayableCharacterId(id)) return { title: t("notFoundTitle") };
+  if (isNonPlayableCharacterId(id)) {
+    return createLocalizedMetadata({
+      locale,
+      pathname: `characters/${id}`,
+      title: t("notFoundTitle"),
+      robots: { index: false, follow: false },
+    });
+  }
   const c = await prisma.character.findUnique({ where: { id } });
-  if (!c) return { title: t("notFoundTitle") };
-  return {
-    title: `${getLocalizedName(c, locale)} — LEIBO`,
-    description: getLocalizedDescription(c, locale) ?? `${getElementNameByKey(c.vision, locale)} · ${await tWeaponTypeMeta(c.weaponType, locale)} · ${c.rarity}★`,
-  };
+  if (!c) {
+    return createLocalizedMetadata({
+      locale,
+      pathname: `characters/${id}`,
+      title: t("notFoundTitle"),
+      robots: { index: false, follow: false },
+    });
+  }
+  const title = `${getLocalizedName(c, locale)} — LEIBO`;
+  const description =
+    getLocalizedDescription(c, locale) ??
+    `${getElementNameByKey(c.vision, locale)} · ${await tWeaponTypeMeta(c.weaponType, locale)} · ${c.rarity}★`;
+  return createLocalizedMetadata({
+    locale,
+    pathname: `characters/${id}`,
+    imagePath: `characters/${id}/opengraph-image`,
+    title,
+    description,
+  });
 }
 
 export default async function CharacterDetail({ params }: PageProps) {
@@ -108,6 +130,7 @@ export default async function CharacterDetail({ params }: PageProps) {
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
       <BreadcrumbJsonLd
+        locale={locale}
         items={[
           { name: "LEIBO", path: "/" },
           { name: t("breadcrumbCharacters"), path: "/characters" },

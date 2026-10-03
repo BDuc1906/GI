@@ -1,5 +1,6 @@
 import { setRequestLocale } from "next-intl/server";
 import { prisma } from "@/lib/db/prisma";
+import { createStaticPageMetadata } from "@/lib/seo/metadata";
 
 interface EnemiesPageProps {
   params: Promise<{ locale: string }>;
@@ -13,6 +14,15 @@ interface EnemyRawData {
 }
 
 export const dynamic = 'force-dynamic';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  return createStaticPageMetadata(locale, "enemies");
+}
 
 export default async function EnemiesPage({ params }: EnemiesPageProps) {
   const { locale } = await params;

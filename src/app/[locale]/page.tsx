@@ -14,11 +14,24 @@ import { ElementThemeToggle } from "../../components/layout/ElementThemeToggle";
 import { EntityCard } from "../../components/ui/EntityCard";
 import { withDbRetry } from "@/lib/db/db-retry";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
+import type { Metadata } from "next";
+import { createLocalizedMetadata } from "@/lib/seo/metadata";
 
 export const revalidate = 60;
 
 interface HomePageProps {
   params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: HomePageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+  return createLocalizedMetadata({
+    locale,
+    pathname: "",
+    title: t("title"),
+    description: t("description"),
+  });
 }
 
 export default async function Home({ params }: HomePageProps) {

@@ -12,6 +12,7 @@ import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/ui/paginati
 import type { Metadata } from "next";
 import { withDbRetry } from "@/lib/db/db-retry";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
+import { createLocalizedMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata({
   params,
@@ -20,7 +21,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Weapons" });
-  return { title: t("metaTitle"), description: t("metaDescription") };
+  return createLocalizedMetadata({
+    locale,
+    pathname: "weapons",
+    title: t("metaTitle"),
+    description: t("metaDescription"),
+  });
 }
 
 interface PageProps {

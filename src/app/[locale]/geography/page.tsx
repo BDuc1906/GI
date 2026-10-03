@@ -1,5 +1,6 @@
 import { setRequestLocale } from "next-intl/server";
 import { prisma } from "@/lib/db/prisma";
+import { createStaticPageMetadata } from "@/lib/seo/metadata";
 
 interface GeographyPageProps {
   params: Promise<{ locale: string }>;
@@ -12,6 +13,15 @@ interface GeographyRawData {
 }
 
 export const dynamic = 'force-dynamic';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  return createStaticPageMetadata(locale, "geography");
+}
 
 export default async function GeographyPage({ params }: GeographyPageProps) {
   const { locale } = await params;

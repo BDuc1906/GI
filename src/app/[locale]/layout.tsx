@@ -14,10 +14,9 @@ import { GlossaryProvider } from "@/components/glossary/GlossaryProvider";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { inter } from "@/lib/ui/fonts";
+import { getLocalizedUrl, getOpenGraphLocale, getSiteUrl } from "@/lib/seo/metadata";
 
-// Cùng biến/fallback với sitemap.ts và robots.ts — một nguồn duy nhất cho
-// domain thật, tránh lệch nhau giữa các file.
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const SITE_URL = getSiteUrl();
 
 // Next.js prerender sẵn 15 route "/[locale]" lúc build (thay vì render
 // theo yêu cầu lần đầu) — giữ nguyên hành vi static của layout gốc trước
@@ -35,7 +34,6 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "Metadata" });
   const title = t("title");
   const description = t("description");
-
   return {
     metadataBase: new URL(SITE_URL),
     title: {
@@ -45,16 +43,36 @@ export async function generateMetadata({
       template: "%s",
     },
     description,
+    applicationName: "LEIBO",
+    creator: "LEIBO",
+    publisher: "LEIBO",
+    category: "games",
+    referrer: "origin-when-cross-origin",
+    formatDetection: { telephone: false },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
+    },
     openGraph: {
       title,
       description,
-      url: SITE_URL,
       siteName: "LEIBO",
-      // BCP-47 → định dạng "xx_YY" mà Open Graph yêu cầu (vd "en_US",
-      // "vi_VN"). Với các locale không có sẵn biến thể vùng miền rõ ràng
-      // trong tên game (ja, ko, id, th, de, fr, it, pt, es, ru, tr), dùng
-      // đúng mã quốc gia phổ biến nhất gắn với ngôn ngữ đó.
-      locale: OG_LOCALE_MAP[locale] ?? "en_US",
+      images: [
+        {
+          url: getLocalizedUrl(locale, "opengraph-image"),
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+      locale: getOpenGraphLocale(locale),
       type: "website",
     },
     twitter: {
@@ -63,35 +81,10 @@ export async function generateMetadata({
       card: "summary_large_image",
       title,
       description,
-    },
-    alternates: {
-      // hreflang cho mọi locale + "x-default" trỏ về bản tiếng Anh — báo
-      // cho Google biết đây là các bản dịch của CÙNG một trang, tránh bị
-      // tính là nội dung trùng lặp (duplicate content) giữa các locale.
-      languages: Object.fromEntries(
-        routing.locales.map((l) => [l, `${SITE_URL}/${l}`])
-      ),
+      images: [getLocalizedUrl(locale, "opengraph-image")],
     },
   };
 }
-
-const OG_LOCALE_MAP: Record<string, string> = {
-  en: "en_US",
-  vi: "vi_VN",
-  "zh-CN": "zh_CN",
-  "zh-TW": "zh_TW",
-  ja: "ja_JP",
-  ko: "ko_KR",
-  id: "id_ID",
-  th: "th_TH",
-  de: "de_DE",
-  fr: "fr_FR",
-  it: "it_IT",
-  pt: "pt_PT",
-  es: "es_ES",
-  ru: "ru_RU",
-  tr: "tr_TR",
-};
 
 export default async function LocaleLayout({
   children,
@@ -127,7 +120,7 @@ export default async function LocaleLayout({
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: tMeta("title"),
-    url: SITE_URL,
+    url: getLocalizedUrl(locale),
     potentialAction: {
       "@type": "SearchAction",
       target: `${SITE_URL}/${locale}/search?q={search_term_string}`,

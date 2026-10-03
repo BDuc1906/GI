@@ -1,8 +1,10 @@
-import { setRequestLocale } from "next-intl/server";
+import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { prisma } from "@/lib/db/prisma";
 import { ElementIcon } from "@/components/character/ElementIcon";
 import { ReactionTabs } from "@/components/character/ReactionTabs";
 import { ELEMENT_ICON_URLS, reactionsInvolving } from "@/lib/game/element-reactions-data";
+import { createLocalizedMetadata } from "@/lib/seo/metadata";
 
 interface _ElementPageProps {
   params: Promise<{ locale: string }>;
@@ -24,6 +26,21 @@ interface ElementRawData {
 }
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Elements" });
+  return createLocalizedMetadata({
+    locale,
+    pathname: "elements",
+    title: t("metaTitle"),
+    description: t("metaDescription"),
+  });
+}
 
 export default async function ElementsPage({ params }: _ElementPageProps) {
   const { locale } = await params;

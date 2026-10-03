@@ -1,9 +1,19 @@
 import { setRequestLocale } from "next-intl/server";
 import { prisma } from "@/lib/db/prisma";
 import Image from "next/image";
+import { createStaticPageMetadata } from "@/lib/seo/metadata";
 
 interface MaterialsPageProps {
   params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  return createStaticPageMetadata(locale, "materials");
 }
 
 export default async function MaterialsPage({ params }: MaterialsPageProps) {

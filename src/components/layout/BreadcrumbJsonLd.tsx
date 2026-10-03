@@ -1,5 +1,5 @@
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+import { getLocalizedUrl } from "@/lib/seo/metadata";
 
 interface Crumb {
   name: string;
@@ -17,7 +17,7 @@ interface Crumb {
  * <script type="application/ld+json">, không có tương tác nào cần JS phía
  * trình duyệt.
  */
-export function BreadcrumbJsonLd({ items }: { items: Crumb[] }) {
+export function BreadcrumbJsonLd({ locale, items }: { locale: string; items: Crumb[] }) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -25,7 +25,7 @@ export function BreadcrumbJsonLd({ items }: { items: Crumb[] }) {
       "@type": "ListItem",
       position: index + 1,
       name: item.name,
-      item: `${SITE_URL}${item.path}`,
+      item: getLocalizedUrl(locale, item.path),
     })),
   };
 

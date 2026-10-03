@@ -68,8 +68,10 @@ tài liệu trong cùng pull request.
 
 - `src/app/sitemap.ts` liệt kê các trang danh mục công khai theo locale và
   trang chi tiết có ID ổn định.
-- `src/app/robots.ts`, layout metadata và sitemap cùng lấy domain từ
-  `NEXT_PUBLIC_SITE_URL`; fallback `http://localhost:3000` chỉ dành cho local.
+- `src/lib/seo/metadata.ts` là nguồn dùng chung để xác định site origin và
+  sinh canonical/hreflang/OG/Twitter metadata theo locale. Ưu tiên
+  `NEXT_PUBLIC_SITE_URL`, sau đó domain production `*.vercel.app` do Vercel
+  cấp; localhost chỉ là fallback khi chạy local.
 - Không thêm trang quản trị/API vào sitemap.
 - Chỉ đưa nội dung chơi được vào catalog nhân vật; bản ghi companion sự kiện
   giữ lại trong DB không được tính như playable character.

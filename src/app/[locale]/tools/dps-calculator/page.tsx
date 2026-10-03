@@ -1,12 +1,22 @@
 import { setRequestLocale } from "next-intl/server";
 import { prisma } from "@/lib/db/prisma";
 import { DpsCalculatorClient } from "./DpsCalculatorClient";
+import { createStaticPageMetadata } from "@/lib/seo/metadata";
 
 interface DpsCalculatorPageProps {
   params: Promise<{ locale: string }>;
 }
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  return createStaticPageMetadata(locale, "tools/dps-calculator");
+}
 
 /**
  * BỔ SUNG (2026-09-22): `/api/tools/dps` trước đây trả `501` (chưa map

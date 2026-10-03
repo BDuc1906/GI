@@ -2,6 +2,16 @@ import { setRequestLocale } from "next-intl/server";
 import { prisma } from "@/lib/db/prisma";
 import { Pagination } from "@/components/ui/Pagination";
 import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/ui/pagination";
+import { createStaticPageMetadata } from "@/lib/seo/metadata";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  return createStaticPageMetadata(locale, "achievements");
+}
 
 interface AchievementsPageProps {
   params: Promise<{ locale: string }>;

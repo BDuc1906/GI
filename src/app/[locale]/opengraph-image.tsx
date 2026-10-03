@@ -6,8 +6,8 @@ export const alt = "LEIBO — Genshin Impact Database";
 
 /**
  * Ảnh Open Graph mặc định (Next.js App Router quy ước: file
- * `opengraph-image.tsx` ngay trong app/ tự động gắn vào metadata của mọi
- * route con KHÔNG có opengraph-image.tsx riêng — ví dụ trang chủ, trang
+ * `opengraph-image.tsx` ngay trong `app/[locale]/` tự động gắn vào metadata
+ * của mọi route trong locale KHÔNG có opengraph-image riêng — ví dụ trang chủ, trang
  * danh sách /characters, /weapons...).
  *
  * Trước đây layout.tsx đã khai báo `openGraph`/`twitter` metadata (title,
