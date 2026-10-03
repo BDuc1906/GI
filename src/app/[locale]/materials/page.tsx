@@ -12,7 +12,6 @@ export default async function MaterialsPage({ params }: MaterialsPageProps) {
 
   const materials = await prisma.material.findMany({
     orderBy: { name: "asc" },
-    take: 100,
   });
 
   return (
