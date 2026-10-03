@@ -46,7 +46,7 @@
   "dependencies": {
     "@ai-sdk/anthropic": "^4.0.53",
     "@ai-sdk/google": "^4.0.67",
-    "@ai-sdk/openai": "^4.0.66",
+    "@ai-sdk/openai": "^4.0.81",
     "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^7.9.1",
     "@sentry/nextjs": "^10.69.0",
