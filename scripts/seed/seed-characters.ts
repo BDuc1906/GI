@@ -261,22 +261,24 @@ export async function seedCharacters(): Promise<void> {
   }
 }
 
-async function seedTravelerElementVariants(): Promise<void> {
+export async function seedTravelerElementVariants(): Promise<void> {
   const elements = ["Anemo", "Geo", "Electro", "Dendro", "Hydro", "Pyro", "Cryo"];
-  const names = elements.flatMap((element) => [
-    `Aether (${element})`,
-    `Lumine (${element})`,
-  ]);
+  const names = elements.flatMap((element) =>
+    ["Aether", "Lumine"].map((traveler) => ({
+      name: `${traveler} (${element})`,
+      sourceName: `Traveler (${element})`,
+    }))
+  );
   const variants = await prisma.character.findMany({
-    where: { name: { in: names } },
+    where: { name: { in: names.map(({ name }) => name) } },
   });
   const variantsByName = new Map(variants.map((variant) => [variant.name, variant]));
 
-  for (const name of names) {
+  for (const { name, sourceName } of names) {
     const variant = variantsByName.get(name);
     if (!variant) continue;
 
-    const data = getTalentsAndConstellations(genshindb, `Traveler (${name.match(/\(([^)]+)\)$/)?.[1]})`);
+    const data = getTalentsAndConstellations(genshindb, sourceName);
     if (!data.talents || data.talents.length < 3 || data.constellations?.length !== 6) {
       throw new Error(
         `Nguồn genshin-db không có đủ talent/6 constellation cho biến thể "${name}"; dừng seed thay vì giữ dữ liệu thiếu.`
