@@ -7,6 +7,18 @@ interface NamecardsPageProps {
 
 export const dynamic = "force-dynamic";
 
+/**
+ * BỔ SUNG (2026-09-22): model `Outfit` đã có DB + dữ liệu nhưng CHƯA
+ * TỪNG có trang hiển thị. Xem comment ở crafts/page.tsx — cùng lý do,
+ * cùng pattern.
+ *
+ * LƯU Ý: `Outfit.characterId` là id genshin-db (không phải Character.id
+ * dạng slug — xem comment trong schema.prisma), nên KHÔNG dùng trực tiếp
+ * để tạo link sang `/characters/[id]`. Trang này hiển thị tên nhân vật
+ * dạng text đơn thuần; muốn có link thật cần join theo `characterName`
+ * hoặc thêm bước resolve slug riêng — để lại cho cải tiến sau, không
+ * muốn đoán bừa slug rồi tạo link sai.
+ */
 export default async function NamecardsPage({ params }: NamecardsPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
