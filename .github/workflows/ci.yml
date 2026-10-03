@@ -202,7 +202,7 @@ jobs:
       - name: Build project artifacts
         run: |
           for attempt in 1 2 3; do
-            vercel build --token=${{ secrets.VERCEL_TOKEN }} && exit 0
+            env -u DATABASE_URL -u DIRECT_URL vercel build --token=${{ secrets.VERCEL_TOKEN }} && exit 0
             echo "Lần $attempt thất bại, thử lại sau $((attempt * 10))s..."
             sleep $((attempt * 10))
           done
@@ -268,7 +268,7 @@ jobs:
       - name: Build project artifacts
         run: |
           for attempt in 1 2 3; do
-            vercel build --prod --token=${{ secrets.VERCEL_TOKEN }} && exit 0
+            env -u DATABASE_URL -u DIRECT_URL vercel build --prod --token=${{ secrets.VERCEL_TOKEN }} && exit 0
             echo "Lần $attempt thất bại, thử lại sau $((attempt * 10))s..."
             sleep $((attempt * 10))
           done

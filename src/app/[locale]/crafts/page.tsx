@@ -20,7 +20,6 @@ export default async function CraftsPage({ params }: CraftsPageProps) {
 
   const crafts = await prisma.craft.findMany({
     orderBy: [{ unlockRank: "asc" }, { name: "asc" }],
-    take: 200,
   });
 
   return (

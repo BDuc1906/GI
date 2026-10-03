@@ -1,84 +1,84 @@
 # Cấu trúc thư mục LEIBO
 
-Tài liệu này mô tả cấu trúc hiện tại của repository. Đây là hướng dẫn điều
-hướng mã nguồn, không phải danh sách đầy đủ từng file; khi thêm module mới,
-cập nhật mục tương ứng trong cùng thay đổi.
+Tài liệu này phản ánh cấu trúc repository tại ngày 2026-10-03. Đây là bản đồ
+module chính, không phải danh sách từng file; khi thay đổi cấu trúc, cập nhật
+tài liệu trong cùng pull request.
 
 ## Thư mục gốc
 
-- `src/` – ứng dụng Next.js, API, thành phần giao diện và thư viện dùng chung.
-- `scripts/` – crawl, seed, đồng bộ, kiểm tra và bảo trì dữ liệu.
-- `prisma/` – schema Prisma và migration PostgreSQL.
-- `data/` – dữ liệu hỗ trợ pipeline và tài liệu dự án.
-- `docs/` – kiến trúc, quy trình và tài liệu vận hành.
-- `tests/` – kiểm thử tự động.
-- `public/` – tài nguyên tĩnh được phục vụ trực tiếp bởi ứng dụng.
-- `node_modules/`, `.next/`, `.vercel/` – thư mục công cụ/build; không sửa
-  trực tiếp và không coi là mã nguồn.
+- `.github/workflows/` – các workflow CI, preview, đồng bộ và kiểm tra dữ liệu.
+- `src/` – ứng dụng Next.js, feature modules, API và thư viện dùng chung.
+- `scripts/` – crawl, seed, sửa dữ liệu, đồng bộ và bảo trì.
+- `prisma/` – schema PostgreSQL và migration có thể tái lập.
+- `data/raw/` – snapshot JSON do crawl tạo; gitignored và có thể tái tạo.
+- `data/docs/` – tài liệu đầu vào của dự án.
+- `data/local-genshin-assets/` – tài nguyên game cục bộ, nếu được cấp phép.
+- `docs/` – hướng dẫn kiến trúc, quy trình, ADR và báo cáo kiểm toán dữ liệu.
+- `public/` – tài nguyên tĩnh được phục vụ trực tiếp.
+- `tests/` – unit/integration tests.
+- `.next/`, `.vercel/`, `node_modules/` – thư mục build/công cụ; không sửa
+  trực tiếp hay dùng làm nguồn sự thật cho mã nguồn.
 
-## `src/`
+## Ứng dụng (`src/`)
 
-- `src/app/[locale]/` – trang App Router có tiền tố locale. Tên thư mục route
-  là URL công khai; trang cần truy vấn đúng model và đặt metadata phù hợp.
-- `src/app/api/` – API routes, tổ chức theo tài nguyên/chức năng.
-- `src/components/` – thành phần React dùng lại.
-- `src/core/`, `src/features/`, `src/hooks/`, `src/server/` – logic nghiệp vụ,
-  module tính năng, hooks và phần xử lý phía server.
-- `src/i18n/` – cấu hình định tuyến và locale.
+- `src/app/[locale]/` – trang App Router có tiền tố locale; đường dẫn thư mục
+  là URL công khai.
+- `src/app/api/` – API Route Handlers, tổ chức theo tài nguyên/chức năng.
+- `src/components/` – thành phần giao diện dùng chung.
+- `src/features/` – feature modules; ví dụ `characters/` chứa query,
+  repository, service và logic listing.
+- `src/core/`, `src/server/`, `src/hooks/` – logic lõi, xử lý phía server và
+  React hooks.
+- `src/lib/` – tiện ích dùng chung: `api/`, `db/`, `data-sources/`, `game/`,
+  `i18n/`, `infra/`, `sync/` và `ui/`.
+- `src/i18n/` – routing và cấu hình locale.
 - `src/messages/` – thông điệp giao diện theo locale.
-- `src/lib/api/` – truy vấn, phản hồi, kiểm tra lỗi và tiện ích API.
-- `src/lib/db/` – Prisma Client và hỗ trợ truy cập database.
-- `src/lib/data-sources/` – kiểu dữ liệu và tích hợp nguồn dữ liệu.
-- `src/lib/i18n/` – tiện ích bản địa hoá.
-- `src/lib/infra/` – logging, môi trường, thông báo và hạ tầng ứng dụng.
-- `src/lib/sync/` – tiện ích đồng bộ.
-- `src/lib/game/`, `src/lib/ui/` – logic game và tiện ích giao diện.
 
-## `scripts/`
+## Pipeline dữ liệu (`scripts/`)
 
-- `scripts/pipeline/` – crawl nguồn thành dữ liệu trung gian.
-- `scripts/seed/` – nạp dữ liệu vào PostgreSQL qua Prisma.
-- `scripts/sync/` – cập nhật/đồng bộ dữ liệu và cấu hình.
-- `scripts/fix/` – các tác vụ sửa dữ liệu có phạm vi cụ thể.
-- `scripts/images/` – tải, mirror hoặc kiểm tra ảnh.
-- `scripts/validate/`, `scripts/check/` – xác thực và kiểm tra.
-- `scripts/backup/`, `scripts/maintenance/` – sao lưu và bảo trì.
-- `scripts/lib/` – helper dùng chung cho script.
-- `scripts/data/` – mapping và cấu hình đầu vào được quản lý bằng phiên bản.
+- `scripts/pipeline/` – crawl nguồn thành snapshot trong `data/raw/`.
+- `scripts/seed/` – chuẩn hoá và upsert dữ liệu qua Prisma.
+- `scripts/sync/` – đồng bộ phiên bản nguồn và pipeline cập nhật.
+- `scripts/fix/` – tác vụ sửa dữ liệu có phạm vi cụ thể, có thể chạy độc lập.
+- `scripts/lib/` – helper dùng chung cho seed/crawl.
+- `scripts/data/` – mapping và cấu hình đầu vào được quản lý bằng Git.
+- `scripts/backup/`, `scripts/images/`, `scripts/maintenance/`,
+  `scripts/validate/` – backup, mirror ảnh, bảo trì và kiểm tra.
 
-## `data/`
+## Quy ước route, file và ID
 
-- `data/raw/` – snapshot JSON do lệnh crawl tạo để seed/review. Dữ liệu này
-  được gitignore; không xem snapshot cục bộ là nguồn chuẩn hoặc là bản sao
-  lưu được bảo đảm.
-- `data/docs/` – tài liệu/snapshot đầu vào thuộc quy trình nội bộ.
-- `data/local-genshin-assets/` – tài nguyên game cục bộ nếu có; tuân thủ
-  giấy phép và không đưa tài sản không được phép phân phối lên site.
+1. Tên route dùng tiếng Anh dạng kebab-case; tiêu đề/nội dung dịch nằm trong
+   UI và message catalogs, không dùng bản dịch làm ID.
+2. Tên route, model được truy vấn, tiêu đề trang, sitemap và API phải cùng nói
+   về một loại nội dung. `/namecards` truy vấn `Namecard`; `/outfits` truy vấn
+   `Outfit`; `/windgliders` truy vấn `Windglider`.
+3. Dùng ID nguồn hoặc slug ổn định. Không tạo khóa từ tên bản dịch; đổi ID URL
+   phải có migration và redirect thích hợp.
+4. Không tạo file route mới trước khi tìm prior art theo trách nhiệm và URL.
+   Trang mới cần được nối vào navigation/sitemap theo chủ đích.
+5. Thay đổi schema PostgreSQL phải có migration trong `prisma/migrations/`;
+   không thay migration bằng thao tác database thủ công.
+6. Snapshot trong `data/raw/` chỉ là đầu vào tái tạo được, không phải bản
+   backup hay nguồn thẩm quyền.
+7. `README.md` là hướng dẫn bắt đầu; quy ước kỹ thuật và kết quả kiểm tra
+   chuyên sâu đặt trong `docs/`. Tài liệu liên quan phải được cập nhật cùng
+   thay đổi code.
 
-## Quy ước đặt tên và tính toàn vẹn
+## SEO và kiểm tra route
 
-1. Tên route phải mô tả đúng nội dung mà page truy vấn và hiển thị. Khi tạo
-   route danh mục, kiểm tra model Prisma, tiêu đề, liên kết điều hướng,
-   metadata và sitemap cùng lúc.
-2. Dùng tên folder/route tiếng Anh dạng kebab-case; tên hiển thị và nội dung
-   dịch đặt trong UI/i18n, không dùng tên bản dịch làm định danh database.
-3. Dùng ID ổn định từ nguồn hoặc slug ổn định; không tạo slug từ tên đã dịch.
-   Không thay đổi ID đã được dùng trong URL nếu chưa có redirect/migration.
-4. Tạo migration cho thay đổi schema; không sửa database trực tiếp để thay
-   thế migration có thể tái lập.
-5. Trước khi thêm file, tìm file có cùng trách nhiệm. Không tạo trang trùng
-   nội dung chỉ vì đã có model mới; nếu có route, route đó phải truy vấn đúng
-   model và được liên kết từ navigation/sitemap theo chủ đích.
-6. `README.md` hướng dẫn bắt đầu; tài liệu chi tiết thuộc `docs/`. Cập nhật
-   tài liệu liên quan trong cùng thay đổi với thay đổi hành vi.
+- `src/app/sitemap.ts` liệt kê các trang danh mục công khai theo locale và
+  trang chi tiết có ID ổn định.
+- `src/app/robots.ts`, layout metadata và sitemap cùng lấy domain từ
+  `NEXT_PUBLIC_SITE_URL`; fallback `http://localhost:3000` chỉ dành cho local.
+- Không thêm trang quản trị/API vào sitemap.
+- Chỉ đưa nội dung chơi được vào catalog nhân vật; bản ghi companion sự kiện
+  giữ lại trong DB không được tính như playable character.
+- Khi đổi route, kiểm tra metadata, sitemap, navigation, API và model truy vấn
+  trong cùng thay đổi.
 
-## Những điểm cần giữ đúng khi cập nhật
+## Nguồn liên quan
 
-- `/namecards` phải truy vấn `Namecard`, không phải `Outfit`.
-- `/outfits` và `/windgliders` là hai loại nội dung riêng.
-- Danh sách `/materials` không được giới hạn kết quả tuỳ tiện nếu tiêu đề
-  tuyên bố là danh sách đầy đủ.
-- Sitemap nên chứa các trang danh mục công khai; chỉ thêm trang chi tiết khi
-  có URL ổn định và trang thực sự tồn tại.
-- `NEXT_PUBLIC_SITE_URL` phải được đặt thành domain production trong môi
-  trường deploy; fallback localhost chỉ phù hợp phát triển cục bộ.
+- Schema: `prisma/schema.prisma`
+- Crawl: `scripts/pipeline/`
+- Seed và kiểm tra integrity: `scripts/seed/`
+- Báo cáo dữ liệu và sai khác nguồn: `docs/DATA_AUDIT_2026-10.md`

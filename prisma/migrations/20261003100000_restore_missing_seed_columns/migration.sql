@@ -1,4 +1,4 @@
--- Restore columns declared in schema.prisma but missing from the live database.
+-- Restore columns declared in schema.prisma but absent from the production DB.
 ALTER TABLE "ArtifactSet" ADD COLUMN "gameVersion" TEXT;
 
 ALTER TABLE "Enemy"

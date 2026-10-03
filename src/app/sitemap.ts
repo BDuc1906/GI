@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/db/prisma";
 import { withDbRetry } from "@/lib/db/db-retry";
 import { routing } from "@/i18n/routing";
+import { PLAYABLE_CHARACTER_FILTER } from "@/lib/game/character-catalog";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
@@ -44,7 +45,10 @@ function localizedEntries(
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [characters, weapons, artifacts, domains] = await withDbRetry(() =>
     Promise.all([
-      prisma.character.findMany({ select: { id: true, updatedAt: true } }),
+      prisma.character.findMany({
+        where: PLAYABLE_CHARACTER_FILTER,
+        select: { id: true, updatedAt: true },
+      }),
       prisma.weapon.findMany({ select: { id: true, updatedAt: true } }),
       prisma.artifactSet.findMany({ select: { id: true, updatedAt: true } }),
       prisma.domain.findMany({ select: { id: true, updatedAt: true } }),
@@ -58,6 +62,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...localizedEntries("/artifacts", { changeFrequency: "weekly", priority: 0.8 }),
     ...localizedEntries("/domains", { changeFrequency: "daily", priority: 0.8 }),
     ...[
+      "/achievements",
+      "/achievements/hidden",
       "/adventure-ranks",
       "/animals",
       "/crafts",
@@ -69,6 +75,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       "/namecards",
       "/outfits",
       "/windgliders",
+      "/tools/dps-calculator",
+      "/tools/material-calculator",
     ].flatMap((path) =>
       localizedEntries(path, { changeFrequency: "weekly", priority: 0.5 })
     ),

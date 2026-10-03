@@ -31,6 +31,7 @@ import {
   getLocalizedTalents,
   getLocalizedConstellations,
 } from "@/lib/i18n/localized-content";
+import { isNonPlayableCharacterId } from "@/lib/game/character-catalog";
 
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -44,6 +45,7 @@ async function tWeaponTypeMeta(type: string, locale: string): Promise<string> {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, id } = await params;
   const t = await getTranslations({ locale, namespace: "CharacterDetail" });
+  if (isNonPlayableCharacterId(id)) return { title: t("notFoundTitle") };
   const c = await prisma.character.findUnique({ where: { id } });
   if (!c) return { title: t("notFoundTitle") };
   return {
@@ -63,6 +65,7 @@ export default async function CharacterDetail({ params }: PageProps) {
   // này, gọi t("traveler") ở đây từng in ra literal "CharacterDetail.traveler"
   // trên MỌI ngôn ngữ. Lấy đúng namespace thay vì tạo bản dịch trùng lặp.
   const tCharacters = await getTranslations({ locale, namespace: "Characters" });
+  if (isNonPlayableCharacterId(id)) return notFound();
   const c = await prisma.character.findUnique({ where: { id } });
   if (!c) return notFound();
 

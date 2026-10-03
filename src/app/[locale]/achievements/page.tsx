@@ -1,25 +1,33 @@
 import { setRequestLocale } from "next-intl/server";
 import { prisma } from "@/lib/db/prisma";
+import { Pagination } from "@/components/ui/Pagination";
+import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/ui/pagination";
 
 interface AchievementsPageProps {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ page?: string }>;
 }
 
 export const dynamic = 'force-dynamic';
 
-export default async function AchievementsPage({ params }: AchievementsPageProps) {
+export default async function AchievementsPage({ params, searchParams }: AchievementsPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const { page: pageRaw } = await searchParams;
+  const page = parsePageParam(pageRaw);
 
-  const [achievements, groups] = await Promise.all([
+  const [achievements, total, groups] = await Promise.all([
     prisma.achievement.findMany({
-      orderBy: { sortOrder: "asc" },
-      take: 100,
+      orderBy: [{ sortOrder: "asc" }, { id: "asc" }],
+      skip: (page - 1) * LIST_PAGE_SIZE,
+      take: LIST_PAGE_SIZE,
     }),
+    prisma.achievement.count(),
     prisma.achievementGroup.findMany({
       orderBy: { sortOrder: "asc" },
     }),
   ]);
+  const totalPages = totalPagesFor(total);
 
   return (
     <div className="min-h-screen bg-bg-primary">
@@ -28,7 +36,7 @@ export default async function AchievementsPage({ params }: AchievementsPageProps
           Achievements
         </h1>
         <p className="text-text-secondary mb-8">
-          Complete list of achievements and rewards
+          {total} achievements across {groups.length} groups.
         </p>
 
         <div className="mb-8">
@@ -51,7 +59,7 @@ export default async function AchievementsPage({ params }: AchievementsPageProps
 
         <div>
           <h2 className="font-display text-2xl font-bold text-text-primary mb-4">
-            Achievements (showing first 100)
+            Achievements ({total})
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {achievements.map((achievement) => (
@@ -75,6 +83,13 @@ export default async function AchievementsPage({ params }: AchievementsPageProps
             ))}
           </div>
         </div>
+        <Pagination
+          page={page}
+          totalPages={totalPages}
+          buildHref={(nextPage) =>
+            nextPage > 1 ? `/achievements?page=${nextPage}` : "/achievements"
+          }
+        />
       </div>
     </div>
   );

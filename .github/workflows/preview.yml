@@ -73,7 +73,9 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Build project artifacts
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        # Remove the placeholders used by npm ci so Vercel can load the actual
+        # Preview DATABASE_URL and DIRECT_URL saved by `vercel pull` above.
+        run: env -u DATABASE_URL -u DIRECT_URL vercel build --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy preview to Vercel
         id: deploy

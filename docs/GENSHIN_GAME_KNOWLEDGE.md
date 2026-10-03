@@ -1,78 +1,70 @@
-# Quy ước dữ liệu Genshin Impact trong LEIBO
+# Chính sách dữ liệu Genshin Impact
 
-> Tài liệu này xác định nguồn, phạm vi và mức độ tin cậy của dữ liệu game
-> trong dự án. Đây không phải hướng dẫn build nhân vật hay bảng chiến thuật.
-> Không coi nội dung chưa được kiểm chứng độc lập là dữ kiện chính thức.
+Tài liệu này quy định cách LEIBO thu thập, đối chiếu và mô tả dữ liệu game.
+Nó không phải hướng dẫn build hoặc tuyên bố rằng mọi giá trị trong database
+đã được xác nhận độc lập với game.
 
-## Nguồn dữ liệu và thứ tự sử dụng
+## Thứ bậc nguồn
 
-1. **Game client / thông báo trong game của HoYoverse** là nguồn ưu tiên để
-   xác nhận nội dung, tên hiển thị, thuộc tính và thay đổi phiên bản.
-2. [HoYoWiki](https://wiki.hoyolab.com/pc/genshin/) được dùng để đối chiếu
-   danh mục và tên. Đây là wiki do cộng đồng xây dựng trên nền tảng HoYoLAB;
-   sự hiện diện trên HoYoWiki không tự động chứng minh mọi con số hay mô tả
-   là chính thức.
-3. [`genshin-db`](https://github.com/theBowja/genshin-db) là nguồn máy đọc
-   được mà pipeline hiện dùng. README của dự án ghi rõ dữ liệu lấy từ
-   Fandom Wiki và repository GenshinData, đồng thời cảnh báo định dạng có thể
-   thay đổi giữa các phiên bản. Vì vậy đây là nguồn dữ liệu thuận tiện, không
-   phải thẩm quyền độc lập.
-4. Các wiki/cơ sở dữ liệu cộng đồng khác chỉ là nguồn kiểm tra bổ sung. Ghi
-   rõ URL, ngày kiểm tra và trường đã đối chiếu nếu dùng để thay đổi DB.
+1. **Game client và thông báo chính thức của HoYoverse**: ưu tiên để xác nhận
+   tên, nội dung và thay đổi phiên bản.
+2. **[HoYoWiki](https://wiki.hoyolab.com/pc/genshin/)**: hữu ích để đối chiếu
+   tên và phạm vi danh mục. Trang tự mô tả là cơ sở dữ liệu do editor và người
+   chơi HoYoLAB cùng xây dựng; không mặc nhiên là xác nhận chính thức cho mọi
+   con số/thuộc tính.
+3. **[`genshin-db`](https://github.com/theBowja/genshin-db)**: nguồn máy đọc
+   được hiện dùng trong pipeline. README upstream ghi dữ liệu tổng hợp từ
+   Fandom Wiki và repository GenshinData, đồng thời cảnh báo format có thể đổi
+   giữa phiên bản. Khớp với package chỉ xác nhận tính nhất quán với package.
+4. Wiki/cơ sở dữ liệu cộng đồng khác là đối chiếu bổ sung. Ghi lại URL, ngày
+   truy cập, phiên bản game và chính xác trường được xác nhận trước khi sửa
+   dữ liệu.
 
-## Quy tắc biểu diễn
+## Quy tắc dữ liệu
 
-- Giữ nguyên tên tiếng Anh/ID từ nguồn làm khóa dữ liệu; tên bản địa hoá là
-  dữ liệu hiển thị riêng, không dùng để tạo khóa.
-- Ghi riêng **tên hiển thị**, **mô tả**, **dữ liệu nâng cấp**, **phiên bản
-  game** và **nguồn**. Không suy diễn giá trị bị thiếu từ tên, độ hiếm hoặc
-  nhóm vật phẩm.
-- Giá trị thiếu trong nguồn không đồng nghĩa giá trị bằng 0, danh sách rỗng,
-  hay không tồn tại trong game. Không ghi đè dữ liệu tốt bằng placeholder.
-- Traveler có hai nhân vật gốc và dữ liệu kỹ năng phụ thuộc nguyên tố. Nếu
-  UI chỉ cung cấp một bộ kỹ năng mặc định, phải ghi rõ nguyên tố đó; không
-  trình bày bộ mặc định như đủ mọi biến thể.
-- Bản ghi NPC/đồng hành sự kiện hoặc biến thể Traveler không phải nhân vật
-  chơi được độc lập không được tính vào số nhân vật chơi được nếu chưa có
-  quy tắc sản phẩm giải thích rõ.
-- Không gán phần trăm rơi đồ, điểm yếu, độ khó, hành vi hay khu vực xuất hiện
-  bằng phỏng đoán. Các trường do heuristic tạo phải được gắn nhãn nội bộ là
-  suy luận và không hiển thị như dữ kiện xác thực.
+- Giữ ID nguồn ổn định; tách ID khỏi tên hiển thị, tên dịch và slug URL.
+- Phân biệt dữ liệu thiếu với giá trị `0`, danh sách rỗng hoặc “không tồn tại”.
+  Không thay dữ liệu đã có bằng placeholder chỉ vì một bản nguồn trả thiếu.
+- Không tự suy ra tỷ lệ rơi, điểm yếu, độ khó, hành vi hay địa điểm xuất hiện
+  từ tên/nhóm quái. Trường chưa có nguồn đáng tin cậy phải để trống hoặc đánh
+  dấu rõ là ước lượng; không trình bày như dữ kiện trong game.
+- Traveler có các bộ thiên phú/mệnh cung riêng theo nguyên tố. Một bộ Anemo
+  mặc định không đại diện cho tất cả biến thể. Trong LEIBO, Aether/Lumine gốc
+  dùng bộ Anemo mặc định; các dòng biến thể nguyên tố lưu riêng.
+- Manekin/Manekina là companion sự kiện, không phải playable characters độc
+  lập. Hai bản ghi được giữ trong DB theo yêu cầu vận hành, bị loại khỏi catalog
+  nhân vật công khai và được ghi cảnh báo trong integrity check.
+- Không xóa material không được tham chiếu chỉ dựa vào phép đếm. Cần phân loại
+  nguồn, mục đích và quan hệ sử dụng trước khi dọn dữ liệu.
 
-## Đối chiếu lần 2026-10-03
+## Quy trình cập nhật có thể lặp lại
 
-- Package được kiểm tra: `genshin-db@5.2.14`; package ban đầu trong dự án là
-  `5.2.13`. Repository upstream ghi dữ liệu đến phiên bản game 7.1.
-- Crawl mới nhất tạo được 122 nhân vật sau khi bỏ qua Manekin/Manekina theo
-  quy tắc hiện có; hai nhân vật mới trong nguồn là Vodyanitsa và Vesna.
-- Database trước lần seed có 20 model và 5.009 hàng. 15 nhóm raw đã khớp
-  chính xác với package 5.2.13 theo ID và JSON trong lần đối chiếu trước.
-  Kết quả đó xác nhận tính nhất quán với snapshot nguồn cũ, không xác nhận
-  tuyệt đối với game.
-- Với nguồn 5.2.14, các chênh lệch ghi nhận gồm: 6 weapon mới; 10 achievement
-  mới và 1 thay đổi; 19 animal thay đổi; thêm dữ liệu constellation, enemy,
-  food, namecard, outfit, talent, windglider; 2 material mới và 6 material
-  thay đổi. Domains không thay đổi. Chi tiết theo từng tên được lưu trong
-  báo cáo `docs/DATA_AUDIT_2026-10.md`.
-- Aether/Lumine có 5 talent và 6 constellation trong crawl cho bộ Anemo mặc
-  định. DB trước khi reseed không có các trường này; không thể coi một bộ
-  nguyên tố là tất cả kỹ năng Traveler.
-- HoYoWiki đã được đối chiếu theo danh mục ở các nhóm artifact, enemy,
-  wildlife, weapon, namecard và tài nguyên. Tên artifact 63/63, enemy
-  346/346 và wildlife 223/223 của DB cũ có mặt trong danh mục tương ứng.
-  Các mục phụ trội và khác biệt cách gọi cần phân loại riêng, không tự động
-  xem là lỗi.
+1. Chốt phiên bản package và ngày crawl; giữ lockfile.
+2. Crawl vào snapshot có thể review.
+3. So sánh theo ID ổn định, báo riêng bản ghi thêm/xóa/thay đổi và field đổi.
+4. Kiểm tra schema/migration và các phép chuyển đổi seed trước khi ghi DB.
+5. Chạy `npm run db:seed`, sau đó `npm run db:verify`, typecheck và test.
+6. Đối chiếu mẫu với nguồn độc lập; không dùng cùng một nguồn làm bằng chứng
+   cho chính nó.
+7. Cập nhật `docs/DATA_AUDIT_2026-10.md` khi phiên bản nguồn hoặc kết quả kiểm
+   chứng thay đổi.
 
-## Hạn chế và cách cập nhật
+## Kết quả kiểm tra 2026-10-03
 
-- Một lần kiểm tra danh mục không xác minh nội dung từng trang, con số combat,
-  xác suất rơi đồ, bản dịch, hay trạng thái mới nhất trong game.
-- Một bản ghi khớp với `genshin-db` chỉ chứng minh DB khớp package tại thời
-  điểm đó; không phải hai nguồn xác nhận độc lập nếu package lấy dữ liệu từ
-  wiki cộng đồng.
-- Trước khi seed phiên bản mới: cập nhật package, crawl snapshot, so sánh theo
-  ID, xem xét mọi thay đổi và kiểm tra cấu trúc DB. Sau seed, chạy
-  `npm run db:verify`, typecheck và các test liên quan.
-- Chỉ đánh dấu một trường “đã xác nhận” khi có nguồn cụ thể, phiên bản/ngày
-  truy cập và phép so sánh có thể lặp lại. Nếu không, dùng nhãn “theo nguồn
-  genshin-db”, “chưa xác minh độc lập” hoặc “suy luận”.
+Chi tiết phương pháp, record counts, package deltas, route/SEO và giới hạn
+được ghi trong [báo cáo kiểm toán dữ liệu](./DATA_AUDIT_2026-10.md). Tóm tắt:
+
+- Pipeline/package đã cập nhật lên `genshin-db@5.2.14`, với dữ liệu upstream
+  được mô tả là cập nhật tới game 7.1.
+- Mười lăm nhóm dữ liệu bổ sung khớp raw JSON theo ID giữa snapshot crawl và
+  database sau seed; 122 raw character record cũng khớp.
+- Seed cập nhật 6 vũ khí, 2 nhân vật chơi được mới, artifact bonus và các
+  danh mục có thay đổi. Chi phí Exaiphanes Blade là ngoại lệ: package mới chỉ
+  trả Mora = 0, vì vậy giá trị cũ được giữ và chưa được xác minh độc lập.
+- `npm run db:verify` đạt; hai bản ghi companion được giữ lại phát cảnh báo.
+- HoYoWiki đối chiếu được một số danh mục, nhưng không xác minh toàn bộ field
+  và không tạo cơ sở để khẳng định “chính xác tuyệt đối”.
+
+**Kết luận:** dữ liệu được kiểm chứng là khớp nguồn đã ghi rõ và các phép kiểm
+tra cấu trúc đã chạy; không có phương pháp nào trong lần audit này chứng minh
+toàn bộ nội dung khớp tuyệt đối với mọi phiên bản game.

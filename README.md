@@ -7,7 +7,7 @@
 <p>
   <img src="https://img.shields.io/badge/status-active-3fb950?style=for-the-badge" alt="status" />
   <img src="https://img.shields.io/badge/license-MIT-blue?style=for-the-badge" alt="license" />
-  <img src="https://img.shields.io/github/actions/workflow/status/your-org/leibo/ci.yml?branch=main&style=for-the-badge&label=CI" alt="CI" />
+  <img src="https://img.shields.io/github/actions/workflow/status/BDuc1906/GI/ci.yml?branch=main&style=for-the-badge&label=CI" alt="CI" />
 </p>
 
 <p>
@@ -30,7 +30,7 @@
 
 **LEIBO** là một ứng dụng web tra cứu dữ liệu **Genshin Impact**, cung cấp thông tin chi tiết và có cấu trúc về **nhân vật**, **vũ khí**, **thánh di vật (artifact set)**, **nguyên liệu đột phá/thiên phú** và **bí cảnh (domain)**.
 
-> Phạm vi hiện tại tập trung vào dữ liệu phục vụ *build nhân vật*. Dự án **chưa** có: quái/boss dạng bảng riêng (Enemy), thành tựu (Achievements), namecard, đồ nội thất Nhà Lư (Serenitea Pot), Thất Thánh Triệu Hồi (TCG), cốt truyện/nhiệm vụ, sự kiện, lịch sử banner. Xem mục [Nguồn dữ liệu & giới hạn đã biết](#-nguồn-dữ-liệu--giới-hạn-đã-biết) để biết chi tiết và định hướng mở rộng.
+> Dự án cung cấp danh mục game gồm nhân vật, vũ khí, thánh di vật, nguyên liệu, bí cảnh, kẻ địch, thành tựu, namecard, outfit, food, động vật, địa lý và một số dữ liệu liên quan. Phạm vi theo từng model và giới hạn kiểm chứng được ghi trong [báo cáo kiểm toán dữ liệu](docs/DATA_AUDIT_2026-10.md).
 
 Toàn bộ dữ liệu game được trích xuất từ package cộng đồng [`genshin-db`](https://www.npmjs.com/package/genshin-db) (cập nhật theo từng phiên bản game), sau đó được chuẩn hoá và nạp (seed) vào cơ sở dữ liệu **PostgreSQL** thông qua **Prisma ORM**, phục vụ qua một REST API tự xây dựng và giao diện **Next.js App Router**.
 
@@ -45,7 +45,7 @@ Dự án được thiết kế theo hướng **production-ready**: có migration
 | 🧑‍🤝‍🧑 **Nhân vật** | Chỉ số theo cấp độ, thiên phú, cung mệnh, nguyên liệu đột phá/thiên phú, lồng tiếng, thông tin cốt truyện |
 | ⚔️ **Vũ khí** | Chỉ số cơ bản, hiệu ứng theo 5 mốc tinh luyện, nguyên liệu đột phá |
 | 💠 **Thánh di vật** | Hiệu ứng 1/2/4 mảnh, danh sách các mảnh trong bộ |
-| 🧪 **Nguyên liệu** | Bảng nguyên liệu dùng chung, tránh lặp dữ liệu ảnh giữa các nhân vật/vũ khí |
+| 🧪 **Danh mục dữ liệu** | Nguyên liệu, bí cảnh, kẻ địch, thành tựu, namecard, outfit, món ăn, động vật và địa lý |
 | 🗺️ **Bí cảnh** | Lịch mở theo ngày trong tuần, nguyên liệu đặc trưng, gợi ý "hôm nay nên đánh gì" |
 | 🔍 **Tìm kiếm tổng hợp** | Tìm kiếm xuyên suốt 4 loại dữ liệu (nhân vật, vũ khí, thánh di vật, bí cảnh) trong một endpoint |
 | 🌗 **Dark / Light mode** | Chuyển giao diện mượt mà bằng `next-themes` |
@@ -72,46 +72,16 @@ Dự án được thiết kế theo hướng **production-ready**: có migration
 
 ## 🗂️ Cấu trúc dự án
 
-```
-leibo/
-├── .github/workflows/ci.yml       # Pipeline CI: lint → typecheck → migrate → build → smoke test
-├── prisma/
-│   ├── schema.prisma               # Định nghĩa model: Character, Weapon, ArtifactSet, Material
-│   └── migrations/                 # Lịch sử migration (không dùng db push)
-├── scripts/
-│   ├── seed.ts                     # Điểm vào seed, gọi lần lượt characters → weapons → artifacts → domains
-│   ├── seed-characters.ts
-│   ├── seed-weapons.ts
-│   ├── seed-artifacts.ts
-│   ├── seed-domains.ts
-│   ├── verify-seed-integrity.ts    # Kiểm tra toàn vẹn dữ liệu sau seed (npm run db:verify)
-│   ├── mirror-images-to-r2.ts      # Tự host ảnh sang Cloudflare R2 (npm run images:mirror)
-│   └── lib/
-│       ├── seed-helpers.ts         # Helper dùng chung: slugify, upsertMaterial, resolve icon URL...
-│       └── r2-client.ts            # S3Client cấu hình cho Cloudflare R2
-├── middleware.ts                   # CORS cho toàn bộ /api/*
-├── src/
-│   ├── app/
-│   │   ├── api/                    # REST API (route handlers)
-│   │   │   ├── characters | weapons | artifacts | materials | domains
-│   │   │   ├── search/              # Tìm kiếm tổng hợp
-│   │   │   ├── health/              # Health check (?counts=true để xem số dòng mỗi bảng)
-│   │   │   └── route.ts             # Mục lục API (GET /api)
-│   │   ├── characters | weapons | artifacts | domains | search   # Trang giao diện (SSR)
-│   │   ├── icon.tsx / opengraph-image.tsx   # Favicon + ảnh chia sẻ, sinh bằng code
-│   │   ├── characters/[id]/opengraph-image.tsx   # Ảnh chia sẻ riêng từng nhân vật
-│   │   ├── sitemap.ts / robots.ts   # SEO tự sinh theo dữ liệu DB
-│   │   └── layout.tsx / error.tsx / not-found.tsx
-│   ├── components/                 # ElementIcon, SafeImage, SearchBar, ThemeToggle...
-│   └── lib/
-│       ├── genshin-server-time.ts  # Tính "hôm nay" theo đúng giờ server Genshin (reset 4h sáng)
-│       ├── api/                    # errors.ts, query.ts, response.ts — chuẩn hoá API
-│       ├── prisma.ts               # Khởi tạo Prisma Client + adapter pg + SSL
-│       └── env.ts                  # Validate biến môi trường bắt buộc
-├── next.config.ts                  # Whitelist domain ảnh (chống SSRF)
-├── eslint.config.mjs                # Flat config (bắt buộc từ ESLint v9) — kế thừa next/core-web-vitals + next/typescript
-└── package.json
-```
+Xem [bản đồ thư mục và quy ước route](docs/FOLDER_STRUCTURE.md) để biết trách
+nghiệm từng khu vực. Các điểm vào chính:
+
+- `src/app/[locale]/` — trang giao diện theo locale.
+- `src/app/api/` — REST API.
+- `src/features/` — query, service và logic theo feature.
+- `src/lib/` — tích hợp DB, nguồn game, i18n và helper dùng chung.
+- `scripts/` — crawl, seed, sync, fix và kiểm tra dữ liệu.
+- `prisma/` — schema và migration.
+- `docs/` — hướng dẫn, ADR và báo cáo kiểm chứng.
 
 ---
 
@@ -233,7 +203,13 @@ Base URL: `/api` — mọi response đều theo envelope chuẩn `{ success, dat
 
 ## 📊 Nguồn dữ liệu & giới hạn đã biết
 
-Toàn bộ dữ liệu game lấy từ `genshin-db` — dữ liệu thật, không tự bịa — nhưng có vài điểm cần lưu ý khi bảo trì:
+Nguồn máy đọc được chính là [`genshin-db`](https://www.npmjs.com/package/genshin-db),
+một package cộng đồng; README upstream nêu nguồn tổng hợp gồm Fandom Wiki và
+GenshinData. Việc database khớp package chỉ xác nhận nhất quán với package,
+không phải bằng chứng độc lập rằng mọi giá trị đều chính xác trong game.
+Phương pháp và sai khác kiểm chứng được ghi trong
+[báo cáo kiểm toán dữ liệu](docs/DATA_AUDIT_2026-10.md); chính sách nguồn nằm ở
+[docs/GENSHIN_GAME_KNOWLEDGE.md](docs/GENSHIN_GAME_KNOWLEDGE.md).
 
 - **`releaseDate` luôn là `null`**: `genshin-db` không cung cấp ngày ra mắt ngoài đời thật, chỉ có ngày trong game. Đây là quyết định có chủ đích, không phải lỗi.
 - **Ảnh tự host trên Cloudflare R2** (khuyến nghị, tùy chọn) — mặc định ảnh vẫn hotlink trực tiếp từ Enka Network/Fandom Wikia/miHoYo BBS; `SafeImage` tự ẩn ảnh lỗi thay vì hiển thị icon vỡ, nhưng nếu 1 trong 3 nguồn đổi cấu trúc URL hoặc chặn hotlink, ảnh vỡ hàng loạt không có cách tự phục hồi. Để tự host:
@@ -249,26 +225,20 @@ Toàn bộ dữ liệu game lấy từ `genshin-db` — dữ liệu thật, khô
   ```
 
   Sau khi chạy, `next.config.ts` tự thêm domain R2 vào whitelist ảnh nếu thấy `R2_PUBLIC_URL` — không cần sửa gì thêm. Chạy lại `images:mirror` sau mỗi lần `db:seed` để mirror nốt ảnh của dữ liệu mới (script tự bỏ qua ảnh đã mirror từ trước, không tải/upload lại).
-- **Traveler (Aether/Lumine)** cần tra cứu 2 tên khác nhau tuỳ loại dữ liệu — xem chi tiết trong `resolveTravelerSibling()`.
+- **Traveler (Aether/Lumine)** có bộ dữ liệu riêng theo nguyên tố; hai bản ghi gốc dùng bộ Anemo mặc định.
+- **Manekin/Manekina** được giữ trong DB theo yêu cầu vận hành, nhưng không được coi/hiển thị như playable characters.
 - Khi nâng cấp `genshin-db` lên major version mới, cần kiểm tra lại tên field trước khi seed:
 
   ```bash
   node -e "const db=require('genshin-db'); console.log(JSON.stringify(db.characters('Kazuha'), null, 2))"
   ```
 
-### Phạm vi dữ liệu hiện tại (chưa có gì)
+### Phạm vi hiện tại
 
-Dự án hiện chỉ phủ dữ liệu phục vụ build nhân vật. Các mảng nội dung khác của Genshin Impact **chưa** được đưa vào, dù `genshin-db` có sẵn dữ liệu thô cho phần lớn:
-
-| Chưa có | Ghi chú |
-|---|---|
-| Quái/Boss (Enemy) | `Domain.monsterNames` hiện chỉ lưu tên dạng text thô, chưa có bảng riêng liên kết ngược sang `Character.ascensionMaterials` |
-| Thành tựu (Achievements) | Chưa có model |
-| Namecard | Chưa có model |
-| Đồ nội thất Nhà Lư (Serenitea Pot) | Chưa có model |
-| Thất Thánh Triệu Hồi (TCG) | Chưa có model |
-| Cốt truyện / nhiệm vụ | Chưa có model |
-| Sự kiện, lịch sử banner wish | Chưa có model |
+Các model đang có gồm Character, Weapon, ArtifactSet, Material, Domain,
+Achievement, Enemy, Namecard, Outfit, Food, Animal, Geography và các bảng
+liên quan. Dự án không tuyên bố hiện có catalog cho nội thất Serenitea Pot,
+TCG, toàn bộ quest/story, event hoặc lịch sử banner wish.
 
 ### Cập nhật dữ liệu khi có bản mới của game
 
@@ -359,4 +329,3 @@ Phát hành theo giấy phép [MIT](./LICENSE). Dữ liệu game thuộc bản q
   <sub>Xây dựng với ❤️ bằng Next.js, Prisma và dữ liệu từ cộng đồng Genshin Impact.</sub>
 </div>
 # Tóm tắt các lỗi đã sửa
-

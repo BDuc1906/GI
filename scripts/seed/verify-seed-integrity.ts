@@ -68,6 +68,11 @@ const ALLOWLIST_MISSING_TALENT_MATERIALS = new Set([
   "zibai",
 ]);
 
+const RETAINED_NON_PLAYABLE_COMPANIONS = new Map([
+  ["manekin", "Dữ liệu companion sự kiện được giữ lại theo yêu cầu."],
+  ["manekina", "Dữ liệu companion sự kiện được giữ lại theo yêu cầu."],
+]);
+
 const VALID_DOMAIN_CATEGORIES = new Set(["artifact", "weapon", "talent"]);
 
 type Issue = { level: "FAIL" | "WARN"; message: string };
@@ -133,12 +138,20 @@ async function checkCharacters(): Promise<void> {
       if (hasEmptyPhase) emptyAscensionPhase++;
     }
 
-    const talents = c.talents as unknown[] | null;
-    if (!talents || talents.length < 3) missingTalents++;
+    const nonPlayableReason = RETAINED_NON_PLAYABLE_COMPANIONS.get(c.id);
+    if (nonPlayableReason) {
+      warn(
+        `${c.name} (${c.id}) là bản ghi companion sự kiện được giữ lại theo yêu cầu; ` +
+          `${nonPlayableReason} Không áp dụng invariant talent/constellation của nhân vật chơi được.`
+      );
+    } else {
+      const talents = c.talents as unknown[] | null;
+      if (!talents || talents.length < 3) missingTalents++;
 
-    const constellations = c.constellations as unknown[] | null;
-    if (!constellations || constellations.length !== 6) {
-      wrongConstellationCount++;
+      const constellations = c.constellations as unknown[] | null;
+      if (!constellations || constellations.length !== 6) {
+        wrongConstellationCount++;
+      }
     }
 
     const stats = c.statsByLevel as unknown[] | null;

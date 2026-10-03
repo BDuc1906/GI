@@ -5,6 +5,7 @@ import { withErrorHandling } from "@/lib/api/errors";
 import { withRateLimit } from "@/lib/api/rate-limit";
 import { buildMeta, parsePagination, parseRarityList, parseSort } from "@/lib/api/query";
 import { CharactersService } from "@/features/characters/service";
+import { PLAYABLE_CHARACTER_FILTER } from "@/lib/game/character-catalog";
 
 export const revalidate = 60;
 export const dynamic = "force-dynamic";
@@ -36,6 +37,7 @@ export const GET = withErrorHandling(
     const weaponType = splitList(searchParams.get("weaponType"));
 
     const where: Prisma.CharacterWhereInput = {
+      ...PLAYABLE_CHARACTER_FILTER,
       ...(q ? { name: { contains: q, mode: "insensitive" } } : {}),
       ...(vision ? { vision: { in: vision, mode: "insensitive" } } : {}),
       ...(weaponType ? { weaponType: { in: weaponType, mode: "insensitive" } } : {}),

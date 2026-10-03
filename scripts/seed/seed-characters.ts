@@ -17,6 +17,7 @@ const genshindb = require("genshin-db") as typeof import("genshin-db");
 import { prisma } from "../../src/lib/db/prisma";
 import { logDataSyncChange } from "../lib/audit-diff";
 import { upsertMaterial, loadManualOverrides } from "../lib/seed-helpers";
+import { getTalentsAndConstellations } from "../lib/genshin-pure-helpers";
 import type {
   CharacterData,
   MaterialRef,
@@ -244,6 +245,8 @@ export async function seedCharacters(): Promise<void> {
     }
   }
 
+  await seedTravelerElementVariants();
+
   console.log(`✔ Seeded ${count}/${characters.length} characters`);
 
   const missingBookType = characters.filter((c) => c.missingTalentBookType).map((c) => c.name);
@@ -255,5 +258,55 @@ export async function seedCharacters(): Promise<void> {
     );
   } else {
     console.log("✔ Mọi nhân vật đều resolve được talent book type.");
+  }
+}
+
+export async function seedTravelerElementVariants(): Promise<void> {
+  const elements = ["Anemo", "Geo", "Electro", "Dendro", "Hydro", "Pyro", "Cryo"];
+  const names = elements.flatMap((element) =>
+    ["Aether", "Lumine"].map((traveler) => ({
+      name: `${traveler} (${element})`,
+      sourceName: `Traveler (${element})`,
+    }))
+  );
+  const variants = await prisma.character.findMany({
+    where: { name: { in: names.map(({ name }) => name) } },
+  });
+  const variantsByName = new Map(variants.map((variant) => [variant.name, variant]));
+
+  for (const { name, sourceName } of names) {
+    const variant = variantsByName.get(name);
+    if (!variant) continue;
+
+    const data = getTalentsAndConstellations(genshindb, sourceName);
+    if (!data.talents || data.talents.length < 3 || data.constellations?.length !== 6) {
+      throw new Error(
+        `Nguồn genshin-db không có đủ talent/6 constellation cho biến thể "${name}"; dừng seed thay vì giữ dữ liệu thiếu.`
+      );
+    }
+
+    const payload = {
+      talents: data.talents,
+      constellations: data.constellations,
+      talentMaterials: await resolveTalentMaterials(data.talentMaterials),
+    };
+
+    await prisma.character.update({
+      where: { id: variant.id },
+      data: payload as any,
+    });
+
+    await logDataSyncChange({
+      entityType: "character",
+      entityId: variant.id,
+      oldRecord: variant,
+      newRecord: payload,
+      source: "seed-traveler-element-variants",
+    }).catch((err) => {
+      console.warn(
+        `⚠️ Không ghi được AuditLog cho "${name}":`,
+        (err as Error).message
+      );
+    });
   }
 }

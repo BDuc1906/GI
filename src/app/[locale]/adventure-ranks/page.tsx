@@ -20,7 +20,6 @@ export default async function AdventureRanksPage({ params }: AdventureRanksPageP
 
   const ranks = await prisma.adventureRank.findMany({
     orderBy: { id: "asc" },
-    take: 200,
   });
 
   return (
