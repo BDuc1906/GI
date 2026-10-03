@@ -6,6 +6,8 @@ interface MaterialsPageProps {
   params: Promise<{ locale: string }>;
 }
 
+export const dynamic = "force-dynamic";
+
 export default async function MaterialsPage({ params }: MaterialsPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
