@@ -67,7 +67,7 @@ jobs:
         id: check
         run: |
           # Get current version from package.json
-          CURRENT_VERSION=$(node -p "require('./package.json').dependencies['genshin-db'].replace(/[\^~]/g, '')")
+          CURRENT_VERSION=$(node -e 'const p = require("./package.json"); const v = p.dependencies?.["genshin-db"] ?? p.devDependencies?.["genshin-db"]; if (!v) throw new Error("genshin-db is missing from package.json"); console.log(v.replace(/^[~^]/, ""));')
           echo "current_version=$CURRENT_VERSION" >> "$GITHUB_OUTPUT"
           
           # Get latest version from npm
@@ -144,9 +144,6 @@ jobs:
       - name: Seed validation database
         run: npx tsx scripts/seed/seed.ts
 
-      - name: Seed enhanced enemy data in validation database
-        run: npx tsx scripts/seed/seed-enemies-enhanced.ts
-
       - name: Verify validation database integrity
         run: npx tsx scripts/seed/verify-seed-integrity.ts
 
@@ -196,11 +193,6 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: npx tsx scripts/seed/seed.ts
-
-      - name: Seed enhanced enemy data in production
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: npx tsx scripts/seed/seed-enemies-enhanced.ts
 
       - name: Verify production database integrity
         env:
