@@ -12,7 +12,7 @@ name: Auto Fix Data
 # Environments → tạo environment tên "production" (khuyến nghị bật
 # "Required reviewers" hoặc ít nhất giới hạn ai được sửa secret của
 # environment này, KHÁC với secrets thường của repo):
-#   - DATABASE_URL, DIRECT_URL   (đúng connection string Postgres THẬT
+#   - PROD_DATABASE_URL, PROD_DIRECT_URL (đúng connection string Postgres THẬT
 #     đang dùng trên Vercel — copy từ Vercel → Settings → Environment
 #     Variables, KHÔNG phải chuỗi postgres:postgres@localhost của CI)
 #   - AGENT_LIVE_PROVIDER        (nếu dùng, để AutoFixEngine có gì đối
@@ -49,7 +49,7 @@ jobs:
     # đây CHỈ để thoả mãn `prisma generate` (lệnh này không thực sự mở
     # kết nối DB, chỉ đọc schema.prisma để sinh client) — 2 bước ghi DB
     # PRODUCTION THẬT bên dưới ("Quét & tự sửa", "Kiểm tra lại") vẫn dùng
-    # `secrets.DATABASE_URL`/`secrets.DIRECT_URL` thật qua `env:` riêng
+    # `secrets.PROD_DATABASE_URL`/`secrets.PROD_DIRECT_URL` thật qua `env:` riêng
     # của từng step, KHÔNG bị giá trị giả ở đây ghi đè (env của step luôn
     # ưu tiên hơn env của job cho cùng 1 key).
     env:
@@ -70,11 +70,19 @@ jobs:
       - name: Prisma generate
         run: npx prisma generate
 
+      - name: Validate production database secrets
+        run: |
+          : "${DATABASE_URL:?Missing production database secret PROD_DATABASE_URL}"
+          : "${DIRECT_URL:?Missing production database secret PROD_DIRECT_URL}"
+        env:
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL }}
+
       - name: Quét & tự sửa (AutoFixEngine)
         run: npx tsx scripts/pipeline/auto-fix.ts
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL }}
           AGENT_LIVE_PROVIDER: ${{ vars.AGENT_LIVE_PROVIDER }}
           OPS_WEBHOOK_URL: ${{ secrets.OPS_WEBHOOK_URL }}
 
@@ -88,8 +96,8 @@ jobs:
       - name: Kiểm tra lại + tự revert nếu live không còn khớp
         run: npx tsx scripts/pipeline/verify-rollback.ts --window-minutes=40
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL }}
           AGENT_LIVE_PROVIDER: ${{ vars.AGENT_LIVE_PROVIDER }}
           OPS_WEBHOOK_URL: ${{ secrets.OPS_WEBHOOK_URL }}
 
