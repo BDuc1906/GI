@@ -78,6 +78,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       "/windgliders",
       "/tools/dps-calculator",
       "/tools/material-calculator",
+      "/privacy",
+      "/terms",
     ].flatMap((path) =>
       localizedEntries(path, { changeFrequency: "weekly", priority: 0.5 })
     ),
