@@ -13,7 +13,6 @@ cập nhật mục tương ứng trong cùng thay đổi.
 - `docs/` – kiến trúc, quy trình và tài liệu vận hành.
 - `tests/` – kiểm thử tự động.
 - `public/` – tài nguyên tĩnh được phục vụ trực tiếp bởi ứng dụng.
-- `messages/` – thông điệp giao diện theo locale.
 - `node_modules/`, `.next/`, `.vercel/` – thư mục công cụ/build; không sửa
   trực tiếp và không coi là mã nguồn.
 
@@ -23,7 +22,10 @@ cập nhật mục tương ứng trong cùng thay đổi.
   là URL công khai; trang cần truy vấn đúng model và đặt metadata phù hợp.
 - `src/app/api/` – API routes, tổ chức theo tài nguyên/chức năng.
 - `src/components/` – thành phần React dùng lại.
+- `src/core/`, `src/features/`, `src/hooks/`, `src/server/` – logic nghiệp vụ,
+  module tính năng, hooks và phần xử lý phía server.
 - `src/i18n/` – cấu hình định tuyến và locale.
+- `src/messages/` – thông điệp giao diện theo locale.
 - `src/lib/api/` – truy vấn, phản hồi, kiểm tra lỗi và tiện ích API.
 - `src/lib/db/` – Prisma Client và hỗ trợ truy cập database.
 - `src/lib/data-sources/` – kiểu dữ liệu và tích hợp nguồn dữ liệu.
