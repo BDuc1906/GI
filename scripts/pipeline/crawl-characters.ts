@@ -1,4 +1,3 @@
-
 /**
  * scripts/pipeline/crawl-characters.ts
  *
@@ -25,6 +24,7 @@ import {
   getStatsByLevel,
   getTalentsAndConstellations,
   resolveTravelerTalentBook,
+  isNonPlayableSpecialCharacter,
 } from "../lib/genshin-pure-helpers";
 import type { CharacterData, VoiceActors } from "../../src/lib/data-sources/types";
 
@@ -103,6 +103,22 @@ function crawlCharacter(name: string): CharacterData | null {
     const raw = genshindb.characters(name) as any;
     if (!raw || !raw.name) return null;
 
+    // BUG ĐÃ SỬA (2026-09-22): danh sách 122 "nhân vật" của genshin-db
+    // lẫn cả "Manekin"/"Manekina" — KHÔNG phải nhân vật chơi được, mà là
+    // NPC đồng hành tạm thời từ sự kiện (quà tặng từ "Octavia", khám phá
+    // "Miliastra Wonderland" — xem description gốc). Hệ quả trước khi sửa:
+    // 2 "nhân vật" này hiện trên trang với `elementText: "None"` (không
+    // nguyên tố, badge/icon vỡ) VÀ không có talents nào cả (tên tra cứu
+    // không khớp bất kỳ entry nào trong talents() folder).
+    //
+    // Xem `isNonPlayableSpecialCharacter()` (genshin-pure-helpers.ts) để
+    // biết đầy đủ lý do + lịch sử sửa (lần đầu chỉ check "_SP" bị sai,
+    // khớp nhầm cả Aloy — nhân vật giao thoa THẬT).
+    if (isNonPlayableSpecialCharacter(raw)) {
+      console.log(`⏭️  Bỏ qua "${raw.name}" — qualityType="${raw.qualityType}" + title rỗng (NPC sự kiện đặc biệt, không phải nhân vật chơi được)`);
+      return null;
+    }
+
     const id = slugify(raw.name);
 
     // ---- Ảnh ----
@@ -122,8 +138,29 @@ function crawlCharacter(name: string): CharacterData | null {
     // yếu cho Aether/Lumine (genshin-db 5.2.12 không tách biến thể nguyên
     // tố cho Traveler nên talents("Aether")/raw.elementText đều rỗng — 2
     // nhân vật này vẫn phải khai tay trong talent-book-mapping.json).
+    // BUG ĐÃ SỬA (2026-09-22): fallback cũ (`resolveTravelerTalentBook`)
+    // CHỈ xử lý `bookType` — `talents`/`constellations`/`attributes` THẬT
+    // (mô tả kỹ năng, bảng thông số theo cấp, icon...) của Aether/Lumine
+    // VẪN BỊ BỎ TRỐNG vì gọi `getTalentsAndConstellations(genshindb,
+    // "Aether")` với tên KHÔNG tồn tại trong talents() folder — genshin-db
+    // chỉ lưu dữ liệu talent Lữ Hành Giả dưới khoá "Traveler (Nguyên tố)"
+    // (vd "Traveler (Anemo)"), KHÔNG PHẢI "Aether"/"Lumine". Vì try/catch
+    // trong getTalentsAndConstellations nuốt lỗi im lặng, bug này không
+    // hiện ra ở đâu cả — trang 2 nhân vật quan trọng nhất game (Lữ Hành
+    // Giả) hiển thị HOÀN TOÀN TRỐNG phần thiên phú/mệnh cung.
+    //
+    // Fix: dùng key "Traveler (Anemo)" cho Aether/Lumine — Anemo là
+    // nguyên tố ĐẦU TIÊN mọi người chơi có từ lúc mới vào game (trước khi
+    // mở khoá các nguyên tố khác), hợp lý nhất làm mặc định khi
+    // `characters` folder của genshin-db không tách biến thể (vision luôn
+    // rỗng cho Aether/Lumine, xem comment phía trên) để chọn đúng.
+    // GIỚI HẠN CÒN LẠI: chỉ hiển thị ĐÚNG 1 trong 7 biến thể nguyên tố của
+    // Lữ Hành Giả — hiển thị đủ cả 7 cần UI chọn nguyên tố, việc lớn hơn,
+    // chưa làm ở đây.
+    const talentLookupName =
+      raw.name === "Aether" || raw.name === "Lumine" ? "Traveler (Anemo)" : raw.name;
     const { talents, constellations, talentMaterials: talentMaterialsFromCosts, bookType: bookTypeFromCosts } =
-      getTalentsAndConstellations(genshindb, raw.name);
+      getTalentsAndConstellations(genshindb, talentLookupName);
 
     const bookType =
       bookTypeFromCosts ??

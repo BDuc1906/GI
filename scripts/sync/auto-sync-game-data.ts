@@ -5,14 +5,14 @@
  * 
  * Features:
  * 1. Check genshin-db version
- * 2. Update genshin-db if needed
- * 3. Crawl game data
- * 4. Seed database
- * 5. Verify data integrity
- * 6. Create backup
+ * 2. Create backup
+ * 3. Update genshin-db if needed
+ * 4. Crawl game data
+ * 5. Seed database
+ * 6. Verify data integrity
  * 7. Mirror images
  * 8. Run validation tests
- * 9. Send notifications
+ * 9. Type-check, lint, and build
  */
 
 import { createRequire } from "module";
@@ -101,18 +101,6 @@ async function verifyDataIntegrity(): Promise<boolean> {
     return true;
   } catch (err) {
     console.error("❌ Failed to verify data integrity:", err);
-    return false;
-  }
-}
-
-async function seedEnhancedEnemies(): Promise<boolean> {
-  try {
-    console.log("👾 Seeding enhanced enemy data...");
-    await execAsync("npm run db:seed:enemies");
-    console.log("✅ Enhanced enemy data seeded");
-    return true;
-  } catch (err) {
-    console.error("❌ Failed to seed enhanced enemies:", err);
     return false;
   }
 }
@@ -298,16 +286,7 @@ async function main() {
       throw new Error("Data integrity verification failed");
     }
 
-    // Step 7: Seed enhanced enemies
-    const enemiesStart = Date.now();
-    const enemiesSuccess = await seedEnhancedEnemies();
-    result.steps.push({
-      step: "seed_enhanced_enemies",
-      success: enemiesSuccess,
-      duration: Date.now() - enemiesStart
-    });
-
-    // Step 8: Mirror images
+    // Step 7: Mirror images
     if (!config.skipImageMirror) {
       const mirrorStart = Date.now();
       const mirrorSuccess = await mirrorImages();
@@ -318,7 +297,7 @@ async function main() {
       });
     }
 
-    // Step 9: Run tests
+    // Step 8: Run tests
     if (!config.skipTests) {
       const testStart = Date.now();
       const testSuccess = await runTests();
@@ -333,7 +312,7 @@ async function main() {
       }
     }
 
-    // Step 10: Type check
+    // Step 9: Type check
     const typeCheckStart = Date.now();
     const typeCheckSuccess = await typeCheck();
     result.steps.push({
@@ -342,7 +321,7 @@ async function main() {
       duration: Date.now() - typeCheckStart
     });
 
-    // Step 11: Lint
+    // Step 10: Lint
     const lintStart = Date.now();
     const lintSuccess = await lint();
     result.steps.push({
@@ -351,7 +330,7 @@ async function main() {
       duration: Date.now() - lintStart
     });
 
-    // Step 12: Build
+    // Step 11: Build
     const buildStart = Date.now();
     const buildSuccess = await build();
     result.steps.push({

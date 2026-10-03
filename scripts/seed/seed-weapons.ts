@@ -14,6 +14,22 @@ async function getWeaponAscensionMaterials(costs: unknown): Promise<unknown> {
   if (!costs || typeof costs !== "object") return null;
   const raw = costs as Record<string, Array<{ name?: string; count?: number }>>;
 
+  const hasOnlyZeroMora = [1, 2, 3, 4, 5, 6].every((phase) => {
+    const items = raw[`ascend${phase}`];
+    return (
+      Array.isArray(items) &&
+      items.length === 1 &&
+      items[0]?.name === "Mora" &&
+      items[0].count === 0
+    );
+  });
+  if (hasOnlyZeroMora) {
+    console.warn(
+      "⚠️ Nguồn trả về chi phí đột phá chỉ gồm Mora = 0; giữ nguyên dữ liệu đã lưu thay vì ghi đè bằng dữ liệu rỗng."
+    );
+    return undefined;
+  }
+
   const phases = [];
   for (const phase of [1, 2, 3, 4, 5, 6]) {
     const items = raw[`ascend${phase}`];
@@ -125,7 +141,9 @@ export async function seedWeapons(): Promise<void> {
         passiveByRefinement: refinements.length ? JSON.parse(JSON.stringify(refinements)) : null,
         description: w.description || null,
         iconUrlOriginal,
-        ascensionMaterials: ascensionMaterials as any,
+        ...(ascensionMaterials === undefined
+          ? {}
+          : { ascensionMaterials: ascensionMaterials as any }),
         // BỔ SUNG 2026-09: theo dõi phiên bản game vũ khí ra mắt — xem
         // comment ở Weapon.gameVersion trong prisma/schema.prisma.
         gameVersion: w.version || null,
