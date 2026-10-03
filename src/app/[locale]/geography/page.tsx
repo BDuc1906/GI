@@ -19,7 +19,6 @@ export default async function GeographyPage({ params }: GeographyPageProps) {
 
   const geographies = await prisma.geography.findMany({
     orderBy: { regionName: "asc" },
-    take: 100,
   });
 
   return (

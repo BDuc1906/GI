@@ -57,6 +57,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...localizedEntries("/weapons", { changeFrequency: "weekly", priority: 0.8 }),
     ...localizedEntries("/artifacts", { changeFrequency: "weekly", priority: 0.8 }),
     ...localizedEntries("/domains", { changeFrequency: "daily", priority: 0.8 }),
+    ...[
+      "/achievements",
+      "/achievements/hidden",
+      "/adventure-ranks",
+      "/animals",
+      "/crafts",
+      "/elements",
+      "/enemies",
+      "/food",
+      "/geography",
+      "/materials",
+      "/namecards",
+      "/outfits",
+      "/windgliders",
+      "/tools/dps-calculator",
+      "/tools/material-calculator",
+    ].flatMap((path) =>
+      localizedEntries(path, { changeFrequency: "weekly", priority: 0.5 })
+    ),
   ];
 
   const characterRoutes = characters.flatMap((c) =>

@@ -18,7 +18,6 @@ export default async function AnimalsPage({ params }: AnimalsPageProps) {
 
   const animals = await prisma.animal.findMany({
     orderBy: [{ categoryType: "asc" }, { sortOrder: "asc" }],
-    take: 200,
   });
 
   const grouped = new Map<string, typeof animals>();

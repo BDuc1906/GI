@@ -7,11 +7,6 @@ interface OutfitsPageProps {
 
 export const dynamic = "force-dynamic";
 
-/**
- * BỔ SUNG (2026-09-22): model `Windglider` đã có DB + dữ liệu nhưng CHƯA
- * TỪNG có trang hiển thị. Xem comment ở crafts/page.tsx — cùng lý do,
- * cùng pattern.
- */
 export default async function OutfitsPage({ params }: OutfitsPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);

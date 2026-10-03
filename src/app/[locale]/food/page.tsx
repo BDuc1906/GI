@@ -19,7 +19,6 @@ export default async function FoodPage({ params }: FoodPageProps) {
 
   const foods = await prisma.food.findMany({
     orderBy: { rarity: "desc" },
-    take: 100,
   });
 
   return (
