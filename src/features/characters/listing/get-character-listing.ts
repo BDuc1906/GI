@@ -4,10 +4,12 @@ import { withDbRetry } from "@/lib/db/db-retry";
 import { buildCharacterWhere } from "./filters";
 import { groupCharactersForListing, type CharacterGrouping } from "./grouping";
 import type { CharacterListingFilters } from "./query-params";
+import { PLAYABLE_CHARACTER_FILTER } from "@/lib/game/character-catalog";
 
 const getVisionRows = unstable_cache(
   async () => {
     const rows = await prisma.character.findMany({
+      where: PLAYABLE_CHARACTER_FILTER,
       distinct: ["vision"],
       select: { vision: true, elementIcon: true },
     });
@@ -21,7 +23,11 @@ const getVisionRows = unstable_cache(
 
 const getRegionRows = unstable_cache(
   async () => {
-    const rows = await prisma.character.findMany({ distinct: ["region"], select: { region: true } });
+    const rows = await prisma.character.findMany({
+      where: PLAYABLE_CHARACTER_FILTER,
+      distinct: ["region"],
+      select: { region: true },
+    });
     return rows.map((r) => r.region).filter((r): r is string => Boolean(r));
   },
   ["character-region-rows"],
@@ -43,7 +49,7 @@ export interface CharacterListing extends CharacterGrouping {
  * "đưa filter vào, nhận data đã sẵn sàng để render ra".
  */
 export async function getCharacterListing(filters: CharacterListingFilters): Promise<CharacterListing> {
-  const where = buildCharacterWhere(filters);
+  const where = { ...PLAYABLE_CHARACTER_FILTER, ...buildCharacterWhere(filters) };
 
   // BUG ĐÃ SỬA: query chính của trang (chạy trên MỌI request, không có
   // cache) trước đây không có retry — cùng lớp lỗi PrismaClientKnownRequestError

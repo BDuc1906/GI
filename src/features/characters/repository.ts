@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/db/prisma";
+import { PLAYABLE_CHARACTER_FILTER } from "@/lib/game/character-catalog";
 
 export const charactersRepository = {
   async list(params: {
@@ -9,21 +10,25 @@ export const charactersRepository = {
     take: number;
     select: Prisma.CharacterSelect;
   }) {
+    const where: Prisma.CharacterWhereInput = {
+      AND: [params.where, PLAYABLE_CHARACTER_FILTER],
+    };
     const [items, total] = await Promise.all([
       prisma.character.findMany({
-        where: params.where,
+        where,
         orderBy: params.orderBy,
         skip: params.skip,
         take: params.take,
         select: params.select,
       }),
-      prisma.character.count({ where: params.where }),
+      prisma.character.count({ where }),
     ]);
 
     return { items, total };
   },
 
   async getById(id: string) {
+    if (id === "manekin" || id === "manekina") return null;
     return prisma.character.findUnique({ where: { id } });
   },
 };
