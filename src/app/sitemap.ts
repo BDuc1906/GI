@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db/prisma";
 import { withDbRetry } from "@/lib/db/db-retry";
 import { routing } from "@/i18n/routing";
 import { PLAYABLE_CHARACTER_FILTER } from "@/lib/game/character-catalog";
+import { getVersionIndex } from "@/lib/game/versions";
 import { getSiteUrl } from "@/lib/seo/metadata";
 
 const SITE_URL = getSiteUrl();
@@ -44,7 +45,7 @@ function localizedEntries(
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [characters, weapons, artifacts, domains] = await withDbRetry(() =>
+  const [characters, weapons, artifacts, domains, materials, enemies] = await withDbRetry(() =>
     Promise.all([
       prisma.character.findMany({
         where: PLAYABLE_CHARACTER_FILTER,
@@ -53,6 +54,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       prisma.weapon.findMany({ select: { id: true, updatedAt: true } }),
       prisma.artifactSet.findMany({ select: { id: true, updatedAt: true } }),
       prisma.domain.findMany({ select: { id: true, updatedAt: true } }),
+      prisma.material.findMany({ select: { id: true, updatedAt: true } }),
+      prisma.enemy.findMany({ select: { id: true, updatedAt: true } }),
     ])
   );
 
@@ -67,6 +70,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       "/achievements/hidden",
       "/adventure-ranks",
       "/animals",
+      "/calendar",
+      "/versions",
+      "/birthdays",
       "/crafts",
       "/elements",
       "/enemies",
@@ -84,6 +90,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       localizedEntries(path, { changeFrequency: "weekly", priority: 0.5 })
     ),
   ];
+
+  const enemyRoutes = enemies.flatMap((e) =>
+    localizedEntries(`/enemies/${e.id}`, {
+      lastModified: e.updatedAt,
+      changeFrequency: "monthly",
+      priority: 0.4,
+    })
+  );
+
+  const versionIndex = await getVersionIndex();
+  const versionRoutes = versionIndex.versions.flatMap((v) =>
+    localizedEntries(`/versions/${v}`, { changeFrequency: "monthly", priority: 0.4 })
+  );
+
+  const materialRoutes = materials.flatMap((m) =>
+    localizedEntries(`/materials/${m.id}`, {
+      lastModified: m.updatedAt,
+      changeFrequency: "monthly",
+      priority: 0.4,
+    })
+  );
 
   const characterRoutes = characters.flatMap((c) =>
     localizedEntries(`/characters/${c.id}`, {
@@ -117,5 +144,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
   );
 
-  return [...staticRoutes, ...characterRoutes, ...weaponRoutes, ...artifactRoutes, ...domainRoutes];
+  return [...staticRoutes, ...characterRoutes, ...weaponRoutes, ...artifactRoutes, ...domainRoutes, ...materialRoutes, ...versionRoutes, ...enemyRoutes];
 }

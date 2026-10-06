@@ -12,34 +12,64 @@
  * ========================================================================== */
 
 :root {
-  /* === Color System - Minimalist Palette === */
-  --bg-primary: #0a0a0c;
-  --bg-secondary: #111114;
-  --bg-card: #151519;
-  --bg-elevated: #1c1c21;
-  --bg-input: #18181c;
+  /* === Color System — Mint (#d2f5f0) + White ===
+ * Màu thương hiệu: mint #d2f5f0 (hue ~171°) và trắng.
+ * Các bậc đậm hơn (mint-600 → mint-900) CHỈ dùng cho chữ/viền/icon
+ * để đạt độ tương phản đọc được trên nền trắng và nền mint.
+ * Light là mặc định; Dark là biến thể teal đậm cùng tông, lấy mint làm điểm nhấn. */
+:root {
+  --mint-50: #f1fcfa;
+  --mint-100: #e6faf7;
+  --mint-200: #d2f5f0; /* màu gốc người dùng chọn */
+  --mint-300: #b3ebe3;
+  --mint-400: #86dcd0;
+  --mint-500: #4fc3b4;
+  --mint-600: #2a9d8f;
+  --mint-700: #1f7a70;
+  --mint-800: #175b54;
+  --mint-900: #0f3d38;
 
-  --text-primary: #f5f2ec;
-  --text-secondary: #9e9b95;
-  --text-muted: #6a6763;
-  --text-inverted: #0a0a0c;
+  /* Nền */
+  --bg-primary: #ffffff;
+  --bg-secondary: var(--mint-50);
+  --bg-card: #ffffff;
+  --bg-elevated: var(--mint-200);
+  --bg-input: var(--mint-50);
 
-  --border-color: #222227;
-  --border-strong: #33333a;
+  /* Chữ */
+  --text-primary: #0f2f2b;
+  --text-secondary: #3d6660;
+  --text-muted: #557d76;
+  --text-inverted: #ffffff;
 
-  /* Element Colors - Subtle, game-accurate */
-  --el-pyro: #ff6b3d;
-  --el-hydro: #32b4e6;
-  --el-anemo: #5cd4bc;
-  --el-electro: #b075dd;
-  --el-dendro: #9dcf46;
-  --el-cryo: #8ce4ec;
-  --el-geo: #deb348;
+  /* Viền */
+  --border-color: #c3ebe5;
+  --border-strong: #8fd6cb;
 
-  /* Rarity Colors - Minimalist */
-  --rarity-5: #eac557;
-  --rarity-4: #a788d4;
-  --rarity-3: #7aa5c6;
+  /* Điểm nhấn tương tác (link hover, focus, nút, token "gold" cũ) */
+  --accent-500: #218075;
+  --accent-bright: var(--mint-800);
+  --accent-soft: var(--mint-200);
+  --gold-bright: var(--accent-bright);
+
+  /* Màu trạng thái (đạt AA trên nền trắng và nền mint) */
+  --success: #1f7a4d;
+  --danger: #c0392b;
+  --warning: #a35f00;
+
+  /* Element Colors - giữ nguyên để đúng màu game */
+  --el-pyro: #d94d1f;
+  --el-hydro: #1684ac;
+  --el-anemo: #21937e;
+  --el-electro: #764fb0;
+  --el-dendro: #6b9220;
+  --el-cryo: #2898a8;
+  --el-geo: #9c7120;
+
+  /* Rarity - giữ nguyên ngữ nghĩa vàng/tím/xanh của game */
+  --rarity-5: #c7881d;
+  --rarity-4: #885eb8;
+  --rarity-3: #3d7ea5;
 
   /* Typography - System fonts, excellent readability */
   --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -59,10 +89,10 @@
   --radius-lg: 16px;
   --radius-xl: 24px;
 
-  /* Shadows - Subtle, layered */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  /* Shadows - nhẹ, ánh teal thay vì đen thuần */
+  --shadow-sm: 0 1px 2px rgba(15, 61, 56, 0.06);
+  --shadow-md: 0 4px 12px rgba(15, 61, 56, 0.10);
+  --shadow-lg: 0 8px 24px rgba(15, 61, 56, 0.14);
 
   /* Transitions - Optimized */
   --transition-fast: 150ms ease-out;
@@ -70,36 +100,46 @@
   --transition-slow: 350ms ease-out;
 }
 
-[data-theme="light"] {
-  --bg-primary: #faf8f2;
-  --bg-secondary: #fffef9;
-  --bg-card: #fffef9;
-  --bg-elevated: #f4efe4;
-  --bg-input: #f3ede3;
+/* Dark: teal rất đậm cùng hue với mint, mint làm màu nhấn */
+[data-theme="dark"] {
+  --bg-primary: #0a1c1a;
+  --bg-secondary: #0e2623;
+  --bg-card: #112d2a;
+  --bg-elevated: #173b37;
+  --bg-input: #0f2926;
 
-  --text-primary: #161410;
-  --text-secondary: #524f3d;
-  --text-muted: #837f6d;
-  --text-inverted: #faf8f2;
+  --text-primary: #eafaf7;
+  --text-secondary: #a3c9c3;
+  --text-muted: #6f9a93;
+  --text-inverted: #0a1c1a;
 
-  --border-color: #e1d8c3;
-  --border-strong: #c9bfa3;
+  --border-color: #1f4742;
+  --border-strong: #2f635c;
 
-  --el-pyro: #d94d1f;
-  --el-hydro: #1684ac;
-  --el-anemo: #21937e;
-  --el-electro: #764fb0;
-  --el-dendro: #6b9220;
-  --el-cryo: #2898a8;
-  --el-geo: #9c7120;
+  --accent-500: var(--mint-400);
+  --accent-bright: var(--mint-200);
+  --accent-soft: #173b37;
 
-  --rarity-5: #c7881d;
-  --rarity-4: #885eb8;
-  --rarity-3: #3d7ea5;
+  --success: #5fd39a;
+  --danger: #ff8a80;
+  --warning: #f0c25a;
+  --gold-bright: var(--accent-bright);
 
-  --shadow-sm: 0 1px 2px rgba(28, 20, 8, 0.06);
-  --shadow-md: 0 4px 12px rgba(28, 20, 8, 0.12);
-  --shadow-lg: 0 8px 24px rgba(28, 20, 8, 0.18);
+  --el-pyro: #ff6b3d;
+  --el-hydro: #32b4e6;
+  --el-anemo: #5cd4bc;
+  --el-electro: #b075dd;
+  --el-dendro: #9dcf46;
+  --el-cryo: #8ce4ec;
+  --el-geo: #deb348;
+
+  --rarity-5: #eac557;
+  --rarity-4: #a788d4;
+  --rarity-3: #7aa5c6;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
 @theme inline {
@@ -118,8 +158,19 @@
   --color-rarity-3: var(--rarity-3);
   /* Token "gold" đã được dùng ~120 chỗ (text-gold-bright, bg-gold/10, border-gold/50...)
    * nhưng trước đây chưa được định nghĩa ở đâu → các class đó không có tác dụng. */
-  --color-gold: var(--rarity-5);
-  --color-gold-bright: var(--rarity-5);
+  /* Các token chưa từng được định nghĩa nhưng đã dùng trong code
+   * (text-accent-bright, bg-accent-500, var(--accent-500)...) */
+  --color-accent-500: var(--accent-500);
+  --color-accent-bright: var(--accent-bright);
+  --color-accent-soft: var(--accent-soft);
+  --color-mint: var(--mint-200);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --color-warning: var(--warning);
+  /* "gold" giờ là màu nhấn mint/teal thay vì vàng rarity-5.
+   * Màu vàng 5★ vẫn nằm ở --rarity-5 / --color-rarity-5. */
+  --color-gold: var(--accent-500);
+  --color-gold-bright: var(--accent-bright);
 }
 
 /* NOTE: Đã xoá reset `* { margin: 0; padding: 0; box-sizing: border-box }`.
@@ -230,7 +281,7 @@ body {
   }
 
   a:hover {
-    color: var(--rarity-5);
+    color: var(--accent-bright);
   }
 }
 
@@ -249,8 +300,8 @@ body {
 
   input:focus, button:focus, select:focus {
     outline: none;
-    border-color: var(--rarity-5);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--rarity-5) 20%, transparent);
+    border-color: var(--accent-500);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-500) 25%, transparent);
   }
 
   input::placeholder {
@@ -260,17 +311,17 @@ body {
 
 /* === Buttons - Minimalist === */
 .btn-primary {
-  background: var(--rarity-5);
-  color: var(--text-inverted);
+  background: var(--mint-200);
+  color: var(--mint-900);
   font-weight: 600;
-  border: none;
+  border: 1px solid var(--mint-400);
   padding: var(--space-sm) var(--space-lg);
   border-radius: var(--radius-sm);
   transition: background var(--transition-fast), transform var(--transition-fast);
 }
 
 .btn-primary:hover {
-  background: color-mix(in srgb, var(--rarity-5) 90%, #000);
+  background: var(--mint-300);
   transform: translateY(-1px);
 }
 
@@ -295,7 +346,7 @@ body {
 
 /* === Accessibility - Focus Management === */
 :focus-visible {
-  outline: 2px solid var(--rarity-5);
+  outline: 2px solid var(--accent-500);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
@@ -339,7 +390,7 @@ body {
 
 /* === Element-specific styles for compatibility === */
 .entity-elemental {
-  --el: var(--rarity-5);
+  --el: var(--accent-500);
   transition: transform var(--transition-fast), box-shadow var(--transition-base), border-color var(--transition-base);
 }
 
@@ -373,7 +424,7 @@ body {
 }
 
 .hover-glow:hover {
-  box-shadow: 0 0 20px color-mix(in srgb, var(--rarity-5) 30%, transparent);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--accent-500) 30%, transparent);
 }
 
 /* === Spatial Motion - Staggered Animations === */
@@ -410,8 +461,8 @@ html {
 /* === Accessibility - High Contrast Mode === */
 @media (prefers-contrast: more) {
   :root {
-    --border-color: #444;
-    --border-strong: #666;
+    --border-color: #4f8c83;
+    --border-strong: #2f6b63;
   }
 }
 

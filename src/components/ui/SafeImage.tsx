@@ -15,12 +15,22 @@ import Image, { type ImageProps } from "next/image";
  * Khi sau này có domain riêng và chuyển R2_PUBLIC_URL sang Custom Domain,
  * CHỈ cần đổi biến env NEXT_PUBLIC_R2_PUBLIC_URL — không cần sửa file này.
  */
-function toProxiedUrl(url: string): string {
-  const r2PublicUrl = process.env.NEXT_PUBLIC_R2_PUBLIC_URL;
-  if (!r2PublicUrl || !url.startsWith(r2PublicUrl)) return url;
+export function toProxiedUrl(url: string): string {
+  // 1) URL R2 khớp biến env công khai (custom domain hoặc r2.dev hiện tại).
+  const r2PublicUrl = process.env.NEXT_PUBLIC_R2_PUBLIC_URL?.replace(/\/+$/, "");
+  if (r2PublicUrl && url.startsWith(`${r2PublicUrl}/`)) {
+    const key = url.slice(r2PublicUrl.length).replace(/^\/+/, "");
+    return `/api/images/${key}`;
+  }
 
-  const key = url.slice(r2PublicUrl.length).replace(/^\/+/, "");
-  return `/api/images/${key}`;
+  // 2) SỬA LỖI THIẾU ẢNH: nếu NEXT_PUBLIC_R2_PUBLIC_URL chưa set / lệch với
+  //    URL đã lưu trong DB, URL r2.dev vẫn bị đưa thẳng vào next/image và bị
+  //    chặn bởi remotePatterns/CSP => ảnh vỡ hàng loạt. Mọi URL *.r2.dev
+  //    luôn đi qua proxy cùng-origin, không phụ thuộc cấu hình env.
+  const r2Dev = /^https:\/\/[a-z0-9-]+\.r2\.dev\/(.+)$/i.exec(url);
+  if (r2Dev) return `/api/images/${r2Dev[1]}`;
+
+  return url;
 }
 
 interface SafeImageProps extends Omit<ImageProps, "src"> {
@@ -120,7 +130,20 @@ export function SafeImage({
           "w-full h-full flex items-center justify-center text-text-muted text-[10px] bg-bg-secondary/30"
         }
       >
-        —
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          className="w-1/3 max-w-8 min-w-4 opacity-50"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <rect x="3" y="3" width="18" height="18" rx="3" />
+          <circle cx="8.5" cy="9" r="1.5" />
+          <path d="m21 16-5-5-9 9" />
+        </svg>
       </div>
     );
   }

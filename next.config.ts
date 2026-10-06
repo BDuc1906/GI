@@ -1,4 +1,3 @@
-
 import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs";
 import createNextIntlPlugin from "next-intl/plugin";
@@ -48,6 +47,9 @@ const HOTLINK_REMOTE_PATTERNS: RemotePattern[] = [
   // Genshin-db images (genshin.jmp.blue)
   { protocol: "https", hostname: "genshin.jmp.blue" },
   { protocol: "https", hostname: "api.genshin.dev" },
+  // Mọi bucket R2 public dạng pub-xxxx.r2.dev. Không phụ thuộc R2_PUBLIC_URL
+  // có được set lúc build hay không (thiếu => ảnh R2 bị next/image + CSP chặn).
+  { protocol: "https", hostname: "**.r2.dev" },
 ];
 
 /**
@@ -63,7 +65,8 @@ const PRIVATE_R2_ENDPOINT_PATTERN = /^[a-f0-9]{32}\.r2\.cloudflarestorage\.com$/
 
 function resolveRemotePatterns(): RemotePattern[] {
   const patterns = [...HOTLINK_REMOTE_PATTERNS];
-  const r2PublicUrl = process.env.R2_PUBLIC_URL;
+  const r2PublicUrl =
+    process.env.R2_PUBLIC_URL || process.env.NEXT_PUBLIC_R2_PUBLIC_URL;
   if (r2PublicUrl) {
     try {
       const parsed = new URL(r2PublicUrl);
@@ -103,7 +106,10 @@ function resolveRemotePatterns(): RemotePattern[] {
 const isDev = process.env.NODE_ENV !== "production";
 
 function contentSecurityPolicy(): string {
-  const imageHosts = resolveRemotePatterns().map((p) => `${p.protocol}://${p.hostname}`);
+  // CSP dùng "*." cho wildcard, còn remotePatterns của Next dùng "**.".
+  const imageHosts = resolveRemotePatterns().map(
+    (p) => `${p.protocol}://${p.hostname.replace(/^\*\*\./, "*.")}`
+  );
 
   const directives: Record<string, string[]> = {
     "default-src": ["'self'"],

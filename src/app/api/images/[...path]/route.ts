@@ -11,7 +11,8 @@ export async function GET(
   const { path } = await params;
   const key = path.join("/");
 
-  const r2PublicUrl = process.env.R2_PUBLIC_URL;
+  const r2PublicUrl =
+    process.env.R2_PUBLIC_URL || process.env.NEXT_PUBLIC_R2_PUBLIC_URL;
   if (!r2PublicUrl) {
     return NextResponse.json(
       { error: "R2_PUBLIC_URL chưa được cấu hình" },
@@ -21,11 +22,17 @@ export async function GET(
 
   const upstreamUrl = `${r2PublicUrl.replace(/\/+$/, "")}/${key}`;
 
-  const upstream = await fetch(upstreamUrl, {
-    // Cache riêng của Next.js data cache, cộng thêm header response ở
-    // dưới để browser/CDN Vercel cũng cache theo.
-    next: { revalidate: 31536000 },
-  });
+  let upstream: Response;
+  try {
+    upstream = await fetch(upstreamUrl, {
+      // Cache riêng của Next.js data cache, cộng thêm header response ở
+      // dưới để browser/CDN Vercel cũng cache theo.
+      next: { revalidate: 31536000 },
+    });
+  } catch {
+    // Lỗi mạng tới R2: trả 502 gọn thay vì để route ném exception (500).
+    return NextResponse.json({ error: "Không kết nối được R2", key }, { status: 502 });
+  }
 
   if (!upstream.ok) {
     return NextResponse.json(
@@ -34,7 +41,22 @@ export async function GET(
     );
   }
 
-  const contentType = upstream.headers.get("content-type") ?? "image/png";
+  // SVG (icon nguyên tố) thường được R2 trả về octet-stream => trình duyệt
+  // không vẽ được. Suy ra content-type từ đuôi file khi R2 không đặt đúng.
+  const ext = key.split(".").pop()?.toLowerCase();
+  const byExt: Record<string, string> = {
+    svg: "image/svg+xml",
+    png: "image/png",
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
+    webp: "image/webp",
+    gif: "image/gif",
+  };
+  const upstreamType = upstream.headers.get("content-type");
+  const contentType =
+    !upstreamType || upstreamType.startsWith("application/octet-stream")
+      ? (ext && byExt[ext]) || "image/png"
+      : upstreamType;
   const body = await upstream.arrayBuffer();
 
   return new NextResponse(body, {

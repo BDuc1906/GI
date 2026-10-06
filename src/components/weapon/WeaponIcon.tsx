@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -49,6 +48,17 @@ const WEAPON_TYPE_ICON_URLS: Record<string, string> = {
   Catalyst: "https://upload-os-bbs.mihoyo.com/game_record/genshin/equip/UI_EquipIcon_Catalyst_Apprentice.png",
 };
 
+// Ảnh R2 đã được xác minh truy cập công khai (HTTP 200) trong báo cáo
+// scripts/data/r2-check-report-*.json. Đi qua proxy /api/images nên không phụ
+// thuộc CDN mihoyo (hay chết link) — mihoyo chỉ còn là phương án dự phòng.
+const WEAPON_TYPE_R2_URLS: Record<string, string> = {
+  Sword: "/api/images/weapons/dull-blade/icon.png",
+  Claymore: "/api/images/weapons/waster-greatsword/icon.png",
+  Polearm: "/api/images/weapons/beginner-s-protector/icon.png",
+  Bow: "/api/images/weapons/hunter-s-bow/icon.png",
+  Catalyst: "/api/images/weapons/apprentice-s-notes/icon.png",
+};
+
 export function WeaponIcon({
   type,
   size = 16,
@@ -58,11 +68,14 @@ export function WeaponIcon({
   size?: number;
   className?: string;
 }) {
-  const [broken, setBroken] = useState(false);
+  // 0 = R2 (proxy) -> 1 = mihoyo -> 2 = chữ cái đầu
+  const [stage, setStage] = useState(0);
   const normalized = type.trim();
-  const url = WEAPON_TYPE_ICON_URLS[normalized];
+  const r2Url = WEAPON_TYPE_R2_URLS[normalized];
+  const mihoyoUrl = WEAPON_TYPE_ICON_URLS[normalized];
+  const url = stage === 0 ? r2Url ?? mihoyoUrl : stage === 1 ? mihoyoUrl : undefined;
 
-  if (!url || broken) {
+  if (!url) {
     // Loại lạ hoặc ảnh lỗi thật sự (mất mạng, CDN down...) -> fallback chữ
     // cái đầu, không bịa icon giả để tránh gây hiểu nhầm là icon thật.
     return (
@@ -84,7 +97,7 @@ export function WeaponIcon({
       height={size}
       loading="lazy"
       className={`inline-block shrink-0 object-contain ${className}`}
-      onError={() => setBroken(true)}
+      onError={() => setStage((s) => (s === 0 && r2Url && mihoyoUrl ? 1 : 2))}
     />
   );
 }

@@ -6,7 +6,7 @@
 
 import { prisma } from '@/lib/db/prisma';
 
-// Map category sang icon từ database (ưu tiên iconUrlOriginal, fallback iconUrl)
+// Map category sang icon từ database (ưu tiên iconUrl đã mirror lên R2, fallback iconUrlOriginal hotlink)
 export async function getGameIcon(category: string): Promise<string> {
   try {
     switch (category) {
@@ -22,7 +22,7 @@ export async function getGameIcon(category: string): Promise<string> {
           },
           select: { iconUrlOriginal: true, iconUrl: true }
         });
-        return character?.iconUrlOriginal || character?.iconUrl || '';
+        return character?.iconUrl || character?.iconUrlOriginal || '';
       
       case 'weapons':
       case 'vũ khí':
@@ -36,7 +36,7 @@ export async function getGameIcon(category: string): Promise<string> {
           },
           select: { iconUrlOriginal: true, iconUrl: true }
         });
-        return weapon?.iconUrlOriginal || weapon?.iconUrl || '';
+        return weapon?.iconUrl || weapon?.iconUrlOriginal || '';
       
       case 'artifacts':
       case 'thánh di vật':
@@ -50,7 +50,7 @@ export async function getGameIcon(category: string): Promise<string> {
           },
           select: { iconUrlOriginal: true, iconUrl: true }
         });
-        return artifact?.iconUrlOriginal || artifact?.iconUrl || '';
+        return artifact?.iconUrl || artifact?.iconUrlOriginal || '';
       
       case 'materials':
       case 'nguyên liệu':
@@ -64,7 +64,7 @@ export async function getGameIcon(category: string): Promise<string> {
           },
           select: { iconUrlOriginal: true, iconUrl: true }
         });
-        return material?.iconUrlOriginal || material?.iconUrl || '';
+        return material?.iconUrl || material?.iconUrlOriginal || '';
       
       case 'domains':
       case 'bí cảnh':
@@ -102,7 +102,7 @@ export async function getToolIcon(tool: string): Promise<string> {
           },
           select: { iconUrlOriginal: true, iconUrl: true }
         });
-        return resin?.iconUrlOriginal || resin?.iconUrl || '';
+        return resin?.iconUrl || resin?.iconUrlOriginal || '';
       
       case 'tierlist':
       case 'bảng xếp hạng':
@@ -117,7 +117,7 @@ export async function getToolIcon(tool: string): Promise<string> {
           },
           select: { iconUrlOriginal: true, iconUrl: true }
         });
-        return primogem?.iconUrlOriginal || primogem?.iconUrl || '';
+        return primogem?.iconUrl || primogem?.iconUrlOriginal || '';
       
       case 'calculator':
       case 'máy tính':
@@ -132,7 +132,7 @@ export async function getToolIcon(tool: string): Promise<string> {
           },
           select: { iconUrlOriginal: true, iconUrl: true }
         });
-        return mora?.iconUrlOriginal || mora?.iconUrl || '';
+        return mora?.iconUrl || mora?.iconUrlOriginal || '';
       
       case 'optimizer':
       case 'tối ưu':
@@ -146,7 +146,7 @@ export async function getToolIcon(tool: string): Promise<string> {
           },
           select: { iconUrlOriginal: true, iconUrl: true }
         });
-        return artifact?.iconUrlOriginal || artifact?.iconUrl || '';
+        return artifact?.iconUrl || artifact?.iconUrlOriginal || '';
       
       default:
         return '';
@@ -170,7 +170,7 @@ export async function getSpiralAbyssImage(): Promise<string> {
       },
       select: { iconUrlOriginal: true, iconUrl: true }
     });
-    return artifact?.iconUrlOriginal || artifact?.iconUrl || '';
+    return artifact?.iconUrl || artifact?.iconUrlOriginal || '';
   } catch (error) {
     console.error('Error getting Spiral Abyss image:', error);
     return '';

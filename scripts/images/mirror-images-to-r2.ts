@@ -132,7 +132,41 @@ async function fetchWithRetry(
 // <tên khác>, wiki, hoặc ảnh tự host), thêm 1 dòng vào đây theo đúng
 // filename đã in, rồi chạy lại script.
 const MANUAL_MIRROR_FALLBACKS_BY_FILENAME: Record<string, string> = {
-  // "UI_DungeonPic_NTDungeon_Cycle01": "https://example.com/anh-thay-the.png",
+  // Nguồn: github.com/PathOfGenshin/resources (UI Sprite trích từ game, đến bản
+  // ~4.7). Đã xác minh HTTP 200 + đúng PNG 512x256 cho từng file dưới đây.
+  // Bản mới hơn (Fontaine FD*, Natlan NT*, Nod-Krai NK*, Snezhnaya ZD*,
+  // MDDungeon_Cycle05) CHƯA có nguồn đã xác minh — xem mục "còn thiếu" bên dưới.
+  "UI_DungeonPic_Cubic_Cold_1": "https://raw.githubusercontent.com/PathOfGenshin/resources/main/resources/gi/Sprite/UI_DungeonPic_Cubic_Cold_1.png",
+  "UI_DungeonPic_Cubic_Normal": "https://raw.githubusercontent.com/PathOfGenshin/resources/main/resources/gi/Sprite/UI_DungeonPic_Cubic_Normal.png",
+  "UI_DungeonPic_Cubic_Normal_1": "https://raw.githubusercontent.com/PathOfGenshin/resources/main/resources/gi/Sprite/UI_DungeonPic_Cubic_Normal_1.png",
+  "UI_DungeonPic_Cubic_Normal_3": "https://raw.githubusercontent.com/PathOfGenshin/resources/main/resources/gi/Sprite/UI_DungeonPic_Cubic_Normal_3.png",
+  "UI_DungeonPic_Cubic_Normal_4": "https://raw.githubusercontent.com/PathOfGenshin/resources/main/resources/gi/Sprite/UI_DungeonPic_Cubic_Normal_4.png",
+  "UI_DungeonPic_CycleDungeonChasm": "https://raw.githubusercontent.com/PathOfGenshin/resources/main/resources/gi/Sprite/UI_DungeonPic_CycleDungeonChasm.png",
+  "UI_DungeonPic_Fire": "https://raw.githubusercontent.com/PathOfGenshin/resources/main/resources/gi/Sprite/UI_DungeonPic_Fire.png",
+  "UI_DungeonPic_Ice": "https://raw.githubusercontent.com/PathOfGenshin/resources/main/resources/gi/Sprite/UI_DungeonPic_Ice.png",
+  "UI_DungeonPic_Rock": "https://raw.githubusercontent.com/PathOfGenshin/resources/main/resources/gi/Sprite/UI_DungeonPic_Rock.png",
+  "UI_DungeonPic_Thunder": "https://raw.githubusercontent.com/PathOfGenshin/resources/main/resources/gi/Sprite/UI_DungeonPic_Thunder.png",
+  "UI_DungeonPic_ThunderCave_Dq": "https://raw.githubusercontent.com/PathOfGenshin/resources/main/resources/gi/Sprite/UI_DungeonPic_ThunderCave_Dq.png",
+  "UI_DungeonPic_Thunder_Dq": "https://raw.githubusercontent.com/PathOfGenshin/resources/main/resources/gi/Sprite/UI_DungeonPic_Thunder_Dq.png",
+  "UI_DungeonPic_Water": "https://raw.githubusercontent.com/PathOfGenshin/resources/main/resources/gi/Sprite/UI_DungeonPic_Water.png",
+  "UI_DungeonPic_XMCharacter01": "https://raw.githubusercontent.com/PathOfGenshin/resources/main/resources/gi/Sprite/UI_DungeonPic_XMCharacter01.png",
+  "UI_DungeonPic_XMRelic01": "https://raw.githubusercontent.com/PathOfGenshin/resources/main/resources/gi/Sprite/UI_DungeonPic_XMRelic01.png",
+  "UI_DungeonPic_XMRelic02": "https://raw.githubusercontent.com/PathOfGenshin/resources/main/resources/gi/Sprite/UI_DungeonPic_XMRelic02.png",
+  "UI_DungeonPic_XMWeapon01": "https://raw.githubusercontent.com/PathOfGenshin/resources/main/resources/gi/Sprite/UI_DungeonPic_XMWeapon01.png",
+  // CÒN THIẾU (chưa có nguồn xác minh, đừng đoán URL):
+  // "UI_DungeonPic_FDCharacter01": "https://...",
+  // "UI_DungeonPic_FDRelic01": "https://...",
+  // "UI_DungeonPic_FDWeapon01": "https://...",
+  // "UI_DungeonPic_MDDungeon_Cycle05": "https://...",
+  // "UI_DungeonPic_NKDungeon_Cycle01": "https://...",
+  // "UI_DungeonPic_NKDungeon_Cycle02": "https://...",
+  // "UI_DungeonPic_NKDungeon_Cycle03": "https://...",
+  // "UI_DungeonPic_NTCycle02": "https://...",
+  // "UI_DungeonPic_NTCycle03": "https://...",
+  // "UI_DungeonPic_NTDungeon_Cycle01": "https://...",
+  // "UI_DungeonPic_ZDCircle_01": "https://...",
+  // "UI_DungeonPic_ZDCircle_02": "https://...",
+  // "UI_DungeonPic_ZDCircle_03": "https://...",
 };
 
 /** @deprecated Giữ lại để không phá override cũ (nếu có) key theo id bản ghi — ưu tiên thấp hơn map theo filename. */

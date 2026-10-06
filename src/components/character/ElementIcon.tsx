@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { elementColorVar } from "@/lib/ui/theme";
+import { toProxiedUrl } from "@/components/ui/SafeImage";
 
 /**
  * Icon nguyên tố với animation và glow effects chuẩn game Genshin Impact
@@ -68,7 +69,7 @@ export function ElementIcon({
       
       {/* Main icon */}
       <Image
-        src={iconUrl}
+        src={toProxiedUrl(iconUrl)}
         alt={vision}
         width={size}
         height={size}

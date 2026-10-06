@@ -35,6 +35,9 @@ export const routing = defineRouting({
   // "as-needed" (locale mặc định ẩn tiền tố, dễ gây nhầm lẫn origin
   // content vs bản dịch khi submit hreflang cho Google Search Console).
   localePrefix: "always",
+  // Không tự động đổi ngôn ngữ theo Accept-Language của trình duyệt,
+  // đảm bảo khi người dùng vào web thì luôn mặc định là tiếng Anh (/en).
+  localeDetection: false,
 });
 
 export type AppLocale = (typeof routing.locales)[number];
