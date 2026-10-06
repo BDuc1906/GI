@@ -45,7 +45,7 @@ function localizedEntries(
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [characters, weapons, artifacts, domains, materials, enemies] = await withDbRetry(() =>
+  const [characters, weapons, artifacts, domains, materials, enemies, foods] = await withDbRetry(() =>
     Promise.all([
       prisma.character.findMany({
         where: PLAYABLE_CHARACTER_FILTER,
@@ -56,6 +56,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       prisma.domain.findMany({ select: { id: true, updatedAt: true } }),
       prisma.material.findMany({ select: { id: true, updatedAt: true } }),
       prisma.enemy.findMany({ select: { id: true, updatedAt: true } }),
+      prisma.food.findMany({ select: { id: true, updatedAt: true } }),
     ])
   );
 
@@ -94,6 +95,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const enemyRoutes = enemies.flatMap((e) =>
     localizedEntries(`/enemies/${e.id}`, {
       lastModified: e.updatedAt,
+      changeFrequency: "monthly",
+      priority: 0.4,
+    })
+  );
+
+  const foodRoutes = foods.flatMap((f) =>
+    localizedEntries(`/food/${f.id}`, {
+      lastModified: f.updatedAt,
       changeFrequency: "monthly",
       priority: 0.4,
     })
@@ -144,5 +153,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
   );
 
-  return [...staticRoutes, ...characterRoutes, ...weaponRoutes, ...artifactRoutes, ...domainRoutes, ...materialRoutes, ...versionRoutes, ...enemyRoutes];
+  return [...staticRoutes, ...characterRoutes, ...weaponRoutes, ...artifactRoutes, ...domainRoutes, ...materialRoutes, ...versionRoutes, ...enemyRoutes, ...foodRoutes];
 }

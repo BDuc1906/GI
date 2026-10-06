@@ -10,6 +10,8 @@ import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
 import { ENEMY_TYPE_LABEL, readEnemyRaw } from "@/lib/game/enemy-format";
+import { stars } from "@/lib/game/food-format";
+import { craftsInvolving, foodsUsingIngredient } from "@/lib/game/food-queries";
 
 export const dynamic = "force-dynamic";
 
@@ -79,7 +81,7 @@ export default async function MaterialDetailPage({ params }: PageProps) {
 
   // Dữ liệu tham chiếu nằm trong cột Json nên lọc ở tầng ứng dụng (≈ 70 bí cảnh,
   // ≈ 120 nhân vật, ≈ 250 vũ khí — nhỏ, và chỉ select cột cần thiết).
-  const [domainRows, characterRows, weaponRows, enemyRows] = await withDbRetry(() =>
+  const [domainRows, characterRows, weaponRows, enemyRows, foodRows, crafts] = await withDbRetry(() =>
     Promise.all([
       prisma.domain.findMany({
         select: {
@@ -122,8 +124,26 @@ export default async function MaterialDetailPage({ params }: PageProps) {
         select: { id: true, name: true, enemyType: true, raw: true },
         orderBy: { name: "asc" },
       }),
+      foodsUsingIngredient(material.name),
+      craftsInvolving(material.name),
     ])
   );
+
+  // Tra tên → Material cho các nguyên liệu xuất hiện trong công thức chế tạo.
+  const craftNames = Array.from(
+    new Set(
+      [...crafts.makes, ...crafts.uses].flatMap((c) => [c.name, ...c.recipe.map((r) => r.name)])
+    )
+  );
+  const craftMaterials = craftNames.length
+    ? await withDbRetry(() =>
+        prisma.material.findMany({
+          where: { name: { in: craftNames } },
+          select: { id: true, name: true, nameTranslations: true },
+        })
+      )
+    : [];
+  const craftMatByName = new Map(craftMaterials.map((m) => [m.name, m]));
 
   const domains = domainRows.filter((d) => usesMaterial([{ materials: d.materials as MaterialRef[] }], id));
   const characters = characterRows
@@ -146,7 +166,8 @@ export default async function MaterialDetailPage({ params }: PageProps) {
     { name, path: `/materials/${material.id}` },
   ];
 
-  const isEmpty = domains.length + enemies.length + characters.length + weapons.length === 0;
+  const isEmpty =
+    domains.length + enemies.length + characters.length + weapons.length + foodRows.length + crafts.makes.length + crafts.uses.length === 0;
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
@@ -217,6 +238,96 @@ export default async function MaterialDetailPage({ params }: PageProps) {
           <p className="text-xs text-text-muted mt-3">
             Xem ngày mở cụ thể ở <Link href="/calendar" className="underline hover:text-accent-bright">Lịch farm</Link>.
           </p>
+        </section>
+      )}
+
+      {crafts.makes.length > 0 && (
+        <section className="mb-10">
+          <h2 className="font-display text-xl font-bold mb-4 text-accent-bright border-b border-border pb-2">
+            Cách chế tạo
+          </h2>
+          <ul className="space-y-3">
+            {crafts.makes.map((c) => (
+              <li key={c.id} className="surface-card p-4">
+                <p className="text-sm text-text-secondary mb-2">
+                  Ra {c.resultCount ?? 1} cái
+                  {c.moraCost != null ? ` · ${c.moraCost.toLocaleString()} Mora` : ""}
+                  {c.unlockRank != null ? ` · Mở khoá ở cấp phiêu lưu ${c.unlockRank}` : ""}
+                </p>
+                <ul className="flex flex-wrap gap-2">
+                  {c.recipe.map((r) => {
+                    const m = craftMatByName.get(r.name);
+                    const label = m ? getLocalizedName(m, locale) : r.name;
+                    const chipCls =
+                      "inline-block px-3 py-1 rounded-full border border-border text-sm text-text-secondary";
+                    return (
+                      <li key={r.name}>
+                        {m ? (
+                          <Link href={`/materials/${m.id}`} className={`${chipCls} hover:border-accent-500 hover:text-accent-bright`}>
+                            {label}
+                            {typeof r.count === "number" ? ` × ${r.count}` : ""}
+                          </Link>
+                        ) : (
+                          <span className={chipCls}>
+                            {label}
+                            {typeof r.count === "number" ? ` × ${r.count}` : ""}
+                          </span>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {crafts.uses.length > 0 && (
+        <section className="mb-10">
+          <h2 className="font-display text-xl font-bold mb-4 text-accent-bright border-b border-border pb-2">
+            Dùng để chế tạo
+            <span className="ml-2 text-sm font-normal text-text-muted">({crafts.uses.length})</span>
+          </h2>
+          <ul className="flex flex-wrap gap-2">
+            {crafts.uses.map((c) => {
+              const m = craftMatByName.get(c.name);
+              const chipCls = "inline-block px-3 py-1 rounded-full border border-border text-sm text-text-secondary";
+              return (
+                <li key={c.id}>
+                  {m ? (
+                    <Link href={`/materials/${m.id}`} className={`${chipCls} hover:border-accent-500 hover:text-accent-bright`}>
+                      {getLocalizedName(m, locale)}
+                    </Link>
+                  ) : (
+                    <span className={chipCls}>{c.name}</span>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      )}
+
+      {foodRows.length > 0 && (
+        <section className="mb-10">
+          <h2 className="font-display text-xl font-bold mb-4 text-accent-bright border-b border-border pb-2">
+            Dùng để nấu
+            <span className="ml-2 text-sm font-normal text-text-muted">({foodRows.length})</span>
+          </h2>
+          <ul className="flex flex-wrap gap-2">
+            {foodRows.map((f) => (
+              <li key={f.id}>
+                <Link
+                  href={`/food/${f.id}`}
+                  className="inline-block px-3 py-1 rounded-full border border-border text-sm text-text-secondary hover:border-accent-500 hover:text-accent-bright"
+                >
+                  {f.name}
+                  {f.rarity ? ` ${stars(f.rarity)}` : ""}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </section>
       )}
 
