@@ -11,6 +11,9 @@ import {
   r2PublicUrl,
 } from "../lib/r2-client";
 import { setTimeout as sleep } from "node:timers/promises";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+import { GAME_IMAGE_R2_PREFIX } from "../../src/core/game/image-urls";
 import { notifyOps } from "../../src/lib/infra/notify";
 
 // ===== CẤU HÌNH =====
@@ -31,6 +34,13 @@ const DRY_RUN = process.argv.includes("--dry-run");
 // nghi ngờ có asset cụ thể cần refresh, hoặc định kỳ dài hơn (vd sau mỗi
 // bản lớn x.0).
 const FORCE_REMIRROR = process.argv.includes("--force");
+// --game-only: chỉ mirror nhóm ảnh trong src/data/images/*.json (Kẻ địch, Món ăn, Động vật...),
+//              bỏ qua bước nhân vật/vũ khí/nguyên liệu/... đọc từ DB.
+// --no-game  : ngược lại, bỏ qua nhóm ảnh JSON.
+// --retry-dead: thử lại các ảnh JSON từng bị đánh dấu "chết hẳn" (-1) ở lần chạy trước.
+const GAME_ONLY = process.argv.includes("--game-only");
+const NO_GAME = process.argv.includes("--no-game");
+const RETRY_DEAD = process.argv.includes("--retry-dead");
 
 const CONTENT_TYPE_TO_EXT: Record<string, string> = {
   "image/png": "png",
@@ -553,12 +563,13 @@ async function mirrorDomains(): Promise<void> {
  */
 function buildFailureListText(): string {
   const sorted = [...failedSourceUrlCount.entries()].sort((a, b) => b[1] - a[1]);
-  return sorted
-    .map(([sourceUrl, count]) => {
-      const filename = extractFilenameForReporting(sourceUrl);
-      return `- ${filename}  (${count} bản ghi)  <- ${sourceUrl}`;
-    })
-    .join("\n");
+  const MAX_LINES = 40; // lần chạy đầu có thể có hàng trăm asset chưa có nguồn — cắt gọn để thông báo không quá dài
+  const lines = sorted.slice(0, MAX_LINES).map(([sourceUrl, count]) => {
+    const filename = extractFilenameForReporting(sourceUrl);
+    return `- ${filename}  (${count} bản ghi)  <- ${sourceUrl}`;
+  });
+  if (sorted.length > MAX_LINES) lines.push(`… và ${sorted.length - MAX_LINES} asset khác`);
+  return lines.join("\n");
 }
 
 function printFailureSummary(): void {
@@ -576,6 +587,80 @@ function printFailureSummary(): void {
   );
 }
 
+// ---------- ẢNH NHÓM KẺ ĐỊCH / MÓN ĂN / ĐỘNG VẬT / ĐỊA LÝ / DANH THIẾP... ----------
+// Các nhóm này KHÔNG có cột ảnh trong DB; tên file ảnh nằm trong src/data/images/<loại>.json
+// dạng { "<id>": [tenFile, daCoTrenGitHub, trangThai?, duoiFile?] } (xem src/core/game/image-urls.ts).
+// Dùng lại mirrorUrl() ở trên nên được hưởng đủ: chuỗi nguồn dự phòng (enka -> mihoyo ->
+// ALT_ASSET_CDNS), cache lỗi theo từng lần chạy, --dry-run, --force.
+// Kết quả được ghi NGƯỢC vào đúng file JSON:  1 = đã lên R2 (site chỉ phục vụ từ R2),
+// -1 = mọi nguồn đều chết (site khỏi thử lại; dùng --retry-dead để thử lại).
+const GAME_IMAGE_ROLES = [
+  "enemies",
+  "foods",
+  "animals",
+  "geography",
+  "namecards",
+  "namecard-backgrounds",
+  "outfits",
+  "windgliders",
+  "achievement-groups",
+];
+const ENKA_UI_BASE = "https://enka.network/ui/";
+// Kho sprite game trích sẵn (dừng ở khoảng bản 4.7). Chỉ dùng cho tên file đã xác minh CÓ trong kho.
+const GITHUB_SPRITE_BASE =
+  "https://raw.githubusercontent.com/PathOfGenshin/resources/main/resources/gi/Sprite/";
+
+type GameImageEntry = [file: string, inGithub: number, state?: number, ext?: string];
+
+async function mirrorGameImages(): Promise<void> {
+  console.log("\n--- Ảnh Kẻ địch / Món ăn / Động vật / Địa lý / Danh thiếp / ... (src/data/images) ---");
+  const dir = join(process.cwd(), "src/data/images");
+
+  for (const role of GAME_IMAGE_ROLES) {
+    const path = join(dir, `${role}.json`);
+    if (!existsSync(path)) {
+      console.warn(`  (bỏ qua ${role}: không thấy ${path})`);
+      continue;
+    }
+    const map = JSON.parse(readFileSync(path, "utf8")) as Record<string, GameImageEntry>;
+
+    // nhiều id có thể dùng chung 1 file ảnh -> gom theo tên file, mỗi file chỉ xử lý 1 lần
+    const byFile = new Map<string, { inGithub: number; ids: string[] }>();
+    for (const [id, e] of Object.entries(map)) {
+      if (!FORCE_REMIRROR && e[2] === 1) continue;
+      if (!FORCE_REMIRROR && !RETRY_DEAD && e[2] === -1) continue;
+      const cur = byFile.get(e[0]) ?? { inGithub: e[1], ids: [] };
+      cur.ids.push(id);
+      byFile.set(e[0], cur);
+    }
+
+    let ok = 0;
+    let dead = 0;
+    for (const [file, info] of byFile) {
+      // Có trên GitHub (đã xác minh) -> lấy từ đó; không thì bắt đầu từ enka và để
+      // getFallbackUrls() thử tiếp các CDN dự phòng.
+      const sourceUrl = info.inGithub
+        ? `${GITHUB_SPRITE_BASE}${file}.png`
+        : `${ENKA_UI_BASE}${file}.png`;
+      const downloadedBefore = downloadedCount;
+      const publicUrl = await mirrorUrl(sourceUrl, `${GAME_IMAGE_R2_PREFIX}/${file}`, "game-image", file);
+      const ext = publicUrl ? (publicUrl.split(".").pop() ?? "png") : null;
+
+      for (const id of info.ids) {
+        const e = map[id];
+        map[id] = publicUrl ? [e[0], e[1], 1, ext as string] : [e[0], e[1], -1];
+      }
+      if (publicUrl) ok++;
+      else dead++;
+      if (downloadedCount !== downloadedBefore) await sleep(DELAY_BETWEEN_REQUESTS_MS);
+    }
+
+    if (!DRY_RUN && byFile.size > 0) writeFileSync(path, JSON.stringify(map));
+    console.log(`[${role}] ${byFile.size} file cần xử lý: mirror được ${ok}, chưa có nguồn nào ${dead}`);
+  }
+  if (!DRY_RUN) console.log("Nhớ commit các file src/data/images/*.json vừa được cập nhật.");
+}
+
 // ---------- MAIN ----------
 async function main(): Promise<void> {
   const pipeline = await startPipeline('mirror');
@@ -591,11 +676,14 @@ async function main(): Promise<void> {
   }
 
   try {
-    await mirrorCharacters();
-    await mirrorMaterials();
-    await mirrorWeapons();
-    await mirrorArtifactSets();
-    await mirrorDomains();
+    if (!GAME_ONLY) {
+      await mirrorCharacters();
+      await mirrorMaterials();
+      await mirrorWeapons();
+      await mirrorArtifactSets();
+      await mirrorDomains();
+    }
+    if (!NO_GAME) await mirrorGameImages();
 
     if (!DRY_RUN) {
       console.log(

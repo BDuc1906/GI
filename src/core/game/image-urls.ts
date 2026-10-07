@@ -1,31 +1,47 @@
 /**
- * src/lib/game/image-urls.ts
+ * src/core/game/image-urls.ts
  *
  * Ghép danh sách URL ảnh (theo thứ tự thử) cho 1 mục từ bảng ánh xạ trong
- * src/data/images/*.json. Mỗi file JSON có dạng { "<id>": ["TenFileAnh", daCoTrenGitHub] }.
+ * src/data/images/<loại>.json. Mỗi file JSON có dạng:
+ *
+ *   { "<id>": [ "TenFileAnh", daCoTrenGitHub, trangThai?, duoiFile? ] }
+ *
+ *   daCoTrenGitHub : 1 = tên file đã xác minh CÓ trong kho GitHub PathOfGenshin/resources
+ *   trangThai      : 1  = ĐÃ mirror lên R2  -> chỉ dùng R2, không hotlink nguồn ngoài
+ *                    -1 = đã thử mọi nguồn đều chết -> không thử nữa (hiện chữ cái đầu)
+ *                    (bỏ trống) = chưa mirror -> thử GitHub (nếu có) rồi enka
+ *   duoiFile       : "png" (mặc định) | "webp" — đuôi file của bản đã mirror
+ *
+ * trangThai/duoiFile do `npm run images:mirror-game` tự ghi lại; không sửa tay.
  *
  * Mỗi trang CHỈ import file JSON của loại dữ liệu nó dùng (không gộp chung) để bundle nhỏ.
- *
- * Thứ tự nguồn:
- *   1. GitHub PathOfGenshin/resources — chỉ khi tên file đã xác minh CÓ trong kho
- *      (kho dừng ở khoảng bản 4.7 nên chỉ phủ ~50% nội dung).
- *   2. enka.network/ui — nguồn gốc của dự án; không đảm bảo có mọi ảnh (xem ghi chú
- *      trong scripts/images/mirror-images-to-r2.ts).
- * Hết nguồn thì SafeImage hiện biểu tượng theo loại (EntityThumb), không bao giờ để trống.
- *
- * Khuyến nghị: mirror các ảnh này lên R2 bằng script mirror để khỏi hotlink GitHub/enka.
  */
 
-export type ImageEntry = readonly [file: string, inGithub: number];
+export type ImageEntry = readonly [
+  file: string,
+  inGithub: number,
+  state?: number,
+  ext?: string,
+];
 export type ImageMap = Record<string, ImageEntry | undefined>;
 
 const ENKA_BASE = "https://enka.network/ui/";
 const GITHUB_BASE =
   "https://raw.githubusercontent.com/PathOfGenshin/resources/main/resources/gi/Sprite/";
 
+/** Thư mục trên R2 chứa ảnh nhóm Kẻ địch/Món ăn/... (script mirror và site dùng chung hằng số này). */
+export const GAME_IMAGE_R2_PREFIX = "game-images";
+
+/** Khoá object R2 của ảnh đã mirror (tên file game là duy nhất nên không cần thêm thư mục theo loại). */
+export function gameImageR2Key(file: string, ext = "png"): string {
+  return `${GAME_IMAGE_R2_PREFIX}/${file}.${ext}`;
+}
+
 export function imageCandidates(entry: ImageEntry | undefined | null): string[] {
   if (!entry) return [];
-  const [file, inGithub] = entry;
+  const [file, inGithub, state, ext] = entry;
+  if (state === 1) return [`/api/images/${gameImageR2Key(file, ext ?? "png")}`];
+  if (state === -1) return [];
   const enka = `${ENKA_BASE}${file}.png`;
   return inGithub ? [`${GITHUB_BASE}${file}.png`, enka] : [enka];
 }
