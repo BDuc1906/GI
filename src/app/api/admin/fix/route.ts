@@ -1,11 +1,11 @@
-// src/app/api/admin/fix/route.ts
+﻿// src/app/api/admin/fix/route.ts
 /**
  * API Route: /api/admin/fix
  * Trigger auto-fix thủ công - Yêu cầu quyền admin (Authorization: Bearer <ADMIN_API_KEY>)
  */
 
 import { NextRequest } from "next/server";
-import { AutoFixEngine } from "@/lib/fix/AutoFixEngine";
+import { AutoFixEngine } from "@/agent/tools/AutoFixEngine";
 import { requireAdmin } from "@/agent/utils/auth";
 import { ok, fail } from "@/lib/api/response";
 import { EntityTypeSchema } from "@/agent/core/schemas";

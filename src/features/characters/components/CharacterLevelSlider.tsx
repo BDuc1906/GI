@@ -1,4 +1,4 @@
-
+﻿
 "use client";
 
 import { useMemo, useState } from "react";
@@ -7,8 +7,8 @@ import {
   formatNumber,
   formatSpecialized,
   type StatByLevelRow,
-} from "@/lib/game/character-stats-format";
-import { translateStatName } from "@/lib/game/stat-name-translations";
+} from "@/core/game/character-stats-format";
+import { translateStatName } from "@/core/game/stat-name-translations";
 
 interface Props {
   statsByLevel: StatByLevelRow[];

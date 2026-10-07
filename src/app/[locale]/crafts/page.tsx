@@ -1,4 +1,4 @@
-import { setRequestLocale } from "next-intl/server";
+﻿import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/db/prisma";
 import { withDbRetry } from "@/lib/db/db-retry";
@@ -7,7 +7,7 @@ import { EntityThumb } from "@/components/ui/EntityThumb";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/ui/pagination";
 import { createStaticPageMetadata } from "@/lib/seo/metadata";
-import { normalizeSearch } from "@/lib/game/enemy-format";
+import { normalizeSearch } from "@/core/game/enemy-format";
 
 export const dynamic = "force-dynamic";
 

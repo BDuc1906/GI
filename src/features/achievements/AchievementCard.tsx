@@ -1,5 +1,5 @@
-import { EntityThumb } from "@/components/ui/EntityThumb";
-import { formatReward, stagesOf } from "@/lib/game/achievement-format";
+﻿import { EntityThumb } from "@/components/ui/EntityThumb";
+import { formatReward, stagesOf } from "@/core/game/achievement-format";
 
 interface AchievementCardProps {
   name: string;

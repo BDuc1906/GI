@@ -1,9 +1,9 @@
-import type { NextRequest } from "next/server";
+﻿import type { NextRequest } from "next/server";
 import { ApiError, withErrorHandling } from "@/lib/api/errors";
 import { withRateLimit } from "@/lib/api/rate-limit";
 import { ok } from "@/lib/api/response";
 import { prisma } from "@/lib/db/prisma";
-import { DPSCalculator } from "@/lib/game/dps-calculator";
+import { DPSCalculator } from "@/core/game/dps-calculator";
 import { z } from "zod";
 
 export const revalidate = 0; // input động (build tự chọn), không cache theo query string

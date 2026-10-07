@@ -1,4 +1,4 @@
-// src/lib/data-sources/DataSourceManager.ts
+﻿// src/lib/data-sources/DataSourceManager.ts
 /**
  * DataSourceManager — điểm truy cập DUY NHẤT mà AI Agent dùng để đọc
  * dữ liệu, dù là local (Prisma, luôn có) hay live (nguồn ngoài, optional).
@@ -15,7 +15,7 @@
 
 import { prisma } from "@/lib/db/prisma";
 import type { EntityType, EntityRecordMap, LiveEntityData, AnyEntityRecord } from "@/agent/core/types";
-import { reactionsInvolving, ELEMENTAL_REACTIONS, type ElementalReaction } from "@/lib/game/element-reactions-data";
+import { reactionsInvolving, ELEMENTAL_REACTIONS, type ElementalReaction } from "@/core/game/element-reactions-data";
 import { JmpBlueProvider } from "./live/JmpBlueProvider";
 import { AmbrProvider } from "./live/AmbrProvider";
 

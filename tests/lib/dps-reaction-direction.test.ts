@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest";
-import { DPSCalculator } from "@/lib/game/dps-calculator";
+﻿import { describe, expect, it } from "vitest";
+import { DPSCalculator } from "@/core/game/dps-calculator";
 
 const calc = new DPSCalculator();
 

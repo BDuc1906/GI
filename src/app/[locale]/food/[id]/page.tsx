@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
@@ -10,16 +10,16 @@ import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
 import { EntityThumb } from "@/components/ui/EntityThumb";
-import { imageFor } from "@/lib/game/image-urls";
+import { imageFor } from "@/core/game/image-urls";
 import foodImages from "@/data/images/foods.json";
-import { paragraphs } from "@/lib/game/enemy-format";
+import { paragraphs } from "@/core/game/enemy-format";
 import {
   FOOD_FILTER_LABEL,
   FOOD_TYPE_LABEL,
   QUALITY_LABEL,
   readFoodRaw,
   stars,
-} from "@/lib/game/food-format";
+} from "@/core/game/food-format";
 
 export const dynamic = "force-dynamic";
 

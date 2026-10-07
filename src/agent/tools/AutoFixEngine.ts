@@ -1,4 +1,4 @@
-// src/lib/fix/AutoFixEngine.ts
+﻿// src/lib/fix/AutoFixEngine.ts
 /**
  * AutoFixEngine — quét dữ liệu theo rule, đối chiếu với live provider
  * (nếu có cấu hình), và tự sửa các field lệch mà rule cho phép.
@@ -16,7 +16,7 @@
 import { prisma } from "@/lib/db/prisma";
 import { DataSourceManager } from "@/lib/data-sources/DataSourceManager";
 import { DiffEngine } from "@/lib/sync/DiffEngine";
-import { createAuditLog } from "@/lib/agent/AuditLogger";
+import { createAuditLog } from "@/agent/audit/AuditLogger";
 import type { EntityType, EntityRecordMap } from "@/agent/core/types";
 import type { Prisma } from "@prisma/client";
 

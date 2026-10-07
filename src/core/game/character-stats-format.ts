@@ -1,4 +1,4 @@
-
+﻿
 /**
  * src/lib/character-stats-format.ts
  *
@@ -11,7 +11,7 @@
  * thiết vì Prisma chỉ chạy được ở Node/server.
  *
  * character-helpers.ts re-export lại từ đây để không phá bất kỳ import nào
- * đang dùng `from "@/lib/game/character-helpers"` ở phía server.
+ * đang dùng `from "@/core/game/character-helpers"` ở phía server.
  */
 
 export type StatByLevelRow = {

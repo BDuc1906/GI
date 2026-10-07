@@ -1,17 +1,17 @@
-
+﻿
 import { prisma } from "@/lib/db/prisma";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { elementColorVar } from "@/lib/ui/theme";
-import { ElementIcon } from "@/components/character/ElementIcon";
+import { ElementIcon } from "@/features/characters/components/ElementIcon";
 import { SafeImage } from "@/components/ui/SafeImage";
 import { RarityStars } from "@/components/ui/RarityStars";
 import { ElementalFrame } from "@/components/ui/ElementalFrame";
-import { CharacterLevelSlider } from "@/components/character/CharacterLevelSlider";
-import { TalentMaterialSlider } from "@/components/character/TalentMaterialSlider";
+import { CharacterLevelSlider } from "@/features/characters/components/CharacterLevelSlider";
+import { TalentMaterialSlider } from "@/features/characters/components/TalentMaterialSlider";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
-import { GlossaryText } from "@/components/glossary/GlossaryText";
+import { GlossaryText } from "@/features/glossary/GlossaryText";
 import type { Metadata } from "next";
 import {
   getTalentLabel,
@@ -23,15 +23,15 @@ import {
   type Talent,
   type TalentMaterialLevel,
   type VoiceActors,
-} from "@/lib/game/character-helpers";
+} from "@/core/game/character-helpers";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
-import { getElementNameByKey } from "@/lib/game/element-reactions-data";
+import { getElementNameByKey } from "@/core/game/element-reactions-data";
 import {
   getLocalizedDescription,
   getLocalizedTalents,
   getLocalizedConstellations,
 } from "@/lib/i18n/localized-content";
-import { isNonPlayableCharacterId } from "@/lib/game/character-catalog";
+import { isNonPlayableCharacterId } from "@/core/game/character-catalog";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
 
 interface PageProps {

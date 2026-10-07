@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest";
-import { TeamBuilder, type Team, type Character } from "@/lib/game/team-builder";
+﻿import { describe, expect, it } from "vitest";
+import { TeamBuilder, type Team, type Character } from "@/core/game/team-builder";
 
 const builder = new TeamBuilder();
 

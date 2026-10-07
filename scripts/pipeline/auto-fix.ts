@@ -1,4 +1,4 @@
-/**
+﻿/**
  * scripts/pipeline/auto-fix.ts
  *
  * Quét TOÀN BỘ dữ liệu qua AutoFixEngine (rule-based, mỗi rule chỉ được
@@ -18,7 +18,7 @@
 import { assertEnv } from "../../src/lib/infra/env";
 assertEnv();
 
-import { AutoFixEngine } from "../../src/lib/fix/AutoFixEngine";
+import { AutoFixEngine } from "../../src/agent/tools/AutoFixEngine";
 import { notifyOps } from "../../src/lib/infra/notify";
 
 async function main() {

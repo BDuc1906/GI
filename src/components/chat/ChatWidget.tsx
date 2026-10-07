@@ -1,9 +1,9 @@
-// src/components/ChatWidget.tsx
+﻿// src/components/ChatWidget.tsx
 "use client";
 
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { useAgent } from "@/hooks/useAgent";
+import { useAgent } from "@/agent/utils/useAgent";
 
 const SESSION_STORAGE_KEY = "leibo_chat_session_id";
 

@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 
 import { useTranslations } from "next-intl";
-import { ElementIcon } from "@/components/character/ElementIcon";
-import { GlossaryText } from "@/components/glossary/GlossaryText";
+import { ElementIcon } from "@/features/characters/components/ElementIcon";
+import { GlossaryText } from "@/features/glossary/GlossaryText";
 import {
   ELEMENT_ICON_URLS,
   ELEMENTAL_REACTIONS,
@@ -11,7 +11,7 @@ import {
   getReactionName,
   getReactionDescription,
   type ReactionCategory,
-} from "@/lib/game/element-reactions-data";
+} from "@/core/game/element-reactions-data";
 
 interface ReactionCardProps {
   r: (typeof ELEMENTAL_REACTIONS)[number];

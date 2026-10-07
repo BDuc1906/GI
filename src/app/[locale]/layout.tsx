@@ -1,4 +1,4 @@
-
+﻿
 import "../globals.css";
 import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
@@ -9,8 +9,8 @@ import { notFound } from "next/navigation";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { SiteNav } from "@/components/layout/SiteNav";
 import { ChatWidget } from "@/components/chat/ChatWidget";
-import { CommandPalette } from "@/components/search/CommandPalette";
-import { GlossaryProvider } from "@/components/glossary/GlossaryProvider";
+import { CommandPalette } from "@/features/search/components/CommandPalette";
+import { GlossaryProvider } from "@/features/glossary/GlossaryProvider";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { inter } from "@/lib/ui/fonts";

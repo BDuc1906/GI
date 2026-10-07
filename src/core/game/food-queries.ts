@@ -1,11 +1,11 @@
-/**
+﻿/**
  * src/lib/game/food-queries.ts
  *
  * Truy vấn nối Nguyên liệu ↔ Món ăn / Công thức chế tạo. Dữ liệu tham chiếu
  * nằm trong cột Json (`raw.ingredients`, `raw.recipe`) nên lọc theo tên.
  */
 import { prisma } from "@/lib/db/prisma";
-import { readFoodRaw } from "@/lib/game/food-format";
+import { readFoodRaw } from "@/core/game/food-format";
 
 export interface FoodLite {
   id: string;

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useLocale, useTranslations } from "next-intl";
 import {
@@ -8,7 +8,7 @@ import {
   getReactionName,
   getFormulaTitle,
   getFormulaExplanation,
-} from "@/lib/game/element-reactions-data";
+} from "@/core/game/element-reactions-data";
 import { FORMULA_ORDER, FORMULA_TITLE_COLOR } from "./constants";
 
 /**

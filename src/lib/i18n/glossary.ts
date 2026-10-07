@@ -34,7 +34,7 @@ import {
   type ElementalReaction,
   type ReactionCategory,
   type DamageFormulaCategory,
-} from "../game/element-reactions-data";
+} from "../../core/game/element-reactions-data";
 
 // "lunar" và "stellar" dùng CHUNG 1 khối công thức "lunarStellar" trong
 // DAMAGE_FORMULAS — 3 category còn lại map thẳng 1-1.

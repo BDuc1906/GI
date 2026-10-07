@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
@@ -14,7 +14,7 @@ import {
   pickEntries,
   summarize,
   type VersionView,
-} from "@/lib/game/versions";
+} from "@/core/game/versions";
 
 export const dynamic = "force-dynamic";
 

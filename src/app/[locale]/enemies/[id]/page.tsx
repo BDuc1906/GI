@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
@@ -10,7 +10,7 @@ import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
 import { EntityThumb } from "@/components/ui/EntityThumb";
-import { imageFor } from "@/lib/game/image-urls";
+import { imageFor } from "@/core/game/image-urls";
 import enemyImages from "@/data/images/enemies.json";
 import {
   ENEMY_CATEGORY_LABEL,
@@ -18,7 +18,7 @@ import {
   formatAmount,
   paragraphs,
   readEnemyRaw,
-} from "@/lib/game/enemy-format";
+} from "@/core/game/enemy-format";
 
 export const dynamic = "force-dynamic";
 

@@ -1,12 +1,12 @@
-import { setRequestLocale } from "next-intl/server";
+﻿import { setRequestLocale } from "next-intl/server";
 import { prisma } from "@/lib/db/prisma";
 import { withDbRetry } from "@/lib/db/db-retry";
 import { Link } from "@/i18n/navigation";
 import { Pagination } from "@/components/ui/Pagination";
-import { AchievementCard } from "@/components/achievements/AchievementCard";
+import { AchievementCard } from "@/features/achievements/AchievementCard";
 import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/ui/pagination";
 import { createStaticPageMetadata } from "@/lib/seo/metadata";
-import { imageFor } from "@/lib/game/image-urls";
+import { imageFor } from "@/core/game/image-urls";
 import achievementGroupImages from "@/data/images/achievement-groups.json";
 
 export const dynamic = "force-dynamic";

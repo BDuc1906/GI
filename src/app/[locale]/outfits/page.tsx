@@ -1,10 +1,10 @@
-import { setRequestLocale } from "next-intl/server";
+﻿import { setRequestLocale } from "next-intl/server";
 import { prisma } from "@/lib/db/prisma";
 import { withDbRetry } from "@/lib/db/db-retry";
 import { Link } from "@/i18n/navigation";
 import { EntityThumb } from "@/components/ui/EntityThumb";
 import { createStaticPageMetadata } from "@/lib/seo/metadata";
-import { imageFor } from "@/lib/game/image-urls";
+import { imageFor } from "@/core/game/image-urls";
 import outfitImages from "@/data/images/outfits.json";
 
 export const dynamic = "force-dynamic";

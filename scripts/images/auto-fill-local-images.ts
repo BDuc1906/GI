@@ -1,7 +1,7 @@
-import fs from 'fs';
+﻿import fs from 'fs';
 import path from 'path';
 import { prisma } from "../../src/lib/db/prisma";
-import { findBestLocalAssetMatch } from "../../src/lib/game/local-image-name";
+import { findBestLocalAssetMatch } from "../../src/core/game/local-image-name";
 
 const ROOT = process.cwd();
 const LOCAL_GISHIN_ROOT = path.join(ROOT, 'genshin-impact');

@@ -1,4 +1,4 @@
-import type { NextRequest } from "next/server";
+﻿import type { NextRequest } from "next/server";
 import { ok } from "@/lib/api/response";
 import { ApiError, withErrorHandling } from "@/lib/api/errors";
 import { withRateLimit } from "@/lib/api/rate-limit";
@@ -11,7 +11,7 @@ import {
   type RawAscensionPhase,
   type RawDomain,
   type RawTalentLevel,
-} from "@/lib/game/real-material-plan";
+} from "@/core/game/real-material-plan";
 import { z } from "zod";
 
 export const revalidate = 60;

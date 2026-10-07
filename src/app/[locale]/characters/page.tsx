@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getCharacterListing, parseCharacterFilters } from "@/features/characters/listing";
-import { CharacterFilterBar } from "@/components/character/CharacterFilterBar";
-import { CharacterListingGrid } from "@/components/character/CharacterListingGrid";
+import { CharacterFilterBar } from "@/features/characters/components/CharacterFilterBar";
+import { CharacterListingGrid } from "@/features/characters/components/CharacterListingGrid";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata({

@@ -1,18 +1,18 @@
-import { setRequestLocale } from "next-intl/server";
+﻿import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/db/prisma";
 import { withDbRetry } from "@/lib/db/db-retry";
 import { createStaticPageMetadata } from "@/lib/seo/metadata";
 import { EntityThumb } from "@/components/ui/EntityThumb";
-import { imageFor } from "@/lib/game/image-urls";
+import { imageFor } from "@/core/game/image-urls";
 import foodImages from "@/data/images/foods.json";
-import { normalizeSearch } from "@/lib/game/enemy-format";
+import { normalizeSearch } from "@/core/game/enemy-format";
 import {
   FOOD_FILTER_LABEL,
   FOOD_TYPE_LABEL,
   readFoodRaw,
   stars,
-} from "@/lib/game/food-format";
+} from "@/core/game/food-format";
 
 export const dynamic = "force-dynamic";
 

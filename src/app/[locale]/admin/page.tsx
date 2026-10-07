@@ -1,4 +1,4 @@
-// src/app/admin/page.tsx
+﻿// src/app/admin/page.tsx
 /**
  * Trang quản trị — dashboard cho pipeline crawl/seed + điều khiển AI
  * Agent (fix/sync) + lịch sử thay đổi dữ liệu.
@@ -10,10 +10,10 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { StatsCards } from "@/components/admin/StatsCards";
-import { AgentControlPanel } from "@/components/admin/AgentControlPanel";
-import { DataHealth, type FixScanSummary } from "@/components/admin/DataHealth";
-import { RecentActivity } from "@/components/admin/RecentActivity";
+import { StatsCards } from "@/features/admin/StatsCards";
+import { AgentControlPanel } from "@/features/admin/AgentControlPanel";
+import { DataHealth, type FixScanSummary } from "@/features/admin/DataHealth";
+import { RecentActivity } from "@/features/admin/RecentActivity";
 
 const ADMIN_KEY_STORAGE = "leibo_admin_key";
 

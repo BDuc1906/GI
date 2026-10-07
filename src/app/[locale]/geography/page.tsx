@@ -1,15 +1,15 @@
-import { unstable_cache } from "next/cache";
+﻿import { unstable_cache } from "next/cache";
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/db/prisma";
 import { Pagination } from "@/components/ui/Pagination";
-import { LoreCard } from "@/components/lore/LoreCard";
+import { LoreCard } from "@/features/lore/LoreCard";
 import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/ui/pagination";
 import { createStaticPageMetadata } from "@/lib/seo/metadata";
 import { EntityThumb } from "@/components/ui/EntityThumb";
-import { imageFor } from "@/lib/game/image-urls";
+import { imageFor } from "@/core/game/image-urls";
 import geographyImages from "@/data/images/geography.json";
-import { normalizeSearch } from "@/lib/game/enemy-format";
+import { normalizeSearch } from "@/core/game/enemy-format";
 
 export const dynamic = "force-dynamic";
 

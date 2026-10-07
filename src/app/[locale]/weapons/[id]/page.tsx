@@ -1,4 +1,4 @@
-
+﻿
 import { prisma } from "@/lib/db/prisma";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -7,12 +7,12 @@ import { SafeImage } from "@/components/ui/SafeImage";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
-import { WeaponLevelSlider, type WeaponStatByLevelRow } from "@/components/weapon/WeaponLevelSlider";
-import { formatNumber } from "@/lib/game/character-stats-format";
-import { translateStatName } from "@/lib/game/stat-name-translations";
+import { WeaponLevelSlider, type WeaponStatByLevelRow } from "@/features/weapons/components/WeaponLevelSlider";
+import { formatNumber } from "@/core/game/character-stats-format";
+import { translateStatName } from "@/core/game/stat-name-translations";
 import { rarityStars, rarityTextClass, rarityColorVar } from "@/lib/ui/theme";
-import type { AscensionMaterialPhase } from "@/lib/game/character-helpers";
-import { GlossaryText } from "@/components/glossary/GlossaryText";
+import type { AscensionMaterialPhase } from "@/core/game/character-helpers";
+import { GlossaryText } from "@/features/glossary/GlossaryText";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { getLocalizedDescription, getLocalizedRefinements } from "@/lib/i18n/localized-content";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * src/lib/game/versions.ts
  *
  * Lưu trữ nội dung theo PHIÊN BẢN GAME: mỗi phiên bản thêm gì, trước đó có gì,
@@ -42,7 +42,7 @@
 import { unstable_cache } from "next/cache";
 import { prisma } from "@/lib/db/prisma";
 import { withDbRetry } from "@/lib/db/db-retry";
-import { PLAYABLE_CHARACTER_FILTER } from "@/lib/game/character-catalog";
+import { PLAYABLE_CHARACTER_FILTER } from "@/core/game/character-catalog";
 
 /** Giá trị `version` của mục thuộc nội dung gốc. */
 export const LEGACY = "legacy";

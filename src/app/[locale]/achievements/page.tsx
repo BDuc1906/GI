@@ -1,15 +1,15 @@
-import { unstable_cache } from "next/cache";
+﻿import { unstable_cache } from "next/cache";
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/db/prisma";
 import { withDbRetry } from "@/lib/db/db-retry";
 import { Pagination } from "@/components/ui/Pagination";
-import { AchievementCard } from "@/components/achievements/AchievementCard";
+import { AchievementCard } from "@/features/achievements/AchievementCard";
 import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/ui/pagination";
 import { createStaticPageMetadata } from "@/lib/seo/metadata";
-import { imageFor } from "@/lib/game/image-urls";
+import { imageFor } from "@/core/game/image-urls";
 import achievementGroupImages from "@/data/images/achievement-groups.json";
-import { totalPrimogems } from "@/lib/game/achievement-format";
+import { totalPrimogems } from "@/core/game/achievement-format";
 
 export const dynamic = "force-dynamic";
 

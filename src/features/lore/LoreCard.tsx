@@ -1,6 +1,6 @@
-import type { ReactNode } from "react";
-import { paragraphs } from "@/lib/game/enemy-format";
-import { excerpt } from "@/lib/game/text-format";
+﻿import type { ReactNode } from "react";
+import { paragraphs } from "@/core/game/enemy-format";
+import { excerpt } from "@/core/game/text-format";
 
 interface LoreCardProps {
   name: string;

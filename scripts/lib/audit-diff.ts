@@ -1,4 +1,4 @@
-/**
+﻿/**
  * scripts/lib/audit-diff.ts
  *
  * BỔ SUNG (2026-09-22) — "chuẩn theo wiki lớn, làm tốt hơn":
@@ -29,7 +29,7 @@
  *   });
  */
 
-import { createAuditLog } from "../../src/lib/agent/AuditLogger";
+import { createAuditLog } from "../../src/agent/audit/AuditLogger";
 
 // Field "ồn" tự sinh bởi Prisma, không phản ánh thay đổi dữ liệu THẬT từ
 // nguồn genshin-db — luôn bỏ qua khi diff, nếu không AuditLog sẽ ghi

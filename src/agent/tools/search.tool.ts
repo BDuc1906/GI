@@ -1,4 +1,4 @@
-// src/agent/tools/search.tool.ts
+﻿// src/agent/tools/search.tool.ts
 /**
  * Search Tool - Tìm kiếm dữ liệu trong local database (hoặc dữ liệu
  * tĩnh phản ứng nguyên tố cho type="reaction")
@@ -9,7 +9,7 @@ import { BaseTool, type ToolContext } from "./base.tool";
 import { DataSourceManager } from "@/lib/data-sources/DataSourceManager";
 import { SearchEntityTypeSchema } from "@/agent/core/schemas";
 import type { AnyEntityRecord } from "@/agent/core/types";
-import type { ElementalReaction } from "@/lib/game/element-reactions-data";
+import type { ElementalReaction } from "@/core/game/element-reactions-data";
 
 const SearchParams = z.object({
   type: SearchEntityTypeSchema,

@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Link } from "@/i18n/navigation";
-import { SearchBar } from "../search/SearchBar";
+import { SearchBar } from "@/features/search/components/SearchBar";
 import { ThemeToggle } from "../ui/ThemeToggle";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 

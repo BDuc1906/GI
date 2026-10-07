@@ -1,5 +1,5 @@
-import { Link } from "@/i18n/navigation";
-import { getVersionIndex, summarize } from "@/lib/game/versions";
+﻿import { Link } from "@/i18n/navigation";
+import { getVersionIndex, summarize } from "@/core/game/versions";
 
 /**
  * Khối "Phiên bản mới nhất" trên trang chủ — dữ liệu THẬT từ cột gameVersion.

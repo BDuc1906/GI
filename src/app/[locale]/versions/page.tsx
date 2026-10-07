@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
-import { countUnknown, getVersionIndex, summarize } from "@/lib/game/versions";
+import { countUnknown, getVersionIndex, summarize } from "@/core/game/versions";
 
 export const dynamic = "force-dynamic";
 

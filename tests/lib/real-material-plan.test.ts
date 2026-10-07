@@ -1,11 +1,11 @@
-import { describe, expect, it } from "vitest";
+﻿import { describe, expect, it } from "vitest";
 import {
   buildAscensionPlan,
   buildTalentPlan,
   matchDomains,
   type RawAscensionPhase,
   type RawTalentLevel,
-} from "@/lib/game/real-material-plan";
+} from "@/core/game/real-material-plan";
 
 // Dữ liệu thật của Diluc (rút gọn) lấy từ genshin-db lúc audit.
 const dilucPhases: RawAscensionPhase[] = [

@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { prisma } from "@/lib/db/prisma";
-import { ElementIcon } from "@/components/character/ElementIcon";
-import { ReactionTabs } from "@/components/character/ReactionTabs";
-import { ELEMENT_ICON_URLS, reactionsInvolving } from "@/lib/game/element-reactions-data";
+import { ElementIcon } from "@/features/characters/components/ElementIcon";
+import { ReactionTabs } from "@/features/characters/components/ReactionTabs";
+import { ELEMENT_ICON_URLS, reactionsInvolving } from "@/core/game/element-reactions-data";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
 
 interface _ElementPageProps {

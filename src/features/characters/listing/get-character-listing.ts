@@ -1,10 +1,10 @@
-import { unstable_cache } from "next/cache";
+﻿import { unstable_cache } from "next/cache";
 import { prisma } from "@/lib/db/prisma";
 import { withDbRetry } from "@/lib/db/db-retry";
 import { buildCharacterWhere } from "./filters";
 import { groupCharactersForListing, type CharacterGrouping } from "./grouping";
 import type { CharacterListingFilters } from "./query-params";
-import { PLAYABLE_CHARACTER_FILTER } from "@/lib/game/character-catalog";
+import { PLAYABLE_CHARACTER_FILTER } from "@/core/game/character-catalog";
 
 const getVisionRows = unstable_cache(
   async () => {

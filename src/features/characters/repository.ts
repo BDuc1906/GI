@@ -1,6 +1,6 @@
-import { Prisma } from "@prisma/client";
+﻿import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/db/prisma";
-import { PLAYABLE_CHARACTER_FILTER } from "@/lib/game/character-catalog";
+import { PLAYABLE_CHARACTER_FILTER } from "@/core/game/character-catalog";
 
 export const charactersRepository = {
   async list(params: {

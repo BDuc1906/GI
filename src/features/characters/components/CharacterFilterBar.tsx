@@ -1,9 +1,9 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { getTranslations } from "next-intl/server";
-import { ElementIcon } from "@/components/character/ElementIcon";
-import { WeaponIcon } from "@/components/weapon/WeaponIcon";
+import { ElementIcon } from "@/features/characters/components/ElementIcon";
+import { WeaponIcon } from "@/features/weapons/components/WeaponIcon";
 import { RarityStars } from "@/components/ui/RarityStars";
-import { getElementNameByKey } from "@/lib/game/element-reactions-data";
+import { getElementNameByKey } from "@/core/game/element-reactions-data";
 import {
   buildFilterQuery,
   hasActiveFilters,

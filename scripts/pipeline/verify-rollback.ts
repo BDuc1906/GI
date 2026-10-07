@@ -1,4 +1,4 @@
-/**
+﻿/**
  * scripts/pipeline/verify-rollback.ts
  *
  * LƯỚI AN TOÀN cho scripts/pipeline/auto-fix.ts — vì AutoFixEngine chỉ
@@ -25,7 +25,7 @@ assertEnv();
 import type { Prisma } from "@prisma/client";
 import { prisma } from "../../src/lib/db/prisma";
 import { DataSourceManager } from "../../src/lib/data-sources/DataSourceManager";
-import { createAuditLog } from "../../src/lib/agent/AuditLogger";
+import { createAuditLog } from "../../src/agent/audit/AuditLogger";
 import { notifyOps } from "../../src/lib/infra/notify";
 import type { EntityType } from "../../src/agent/core/types";
 

@@ -1,8 +1,8 @@
-import type { NextRequest } from "next/server";
+﻿import type { NextRequest } from "next/server";
 import { ok } from "@/lib/api/response";
 import { ApiError, withErrorHandling } from "@/lib/api/errors";
 import { withRateLimit } from "@/lib/api/rate-limit";
-import { TeamBuilder } from "@/lib/game/team-builder";
+import { TeamBuilder } from "@/core/game/team-builder";
 import { z } from "zod";
 
 export const revalidate = 60;

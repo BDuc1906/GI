@@ -1,11 +1,11 @@
-
+﻿
 import { prisma } from "@/lib/db/prisma";
 import type { Character } from "@prisma/client";
 import {
   formatNumber,
   formatSpecialized,
   type StatByLevelRow,
-} from "@/lib/game/character-stats-format";
+} from "@/core/game/character-stats-format";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 
 export { formatNumber, formatSpecialized, type StatByLevelRow };

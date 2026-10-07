@@ -1,10 +1,10 @@
-
+﻿
 "use client";
 
 import { useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { formatNumber, formatSpecialized } from "@/lib/game/character-stats-format";
-import { translateStatName } from "@/lib/game/stat-name-translations";
+import { formatNumber, formatSpecialized } from "@/core/game/character-stats-format";
+import { translateStatName } from "@/core/game/stat-name-translations";
 
 /**
  * Component này từng bị hỏng — file thực chất chứa nhầm toàn bộ code của

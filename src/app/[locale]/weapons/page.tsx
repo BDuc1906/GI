@@ -1,10 +1,10 @@
-
+﻿
 import Link from "next/link";
 import { Prisma } from "@prisma/client";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { prisma } from "@/lib/db/prisma";
 import { rarityColorVar } from "@/lib/ui/theme";
-import { WeaponIcon } from "@/components/weapon/WeaponIcon";
+import { WeaponIcon } from "@/features/weapons/components/WeaponIcon";
 import { EntityCard } from "@/components/ui/EntityCard";
 import { RarityStars } from "@/components/ui/RarityStars";
 import { Pagination } from "@/components/ui/Pagination";

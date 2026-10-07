@@ -4,7 +4,7 @@ import { SearchIcon } from "@/components/ui/UiIcon";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ElementIcon } from "../character/ElementIcon";
+import { ElementIcon } from "@/features/characters/components/ElementIcon";
 import { rarityStars, elementColorVar, rarityColorVar } from "@/lib/ui/theme";
 
 interface SearchCharacter {

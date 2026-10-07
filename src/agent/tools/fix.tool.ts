@@ -1,4 +1,4 @@
-// src/agent/tools/fix.tool.ts
+﻿// src/agent/tools/fix.tool.ts
 /**
  * Fix Tool - Sửa dữ liệu trong database dựa trên dữ liệu live đã xác minh.
  * permission="admin" → KHÔNG BAO GIỜ được ToolRegistry.getAITools() đưa
@@ -9,7 +9,7 @@
 import { z } from "zod";
 import { BaseTool, type ToolContext } from "./base.tool";
 import { DataSourceManager } from "@/lib/data-sources/DataSourceManager";
-import { createAuditLog } from "@/lib/agent/AuditLogger";
+import { createAuditLog } from "@/agent/audit/AuditLogger";
 import { prisma } from "@/lib/db/prisma";
 import { EntityTypeSchema } from "@/agent/core/schemas";
 import type { EntityType, EntityRecordMap } from "@/agent/core/types";

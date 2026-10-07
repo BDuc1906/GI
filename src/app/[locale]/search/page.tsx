@@ -1,12 +1,12 @@
-
+﻿
 import Link from "next/link";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/db/prisma";
 import { elementColorVar, rarityColorVar } from "@/lib/ui/theme";
-import { ElementIcon } from "@/components/character/ElementIcon";
+import { ElementIcon } from "@/features/characters/components/ElementIcon";
 import { SafeImage } from "@/components/ui/SafeImage";
 import { EntityCard } from "@/components/ui/EntityCard";
-import { resolveCharacterCardImage } from "@/lib/game/character-helpers";
+import { resolveCharacterCardImage } from "@/core/game/character-helpers";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";

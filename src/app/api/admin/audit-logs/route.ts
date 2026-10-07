@@ -1,4 +1,4 @@
-// src/app/api/admin/audit-logs/route.ts
+﻿// src/app/api/admin/audit-logs/route.ts
 /**
  * API Route: GET /api/admin/audit-logs
  * Lấy lịch sử thay đổi dữ liệu do AI Agent thực hiện (bảng AuditLog).
@@ -7,7 +7,7 @@
  */
 
 import { NextRequest } from "next/server";
-import { getAuditLogs } from "@/lib/agent/AuditLogger";
+import { getAuditLogs } from "@/agent/audit/AuditLogger";
 import { requireAdmin } from "@/agent/utils/auth";
 import { ok, fail } from "@/lib/api/response";
 

@@ -1,5 +1,5 @@
-import { prisma } from "@/lib/db/prisma";
-import { PLAYABLE_CHARACTER_FILTER } from "@/lib/game/character-catalog";
+﻿import { prisma } from "@/lib/db/prisma";
+import { PLAYABLE_CHARACTER_FILTER } from "@/core/game/character-catalog";
 import { buildCharacterSearchWhere, buildWeaponSearchWhere } from "./query";
 
 /**

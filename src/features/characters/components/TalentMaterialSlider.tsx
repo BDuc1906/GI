@@ -1,10 +1,10 @@
-
+﻿
 "use client";
 
 import { useMemo, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { SafeImage } from "@/components/ui/SafeImage";
-import type { TalentMaterialLevel } from "@/lib/game/character-helpers";
+import type { TalentMaterialLevel } from "@/core/game/character-helpers";
 
 interface Props {
   talentMaterials: TalentMaterialLevel[];

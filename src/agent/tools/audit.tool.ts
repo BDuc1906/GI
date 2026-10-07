@@ -1,11 +1,11 @@
-// src/agent/tools/audit.tool.ts
+﻿// src/agent/tools/audit.tool.ts
 /**
  * Audit Tool - Lấy lịch sử thay đổi
  */
 
 import { z } from "zod";
 import { BaseTool, type ToolContext } from "./base.tool";
-import { getAuditLogs, type AuditLogEntry } from "@/lib/agent/AuditLogger";
+import { getAuditLogs, type AuditLogEntry } from "@/agent/audit/AuditLogger";
 
 const AuditParams = z.object({
   entityType: z.string().optional(),

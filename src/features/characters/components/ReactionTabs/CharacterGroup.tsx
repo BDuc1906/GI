@@ -1,4 +1,4 @@
-import { characterPillStyle } from "@/lib/game/element-reactions-data";
+﻿import { characterPillStyle } from "@/core/game/element-reactions-data";
 
 /**
  * Chip tên nhân vật — tô theo ĐÚNG nguyên tố (Vision) riêng của từng

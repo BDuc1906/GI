@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/db/prisma";
@@ -8,8 +8,8 @@ import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
-import { PLAYABLE_CHARACTER_FILTER } from "@/lib/game/character-catalog";
-import { daysUntil, parseBirthday, todayAsia } from "@/lib/game/birthdays";
+import { PLAYABLE_CHARACTER_FILTER } from "@/core/game/character-catalog";
+import { daysUntil, parseBirthday, todayAsia } from "@/core/game/birthdays";
 
 export const dynamic = "force-dynamic";
 

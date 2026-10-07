@@ -1,4 +1,4 @@
-import { setRequestLocale } from "next-intl/server";
+﻿import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/db/prisma";
 import { withDbRetry } from "@/lib/db/db-retry";
@@ -6,8 +6,8 @@ import { Pagination } from "@/components/ui/Pagination";
 import { EntityThumb } from "@/components/ui/EntityThumb";
 import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/ui/pagination";
 import { createStaticPageMetadata } from "@/lib/seo/metadata";
-import { normalizeSearch } from "@/lib/game/enemy-format";
-import { imageFor } from "@/lib/game/image-urls";
+import { normalizeSearch } from "@/core/game/enemy-format";
+import { imageFor } from "@/core/game/image-urls";
 import namecardIcons from "@/data/images/namecards.json";
 import namecardBackgrounds from "@/data/images/namecard-backgrounds.json";
 

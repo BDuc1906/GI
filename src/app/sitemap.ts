@@ -1,9 +1,9 @@
-import type { MetadataRoute } from "next";
+﻿import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/db/prisma";
 import { withDbRetry } from "@/lib/db/db-retry";
 import { routing } from "@/i18n/routing";
-import { PLAYABLE_CHARACTER_FILTER } from "@/lib/game/character-catalog";
-import { getVersionIndex } from "@/lib/game/versions";
+import { PLAYABLE_CHARACTER_FILTER } from "@/core/game/character-catalog";
+import { getVersionIndex } from "@/core/game/versions";
 import { getSiteUrl } from "@/lib/seo/metadata";
 
 const SITE_URL = getSiteUrl();

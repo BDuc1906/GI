@@ -1,4 +1,4 @@
-import { ELEMENTAL_REACTIONS, type DamageFormulaCategory } from "@/lib/game/element-reactions-data";
+﻿import { ELEMENTAL_REACTIONS, type DamageFormulaCategory } from "@/core/game/element-reactions-data";
 
 export const STANDARD_REACTIONS = ELEMENTAL_REACTIONS.filter(
   (r) => r.category !== "lunar" && r.category !== "stellar"

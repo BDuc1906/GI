@@ -1,12 +1,12 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import type { Character } from "@prisma/client";
-import { ElementIcon } from "@/components/character/ElementIcon";
+import { ElementIcon } from "@/features/characters/components/ElementIcon";
 import { EntityCard } from "@/components/ui/EntityCard";
 import { elementColorVar } from "@/lib/ui/theme";
-import { resolveCharacterCardImage } from "@/lib/game/character-helpers";
+import { resolveCharacterCardImage } from "@/core/game/character-helpers";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
-import { getElementNameByKey } from "@/lib/game/element-reactions-data";
+import { getElementNameByKey } from "@/core/game/element-reactions-data";
 import type { CharacterGrouping, TravelerBucket } from "@/features/characters/listing";
 
 // Class grid dùng chung cho cả nhóm Traveler và mọi nhóm rarity — mật độ

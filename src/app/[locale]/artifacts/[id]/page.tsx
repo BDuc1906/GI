@@ -1,4 +1,4 @@
-
+﻿
 import { prisma } from "@/lib/db/prisma";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -8,7 +8,7 @@ import { SectionHeading } from "@/components/layout/SectionHeading";
 import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { rarityColorVar } from "@/lib/ui/theme";
-import { GlossaryText } from "@/components/glossary/GlossaryText";
+import { GlossaryText } from "@/features/glossary/GlossaryText";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
 

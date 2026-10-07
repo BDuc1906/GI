@@ -1,9 +1,9 @@
-"use client";
+﻿"use client";
 
 import { useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { ElementIcon } from "@/components/character/ElementIcon";
-import { GlossaryText } from "@/components/glossary/GlossaryText";
+import { ElementIcon } from "@/features/characters/components/ElementIcon";
+import { GlossaryText } from "@/features/glossary/GlossaryText";
 import {
   ELEMENTS,
   ELEMENT_ICON_URLS,
@@ -12,7 +12,7 @@ import {
   getReactionName,
   getReactionDescription,
   type ReactionCategory,
-} from "@/lib/game/element-reactions-data";
+} from "@/core/game/element-reactions-data";
 import { STANDARD_REACTIONS, LUNAR_REACTIONS, STELLAR_REACTIONS } from "./constants";
 import { ResonanceAndFactionPanel } from "./ResonanceAndFactionPanel";
 import { DamageFormulaPanel } from "./DamageFormulaPanel";

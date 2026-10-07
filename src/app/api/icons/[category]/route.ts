@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getGameIcon, getToolIcon, getSpiralAbyssImage } from '@/lib/game/genshin-icons';
+﻿import { NextRequest, NextResponse } from 'next/server';
+import { getGameIcon, getToolIcon, getSpiralAbyssImage } from '@/core/game/genshin-icons';
 
 export async function GET(
   request: NextRequest,
