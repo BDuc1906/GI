@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { paragraphs } from "@/lib/game/enemy-format";
 import { excerpt } from "@/lib/game/text-format";
 
@@ -7,13 +8,17 @@ interface LoreCardProps {
   subtitle?: string | null;
   badges?: Array<{ label: string; title?: string }>;
   description?: string | null;
+  /** Ảnh nhỏ bên trái tiêu đề (vd EntityThumb size="md"). */
+  thumb?: ReactNode;
+  /** Ảnh ngang phía trên thẻ (vd EntityThumb size="banner"). */
+  banner?: ReactNode;
 }
 
 /**
  * Thẻ mục từ có mô tả lore (Địa lý, Động vật...). Hiện đoạn trích; nếu mô tả dài hơn
  * thì cho mở rộng bằng <details> (không cần JavaScript).
  */
-export function LoreCard({ name, subtitle, badges, description }: LoreCardProps) {
+export function LoreCard({ name, subtitle, badges, description, thumb, banner }: LoreCardProps) {
   const paras = paragraphs(description);
   const full = paras.join(" ");
   const short = excerpt(full);
@@ -21,21 +26,29 @@ export function LoreCard({ name, subtitle, badges, description }: LoreCardProps)
 
   return (
     <article className="bg-bg-card border-2 border-border rounded-xl p-4 hover:border-accent-500 transition-all h-full">
-      <h3 className="font-semibold text-text-primary">{name}</h3>
-      {subtitle && <p className="text-xs text-text-muted mt-0.5">{subtitle}</p>}
-      {badges && badges.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 mt-2 text-[11px]">
-          {badges.map((b) => (
-            <span
-              key={b.label}
-              title={b.title}
-              className="px-2 py-0.5 rounded-full border border-border text-text-secondary"
-            >
-              {b.label}
-            </span>
-          ))}
+      {banner && <div className="mb-3">{banner}</div>}
+
+      <div className="flex items-start gap-3">
+        {thumb}
+        <div className="min-w-0 flex-1">
+          <h3 className="font-semibold text-text-primary">{name}</h3>
+          {subtitle && <p className="text-xs text-text-muted mt-0.5">{subtitle}</p>}
+          {badges && badges.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mt-2 text-[11px]">
+              {badges.map((b) => (
+                <span
+                  key={b.label}
+                  title={b.title}
+                  className="px-2 py-0.5 rounded-full border border-border text-text-secondary"
+                >
+                  {b.label}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
-      )}
+      </div>
+
       {paras.length === 0 ? (
         <p className="text-sm text-text-muted mt-3">Chưa có mô tả.</p>
       ) : hasMore ? (

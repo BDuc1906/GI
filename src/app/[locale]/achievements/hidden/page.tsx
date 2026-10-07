@@ -6,6 +6,8 @@ import { Pagination } from "@/components/ui/Pagination";
 import { AchievementCard } from "@/components/achievements/AchievementCard";
 import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/ui/pagination";
 import { createStaticPageMetadata } from "@/lib/seo/metadata";
+import { imageFor } from "@/lib/game/image-urls";
+import achievementGroupImages from "@/data/images/achievement-groups.json";
 
 export const dynamic = "force-dynamic";
 
@@ -42,7 +44,14 @@ export default async function HiddenAchievementsPage({
     Promise.all([
       prisma.achievement.findMany({
         where: { isHidden: true },
-        select: { id: true, name: true, achievementGroupName: true, isHidden: true, raw: true },
+        select: {
+          id: true,
+          name: true,
+          achievementGroupId: true,
+          achievementGroupName: true,
+          isHidden: true,
+          raw: true,
+        },
         orderBy: [{ sortOrder: "asc" }, { id: "asc" }],
         skip: (page - 1) * LIST_PAGE_SIZE,
         take: LIST_PAGE_SIZE,
@@ -76,6 +85,7 @@ export default async function HiddenAchievementsPage({
                   groupName={a.achievementGroupName}
                   isHidden={a.isHidden}
                   raw={a.raw}
+                  iconCandidates={imageFor(achievementGroupImages, a.achievementGroupId)}
                 />
               </li>
             ))}

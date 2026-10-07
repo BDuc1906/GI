@@ -84,7 +84,7 @@ export function AgentControlPanel({ adminKey, onAdminKeyChange, onActionComplete
   return (
     <div className="bg-bg-card border border-border rounded-xl p-6">
       <h2 className="text-sm font-semibold text-text-secondary uppercase tracking-wider mb-4">
-        🤖 {t("agentControlTitle")}
+        {t("agentControlTitle")}
       </h2>
 
       <div className="mb-6">
@@ -109,24 +109,24 @@ export function AgentControlPanel({ adminKey, onAdminKeyChange, onActionComplete
           disabled={running !== null}
           className="px-6 py-3 rounded-lg border border-border bg-bg-input hover:border-border-strong text-sm text-text-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
         >
-          {running === "fix" ? `⏳ ${t("scanning")}` : `🔍 ${t("scanAndAutoFix")}`}
+          {running === "fix" ? `${t("scanning")}` : `${t("scanAndAutoFix")}`}
         </button>
         <button
           onClick={runSync}
           disabled={running !== null}
           className="px-6 py-3 rounded-lg border border-border bg-bg-input hover:border-border-strong text-sm text-text-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
         >
-          {running === "sync" ? `⏳ ${t("triggering")}` : `🔄 ${t("syncViaGithubActions")}`}
+          {running === "sync" ? `${t("triggering")}` : `${t("syncViaGithubActions")}`}
         </button>
       </div>
 
       {result && (
         <div
           className={`mt-4 text-sm rounded-lg border px-3 py-2 ${
-            result.ok ? "border-green-500/30 text-green-400 bg-green-500/10" : "border-red-500/30 text-red-400 bg-red-500/10"
+            result.ok ? "border-success/30 text-success bg-success/10" : "border-danger/30 text-danger bg-danger/10"
           }`}
         >
-          <p>{result.ok ? "✅" : "⚠️"} {result.message}</p>
+          <p>{result.message}</p>
           {result.detail && <p className="text-xs mt-1 opacity-80 break-all font-medium">{result.detail}</p>}
         </div>
       )}

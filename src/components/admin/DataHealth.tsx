@@ -29,16 +29,16 @@ export function DataHealth({ lastScan }: DataHealthProps) {
   return (
     <div className="bg-bg-card border border-border rounded-xl p-6">
       <h2 className="text-sm font-semibold text-text-secondary uppercase tracking-wider mb-4">
-        🩺 {t("lastScanResult")}
+        {t("lastScanResult")}
       </h2>
 
       <div className="flex gap-6 text-sm mb-4">
         <div>
-          <span className="text-2xl font-semibold text-green-400">{lastScan.fixedCount}</span>
+          <span className="text-2xl font-semibold text-success">{lastScan.fixedCount}</span>
           <span className="text-text-muted ml-2">{t("fixed")}</span>
         </div>
         <div>
-          <span className="text-2xl font-semibold text-yellow-400">{lastScan.skipped.length}</span>
+          <span className="text-2xl font-semibold text-warning">{lastScan.skipped.length}</span>
           <span className="text-text-muted ml-2">{t("skipped")}</span>
         </div>
       </div>

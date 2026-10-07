@@ -31,13 +31,13 @@ export function SiteNav() {
     <header className="border-b border-border sticky top-0 bg-bg-primary/80 backdrop-blur-md z-20">
       <nav className="flex items-center gap-4 px-4 md:px-8 py-3 max-w-7xl mx-auto">
         <div className="flex items-center gap-6 shrink-0">
-          <Link href="/" className="font-display text-xl font-bold tracking-wide text-amber-500">
+          <Link href="/" className="font-display text-xl font-bold tracking-wide text-accent-bright">
             LEIBO
           </Link>
           {/* Link điều hướng: ẩn dưới md, hiện dạng hàng ngang từ md trở lên */}
           <div className="hidden md:flex items-center gap-6">
             {NAV_LINKS.map((link) => (
-              <Link key={link.href} href={link.href} className="hover:text-amber-400 transition-colors">
+              <Link key={link.href} href={link.href} className="hover:text-accent-bright transition-colors">
                 {link.label}
               </Link>
             ))}
@@ -62,17 +62,9 @@ export function SiteNav() {
           onClick={() => setMenuOpen((v) => !v)}
           aria-label={menuOpen ? t("closeMenu") : t("openMenu")}
           aria-expanded={menuOpen}
-          className="md:hidden p-2 rounded-lg border border-border text-text-primary hover:border-amber-400 transition-colors sm:ml-0 ml-auto"
+          className="md:hidden px-3 py-1.5 text-sm rounded-lg border border-border text-text-primary hover:border-accent-500 transition-colors sm:ml-0 ml-auto"
         >
-          {menuOpen ? (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
-            </svg>
-          ) : (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M4 7h16M4 12h16M4 17h16" strokeLinecap="round" />
-            </svg>
-          )}
+          {menuOpen ? t("closeMenu") : t("openMenu")}
         </button>
       </nav>
 
@@ -91,7 +83,7 @@ export function SiteNav() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="text-base hover:text-amber-400 transition-colors"
+                className="text-base hover:text-accent-bright transition-colors"
               >
                 {link.label}
               </Link>

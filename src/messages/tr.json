@@ -290,7 +290,7 @@
     "colEntity": "Varlık",
     "colPerformedBy": "Yürüten",
     "autoRefreshNote": "Her 30 saniyede bir otomatik yenileme",
-    "noScanYet": "Bu oturumda hiçbir tarama yapılmadı. Yukarıdaki panelde \"🔍 Veri Tarama ve Otomatik Düzeltme\" seçeneğine tıklayın.",
+    "noScanYet": "Bu oturumda hiçbir tarama yapılmadı. Yukarıdaki panelde \"Veri Tarama ve Otomatik Düzeltme\" seçeneğine tıklayın.",
     "lastScanResult": "Son Tarama Sonuçları",
     "fixed": "Düzeltildi",
     "skipped": "Atlandı",

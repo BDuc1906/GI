@@ -325,7 +325,7 @@
     "colEntity": "Entity",
     "colPerformedBy": "Thực hiện bởi",
     "autoRefreshNote": "Tự động refresh mỗi 30 giây",
-    "noScanYet": "Chưa chạy lần quét nào trong phiên này. Bấm \"🔍 Quét & tự sửa dữ liệu\" ở panel bên trên.",
+    "noScanYet": "Chưa chạy lần quét nào trong phiên này. Bấm \"Quét & tự sửa dữ liệu\" ở panel bên trên.",
     "lastScanResult": "Kết quả lần quét gần nhất",
     "fixed": "đã sửa",
     "skipped": "bỏ qua",

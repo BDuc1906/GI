@@ -3,6 +3,9 @@ import { Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/db/prisma";
 import { withDbRetry } from "@/lib/db/db-retry";
 import { createStaticPageMetadata } from "@/lib/seo/metadata";
+import { EntityThumb } from "@/components/ui/EntityThumb";
+import { imageFor } from "@/lib/game/image-urls";
+import enemyImages from "@/data/images/enemies.json";
 import {
   ENEMY_CATEGORY_LABEL,
   ENEMY_TYPE_LABEL,
@@ -144,8 +147,14 @@ export default async function EnemiesPage({ params, searchParams }: EnemiesPageP
                 <li key={enemy.id}>
                   <Link
                     href={`/enemies/${enemy.id}`}
-                    className="block h-full bg-bg-card border-2 border-border rounded-xl p-4 hover:border-accent-500 transition-all"
+                    className="flex gap-3 h-full bg-bg-card border-2 border-border rounded-xl p-4 hover:border-accent-500 transition-all"
                   >
+                    <EntityThumb
+                      candidates={imageFor(enemyImages, enemy.id)}
+                      alt={enemy.name}
+                      size="md"
+                    />
+                    <div className="min-w-0 flex-1">
                     <h3 className="font-semibold text-text-primary">{enemy.name}</h3>
                     {special && <p className="text-xs text-text-muted mt-0.5">{special}</p>}
                     <div className="flex flex-wrap gap-1.5 mt-3 text-[11px]">
@@ -162,6 +171,7 @@ export default async function EnemiesPage({ params, searchParams }: EnemiesPageP
                           {ENEMY_CATEGORY_LABEL[enemy.categoryType] ?? enemy.categoryText}
                         </span>
                       )}
+                    </div>
                     </div>
                   </Link>
                 </li>

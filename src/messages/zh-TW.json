@@ -290,7 +290,7 @@
     "colEntity": "實體",
     "colPerformedBy": "執行者",
     "autoRefreshNote": "每 30 秒自動重新整理一次",
-    "noScanYet": "本次會談中未進行任何掃描。在上方面板點選「🔍掃描並自動修正資料」。",
+    "noScanYet": "本次會談中未進行任何掃描。在上方面板點選「掃描並自動修正資料」。",
     "lastScanResult": "最近一次掃描結果",
     "fixed": "已修復",
     "skipped": "已跳過",

@@ -6,6 +6,9 @@ import { Pagination } from "@/components/ui/Pagination";
 import { LoreCard } from "@/components/lore/LoreCard";
 import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/ui/pagination";
 import { createStaticPageMetadata } from "@/lib/seo/metadata";
+import { EntityThumb } from "@/components/ui/EntityThumb";
+import { imageFor } from "@/lib/game/image-urls";
+import geographyImages from "@/data/images/geography.json";
 import { normalizeSearch } from "@/lib/game/enemy-format";
 
 export const dynamic = "force-dynamic";
@@ -152,6 +155,14 @@ export default async function GeographyPage({ params, searchParams }: GeographyP
               <li key={g.id}>
                 <LoreCard
                   name={g.name}
+                  banner={
+                    <EntityThumb
+                      candidates={imageFor(geographyImages, g.id)}
+                      alt={g.name}
+                      size="banner"
+                      fit="cover"
+                    />
+                  }
                   subtitle={[g.regionName, g.areaName].filter(Boolean).join(" · ")}
                   badges={
                     g.onlyUnlocked

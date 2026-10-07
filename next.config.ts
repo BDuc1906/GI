@@ -50,6 +50,8 @@ const HOTLINK_REMOTE_PATTERNS: RemotePattern[] = [
   // Mọi bucket R2 public dạng pub-xxxx.r2.dev. Không phụ thuộc R2_PUBLIC_URL
   // có được set lúc build hay không (thiếu => ảnh R2 bị next/image + CSP chặn).
   { protocol: "https", hostname: "**.r2.dev" },
+  // Nguồn ảnh dự phòng đã xác minh cho nội dung cũ (xem src/lib/game/image-urls.ts).
+  { protocol: "https", hostname: "raw.githubusercontent.com" },
 ];
 
 /**

@@ -9,6 +9,9 @@ import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
+import { EntityThumb } from "@/components/ui/EntityThumb";
+import { imageFor } from "@/lib/game/image-urls";
+import enemyImages from "@/data/images/enemies.json";
 import {
   ENEMY_CATEGORY_LABEL,
   ENEMY_TYPE_LABEL,
@@ -125,7 +128,14 @@ export default async function EnemyDetailPage({ params }: PageProps) {
       <BreadcrumbJsonLd locale={locale} items={breadcrumbItems} />
       <Breadcrumb items={breadcrumbItems} />
 
-      <header className="mb-8">
+      <header className="mb-8 flex items-center gap-4">
+        <EntityThumb
+          candidates={imageFor(enemyImages, enemy.id)}
+          alt={enemy.name}
+          size="lg"
+          priority
+        />
+        <div className="min-w-0">
         <h1 className="font-display text-display-2 font-semibold text-text-primary">{enemy.name}</h1>
         {raw.specialNames && raw.specialNames.length > 0 && (
           <p className="text-sm text-text-muted mt-1">{raw.specialNames.join(" · ")}</p>
@@ -145,6 +155,7 @@ export default async function EnemyDetailPage({ params }: PageProps) {
               {ENEMY_CATEGORY_LABEL[enemy.categoryType] ?? enemy.categoryText}
             </Link>
           )}
+        </div>
         </div>
       </header>
 

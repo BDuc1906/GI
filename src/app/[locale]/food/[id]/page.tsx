@@ -9,6 +9,9 @@ import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
+import { EntityThumb } from "@/components/ui/EntityThumb";
+import { imageFor } from "@/lib/game/image-urls";
+import foodImages from "@/data/images/foods.json";
 import { paragraphs } from "@/lib/game/enemy-format";
 import {
   FOOD_FILTER_LABEL,
@@ -103,7 +106,14 @@ export default async function FoodDetailPage({ params }: PageProps) {
       <BreadcrumbJsonLd locale={locale} items={breadcrumbItems} />
       <Breadcrumb items={breadcrumbItems} />
 
-      <header className="mb-8">
+      <header className="mb-8 flex items-center gap-4">
+        <EntityThumb
+          candidates={imageFor(foodImages, food.id)}
+          alt={food.name}
+          size="lg"
+          priority
+        />
+        <div className="min-w-0">
         <h1 className="font-display text-display-2 font-semibold text-text-primary">
           {food.name} <span className="text-rarity-5 text-xl align-middle">{stars(food.rarity)}</span>
         </h1>
@@ -122,6 +132,7 @@ export default async function FoodDetailPage({ params }: PageProps) {
               {FOOD_FILTER_LABEL[food.filterType] ?? raw.filterText}
             </Link>
           )}
+        </div>
         </div>
       </header>
 

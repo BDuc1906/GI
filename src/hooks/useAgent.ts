@@ -231,7 +231,7 @@ export function useAgent(options: UseAgentOptions = {}): UseAgentReturn {
           onError?.(errorObj);
           const errorMessage: AgentMessage = {
             role: "assistant",
-            content: `❌ Lỗi: ${errorObj.message}`,
+            content: `Lỗi: ${errorObj.message}`,
           };
           setMessages((prev) => [...prev, errorMessage]);
         }

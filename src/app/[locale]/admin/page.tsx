@@ -102,7 +102,7 @@ export default function AdminPage() {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <h1 className="font-display text-3xl md:text-4xl font-bold text-gold-bright mb-2">
-                📊 {t("title")}
+                {t("title")}
               </h1>
               <p className="text-sm text-text-secondary font-medium">{t("subtitle")}</p>
             </div>
@@ -110,7 +110,7 @@ export default function AdminPage() {
               onClick={() => setRefreshToken(Date.now())}
               className="px-6 py-3 bg-bg-input border border-border rounded-lg hover:border-border-strong transition-colors text-sm font-semibold"
             >
-              🔄 {t("refresh")}
+              {t("refresh")}
             </button>
           </div>
         </div>
@@ -123,8 +123,8 @@ export default function AdminPage() {
         )}
 
         {error && (
-          <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 mb-6 text-sm text-red-400">
-            ⚠️ {error}
+          <div className="bg-danger/10 border border-danger/30 rounded-xl p-4 mb-6 text-sm text-danger">
+            {error}
           </div>
         )}
 
@@ -182,7 +182,7 @@ export default function AdminPage() {
           <div className="flex items-center gap-2 mb-4">
             <div className="w-1 h-6 bg-geo-glow rounded-full" />
             <h2 className="font-display text-xl font-semibold text-text-primary">
-              📋 {t("pipelineHistory", { count: runs.length })} {loading && <span className="text-text-muted normal-case">— {t("loading")}</span>}
+              {t("pipelineHistory", { count: runs.length })} {loading && <span className="text-text-muted normal-case">— {t("loading")}</span>}
             </h2>
           </div>
           
@@ -207,7 +207,7 @@ export default function AdminPage() {
                 </thead>
                 <tbody>
                   {runs.map((run) => {
-                    const statusColor = run.status === "success" ? "text-green-400" : run.status === "failed" ? "text-red-400" : "text-yellow-400";
+                    const statusColor = run.status === "success" ? "text-success" : run.status === "failed" ? "text-danger" : "text-warning";
                     
                     return (
                       <tr 
@@ -217,9 +217,6 @@ export default function AdminPage() {
                         <td className="px-4 py-3 text-text-primary font-medium">{PIPELINE_LABELS[run.name] || run.name}</td>
                         <td className="px-4 py-3">
                           <span className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-semibold ${statusColor}`}>
-                            {run.status === "success" && "✨"}
-                            {run.status === "failed" && "💥"}
-                            {run.status === "started" && "⚡"}
                             {run.status === "success" && t("statusSuccess")}
                             {run.status === "failed" && t("statusFailed")}
                             {run.status === "started" && t("statusRunning")}

@@ -290,7 +290,7 @@
     "colEntity": "Entität",
     "colPerformedBy": "Ausgeführt von",
     "autoRefreshNote": "Automatische Aktualisierung alle 30 Sekunden",
-    "noScanYet": "In dieser Sitzung wurden keine Scans durchgeführt. Klicken Sie oben im Panel auf \"🔍 Daten scannen und selbst korrigieren\".",
+    "noScanYet": "In dieser Sitzung wurden keine Scans durchgeführt. Klicken Sie oben im Panel auf \"Daten scannen und selbst korrigieren\".",
     "lastScanResult": "Ergebnisse des letzten Scans",
     "fixed": "Behoben",
     "skipped": "Übersprungen",

@@ -4,32 +4,31 @@ import { Link } from "@/i18n/navigation";
 
 /**
  * Beginner Guides - Khu vực hướng dẫn cho người mới
- * - Build đội hình F2P
- * - Lộ trình farm rương tối ưu
- * - Hướng dẫn phản ứng nguyên tố
+ * - Lịch farm theo ngày
+ * - Máy tính nguyên liệu
+ * - Bảng phản ứng nguyên tố
+ *
+ * Chỉ link tới trang ĐÃ TỒN TẠI (trước đây 3 link /guides/* đều 404).
  */
 
 export function BeginnerGuides() {
   const guides = [
     {
-      title: "Build đội hình F2P",
-      description: "Hướng dẫn build đội hình miễn phí hiệu quả",
-      icon: "⚔️",
-      href: "/guides/f2p-team",
+      title: "Lịch farm hằng tuần",
+      description: "Hôm nay farm sách thiên phú và nguyên liệu vũ khí ở đâu",
+      href: "/calendar",
       tag: "Hot"
     },
     {
-      title: "Lộ trình farm rương tối ưu",
-      description: "Tối ưu hóa việc farm rương chests",
-      icon: "📦",
-      href: "/guides/chest-farm",
-      tag: "Guide"
+      title: "Tính nguyên liệu nâng cấp",
+      description: "Tính đủ Mora, sách và nguyên liệu cho nhân vật, vũ khí",
+      href: "/tools/material-calculator",
+      tag: "Tool"
     },
     {
       title: "Phản ứng nguyên tố",
-      description: "Hướng dẫn reactions cho người mới",
-      icon: "🔮",
-      href: "/guides/elemental-reactions",
+      description: "Bảng phản ứng và công thức sát thương cho người mới",
+      href: "/elements",
       tag: "Must Read"
     },
   ];
@@ -38,7 +37,7 @@ export function BeginnerGuides() {
     <section className="max-w-7xl mx-auto px-4 md:px-8 py-12">
       <div className="text-center mb-8">
         <h2 className="font-display text-2xl font-bold text-text-primary mb-2">
-          📚 Hướng dẫn cho người mới
+          Hướng dẫn cho người mới
         </h2>
         <p className="text-text-secondary">
           Các bài viết ghim giúp người mới bắt đầu
@@ -54,9 +53,6 @@ export function BeginnerGuides() {
           >
             <div className="absolute top-4 right-4 px-3 py-1 bg-gold/20 text-gold-bright text-xs font-semibold rounded-full">
               {guide.tag}
-            </div>
-            <div className="text-4xl mb-3 group-hover:scale-110 transition-transform duration-300">
-              {guide.icon}
             </div>
             <div className="font-semibold text-text-primary mb-2">
               {guide.title}

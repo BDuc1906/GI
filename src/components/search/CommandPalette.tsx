@@ -1,5 +1,6 @@
 "use client";
 
+import { SearchIcon } from "@/components/ui/UiIcon";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -152,10 +153,7 @@ export function CommandPalette() {
         className="surface-card w-full max-w-lg border border-border-strong rounded-xl overflow-hidden shadow-md"
       >
         <div className="flex items-center gap-2 px-4 border-b border-border">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-text-muted shrink-0">
-            <circle cx="11" cy="11" r="7" />
-            <path d="m21 21-4.3-4.3" strokeLinecap="round" />
-          </svg>
+          <SearchIcon size={16} className="text-text-muted shrink-0" />
           <input
             ref={inputRef}
             type="text"

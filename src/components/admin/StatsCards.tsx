@@ -14,9 +14,9 @@ interface StatsCardsProps {
 }
 
 const STATUS_TEXT_CLASS: Record<string, string> = {
-  started: "text-yellow-400",
-  success: "text-green-400",
-  failed: "text-red-400",
+  started: "text-warning",
+  success: "text-success",
+  failed: "text-danger",
 };
 
 export function StatsCards({ latestStatus }: StatsCardsProps) {
@@ -32,9 +32,9 @@ export function StatsCards({ latestStatus }: StatsCardsProps) {
   };
 
   const STATUS_LABEL: Record<string, string> = {
-    started: `⚡ ${t("statusRunning")}`,
-    success: `✨ ${t("statusSuccess")}`,
-    failed: `💥 ${t("statusFailed")}`,
+    started: `${t("statusRunning")}`,
+    success: `${t("statusSuccess")}`,
+    failed: `${t("statusFailed")}`,
   };
 
   function formatTime(dateStr: string): string {
@@ -70,7 +70,7 @@ export function StatsCards({ latestStatus }: StatsCardsProps) {
                 {STATUS_LABEL[entry.status] || entry.status}
               </span>
               {entry.status === "started" && (
-                <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
+                <span className="w-2 h-2 bg-warning rounded-full animate-pulse" />
               )}
             </div>
             <div className="text-[10px] text-text-muted mt-1">{formatTime(entry.startedAt)}</div>

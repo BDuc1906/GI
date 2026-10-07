@@ -21,7 +21,6 @@ import { Link } from "@/i18n/navigation";
 interface ExtendedCategory {
   title: string;
   description: string;
-  icon: string;
   color: string;
   href?: string; // có href = trang đã tồn tại thật, bấm được
 }
@@ -31,105 +30,90 @@ export function ExtendedDatabase() {
     {
       title: "Lịch farm",
       description: "Bí cảnh sách thiên phú & nguyên liệu vũ khí theo ngày",
-      icon: "📅",
       href: "/calendar",
       color: "border-accent-500/40",
     },
     {
       title: "Lịch sử phiên bản",
       description: "Mỗi bản thêm gì, trước đó có gì, sau đó thêm gì",
-      icon: "🕒",
       href: "/versions",
       color: "border-accent-500/40",
     },
     {
       title: "Lịch sinh nhật",
       description: "Sinh nhật nhân vật theo từng tháng, ai sắp tới",
-      icon: "🎂",
       href: "/birthdays",
       color: "border-accent-500/40",
     },
     {
       title: "Thành tựu",
       description: "Toàn bộ thành tựu trong game",
-      icon: "🏅",
       href: "/achievements",
       color: "border-accent-500/40",
     },
     {
       title: "Thành tựu ẩn",
       description: "Tra cứu thành tựu không trong game",
-      icon: "🏆",
       href: "/achievements/hidden",
       color: "border-accent-500/40",
     },
     {
       title: "Món ăn",
       description: "Công thức nấu ăn & hiệu ứng",
-      icon: "🍜",
       href: "/food",
       color: "border-accent-500/40",
     },
     {
       title: "Địa lý",
       description: "Vùng đất & khu vực trong Teyvat",
-      icon: "🗺️",
       href: "/geography",
       color: "border-accent-500/40",
     },
     {
       title: "Công thức chế tạo",
       description: "Adventurer Handbook — chế đồ",
-      icon: "🔨",
       href: "/crafts",
       color: "border-accent-500/40",
     },
     {
       title: "Động vật",
       description: "Sinh vật hiền hoà trong thế giới mở",
-      icon: "🐾",
       href: "/animals",
       color: "border-accent-500/40",
     },
     {
       title: "Cấp bậc Phiêu Lưu",
       description: "Danh sách Adventure Rank",
-      icon: "⭐",
       href: "/adventure-ranks",
       color: "border-accent-500/40",
     },
     {
       title: "Danh thiếp",
       description: "Thư viện namecard",
-      icon: "🎴",
       href: "/namecards",
       color: "border-accent-500/40",
     },
     {
       title: "Trang phục",
       description: "Trang phục nhân vật",
-      icon: "👗",
       href: "/outfits",
       color: "border-accent-500/40",
     },
     {
       title: "Dù lượn",
       description: "Thư viện dù lượn",
-      icon: "🪂",
       href: "/windgliders",
       color: "border-accent-500/40",
     },
     {
       title: "Thất Thánh Triệu Hoán",
       description: "Thư viện thẻ bài và bộ bài meta",
-      icon: "🃏",
       color: "border-accent-500/40",
       // href: "/tcg" — CHƯA LÀM: không có model/seed data TCG nào cả.
     },
     {
       title: "Ấm Trần Ca",
       description: "Bản vẽ đồ nội thất & bộ trang trí",
-      icon: "🏠",
       color: "border-accent-500/40",
       // href: "/serenitea-pot" — CHƯA LÀM: không có model/seed data nào cả.
     },
@@ -139,7 +123,7 @@ export function ExtendedDatabase() {
     <section className="max-w-7xl mx-auto px-4 md:px-8 py-12">
       <div className="text-center mb-8">
         <h2 className="font-display text-2xl font-bold text-text-primary mb-2">
-          🗄️ Database mở rộng
+          Database mở rộng
         </h2>
         <p className="text-text-secondary">
           Ngoài Nhân vật & Vũ khí
@@ -154,9 +138,6 @@ export function ExtendedDatabase() {
               href={category.href}
               className={`group bg-bg-card border-2 ${category.color} rounded-2xl p-6 hover:border-gold/50 hover:shadow-xl hover:shadow-gold/10 transition-all duration-300 hover:-translate-y-1`}
             >
-              <div className="text-4xl mb-3 group-hover:scale-110 transition-transform duration-300">
-                {category.icon}
-              </div>
               <div className="font-semibold text-text-primary mb-2">
                 {category.title}
               </div>
@@ -173,7 +154,6 @@ export function ExtendedDatabase() {
               <span className="absolute top-3 right-3 px-2 py-1 bg-bg-primary/80 text-text-muted text-xs rounded-full border border-border">
                 Sắp ra mắt
               </span>
-              <div className="text-4xl mb-3">{category.icon}</div>
               <div className="font-semibold text-text-primary mb-2">
                 {category.title}
               </div>

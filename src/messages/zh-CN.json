@@ -290,7 +290,7 @@
     "colEntity": "实体",
     "colPerformedBy": "执行者",
     "autoRefreshNote": "每30秒自动刷新一次",
-    "noScanYet": "本次会话未进行扫描。点击上方面板中的“🔍扫描并自动修正数据”。",
+    "noScanYet": "本次会话未进行扫描。点击上方面板中的“扫描并自动修正数据”。",
     "lastScanResult": "最近一次扫描结果",
     "fixed": "已修复",
     "skipped": "已跳过",

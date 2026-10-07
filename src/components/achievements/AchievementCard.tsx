@@ -1,3 +1,4 @@
+import { EntityThumb } from "@/components/ui/EntityThumb";
 import { formatReward, stagesOf } from "@/lib/game/achievement-format";
 
 interface AchievementCardProps {
@@ -5,24 +6,31 @@ interface AchievementCardProps {
   groupName?: string | null;
   isHidden?: boolean | null;
   raw: unknown;
+  /** URL ảnh biểu tượng của nhóm thành tựu (xem imageFor). */
+  iconCandidates?: string[];
 }
 
 /** Thẻ thành tựu dùng chung cho /achievements và /achievements/hidden. */
-export function AchievementCard({ name, groupName, isHidden, raw }: AchievementCardProps) {
+export function AchievementCard({ name, groupName, isHidden, raw, iconCandidates = [] }: AchievementCardProps) {
   const stages = stagesOf(raw);
   const multi = stages.length > 1;
 
   return (
     <article className="bg-bg-card border-2 border-border rounded-xl p-4 hover:border-accent-500 transition-all h-full">
-      <div className="flex items-start justify-between gap-2 mb-1">
-        <h3 className="font-semibold text-text-primary">{name}</h3>
-        {isHidden && (
-          <span className="shrink-0 px-2 py-0.5 bg-warning/20 text-warning text-[11px] font-medium rounded-full">
-            Ẩn
-          </span>
-        )}
+      <div className="flex items-start gap-3 mb-2">
+        <EntityThumb candidates={iconCandidates} alt={groupName ?? name} size="sm" />
+        <div className="min-w-0 flex-1">
+          <div className="flex items-start justify-between gap-2">
+            <h3 className="font-semibold text-text-primary">{name}</h3>
+            {isHidden && (
+              <span className="shrink-0 px-2 py-0.5 bg-warning/20 text-warning text-[11px] font-medium rounded-full">
+                Ẩn
+              </span>
+            )}
+          </div>
+          {groupName && <p className="text-xs text-text-muted">{groupName}</p>}
+        </div>
       </div>
-      {groupName && <p className="text-xs text-text-muted mb-2">{groupName}</p>}
 
       {stages.length === 0 ? (
         <p className="text-sm text-text-muted">Chưa có mô tả điều kiện.</p>

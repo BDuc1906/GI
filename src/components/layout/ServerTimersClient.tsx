@@ -85,7 +85,6 @@ export function ServerTimersClient() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Asia Server */}
         <div className="bg-bg-card border-2 border-border rounded-2xl p-6">
-          <div className="text-3xl mb-3">🌏</div>
           <div className="font-semibold text-text-primary mb-2">Asia Server</div>
           <div className="text-2xl font-bold text-gold-bright">{asiaTime}</div>
           <div className="text-xs text-text-muted mt-2">Reset: 11:00 (UTC+7)</div>
@@ -93,7 +92,6 @@ export function ServerTimersClient() {
 
         {/* America Server */}
         <div className="bg-bg-card border-2 border-border rounded-2xl p-6">
-          <div className="text-3xl mb-3">🌎</div>
           <div className="font-semibold text-text-primary mb-2">America Server</div>
           <div className="text-2xl font-bold text-gold-bright">{americaTime}</div>
           <div className="text-xs text-text-muted mt-2">Reset: 23:00 (UTC-5)</div>
@@ -101,7 +99,6 @@ export function ServerTimersClient() {
 
         {/* Europe Server */}
         <div className="bg-bg-card border-2 border-border rounded-2xl p-6">
-          <div className="text-3xl mb-3">🌍</div>
           <div className="font-semibold text-text-primary mb-2">Europe Server</div>
           <div className="text-2xl font-bold text-gold-bright">{europeTime}</div>
           <div className="text-xs text-text-muted mt-2">Reset: 5:00 (UTC+1)</div>
@@ -114,7 +111,7 @@ export function ServerTimersClient() {
           className="h-full min-h-40"
         >
           <span className="mt-1 text-2xl font-bold tabular-nums">{spiralReset}</span>
-          <span className="text-xs text-white/70">Reset: 1st &amp; 16th</span>
+          <span className="text-xs text-text-muted">Reset: 1st &amp; 16th</span>
         </ArtTile>
       </div>
     </section>

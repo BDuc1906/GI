@@ -290,7 +290,7 @@
     "colEntity": "Entidade",
     "colPerformedBy": "Executado por",
     "autoRefreshNote": "Atualização automática a cada 30 segundos",
-    "noScanYet": "Nenhuma verificação foi realizada nesta sessão. Clique em \"🔍 Verificar e Autocorrigir Dados\" no painel acima.",
+    "noScanYet": "Nenhuma verificação foi realizada nesta sessão. Clique em \"Verificar e Autocorrigir Dados\" no painel acima.",
     "lastScanResult": "Resultados da Última Verificação",
     "fixed": "Corrigido",
     "skipped": "Ignorado",

@@ -290,7 +290,7 @@
     "colEntity": "Entitas",
     "colPerformedBy": "Dijalankan oleh",
     "autoRefreshNote": "Refresh otomatis setiap 30 detik",
-    "noScanYet": "Tidak ada pemindaian yang dilakukan dalam sesi ini. Klik \"🔍 Pindai & Perbaiki Mandiri Data\" di panel di atas.",
+    "noScanYet": "Tidak ada pemindaian yang dilakukan dalam sesi ini. Klik \"Pindai & Perbaiki Mandiri Data\" di panel di atas.",
     "lastScanResult": "Hasil Pemindaian Terakhir",
     "fixed": "Diperbaiki",
     "skipped": "Dilewati",

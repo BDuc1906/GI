@@ -30,30 +30,27 @@ export default function ErrorBoundary({
 
   return (
     <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4">
-      <p className="font-display text-5xl font-bold text-red-400/80 mb-4">
-        ⚠
-      </p>
-      <h1 className="font-display text-2xl font-bold tracking-wide text-neutral-100 uppercase mb-3">
+      <h1 className="font-display text-2xl font-bold tracking-wide text-text-primary uppercase mb-3">
         {t("title")}
       </h1>
       <p className="text-sm text-[color:var(--parchment-dim)] max-w-md mb-2">
         {t("description")}
       </p>
       {process.env.NODE_ENV !== "production" && (
-        <p className="text-xs text-red-400/70 max-w-lg mb-6 font-mono break-words">
+        <p className="text-xs text-danger/70 max-w-lg mb-6 font-mono break-words">
           {error.message}
         </p>
       )}
       <div className="flex flex-wrap gap-3 justify-center mt-4">
         <button
           onClick={() => reset()}
-          className="rounded-lg border border-[color:var(--gold)]/40 bg-neutral-900/40 px-5 py-2 text-sm font-medium text-[color:var(--gold-bright)] hover:border-[color:var(--gold-bright)] transition-colors"
+          className="rounded-lg border border-[color:var(--gold)]/40 bg-bg-secondary px-5 py-2 text-sm font-medium text-[color:var(--gold-bright)] hover:border-[color:var(--gold-bright)] transition-colors"
         >
           {t("retry")}
         </button>
         <Link
           href="/"
-          className="rounded-lg border border-neutral-800 bg-neutral-900/40 px-5 py-2 text-sm font-medium text-neutral-300 hover:text-[color:var(--gold-bright)] hover:border-[color:var(--gold)]/40 transition-colors"
+          className="rounded-lg border border-border bg-bg-secondary px-5 py-2 text-sm font-medium text-text-secondary hover:text-[color:var(--gold-bright)] hover:border-[color:var(--gold)]/40 transition-colors"
         >
           {t("home")}
         </Link>

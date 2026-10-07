@@ -72,12 +72,12 @@ export function RecentActivity({ adminKey, refreshToken }: RecentActivityProps) 
     <div className="bg-bg-card border border-border rounded-xl overflow-hidden">
       <div className="px-4 py-3 border-b border-border flex items-center justify-between">
         <h2 className="text-sm font-semibold text-text-secondary uppercase tracking-wider">
-          📋 {t("agentAuditHistory")}
+          {t("agentAuditHistory")}
         </h2>
         {loading && <span className="text-xs text-text-muted">{t("loading")}</span>}
       </div>
 
-      {error && <p className="px-4 py-3 text-sm text-red-400">⚠️ {error}</p>}
+      {error && <p className="px-4 py-3 text-sm text-danger">{error}</p>}
 
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
@@ -100,10 +100,10 @@ export function RecentActivity({ adminKey, refreshToken }: RecentActivityProps) 
                 <td className="px-4 py-2 text-text-secondary">{log.performedBy}</td>
                 <td className="px-4 py-2">
                   {log.status === "success" ? (
-                    <span className="text-green-400">✅ OK</span>
+                    <span className="text-success">OK</span>
                   ) : (
-                    <span className="text-red-400 cursor-help" title={log.error || undefined}>
-                      ❌ {t("statusError")}
+                    <span className="text-danger cursor-help" title={log.error || undefined}>
+                      {t("statusError")}
                     </span>
                   )}
                 </td>

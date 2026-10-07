@@ -290,7 +290,7 @@
     "colEntity": "Entidad",
     "colPerformedBy": "Ejecutado por",
     "autoRefreshNote": "Actualización automática cada 30 segundos",
-    "noScanYet": "No se han realizado análisis en esta sesión. Haz clic en \"🔍 Escanear y autocorregir datos\" en el panel de arriba.",
+    "noScanYet": "No se han realizado análisis en esta sesión. Haz clic en \"Escanear y autocorregir datos\" en el panel de arriba.",
     "lastScanResult": "Resultados del último análisis",
     "fixed": "Corregido",
     "skipped": "Omitido",

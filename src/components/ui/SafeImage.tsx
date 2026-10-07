@@ -35,6 +35,8 @@ export function toProxiedUrl(url: string): string {
 
 interface SafeImageProps extends Omit<ImageProps, "src"> {
   fallbackClassName?: string;
+  /** Nội dung hiển thị khi mọi nguồn ảnh đều lỗi (vd biểu tượng theo loại). Mặc định: icon ảnh mờ. */
+  fallback?: ReactNode;
   sizes?: string;
   /**
    * `src` được khai báo lại (nullable) so với ImageProps gốc — cho phép
@@ -67,6 +69,7 @@ interface SafeImageProps extends Omit<ImageProps, "src"> {
 
 export function SafeImage({
   fallbackClassName,
+  fallback,
   sizes = "100vw",
   fallbackSrc,
   fallbackSrcs,
@@ -120,6 +123,9 @@ export function SafeImage({
     setBroken(true);
   };
 
+  // Không có ảnh: hiện chữ cái đầu của tên (chữ, không phải icon tự vẽ).
+  const initial = (alt ?? "").trim().charAt(0).toUpperCase();
+
   if (broken || !src) {
     return (
       <div
@@ -130,20 +136,11 @@ export function SafeImage({
           "w-full h-full flex items-center justify-center text-text-muted text-[10px] bg-bg-secondary/30"
         }
       >
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 24 24"
-          className="w-1/3 max-w-8 min-w-4 opacity-50"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <rect x="3" y="3" width="18" height="18" rx="3" />
-          <circle cx="8.5" cy="9" r="1.5" />
-          <path d="m21 16-5-5-9 9" />
-        </svg>
+        {fallback ?? (
+          <span aria-hidden="true" className="text-base font-semibold opacity-60 select-none">
+            {initial}
+          </span>
+        )}
       </div>
     );
   }

@@ -104,7 +104,7 @@ export default async function BirthdaysPage({ params }: PageProps) {
 
       {todays.length > 0 && (
         <section className="mb-8 rounded-2xl border-2 border-accent-500 bg-bg-elevated p-5">
-          <h2 className="font-display text-xl font-bold text-accent-bright mb-3">🎂 Hôm nay là sinh nhật</h2>
+          <h2 className="font-display text-xl font-bold text-accent-bright mb-3">Hôm nay là sinh nhật</h2>
           <ul className="flex flex-wrap gap-3">
             {todays.map((r) => (
               <li key={r.id}>

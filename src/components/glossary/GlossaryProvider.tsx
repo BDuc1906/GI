@@ -105,9 +105,9 @@ export function GlossaryProvider({ children }: { children: React.ReactNode }) {
                 type="button"
                 onClick={close}
                 aria-label={t("close")}
-                className="shrink-0 rounded-full w-7 h-7 flex items-center justify-center text-text-muted hover:text-[color:var(--text)] hover:bg-white/5 transition-colors"
+                className="shrink-0 rounded-full w-7 h-7 flex items-center justify-center text-text-muted hover:text-[color:var(--text)] hover:bg-bg-elevated transition-colors"
               >
-                ✕
+                ×
               </button>
             </div>
             <p className="text-sm text-text-muted leading-relaxed whitespace-pre-line">{term.detail}</p>

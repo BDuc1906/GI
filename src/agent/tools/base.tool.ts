@@ -49,7 +49,7 @@ export abstract class BaseTool<TParams = unknown, TResult = unknown> {
       if (this.permission === "admin" && context.userRole !== "admin") {
         return {
           success: false,
-          error: "⚠️ Bạn không có quyền thực hiện hành động này. Yêu cầu quyền admin.",
+          error: "Bạn không có quyền thực hiện hành động này. Yêu cầu quyền admin.",
           metadata: { executedAt: new Date().toISOString(), durationMs: Date.now() - startTime, toolName },
         };
       }
@@ -57,7 +57,7 @@ export abstract class BaseTool<TParams = unknown, TResult = unknown> {
       if (this.permission === "user" && (!context.userId || context.userId === "guest")) {
         return {
           success: false,
-          error: "⚠️ Vui lòng đăng nhập để sử dụng tool này.",
+          error: "Vui lòng đăng nhập để sử dụng tool này.",
           metadata: { executedAt: new Date().toISOString(), durationMs: Date.now() - startTime, toolName },
         };
       }
@@ -66,7 +66,7 @@ export abstract class BaseTool<TParams = unknown, TResult = unknown> {
       if (!validated.success) {
         return {
           success: false,
-          error: `❌ Tham số không hợp lệ: ${validated.error.message}`,
+          error: `Tham số không hợp lệ: ${validated.error.message}`,
           metadata: { executedAt: new Date().toISOString(), durationMs: Date.now() - startTime, toolName },
         };
       }

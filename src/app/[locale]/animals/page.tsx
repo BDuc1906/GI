@@ -6,6 +6,9 @@ import { Pagination } from "@/components/ui/Pagination";
 import { LoreCard } from "@/components/lore/LoreCard";
 import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/ui/pagination";
 import { createStaticPageMetadata } from "@/lib/seo/metadata";
+import { EntityThumb } from "@/components/ui/EntityThumb";
+import { imageFor } from "@/lib/game/image-urls";
+import animalImages from "@/data/images/animals.json";
 import { normalizeSearch } from "@/lib/game/enemy-format";
 
 export const dynamic = "force-dynamic";
@@ -153,6 +156,14 @@ export default async function AnimalsPage({ params, searchParams }: AnimalsPageP
               <li key={a.id}>
                 <LoreCard
                   name={a.name}
+                  thumb={
+                    <EntityThumb
+                      candidates={imageFor(animalImages, a.id)}
+                      alt={a.name}
+                      size="lg"
+                      fit="contain"
+                    />
+                  }
                   badges={[{ label: CATEGORY_LABEL[a.category] ?? a.category, title: a.category }]}
                   description={a.description}
                 />

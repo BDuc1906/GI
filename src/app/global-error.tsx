@@ -48,7 +48,6 @@ export default function GlobalError({
             fontFamily: "system-ui, sans-serif",
           }}
         >
-          <p style={{ fontSize: "3rem", marginBottom: "1rem", color: "#f87171cc" }}>⚠</p>
           <h1 style={{ fontSize: "1.5rem", fontWeight: 700, textTransform: "uppercase", marginBottom: "0.75rem" }}>
             Critical Error
           </h1>

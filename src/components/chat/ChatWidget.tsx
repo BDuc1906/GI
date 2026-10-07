@@ -74,7 +74,7 @@ export function ChatWidget() {
         <div className="mb-3 w-[360px] max-w-[calc(100vw-2rem)] h-[480px] max-h-[70vh] bg-bg-card border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden">
           <div className="px-4 py-3 border-b border-border flex items-center justify-between bg-[var(--bg-bg-secondary)]">
             <div>
-              <h2 className="text-sm font-semibold text-gold-bright">🤖 LEIBO Agent</h2>
+              <h2 className="text-sm font-semibold text-gold-bright">LEIBO Agent</h2>
               <p className="text-[11px] text-text-muted">{t("subtitle")}</p>
             </div>
             <button
@@ -104,9 +104,8 @@ export function ChatWidget() {
                     <div className="mt-2 space-y-1 border-t border-border/50 pt-2">
                       {msg.toolInvocations.map((tool) => (
                         <div key={tool.id} className="text-[11px] text-text-muted flex items-center gap-1">
-                          {tool.status === "running" && <span className="animate-pulse">⏳</span>}
-                          {tool.status === "done" && <span>✅</span>}
-                          {tool.status === "error" && <span>❌</span>}
+                          {tool.status === "running" && <span className="animate-pulse">…</span>}
+                                                    {tool.status === "error" && <span className="text-danger">Lỗi:</span>}
                           <span>{toolLabel(tool.tool)}</span>
                         </div>
                       ))}
@@ -115,7 +114,7 @@ export function ChatWidget() {
                 </div>
               </div>
             ))}
-            {error && <p className="text-xs text-red-400 text-center">⚠️ {error.message}</p>}
+            {error && <p className="text-xs text-danger text-center">{error.message}</p>}
           </div>
 
           <form onSubmit={handleSubmit} className="p-3 border-t border-border flex gap-2">
@@ -130,7 +129,7 @@ export function ChatWidget() {
               <button
                 type="button"
                 onClick={stop}
-                className="px-3 py-2 rounded-lg border border-border text-sm text-text-secondary hover:border-red-400/50 hover:text-red-400 transition-colors"
+                className="px-3 py-2 rounded-lg border border-border text-sm text-text-secondary hover:border-danger/50 hover:text-danger transition-colors"
               >
                 {t("stop")}
               </button>
@@ -150,9 +149,9 @@ export function ChatWidget() {
       <button
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? t("closeChatWithAgent") : t("openChatWithAgent")}
-        className="w-14 h-14 rounded-full bg-gold hover:bg-gold-bright shadow-xl flex items-center justify-center text-2xl transition-colors"
+        className="w-14 h-14 rounded-full bg-gold hover:bg-gold-bright shadow-xl flex items-center justify-center text-sm font-semibold text-text-inverted transition-colors"
       >
-        {open ? "×" : "🤖"}
+        {open ? "×" : "Chat"}
       </button>
     </div>
   );

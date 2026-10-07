@@ -3,6 +3,9 @@ import { Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/db/prisma";
 import { withDbRetry } from "@/lib/db/db-retry";
 import { createStaticPageMetadata } from "@/lib/seo/metadata";
+import { EntityThumb } from "@/components/ui/EntityThumb";
+import { imageFor } from "@/lib/game/image-urls";
+import foodImages from "@/data/images/foods.json";
 import { normalizeSearch } from "@/lib/game/enemy-format";
 import {
   FOOD_FILTER_LABEL,
@@ -133,8 +136,14 @@ export default async function FoodPage({ params, searchParams }: FoodPageProps) 
                 <li key={food.id}>
                   <Link
                     href={`/food/${food.id}`}
-                    className="block h-full bg-bg-card border-2 border-border rounded-xl p-4 hover:border-accent-500 transition-all"
+                    className="flex gap-3 h-full bg-bg-card border-2 border-border rounded-xl p-4 hover:border-accent-500 transition-all"
                   >
+                    <EntityThumb
+                      candidates={imageFor(foodImages, food.id)}
+                      alt={food.name}
+                      size="md"
+                    />
+                    <div className="min-w-0 flex-1">
                     <div className="flex items-center justify-between gap-2 mb-1">
                       <h3 className="font-semibold text-text-primary">{food.name}</h3>
                       <span className="text-rarity-5 text-sm whitespace-nowrap">{stars(food.rarity)}</span>
@@ -157,6 +166,7 @@ export default async function FoodPage({ params, searchParams }: FoodPageProps) 
                     {r.characterName && (
                       <p className="text-xs text-text-muted">Món đặc biệt của {r.characterName}</p>
                     )}
+                    </div>
                   </Link>
                 </li>
               );

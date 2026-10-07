@@ -294,7 +294,7 @@
     "colEntity": "Entity",
     "colPerformedBy": "Performed by",
     "autoRefreshNote": "Auto refresh every 30 seconds",
-    "noScanYet": "No scans have been run in this session. Click \"🔍 Scan & Self-Correct Data\" in the panel above.",
+    "noScanYet": "No scans have been run in this session. Click \"Scan & Self-Correct Data\" in the panel above.",
     "lastScanResult": "Last Scan Results",
     "fixed": "Fixed",
     "skipped": "Skip",

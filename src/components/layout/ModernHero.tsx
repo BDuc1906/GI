@@ -1,5 +1,6 @@
 "use client";
 
+import { SearchIcon } from "@/components/ui/UiIcon";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Link } from "@/i18n/navigation";
@@ -51,7 +52,7 @@ export function ModernHero() {
                 className="w-full px-6 py-4 text-lg bg-bg-card border-2 border-border rounded-full outline-none focus:border-gold/60 focus:ring-2 focus:ring-gold/20 transition-all text-text-primary placeholder:text-text-muted"
               />
               <div className="absolute right-4 top-1/2 -translate-y-1/2 text-text-muted">
-                🔍
+                <SearchIcon size={20} />
               </div>
             </div>
           </div>

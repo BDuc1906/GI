@@ -89,7 +89,7 @@ export default async function Home({ params }: HomePageProps) {
         <section className="max-w-7xl mx-auto px-4 md:px-8 py-12">
           <div className="text-center mb-8">
             <h2 className="font-display text-2xl font-bold text-text-primary mb-2">
-              ⭐ Nhân vật nổi bật
+              Nhân vật nổi bật
             </h2>
             <p className="text-text-secondary">Character với độ hiếm cao nhất</p>
           </div>
