@@ -1,0 +1,170 @@
+{
+  "hexerei": {
+    "wave1": [
+      "Durin",
+      "Razor",
+      "Fischl",
+      "Sucrose",
+      "Mona",
+      "Venti",
+      "Klee",
+      "Albedo"
+    ],
+    "newWitches": [
+      "Nicole",
+      "Lohen",
+      "Prune"
+    ],
+    "characters": [
+      "Durin",
+      "Razor",
+      "Fischl",
+      "Sucrose",
+      "Mona",
+      "Venti",
+      "Klee",
+      "Albedo",
+      "Nicole",
+      "Lohen",
+      "Prune"
+    ],
+    "info": {
+      "nameVi": "Hexerei: Bí Mật Nghi Thức",
+      "requirement": "Nhân vật Mondstadt cũ cần hoàn thành \"Bài Tập Của Ma Nữ\" (Witch's Homework) để mở khoá tư cách Hexerei; witch mới (Nicole/Lohen/Prune) có sẵn không cần làm nhiệm vụ. Cần ≥2 nhân vật Hexerei trong đội mới kích hoạt hiệu ứng.",
+      "description": "Mỗi nhân vật Hexerei được nâng cấp riêng 1 thiên phú/chiêu thức/mệnh cung khi đứng cùng đội với 1 nhân vật Hexerei khác — không phải buff chỉ số chung cho toàn đội như Cộng hưởng Nguyên tố.",
+      "nameTranslations": {
+        "en": "Hexerei: Secret Rite",
+        "zh-CN": "海克斯莱：秘密仪式",
+        "zh-TW": "海克斯萊：秘密儀式",
+        "ja": "ヘクセライ：秘密の儀式",
+        "ko": "헥세라이: 비밀 의식",
+        "fr": "Hexerei : Rite secret",
+        "de": "Hexerei: Geheimer Ritus",
+        "id": "Hexerei: Ritus Rahasia",
+        "it": "Hexerei: Rito Segreto",
+        "pt": "Hexerei: Rito Secreto",
+        "es": "Hexerei: Rito Secreto",
+        "ru": "Хексерай: Тайный обряд",
+        "th": "Hexerei: พิธีกรรมลับ",
+        "tr": "Hexerei: Gizli Ayin"
+      },
+      "requirementTranslations": {
+        "en": "Older Mondstadt characters must complete \"Witch's Homework\" to unlock Hexerei eligibility; the new witches (Nicole/Lohen/Prune) have it by default without needing the quest. Requires ≥2 Hexerei characters in the team to activate the effect.",
+        "zh-CN": "旧蒙德角色需完成“女巫的家庭作业”才能解锁海克斯莱资格；新女巫（妮可蕾/洛恩/普鲁恩）默认已拥有该资格，无需完成任务。队伍中需有≥2名海克斯莱角色才能触发效果。",
+        "zh-TW": "舊蒙德角色需完成「女巫的家庭作業」才能解鎖海克斯萊資格；新女巫（妮可蕾/洛恩/普魯恩）預設已擁有該資格，無需完成任務。隊伍中需有≥2名海克斯萊角色才能觸發效果。",
+        "ja": "既存のモンドキャラクターは「魔女の宿題」を完了することでヘクセライの資格を解放する必要があります。新しい魔女(ニコレ/ローエン/プルーン)はデフォルトでこの資格を持っており、クエストは不要です。効果を発動するにはパーティ内に2人以上のヘクセライキャラクターが必要です。",
+        "ko": "기존 몬드 캐릭터는 \"마녀의 숙제\"를 완료해야 헥세라이 자격을 얻을 수 있습니다. 새로운 마녀들(니콜레/로엔/프룬)은 퀘스트 없이 기본적으로 이 자격을 가지고 있습니다. 효과를 발동하려면 파티에 헥세라이 캐릭터가 2명 이상 있어야 합니다.",
+        "fr": "Les anciens personnages de Mondstadt doivent terminer les « Devoirs de la Sorcière » pour débloquer l'éligibilité Hexerei ; les nouvelles sorcières (Nicole/Lohen/Prune) l'ont par défaut sans avoir besoin de la quête. Nécessite ≥2 personnages Hexerei dans l'équipe pour activer l'effet.",
+        "de": "Ältere Mondstadt-Charaktere müssen die „Hausaufgaben der Hexe\" abschließen, um die Hexerei-Berechtigung freizuschalten; die neuen Hexen (Nicole/Lohen/Prune) besitzen sie standardmäßig ohne die Quest. Erfordert ≥2 Hexerei-Charaktere im Team, um den Effekt zu aktivieren.",
+        "id": "Karakter Mondstadt lama harus menyelesaikan \"PR Penyihir\" untuk membuka kelayakan Hexerei; penyihir baru (Nicole/Lohen/Prune) sudah memilikinya secara default tanpa perlu menyelesaikan quest. Membutuhkan ≥2 karakter Hexerei dalam tim untuk mengaktifkan efek.",
+        "it": "I vecchi personaggi di Mondstadt devono completare i \"Compiti della Strega\" per sbloccare l'idoneità Hexerei; le nuove streghe (Nicole/Lohen/Prune) la possiedono già di default senza bisogno della quest. Richiede ≥2 personaggi Hexerei nella squadra per attivare l'effetto.",
+        "pt": "As personagens antigas de Mondstadt devem completar o \"Trabalho de Casa da Bruxa\" para desbloquear a elegibilidade Hexerei; as novas bruxas (Nicole/Lohen/Prune) já a possuem por padrão sem precisar da missão. Requer ≥2 personagens Hexerei na equipa para ativar o efeito.",
+        "es": "Los personajes antiguos de Mondstadt deben completar la \"Tarea de la Bruja\" para desbloquear la elegibilidad Hexerei; las nuevas brujas (Nicole/Lohen/Prune) ya la tienen por defecto sin necesidad de la misión. Requiere ≥2 personajes Hexerei en el equipo para activar el efecto.",
+        "ru": "Старые персонажи Мондштадта должны выполнить «Домашнее задание ведьмы», чтобы разблокировать право на Хексерай; новые ведьмы (Николь/Лоэн/Прюн) уже обладают этим правом по умолчанию без необходимости выполнять задание. Требуется ≥2 персонажа Хексерай в команде для активации эффекта.",
+        "th": "ตัวละคร Mondstadt รุ่นเก่าต้องทำ \"การบ้านของแม่มด\" ให้เสร็จเพื่อปลดล็อกสิทธิ์ Hexerei; แม่มดใหม่ (Nicole/Lohen/Prune) มีสิทธิ์นี้อยู่แล้วโดยไม่ต้องทำเควส ต้องมีตัวละคร Hexerei ≥2 ตัวในทีมเพื่อเปิดใช้งานเอฟเฟกต์",
+        "tr": "Eski Mondstadt karakterlerinin Hexerei uygunluğunun kilidini açmak için \"Cadının Ev Ödevi\"ni tamamlaması gerekir; yeni cadılar (Nicole/Lohen/Prune) göreve gerek kalmadan bunu varsayılan olarak zaten sahiptir. Efekti etkinleştirmek için takımda ≥2 Hexerei karakteri gerekir."
+      },
+      "descriptionTranslations": {
+        "en": "Each Hexerei character gets their own individual talent/skill/constellation upgrade when teamed up with another Hexerei character — not a shared stat buff for the whole party like Elemental Resonance.",
+        "zh-CN": "每名海克斯莱角色与另一名海克斯莱角色同队时，会获得各自专属的天赋/技能/命之座强化——不像元素共鸣那样是全队共享的属性加成。",
+        "zh-TW": "每名海克斯萊角色與另一名海克斯萊角色同隊時，會獲得各自專屬的天賦/技能/命之座強化——不像元素共鳴那樣是全隊共享的屬性加成。",
+        "ja": "各ヘクセライキャラクターは、他のヘクセライキャラクターとチームを組むと、それぞれ個別の天賦/スキル/命ノ星座の強化を得ます——元素共鳴のようなパーティ全体で共有されるステータスバフではありません。",
+        "ko": "각 헥세라이 캐릭터는 다른 헥세라이 캐릭터와 함께 팀을 이루면 각자 개별적인 천부/스킬/운명의 자리 강화를 받습니다 — 원소 공명처럼 파티 전체가 공유하는 스탯 버프가 아닙니다.",
+        "fr": "Chaque personnage Hexerei obtient sa propre amélioration individuelle de talent/compétence/constellation lorsqu'il est associé à un autre personnage Hexerei — pas un bonus de statistiques partagé pour tout le groupe comme la Résonance Élémentaire.",
+        "de": "Jeder Hexerei-Charakter erhält sein eigenes individuelles Talent-/Fähigkeits-/Konstellations-Upgrade, wenn er mit einem anderen Hexerei-Charakter im Team ist — kein gemeinsamer Statuswert-Buff für die gesamte Gruppe wie bei der Elementarresonanz.",
+        "id": "Setiap karakter Hexerei mendapatkan peningkatan talenta/skill/constellation individu masing-masing saat bersama karakter Hexerei lain dalam tim — bukan buff stat bersama untuk seluruh party seperti Elemental Resonance.",
+        "it": "Ogni personaggio Hexerei ottiene il proprio potenziamento individuale di talento/abilità/costellazione quando è in squadra con un altro personaggio Hexerei — non un bonus statistico condiviso per tutta la squadra come la Risonanza Elementale.",
+        "pt": "Cada personagem Hexerei recebe a sua própria melhoria individual de talento/habilidade/constelação ao formar equipa com outra personagem Hexerei — não é um bónus de atributo partilhado para todo o grupo como a Ressonância Elemental.",
+        "es": "Cada personaje Hexerei obtiene su propia mejora individual de talento/habilidad/constelación al formar equipo con otro personaje Hexerei — no es una bonificación de estadísticas compartida para todo el grupo como la Resonancia Elemental.",
+        "ru": "Каждый персонаж Хексерай получает собственное индивидуальное улучшение таланта/навыка/созвездия, находясь в команде с другим персонажем Хексерай — это не общий бонус характеристик для всей партии, как Стихийный резонанс.",
+        "th": "ตัวละคร Hexerei แต่ละตัวจะได้รับการอัปเกรดพรสวรรค์/สกิล/กลุ่มดาวส่วนตัวของตนเอง เมื่ออยู่ในทีมร่วมกับตัวละคร Hexerei อีกตัว — ไม่ใช่บัฟค่าสถานะที่แชร์กันทั้งทีมเหมือน Elemental Resonance",
+        "tr": "Her Hexerei karakteri, başka bir Hexerei karakteriyle takım olduğunda kendi bireysel yetenek/beceri/takımyıldızı yükseltmesini alır — Elemental Resonance gibi tüm parti için paylaşılan bir stat bonusu değildir."
+      }
+    }
+  },
+  "witchRevelation": {
+    "characters": [
+      "Wriothesley",
+      "Yae Miko",
+      "Cyno",
+      "Qiqi",
+      "Diona",
+      "Beidou",
+      "Yumemizuki Mizuki"
+    ],
+    "info": {
+      "nameVi": "Khải Huyền Của Ma Nữ",
+      "requirement": "Sở hữu nhân vật ≥ cấp 70, hoàn thành nhiệm vụ \"Revelations by Chance\" lấy Hộp Khải Huyền, sau đó làm nhiệm vụ Khải Huyền riêng cho từng nhân vật.",
+      "description": "Mở khoá thêm 1 thiên phú + nâng cấp mệnh cung C1/C2/C4/C6. Khi đứng trong Vùng Trục Sao (Polestar Field) do Stellar-Conduct tạo ra, nhân vật vào trạng thái Radiance: Stellar-Conduct, nhận thêm hiệu ứng/sát thương Stellar-Conduct riêng.",
+      "gameVersion": "6.7",
+      "nameTranslations": {
+        "en": "Witch's Revelation",
+        "zh-CN": "女巫的启示",
+        "zh-TW": "女巫的啟示",
+        "ja": "魔女の啓示",
+        "ko": "마녀의 계시",
+        "fr": "Révélation de la Sorcière",
+        "de": "Offenbarung der Hexe",
+        "id": "Wahyu Penyihir",
+        "it": "Rivelazione della Strega",
+        "pt": "Revelação da Bruxa",
+        "es": "Revelación de la Bruja",
+        "ru": "Откровение ведьмы",
+        "th": "การเปิดเผยของแม่มด",
+        "tr": "Cadının Vahyi"
+      },
+      "requirementTranslations": {
+        "en": "Own the character at ≥Lv.70, complete \"Revelations by Chance\" to obtain the Revelation Box, then complete each character's individual Revelation quest.",
+        "zh-CN": "拥有等级≥70的角色，完成“机缘的启示”任务获得启示宝箱，然后完成每名角色各自的启示任务。",
+        "zh-TW": "擁有等級≥70的角色，完成「機緣的啟示」任務獲得啟示寶箱，然後完成每名角色各自的啟示任務。",
+        "ja": "キャラクターのレベルが70以上であること、「機縁の啓示」クエストを完了して啓示の宝箱を入手し、その後各キャラクター個別の啓示クエストを完了する必要があります。",
+        "ko": "캐릭터 레벨 70 이상 보유, \"우연에 의한 계시\" 퀘스트를 완료해 계시 상자를 획득한 후 각 캐릭터별 개별 계시 퀘스트를 완료해야 합니다.",
+        "fr": "Posséder le personnage au niveau ≥70, terminer « Révélations par le hasard » pour obtenir la Boîte de Révélation, puis terminer la quête de Révélation individuelle de chaque personnage.",
+        "de": "Den Charakter auf ≥Level 70 besitzen, „Offenbarungen durch Zufall\" abschließen, um die Offenbarungsbox zu erhalten, dann die individuelle Offenbarungs-Quest jedes Charakters abschließen.",
+        "id": "Miliki karakter di ≥Lv.70, selesaikan \"Revelations by Chance\" untuk mendapatkan Revelation Box, lalu selesaikan quest Revelation individu tiap karakter.",
+        "it": "Possedere il personaggio a Lv.≥70, completare \"Rivelazioni per Caso\" per ottenere la Scatola della Rivelazione, quindi completare la missione di Rivelazione individuale di ogni personaggio.",
+        "pt": "Possuir a personagem no Nv.≥70, completar \"Revelações ao Acaso\" para obter a Caixa de Revelação e, depois, completar a missão de Revelação individual de cada personagem.",
+        "es": "Tener al personaje en Nv.≥70, completar \"Revelaciones por Casualidad\" para obtener la Caja de Revelación, luego completar la misión de Revelación individual de cada personaje.",
+        "ru": "Иметь персонажа ≥70 уровня, выполнить задание «Откровения по воле случая», чтобы получить Шкатулку откровений, затем выполнить индивидуальное задание откровения для каждого персонажа.",
+        "th": "มีตัวละครเลเวล ≥70 ทำเควส \"Revelations by Chance\" ให้เสร็จเพื่อรับ Revelation Box จากนั้นทำเควส Revelation เฉพาะตัวของแต่ละตัวละครให้เสร็จ",
+        "tr": "Karakteri ≥Sv.70'te sahip olun, Vahiy Kutusunu elde etmek için \"Şans Eseri Vahiyler\"i tamamlayın, ardından her karakterin kendi Vahiy görevini tamamlayın."
+      },
+      "descriptionTranslations": {
+        "en": "Unlocks an additional talent plus C1/C2/C4/C6 constellation upgrades. While standing within a Polestar Field created by Stellar-Conduct, the character enters Radiance: Stellar-Conduct state, gaining additional Stellar-Conduct effects/damage.",
+        "zh-CN": "解锁额外天赋以及命之座C1/C2/C4/C6强化。站在恒星导体产生的北极星场内时，角色进入“光耀：恒星导体”状态，获得额外的恒星导体效果/伤害。",
+        "zh-TW": "解鎖額外天賦以及命之座C1/C2/C4/C6強化。站在恆星導體產生的北極星場內時，角色進入「光耀：恆星導體」狀態，獲得額外的恆星導體效果/傷害。",
+        "ja": "追加の天賦とC1/C2/C4/C6命ノ星座の強化を解放します。ステラー・コンダクトによって生成されたポールスターフィールド内にいる間、キャラクターは「輝き：ステラー・コンダクト」状態になり、追加のステラー・コンダクト効果/ダメージを得ます。",
+        "ko": "추가 천부와 C1/C2/C4/C6 운명의 자리 강화를 해제합니다. 스텔라-컨덕트로 생성된 폴스타 필드 내에 있을 때 캐릭터는 \"광휘: 스텔라-컨덕트\" 상태에 돌입해 추가 스텔라-컨덕트 효과/피해를 얻습니다.",
+        "fr": "Débloque un talent supplémentaire ainsi que les améliorations de constellation C1/C2/C4/C6. En se tenant dans un Champ Polaire créé par Conduite Stellaire, le personnage entre en état Éclat : Conduite Stellaire, gagnant des effets/dégâts de Conduite Stellaire supplémentaires.",
+        "de": "Schaltet ein zusätzliches Talent sowie C1/C2/C4/C6-Konstellations-Upgrades frei. Während der Charakter sich in einem von Stellar-Conduct erzeugten Polestar-Feld befindet, tritt er in den Zustand Strahlen: Stellar-Conduct ein und erhält zusätzliche Stellar-Conduct-Effekte/-Schaden.",
+        "id": "Membuka talenta tambahan plus peningkatan constellation C1/C2/C4/C6. Saat berdiri di dalam Polestar Field yang diciptakan oleh Stellar-Conduct, karakter memasuki status Radiance: Stellar-Conduct, mendapatkan efek/damage Stellar-Conduct tambahan.",
+        "it": "Sblocca un talento aggiuntivo più i potenziamenti di costellazione C1/C2/C4/C6. Stando all'interno di un Campo Polestar creato da Condotta Stellare, il personaggio entra nello stato Radiance: Condotta Stellare, ottenendo effetti/danni aggiuntivi da Condotta Stellare.",
+        "pt": "Desbloqueia um talento adicional mais melhorias de constelação C1/C2/C4/C6. Ao permanecer dentro de um Campo Polestar criado por Condução Estelar, a personagem entra no estado Radiance: Condução Estelar, ganhando efeitos/dano adicionais de Condução Estelar.",
+        "es": "Desbloquea un talento adicional además de mejoras de constelación C1/C2/C4/C6. Al permanecer dentro de un Campo Polestar creado por Conducta Estelar, el personaje entra en el estado Resplandor: Conducta Estelar, obteniendo efectos/daño adicionales de Conducta Estelar.",
+        "ru": "Открывает дополнительный талант, а также улучшения созвездия C1/C2/C4/C6. Находясь в поле Полярной звезды, созданном Звёздным Проведением, персонаж входит в состояние Сияние: Звёздное Проведение, получая дополнительные эффекты/урон Звёздного Проведения.",
+        "th": "ปลดล็อกพรสวรรค์เพิ่มเติมพร้อมการอัปเกรดกลุ่มดาว C1/C2/C4/C6 ขณะยืนอยู่ใน Polestar Field ที่สร้างโดย Stellar-Conduct ตัวละครจะเข้าสู่สถานะ Radiance: Stellar-Conduct ได้รับเอฟเฟกต์/ความเสียหาย Stellar-Conduct เพิ่มเติม",
+        "tr": "Ek bir yetenek ile C1/C2/C4/C6 takımyıldızı yükseltmelerinin kilidini açar. Stellar-Conduct tarafından oluşturulan bir Kutup Alanı içinde dururken, karakter Radiance: Stellar-Conduct durumuna girer ve ek Stellar-Conduct efektleri/hasarı kazanır."
+      }
+    }
+  },
+  "characterElement": {
+    "Durin": "Pyro",
+    "Razor": "Electro",
+    "Fischl": "Electro",
+    "Sucrose": "Anemo",
+    "Mona": "Hydro",
+    "Venti": "Anemo",
+    "Klee": "Pyro",
+    "Albedo": "Geo",
+    "Nicole": "Pyro",
+    "Lohen": "Cryo",
+    "Prune": "Anemo",
+    "Wriothesley": "Cryo",
+    "Yae Miko": "Electro",
+    "Cyno": "Electro",
+    "Qiqi": "Cryo",
+    "Diona": "Cryo",
+    "Beidou": "Electro",
+    "Yumemizuki Mizuki": "Anemo"
+  }
+}

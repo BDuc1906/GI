@@ -1,0 +1,172 @@
+{
+  "nameVi": "Cộng hưởng Nguyệt",
+  "requirement": "Cần đội hình đạt Moonsign Level = Ascendant Gleam (≥2 nhân vật Moonsign, vd Ineffa/Flins/Aino/Lauma/Nefer trong đội).",
+  "description": "Mỗi khi 1 nhân vật KHÔNG sở hữu Moonsign tung Kỹ Năng hoặc Trọng Kích, toàn đội nhận buff Sát Thương Phản Ứng Nguyệt 20 giây, tính theo chỉ số của chính nhân vật đó. KHÔNG cộng dồn — dùng chiêu lại sẽ làm mới theo giá trị mới, không phải cộng thêm.",
+  "scalings": [
+    {
+      "elements": [
+        "Pyro",
+        "Electro",
+        "Cryo"
+      ],
+      "statLabel": "Tấn công (ATK)",
+      "ratePerUnit": "+0.9% mỗi 100 ATK",
+      "example": "Raiden Shogun 2.000 ATK → +18% Sát Thương Nguyệt",
+      "statLabelTranslations": {
+        "en": "ATK",
+        "zh-CN": "攻击力",
+        "zh-TW": "攻擊力",
+        "ja": "攻撃力",
+        "ko": "공격력",
+        "fr": "ATQ",
+        "de": "ATK",
+        "id": "ATK",
+        "it": "ATK",
+        "pt": "ATK",
+        "es": "ATQ",
+        "ru": "АТК",
+        "th": "พลังโจมตี",
+        "tr": "Saldırı Gücü"
+      }
+    },
+    {
+      "elements": [
+        "Hydro"
+      ],
+      "statLabel": "HP tối đa",
+      "ratePerUnit": "+0.6% mỗi 1000 HP",
+      "example": "Furina 30.000 HP → +18% Sát Thương Nguyệt",
+      "statLabelTranslations": {
+        "en": "Max HP",
+        "zh-CN": "生命值上限",
+        "zh-TW": "生命值上限",
+        "ja": "HP上限",
+        "ko": "최대 체력",
+        "fr": "PV Max",
+        "de": "Max. HP",
+        "id": "HP Maks",
+        "it": "HP Massimi",
+        "pt": "HP Máx.",
+        "es": "PS Máx.",
+        "ru": "Макс. HP",
+        "th": "HP สูงสุด",
+        "tr": "Maks. Can"
+      }
+    },
+    {
+      "elements": [
+        "Geo"
+      ],
+      "statLabel": "Phòng thủ (DEF)",
+      "ratePerUnit": "+1% mỗi 100 DEF",
+      "example": "Nhân vật Geo ~1.800 DEF → +18% Sát Thương Nguyệt",
+      "statLabelTranslations": {
+        "en": "DEF",
+        "zh-CN": "防御力",
+        "zh-TW": "防禦力",
+        "ja": "防御力",
+        "ko": "방어력",
+        "fr": "DEF",
+        "de": "VERT",
+        "id": "DEF",
+        "it": "DIF",
+        "pt": "DEF",
+        "es": "DEF",
+        "ru": "ЗАЩ",
+        "th": "พลังป้องกัน",
+        "tr": "Savunma"
+      }
+    },
+    {
+      "elements": [
+        "Anemo",
+        "Dendro"
+      ],
+      "statLabel": "Tinh Thông Nguyên Tố (EM)",
+      "ratePerUnit": "+2.25% mỗi 100 EM",
+      "example": "Kazuha ~800 EM → +18% Sát Thương Nguyệt",
+      "statLabelTranslations": {
+        "en": "Elemental Mastery (EM)",
+        "zh-CN": "元素精通（EM）",
+        "zh-TW": "元素精通（EM）",
+        "ja": "元素熟知（EM）",
+        "ko": "원소 숙련도 (EM)",
+        "fr": "Maîtrise Élémentaire (EM)",
+        "de": "Elementarmeisterei (EM)",
+        "id": "Elemental Mastery (EM)",
+        "it": "Maestria Elementale (EM)",
+        "pt": "Mestria Elemental (EM)",
+        "es": "Maestría Elemental (EM)",
+        "ru": "Мастерство стихий (EM)",
+        "th": "ความเชี่ยวชาญธาตุ (EM)",
+        "tr": "Element Ustalığı (EM)"
+      }
+    }
+  ],
+  "maxBonus": "36% (giới hạn cứng, dù tính ra cao hơn cũng không vượt quá)",
+  "gameVersion": "6.0",
+  "nameTranslations": {
+    "en": "Lunar Resonance",
+    "zh-CN": "月之共鸣",
+    "zh-TW": "月之共鳴",
+    "ja": "月の共鳴",
+    "ko": "달의 공명",
+    "fr": "Résonance lunaire",
+    "de": "Mondresonanz",
+    "id": "Resonansi Bulan",
+    "it": "Risonanza Lunare",
+    "pt": "Ressonância Lunar",
+    "es": "Resonancia Lunar",
+    "ru": "Лунный резонанс",
+    "th": "การสั่นพ้องแห่งดวงจันทร์",
+    "tr": "Ay Rezonansı"
+  },
+  "requirementTranslations": {
+    "en": "Requires a team Moonsign Level of Ascendant Gleam (≥2 Moonsign characters, e.g. Ineffa/Flins/Aino/Lauma/Nefer in the team).",
+    "zh-CN": "需要队伍的月兆等级达到“升华光辉”（队伍中至少有2名拥有月兆的角色，例如伊涅芙/弗林斯/爱野/劳玛/妮芙）。",
+    "zh-TW": "需要隊伍的月兆等級達到「昇華光輝」（隊伍中至少有2名擁有月兆的角色，例如伊涅芙/弗林斯/愛野/勞瑪/妮芙）。",
+    "ja": "パーティのムーンサインレベルが「アセンダントグリーム」に達している必要があります（パーティ内にムーンサインを持つキャラクターが2人以上、例：イネッファ/フリンス/アイノ/ラウマ/ネフェルなど）。",
+    "ko": "파티의 문사인 레벨이 \"어센던트 글림\"에 도달해야 합니다 (파티에 문사인 캐릭터 2명 이상, 예: 이네파/플린스/아이노/라우마/네페르).",
+    "fr": "Nécessite un niveau de Signe Lunaire d'équipe « Éclat Ascendant » (≥2 personnages ayant un Signe Lunaire, par ex. Ineffa/Flins/Aino/Lauma/Nefer dans l'équipe).",
+    "de": "Erfordert ein Team-Mondzeichen-Level von \"Aufsteigender Glanz\" (≥2 Charaktere mit Mondzeichen, z. B. Ineffa/Flins/Aino/Lauma/Nefer im Team).",
+    "id": "Membutuhkan Team Moonsign Level Ascendant Gleam (≥2 karakter Moonsign, misalnya Ineffa/Flins/Aino/Lauma/Nefer dalam tim).",
+    "it": "Richiede un Livello Moonsign di squadra pari a \"Bagliore Ascendente\" (≥2 personaggi Moonsign, es. Ineffa/Flins/Aino/Lauma/Nefer nella squadra).",
+    "pt": "Requer um Nível de Moonsign de equipa \"Brilho Ascendente\" (≥2 personagens Moonsign, ex. Ineffa/Flins/Aino/Lauma/Nefer na equipa).",
+    "es": "Requiere un Nivel de Signo Lunar de equipo \"Resplandor Ascendente\" (≥2 personajes con Signo Lunar, p. ej. Ineffa/Flins/Aino/Lauma/Nefer en el equipo).",
+    "ru": "Требуется уровень Лунного Знака команды «Восходящее Сияние» (≥2 персонажа с Лунным Знаком, напр. Инеффа/Флинс/Айно/Лаума/Нефер в команде).",
+    "th": "ต้องการ Team Moonsign Level ระดับ Ascendant Gleam (ตัวละคร Moonsign ≥2 ตัวในทีม เช่น Ineffa/Flins/Aino/Lauma/Nefer)",
+    "tr": "Takımın Moonsign Seviyesinin Ascendant Gleam olmasını gerektirir (takımda ≥2 Moonsign karakteri, örn. Ineffa/Flins/Aino/Lauma/Nefer)."
+  },
+  "descriptionTranslations": {
+    "en": "Whenever a character WITHOUT a Moonsign uses their Elemental Skill or Burst, the whole party gains a 20-second Lunar Reaction DMG Bonus buff, calculated from that character's own stats. This does NOT stack — using another skill refreshes it to the new value instead of adding to it.",
+    "zh-CN": "每当一名没有月兆的角色使用元素战技或元素爆发时，全队获得持续20秒的月反应伤害加成，数值根据该角色自身面板计算。该效果不可叠加——使用其他技能会刷新为新数值，而非叠加。",
+    "zh-TW": "每當一名沒有月兆的角色使用元素戰技或元素爆發時，全隊獲得持續20秒的月反應傷害加成，數值依該角色自身面板計算。此效果不可疊加——使用其他技能會刷新為新數值，而非疊加。",
+    "ja": "ムーンサインを持たないキャラクターが元素スキルまたは元素爆発を使用するたびに、パーティ全体がそのキャラクター自身のステータスに基づいて計算された、20秒間の月反応ダメージボーナスを獲得します。この効果は重複しません——別のスキルを使用すると、加算されるのではなく新しい値に更新されます。",
+    "ko": "문사인이 없는 캐릭터가 원소 스킬이나 원소 폭발을 사용할 때마다, 파티 전체가 해당 캐릭터 자신의 스탯을 기준으로 계산된 20초간의 달 반응 피해 보너스 버프를 얻습니다. 이 효과는 중첩되지 않으며 — 다른 스킬을 사용하면 값이 더해지는 대신 새로운 값으로 갱신됩니다.",
+    "fr": "Chaque fois qu'un personnage SANS Signe Lunaire utilise sa Compétence Élémentaire ou son Explosion Élémentaire, tout le groupe obtient un bonus de DMG de Réaction Lunaire de 20 secondes, calculé à partir des statistiques de ce personnage. Cet effet NE se cumule PAS — utiliser une autre compétence le rafraîchit à la nouvelle valeur au lieu de s'y ajouter.",
+    "de": "Immer wenn ein Charakter OHNE Mondzeichen seine Elementarfähigkeit oder seinen Elementarausbruch einsetzt, erhält die gesamte Gruppe für 20 Sekunden einen Mond-Reaktions-Schadensbonus, der anhand der eigenen Werte dieses Charakters berechnet wird. Dieser Effekt stapelt sich NICHT — die Nutzung einer weiteren Fähigkeit aktualisiert ihn auf den neuen Wert, anstatt ihn zu addieren.",
+    "id": "Setiap kali karakter TANPA Moonsign menggunakan Elemental Skill atau Burst-nya, seluruh party mendapatkan buff Bonus DMG Reaksi Lunar selama 20 detik, dihitung dari stat karakter tersebut sendiri. Efek ini TIDAK bertumpuk — menggunakan skill lain akan menyegarkannya ke nilai baru, bukan menambahkannya.",
+    "it": "Ogni volta che un personaggio SENZA Moonsign usa la propria Abilità Elementale o Scoppio Elementale, l'intera squadra ottiene un bonus ai danni da Reazione Lunare della durata di 20 secondi, calcolato in base alle statistiche di quel personaggio. Questo effetto NON si accumula — usare un'altra abilità lo aggiorna al nuovo valore invece di sommarlo.",
+    "pt": "Sempre que uma personagem SEM Moonsign usa a sua Habilidade Elemental ou Explosão Elemental, todo o grupo ganha um bónus de Dano de Reação Lunar de 20 segundos, calculado com base nos atributos dessa personagem. Este efeito NÃO se acumula — usar outra habilidade atualiza-o para o novo valor em vez de o somar.",
+    "es": "Cada vez que un personaje SIN Signo Lunar usa su Habilidad Elemental o Explosión Elemental, todo el grupo obtiene una bonificación de daño de Reacción Lunar de 20 segundos, calculada según las estadísticas de ese personaje. Este efecto NO se acumula — usar otra habilidad lo actualiza al nuevo valor en lugar de sumarlo.",
+    "ru": "Каждый раз, когда персонаж БЕЗ Лунного Знака использует Элементальный навык или Взрыв, вся команда получает 20-секундный бонус к урону от Лунных реакций, рассчитанный по характеристикам этого персонажа. Эффект НЕ суммируется — использование другого навыка обновляет его до нового значения, а не складывается.",
+    "th": "ทุกครั้งที่ตัวละครที่ไม่มี Moonsign ใช้ Elemental Skill หรือ Burst ทั้งปาร์ตี้จะได้รับบัฟโบนัสความเสียหาย Lunar Reaction เป็นเวลา 20 วินาที คำนวณจากค่าสถานะของตัวละครนั้นเอง เอฟเฟกต์นี้ไม่สามารถซ้อนกันได้ — การใช้สกิลอื่นจะรีเฟรชเป็นค่าใหม่แทนที่จะบวกเพิ่ม",
+    "tr": "Moonsign'ı OLMAYAN bir karakter Elemental Yeteneğini veya Patlamasını kullandığında, tüm parti bu karakterin kendi istatistiklerinden hesaplanan 20 saniyelik bir Ay Reaksiyonu Hasar Bonusu kazanır. Bu efekt YIĞILMAZ — başka bir yetenek kullanmak, eklemek yerine onu yeni değere günceller."
+  },
+  "maxBonusTranslations": {
+    "en": "36% (hard cap — even if the calculation exceeds this, it won't go higher)",
+    "zh-CN": "36%（硬性上限——即使计算结果超过此值，也不会更高）",
+    "zh-TW": "36%（硬性上限——即使計算結果超過此值，也不會更高）",
+    "ja": "36%（ハードキャップ——計算結果がこれを超えても、これ以上は上がりません）",
+    "ko": "36% (하드 캡 — 계산 결과가 이를 초과하더라도 더 이상 올라가지 않습니다)",
+    "fr": "36 % (plafond strict — même si le calcul dépasse cette valeur, elle ne montera pas plus haut)",
+    "de": "36 % (harte Obergrenze — selbst wenn die Berechnung diesen Wert übersteigt, steigt er nicht weiter)",
+    "id": "36% (batas keras — meskipun perhitungan melebihi ini, tidak akan lebih tinggi)",
+    "it": "36% (limite massimo fisso — anche se il calcolo lo supera, non salirà oltre)",
+    "pt": "36% (limite rígido — mesmo que o cálculo ultrapasse este valor, não sobe mais)",
+    "es": "36% (límite máximo fijo — aunque el cálculo lo supere, no subirá más)",
+    "ru": "36% (жёсткий предел — даже если расчёт превышает это значение, выше он не поднимется)",
+    "th": "36% (ขีดจำกัดสูงสุดตายตัว — แม้การคำนวณจะเกินค่านี้ก็จะไม่สูงขึ้นอีก)",
+    "tr": "%36 (kesin üst sınır — hesaplama bunu aşsa bile daha yüksek olmaz)"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "amplifying": "border-red-500/50 bg-red-500/10 text-red-300",
+  "transformative": "border-slate-400/50 bg-slate-400/10 text-slate-300",
+  "additive": "border-pink-400/50 bg-pink-400/10 text-pink-300",
+  "lunar": "border-indigo-400/50 bg-indigo-400/10 text-indigo-300",
+  "stellar": "border-fuchsia-400/50 bg-fuchsia-400/10 text-fuchsia-300"
+}

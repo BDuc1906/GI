@@ -1,0 +1,149 @@
+[
+  {
+    "id": "pyro",
+    "name": "Pyro",
+    "nameVi": "Hỏa",
+    "nameTranslations": {
+      "zh-CN": "火",
+      "zh-TW": "火",
+      "ja": "炎",
+      "ko": "불",
+      "fr": "Pyro",
+      "de": "Pyro",
+      "id": "Pyro",
+      "it": "Pyro",
+      "pt": "Pyro",
+      "ru": "Пиро",
+      "es": "Pyro",
+      "th": "ไฟ",
+      "tr": "Ateş"
+    },
+    "color": "#EF7940"
+  },
+  {
+    "id": "hydro",
+    "name": "Hydro",
+    "nameVi": "Thủy",
+    "nameTranslations": {
+      "zh-CN": "水",
+      "zh-TW": "水",
+      "ja": "水",
+      "ko": "물",
+      "fr": "Hydro",
+      "de": "Hydro",
+      "id": "Hydro",
+      "it": "Hydro",
+      "pt": "Hydro",
+      "ru": "Гидро",
+      "es": "Hydro",
+      "th": "น้ำ",
+      "tr": "Su"
+    },
+    "color": "#4CC2F1"
+  },
+  {
+    "id": "cryo",
+    "name": "Cryo",
+    "nameVi": "Băng",
+    "nameTranslations": {
+      "zh-CN": "冰",
+      "zh-TW": "冰",
+      "ja": "氷",
+      "ko": "얼음",
+      "fr": "Cryo",
+      "de": "Kryo",
+      "id": "Cryo",
+      "it": "Cryo",
+      "pt": "Cryo",
+      "ru": "Крио",
+      "es": "Cryo",
+      "th": "น้ำแข็ง",
+      "tr": "Buz"
+    },
+    "color": "#9FE0E8"
+  },
+  {
+    "id": "electro",
+    "name": "Electro",
+    "nameVi": "Lôi",
+    "nameTranslations": {
+      "zh-CN": "雷",
+      "zh-TW": "雷",
+      "ja": "雷",
+      "ko": "번개",
+      "fr": "Électro",
+      "de": "Elektro",
+      "id": "Electro",
+      "it": "Electro",
+      "pt": "Electro",
+      "ru": "Электро",
+      "es": "Electro",
+      "th": "ไฟฟ้า",
+      "tr": "Elektrik"
+    },
+    "color": "#B380E6"
+  },
+  {
+    "id": "anemo",
+    "name": "Anemo",
+    "nameVi": "Phong",
+    "nameTranslations": {
+      "zh-CN": "风",
+      "zh-TW": "風",
+      "ja": "風",
+      "ko": "바람",
+      "fr": "Anémo",
+      "de": "Anemo",
+      "id": "Anemo",
+      "it": "Anemo",
+      "pt": "Anemo",
+      "ru": "Анемо",
+      "es": "Anemo",
+      "th": "ลม",
+      "tr": "Rüzgar"
+    },
+    "color": "#6FD9BC"
+  },
+  {
+    "id": "geo",
+    "name": "Geo",
+    "nameVi": "Nham",
+    "nameTranslations": {
+      "zh-CN": "岩",
+      "zh-TW": "岩",
+      "ja": "岩",
+      "ko": "바위",
+      "fr": "Géo",
+      "de": "Geo",
+      "id": "Geo",
+      "it": "Geo",
+      "pt": "Geo",
+      "ru": "Гео",
+      "es": "Geo",
+      "th": "หิน",
+      "tr": "Toprak"
+    },
+    "color": "#F7CB53"
+  },
+  {
+    "id": "dendro",
+    "name": "Dendro",
+    "nameVi": "Thảo",
+    "nameTranslations": {
+      "zh-CN": "草",
+      "zh-TW": "草",
+      "ja": "草",
+      "ko": "풀",
+      "fr": "Dendro",
+      "de": "Dendro",
+      "id": "Dendro",
+      "it": "Dendro",
+      "pt": "Dendro",
+      "ru": "Дендро",
+      "es": "Dendro",
+      "th": "ไม้",
+      "tr": "Doğa"
+    },
+    "color": "#A8CB3A"
+  }
+]
