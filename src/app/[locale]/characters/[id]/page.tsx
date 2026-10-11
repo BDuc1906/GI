@@ -1,4 +1,3 @@
-﻿
 import { prisma } from "@/lib/db/prisma";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -33,6 +32,9 @@ import {
 } from "@/lib/i18n/localized-content";
 import { isNonPlayableCharacterId } from "@/core/game/character-catalog";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
+import { Link } from "@/i18n/navigation";
+import { getSimilarCharacters } from "@/features/similarity/similarity-service";
+import { SimilarList, SimilarNote } from "@/features/similarity/components/SimilarList";
 
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -93,6 +95,9 @@ export default async function CharacterDetail({ params }: PageProps) {
 
   const { isTraveler, boySplash, girlSplash } = await resolveTravelerSibling(c);
   const el = elementColorVar(c.vision);
+  const similar = await getSimilarCharacters(c.id);
+  const sameIds = new Set(similar.sameElement.map((x) => x.id));
+  const otherElement = similar.all.filter((x) => !sameIds.has(x.id));
 
   const constellations = getLocalizedConstellations(
     (c.constellations as unknown as Constellation[]) ?? [],
@@ -362,6 +367,60 @@ export default async function CharacterDetail({ params }: PageProps) {
           </div>
         </section>
       )}
+
+      {(similar.sameElement.length > 0 || otherElement.length > 0) && (
+        <section className="mb-10">
+          <SectionHeading elementColor={el}>Nhân vật có kỹ năng tương tự</SectionHeading>
+          {similar.sameElement.length > 0 && (
+            <>
+              <h3 className="text-sm font-semibold text-text-primary mb-2">
+                Cùng nguyên tố {c.vision} — phương án thay thế khi bạn chưa có nhân vật này
+              </h3>
+              <SimilarList
+                items={similar.sameElement.map((x) => ({
+                  id: x.id,
+                  href: `/characters/${x.id}`,
+                  name: getLocalizedName(x, locale),
+                  iconUrl: x.iconUrl,
+                  iconUrlOriginal: x.iconUrlOriginal,
+                  meta: `${x.vision} · ${x.rarity}★`,
+                  shared: x.shared,
+                  round: true,
+                }))}
+              />
+            </>
+          )}
+          {otherElement.length > 0 && (
+            <>
+              <h3 className="text-sm font-semibold text-text-primary mt-5 mb-2">
+                Khác nguyên tố nhưng kỹ năng rất giống
+              </h3>
+              <SimilarList
+                items={otherElement.map((x) => ({
+                  id: x.id,
+                  href: `/characters/${x.id}`,
+                  name: getLocalizedName(x, locale),
+                  iconUrl: x.iconUrl,
+                  iconUrlOriginal: x.iconUrlOriginal,
+                  meta: `${x.vision} · ${x.rarity}★`,
+                  shared: x.shared,
+                  round: true,
+                }))}
+              />
+            </>
+          )}
+          <SimilarNote />
+        </section>
+      )}
+
+      <section className="mb-10">
+        <Link
+          href={`/tools/team-builder?main=${c.id}`}
+          className="inline-block px-4 py-2 rounded-lg border border-accent-500/60 bg-bg-elevated text-accent-bright font-medium hover:border-accent-500 transition-colors"
+        >
+          Dựng đội hình với {getLocalizedName(c, locale)}
+        </Link>
+      </section>
     </div>
   );
 }

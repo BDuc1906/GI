@@ -1,4 +1,4 @@
-﻿import type { MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/db/prisma";
 import { withDbRetry } from "@/lib/db/db-retry";
 import { routing } from "@/i18n/routing";
@@ -85,6 +85,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       "/windgliders",
       "/tools/dps-calculator",
       "/tools/material-calculator",
+      "/tools/team-builder",
       "/privacy",
       "/terms",
     ].flatMap((path) =>

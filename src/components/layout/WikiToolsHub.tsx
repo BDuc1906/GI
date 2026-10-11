@@ -19,17 +19,19 @@ export async function WikiToolsHub() {
   const tools = [
     {
       label: "Lịch tài nguyên hôm nay",
-      href: "/domains",
+      href: "/calendar",
       description: "Bí cảnh đang mở, sách thiên phú",
       tag: "Hot",
       accent: "var(--el-geo)",
     },
     {
-      label: "Bảng xếp hạng",
-      href: "/characters",
-      description: "Đánh giá meta La Hoàn Thâm Cảnh",
-      tag: "Meta",
-      accent: "var(--el-electro)",
+      // Thay tile "Bảng xếp hạng" (trỏ tới danh sách nhân vật thường, hứa "đánh giá meta" mà dự án
+      // không có dữ liệu xếp hạng nào). Công cụ thật: /tools/team-builder.
+      label: "Dựng đội hình",
+      href: "/tools/team-builder",
+      description: "Gợi ý theo phản ứng nguyên tố, có phương án thay thế",
+      tag: "Tool",
+      accent: "var(--el-hydro)",
     },
     {
       label: "Máy tính nguyên liệu",
