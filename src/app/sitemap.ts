@@ -86,6 +86,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       "/tools/dps-calculator",
       "/tools/material-calculator",
       "/tools/team-builder",
+      "/tools/enka-sync",
+      "/tools/wish-history",
+      "/tools/showcase-card",
       "/privacy",
       "/terms",
     ].flatMap((path) =>

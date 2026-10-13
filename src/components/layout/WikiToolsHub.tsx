@@ -25,8 +25,6 @@ export async function WikiToolsHub() {
       accent: "var(--el-geo)",
     },
     {
-      // Thay tile "Bảng xếp hạng" (trỏ tới danh sách nhân vật thường, hứa "đánh giá meta" mà dự án
-      // không có dữ liệu xếp hạng nào). Công cụ thật: /tools/team-builder.
       label: "Dựng đội hình",
       href: "/tools/team-builder",
       description: "Gợi ý theo phản ứng nguyên tố, có phương án thay thế",
@@ -35,16 +33,41 @@ export async function WikiToolsHub() {
     },
     {
       label: "Máy tính nguyên liệu",
-      // ĐÃ LÀM (2026-09-22): trang UI thật ở /tools/material-calculator,
-      // gọi /api/tools/material-calculator (backend có từ trước).
       href: "/tools/material-calculator",
       description: "Tính nguyên liệu nâng cấp",
       tag: "Tool",
       accent: "var(--rarity-5)",
     },
     {
+      label: "DPS Calculator",
+      href: "/tools/dps-calculator",
+      description: "Tính sát thương & so sánh build A vs B",
+      tag: "Tool",
+      accent: "var(--el-pyro)",
+    },
+    {
+      label: "Đồng bộ từ UID",
+      href: "/tools/enka-sync",
+      description: "Nhập UID, xem showcase & import build vào DPS Calc",
+      tag: "Mới",
+      accent: "var(--el-electro)",
+    },
+    {
+      label: "Lịch sử Wish",
+      href: "/tools/wish-history",
+      description: "Phân tích gacha, đếm pity, thống kê 5★",
+      tag: "Mới",
+      accent: "var(--el-cryo)",
+    },
+    {
+      label: "Showcase Card",
+      href: "/tools/showcase-card",
+      description: "Tạo thẻ chia sẻ nhân vật lên MXH",
+      tag: "Mới",
+      accent: "var(--el-anemo)",
+    },
+    {
       label: "Trình tối ưu thánh di vật",
-      // CHƯA LÀM: cùng lý do — chưa có UI cho công cụ này.
       description: "Tối ưu chỉ số build (sắp ra mắt)",
       tag: "Sắp ra mắt",
       accent: "var(--el-dendro)",
