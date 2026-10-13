@@ -1,5 +1,5 @@
 /**
- * scripts/lib/name-translations.ts
+ * src/lib/i18n/name-translations.ts
  *
  * Logic dùng chung để lấy TÊN CHÍNH THỨC của 1 entity (nhân vật/vũ khí/
  * thánh di vật/bí cảnh/nguyên liệu) theo TỪNG NGÔN NGỮ, cho cột
@@ -19,21 +19,21 @@
  *    `resultLanguage`).
  *
  * 2. Azure Translator (dịch máy thật, cùng cơ chế với
- *    scripts/i18n-translate.mjs) — CHỈ dùng cho 2 locale mà bản thân
+ *    scripts/i18n/i18n-translate.mjs) — CHỈ dùng cho 2 locale mà bản thân
  *    game KHÔNG hỗ trợ: Italian (it), Turkish (tr). Genshin Impact không
  *    có bản dịch tiếng Ý/Thổ Nhĩ Kỳ chính thức, nên genshin-db cũng
  *    không có — không có "nguồn chuẩn" nào để tra. Đây là lựa chọn tốt
  *    nhất tiếp theo để phủ đủ 15/15 locale, NHƯNG chất lượng thấp hơn
  *    hẳn nguồn (1) vì đây là DANH TỪ RIÊNG (đặc biệt tên nhân vật) — máy
- *    dịch có thể dịch sai/ngớ ngẩn. scripts/seed-name-translations.ts in
- *    ra danh sách các tên nhân vật đã dịch bằng nguồn này ở cuối để soát
- *    tay riêng.
+ *    dịch có thể dịch sai/ngớ ngẩn. scripts/seed/seed-name-translations.ts
+ *    in ra danh sách các tên nhân vật đã dịch bằng nguồn này ở cuối để
+ *    soát tay riêng.
  */
 
 // Map locale code của dự án (src/i18n/routing.ts) -> tên enum ngôn ngữ mà
 // genshin-db chấp nhận cho option `resultLanguage`. CHỈ chứa 13 locale mà
 // genshin-db hỗ trợ — "it" và "tr" CỐ TÌNH không có mặt ở đây, xử lý riêng
-// bằng Azure ở scripts/seed-name-translations.ts.
+// bằng Azure ở scripts/seed/seed-name-translations.ts.
 export const GENSHINDB_LOCALE_MAP: Record<string, string> = {
   en: "English",
   vi: "Vietnamese",
@@ -80,8 +80,8 @@ export type MachineTranslateLocale = (typeof MACHINE_TRANSLATE_ONLY_LOCALES)[num
  *                    Locale nào genshin-db không trả tên hợp lệ cho
  *                    riêng entity đó thì bị bỏ qua (không có key), KHÔNG
  *                    tự bịa fallback ở tầng này — tầng đọc dữ liệu
- *                    (src/lib/entity-name.ts) chịu trách nhiệm fallback
- *                    về tiếng Anh khi hiển thị.
+ *                    (src/lib/i18n/entity-name.ts) chịu trách nhiệm
+ *                    fallback về tiếng Anh khi hiển thị.
  */
 export function getOfficialGameNames(
   genshindb: Record<string, unknown>,
@@ -113,13 +113,13 @@ export function getOfficialGameNames(
 const AZURE_ENDPOINT = "https://api.cognitive.microsofttranslator.com";
 
 // Mã ngôn ngữ Azure Translator dùng cho riêng 2 locale không có trong
-// genshin-db — xem giải thích đầy đủ ở scripts/i18n-translate.mjs.
+// genshin-db — xem giải thích đầy đủ ở scripts/i18n/i18n-translate.mjs.
 const AZURE_LANG_CODE: Record<MachineTranslateLocale, string> = { it: "it", tr: "tr" };
 
 /**
  * Dịch máy 1 lô tên (tối đa 100 phần tử/lần theo giới hạn Azure) sang 1
  * locale không có trong genshin-db (it/tr). KHÔNG cần bảo toàn
- * placeholder kiểu {count}/<b> như scripts/i18n-translate.mjs — tên
+ * placeholder kiểu {count}/<b> như scripts/i18n/i18n-translate.mjs — tên
  * entity là cụm danh từ thuần, không chứa cú pháp next-intl.
  */
 export async function translateNamesAzure(
