@@ -33,7 +33,8 @@ export function ElementIcon({
 }) {
   const [broken, setBroken] = useState(false);
 
-  if (!iconUrl || broken) return null;
+  const localAsset = `/local-genshin-assets/${vision.toLowerCase()}.png`;
+  const resolvedUrl = !broken && iconUrl ? toProxiedUrl(iconUrl) : localAsset;
 
   const elementColor = elementColorVar(vision);
   const glowStyle = glow ? {
@@ -69,7 +70,7 @@ export function ElementIcon({
       
       {/* Main icon */}
       <Image
-        src={toProxiedUrl(iconUrl)}
+        src={resolvedUrl}
         alt={vision}
         width={size}
         height={size}

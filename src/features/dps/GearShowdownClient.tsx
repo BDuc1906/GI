@@ -467,7 +467,7 @@ export function GearShowdownClient({ characters, weapons }: GearShowdownClientPr
           <div className="text-center p-5 rounded-xl bg-gradient-to-b from-gold/15 to-bg-primary border border-gold/40">
             <div className="text-xs font-bold tracking-widest uppercase text-gold mb-1">KẾT QUẢ ĐỐI ĐẦU CHÍNH THỨC</div>
             <div className="text-2xl sm:text-3xl font-display font-extrabold text-gold-bright flex items-center justify-center gap-2">
-              <span>{showdown.winner === "TIE" ? "🤝 KẾT QUẢ HÒA" : `🏆 ${showdown.winner === "A" ? nameA : nameB} CHIẾN THẮNG`}</span>
+              <span>{showdown.winner === "TIE" ? "KẾT QUẢ HÒA" : `${showdown.winner === "A" ? nameA : nameB} CHIẾN THẮNG`}</span>
             </div>
             {showdown.winner !== "TIE" && (
               <p className="text-sm font-semibold text-emerald-400 mt-1">
@@ -541,7 +541,7 @@ export function GearShowdownClient({ characters, weapons }: GearShowdownClientPr
           {/* Nhận định chuyên sâu */}
           {showdown.insights.length > 0 && (
             <div className="p-4 rounded-xl bg-bg-primary/80 border border-border">
-              <h4 className="text-xs font-bold text-gold uppercase tracking-wider mb-2">💡 Ghi chú phân tích chuyên sâu:</h4>
+              <h4 className="text-xs font-bold text-gold uppercase tracking-wider mb-2">Ghi chú phân tích chuyên sâu:</h4>
               <ul className="list-disc list-inside text-xs text-text-secondary space-y-1.5">
                 {showdown.insights.map((ins, i) => (
                   <li key={i}>{ins}</li>

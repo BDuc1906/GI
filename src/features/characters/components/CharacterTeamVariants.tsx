@@ -74,7 +74,7 @@ export async function CharacterTeamVariants({ character, locale, elementColor }:
                   </span>
                 </div>
                 <p className="text-xs text-text-secondary mt-1">
-                  🎯 <span className="font-medium text-text-primary">Tình huống:</span>{" "}
+                  <span className="font-medium text-text-primary">Tình huống:</span>{" "}
                   {variant.situationVi}
                 </p>
               </div>
@@ -145,7 +145,7 @@ export async function CharacterTeamVariants({ character, locale, elementColor }:
             {/* Cơ chế kích hoạt: Phản ứng + Cộng hưởng */}
             <div className="flex flex-wrap items-center justify-between gap-3 text-xs bg-bg-overlay/40 p-3 rounded-xl border border-border">
               <div className="flex flex-wrap items-center gap-1.5">
-                <span className="text-text-muted font-medium">⚡ Phản ứng:</span>
+                <span className="text-text-muted font-medium">Phản ứng:</span>
                 {variant.reactionsVi.map((reac, rIdx) => (
                   <span
                     key={rIdx}
@@ -158,7 +158,7 @@ export async function CharacterTeamVariants({ character, locale, elementColor }:
 
               {variant.resonancesVi.length > 0 && (
                 <div className="flex flex-wrap items-center gap-1.5">
-                  <span className="text-text-muted font-medium">✨ Cộng hưởng:</span>
+                  <span className="text-text-muted font-medium">Cộng hưởng:</span>
                   {variant.resonancesVi.map((res, resIdx) => (
                     <span
                       key={resIdx}

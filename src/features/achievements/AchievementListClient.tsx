@@ -142,7 +142,6 @@ export function AchievementListClient({ items }: AchievementListClientProps) {
         <div className="text-center py-12 px-4 bg-bg-card border-2 border-border/60 rounded-2xl">
           {filter === "uncompleted" ? (
             <div>
-              <div className="text-3xl mb-2">🎉</div>
               <p className="text-emerald-400 font-semibold mb-1">Xuất sắc!</p>
               <p className="text-text-secondary text-sm">
                 Bạn đã hoàn thành toàn bộ các thành tựu trên trang này.
@@ -150,7 +149,6 @@ export function AchievementListClient({ items }: AchievementListClientProps) {
             </div>
           ) : (
             <div>
-              <div className="text-3xl mb-2">📋</div>
               <p className="text-text-muted text-sm">Chưa có thành tựu nào được đánh dấu hoàn thành trên trang này.</p>
             </div>
           )}

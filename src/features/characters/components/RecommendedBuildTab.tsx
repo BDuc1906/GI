@@ -12,6 +12,7 @@
 import { prisma } from "@/lib/db/prisma";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import type { Character } from "@prisma/client";
+import { WeaponIcon } from "@/features/weapons/components/WeaponIcon";
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
 
@@ -195,7 +196,8 @@ export async function RecommendedBuildTab({ character, locale, elementColor }: P
         {/* ─── Vũ khí ─── */}
         <div className="lg:col-span-1">
           <h3 className="font-semibold text-text-primary mb-3 flex items-center gap-2">
-            <span>🗡️ Vũ khí đề xuất</span>
+            {character.weaponType && <WeaponIcon type={character.weaponType} size={18} />}
+            <span>Vũ khí đề xuất</span>
             <span className="text-xs text-text-secondary font-normal">
               ({character.weaponType})
             </span>
@@ -247,7 +249,7 @@ export async function RecommendedBuildTab({ character, locale, elementColor }: P
         {/* ─── Thánh di vật ─── */}
         <div className="lg:col-span-1">
           <h3 className="font-semibold text-text-primary mb-3 flex items-center gap-2">
-            <span>💠 Thánh di vật đề xuất</span>
+            <span>Thánh di vật đề xuất</span>
           </h3>
           <div className="flex flex-col gap-3">
             {scoredArtifacts.length === 0 ? (
@@ -296,13 +298,13 @@ export async function RecommendedBuildTab({ character, locale, elementColor }: P
         {/* ─── Main Stats ─── */}
         <div className="lg:col-span-1">
           <h3 className="font-semibold text-text-primary mb-3">
-            📊 Main Stat khuyên dùng
+            Main Stat khuyên dùng
           </h3>
           <div className="rounded-xl border border-border bg-bg-elevated overflow-hidden">
             {[
-              { slot: "⏳ Đồng hồ (Sands)", value: mainStats.sands },
-              { slot: "🏺 Chén (Goblet)", value: mainStats.goblet },
-              { slot: "🎭 Vương miện (Circlet)", value: mainStats.circlet },
+              { slot: "Đồng hồ (Sands)", value: mainStats.sands },
+              { slot: "Ly (Goblet)", value: mainStats.goblet },
+              { slot: "Nón (Circlet)", value: mainStats.circlet },
             ].map(({ slot, value }) => (
               <div
                 key={slot}
@@ -335,7 +337,7 @@ export async function RecommendedBuildTab({ character, locale, elementColor }: P
               href={`/${locale}/tools/dps-calculator`}
               className="inline-flex items-center gap-1.5 text-sm px-4 py-2 rounded-lg border border-accent-500/60 bg-bg-elevated text-accent-bright hover:border-accent-500 hover:bg-bg-elevated/80 transition-colors w-full justify-center"
             >
-              🧮 Tính DPS với build này
+              Tính DPS với build này
             </a>
           </div>
         </div>

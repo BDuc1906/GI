@@ -128,7 +128,7 @@ export function PersonalizedCalendarView({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-border/60">
           <div>
             <h2 className="font-display text-lg font-bold text-text-primary flex items-center gap-2">
-              <span>🎯 Mục tiêu cần farm của bạn</span>
+              <span>Mục tiêu cần farm của bạn</span>
               <span className="text-xs px-2 py-0.5 rounded-full bg-gold/10 text-gold font-semibold">
                 {targets.length} đã ghim
               </span>
@@ -203,8 +203,7 @@ export function PersonalizedCalendarView({
             : "bg-bg-card border-border text-text-secondary"
         }`}>
           <div>
-            <div className="font-semibold text-sm flex items-center gap-2">
-              <span>{myDomainsCount > 0 ? "🔥" : "ℹ️"}</span>
+            <div className="font-semibold text-sm">
               <span>
                 {myDomainsCount > 0
                   ? `Hôm nay mở ${myDomainsCount} bí cảnh cho các mục tiêu của bạn!`
@@ -228,7 +227,7 @@ export function PersonalizedCalendarView({
                   : "bg-bg-input border border-gold/50 text-gold hover:bg-gold/20"
               }`}
             >
-              {onlyShowMyDomains ? "✕ Hiện tất cả bí cảnh" : "⚡ Chỉ hiện bí cảnh của tôi"}
+              {onlyShowMyDomains ? "✕ Hiện tất cả bí cảnh" : "Chỉ hiện bí cảnh của tôi"}
             </button>
           )}
         </div>

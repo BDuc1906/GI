@@ -42,7 +42,6 @@ export async function CharacterTalents({
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
             <div>
               <div className="text-eyebrow text-accent-bright mb-1 flex items-center gap-1.5">
-                <span>⭐</span>
                 <span>Thứ tự ưu tiên nâng cấp Thiên Phú</span>
               </div>
               <div className="font-display font-bold text-base sm:text-lg text-text-primary tracking-wide">
@@ -89,12 +88,12 @@ export async function CharacterTalents({
                         }`}
                       >
                         {priorityItem.rank === 1
-                          ? "👑 Ưu tiên #1 (Vương Miện)"
+                          ? "Ưu tiên #1 (Vương Miện)"
                           : priorityItem.rank === 2
-                            ? "⚡ Ưu tiên #2 (Cần thiết)"
+                            ? "Ưu tiên #2 (Cần thiết)"
                             : priorityItem.canLeaveAtLevel1
-                              ? "💤 Có thể để Lv. 1"
-                              : "🔹 Tùy chọn (Lv. 6)"}
+                              ? "Có thể để Lv. 1"
+                              : "Tùy chọn (Lv. 6)"}
                       </span>
                       <span className="text-[11px] text-text-secondary italic">
                         {priorityItem.recommendationNote}

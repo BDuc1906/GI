@@ -3,6 +3,7 @@ import { SafeImage } from "@/components/ui/SafeImage";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { Link } from "@/i18n/navigation";
+import { ElementIcon } from "@/features/characters/components/ElementIcon";
 
 interface Props {
   artifactSetId: string;
@@ -82,9 +83,10 @@ export async function ArtifactSourceDomain({ artifactSetId, locale, rarityColor 
               {sourceDomain.recommendedElements.map((el) => (
                 <span
                   key={el}
-                  className="text-xs px-2 py-0.5 rounded-full border border-border bg-bg-elevated text-text-primary"
+                  className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full border border-border bg-bg-elevated text-text-primary"
                 >
-                  {el}
+                  <ElementIcon vision={el} size={14} />
+                  <span>{el}</span>
                 </span>
               ))}
             </div>
@@ -94,7 +96,7 @@ export async function ArtifactSourceDomain({ artifactSetId, locale, rarityColor 
             href={`/domains/${sourceDomain.id}`}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-accent-500/60 bg-bg-elevated text-accent-bright font-medium text-sm hover:border-accent-500 hover:bg-bg-elevated/80 transition-colors"
           >
-            <span>🏰 Xem chi tiết bí cảnh & danh sách quái</span>
+            <span>Xem chi tiết bí cảnh & danh sách quái</span>
           </Link>
         </div>
       </div>

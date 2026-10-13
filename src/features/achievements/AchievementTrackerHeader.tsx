@@ -122,7 +122,6 @@ export function AchievementTrackerHeader({
             className="px-3 py-1.5 text-xs font-medium rounded-lg bg-bg-input border border-border hover:border-gold/60 text-text-secondary hover:text-text-primary transition-all flex items-center gap-1.5"
             title="Nhập file JSON đã sao lưu trước đó"
           >
-            <span>📥</span>
             <span>Nhập file</span>
           </button>
           <button
@@ -131,7 +130,6 @@ export function AchievementTrackerHeader({
             className="px-3 py-1.5 text-xs font-medium rounded-lg bg-bg-input border border-border hover:border-gold/60 text-text-secondary hover:text-text-primary transition-all flex items-center gap-1.5"
             title="Xuất file JSON để sao lưu hoặc chuyển sang máy khác"
           >
-            <span>📤</span>
             <span>Xuất file</span>
           </button>
           {completedCount > 0 && (

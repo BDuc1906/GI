@@ -63,6 +63,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     ...localizedEntries("", { changeFrequency: "weekly", priority: 1 }),
     ...localizedEntries("/characters", { changeFrequency: "weekly", priority: 0.8 }),
+    ...localizedEntries("/tier-list", { changeFrequency: "weekly", priority: 0.9 }),
     ...localizedEntries("/weapons", { changeFrequency: "weekly", priority: 0.8 }),
     ...localizedEntries("/artifacts", { changeFrequency: "weekly", priority: 0.8 }),
     ...localizedEntries("/domains", { changeFrequency: "daily", priority: 0.8 }),

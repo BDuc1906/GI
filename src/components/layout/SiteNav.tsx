@@ -21,6 +21,7 @@ export function SiteNav() {
 
   const NAV_LINKS = [
     { href: "/characters", label: t("characters") },
+    { href: "/tier-list", label: "Tier List" },
     { href: "/weapons", label: t("weapons") },
     { href: "/artifacts", label: t("artifacts") },
     { href: "/domains", label: t("domains") },

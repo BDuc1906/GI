@@ -164,14 +164,14 @@ export function WishHistoryClient() {
       <div className="rounded-2xl border border-border bg-bg-surface p-6 shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-display text-xl font-bold text-text-primary flex items-center gap-2">
-            <span>✨</span> Đồng bộ &amp; Nhập dữ liệu Cầu Nguyện
+            Đồng bộ &amp; Nhập dữ liệu Cầu Nguyện
           </h2>
           <button
             type="button"
             onClick={() => setShowGuide(!showGuide)}
             className="text-xs text-accent-bright hover:underline font-medium"
           >
-            {showGuide ? "Ẩn hướng dẫn" : "📖 Xem cách lấy link từ game"}
+            {showGuide ? "Ẩn hướng dẫn" : "Xem cách lấy link từ game"}
           </button>
         </div>
 
@@ -239,7 +239,7 @@ export function WishHistoryClient() {
               htmlFor={fileInputId}
               className="cursor-pointer px-3 py-1.5 rounded-lg border border-border hover:border-accent-500 text-text-primary transition-colors font-medium"
             >
-              📂 Tải lên JSON
+              Tải lên JSON
             </label>
           </div>
 
@@ -250,7 +250,7 @@ export function WishHistoryClient() {
                 onClick={handleExportJson}
                 className="px-3 py-1.5 rounded-lg border border-border hover:border-accent-500 text-text-primary transition-colors font-medium"
               >
-                💾 Xuất JSON
+                Xuất JSON
               </button>
               <button
                 type="button"
@@ -366,7 +366,7 @@ export function WishHistoryClient() {
               <div className="text-xs text-text-secondary sm:text-right">
                 {currentPity >= softPity ? (
                   <span className="px-2.5 py-1 rounded-full bg-yellow-500/10 text-yellow-400 border border-yellow-500/30 font-semibold">
-                    🔥 Đang trong Soft Pity ({softPity}+) — Tỷ lệ 5★ tăng vọt!
+                    Đang trong Soft Pity ({softPity}+) — Tỷ lệ 5★ tăng vọt!
                   </span>
                 ) : (
                   <span>
@@ -393,7 +393,7 @@ export function WishHistoryClient() {
           {fiveStarsInBanner.length > 0 && (
             <div className="rounded-2xl border border-border bg-bg-surface p-5">
               <h3 className="font-semibold text-text-primary text-sm mb-3">
-                🏆 Lịch sử 5★ trên banner này ({fiveStarsInBanner.length})
+                Lịch sử 5★ trên banner này ({fiveStarsInBanner.length})
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                 {fiveStarsInBanner.map((item) => (

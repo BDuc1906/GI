@@ -313,7 +313,6 @@ export function DpsCalculatorClient({
               : "text-text-secondary hover:text-text-primary"
           }`}
         >
-          <span>📊</span>
           <span>Bảng chỉ số tổng trong game (Khuyên dùng)</span>
         </button>
         <button
@@ -325,7 +324,6 @@ export function DpsCalculatorClient({
               : "text-text-secondary hover:text-text-primary"
           }`}
         >
-          <span>🧩</span>
           <span>Tự ghép 5 món Thánh di vật (Nâng cao)</span>
         </button>
       </div>

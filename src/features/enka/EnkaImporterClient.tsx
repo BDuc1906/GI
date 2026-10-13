@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useSyncExternalStore } from "react";
 import type { EnkaShowcaseResult, EnkaShowcaseCharacter } from "@/app/api/tools/enka/[uid]/route";
+import { WeaponIcon } from "@/features/weapons/components/WeaponIcon";
 
 // ---------------------------------------------------------------------------
 // localStorage hook (SSR-safe via useSyncExternalStore)
@@ -125,7 +126,7 @@ function CharacterShowcaseCard({
               loading="lazy"
             />
           ) : (
-            <span className="text-base">🗡️</span>
+            <WeaponIcon type="Sword" size={20} className="shrink-0" />
           )}
           <div className="min-w-0 flex-1">
             <div className="font-medium text-text-primary truncate">{char.weapon.name}</div>
@@ -169,7 +170,7 @@ function CharacterShowcaseCard({
             onClick={() => setShowArtifacts(!showArtifacts)}
             className="w-full text-xs py-1.5 px-3 rounded-lg border border-border-default bg-bg-elevated hover:bg-bg-card transition-colors text-text-secondary flex items-center justify-between"
           >
-            <span>💠 Thánh di vật ({char.artifacts.length}/5 món)</span>
+            <span>Thánh di vật ({char.artifacts.length}/5 món)</span>
             <span className="text-accent-bright font-mono font-semibold">
               {showArtifacts ? "Thu gọn ▲" : "Chi tiết CV ▼"}
             </span>

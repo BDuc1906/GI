@@ -260,11 +260,9 @@ export function ShowcaseCardGeneratorClient() {
             className="flex items-center justify-center gap-2 w-full rounded-lg bg-amber-600 hover:bg-amber-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-2.5 px-4 text-sm transition-colors"
           >
             {downloading ? (
-              <>
-                <span className="animate-spin">⏳</span> Đang tải…
-              </>
+              <>Đang tải…</>
             ) : (
-              <>⬇ Tải xuống PNG</>
+              <>Tải xuống PNG</>
             )}
           </button>
 
@@ -273,7 +271,7 @@ export function ShowcaseCardGeneratorClient() {
             disabled={!shareUrl}
             className="flex items-center justify-center gap-2 w-full rounded-lg border border-border hover:border-amber-500/50 bg-bg-elevated hover:bg-bg-card disabled:opacity-50 disabled:cursor-not-allowed text-text-primary font-semibold py-2.5 px-4 text-sm transition-colors"
           >
-            {copying ? "✅ Đã copy!" : "🔗 Copy link chia sẻ"}
+            {copying ? "Đã sao chép!" : "Sao chép liên kết chia sẻ"}
           </button>
         </div>
       </div>
