@@ -426,6 +426,75 @@ body {
   box-shadow: 0 0 20px color-mix(in srgb, var(--accent-500) 30%, transparent);
 }
 
+/* === TiltCard — GPU-accelerated 3D tilt với shine effect ===
+ * TiltCard.tsx set các CSS vars --tilt-x, --tilt-y, --shine-x, --shine-y
+ * bằng JS khi mousemove. PHẢI có rule này để chúng thật sự được apply.
+ * Nếu thiếu, tilt effect hoàn toàn vô hiệu dù JS chạy đúng.
+ * perspective() tạo không gian 3D; translateZ(0) kích hoạt GPU layer. */
+.tilt-card {
+  perspective: 800px;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transform: perspective(800px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+  position: relative;
+  display: block;
+  contain: layout style;
+}
+
+.tilt-card:focus-visible {
+  outline: 2px solid var(--accent-500);
+  outline-offset: 4px;
+  border-radius: var(--radius-md);
+}
+
+/* Dải sáng shine theo con trỏ — pseudo-element overlay mờ */
+.tilt-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at var(--shine-x, 50%) var(--shine-y, 50%),
+    rgba(255, 255, 255, 0.08) 0%,
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.tilt-card:hover::after {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tilt-card {
+    transform: none !important;
+    will-change: auto;
+    perspective: none;
+    transition: box-shadow var(--transition-fast);
+  }
+  .tilt-card::after {
+    display: none;
+  }
+}
+
+/* === Content-visibility cho danh sách dài (grid nhân vật/vũ khí/artifact) ===
+ * Trình duyệt bỏ qua layout+paint cho card ngoài viewport hoàn toàn.
+ * contain-intrinsic-size cần ước tính chiều cao card để tránh scroll flicker. */
+.grid-card-item {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 220px;
+}
+
+/* === EntityCard image: GPU acceleration cho hover scale === */
+.entity-card-image {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
 /* === Spatial Motion - Staggered Animations === */
 .stagger-1 { animation-delay: 0.05s; }
 .stagger-2 { animation-delay: 0.1s; }

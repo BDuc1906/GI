@@ -1,5 +1,6 @@
-﻿
+
 import { prisma } from "@/lib/db/prisma";
+import { getWeaponById } from "@/lib/db/cached-queries";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -15,6 +16,7 @@ import type { AscensionMaterialPhase } from "@/core/game/character-helpers";
 import { GlossaryText } from "@/features/glossary/GlossaryText";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { getLocalizedDescription, getLocalizedRefinements } from "@/lib/i18n/localized-content";
+import { WeaponRecommendedCharacters } from "@/features/weapons/components/WeaponRecommendedCharacters";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
 
 interface PageProps {
@@ -29,7 +31,7 @@ async function tWeaponTypeMeta(type: string, locale: string): Promise<string> {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, id } = await params;
   const t = await getTranslations({ locale, namespace: "WeaponDetail" });
-  const w = await prisma.weapon.findUnique({ where: { id } });
+  const w = await getWeaponById(id);
   if (!w) {
     return createLocalizedMetadata({
       locale,
@@ -53,13 +55,14 @@ export default async function WeaponDetail({ params }: PageProps) {
   setRequestLocale(locale);
   const tWeaponType = await getTranslations({ locale, namespace: "WeaponType" });
   const t = await getTranslations({ locale, namespace: "WeaponDetail" });
-  const w = await prisma.weapon.findUnique({ where: { id } });
+  const w = await getWeaponById(id);
   if (!w) return notFound();
 
   const refinements = getLocalizedRefinements(
     (w.passiveByRefinement as unknown as { description: string }[]) ?? [],
     w.passiveByRefinementTranslations,
-    locale
+    locale,
+    w.name
   );
   const ascensionMaterials = (w.ascensionMaterials as unknown as AscensionMaterialPhase[]) ?? [];
   const statsByLevel = (w.statsByLevel as unknown as WeaponStatByLevelRow[] | null) ?? null;
@@ -169,7 +172,7 @@ export default async function WeaponDetail({ params }: PageProps) {
       )}
 
       {w.effectName && refinements.length > 0 && (
-        <section>
+        <section className="mb-10">
           <SectionHeading elementColor={rc}>{w.effectName}</SectionHeading>
           <div className="space-y-3">
             {refinements.map((r, i) => (
@@ -185,6 +188,8 @@ export default async function WeaponDetail({ params }: PageProps) {
           </div>
         </section>
       )}
+
+      <WeaponRecommendedCharacters weapon={w} locale={locale} weaponColor={rc} />
     </div>
   );
 }

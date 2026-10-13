@@ -1,5 +1,6 @@
-﻿
+
 import { prisma } from "@/lib/db/prisma";
+import { getArtifactSetById } from "@/lib/db/cached-queries";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -10,6 +11,8 @@ import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { rarityColorVar } from "@/lib/ui/theme";
 import { GlossaryText } from "@/features/glossary/GlossaryText";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
+import { ArtifactSourceDomain } from "@/features/artifacts/components/ArtifactSourceDomain";
+import { ArtifactRecommendedCharacters } from "@/features/artifacts/components/ArtifactRecommendedCharacters";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
 
 interface PageProps {
@@ -19,7 +22,7 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, id } = await params;
   const t = await getTranslations({ locale, namespace: "ArtifactDetail" });
-  const a = await prisma.artifactSet.findUnique({ where: { id } });
+  const a = await getArtifactSetById(id);
   if (!a) {
     return createLocalizedMetadata({
       locale,
@@ -69,7 +72,7 @@ export default async function ArtifactDetail({ params }: PageProps) {
     circlet: t("pieceCirclet"),
   };
 
-  const a = await prisma.artifactSet.findUnique({ where: { id } });
+  const a = await getArtifactSetById(id);
   if (!a) return notFound();
 
   const pieces = (a.pieces as Record<string, unknown>) ?? {};
@@ -166,6 +169,10 @@ export default async function ArtifactDetail({ params }: PageProps) {
           })}
         </div>
       </section>
+
+      <ArtifactSourceDomain artifactSetId={a.id} locale={locale} rarityColor={rc} />
+
+      <ArtifactRecommendedCharacters artifact={a} locale={locale} rarityColor={rc} />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import type { Character } from "@prisma/client";
 import { ElementIcon } from "@/features/characters/components/ElementIcon";
@@ -45,35 +45,36 @@ export async function CharacterListingGrid({ locale, grouping }: CharacterListin
 
   return (
     <>
-      {travelerByElement.size > 0 && (
+        {travelerByElement.size > 0 && (
         <div className={`${DENSE_GRID} mb-8`}>
           {Array.from(travelerByElement.entries()).map(([el, { boy, girl }]: [string, TravelerBucket], index: number) => {
             const target = (boy ?? girl) as Character;
             const boyImg = boy ? resolveCharacterCardImage(boy) : null;
             const girlImg = girl ? resolveCharacterCardImage(girl) : null;
             return (
-              <EntityCard
-                key={`traveler-${el}`}
-                href={`/characters/${target.id}`}
-                // "Traveler (Anemo)" v.v. — tên ghép cứng ở đây, KHÔNG
-                // qua getLocalizedName (Character.name của 2 dòng
-                // "Traveler (Boy/Girl)" trong DB không phải tên hiển
-                // thị thật, chỉ dùng để phân biệt nội bộ).
-                name={`${t("traveler")} (${getElementNameByKey(el, locale)})`}
-                subtitle={tWeaponType("Sword")}
-                rarity={target.rarity}
-                imageSrc={boyImg || girlImg}
-                aspect="square"
-                imageFit="contain"
-                compact
-                priority={index < 10}
-                element={el}
-                frameStyle="simple"
-                backgroundType="elemental-gradient"
-                useEnhancedStars={true}
-                elementColor={elementColorVar(el)}
-                cornerBadge={<ElementIcon vision={el} iconUrl={target.elementIcon} size={14} animated={true} glow={true} />}
-              />
+              <div key={`traveler-${el}`} className="grid-card-item">
+                <EntityCard
+                  href={`/characters/${target.id}`}
+                  // "Traveler (Anemo)" v.v. — tên ghép cứng ở đây, KHÔNG
+                  // qua getLocalizedName (Character.name của 2 dòng
+                  // "Traveler (Boy/Girl)" trong DB không phải tên hiển
+                  // thị thật, chỉ dùng để phân biệt nội bộ).
+                  name={`${t("traveler")} (${getElementNameByKey(el, locale)})`}
+                  subtitle={tWeaponType("Sword")}
+                  rarity={target.rarity}
+                  imageSrc={boyImg || girlImg}
+                  aspect="square"
+                  imageFit="contain"
+                  compact
+                  priority={index < 10}
+                  element={el}
+                  frameStyle="simple"
+                  backgroundType="elemental-gradient"
+                  useEnhancedStars={true}
+                  elementColor={elementColorVar(el)}
+                  cornerBadge={<ElementIcon vision={el} iconUrl={target.elementIcon} size={14} animated={true} glow={true} />}
+                />
+              </div>
             );
           })}
         </div>
@@ -91,24 +92,25 @@ export async function CharacterListingGrid({ locale, grouping }: CharacterListin
           </div>
           <div className={DENSE_GRID}>
             {rarityGroups.get(r)!.map((c: Character, index: number) => (
-              <EntityCard
-                key={c.id}
-                href={`/characters/${c.id}`}
-                name={getLocalizedName(c, locale)}
-                subtitle={tWeaponType(c.weaponType as "Sword" | "Claymore" | "Polearm" | "Bow" | "Catalyst")}
-                rarity={c.rarity}
-                imageSrc={resolveCharacterCardImage(c)}
-                aspect="square"
-                imageFit="contain"
-                compact
-                priority={index < 10}
-                element={c.vision}
-                frameStyle="simple"
-                backgroundType="elemental-gradient"
-                useEnhancedStars={true}
-                elementColor={elementColorVar(c.vision)}
-                cornerBadge={<ElementIcon vision={c.vision} iconUrl={c.elementIcon} size={14} animated={true} glow={true} />}
-              />
+              <div key={c.id} className="grid-card-item">
+                <EntityCard
+                  href={`/characters/${c.id}`}
+                  name={getLocalizedName(c, locale)}
+                  subtitle={tWeaponType(c.weaponType as "Sword" | "Claymore" | "Polearm" | "Bow" | "Catalyst")}
+                  rarity={c.rarity}
+                  imageSrc={resolveCharacterCardImage(c)}
+                  aspect="square"
+                  imageFit="contain"
+                  compact
+                  priority={index < 10}
+                  element={c.vision}
+                  frameStyle="simple"
+                  backgroundType="elemental-gradient"
+                  useEnhancedStars={true}
+                  elementColor={elementColorVar(c.vision)}
+                  cornerBadge={<ElementIcon vision={c.vision} iconUrl={c.elementIcon} size={14} animated={true} glow={true} />}
+                />
+              </div>
             ))}
           </div>
         </div>

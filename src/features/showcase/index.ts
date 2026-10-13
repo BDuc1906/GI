@@ -1,0 +1,1 @@
+export { ShowcaseCardGeneratorClient } from "./ShowcaseCardGeneratorClient";

@@ -61,33 +61,80 @@ function CharacterShowcaseCard({
   onUseBuild: (char: EnkaShowcaseCharacter) => void;
 }) {
   const fightProps = char.fightProps;
+  const [showArtifacts, setShowArtifacts] = useState(false);
+
+  // Huy hiệu CV
+  const cvBadgeColor =
+    char.totalCritValue >= 220
+      ? "bg-yellow-500/20 text-yellow-300 border-yellow-500/40"
+      : char.totalCritValue >= 180
+        ? "bg-purple-500/20 text-purple-300 border-purple-500/40"
+        : char.totalCritValue >= 140
+          ? "bg-blue-500/20 text-blue-300 border-blue-500/40"
+          : "bg-bg-elevated text-text-muted border-border-default";
 
   return (
     <div className="rounded-xl border border-border-default bg-bg-card p-4 flex flex-col gap-3">
       {/* Header */}
-      <div className="flex items-center gap-3">
-        {char.iconUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={char.iconUrl}
-            alt={char.characterName ?? `Avatar ${char.avatarId}`}
-            className="w-12 h-12 rounded-full object-cover bg-bg-elevated border border-border-default"
-            loading="lazy"
-          />
-        ) : (
-          <div className="w-12 h-12 rounded-full bg-bg-elevated border border-border-default flex items-center justify-center text-text-muted text-xs">
-            ?
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3 min-w-0">
+          {char.iconUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={char.iconUrl}
+              alt={char.characterName ?? `Avatar ${char.avatarId}`}
+              className="w-12 h-12 rounded-full object-cover bg-bg-elevated border border-border-default shrink-0"
+              loading="lazy"
+            />
+          ) : (
+            <div className="w-12 h-12 rounded-full bg-bg-elevated border border-border-default flex items-center justify-center text-text-muted text-xs shrink-0">
+              ?
+            </div>
+          )}
+          <div className="min-w-0">
+            <p className="font-semibold text-text-primary truncate">
+              {char.characterName ?? `ID: ${char.avatarId}`}
+            </p>
+            <p className="text-xs text-text-secondary">
+              Lv. {char.level} · C{char.constellations}
+            </p>
+          </div>
+        </div>
+
+        {/* CV Badge */}
+        {char.totalCritValue > 0 && (
+          <div
+            className={`px-2 py-1 rounded-lg border text-right shrink-0 ${cvBadgeColor}`}
+            title={`Tổng điểm CV: ${char.totalCritValue}`}
+          >
+            <div className="text-xs font-bold font-mono">{char.totalCritValue} CV</div>
+            <div className="text-[10px] uppercase font-semibold">{char.totalCvRating}</div>
           </div>
         )}
-        <div>
-          <p className="font-semibold text-text-primary">
-            {char.characterName ?? `ID: ${char.avatarId}`}
-          </p>
-          <p className="text-xs text-text-secondary">
-            Lv. {char.level} · C{char.constellations}
-          </p>
-        </div>
       </div>
+
+      {/* Weapon */}
+      {char.weapon && (
+        <div className="flex items-center gap-2.5 p-2 rounded-lg bg-bg-elevated/60 border border-border-default text-xs">
+          {char.weapon.iconUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={char.weapon.iconUrl}
+              alt={char.weapon.name}
+              className="w-8 h-8 rounded object-contain bg-bg-card border border-border-default shrink-0"
+              loading="lazy"
+            />
+          ) : (
+            <span className="text-base">🗡️</span>
+          )}
+          <div className="min-w-0 flex-1">
+            <div className="font-medium text-text-primary truncate">{char.weapon.name}</div>
+            <div className="text-[11px] text-text-secondary">
+              Lv. {char.weapon.level} · Tinh luyện {char.weapon.refinement}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Stats */}
       <div className="flex flex-wrap gap-1.5">
@@ -112,6 +159,65 @@ function CharacterShowcaseCard({
               {lv}
             </span>
           ))}
+        </div>
+      )}
+
+      {/* Toggle xem chi tiết Thánh di vật */}
+      {char.artifacts.length > 0 && (
+        <div className="mt-1">
+          <button
+            onClick={() => setShowArtifacts(!showArtifacts)}
+            className="w-full text-xs py-1.5 px-3 rounded-lg border border-border-default bg-bg-elevated hover:bg-bg-card transition-colors text-text-secondary flex items-center justify-between"
+          >
+            <span>💠 Thánh di vật ({char.artifacts.length}/5 món)</span>
+            <span className="text-accent-bright font-mono font-semibold">
+              {showArtifacts ? "Thu gọn ▲" : "Chi tiết CV ▼"}
+            </span>
+          </button>
+
+          {showArtifacts && (
+            <div className="mt-2 space-y-2 border-t border-border-default pt-2">
+              {char.artifacts.map((art, idx) => {
+                const artColor =
+                  art.critValue >= 35
+                    ? "text-yellow-400 border-yellow-500/30 bg-yellow-500/5"
+                    : art.critValue >= 25
+                      ? "text-purple-400 border-purple-500/30 bg-purple-500/5"
+                      : "text-text-primary border-border-default bg-bg-elevated/40";
+
+                return (
+                  <div
+                    key={idx}
+                    className={`p-2 rounded-lg border text-xs flex flex-col gap-1 ${artColor}`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-semibold text-text-primary">
+                        {art.slotName} (+{art.level})
+                      </span>
+                      <span className="font-mono font-bold">
+                        {art.critValue > 0 ? `${art.critValue} CV` : "0 CV"}
+                        <span className="ml-1 text-[10px] font-normal opacity-80">({art.cvRating})</span>
+                      </span>
+                    </div>
+
+                    <div className="text-[11px] text-accent-bright/90">
+                      Chính: {art.mainStat.label} +{art.mainStat.value}
+                    </div>
+
+                    {art.substats.length > 0 && (
+                      <div className="grid grid-cols-2 gap-x-2 gap-y-0.5 text-[10px] text-text-secondary">
+                        {art.substats.map((sub, sIdx) => (
+                          <div key={sIdx} className="truncate">
+                            • {sub.label}: {sub.value}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       )}
 

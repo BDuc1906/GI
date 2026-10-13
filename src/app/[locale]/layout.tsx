@@ -1,4 +1,4 @@
-﻿
+
 import "../globals.css";
 import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
@@ -135,6 +135,14 @@ export default async function LocaleLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_JSON_LD) }}
         />
+        {/* Preconnect + DNS prefetch cho các CDN ảnh hay dùng nhất —
+            giảm latency kết nối đầu tiên tới enka.network và gi.yatta.moe
+            (thường là nguồn ảnh chính cho icon skill/constellation).
+            preconnect = TLS handshake sẵn, dns-prefetch = DNS lookup sẵn. */}
+        <link rel="preconnect" href="https://enka.network" />
+        <link rel="preconnect" href="https://gi.yatta.moe" />
+        <link rel="dns-prefetch" href="https://static.wikia.nocookie.net" />
+        <link rel="dns-prefetch" href="https://upload-os-bbs.mihoyo.com" />
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider>
             <GlossaryProvider>

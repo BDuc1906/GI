@@ -59,6 +59,7 @@ export async function CharacterHero({
                     fill
                     className="object-cover"
                     sizes="(max-width: 640px) 100vw, 224px"
+                    priority
                     fallbackSrcs={[c.iconUrl, c.iconUrlOriginal]}
                   />
                 </div>
@@ -69,6 +70,7 @@ export async function CharacterHero({
                     fill
                     className="object-cover"
                     sizes="(max-width: 640px) 100vw, 224px"
+                    priority
                     fallbackSrcs={[c.iconUrl, c.iconUrlOriginal]}
                   />
                 </div>

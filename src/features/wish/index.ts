@@ -1,0 +1,1 @@
+export { WishHistoryClient } from "./WishHistoryClient";

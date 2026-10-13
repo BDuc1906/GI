@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db/prisma";
+import { getCharacterById } from "@/lib/db/cached-queries";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { elementColorVar } from "@/lib/ui/theme";
@@ -10,6 +11,8 @@ import { CharacterAscension } from "@/features/characters/components/CharacterAs
 import { CharacterTalents } from "@/features/characters/components/CharacterTalents";
 import { CharacterConstellations } from "@/features/characters/components/CharacterConstellations";
 import { CharacterSimilarSection } from "@/features/characters/components/CharacterSimilarSection";
+import { RecommendedBuildTab } from "@/features/characters/components/RecommendedBuildTab";
+import { CharacterTeamVariants } from "@/features/characters/components/CharacterTeamVariants";
 import type { Metadata } from "next";
 import {
   resolveTravelerSibling,
@@ -52,7 +55,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       robots: { index: false, follow: false },
     });
   }
-  const c = await prisma.character.findUnique({ where: { id } });
+  const c = await getCharacterById(id);
   if (!c) {
     return createLocalizedMetadata({
       locale,
@@ -79,7 +82,7 @@ export default async function CharacterDetail({ params }: PageProps) {
   setRequestLocale(locale);
   if (isNonPlayableCharacterId(id)) return notFound();
 
-  const c = await prisma.character.findUnique({ where: { id } });
+  const c = await getCharacterById(id);
   if (!c) return notFound();
 
   const t = await getTranslations({ locale, namespace: "CharacterDetail" });
@@ -92,12 +95,14 @@ export default async function CharacterDetail({ params }: PageProps) {
   const constellations = getLocalizedConstellations(
     (c.constellations as unknown as Constellation[]) ?? [],
     c.constellationsTranslations,
-    locale
+    locale,
+    c.name
   );
   const talents = getLocalizedTalents(
     (c.talents as unknown as Talent[]) ?? [],
     c.talentsTranslations,
-    locale
+    locale,
+    c.name
   );
   const localizedDescription = getLocalizedDescription(c, locale);
   const ascensionMaterials = (c.ascensionMaterials as unknown as AscensionMaterialPhase[]) ?? [];
@@ -172,11 +177,18 @@ export default async function CharacterDetail({ params }: PageProps) {
         materialIconRecord={materialIconRecord}
         elementColor={el}
         locale={locale}
+        character={c}
       />
 
       <CharacterConstellations
         constellations={constellations}
         locale={locale}
+      />
+
+      <RecommendedBuildTab
+        character={c}
+        locale={locale}
+        elementColor={el}
       />
 
       <CharacterSimilarSection
@@ -186,14 +198,11 @@ export default async function CharacterDetail({ params }: PageProps) {
         locale={locale}
       />
 
-      <section className="mb-10">
-        <Link
-          href={`/tools/team-builder?main=${c.id}`}
-          className="inline-block px-4 py-2 rounded-lg border border-accent-500/60 bg-bg-elevated text-accent-bright font-medium hover:border-accent-500 transition-colors"
-        >
-          Dựng đội hình với {getLocalizedName(c, locale)}
-        </Link>
-      </section>
+      <CharacterTeamVariants
+        character={c}
+        locale={locale}
+        elementColor={el}
+      />
     </div>
   );
 }

@@ -155,12 +155,53 @@ const nextConfig: NextConfig = {
     "@opentelemetry/resources",
   ],
 
+  // Gzip/Brotli compression cho mọi response text (HTML, JS, CSS, JSON).
+  // Next.js mặc định BẬT khi không khai báo tường minh, nhưng một số cấu hình
+  // Sentry/proxy override về false — khai báo tường minh để đảm bảo.
+  compress: true,
+
+  // Tắt header "X-Powered-By: Next.js" — giảm fingerprinting, tiết kiệm ~30 bytes/request.
+  poweredByHeader: false,
+
   images: {
     remotePatterns: resolveRemotePatterns(),
+    // Phục vụ AVIF (tiết kiệm 50% so với WebP, 70% so với PNG) và WebP làm fallback.
+    // Next.js tự thương lượng format qua Accept header — không cần sửa gì ở client.
+    formats: ["image/avif", "image/webp"],
+    // Cache ảnh đã tối ưu ở server-side 30 ngày thay vì mặc định 60s.
+    // Ảnh game data hầu như không đổi — giảm tải compute resize đáng kể.
+    minimumCacheTTL: 60 * 60 * 24 * 30, // 30 ngày
+    // Giới hạn kích thước device pixel ratio tối đa = 2 (đủ cho màn Retina).
+    // DPR 3 (màn Android cao cấp) tải ảnh lớn hơn 44% mà mắt không phân biệt được.
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
 
   async headers() {
     return [
+      // === Long-term cache cho static assets Next.js (JS/CSS/fonts đã hash) ===
+      // Content-hash thay đổi mỗi build → immutable an toàn tuyệt đối.
+      {
+        source: "/_next/static/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      // === Cache cho ảnh proxy /api/images/* (đã set trong route.ts nhưng
+      //     thêm header ở đây để Vercel Edge Cache nhận diện) ===
+      {
+        source: "/api/images/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      // === Security headers cho mọi route ===
       {
         source: "/:path*",
         headers: [
@@ -171,7 +212,6 @@ const nextConfig: NextConfig = {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=()",
           },
-          // CSP enforce
           {
             key: "Content-Security-Policy",
             value: contentSecurityPolicy(),

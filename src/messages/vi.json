@@ -60,18 +60,18 @@
     "description": "Danh sách toàn bộ kẻ địch trong game"
   },
   "Achievements": {
-    "title": "Thành Tự",
-    "description": "Danh sách toàn bộ thành tự và phần thưởng",
-    "achievementGroups": "Nhóm thành tự",
-    "achievements": "Thành tự (hiển thị 100 đầu)"
+    "title": "Thành Tựu",
+    "description": "Danh sách toàn bộ thành tựu và phần thưởng Nguyên Thạch",
+    "achievementGroups": "Nhóm thành tựu",
+    "achievements": "Thành tựu (hiển thị 100 đầu)"
   },
   "Food": {
-    "title": "Đồ Ăn",
-    "description": "Danh sách toàn bộ đồ ăn và công thức"
+    "title": "Món Ăn",
+    "description": "Danh sách toàn bộ món ăn và công thức nấu nướng"
   },
   "Geography": {
-    "title": "Địa Lý",
-    "description": "Danh sách toàn bộ địa điểm trong game"
+    "title": "Điểm Ngắm Cảnh",
+    "description": "Danh sách toàn bộ địa điểm và điểm ngắm cảnh trong game"
   },
   "Materials": {
     "title": "Nguyên Liệu",
@@ -108,7 +108,7 @@
     "filterVision": "Nguyên tố",
     "filterWeapon": "Vũ khí",
     "filterRegion": "Vùng",
-    "filterRarity": "Phẩm cấp",
+    "filterRarity": "Độ hiếm",
     "clearAllFilters": "Xóa tất cả bộ lọc",
     "noResults": "Không tìm thấy nhân vật phù hợp với bộ lọc.",
     "clearFilters": "Xóa bộ lọc",
@@ -132,7 +132,7 @@
     "searchPlaceholder": "Tìm tên vũ khí...",
     "searchButton": "Tìm kiếm",
     "filterType": "Loại",
-    "filterRarity": "Phẩm cấp",
+    "filterRarity": "Độ hiếm",
     "clearAllFilters": "Xóa tất cả bộ lọc",
     "noResults": "Không tìm thấy vũ khí phù hợp với bộ lọc.",
     "clearFilters": "Xóa bộ lọc"
@@ -147,7 +147,7 @@
     "clearShort": "Xóa",
     "noResults": "Không tìm thấy bộ thánh di vật phù hợp.",
     "clearFilters": "Xóa bộ lọc",
-    "rarityBadge": "Phẩm cấp {range}★"
+    "rarityBadge": "Độ hiếm {range}★"
   },
   "Elements": {
     "metaTitle": "Hệ thống Nguyên tố — LEIBO",
@@ -182,8 +182,8 @@
     "recommendedLevel": "Khuyến nghị cấp {level}",
     "openSchedule": "Lịch mở",
     "opensDaily": "Mở hằng ngày.",
-    "recommendedElements": "Nguyên tố khắc chế khuyến nghị",
-    "artifactSetDrops": "Bộ thánh di vật rơi ra",
+    "recommendedElements": "Nguyên tố đề cử",
+    "artifactSetDrops": "Thánh di vật rơi",
     "materialsObtained": "Nguyên liệu nhận được",
     "enemiesInDomain": "Kẻ địch trong bí cảnh",
     "sunday": "Chủ nhật",
@@ -214,8 +214,8 @@
     "metaDescriptionFallback": "{type} {rarity}★ — thông số và hiệu ứng tinh luyện.",
     "breadcrumbWeapons": "Vũ khí",
     "baseStats": "Chỉ Số Cơ Bản",
-    "baseAtk": "ATK nền",
-    "subStat": "Chỉ số phụ",
+    "baseAtk": "Tấn Công Căn Bản",
+    "subStat": "Thuộc tính phụ",
     "ascensionMaterials": "Nguyên Liệu Đột Phá",
     "phase": "Giai đoạn {phase}",
     "refinement": "Tinh luyện {n}"
@@ -229,11 +229,11 @@
     "twoPieceEffect": "Hiệu ứng 2 món",
     "fourPieceEffect": "Hiệu ứng 4 món",
     "piecesInSet": "Các Món Trong Bộ",
-    "pieceFlower": "Hoa",
-    "piecePlume": "Lông vũ",
-    "pieceSands": "Đồng hồ cát",
-    "pieceGoblet": "Ly",
-    "pieceCirclet": "Vương miện"
+    "pieceFlower": "Hoa Sự Sống",
+    "piecePlume": "Lông Vũ Tử Vong",
+    "pieceSands": "Cát Thời Gian",
+    "pieceGoblet": "Ly Không Gian",
+    "pieceCirclet": "Nón Lý Trí"
   },
   "CharacterDetail": {
     "notFoundTitle": "Không tìm thấy nhân vật — LEIBO",
@@ -251,12 +251,12 @@
     "phase": "Giai Đoạn {phase}",
     "skills": "Kỹ Năng",
     "level": "Cấp Độ",
-    "constellationSystem": "Hệ Thống Cung Mệnh Chòm Sao",
-    "normalAttack": "Đòn Thường / Trọng Kích / Bổ Nhào",
+    "constellationSystem": "Cung Mệnh",
+    "normalAttack": "Tấn Công Thường",
     "elementalSkill": "Kỹ Năng Nguyên Tố",
-    "elementalBurst": "Trọng Kích Nguyên Tố (Cực Kỹ)",
-    "alternateSprint": "Kỹ Năng Di Chuyển Đặc Biệt",
-    "passiveN": "Thiên Phú Bị Động {n}",
+    "elementalBurst": "Kỹ Năng Nộ",
+    "alternateSprint": "Di Chuyển Đặc Biệt",
+    "passiveN": "Thiên Phú Cố Định {n}",
     "ogNotFound": "Không tìm thấy nhân vật"
   },
   "WeaponType": {
@@ -279,8 +279,8 @@
     "ariaSelectCharacterLevel": "Chọn cấp độ nhân vật",
     "ariaSelectWeaponLevel": "Chọn cấp độ vũ khí",
     "ascensionStatFallback": "Chỉ số đột phá",
-    "baseAtk": "ATK nền",
-    "subStat": "Chỉ số phụ"
+    "baseAtk": "Tấn Công Căn Bản",
+    "subStat": "Thuộc tính phụ"
   },
   "SearchWidget": {
     "ariaSearch": "Tìm kiếm",
