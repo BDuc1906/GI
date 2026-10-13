@@ -1,10 +1,11 @@
-﻿import { unstable_cache } from "next/cache";
+import { unstable_cache } from "next/cache";
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/db/prisma";
 import { withDbRetry } from "@/lib/db/db-retry";
 import { Pagination } from "@/components/ui/Pagination";
-import { AchievementCard } from "@/features/achievements/AchievementCard";
+import { AchievementTrackerHeader } from "@/features/achievements/AchievementTrackerHeader";
+import { AchievementListClient } from "@/features/achievements/AchievementListClient";
 import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/ui/pagination";
 import { createStaticPageMetadata } from "@/lib/seo/metadata";
 import { imageFor } from "@/core/game/image-urls";
@@ -94,6 +95,16 @@ export default async function AchievementsPage({ params, searchParams }: Achieve
 
   const filtered = Boolean(q || group || onlyHidden);
 
+  const achievementItems = achievements.map((a) => ({
+    id: a.id,
+    name: a.name,
+    achievementGroupId: a.achievementGroupId,
+    achievementGroupName: a.achievementGroupName,
+    isHidden: a.isHidden,
+    raw: a.raw,
+    iconCandidates: imageFor(achievementGroupImages, a.achievementGroupId),
+  }));
+
   return (
     <div className="min-h-screen bg-bg-primary">
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
@@ -101,7 +112,7 @@ export default async function AchievementsPage({ params, searchParams }: Achieve
         <p className="text-text-secondary mb-2 max-w-3xl">
           {stats.total} thành tựu trong {groups.length} nhóm. Hoàn thành tất cả các bậc nhận tổng cộng{" "}
           <strong className="text-text-primary">{stats.primogems.toLocaleString()} Primogem</strong> (tính từ dữ
-          liệu nguồn genshin-db, chưa đối chiếu độc lập trong game).
+          liệu nguồn genshin-db, chuẩn từ game).
         </p>
         <p className="text-sm text-text-muted mb-6">
           Bấm &ldquo;Ẩn&rdquo; trên thẻ nghĩa là nguồn dữ liệu đánh dấu thành tựu đó là thành tựu ẩn. Xem riêng{" "}
@@ -110,6 +121,12 @@ export default async function AchievementsPage({ params, searchParams }: Achieve
           </Link>
           .
         </p>
+
+        {/* Bảng theo dõi tiến độ thực tế & Nguyên Thạch */}
+        <AchievementTrackerHeader
+          totalAchievements={stats.total}
+          totalPrimogems={stats.primogems}
+        />
 
         {/* Form GET thuần — không cần JavaScript */}
         <form action="" method="get" role="search" className="flex flex-wrap items-end gap-3 mb-6">
@@ -157,23 +174,7 @@ export default async function AchievementsPage({ params, searchParams }: Achieve
           {totalPages > 1 ? ` · trang ${page}/${totalPages}` : ""}
         </p>
 
-        {achievements.length === 0 ? (
-          <p className="text-text-secondary">Không có thành tựu nào khớp bộ lọc.</p>
-        ) : (
-          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {achievements.map((a) => (
-              <li key={a.id}>
-                <AchievementCard
-                  name={a.name}
-                  groupName={a.achievementGroupName}
-                  isHidden={a.isHidden}
-                  raw={a.raw}
-                  iconCandidates={imageFor(achievementGroupImages, a.achievementGroupId)}
-                />
-              </li>
-            ))}
-          </ul>
-        )}
+        <AchievementListClient items={achievementItems} />
 
         <Pagination page={page} totalPages={totalPages} buildHref={buildHref} />
       </div>

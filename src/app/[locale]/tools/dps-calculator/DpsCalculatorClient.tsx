@@ -80,6 +80,18 @@ export function DpsCalculatorClient({
   const [weaponRefinement, setWeaponRefinement] = useState(1);
   const [talents, setTalents] = useState({ normalAttack: 10, elementalSkill: 10, elementalBurst: 10 });
 
+  // Chế độ tính toán: Nhập bảng tổng (khuyên dùng) hoặc Tự ghép 5 món
+  const [calcMode, setCalcMode] = useState<"totalStats" | "artifacts">("totalStats");
+
+  // State Bảng chỉ số tổng trong game
+  const [totalAtk, setTotalAtk] = useState(2100);
+  const [totalCritRate, setTotalCritRate] = useState(65.0);
+  const [totalCritDmg, setTotalCritDmg] = useState(150.0);
+  const [totalEm, setTotalEm] = useState(120);
+  const [totalEr, setTotalEr] = useState(130);
+  const [totalDamageBonus, setTotalDamageBonus] = useState(46.6);
+
+  // State 5 món Thánh di vật chi tiết
   const [flowerHp, setFlowerHp] = useState(4780);
   const [plumeAtk, setPlumeAtk] = useState(311);
   const [sandsMainStat, setSandsMainStat] = useState("ATK%");
@@ -127,30 +139,46 @@ export function DpsCalculatorClient({
     setError(null);
     setResult(null);
     try {
+      const payload: Record<string, unknown> = {
+        characterId: selectedChar.id,
+        weaponId: selectedWeapon.id,
+        characterLevel,
+        weaponLevel,
+        weaponRefinement,
+        talentLevels: talents,
+        modifiers: { enemyRes, defenseReduction: 0, damageBonus, vulnerability: 0, reaction, reactionDirection },
+        rotation: { normalAttacks: 3, skillCasts: 1, burstCasts: 1, reactionChance: 1 },
+      };
+
+      if (calcMode === "totalStats") {
+        payload.mode = "totalStats";
+        payload.totalStats = {
+          totalATK: totalAtk,
+          critRate: totalCritRate,
+          critDmg: totalCritDmg,
+          em: totalEm,
+          er: totalEr,
+          damageBonus: totalDamageBonus,
+        };
+      } else {
+        payload.mode = "artifacts";
+        payload.artifacts = {
+          flowerHp,
+          plumeAtk,
+          sandsMainStat,
+          sandsValue,
+          gobletMainStat,
+          gobletValue,
+          circletMainStat,
+          circletValue,
+          subStats,
+        };
+      }
+
       const res = await fetch("/api/tools/dps", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          characterId: selectedChar.id,
-          weaponId: selectedWeapon.id,
-          characterLevel,
-          weaponLevel,
-          weaponRefinement,
-          talentLevels: talents,
-          artifacts: {
-            flowerHp,
-            plumeAtk,
-            sandsMainStat,
-            sandsValue,
-            gobletMainStat,
-            gobletValue,
-            circletMainStat,
-            circletValue,
-            subStats,
-          },
-          modifiers: { enemyRes, defenseReduction: 0, damageBonus, vulnerability: 0, reaction, reactionDirection },
-          rotation: { normalAttacks: 3, skillCasts: 1, burstCasts: 1, reactionChance: 1 },
-        }),
+        body: JSON.stringify(payload),
       });
       const json = await res.json();
       if (!res.ok || !json.success) {
@@ -237,31 +265,86 @@ export function DpsCalculatorClient({
         </div>
       </div>
 
-      {/* Thánh di vật */}
-      <div className="bg-bg-card border-2 border-border rounded-xl p-5">
-        <h3 className="text-sm font-medium text-text-secondary mb-3">Thánh di vật</h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
-          <NumberField label="HP hoa (chỉ số chính)" value={flowerHp} onChange={setFlowerHp} />
-          <NumberField label="ATK lông (chỉ số chính)" value={plumeAtk} onChange={setPlumeAtk} />
-          <div />
-          <SelectField label="Chỉ số chính Đồng hồ cát" value={sandsMainStat} onChange={setSandsMainStat} options={SANDS_OPTIONS} />
-          <NumberField label="Giá trị" value={sandsValue} onChange={setSandsValue} step={0.1} />
-          <div />
-          <SelectField label="Chỉ số chính Cốc" value={gobletMainStat} onChange={setGobletMainStat} options={GOBLET_OPTIONS} />
-          <NumberField label="Giá trị" value={gobletValue} onChange={setGobletValue} step={0.1} />
-          <div />
-          <SelectField label="Chỉ số chính Vương miện" value={circletMainStat} onChange={setCircletMainStat} options={CIRCLET_OPTIONS} />
-          <NumberField label="Giá trị" value={circletValue} onChange={setCircletValue} step={0.1} />
-        </div>
-
-        <h4 className="text-xs text-text-muted mb-2">Tổng chỉ số phụ (cộng dồn cả 5 món)</h4>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <NumberField label="CRIT Rate %" value={subStats.critRate} onChange={(v) => setSubStats((s) => ({ ...s, critRate: v }))} step={0.1} />
-          <NumberField label="CRIT DMG %" value={subStats.critDmg} onChange={(v) => setSubStats((s) => ({ ...s, critDmg: v }))} step={0.1} />
-          <NumberField label="ATK %" value={subStats.atkPercent} onChange={(v) => setSubStats((s) => ({ ...s, atkPercent: v }))} step={0.1} />
-          <NumberField label="EM" value={subStats.em} onChange={(v) => setSubStats((s) => ({ ...s, em: v }))} />
-        </div>
+      {/* Chọn Chế độ Nhập Chỉ số */}
+      <div className="flex flex-col sm:flex-row rounded-xl bg-bg-card border-2 border-border p-1.5 gap-2">
+        <button
+          type="button"
+          onClick={() => setCalcMode("totalStats")}
+          className={`flex-1 py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition-all flex items-center justify-center gap-2 ${
+            calcMode === "totalStats"
+              ? "bg-gold text-bg-primary shadow-sm"
+              : "text-text-secondary hover:text-text-primary"
+          }`}
+        >
+          <span>📊</span>
+          <span>Bảng chỉ số tổng trong game (Khuyên dùng)</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setCalcMode("artifacts")}
+          className={`flex-1 py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition-all flex items-center justify-center gap-2 ${
+            calcMode === "artifacts"
+              ? "bg-gold text-bg-primary shadow-sm"
+              : "text-text-secondary hover:text-text-primary"
+          }`}
+        >
+          <span>🧩</span>
+          <span>Tự ghép 5 món Thánh di vật (Nâng cao)</span>
+        </button>
       </div>
+
+      {calcMode === "totalStats" ? (
+        /* Chế độ 1: Bảng chỉ số tổng như màn hình trong game */
+        <div className="bg-bg-card border-2 border-border rounded-xl p-5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-4 pb-3 border-b border-border/50">
+            <div>
+              <h3 className="text-sm font-bold text-text-primary flex items-center gap-2">
+                <span>Chỉ số nhân vật trong game</span>
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-semibold">
+                  Chuẩn xác 100%
+                </span>
+              </h3>
+              <p className="text-xs text-text-muted mt-0.5">
+                Mở game &gt; Xem chi tiết thuộc tính nhân vật &gt; Nhập các chỉ số tổng bạn thấy trên màn hình.
+              </p>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5">
+            <NumberField label="Tổng Tấn Công (ATK)" value={totalAtk} onChange={setTotalAtk} min={0} />
+            <NumberField label="Tỉ lệ Bạo Kích (%)" value={totalCritRate} onChange={setTotalCritRate} min={0} max={100} step={0.1} />
+            <NumberField label="Sát thương Bạo Kích (%)" value={totalCritDmg} onChange={setTotalCritDmg} min={0} max={400} step={0.1} />
+            <NumberField label="Tinh thông Nguyên tố (EM)" value={totalEm} onChange={setTotalEm} min={0} />
+            <NumberField label="Hiệu quả Nạp (%)" value={totalEr} onChange={setTotalEr} min={100} step={0.1} />
+            <NumberField label="Tăng Sát thương Nguyên tố (%)" value={totalDamageBonus} onChange={setTotalDamageBonus} min={0} step={0.1} />
+          </div>
+        </div>
+      ) : (
+        /* Chế độ 2: Ghép chi tiết từng món Thánh di vật */
+        <div className="bg-bg-card border-2 border-border rounded-xl p-5">
+          <h3 className="text-sm font-medium text-text-secondary mb-3">Thánh di vật từng món</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
+            <NumberField label="HP hoa (chỉ số chính)" value={flowerHp} onChange={setFlowerHp} />
+            <NumberField label="ATK lông (chỉ số chính)" value={plumeAtk} onChange={setPlumeAtk} />
+            <div />
+            <SelectField label="Chỉ số chính Đồng hồ cát" value={sandsMainStat} onChange={setSandsMainStat} options={SANDS_OPTIONS} />
+            <NumberField label="Giá trị" value={sandsValue} onChange={setSandsValue} step={0.1} />
+            <div />
+            <SelectField label="Chỉ số chính Cốc" value={gobletMainStat} onChange={setGobletMainStat} options={GOBLET_OPTIONS} />
+            <NumberField label="Giá trị" value={gobletValue} onChange={setGobletValue} step={0.1} />
+            <div />
+            <SelectField label="Chỉ số chính Vương miện" value={circletMainStat} onChange={setCircletMainStat} options={CIRCLET_OPTIONS} />
+            <NumberField label="Giá trị" value={circletValue} onChange={setCircletValue} step={0.1} />
+          </div>
+
+          <h4 className="text-xs text-text-muted mb-2">Tổng chỉ số phụ (cộng dồn cả 5 món)</h4>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <NumberField label="CRIT Rate %" value={subStats.critRate} onChange={(v) => setSubStats((s) => ({ ...s, critRate: v }))} step={0.1} />
+            <NumberField label="CRIT DMG %" value={subStats.critDmg} onChange={(v) => setSubStats((s) => ({ ...s, critDmg: v }))} step={0.1} />
+            <NumberField label="ATK %" value={subStats.atkPercent} onChange={(v) => setSubStats((s) => ({ ...s, atkPercent: v }))} step={0.1} />
+            <NumberField label="EM" value={subStats.em} onChange={(v) => setSubStats((s) => ({ ...s, em: v }))} />
+          </div>
+        </div>
+      )}
 
       {/* Kẻ địch & phản ứng */}
       <div className="bg-bg-card border-2 border-border rounded-xl p-5">

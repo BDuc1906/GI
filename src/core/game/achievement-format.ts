@@ -45,6 +45,10 @@ export function totalPrimogems(raw: unknown): number {
   );
 }
 
+export function getStagePrimogems(stage: AchievementStage | undefined): number {
+  return stage?.reward?.name === "Primogem" ? (stage.reward.count ?? 0) : 0;
+}
+
 export function formatReward(r: AchievementReward | undefined): string | null {
   if (!r?.name) return null;
   return typeof r.count === "number" ? `${r.count} ${r.name}` : r.name;

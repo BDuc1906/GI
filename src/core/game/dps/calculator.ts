@@ -19,6 +19,7 @@ import type {
   ReactionType,
   ReactionDirection,
   RotationConfig,
+  TotalStatsInput,
 } from "./types";
 
 export class DPSCalculator {
@@ -349,5 +350,103 @@ export class DPSCalculator {
         reason: `Build 2 has ${dps2.expectedDPS.toFixed(0)} DPS vs ${dps1.expectedDPS.toFixed(0)} DPS (${improvement.toFixed(1)}% improvement)`,
       };
     }
+  }
+
+  /**
+   * Tính DPS trực tiếp từ Bảng chỉ số tổng trong game (Stat Sheet Mode)
+   * Không bắt người dùng phải tách nhỏ hoặc cộng nhẩm từng món Thánh Di Vật
+   */
+  calculateExpectedDPSFromTotalStats(
+    characterLevel: number,
+    totalStats: TotalStatsInput,
+    talents: TalentLevels,
+    modifiers: DamageModifiers,
+    rotation: RotationConfig
+  ): DPSCalculationResult {
+    const totalATK = Math.max(0, totalStats.totalATK);
+    const em = Math.max(0, totalStats.em);
+
+    const critRate = Math.min(1, Math.max(0, totalStats.critRate / 100));
+    const critDmg = 1 + Math.max(0, totalStats.critDmg / 100);
+    const avgCritMultiplier = 1 - critRate + critRate * critDmg;
+
+    const dmgBonus = 1 + (modifiers.damageBonus + (totalStats.damageBonus ?? 0)) / 100;
+
+    const defenseMitigation = this.calculateDefenseMitigation(
+      characterLevel,
+      modifiers.enemyLevel ?? 90,
+      modifiers.defenseReduction,
+      modifiers.defenseIgnore ?? 0
+    );
+    const resistanceMitigation = this.calculateResistanceMitigation(modifiers.enemyRes);
+
+    const reactionMultiplier = this.calculateReactionMultiplier(
+      modifiers.reaction ?? "Vaporize",
+      em,
+      characterLevel,
+      modifiers.reactionDirection ?? "forward"
+    );
+
+    const normalAttackBase = totalATK * talents.normalAttack;
+    const skillBase = totalATK * talents.elementalSkill;
+    const burstBase = totalATK * talents.elementalBurst;
+
+    const normalAttackDamage =
+      normalAttackBase * avgCritMultiplier * dmgBonus * defenseMitigation * resistanceMitigation;
+    const skillDamage =
+      skillBase * avgCritMultiplier * dmgBonus * defenseMitigation * resistanceMitigation;
+    const burstDamage =
+      burstBase * avgCritMultiplier * dmgBonus * defenseMitigation * resistanceMitigation;
+
+    let reactionDamage = 0;
+    if (modifiers.reaction && modifiers.reaction !== "Frozen" && modifiers.reaction !== "Crystallize") {
+      const baseDamageForReaction = (skillDamage + burstDamage) / 2;
+      reactionDamage =
+        baseDamageForReaction * (reactionMultiplier - 1) * (rotation.reactionChance ?? 1);
+    }
+
+    const totalRotationDamage =
+      normalAttackDamage * rotation.normalAttacks +
+      skillDamage * rotation.skillCasts +
+      burstDamage * rotation.burstCasts +
+      reactionDamage;
+
+    const rotationDuration = 10;
+    const expectedDPS = Math.round(totalRotationDamage / rotationDuration);
+
+    const optimizationTips: string[] = [];
+    const critRatio = totalStats.critRate > 0 ? totalStats.critDmg / totalStats.critRate : 0;
+    if (critRatio > 2.5 && totalStats.critRate < 60) {
+      optimizationTips.push(
+        `Tỉ lệ bạo kích (${totalStats.critRate}%) đang hơi thấp so với sát thương bạo kích (${totalStats.critDmg}%). Hãy ưu tiên tăng Tỉ lệ bạo kích để sát thương ổn định hơn.`
+      );
+    } else if (critRatio < 1.5 && totalStats.critRate > 70) {
+      optimizationTips.push(
+        `Tỉ lệ bạo kích (${totalStats.critRate}%) đang khá cao. Bạn có thể chuyển bớt sang Sát thương bạo kích để tối đa hóa DPS.`
+      );
+    }
+
+    if (
+      em < 100 &&
+      (modifiers.reaction === "Vaporize" ||
+        modifiers.reaction === "Melt" ||
+        modifiers.reaction === "Aggravate" ||
+        modifiers.reaction === "Spread")
+    ) {
+      optimizationTips.push(
+        `Đội hình dùng phản ứng ${modifiers.reaction} nhưng Tinh thông nguyên tố (EM = ${em}) khá thấp. Bổ sung khoảng 100-200 EM sẽ tăng vọt sát thương phản ứng.`
+      );
+    }
+
+    return {
+      expectedDPS,
+      damageBreakdown: {
+        normalAttack: Math.round(normalAttackDamage),
+        skill: Math.round(skillDamage),
+        burst: Math.round(burstDamage),
+        reactions: Math.round(reactionDamage),
+      },
+      optimizationTips,
+    };
   }
 }

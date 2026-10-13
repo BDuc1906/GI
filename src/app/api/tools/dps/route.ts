@@ -1,4 +1,4 @@
-﻿import type { NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 import { ApiError, withErrorHandling } from "@/lib/api/errors";
 import { withRateLimit } from "@/lib/api/rate-limit";
 import { ok } from "@/lib/api/response";
@@ -22,6 +22,19 @@ const dpsRequestSchema = z.object({
       elementalBurst: z.number().min(1).max(15).default(10),
     })
     .default({ normalAttack: 10, elementalSkill: 10, elementalBurst: 10 }),
+  mode: z.enum(["totalStats", "artifacts"]).default("artifacts"),
+  totalStats: z
+    .object({
+      totalATK: z.number().min(0).default(2000),
+      totalHP: z.number().min(0).optional(),
+      totalDEF: z.number().min(0).optional(),
+      critRate: z.number().min(0).max(100).default(60),
+      critDmg: z.number().min(0).max(400).default(120),
+      em: z.number().min(0).default(0),
+      er: z.number().min(0).default(100),
+      damageBonus: z.number().min(0).default(0),
+    })
+    .optional(),
   artifacts: z
     .object({
       flowerHp: z.number().min(0).default(4780),
@@ -239,42 +252,62 @@ export const POST = withErrorHandling(
 
     const calculator = new DPSCalculator();
 
-    const result = calculator.calculateExpectedDPS(
-      {
-        level: input.characterLevel,
-        baseHp: charRow.hp ?? 0,
-        baseAtk: charRow.attack ?? 0,
-        baseDef: charRow.defense ?? 0,
-        ascensionStat: character.ascensionStat ?? "",
-        ascensionStatValue: charRow.specialized ?? 0,
-      },
-      {
-        level: input.weaponLevel,
-        baseAtk: weaponRow.baseAtk ?? weaponRow.attack ?? 0,
-        subStat: weapon.subStatName ?? "",
-        // subStatValue lưu dạng chuỗi (vd "12.0%") — parse phần số, bỏ qua
-        // phần trăm/ký tự khác, mặc định 0 nếu không parse được.
-        subStatValue: parseFloat(String(weapon.subStatValue ?? "0").replace(/[^0-9.]/g, "")) || 0,
-        refinement: input.weaponRefinement,
-      },
-      input.artifacts,
-      // Truyền % ATK ĐÃ RESOLVE từ bảng thật (Talent.raw), KHÔNG phải cấp
-      // độ thô (1-15) — xem comment `resolveTalentMultiplier` phía trên.
-      {
-        normalAttack: normalAttackMultiplier,
-        elementalSkill: skillMultiplier,
-        elementalBurst: burstMultiplier,
-      },
-      {
-        enemyRes: input.modifiers.enemyRes,
-        defenseReduction: input.modifiers.defenseReduction,
-        damageBonus: input.modifiers.damageBonus,
-        vulnerability: input.modifiers.vulnerability,
-        reaction: input.modifiers.reaction,
-        reactionDirection: input.modifiers.reactionDirection,
-      },
-      input.rotation
-    );
+    const result =
+      input.mode === "totalStats" && input.totalStats
+        ? calculator.calculateExpectedDPSFromTotalStats(
+            input.characterLevel,
+            input.totalStats,
+            {
+              normalAttack: normalAttackMultiplier,
+              elementalSkill: skillMultiplier,
+              elementalBurst: burstMultiplier,
+            },
+            {
+              enemyRes: input.modifiers.enemyRes,
+              defenseReduction: input.modifiers.defenseReduction,
+              damageBonus: input.modifiers.damageBonus,
+              vulnerability: input.modifiers.vulnerability,
+              reaction: input.modifiers.reaction,
+              reactionDirection: input.modifiers.reactionDirection,
+            },
+            input.rotation
+          )
+        : calculator.calculateExpectedDPS(
+            {
+              level: input.characterLevel,
+              baseHp: charRow.hp ?? 0,
+              baseAtk: charRow.attack ?? 0,
+              baseDef: charRow.defense ?? 0,
+              ascensionStat: character.ascensionStat ?? "",
+              ascensionStatValue: charRow.specialized ?? 0,
+            },
+            {
+              level: input.weaponLevel,
+              baseAtk: weaponRow.baseAtk ?? weaponRow.attack ?? 0,
+              subStat: weapon.subStatName ?? "",
+              // subStatValue lưu dạng chuỗi (vd "12.0%") — parse phần số, bỏ qua
+              // phần trăm/ký tự khác, mặc định 0 nếu không parse được.
+              subStatValue: parseFloat(String(weapon.subStatValue ?? "0").replace(/[^0-9.]/g, "")) || 0,
+              refinement: input.weaponRefinement,
+            },
+            input.artifacts,
+            // Truyền % ATK ĐÃ RESOLVE từ bảng thật (Talent.raw), KHÔNG phải cấp
+            // độ thô (1-15) — xem comment `resolveTalentMultiplier` phía trên.
+            {
+              normalAttack: normalAttackMultiplier,
+              elementalSkill: skillMultiplier,
+              elementalBurst: burstMultiplier,
+            },
+            {
+              enemyRes: input.modifiers.enemyRes,
+              defenseReduction: input.modifiers.defenseReduction,
+              damageBonus: input.modifiers.damageBonus,
+              vulnerability: input.modifiers.vulnerability,
+              reaction: input.modifiers.reaction,
+              reactionDirection: input.modifiers.reactionDirection,
+            },
+            input.rotation
+          );
 
     return ok({
       characterName: character.name,

@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/db/prisma";
@@ -9,6 +9,12 @@ import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { genshinServerWeekdayName } from "@/core/game/genshin-server-time";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
+import { PLAYABLE_CHARACTER_FILTER } from "@/core/game/character-catalog";
+import {
+  PersonalizedCalendarView,
+  type CalendarDomainItem,
+  type SelectableTarget,
+} from "@/features/calendar/PersonalizedCalendarView";
 
 export const dynamic = "force-dynamic";
 
@@ -77,21 +83,110 @@ export default async function CalendarPage({ params, searchParams }: PageProps) 
     : today;
 
   // Chọn field tường minh (xem ghi chú ở domains/[id]/page.tsx về Prisma 7).
-  const domains = await withDbRetry(() =>
-    prisma.domain.findMany({
-      where: { category: { in: ["talent", "weapon"] } },
-      select: {
-        id: true,
-        name: true,
-        nameTranslations: true,
-        category: true,
-        regionName: true,
-        daysOfWeek: true,
-        materials: true,
-      },
-      orderBy: [{ category: "asc" }, { regionName: "asc" }, { name: "asc" }],
-    })
+  const [domains, rawCharacters, rawWeapons] = await withDbRetry(() =>
+    Promise.all([
+      prisma.domain.findMany({
+        where: { category: { in: ["talent", "weapon"] } },
+        select: {
+          id: true,
+          name: true,
+          nameTranslations: true,
+          category: true,
+          regionName: true,
+          daysOfWeek: true,
+          materials: true,
+        },
+        orderBy: [{ category: "asc" }, { regionName: "asc" }, { name: "asc" }],
+      }),
+      prisma.character.findMany({
+        where: PLAYABLE_CHARACTER_FILTER,
+        select: {
+          id: true,
+          name: true,
+          nameTranslations: true,
+          rarity: true,
+          vision: true,
+          iconUrl: true,
+          iconUrlOriginal: true,
+          talentMaterials: true,
+        },
+        orderBy: [{ rarity: "desc" }, { name: "asc" }],
+      }),
+      prisma.weapon.findMany({
+        where: { rarity: { gte: 4 } },
+        select: {
+          id: true,
+          name: true,
+          nameTranslations: true,
+          rarity: true,
+          type: true,
+          iconUrl: true,
+          iconUrlOriginal: true,
+          ascensionMaterials: true,
+        },
+        orderBy: [{ rarity: "desc" }, { name: "asc" }],
+      }),
+    ])
   );
+
+  // Tập hợp tên toàn bộ nguyên liệu rơi từ các bí cảnh để lọc
+  const domainMaterialNames = new Set(
+    domains.flatMap((d) =>
+      ((d.materials as unknown as DomainMaterialEntry[]) ?? []).map((m) => m.name.toLowerCase())
+    )
+  );
+
+  interface TalentLevelItem {
+    level?: number;
+    materials?: Array<{ name?: string | null; materialId?: string | null }>;
+  }
+
+  const selectableCharacters: SelectableTarget[] = rawCharacters.map((c) => {
+    const tMats = (c.talentMaterials as unknown as TalentLevelItem[]) ?? [];
+    const mats = Array.from(
+      new Set(
+        tMats
+          .flatMap((lvl) => (lvl.materials ?? []).map((m) => m?.name).filter((n): n is string => Boolean(n)))
+          .filter((n) => domainMaterialNames.has(n.toLowerCase()))
+      )
+    );
+    return {
+      id: c.id,
+      name: getLocalizedName(c, locale),
+      type: "character",
+      rarity: c.rarity,
+      iconUrl: c.iconUrl ?? c.iconUrlOriginal,
+      visionOrWeaponType: c.vision,
+      materialNames: mats,
+    };
+  });
+
+  interface WeaponAscendItem {
+    phase?: number;
+    materials?: Array<{ name?: string | null; materialId?: string | null }>;
+  }
+
+  const selectableWeapons: SelectableTarget[] = rawWeapons.map((w) => {
+    const wMats = (w.ascensionMaterials as unknown as WeaponAscendItem[]) ?? [];
+    const mats = Array.from(
+      new Set(
+        wMats
+          .flatMap((p) => (p.materials ?? []).map((m) => m?.name).filter((n): n is string => Boolean(n)))
+          .filter((n) => domainMaterialNames.has(n.toLowerCase()))
+      )
+    );
+    return {
+      id: w.id,
+      name: getLocalizedName(w, locale),
+      type: "weapon",
+      rarity: w.rarity,
+      iconUrl: w.iconUrl ?? w.iconUrlOriginal,
+      visionOrWeaponType: w.type,
+      materialNames: mats,
+    };
+  });
+
+  const allTargets: SelectableTarget[] = [...selectableCharacters, ...selectableWeapons];
 
   // Rỗng = mở hằng ngày; có giá trị = chỉ mở các ngày đó.
   const isOpen = (d: { daysOfWeek: string[] }, day: Weekday) =>
@@ -124,10 +219,25 @@ export default async function CalendarPage({ params, searchParams }: PageProps) 
     { name: "Lịch farm", path: "/calendar" },
   ];
 
-  const groups = (["talent", "weapon"] as const).map((cat) => ({
-    cat,
-    items: openToday.filter((d) => d.category === cat),
-  }));
+  const calendarDomains: CalendarDomainItem[] = openToday.map((d) => {
+    const rawMats = ((d.materials as unknown as DomainMaterialEntry[]) ?? []).filter((m) => m.name);
+    return {
+      id: d.id,
+      name: d.name,
+      localizedName: getLocalizedName(d, locale),
+      category: d.category as "talent" | "weapon",
+      regionName: d.regionName,
+      daysOfWeek: d.daysOfWeek,
+      materials: rawMats.map((m) => {
+        const icon = m.materialId ? iconMap.get(m.materialId) : undefined;
+        return {
+          name: m.name,
+          materialId: m.materialId,
+          iconUrl: icon?.iconUrl ?? icon?.iconUrlOriginal,
+        };
+      }),
+    };
+  });
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
@@ -172,69 +282,13 @@ export default async function CalendarPage({ params, searchParams }: PageProps) 
       {domains.length === 0 ? (
         <p className="text-text-muted text-sm">Chưa có dữ liệu bí cảnh.</p>
       ) : (
-        groups.map(({ cat, items }) => (
-          <section key={cat} className="mb-10">
-            <h2 className="font-display text-xl font-bold mb-4 text-accent-bright border-b border-border pb-2">
-              {CATEGORY_LABEL[cat]} — {WEEKDAY_LABEL[selected]}
-              <span className="ml-2 text-sm font-normal text-text-muted">({items.length})</span>
-            </h2>
-            {items.length === 0 ? (
-              <p className="text-sm text-text-muted">Không có bí cảnh nào mở ngày này.</p>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {items.map((d) => {
-                  const mats = ((d.materials as unknown as DomainMaterialEntry[]) ?? []).filter(
-                    (m) => m.name
-                  );
-                  return (
-                    <Link
-                      key={d.id}
-                      href={`/domains/${d.id}`}
-                      className="surface-card p-4 flex flex-col gap-3 group"
-                    >
-                      <div>
-                        <div className="font-semibold text-text-primary group-hover:text-accent-bright transition-colors">
-                          {getLocalizedName(d, locale)}
-                        </div>
-                        {d.regionName && (
-                          <div className="text-xs text-text-muted mt-0.5">{d.regionName}</div>
-                        )}
-                      </div>
-                      {mats.length > 0 && (
-                        <ul className="flex flex-wrap gap-2">
-                          {mats.slice(0, MAX_MATERIALS_SHOWN).map((m) => {
-                            const icon = m.materialId ? iconMap.get(m.materialId) : undefined;
-                            return (
-                              <li
-                                key={`${d.id}-${m.name}`}
-                                title={m.name}
-                                className="relative w-10 h-10 rounded-lg bg-bg-elevated overflow-hidden"
-                              >
-                                <SafeImage
-                                  src={icon?.iconUrl}
-                                  fallbackSrcs={[icon?.iconUrlOriginal]}
-                                  alt={m.name}
-                                  fill
-                                  sizes="40px"
-                                  className="object-contain p-0.5"
-                                />
-                              </li>
-                            );
-                          })}
-                          {mats.length > MAX_MATERIALS_SHOWN && (
-                            <li className="w-10 h-10 rounded-lg border border-border text-xs text-text-muted flex items-center justify-center">
-                              +{mats.length - MAX_MATERIALS_SHOWN}
-                            </li>
-                          )}
-                        </ul>
-                      )}
-                    </Link>
-                  );
-                })}
-              </div>
-            )}
-          </section>
-        ))
+        <PersonalizedCalendarView
+          selectedDay={selected}
+          weekdayLabel={WEEKDAY_LABEL[selected]}
+          categoryLabels={CATEGORY_LABEL}
+          domains={calendarDomains}
+          allTargets={allTargets}
+        />
       )}
 
       {/* Bảng tổng quan cả tuần */}

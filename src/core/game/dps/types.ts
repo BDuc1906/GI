@@ -105,3 +105,15 @@ export interface RotationConfig {
   burstCasts: number;
   reactionChance: number;
 }
+
+/** Chế độ nhập trực tiếp Bảng chỉ số tổng trong game */
+export interface TotalStatsInput {
+  totalATK: number;
+  totalHP?: number;
+  totalDEF?: number;
+  critRate: number; // % (0-100)
+  critDmg: number; // % (0-400)
+  em: number; // Tinh thông nguyên tố (0-2000)
+  er?: number; // Hiệu quả nạp %
+  damageBonus?: number; // Tăng sát thương nguyên tố %
+}

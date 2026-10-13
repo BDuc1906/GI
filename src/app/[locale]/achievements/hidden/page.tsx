@@ -1,9 +1,9 @@
-﻿import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 import { prisma } from "@/lib/db/prisma";
 import { withDbRetry } from "@/lib/db/db-retry";
 import { Link } from "@/i18n/navigation";
 import { Pagination } from "@/components/ui/Pagination";
-import { AchievementCard } from "@/features/achievements/AchievementCard";
+import { AchievementListClient } from "@/features/achievements/AchievementListClient";
 import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/ui/pagination";
 import { createStaticPageMetadata } from "@/lib/seo/metadata";
 import { imageFor } from "@/core/game/image-urls";
@@ -74,23 +74,17 @@ export default async function HiddenAchievementsPage({
           từ chính nguồn đó.
         </p>
 
-        {items.length === 0 ? (
-          <p className="text-text-muted">Chưa có dữ liệu thành tựu ẩn.</p>
-        ) : (
-          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {items.map((a) => (
-              <li key={a.id}>
-                <AchievementCard
-                  name={a.name}
-                  groupName={a.achievementGroupName}
-                  isHidden={a.isHidden}
-                  raw={a.raw}
-                  iconCandidates={imageFor(achievementGroupImages, a.achievementGroupId)}
-                />
-              </li>
-            ))}
-          </ul>
-        )}
+        <AchievementListClient
+          items={items.map((a) => ({
+            id: a.id,
+            name: a.name,
+            achievementGroupId: a.achievementGroupId,
+            achievementGroupName: a.achievementGroupName,
+            isHidden: a.isHidden,
+            raw: a.raw,
+            iconCandidates: imageFor(achievementGroupImages, a.achievementGroupId),
+          }))}
+        />
 
         <Pagination
           page={page}

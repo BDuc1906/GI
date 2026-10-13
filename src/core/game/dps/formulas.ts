@@ -33,13 +33,19 @@ export function calculateReactionMultiplier(
   const levelBonus = 1 + (level / 9) * 2.78; // Level-based scaling
 
   switch (reaction) {
-    case "Vaporize":
+    case "Vaporize": {
       // Hydro on Pyro (forward): 2.0x, Pyro on Hydro (reverse): 1.5x
-      return (direction === "forward" ? 2.0 : 1.5) * levelBonus;
+      // Thưởng Tinh Thông Nguyên Tố chính thức: 2.78 × EM / (EM + 1400)
+      const emBonus = (2.78 * em) / (em + 1400);
+      return (direction === "forward" ? 2.0 : 1.5) * (1 + emBonus) * levelBonus;
+    }
 
-    case "Melt":
+    case "Melt": {
       // Pyro on Cryo (forward): 2.0x, Cryo on Pyro (reverse): 1.5x
-      return (direction === "forward" ? 2.0 : 1.5) * levelBonus;
+      // Thưởng Tinh Thông Nguyên Tố chính thức: 2.78 × EM / (EM + 1400)
+      const emBonus = (2.78 * em) / (em + 1400);
+      return (direction === "forward" ? 2.0 : 1.5) * (1 + emBonus) * levelBonus;
+    }
 
     case "Overload":
     case "Superconduct":
