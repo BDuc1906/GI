@@ -20,6 +20,7 @@ import type {
   ReactionDirection,
   RotationConfig,
   TotalStatsInput,
+  ShowdownResult,
 } from "./types";
 
 export class DPSCalculator {
@@ -447,6 +448,94 @@ export class DPSCalculator {
         reactions: Math.round(reactionDamage),
       },
       optimizationTips,
+    };
+  }
+
+  /**
+   * Tính toán so sánh Đối đầu giữa 2 Build (Gear & Build Showdown)
+   */
+  calculateShowdown(
+    buildA: DPSCalculationResult,
+    buildB: DPSCalculationResult,
+    labelA = "Build A",
+    labelB = "Build B"
+  ): ShowdownResult {
+    const dpsA = buildA.expectedDPS;
+    const dpsB = buildB.expectedDPS;
+    const dpsDiff = dpsA - dpsB;
+
+    let winner: "A" | "B" | "TIE" = "TIE";
+    let improvementPercent = 0;
+
+    if (Math.abs(dpsDiff) < 5 || (dpsA === 0 && dpsB === 0)) {
+      winner = "TIE";
+      improvementPercent = 0;
+    } else if (dpsA > dpsB) {
+      winner = "A";
+      improvementPercent = dpsB > 0 ? Math.round(((dpsA - dpsB) / dpsB) * 1000) / 10 : 100;
+    } else {
+      winner = "B";
+      improvementPercent = dpsA > 0 ? Math.round(((dpsB - dpsA) / dpsA) * 1000) / 10 : 100;
+    }
+
+    const normalDiff = buildA.damageBreakdown.normalAttack - buildB.damageBreakdown.normalAttack;
+    const skillDiff = buildA.damageBreakdown.skill - buildB.damageBreakdown.skill;
+    const burstDiff = buildA.damageBreakdown.burst - buildB.damageBreakdown.burst;
+    const reactionsDiff = buildA.damageBreakdown.reactions - buildB.damageBreakdown.reactions;
+
+    const insights: string[] = [];
+
+    let verdict = "";
+    if (winner === "TIE") {
+      verdict = `Cả hai phương án có mức sát thương kỳ vọng tương đương nhau (chênh lệch dưới 1%). Bạn có thể tự do lựa chọn phương án có hiệu quả nạp (ER) cao hơn hoặc thuận tiện hơn khi kích hoạt combo.`;
+    } else if (winner === "A") {
+      verdict = `${labelA} mang lại sát thương kỳ vọng cao hơn ${labelB} khoảng ${improvementPercent}% (+${dpsDiff.toLocaleString("vi-VN")} DPS mỗi chu kỳ).`;
+      if (Math.abs(burstDiff) > 500) {
+        insights.push(
+          burstDiff > 0
+            ? `Kỹ năng Nộ của ${labelA} nhỉnh hơn ${burstDiff.toLocaleString("vi-VN")} sát thương.`
+            : `Kỹ năng Nộ của ${labelB} cao hơn ${Math.abs(burstDiff).toLocaleString("vi-VN")} sát thương, nhưng ${labelA} vẫn thắng nhờ tổng chu kỳ tối ưu hơn.`
+        );
+      }
+      if (Math.abs(reactionsDiff) > 300) {
+        insights.push(
+          reactionsDiff > 0
+            ? `Sát thương phản ứng của ${labelA} vượt trội hơn (+${reactionsDiff.toLocaleString("vi-VN")}).`
+            : `Sát thương phản ứng của ${labelB} tốt hơn (+${Math.abs(reactionsDiff).toLocaleString("vi-VN")}).`
+        );
+      }
+    } else {
+      verdict = `${labelB} mang lại sát thương kỳ vọng cao hơn ${labelA} khoảng ${improvementPercent}% (+${Math.abs(dpsDiff).toLocaleString("vi-VN")} DPS mỗi chu kỳ).`;
+      if (Math.abs(burstDiff) > 500) {
+        insights.push(
+          burstDiff < 0
+            ? `Kỹ năng Nộ của ${labelB} nhỉnh hơn ${Math.abs(burstDiff).toLocaleString("vi-VN")} sát thương.`
+            : `Kỹ năng Nộ của ${labelA} cao hơn ${burstDiff.toLocaleString("vi-VN")} sát thương, nhưng ${labelB} vẫn thắng nhờ tổng chu kỳ tối ưu hơn.`
+        );
+      }
+      if (Math.abs(reactionsDiff) > 300) {
+        insights.push(
+          reactionsDiff < 0
+            ? `Sát thương phản ứng của ${labelB} vượt trội hơn (+${Math.abs(reactionsDiff).toLocaleString("vi-VN")}).`
+            : `Sát thương phản ứng của ${labelA} tốt hơn (+${reactionsDiff.toLocaleString("vi-VN")}).`
+        );
+      }
+    }
+
+    return {
+      winner,
+      improvementPercent,
+      dpsDiff,
+      buildA,
+      buildB,
+      differences: {
+        normalAttackDiff: normalDiff,
+        skillDiff,
+        burstDiff,
+        reactionsDiff,
+      },
+      verdict,
+      insights,
     };
   }
 }

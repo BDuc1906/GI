@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Image from "next/image";
+import { GearShowdownClient } from "@/features/dps/GearShowdownClient";
 
 interface CharacterOption {
   id: string;
@@ -74,6 +75,9 @@ export function DpsCalculatorClient({
   const [charQuery, setCharQuery] = useState("");
   const [selectedChar, setSelectedChar] = useState<CharacterOption | null>(null);
   const [selectedWeapon, setSelectedWeapon] = useState<WeaponOption | null>(null);
+
+  // Tab chính: Đơn lẻ vs So sánh đối đầu 2 trang bị
+  const [mainTab, setMainTab] = useState<"single" | "showdown">("single");
 
   const [characterLevel, setCharacterLevel] = useState(90);
   const [weaponLevel, setWeaponLevel] = useState(90);
@@ -194,10 +198,43 @@ export function DpsCalculatorClient({
 
   return (
     <div className="space-y-6">
-      {/* Nhân vật + vũ khí */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-bg-card border-2 border-border rounded-xl p-5">
-          <label className="block text-sm font-medium text-text-secondary mb-2">Nhân vật</label>
+      {/* Thanh chuyển đổi chế độ chính: Đơn Lẻ vs So Sánh Đối Đầu */}
+      <div className="flex border-b-2 border-border mb-6">
+        <button
+          type="button"
+          onClick={() => setMainTab("single")}
+          className={`py-3 px-5 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center gap-2 ${
+            mainTab === "single"
+              ? "border-gold text-gold-bright bg-gold/5"
+              : "border-transparent text-text-muted hover:text-text-primary"
+          }`}
+        >
+          <span>⚡</span>
+          <span>Tính Toán Sát Thương (Đơn Lẻ)</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setMainTab("showdown")}
+          className={`py-3 px-5 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center gap-2 ${
+            mainTab === "showdown"
+              ? "border-gold text-gold-bright bg-gold/5"
+              : "border-transparent text-text-muted hover:text-text-primary"
+          }`}
+        >
+          <span>⚔️</span>
+          <span>1-Click Gear Showdown (So Sánh 2 Đồ / 2 Build)</span>
+          <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-gold/20 text-gold">MỚI</span>
+        </button>
+      </div>
+
+      {mainTab === "showdown" ? (
+        <GearShowdownClient characters={characters} weapons={weapons} />
+      ) : (
+        <div className="space-y-6">
+          {/* Nhân vật + vũ khí */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-bg-card border-2 border-border rounded-xl p-5">
+              <label className="block text-sm font-medium text-text-secondary mb-2">Nhân vật</label>
           {selectedChar ? (
             <PickedItem
               name={selectedChar.name}
@@ -408,6 +445,8 @@ export function DpsCalculatorClient({
               </ul>
             </div>
           )}
+        </div>
+      )}
         </div>
       )}
     </div>

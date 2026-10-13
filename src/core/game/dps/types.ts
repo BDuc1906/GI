@@ -117,3 +117,20 @@ export interface TotalStatsInput {
   er?: number; // Hiệu quả nạp %
   damageBonus?: number; // Tăng sát thương nguyên tố %
 }
+
+/** Kết quả so sánh đối đầu 2 trang bị / 2 build (Gear Showdown) */
+export interface ShowdownResult {
+  winner: "A" | "B" | "TIE";
+  improvementPercent: number;
+  dpsDiff: number;
+  buildA: DPSCalculationResult;
+  buildB: DPSCalculationResult;
+  differences: {
+    normalAttackDiff: number;
+    skillDiff: number;
+    burstDiff: number;
+    reactionsDiff: number;
+  };
+  verdict: string;
+  insights: string[];
+}

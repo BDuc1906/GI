@@ -153,7 +153,7 @@ const dpsRequestSchema = z.object({
  * xác định "đòn chính" cho MỌI nhân vật — param1 luôn là đòn/tham số đầu
  * tiên trong mô tả kỹ năng, hợp lý làm giá trị đại diện mặc định.
  */
-interface TalentCombatData {
+export interface TalentCombatData {
   attributes?: {
     parameters?: {
       param1?: number[];
@@ -168,7 +168,7 @@ export function resolveTalentMultiplier(combat: TalentCombatData | undefined, le
   return params[index] ?? null;
 }
 
-interface StatByLevelRow {
+export interface StatByLevelRow {
   level: number;
   ascension: number | null;
   hp?: number | null;
