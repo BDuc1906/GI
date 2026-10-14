@@ -274,34 +274,26 @@ npm run test
 npm run build
 ```
 
-### Vercel: chỉ hosting, không tự deploy
+### Vercel: Tự động deploy trực tiếp từ Web Dashboard (Git Integration)
 
-`vercel.json` đặt `"ignoreCommand": "exit 0"` — điều này **tắt tính năng tự build/deploy của Vercel Git integration**. Vercel vẫn giữ project (domain, SSL, env var, Image Optimization, ISR runtime...) nhưng không tự trigger deploy khi có push nữa. Việc build + deploy hoàn toàn do job `deploy-production` trong Actions gọi vào qua Vercel CLI (`vercel build` + `vercel deploy --prebuilt`) — tránh tình trạng 2 hệ thống (Vercel và Actions) cùng tự deploy song song, gây build trùng và race condition giữa 2 bản deploy.
+Ứng dụng deploy **trực tiếp qua Vercel Web Dashboard**:
+- Khi có Pull Request, Vercel tự động tạo **Preview Deployment**.
+- Khi merge / push vào nhánh `main`, Vercel tự động build và deploy lên **Production**.
+- GitHub Actions CI (`ci.yml`) tập trung kiểm thử chất lượng code (Lint, Typecheck, Test, Next.js Build, API Smoke Test) trước khi merge.
 
-Cần cấu hình các **GitHub Secrets** sau (Settings → Secrets and variables → Actions) để job `deploy-production` chạy được:
-
-| Secret | Lấy ở đâu | Dùng để |
-|---|---|---|
-| `VERCEL_TOKEN` | Vercel → Account Settings → Tokens | Xác thực Vercel CLI |
-| `VERCEL_ORG_ID` | File `.vercel/project.json` sau khi chạy `npx vercel link` ở local | `vercel pull`/`vercel build` biết đúng project |
-| `VERCEL_PROJECT_ID` | File `.vercel/project.json` sau khi chạy `npx vercel link` ở local | Như trên |
-| `PROD_DIRECT_URL` | Neon Console → connection string **không** có hậu tố `-pooler` | `prisma migrate deploy` lên DB production thật |
-
-Biến môi trường runtime của app (`DATABASE_URL`, `UPSTASH_REDIS_REST_URL`/`TOKEN`, `NEXT_PUBLIC_SITE_URL`...) **không** đặt trong GitHub Secrets — vẫn khai báo trong **Vercel Project Settings → Environment Variables** như trước, vì `vercel pull` sẽ tự kéo các biến đó về lúc build.
+Các biến môi trường runtime (`DATABASE_URL`, `DIRECT_URL`, `UPSTASH_REDIS_REST_URL`/`TOKEN`, `NEXT_PUBLIC_SITE_URL`...) được cấu hình trực tiếp trong **Vercel Project Settings → Environment Variables**.
 
 ---
 
 ## 🌍 Deploy production
 
-Deploy production diễn ra **tự động** qua job `deploy-production` trong `.github/workflows/ci.yml` mỗi khi push vào `main` và pass hết lint/typecheck/test/build/smoke-test — xem chi tiết ở mục [CI/CD](#-cicd) phía trên. Không cần chạy tay.
+Deploy production diễn ra **tự động** trên Vercel Web Dashboard mỗi khi push/merge vào `main`.
 
-Các lệnh dưới đây chỉ dùng khi cần deploy thủ công từ máy local (ví dụ Actions đang gặp sự cố, cần khắc phục khẩn cấp):
+Nếu cần deploy thủ công từ máy local qua Vercel CLI:
 
 ```bash
-npx prisma migrate deploy   # Chỉ áp migration có sẵn, không tạo shadow DB — an toàn cho CI/CD
-                             # (cần DIRECT_URL trỏ đúng DB production)
-vercel build --prod
-vercel deploy --prebuilt --prod
+npx prisma migrate deploy   # Áp migration lên DB production thật (cần DIRECT_URL)
+vercel --prod               # Deploy trực tiếp lên Vercel production
 ```
 
 Nếu có domain riêng, đặt `NEXT_PUBLIC_SITE_URL` trong Vercel Project Settings thành **origin chính thức** (ví dụ `https://example.com`, không có path hoặc dấu `/` cuối). Nếu chưa có domain riêng, để biến này trống: ứng dụng tự dùng domain production `*.vercel.app` do Vercel cấp. URL này được dùng thống nhất cho canonical, hreflang, Open Graph, structured data, `sitemap.xml`, `robots.txt` và breadcrumb JSON-LD; `http://localhost:3000` chỉ là fallback chạy local.

@@ -1,5 +1,7 @@
 import { vi } from "vitest";
 
+process.env.DATABASE_URL ||= "postgresql://postgres:postgres@localhost:5432/leibo_test";
+
 /**
  * `@prisma/client` thật đòi hỏi `prisma generate` chạy xong (tải engine
  * binary qua network). Test ở đây không cần DB thật — chỉ cần đúng SHAPE

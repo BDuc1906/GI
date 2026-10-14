@@ -2,12 +2,11 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 import { prisma } from "../../lib/db/prisma";
 import { WikiHero } from "../../components/layout/WikiHero";
-import { QuickNavigation } from "../../components/layout/QuickNavigation";
 import { WikiToolsHub } from "../../components/layout/WikiToolsHub";
 import { VersionHub } from "../../components/layout/VersionHub";
 import { ServerTimers } from "../../components/layout/ServerTimers";
 import { BeginnerGuides } from "../../components/layout/BeginnerGuides";
-import { ExtendedDatabase } from "../../components/layout/ExtendedDatabase";
+import { TeyvatCompendium } from "../../components/layout/TeyvatCompendium";
 import { HomeCharacterExplorer } from "../../components/layout/HomeCharacterExplorer";
 import { withDbRetry } from "@/lib/db/db-retry";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
@@ -68,27 +67,24 @@ export default async function Home({ params }: HomePageProps) {
       {/* 2. Live Server Reset Timers (Compact HUD) */}
       <ServerTimers />
 
-      {/* 3. Interactive Character Explorer with 7-Element Filter Bar */}
+      {/* 3. Tactical Bento Tools Hub */}
+      <WikiToolsHub />
+
+      {/* 4. Interactive Character Explorer with 7-Element Filter Bar */}
       <HomeCharacterExplorer
         characters={localizedCharacters}
         charCount={charCount}
         locale={locale}
       />
 
-      {/* 4. Tactical Bento Tools Hub */}
-      <WikiToolsHub />
+      {/* 5. Unified Teyvat Compendium (21 Categories with Smart Filter Tabs) */}
+      <TeyvatCompendium />
 
-      {/* 5. Teyvat Database Quick Navigation */}
-      <QuickNavigation />
-
-      {/* 6. Essential Beginner Guides */}
-      <BeginnerGuides />
-
-      {/* 7. Current Version Patch Highlight */}
-      <VersionHub />
-
-      {/* 8. Extended Database Compendium */}
-      <ExtendedDatabase />
+      {/* 6. Current Version Patch Highlight & Beginner Guides */}
+      <div className="space-y-4">
+        <VersionHub />
+        <BeginnerGuides />
+      </div>
 
       {/* Footer */}
       <footer className="max-w-7xl mx-auto px-4 md:px-8 py-12 border-t border-border/60 text-center text-sm text-text-muted">

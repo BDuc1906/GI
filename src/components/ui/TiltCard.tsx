@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode, type CSSProperties } from "react";
 
 /**
  * Thay thế cho <Link> thường ở các card nhân vật/vũ khí — thêm 2 hiệu ứng
@@ -23,10 +23,12 @@ import { useEffect, useRef, type ReactNode } from "react";
 export function TiltCard({
   href,
   className = "",
+  style,
   children,
 }: {
   href: string;
   className?: string;
+  style?: CSSProperties;
   children: ReactNode;
 }) {
   const ref = useRef<HTMLAnchorElement>(null);
@@ -78,6 +80,7 @@ export function TiltCard({
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
       className={`tilt-card ${className}`}
+      style={style}
     >
       {children}
     </Link>
