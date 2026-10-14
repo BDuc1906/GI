@@ -1,8 +1,22 @@
+// src/app/api/tools/showcase-card/route.tsx
 import { ImageResponse } from "next/og";
 import type { NextRequest } from "next/server";
 import { ApiError } from "@/lib/api/errors";
 
-export const runtime = "edge";
+// BẮT BUỘC Node.js runtime — KHÔNG được đổi sang "edge".
+//
+// Lý do: route này import @/lib/db/prisma, file đó khởi tạo PrismaClient
+// bằng @prisma/adapter-pg + pg.Pool (driver TCP thuần Node.js, xem
+// src/lib/db/prisma.ts). Edge Runtime của Vercel KHÔNG có TCP socket và
+// KHÔNG có các module node:* — bundle sẽ fail với lỗi
+// "Edge Function referencing unsupported modules: node:util/types"
+// (transitive dependency của pg).
+//
+// Nếu sau này thực sự cần chạy route này trên Edge để render OG image ở
+// gần người dùng hơn: phải đổi adapter DB cho RIÊNG route này sang
+// @neondatabase/serverless + @prisma/adapter-neon (HTTP/WebSocket driver,
+// tương thích Edge), KHÔNG đổi runtime trước rồi mới tính sau.
+export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /** Ánh xạ vision -> gradient colors cho background thẻ */
@@ -50,10 +64,11 @@ export async function GET(req: NextRequest) {
     const level         = Math.min(90, Math.max(1, Number(levelParam) || 90));
     const constellations = Math.min(6, Math.max(0, Number(constellParam) || 0));
 
-    // Dynamic import Prisma (edge runtime không support node prisma trực tiếp,
-    // nhưng ta dùng Neon serverless driver qua @prisma/adapter-neon — nếu
-    // project chưa cấu hình edge Prisma, route này sẽ fallback sang Node runtime.
-    // Để safe, ta import ở đây với try/catch riêng)
+    // Dynamic import Prisma — chạy được trên Node.js runtime (adapter là
+    // @prisma/adapter-pg + pg.Pool, xem src/lib/db/prisma.ts). KHÔNG được
+    // đổi `runtime` ở đầu file thành "edge": adapter này cần TCP socket,
+    // Edge Runtime không có, bundle sẽ fail với lỗi
+    // "Edge Function referencing unsupported modules: node:util/types".
     const { prisma } = await import("@/lib/db/prisma");
 
     const character = await prisma.character.findUnique({
@@ -335,6 +350,14 @@ export async function GET(req: NextRequest) {
       {
         width: 1200,
         height: 630,
+        // Vercel CDN cache theo URL (characterId/level/weapon đều nằm trong
+        // query string) — cùng 1 combo request lại sẽ không phải render lại.
+        // `force-dynamic` phía trên chỉ tắt cache nội bộ của Next.js, KHÔNG
+        // tắt cache của CDN/browser — nên vẫn set header này để đỡ tốn CPU.
+        headers: {
+          "Cache-Control":
+            "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800",
+        },
       }
     );
   } catch (err) {
