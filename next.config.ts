@@ -1,5 +1,11 @@
 import type { NextConfig } from "next";
-import { withSentryConfig } from "@sentry/nextjs";
+// SỬA: kể từ @sentry/nextjs v10.73.0, withSentryConfig KHÔNG còn được export
+// từ entry point chính "@sentry/nextjs" nữa (import cũ gây lỗi build
+// "TypeError: (0, _nextjs.withSentryConfig) is not a function"). Đã chuyển
+// sang entry point riêng "@sentry/nextjs/config" — đây là hướng Sentry
+// khuyến nghị chính thức từ v10.73.0, và là BẮT BUỘC từ v11 (import cũ sẽ
+// bị xoá hoàn toàn).
+import { withSentryConfig } from "@sentry/nextjs/config";
 import createNextIntlPlugin from "next-intl/plugin";
 import { EventEmitter } from "node:events";
 
@@ -222,7 +228,7 @@ const nextConfig: NextConfig = {
   },
 };
 
-// Tích hợp Sentry – đã sửa lỗi
+// Tích hợp Sentry – đã sửa lỗi import
 // withNextIntl bọc TRONG CÙNG (nextConfig trước), withSentryConfig bọc
 // NGOÀI — thứ tự này không quan trọng về mặt chức năng (2 plugin không
 // đụng chạm cùng field), nhưng giữ withSentryConfig ngoài cùng theo đúng
