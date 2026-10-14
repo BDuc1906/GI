@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ==========================================================================
- * LEIBO — Design System 2026 (v3: "Immersive Minimalism")
+ * LEIBO — Design System 2026 (v4: "Kazuha — Forest Teal & Crimson")
  * --------------------------------------------------------------------------
  * Principles:
  * 1. Immersive Minimalism: Clean, focused, content-first design
@@ -11,70 +11,91 @@
  * 5. Adaptive Typography: Fluid, accessible, responsive
  * ========================================================================== */
 
-/* === Color System — Mint (#d2f5f0) + White ===
- * Màu thương hiệu: mint #d2f5f0 (hue ~171°) và trắng.
- * Các bậc đậm hơn (mint-600 → mint-900) CHỈ dùng cho chữ/viền/icon
- * để đạt độ tương phản đọc được trên nền trắng và nền mint.
- * Light là mặc định; Dark là biến thể teal đậm cùng tông, lấy mint làm điểm nhấn. */
+/* === Color System — Kazuha (Anemo) Palette ===
+ * Cảm hứng Kaedehara Kazuha: áo kimono đỏ thẫm/đen/trắng ngà, dải Anemo teal,
+ * lá phong đỏ cam, tóc bạc bạch kim.
+ * Dark mode (forest deep teal #0d1f1c) là trải nghiệm chính chuẩn game.
+ * Light mode = parchment ngà ấm #faf7f0 với viền và accent teal tự nhiên. */
 :root {
-  --mint-50: #f1fcfa;
-  --mint-100: #e6faf7;
-  --mint-200: #d2f5f0; /* màu gốc người dùng chọn */
-  --mint-300: #b3ebe3;
-  --mint-400: #86dcd0;
-  --mint-500: #4fc3b4;
-  --mint-600: #2a9d8f;
-  --mint-700: #1f7a70;
-  --mint-800: #175b54;
-  --mint-900: #0f3d38;
+  /* Kazuha Anemo Teal */
+  --kaz-50: #f0faf8;
+  --kaz-100: #e0f5f1;
+  --kaz-200: #b8e8df;
+  --kaz-300: #7dd4c7;
+  --kaz-400: #3ebfae;
+  --kaz-500: #2dd4bf;
+  --kaz-600: #1a7a6e;
+  --kaz-700: #145e55;
+  --kaz-800: #0f443e;
+  --kaz-900: #0a2e2a;
 
-  /* Nền */
-  --bg-primary: #ffffff;
-  --bg-secondary: var(--mint-50);
-  --bg-card: #ffffff;
-  --bg-elevated: var(--mint-200);
-  --bg-input: var(--mint-50);
+  /* Backward compatibility for legacy mint variables */
+  --mint-50: var(--kaz-50);
+  --mint-100: var(--kaz-100);
+  --mint-200: var(--kaz-200);
+  --mint-300: var(--kaz-300);
+  --mint-400: var(--kaz-400);
+  --mint-500: var(--kaz-500);
+  --mint-600: var(--kaz-600);
+  --mint-700: var(--kaz-700);
+  --mint-800: var(--kaz-800);
+  --mint-900: var(--kaz-900);
 
-  /* Chữ */
-  --text-primary: #0f2f2b;
-  --text-secondary: #3d6660;
-  --text-muted: #557d76;
-  --text-inverted: #ffffff;
+  /* Kazuha Signature Accents */
+  --kaz-crimson: #b91c1c;
+  --kaz-crimson-bright: #ef4444;
+  --kaz-crimson-dim: #7f1d1d;
+  --kaz-maple: #e8774a;
+  --kaz-maple-bright: #f59e0b;
 
-  /* Viền */
-  --border-color: #c3ebe5;
-  --border-strong: #8fd6cb;
+  /* NỀN MẶC ĐỊNH — THEO TÔNG MÀU NHÂN VẬT KAZUHA (Dark Samurai & Forest Teal)
+   * Không dùng nền trắng! Nền tối sâu thẳm đen-teal như trang phục và bối cảnh Kazuha */
+  --bg-primary: #0b1715;
+  --bg-secondary: #0e211e;
+  --bg-card: #122824;
+  --bg-elevated: #183530;
+  --bg-input: #0e1e1b;
 
-  /* Điểm nhấn tương tác (link hover, focus, nút, token "gold" cũ) */
-  --accent-500: #218075;
-  --accent-bright: var(--mint-800);
-  --accent-soft: var(--mint-200);
+  /* Chữ: Màu tóc bạch kim Kazuha & ánh ngọc */
+  --text-primary: #f0ede0;
+  --text-secondary: #9ac5bc;
+  --text-muted: #5f9088;
+  --text-inverted: #0b1715;
+
+  /* Viền ngọc tinh tế */
+  --border-color: #1c3b35;
+  --border-strong: #2a554a;
+
+  /* Điểm nhấn Anemo Teal */
+  --accent-500: #2dd4bf;
+  --accent-bright: #5eead4;
+  --accent-soft: #183530;
   --gold-bright: var(--accent-bright);
 
-  /* Màu trạng thái (đạt AA trên nền trắng và nền mint) */
-  --success: #1f7a4d;
-  --danger: #c0392b;
-  --warning: #a35f00;
+  /* Trạng thái */
+  --success: #4ade80;
+  --danger: var(--kaz-crimson);
+  --warning: #fbbf24;
 
-  /* Element Colors - giữ nguyên để đúng màu game */
-  --el-pyro: #d94d1f;
-  --el-hydro: #1684ac;
-  --el-anemo: #21937e;
-  --el-electro: #764fb0;
-  --el-dendro: #6b9220;
-  --el-cryo: #2898a8;
-  --el-geo: #9c7120;
+  /* Element Colors */
+  --el-pyro: #ff6b3d;
+  --el-hydro: #32b4e6;
+  --el-anemo: #5cd4bc;
+  --el-electro: #b075dd;
+  --el-dendro: #9dcf46;
+  --el-cryo: #8ce4ec;
+  --el-geo: #deb348;
 
-  /* Rarity - giữ nguyên ngữ nghĩa vàng/tím/xanh của game */
-  --rarity-5: #c7881d;
-  --rarity-4: #885eb8;
-  --rarity-3: #3d7ea5;
+  /* Rarity */
+  --rarity-5: #eac557;
+  --rarity-4: #a788d4;
+  --rarity-3: #7aa5c6;
 
-  /* Typography - System fonts, excellent readability */
+  /* Typography */
   --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, monospace;
 
-  /* Spacing - Consistent scale */
+  /* Spacing */
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
   --space-md: 1rem;
@@ -82,47 +103,53 @@
   --space-xl: 2rem;
   --space-2xl: 3rem;
 
-  /* Border Radius - Minimalist */
+  /* Border Radius */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
   --radius-xl: 24px;
 
-  /* Shadows - nhẹ, ánh teal thay vì đen thuần */
-  --shadow-sm: 0 1px 2px rgba(15, 61, 56, 0.06);
-  --shadow-md: 0 4px 12px rgba(15, 61, 56, 0.10);
-  --shadow-lg: 0 8px 24px rgba(15, 61, 56, 0.14);
+  /* Shadows - ánh sâu huyền bí */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
 
-  /* Transitions - Optimized */
+  /* Transitions */
   --transition-fast: 150ms ease-out;
   --transition-base: 250ms ease-out;
   --transition-slow: 350ms ease-out;
 }
 
-/* Dark: teal rất đậm cùng hue với mint, mint làm màu nhấn */
+/* === DARK THEME & ROOT ĐỒNG NHẤT MÀU KAZUHA === */
 [data-theme="dark"] {
-  --bg-primary: #0a1c1a;
-  --bg-secondary: #0e2623;
-  --bg-card: #112d2a;
-  --bg-elevated: #173b37;
-  --bg-input: #0f2926;
+  --bg-primary: #0b1715;
+  --bg-secondary: #0e211e;
+  --bg-card: #122824;
+  --bg-elevated: #183530;
+  --bg-input: #0e1e1b;
 
-  --text-primary: #eafaf7;
-  --text-secondary: #a3c9c3;
-  --text-muted: #6f9a93;
-  --text-inverted: #0a1c1a;
+  --text-primary: #f0ede0;
+  --text-secondary: #9ac5bc;
+  --text-muted: #5f9088;
+  --text-inverted: #0b1715;
 
-  --border-color: #1f4742;
-  --border-strong: #2f635c;
+  --border-color: #1c3b35;
+  --border-strong: #2a554a;
 
-  --accent-500: var(--mint-400);
-  --accent-bright: var(--mint-200);
-  --accent-soft: #173b37;
-
-  --success: #5fd39a;
-  --danger: #ff8a80;
-  --warning: #f0c25a;
+  --accent-500: #2dd4bf;
+  --accent-bright: #5eead4;
+  --accent-soft: #183530;
   --gold-bright: var(--accent-bright);
+
+  --mint-200: #5eead4;
+  --mint-300: #2dd4bf;
+  --mint-400: #14b8a6;
+  --mint-800: #115e59;
+  --mint-900: #0f3d38;
+
+  --success: #4ade80;
+  --danger: #f87171;
+  --warning: #fbbf24;
 
   --el-pyro: #ff6b3d;
   --el-hydro: #32b4e6;
@@ -136,9 +163,9 @@
   --rarity-4: #a788d4;
   --rarity-3: #7aa5c6;
 
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.55);
 }
 
 @theme inline {
@@ -155,19 +182,16 @@
   --color-rarity-5: var(--rarity-5);
   --color-rarity-4: var(--rarity-4);
   --color-rarity-3: var(--rarity-3);
-  /* Token "gold" đã được dùng ~120 chỗ (text-gold-bright, bg-gold/10, border-gold/50...)
-   * nhưng trước đây chưa được định nghĩa ở đâu → các class đó không có tác dụng. */
-  /* Các token chưa từng được định nghĩa nhưng đã dùng trong code
-   * (text-accent-bright, bg-accent-500, var(--accent-500)...) */
   --color-accent-500: var(--accent-500);
   --color-accent-bright: var(--accent-bright);
   --color-accent-soft: var(--accent-soft);
-  --color-mint: var(--mint-200);
+  --color-mint: var(--accent-bright);
+  --color-crimson: var(--kaz-crimson);
+  --color-crimson-bright: var(--kaz-crimson-bright);
+  --color-maple: var(--kaz-maple);
   --color-success: var(--success);
   --color-danger: var(--danger);
   --color-warning: var(--warning);
-  /* "gold" giờ là màu nhấn mint/teal thay vì vàng rarity-5.
-   * Màu vàng 5★ vẫn nằm ở --rarity-5 / --color-rarity-5. */
   --color-gold: var(--accent-500);
   --color-gold-bright: var(--accent-bright);
 }
@@ -308,24 +332,43 @@ body {
   }
 }
 
-/* === Buttons - Minimalist === */
+/* === Buttons - Kazuha Style === */
 .btn-primary {
-  background: var(--mint-200);
-  color: var(--mint-900);
+  background: linear-gradient(135deg, var(--kaz-crimson) 0%, #991b1b 100%);
+  color: #ffffff;
   font-weight: 600;
-  border: 1px solid var(--mint-400);
+  border: 1px solid rgba(239, 68, 68, 0.4);
   padding: var(--space-sm) var(--space-lg);
   border-radius: var(--radius-sm);
-  transition: background var(--transition-fast), transform var(--transition-fast);
+  box-shadow: 0 2px 10px rgba(185, 28, 28, 0.3);
+  transition: all var(--transition-fast);
 }
 
 .btn-primary:hover {
-  background: var(--mint-300);
+  background: linear-gradient(135deg, var(--kaz-crimson-bright) 0%, var(--kaz-crimson) 100%);
   transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.4);
 }
 
 .btn-primary:active {
   transform: translateY(0);
+}
+
+.btn-anemo {
+  background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+  color: #042f2e;
+  font-weight: 600;
+  border: 1px solid rgba(45, 212, 191, 0.5);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 2px 10px rgba(20, 184, 166, 0.3);
+  transition: all var(--transition-fast);
+}
+
+.btn-anemo:hover {
+  background: linear-gradient(135deg, #2dd4bf 0%, #14b8a6 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(45, 212, 191, 0.45);
 }
 
 .btn-secondary {

@@ -129,7 +129,7 @@ export default async function LocaleLayout({
   };
 
   return (
-    <html lang={locale} suppressHydrationWarning data-scroll-behavior="smooth">
+    <html lang={locale} data-theme="dark" suppressHydrationWarning data-scroll-behavior="smooth">
       <body className={`${inter.variable} font-body`} suppressHydrationWarning>
         <script
           type="application/ld+json"

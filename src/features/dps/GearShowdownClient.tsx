@@ -200,7 +200,8 @@ export function GearShowdownClient({ characters, weapons }: GearShowdownClientPr
             compareMode === "weapons" ? "bg-gold text-bg-primary shadow-sm" : "text-text-secondary hover:text-text-primary"
           }`}
         >
-          <span>⚔️</span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/local-genshin-assets/ui/sword.png" alt="" width={16} height={16} className="w-4 h-4 object-contain shrink-0" />
           <span>So sánh 2 Vũ khí (Vd: Hộ Ma vs Tai Ương)</span>
         </button>
         <button
@@ -210,7 +211,8 @@ export function GearShowdownClient({ characters, weapons }: GearShowdownClientPr
             compareMode === "totalStats" ? "bg-gold text-bg-primary shadow-sm" : "text-text-secondary hover:text-text-primary"
           }`}
         >
-          <span>⚖️</span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/local-genshin-assets/ui/calculator.png" alt="" width={16} height={16} className="w-4 h-4 object-contain shrink-0" />
           <span>So sánh 2 Hướng Chỉ số (Vd: Nón CR vs Nón CD)</span>
         </button>
       </div>
@@ -452,9 +454,11 @@ export function GearShowdownClient({ characters, weapons }: GearShowdownClientPr
         <button
           onClick={handleRunShowdown}
           disabled={!selectedChar || (compareMode === "weapons" && (!weaponA || !weaponB)) || loading}
-          className="w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-amber-500 to-gold text-bg-primary font-bold text-sm rounded-lg hover:brightness-110 transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-md shadow-gold/10"
+          className="w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-amber-500 to-gold text-bg-primary font-bold text-sm rounded-lg hover:brightness-110 transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-md shadow-gold/10 flex items-center justify-center gap-2"
         >
-          {loading ? "Đang đối đầu..." : "⚔️ Bắt đầu Đối đầu"}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/local-genshin-assets/ui/sword.png" alt="" width={16} height={16} className="w-4 h-4 object-contain shrink-0" />
+          <span>{loading ? "Đang đối đầu..." : "Bắt đầu Đối đầu"}</span>
         </button>
       </div>
 

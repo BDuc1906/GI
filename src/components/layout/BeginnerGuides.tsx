@@ -34,32 +34,40 @@ export function BeginnerGuides() {
   ];
 
   return (
-    <section className="max-w-7xl mx-auto px-4 md:px-8 py-12">
-      <div className="text-center mb-8">
-        <h2 className="font-display text-2xl font-bold text-text-primary mb-2">
-          Hướng dẫn cho người mới
-        </h2>
-        <p className="text-text-secondary">
-          Các bài viết ghim giúp người mới bắt đầu
-        </p>
+    <section className="max-w-7xl mx-auto px-4 md:px-8 py-10">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-6 pb-2 border-b border-border/40">
+        <div>
+          <h2 className="font-display text-2xl font-bold text-text-primary tracking-tight">
+            Cẩm Nang Dành Cho Nhà Lữ Hành Mới
+          </h2>
+          <p className="text-sm text-text-secondary mt-1">
+            Những kiến thức cốt lõi về cơ chế phản ứng, lịch tài nguyên và tối ưu nguyên liệu
+          </p>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {guides.map((guide) => (
           <Link
             key={guide.href}
             href={guide.href}
-            className="group bg-bg-card border-2 border-border rounded-2xl p-6 hover:border-gold/50 hover:shadow-xl hover:shadow-gold/10 transition-all duration-300 hover:-translate-y-1 relative overflow-hidden"
+            className="group relative bg-bg-card/85 border border-border/80 hover:border-accent-500 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/20 overflow-hidden"
           >
-            <div className="absolute top-4 right-4 px-3 py-1 bg-gold/20 text-gold-bright text-xs font-semibold rounded-full">
-              {guide.tag}
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-accent-500/15 text-accent-bright border border-accent-500/30">
+                {guide.tag}
+              </span>
+              <span className="text-xs text-text-muted group-hover:text-accent-bright transition-colors">
+                Xem chi tiết &rarr;
+              </span>
             </div>
-            <div className="font-semibold text-text-primary mb-2">
+            <div className="font-semibold text-lg text-text-primary group-hover:text-accent-bright transition-colors mb-2">
               {guide.title}
             </div>
-            <div className="text-sm text-text-muted">
+            <div className="text-sm text-text-secondary leading-relaxed">
               {guide.description}
             </div>
+            <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-transparent via-accent-500/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
           </Link>
         ))}
       </div>

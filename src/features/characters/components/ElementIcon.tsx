@@ -33,8 +33,10 @@ export function ElementIcon({
 }) {
   const [broken, setBroken] = useState(false);
 
-  const localAsset = `/local-genshin-assets/${vision.toLowerCase()}.png`;
-  const resolvedUrl = !broken && iconUrl ? toProxiedUrl(iconUrl) : localAsset;
+  // Primary: local PNG (already downloaded); CDN fallback if local fails
+  const localAsset = `/local-genshin-assets/elements/${vision.toLowerCase()}.png`;
+  const cdnFallback = iconUrl ? toProxiedUrl(iconUrl) : localAsset;
+  const resolvedUrl = broken ? cdnFallback : localAsset;
 
   const elementColor = elementColorVar(vision);
   const glowStyle = glow ? {

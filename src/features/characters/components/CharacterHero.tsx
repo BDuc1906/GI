@@ -47,8 +47,12 @@ export async function CharacterHero({
       <div className="p-6 flex flex-col sm:flex-row gap-6">
         {isTraveler ? (
           <div
-            className="relative w-full sm:w-56 aspect-[3/4] rounded-lg overflow-hidden bg-bg-elevated shrink-0"
-            style={{ border: `1px solid color-mix(in srgb, ${el} 35%, var(--border-color))` }}
+            className="relative w-full sm:w-56 aspect-[3/4] rounded-xl overflow-hidden shrink-0 shadow-lg"
+            style={{
+              background: `radial-gradient(ellipse at 50% 25%, color-mix(in srgb, ${el} 45%, transparent) 0%, color-mix(in srgb, ${el} 20%, #081614) 55%, #081614 100%)`,
+              border: `1.5px solid color-mix(in srgb, ${el} 50%, var(--border-color))`,
+              boxShadow: `0 8px 30px color-mix(in srgb, ${el} 25%, transparent)`,
+            }}
           >
             {boySplash && girlSplash ? (
               <>
@@ -90,8 +94,12 @@ export async function CharacterHero({
           </div>
         ) : (
           <div
-            className="relative w-full sm:w-56 aspect-[3/4] rounded-lg overflow-hidden bg-bg-elevated shrink-0"
-            style={{ border: `1px solid color-mix(in srgb, ${el} 35%, var(--border-color))` }}
+            className="relative w-full sm:w-56 aspect-[3/4] rounded-xl overflow-hidden shrink-0 shadow-lg"
+            style={{
+              background: `radial-gradient(ellipse at 50% 25%, color-mix(in srgb, ${el} 45%, transparent) 0%, color-mix(in srgb, ${el} 20%, #081614) 55%, #081614 100%)`,
+              border: `1.5px solid color-mix(in srgb, ${el} 50%, var(--border-color))`,
+              boxShadow: `0 8px 30px color-mix(in srgb, ${el} 25%, transparent)`,
+            }}
           >
             <SafeImage
               src={resolveCharacterCardImage(c)}
@@ -174,10 +182,10 @@ export async function CharacterHero({
           {voiceActors &&
             (voiceActors.japanese || voiceActors.english || voiceActors.chinese || voiceActors.korean) && (
               <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-text-muted mb-2">
-                {voiceActors.japanese && <span>🇯🇵 {voiceActors.japanese}</span>}
-                {voiceActors.english && <span>🇬🇧 {voiceActors.english}</span>}
-                {voiceActors.chinese && <span>🇨🇳 {voiceActors.chinese}</span>}
-                {voiceActors.korean && <span>🇰🇷 {voiceActors.korean}</span>}
+                {voiceActors.japanese && <span><strong className="text-text-secondary font-mono">JA:</strong> {voiceActors.japanese}</span>}
+                {voiceActors.english && <span><strong className="text-text-secondary font-mono">EN:</strong> {voiceActors.english}</span>}
+                {voiceActors.chinese && <span><strong className="text-text-secondary font-mono">ZH:</strong> {voiceActors.chinese}</span>}
+                {voiceActors.korean && <span><strong className="text-text-secondary font-mono">KO:</strong> {voiceActors.korean}</span>}
               </div>
             )}
 

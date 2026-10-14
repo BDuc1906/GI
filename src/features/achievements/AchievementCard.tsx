@@ -121,8 +121,10 @@ export function AchievementCard({
                         <span>Tiến độ: {s.progress}</span>
                       )}
                       {s.primos > 0 && (
-                        <span className="inline-flex items-center gap-0.5 text-gold font-medium">
-                          +{s.primos} ✦
+                        <span className="inline-flex items-center gap-1 text-gold font-medium">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src="/local-genshin-assets/ui/primogem.png" alt="" width={13} height={13} className="w-3.5 h-3.5 object-contain" />
+                          <span>+{s.primos}</span>
                         </span>
                       )}
                       {s.rewardText && s.primos === 0 && (
@@ -141,7 +143,11 @@ export function AchievementCard({
       <div className="mt-3 pt-2.5 border-t border-border/40 flex items-center justify-between text-xs">
         <div className="text-[11px] text-text-muted flex items-center gap-1">
           <span>Phần thưởng:</span>
-          <span className="text-gold font-semibold">+{totalPrimos} ✦ Primogem</span>
+          <span className="text-gold font-semibold inline-flex items-center gap-1">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/local-genshin-assets/ui/primogem.png" alt="" width={14} height={14} className="w-3.5 h-3.5 object-contain" />
+            <span>+{totalPrimos} Nguyên Thạch</span>
+          </span>
         </div>
 
         {multi && (

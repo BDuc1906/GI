@@ -320,10 +320,10 @@ export function WishHistoryClient() {
           <div className="flex border-b border-border gap-2 overflow-x-auto">
             {(
               [
-                { id: "character", label: "Nhân vật sự kiện" },
-                { id: "weapon", label: "Vũ khí sự kiện" },
-                { id: "standard", label: "Thường niên (Standard)" },
-                { id: "chronicled", label: "Biên Niên (Chronicled)" },
+                { id: "character", label: "Nhân vật sự kiện", icon: "/local-genshin-assets/ui/intertwined_fate.png" },
+                { id: "weapon", label: "Vũ khí sự kiện", icon: "/local-genshin-assets/ui/intertwined_fate.png" },
+                { id: "standard", label: "Thường niên (Standard)", icon: "/local-genshin-assets/ui/wish.png" },
+                { id: "chronicled", label: "Biên Niên (Chronicled)", icon: "/local-genshin-assets/ui/intertwined_fate.png" },
               ] as const
             ).map((tab) => (
               <button
@@ -333,13 +333,15 @@ export function WishHistoryClient() {
                   setActiveTab(tab.id);
                   setFilterRarity("all");
                 }}
-                className={`px-4 py-3 text-sm font-semibold border-b-2 transition-colors whitespace-nowrap ${
+                className={`px-4 py-3 text-sm font-semibold border-b-2 transition-colors whitespace-nowrap flex items-center gap-2 ${
                   activeTab === tab.id
                     ? "border-accent-500 text-accent-bright"
                     : "border-transparent text-text-secondary hover:text-text-primary"
                 }`}
               >
-                {tab.label} ({currentResult.banners[tab.id].length})
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={tab.icon} alt="" width={18} height={18} className="w-[18px] h-[18px] object-contain shrink-0" />
+                <span>{tab.label} ({currentResult.banners[tab.id].length})</span>
               </button>
             ))}
           </div>

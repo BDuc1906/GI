@@ -8,6 +8,7 @@ import { resolveCharacterCardImage } from "@/core/game/character-helpers";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { getElementNameByKey } from "@/core/game/element-reactions-data";
 import type { CharacterGrouping, TravelerBucket } from "@/features/characters/listing";
+import { localCharacterIcon } from "@/lib/ui/local-assets";
 
 // Class grid dùng chung cho cả nhóm Traveler và mọi nhóm rarity — mật độ
 // cao hơn bản cũ (dừng ở lg:6), tận dụng màn hình rộng thay vì để card
@@ -99,6 +100,7 @@ export async function CharacterListingGrid({ locale, grouping }: CharacterListin
                   subtitle={tWeaponType(c.weaponType as "Sword" | "Claymore" | "Polearm" | "Bow" | "Catalyst")}
                   rarity={c.rarity}
                   imageSrc={resolveCharacterCardImage(c)}
+                  fallbackSrcs={[localCharacterIcon(c.id), c.iconUrlOriginal]}
                   aspect="square"
                   imageFit="contain"
                   compact

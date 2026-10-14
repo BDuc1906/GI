@@ -154,7 +154,7 @@ export function AchievementTrackerHeader({
               : "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
           }`}
         >
-          <span>{notification.isError ? "⚠️" : "✓"}</span>
+          <span className="font-bold">{notification.isError ? "!" : "✓"}</span>
           <span>{notification.text}</span>
         </div>
       )}
@@ -164,7 +164,11 @@ export function AchievementTrackerHeader({
         {/* Cột 1: Số lượng thành tựu */}
         <div className="bg-bg-primary/60 border border-border/60 rounded-xl p-4">
           <div className="flex items-center justify-between text-xs mb-2">
-            <span className="text-text-muted font-medium">Thành tựu đã mở</span>
+            <span className="text-text-muted font-medium flex items-center gap-1.5">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/local-genshin-assets/ui/achievement.png" alt="" width={16} height={16} className="w-4 h-4 object-contain" />
+              <span>Thành tựu đã mở</span>
+            </span>
             <span className="font-semibold text-text-primary">
               <span className="text-emerald-400 text-sm font-bold">{completedCount.toLocaleString()}</span> /{" "}
               {totalAchievements.toLocaleString()} ({achievementPercent}%)
@@ -181,8 +185,10 @@ export function AchievementTrackerHeader({
         {/* Cột 2: Số Nguyên Thạch thu hoạch */}
         <div className="bg-bg-primary/60 border border-border/60 rounded-xl p-4">
           <div className="flex items-center justify-between text-xs mb-2">
-            <span className="text-text-muted font-medium flex items-center gap-1">
-              <span>✦</span> Nguyên Thạch đã nhận
+            <span className="text-text-muted font-medium flex items-center gap-1.5">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/local-genshin-assets/ui/primogem.png" alt="" width={16} height={16} className="w-4 h-4 object-contain" />
+              <span>Nguyên Thạch đã nhận</span>
             </span>
             <span className="font-semibold text-text-primary">
               <span className="text-gold text-sm font-bold">{totalEarnedPrimogems.toLocaleString()}</span> /{" "}
@@ -196,7 +202,7 @@ export function AchievementTrackerHeader({
             />
           </div>
           <div className="text-[11px] text-text-muted mt-2 text-right">
-            Còn lại: <strong className="text-text-secondary font-semibold">+{remainingPrimogems.toLocaleString()} ✦</strong>
+            Còn lại: <strong className="text-text-secondary font-semibold">+{remainingPrimogems.toLocaleString()} Nguyên Thạch</strong>
           </div>
         </div>
       </div>

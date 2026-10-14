@@ -209,7 +209,8 @@ export function DpsCalculatorClient({
               : "border-transparent text-text-muted hover:text-text-primary"
           }`}
         >
-          <span>⚡</span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/local-genshin-assets/ui/calculator.png" alt="" width={16} height={16} className="w-4 h-4 object-contain shrink-0" />
           <span>Tính Toán Sát Thương (Đơn Lẻ)</span>
         </button>
         <button
@@ -221,7 +222,8 @@ export function DpsCalculatorClient({
               : "border-transparent text-text-muted hover:text-text-primary"
           }`}
         >
-          <span>⚔️</span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/local-genshin-assets/ui/sword.png" alt="" width={16} height={16} className="w-4 h-4 object-contain shrink-0" />
           <span>1-Click Gear Showdown (So Sánh 2 Đồ / 2 Build)</span>
           <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-gold/20 text-gold">MỚI</span>
         </button>

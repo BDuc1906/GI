@@ -2,9 +2,9 @@ import type { ReactNode, CSSProperties } from "react";
 import Link from "next/link";
 import { SafeImage } from "./SafeImage";
 import { TiltCard } from "./TiltCard";
-import { ElementalFrame } from "./ElementalFrame";
 import { RarityStars } from "./RarityStars";
-import { rarityDotClass, rarityRibbonClass, rarityStars, elementColorVar } from "@/lib/ui/theme";
+import { ElementIcon } from "@/features/characters/components/ElementIcon";
+import { rarityDotClass, rarityRibbonClass, rarityStars, elementColorVar, rarityColorVar } from "@/lib/ui/theme";
 
 interface EntityCardProps {
   href: string;
@@ -52,21 +52,40 @@ interface EntityCardProps {
    *  div sẽ khiến div đó giãn còn card bên trong vẫn theo chiều cao nội
    *  dung tự nhiên, gây lệch đáy giữa tile lớn/nhỏ. */
   wrapperClassName?: string;
+  /**
+   * URL dự phòng cho SafeImage, thử lần lượt khi imageSrc lỗi. Dùng để
+   * truyền local asset path hoặc iconUrlOriginal từ DB làm fallback CDN.
+   */
+  fallbackSrcs?: Array<string | null | undefined>;
 }
 
 const DEFAULT_SIZES =
   "(max-width: 640px) 33vw, (max-width: 1024px) 16vw, 130px";
 
+/** Bảng dải màu nền nguyên tố chuẩn game Genshin Impact - Đậm đà, rực rỡ, không nhạt nhẽo hay trắng xám */
+const ELEMENT_GRADIENTS: Record<string, string> = {
+  Pyro: "radial-gradient(circle at 50% 25%, rgba(255, 107, 61, 0.45) 0%, rgba(185, 28, 28, 0.28) 55%, #150906 100%)",
+  Hydro: "radial-gradient(circle at 50% 25%, rgba(50, 180, 230, 0.45) 0%, rgba(14, 116, 144, 0.28) 55%, #05141f 100%)",
+  Anemo: "radial-gradient(circle at 50% 25%, rgba(92, 212, 188, 0.45) 0%, rgba(13, 148, 136, 0.28) 55%, #061915 100%)",
+  Electro: "radial-gradient(circle at 50% 25%, rgba(176, 117, 221, 0.45) 0%, rgba(126, 34, 206, 0.28) 55%, #180926 100%)",
+  Dendro: "radial-gradient(circle at 50% 25%, rgba(157, 207, 70, 0.45) 0%, rgba(101, 163, 13, 0.28) 55%, #0f1c08 100%)",
+  Cryo: "radial-gradient(circle at 50% 25%, rgba(140, 228, 236, 0.45) 0%, rgba(6, 182, 212, 0.28) 55%, #06181f 100%)",
+  Geo: "radial-gradient(circle at 50% 25%, rgba(222, 179, 72, 0.45) 0%, rgba(180, 115, 20, 0.28) 55%, #1f1506 100%)",
+};
+
+/** Bảng dải màu nền theo phẩm cấp sao (Rarity) chuẩn game Genshin Impact */
+const RARITY_GRADIENTS: Record<number, string> = {
+  5: "radial-gradient(circle at 50% 25%, rgba(234, 197, 87, 0.42) 0%, rgba(180, 115, 20, 0.26) 55%, #1f1506 100%)",
+  4: "radial-gradient(circle at 50% 25%, rgba(167, 136, 212, 0.42) 0%, rgba(107, 50, 160, 0.26) 55%, #180926 100%)",
+  3: "radial-gradient(circle at 50% 25%, rgba(122, 165, 198, 0.42) 0%, rgba(60, 100, 140, 0.26) 55%, #0b1722 100%)",
+  2: "radial-gradient(circle at 50% 25%, rgba(94, 168, 115, 0.35) 0%, rgba(45, 95, 60, 0.22) 55%, #0a1710 100%)",
+  1: "radial-gradient(circle at 50% 25%, rgba(150, 150, 150, 0.35) 0%, rgba(80, 80, 80, 0.22) 55%, #121212 100%)",
+};
+
 /**
- * Card dùng chung cho nhân vật / vũ khí / artifact. Rarity thể hiện qua
- * ribbon góc + dot nhỏ cạnh tên. Khi hover, card phát sáng theo ĐÚNG màu
- * nguyên tố của chính nó (--el) — ẩn dụ cơ chế "phản ứng nguyên tố" của
- * game, thay vì 1 màu vàng chung cho mọi thứ.
- *
- * Root luôn "h-full flex flex-col": khi đặt trong CSS grid, card tự giãn
- * lấp đúng chiều cao track được cấp (mặc định align-items: stretch của
- * grid) — đảm bảo mọi card trong cùng 1 hàng luôn thẳng đáy với nhau, kể
- * cả khi 1 card chiếm nhiều hàng hơn (xem wrapperClassName + imageGrow).
+ * EntityCard — Thẻ hiển thị chuẩn game Genshin Impact
+ * Tự động đồng bộ màu nền theo Nguyên Tố (Vision) hoặc Phẩm Cấp (Rarity).
+ * Hover phát sáng rực rỡ theo màu nguyên tố riêng (--el).
  */
 export function EntityCard({
   href,
@@ -78,8 +97,6 @@ export function EntityCard({
   aspect = "square",
   compact = false,
   imageGrow = false,
-  frameStyle = "none",
-  backgroundType = "none",
   element,
   useEnhancedStars = false,
   priority = false,
@@ -88,28 +105,38 @@ export function EntityCard({
   imageSlot,
   elementColor,
   wrapperClassName,
+  fallbackSrcs,
 }: EntityCardProps) {
-  const style = elementColor ? ({ "--el": elementColor } as CSSProperties) : undefined;
-  const effectiveElement = element || (elementColor ? undefined : "Pyro"); // Fallback for frame
-  const finalElementColor = elementColor || elementColorVar(effectiveElement || "Pyro");
+  const effectiveElement = element || (elementColor ? undefined : undefined);
+  const finalElementColor = elementColor || (effectiveElement ? elementColorVar(effectiveElement) : rarityColorVar(rarity));
+
+  // Gốc --el được gán TRỰC TIẾP lên container để CSS :hover thừa hưởng đúng biến màu
+  const rootStyle: CSSProperties = {
+    "--el": finalElementColor,
+  } as CSSProperties;
 
   const imageShapeClass = imageGrow ? "flex-1" : aspect === "portrait" ? "aspect-[3/4]" : "aspect-square";
 
-  // Background gradient based on element
-  const backgroundStyle = backgroundType === "elemental-gradient" ? {
-    background: `linear-gradient(135deg, ${finalElementColor}20 0%, transparent 50%, ${finalElementColor}10 100%)`
-  } : backgroundType === "solid" ? {
-    background: `${finalElementColor}15`
-  } : {};
+  // Nền thẻ: Ưu tiên màu nguyên tố của nhân vật, fallback theo độ hiếm vũ khí/vật phẩm
+  const backgroundGradient = element && ELEMENT_GRADIENTS[element]
+    ? ELEMENT_GRADIENTS[element]
+    : RARITY_GRADIENTS[rarity] || RARITY_GRADIENTS[5];
+
+  // Badge nguyên tố góc trên bên trái: tự động hiển thị nếu có element và chưa truyền cornerBadge riêng
+  const resolvedBadge = cornerBadge ?? (element ? (
+    <div className="absolute top-1.5 left-1.5 bg-black/55 backdrop-blur-md rounded-full p-1 border border-white/10 shadow-sm z-10 pointer-events-none">
+      <ElementIcon vision={element} size={15} glow={false} />
+    </div>
+  ) : null);
 
   const inner = (
-    <div style={style} className="h-full flex flex-col">
+    <div className="h-full flex flex-col justify-between">
       <span className={rarityRibbonClass(rarity)} aria-hidden />
+
+      {/* Vùng ảnh nhân vật/vũ khí: Đặt trực tiếp trên nền gradient nguyên tố game, không dùng hộp xám trắng */}
       <div
-        className={`relative w-full overflow-hidden ${imageShapeClass} ${
-          imageFit === "contain" ? "bg-bg-elevated p-3" : "bg-bg-elevated"
-        }`}
-        style={backgroundStyle}
+        className={`relative w-full overflow-hidden ${imageShapeClass} ${imageFit === "contain" ? "p-1.5" : ""}`}
+        style={{ background: backgroundGradient }}
       >
         {imageSlot ? (
           imageSlot
@@ -120,33 +147,45 @@ export function EntityCard({
             fill
             priority={priority}
             sizes={sizes}
+            fallbackSrcs={fallbackSrcs}
             className={`${
-              imageFit === "contain" ? "object-contain p-2" : "object-cover"
-            } group-hover:scale-[1.05] transition-transform duration-500 ease-out`}
+              imageFit === "contain" ? "object-contain p-1" : "object-cover"
+            } group-hover:scale-105 transition-transform duration-300 ease-out`}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-text-muted text-xs">
             Không có ảnh
           </div>
         )}
-        {cornerBadge && (
-          <div className="absolute top-2 left-2 bg-black/45 backdrop-blur-sm rounded-full p-1">
-            {cornerBadge}
-          </div>
-        )}
+
+        {resolvedBadge}
       </div>
-      <div className="entity-elemental-bar" />
-      <div className={compact ? "px-2 py-1.5 bg-bg-card/90" : "p-3 bg-bg-card/90"}>
-        <div className={`font-semibold truncate text-text-primary ${compact ? "text-xs" : "text-sm"}`}>
+
+      {/* Thanh viền nguyên tố tinh tế ngăn cách ảnh và tên */}
+      <div
+        className="h-[2px] w-full shrink-0"
+        style={{
+          background: `linear-gradient(90deg, transparent 0%, ${finalElementColor} 50%, transparent 100%)`,
+        }}
+      />
+
+      {/* Khối thông tin: Tên, Vũ khí/Chỉ số và Sao độ hiếm */}
+      <div className={compact ? "px-2 py-1.5 bg-bg-card/95" : "p-2.5 sm:p-3 bg-bg-card/95"}>
+        <div
+          className={`font-semibold truncate text-text-primary group-hover:text-accent-bright transition-colors ${
+            compact ? "text-xs" : "text-sm"
+          }`}
+          title={name}
+        >
           {name}
         </div>
         {!compact && (
-          <div className="flex justify-between items-center mt-1.5">
-            <span className="text-eyebrow">{subtitle}</span>
-            <span className="flex items-center gap-1.5" aria-label={`${rarity} sao`}>
+          <div className="flex justify-between items-center mt-1 text-xs">
+            <span className="text-eyebrow text-text-muted truncate max-w-[65%]">{subtitle}</span>
+            <span className="flex items-center gap-1 shrink-0" aria-label={`${rarity} sao`}>
               <span className={rarityDotClass(rarity)} aria-hidden />
               {useEnhancedStars ? (
-                <RarityStars count={rarity} size="sm"  />
+                <RarityStars count={rarity} size="sm" />
               ) : (
                 <span className="text-[10px] text-text-muted tracking-tight">{rarityStars(rarity)}</span>
               )}
@@ -157,29 +196,19 @@ export function EntityCard({
     </div>
   );
 
-  const cardContent = frameStyle !== "none" ? (
-    <ElementalFrame 
-      element={effectiveElement || "Pyro"}
-      variant={frameStyle}
-      animated={!compact}
-    >
-      {inner}
-    </ElementalFrame>
-  ) : inner;
-
-  const cardClass = `surface-card entity-elemental relative overflow-hidden group h-full flex flex-col ${wrapperClassName ?? ""}`.trim();
+  const cardClass = `surface-card entity-elemental relative overflow-hidden group h-full flex flex-col rounded-xl border border-border/80 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${wrapperClassName ?? ""}`.trim();
 
   if (compact) {
     return (
-      <Link href={href} className={cardClass}>
-        {cardContent}
+      <Link href={href} className={cardClass} style={rootStyle}>
+        {inner}
       </Link>
     );
   }
 
   return (
-    <TiltCard href={href} className={cardClass}>
-      {cardContent}
+    <TiltCard href={href} className={cardClass} style={rootStyle}>
+      {inner}
     </TiltCard>
   );
 }

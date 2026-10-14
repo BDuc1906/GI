@@ -1,4 +1,4 @@
-﻿import { Link } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
 import { getVersionIndex, summarize } from "@/core/game/versions";
 
 /**
@@ -30,29 +30,40 @@ export async function VersionHub() {
   if (!latest) return null;
 
   return (
-    <section className="max-w-7xl mx-auto px-4 md:px-8 py-12">
-      <div className="text-center mb-8">
-        <h2 className="font-display text-2xl font-bold text-text-primary mb-2">
-          Phiên bản mới nhất trong dữ liệu
-        </h2>
-        <p className="text-text-secondary">
-          Xem mỗi phiên bản thêm gì, từ lúc ra mắt đến hiện tại
-        </p>
+    <section className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-10">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-6 pb-2 border-b border-border/40">
+        <div>
+          <h2 className="font-display text-2xl font-bold text-text-primary tracking-tight">
+            Cập Nhật Phiên Bản Genshin Impact
+          </h2>
+          <p className="text-sm text-text-secondary mt-1">
+            Theo dõi chi tiết thay đổi và nhân vật/vũ khí mới theo từng bản cập nhật
+          </p>
+        </div>
+        <Link
+          href="/versions"
+          className="text-sm font-semibold text-accent-bright hover:underline shrink-0"
+        >
+          Lịch sử phiên bản &rarr;
+        </Link>
       </div>
 
-      <div className="max-w-3xl mx-auto bg-bg-card border-2 border-border rounded-2xl p-6">
-        <div className="flex items-center justify-between mb-4 gap-2">
-          <h3 className="font-display text-3xl font-bold text-text-primary">Phiên bản {latest}</h3>
-          <span className="px-3 py-1 bg-bg-elevated text-accent-bright text-xs font-semibold rounded-full whitespace-nowrap">
-            {total} mục mới
+      <div className="bg-bg-card/80 border border-border/80 hover:border-accent-500/50 rounded-2xl p-6 transition-all shadow-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
+          <div>
+            <span className="text-xs font-mono uppercase text-accent-bright tracking-wider">Bản phát hành hiện tại</span>
+            <h3 className="font-display text-3xl font-extrabold text-text-primary mt-0.5">Phiên bản {latest}</h3>
+          </div>
+          <span className="px-3.5 py-1.5 bg-accent-500/15 text-accent-bright border border-accent-500/30 text-xs font-semibold rounded-full self-start sm:self-center">
+            +{total} nội dung &amp; dữ liệu mới
           </span>
         </div>
         {chips.length > 0 && (
-          <ul className="flex flex-wrap gap-2 mb-5">
+          <ul className="flex flex-wrap gap-2 mb-6">
             {chips.map((c) => (
               <li
                 key={c.label}
-                className="text-sm px-3 py-1 rounded-full border border-border text-text-secondary"
+                className="text-xs px-3 py-1.5 rounded-lg bg-bg-elevated/70 border border-border/70 text-text-secondary"
               >
                 +{c.n} {c.label.toLowerCase()}
               </li>
@@ -60,14 +71,14 @@ export async function VersionHub() {
           </ul>
         )}
         <div className="flex flex-wrap gap-3">
-          <Link href={`/versions/${latest}`} className="btn-primary px-4 py-2 rounded-lg text-sm">
-            Xem phiên bản {latest}
+          <Link href={`/versions/${latest}`} className="btn-anemo px-5 py-2.5 rounded-xl text-sm font-semibold shadow-sm">
+            Xem chi tiết bản {latest}
           </Link>
           <Link
             href="/versions"
-            className="px-4 py-2 rounded-lg text-sm border border-border text-text-secondary hover:border-accent-500 hover:text-accent-bright"
+            className="btn-secondary px-5 py-2.5 rounded-xl text-sm font-semibold"
           >
-            Tất cả phiên bản
+            Tất cả phiên bản từ 1.0
           </Link>
         </div>
       </div>

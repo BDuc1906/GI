@@ -55,14 +55,16 @@ function hexToRgba(hex: string, alpha: number): string {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
+// Local PNG assets (downloaded to public/local-genshin-assets/elements/)
+// Fallback: Wikia SVGs (used before local download was available)
 export const ELEMENT_ICON_URLS: Record<string, string> = {
-  Pyro: "https://static.wikia.nocookie.net/gensin-impact/images/2/2c/Element_Pyro.svg",
-  Hydro: "https://static.wikia.nocookie.net/gensin-impact/images/8/80/Element_Hydro.svg",
-  Cryo: "https://static.wikia.nocookie.net/gensin-impact/images/7/72/Element_Cryo.svg",
-  Electro: "https://static.wikia.nocookie.net/gensin-impact/images/f/ff/Element_Electro.svg",
-  Anemo: "https://static.wikia.nocookie.net/gensin-impact/images/1/10/Element_Anemo.svg",
-  Geo: "https://static.wikia.nocookie.net/gensin-impact/images/9/9b/Element_Geo.svg",
-  Dendro: "https://static.wikia.nocookie.net/gensin-impact/images/7/73/Element_Dendro.svg",
+  Pyro: "/local-genshin-assets/elements/pyro.png",
+  Hydro: "/local-genshin-assets/elements/hydro.png",
+  Cryo: "/local-genshin-assets/elements/cryo.png",
+  Electro: "/local-genshin-assets/elements/electro.png",
+  Anemo: "/local-genshin-assets/elements/anemo.png",
+  Geo: "/local-genshin-assets/elements/geo.png",
+  Dendro: "/local-genshin-assets/elements/dendro.png",
 };
 
 export type ReactionCategory = "amplifying" | "transformative" | "additive" | "lunar" | "stellar";

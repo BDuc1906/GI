@@ -72,47 +72,80 @@ export function ServerTimersClient() {
   }, []);
 
   return (
-    <section className="max-w-7xl mx-auto px-4 md:px-8 py-12">
-      <div className="text-center mb-8">
-        <h2 className="font-display text-2xl font-bold text-text-primary mb-2">
-          ⏰ Đồng hồ đếm ngược
-        </h2>
-        <p className="text-text-secondary">
-          Reset server & La Hoàn Thâm Cảnh
-        </p>
+    <section className="max-w-7xl mx-auto px-4 md:px-8 py-6 md:py-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 pb-2 border-b border-border/40">
+        <div className="flex items-center gap-2.5">
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+          <h2 className="font-display text-lg md:text-xl font-bold text-text-primary tracking-wide">
+            Đồng Hồ Reset Máy Chủ &amp; La Hoàn
+          </h2>
+        </div>
+        <div className="text-xs text-text-muted flex items-center gap-2 font-mono">
+          <span className="px-2 py-0.5 rounded bg-bg-card border border-border/60 text-accent-bright">LIVE SYNC</span>
+          <span>Tự động cập nhật mỗi giây</span>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
         {/* Asia Server */}
-        <div className="bg-bg-card border-2 border-border rounded-2xl p-6">
-          <div className="font-semibold text-text-primary mb-2">Asia Server</div>
-          <div className="text-2xl font-bold text-gold-bright">{asiaTime}</div>
-          <div className="text-xs text-text-muted mt-2">Reset: 11:00 (UTC+7)</div>
+        <div className="relative group bg-bg-card/75 border border-border/80 hover:border-accent-500/50 rounded-xl p-4 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">
+          <div className="flex items-center justify-between text-xs text-text-secondary font-medium mb-1.5">
+            <span className="font-semibold text-text-primary">Asia Server</span>
+            <span className="text-[10px] px-1.5 py-0.5 rounded bg-bg-elevated text-text-muted">UTC+7</span>
+          </div>
+          <div className="font-mono text-xl sm:text-2xl font-bold tracking-tight text-accent-bright tabular-nums">
+            {asiaTime || "--:--:--"}
+          </div>
+          <div className="text-[11px] text-text-muted mt-1.5 flex items-center justify-between">
+            <span>Reset lúc 11:00</span>
+            <span className="text-emerald-400/80">Hoạt động</span>
+          </div>
         </div>
 
         {/* America Server */}
-        <div className="bg-bg-card border-2 border-border rounded-2xl p-6">
-          <div className="font-semibold text-text-primary mb-2">America Server</div>
-          <div className="text-2xl font-bold text-gold-bright">{americaTime}</div>
-          <div className="text-xs text-text-muted mt-2">Reset: 23:00 (UTC-5)</div>
+        <div className="relative group bg-bg-card/75 border border-border/80 hover:border-accent-500/50 rounded-xl p-4 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">
+          <div className="flex items-center justify-between text-xs text-text-secondary font-medium mb-1.5">
+            <span className="font-semibold text-text-primary">America Server</span>
+            <span className="text-[10px] px-1.5 py-0.5 rounded bg-bg-elevated text-text-muted">UTC-5</span>
+          </div>
+          <div className="font-mono text-xl sm:text-2xl font-bold tracking-tight text-accent-bright tabular-nums">
+            {americaTime || "--:--:--"}
+          </div>
+          <div className="text-[11px] text-text-muted mt-1.5 flex items-center justify-between">
+            <span>Reset lúc 23:00</span>
+            <span className="text-emerald-400/80">Hoạt động</span>
+          </div>
         </div>
 
         {/* Europe Server */}
-        <div className="bg-bg-card border-2 border-border rounded-2xl p-6">
-          <div className="font-semibold text-text-primary mb-2">Europe Server</div>
-          <div className="text-2xl font-bold text-gold-bright">{europeTime}</div>
-          <div className="text-xs text-text-muted mt-2">Reset: 5:00 (UTC+1)</div>
+        <div className="relative group bg-bg-card/75 border border-border/80 hover:border-accent-500/50 rounded-xl p-4 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">
+          <div className="flex items-center justify-between text-xs text-text-secondary font-medium mb-1.5">
+            <span className="font-semibold text-text-primary">Europe Server</span>
+            <span className="text-[10px] px-1.5 py-0.5 rounded bg-bg-elevated text-text-muted">UTC+1</span>
+          </div>
+          <div className="font-mono text-xl sm:text-2xl font-bold tracking-tight text-accent-bright tabular-nums">
+            {europeTime || "--:--:--"}
+          </div>
+          <div className="text-[11px] text-text-muted mt-1.5 flex items-center justify-between">
+            <span>Reset lúc 05:00</span>
+            <span className="text-emerald-400/80">Hoạt động</span>
+          </div>
         </div>
 
-        {/* Spiral Abyss — tile nền ảnh, chữ căn giữa */}
-        <ArtTile
-          label="La Hoàn Thâm Cảnh"
-          accent="var(--el-electro)"
-          className="h-full min-h-40"
-        >
-          <span className="mt-1 text-2xl font-bold tabular-nums">{spiralReset}</span>
-          <span className="text-xs text-text-muted">Reset: 1st &amp; 16th</span>
-        </ArtTile>
+        {/* Spiral Abyss */}
+        <div className="relative group bg-gradient-to-br from-bg-card to-[#1a1528] border border-[#764fb0]/40 hover:border-[#b075dd] rounded-xl p-4 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">
+          <div className="flex items-center justify-between text-xs text-purple-300 font-medium mb-1.5">
+            <span className="font-semibold text-purple-200">La Hoàn Thâm Cảnh</span>
+            <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#764fb0]/20 text-purple-200 border border-[#764fb0]/30 font-semibold">Tầng 9-12</span>
+          </div>
+          <div className="font-mono text-xl sm:text-2xl font-bold tracking-tight text-purple-200 tabular-nums">
+            {spiralReset || "--d --h"}
+          </div>
+          <div className="text-[11px] text-purple-300/70 mt-1.5 flex items-center justify-between">
+            <span>Làm mới ngày 1 &amp; 16</span>
+            <span className="text-purple-300">600 Nguyên Thạch</span>
+          </div>
+        </div>
       </div>
     </section>
   );

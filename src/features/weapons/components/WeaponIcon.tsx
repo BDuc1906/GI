@@ -40,17 +40,14 @@ import { useState } from "react";
  * lại việc hotlink domain ngoài không kiểm soát được (wikia, v.v).
  */
 
-const WEAPON_TYPE_ICON_URLS: Record<string, string> = {
-  Sword: "https://upload-os-bbs.mihoyo.com/game_record/genshin/equip/UI_EquipIcon_Sword_Blunt.png",
-  Claymore: "https://upload-os-bbs.mihoyo.com/game_record/genshin/equip/UI_EquipIcon_Claymore_Aniki.png",
-  Polearm: "https://upload-os-bbs.mihoyo.com/game_record/genshin/equip/UI_EquipIcon_Pole_Gewalt.png",
-  Bow: "https://upload-os-bbs.mihoyo.com/game_record/genshin/equip/UI_EquipIcon_Bow_Hunters.png",
-  Catalyst: "https://upload-os-bbs.mihoyo.com/game_record/genshin/equip/UI_EquipIcon_Catalyst_Apprentice.png",
+const WEAPON_TYPE_LOCAL_URLS: Record<string, string> = {
+  Sword: "/local-genshin-assets/ui/sword.png",
+  Claymore: "/local-genshin-assets/ui/claymore.png",
+  Polearm: "/local-genshin-assets/ui/polearm.png",
+  Bow: "/local-genshin-assets/ui/bow.png",
+  Catalyst: "/local-genshin-assets/ui/catalyst.png",
 };
 
-// Ảnh R2 đã được xác minh truy cập công khai (HTTP 200) trong báo cáo
-// scripts/data/r2-check-report-*.json. Đi qua proxy /api/images nên không phụ
-// thuộc CDN mihoyo (hay chết link) — mihoyo chỉ còn là phương án dự phòng.
 const WEAPON_TYPE_R2_URLS: Record<string, string> = {
   Sword: "/api/images/weapons/dull-blade/icon.png",
   Claymore: "/api/images/weapons/waster-greatsword/icon.png",
@@ -68,16 +65,14 @@ export function WeaponIcon({
   size?: number;
   className?: string;
 }) {
-  // 0 = R2 (proxy) -> 1 = mihoyo -> 2 = chữ cái đầu
+  // 0 = Local game icon -> 1 = R2 proxy -> 2 = letter fallback
   const [stage, setStage] = useState(0);
   const normalized = type.trim();
+  const localUrl = WEAPON_TYPE_LOCAL_URLS[normalized];
   const r2Url = WEAPON_TYPE_R2_URLS[normalized];
-  const mihoyoUrl = WEAPON_TYPE_ICON_URLS[normalized];
-  const url = stage === 0 ? r2Url ?? mihoyoUrl : stage === 1 ? mihoyoUrl : undefined;
+  const url = stage === 0 ? localUrl ?? r2Url : stage === 1 ? r2Url : undefined;
 
   if (!url) {
-    // Loại lạ hoặc ảnh lỗi thật sự (mất mạng, CDN down...) -> fallback chữ
-    // cái đầu, không bịa icon giả để tránh gây hiểu nhầm là icon thật.
     return (
       <span
         className={`inline-flex items-center justify-center shrink-0 text-[10px] font-medium text-text-muted ${className}`}
@@ -97,7 +92,7 @@ export function WeaponIcon({
       height={size}
       loading="lazy"
       className={`inline-block shrink-0 object-contain ${className}`}
-      onError={() => setStage((s) => (s === 0 && r2Url && mihoyoUrl ? 1 : 2))}
+      onError={() => setStage((s) => (s === 0 && r2Url ? 1 : 2))}
     />
   );
 }
