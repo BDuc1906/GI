@@ -67,7 +67,7 @@
     "genshin-db": "^5.2.14"
   },
   "devDependencies": {
-    "@aws-sdk/client-s3": "^3.1133.0",
+    "@aws-sdk/client-s3": "^3.1151.0",
     "@eslint/eslintrc": "^3.2.0",
     "@next/eslint-plugin-next": "16.3.4",
     "@tailwindcss/postcss": "^4.3.3",
