@@ -11,6 +11,8 @@ import {
   type WeaponListingItem,
 } from "@/features/weapons/components/WeaponListingClient";
 
+export const revalidate = 300;
+
 export async function generateMetadata({
   params,
 }: {

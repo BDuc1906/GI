@@ -1,4 +1,5 @@
 
+import { Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/db/prisma";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -10,6 +11,8 @@ import { ElementalFrame } from "@/components/ui/ElementalFrame";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { elementColorVar } from "@/lib/ui/theme";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
+
+export const revalidate = 3600;
 
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -141,14 +144,14 @@ export default async function DomainDetail({ params }: PageProps) {
         animated={true}
         className="mb-8"
       >
-        <div className="flex flex-col sm:flex-row gap-6 p-6">
-            <div className="relative w-full sm:w-64 h-36 rounded-xl border border-border bg-bg-card shrink-0 overflow-hidden shadow-md">
+        <div className="flex flex-col sm:flex-row gap-5 sm:gap-6 p-4 sm:p-6">
+            <div className="relative w-full sm:w-72 aspect-[16/10] sm:aspect-auto sm:h-44 rounded-xl border border-border/80 bg-bg-card shrink-0 overflow-hidden shadow-lg">
               <SafeImage
                 src={d.imageUrl || "/local-genshin-assets/ui/domain.png"}
                 fallbackSrcs={[d.imageUrlOriginal, "/local-genshin-assets/ui/domain.png"]}
                 alt={d.name}
                 fill
-                sizes="256px"
+                sizes="(max-width: 640px) 100vw, 288px"
                 className="object-cover"
                 fallbackClassName="w-full h-full flex items-center justify-center text-text-muted text-[10px]"
                 fallback={
@@ -215,22 +218,40 @@ export default async function DomainDetail({ params }: PageProps) {
           <h2 className="font-display text-xl font-bold mb-4 text-gold border-b border-border pb-2">
             {d.category === "artifact" ? t("artifactSetDrops") : t("materialsObtained")}
           </h2>
-          <div className="relic-frame bg-bg-card border border-border rounded-xl p-4">
-            <ul className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
+          <div className="relic-frame bg-bg-card border border-border rounded-xl p-3.5 sm:p-4">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-3 text-sm">
               {materials.map((m, i) => {
                 const iconUrl = m.materialId
                   ? materialIconMap.get(m.materialId)
                   : m.artifactSetId
                     ? artifactSetIconMap.get(m.artifactSetId)
                     : null;
-                return (
-                  <li key={i} className="flex items-center gap-2 min-w-0">
-                    <span className="relative w-8 h-8 shrink-0 rounded bg-bg-secondary border border-border overflow-hidden">
+                const targetHref = m.artifactSetId
+                  ? `/artifacts/${m.artifactSetId}`
+                  : m.materialId
+                    ? `/materials/${m.materialId}`
+                    : null;
+
+                const content = (
+                  <>
+                    <span className="relative w-8 h-8 shrink-0 rounded bg-bg-secondary border border-border overflow-hidden group-hover:scale-105 transition-transform">
                       {iconUrl ? (
                         <SafeImage src={iconUrl} alt={m.name} fill sizes="32px" className="object-contain" />
                       ) : null}
                     </span>
-                    <span className="text-text-secondary truncate">{m.name}</span>
+                    <span className="text-text-secondary group-hover:text-accent-bright truncate transition-colors">{m.name}</span>
+                  </>
+                );
+
+                return (
+                  <li key={i}>
+                    {targetHref ? (
+                      <Link href={targetHref} className="group flex items-center gap-2 min-w-0">
+                        {content}
+                      </Link>
+                    ) : (
+                      <div className="flex items-center gap-2 min-w-0">{content}</div>
+                    )}
                   </li>
                 );
               })}

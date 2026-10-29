@@ -62,7 +62,7 @@ export async function getToolIcon(tool: string): Promise<string> {
       return '/local-genshin-assets/ui/resin.png';
     case 'team-builder':
     case 'đội hình':
-      return '/local-genshin-assets/ui/characters.png';
+      return '/local-genshin-assets/ui/stardust.png';
     case 'showcase-card':
     case 'showcase':
       return '/local-genshin-assets/ui/calculator-character.png';

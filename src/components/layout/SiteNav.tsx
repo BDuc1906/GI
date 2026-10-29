@@ -24,7 +24,7 @@ export function SiteNav() {
     { href: "/weapons", label: t("weapons"), icon: "/local-genshin-assets/ui/sword.png" },
     { href: "/artifacts", label: t("artifacts"), icon: "/local-genshin-assets/ui/artifacts.png" },
     { href: "/domains", label: t("domains"), icon: "/local-genshin-assets/ui/domain.png" },
-    { href: "/tools/team-builder", label: "Đội hình", icon: "/local-genshin-assets/ui/characters.png" },
+    { href: "/tools/team-builder", label: "Đội hình", icon: "/local-genshin-assets/ui/stardust.png" },
     { href: "/calendar", label: "Lịch farm", icon: "/local-genshin-assets/ui/resin.png" },
   ];
 
@@ -57,49 +57,67 @@ export function SiteNav() {
           </div>
         </div>
 
-        {/* Dark/Light toggle + Ngôn ngữ + Search — icon-only, hiện từ sm.
-            ThemeToggle tách riêng, đứng đầu hàng bên phải. */}
-        <div className="hidden sm:flex items-center gap-1.5 ml-auto">
-          <ThemeToggle />
-          <LanguageSwitcher />
-          <SearchBar />
-        </div>
-
-        {/* Nút hamburger: chỉ hiện dưới md */}
-        <button
-          type="button"
-          onClick={() => setMenuOpen((v) => !v)}
-          aria-label={menuOpen ? t("closeMenu") : t("openMenu")}
-          aria-expanded={menuOpen}
-          className="md:hidden px-3 py-1.5 text-sm rounded-lg border border-border text-text-primary hover:border-accent-500 transition-colors sm:ml-0 ml-auto"
-        >
-          {menuOpen ? t("closeMenu") : t("openMenu")}
-        </button>
-      </nav>
-
-      {/* Panel mobile: link + search + theme toggle + ngôn ngữ gộp lại, chỉ render khi mở.
-          Search/ngôn ngữ ở đây chỉ hiện dưới sm (sm:hidden) vì từ sm trở lên
-          đã có icon tương ứng ngay trên hàng chính. */}
-      {menuOpen && (
-        <div className="md:hidden border-t border-border px-4 py-4 flex flex-col gap-4 bg-bg-primary">
-          {/* Chỉ hiện dưới sm — từ sm trở lên đã có trên header chính */}
-          <div className="sm:hidden flex items-center gap-2">
-            <ThemeToggle />
+        {/* Dark/Light toggle + Ngôn ngữ + Search */}
+        <div className="flex items-center gap-1.5 ml-auto">
+          <div className="hidden sm:flex items-center gap-1.5">
             <LanguageSwitcher />
             <SearchBar />
           </div>
-          {/* Nav links — hiện trong mobile menu (ẩn dưới lg trên header chính) */}
-          <div className="flex flex-col gap-3">
+          <ThemeToggle />
+
+          {/* Nút hamburger 3 gạch: hiện trên mobile & tablet (< lg) */}
+          <button
+            type="button"
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-label={menuOpen ? t("closeMenu") : t("openMenu")}
+            aria-expanded={menuOpen}
+            className="lg:hidden p-2 rounded-lg border border-border bg-bg-elevated/40 text-text-primary hover:text-accent-bright hover:border-accent-500 transition-colors flex items-center justify-center shrink-0"
+          >
+            {menuOpen ? (
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            )}
+          </button>
+        </div>
+      </nav>
+
+      {/* Panel mobile: link + search + ngôn ngữ gộp lại, chỉ render khi mở. */}
+      {menuOpen && (
+        <div className="lg:hidden border-t border-border px-4 py-4 flex flex-col gap-3.5 bg-bg-primary/95 backdrop-blur-md shadow-xl animate-in slide-in-from-top-2 duration-200">
+          {/* Quick controls on mobile (< sm): Language & Search */}
+          <div className="sm:hidden flex items-center justify-between gap-2 pb-2.5 border-b border-border/50">
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-text-muted font-medium">Ngôn ngữ:</span>
+              <LanguageSwitcher />
+            </div>
+            <div className="flex items-center">
+              <SearchBar />
+            </div>
+          </div>
+
+          {/* Nav links dạng danh sách thẻ bấm lớn, tối ưu mọi màn hình điện thoại */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center gap-2.5 text-base hover:text-accent-bright transition-colors"
+                className="flex items-center gap-3 p-3 rounded-xl border border-border/40 bg-bg-elevated/40 hover:bg-bg-elevated hover:border-accent-500/50 text-text-primary hover:text-accent-bright transition-all group"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={link.icon} alt="" width={20} height={20} className="w-5 h-5 object-contain shrink-0" />
-                <span>{link.label}</span>
+                <img
+                  src={link.icon}
+                  alt=""
+                  width={22}
+                  height={22}
+                  className="w-[22px] h-[22px] object-contain shrink-0 group-hover:scale-110 transition-transform"
+                />
+                <span className="font-medium text-sm">{link.label}</span>
               </Link>
             ))}
           </div>

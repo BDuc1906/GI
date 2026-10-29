@@ -1,4 +1,4 @@
-﻿// src/components/ChatWidget.tsx
+// src/components/ChatWidget.tsx
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -71,7 +71,7 @@ export function ChatWidget() {
   return (
     <div className="fixed bottom-4 right-4 z-50">
       {open && (
-        <div className="mb-3 w-[360px] max-w-[calc(100vw-2rem)] h-[480px] max-h-[70vh] bg-bg-card border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+        <div className="mb-3 w-[360px] max-w-[calc(100vw-1.5rem)] h-[480px] max-h-[75vh] bg-bg-card border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-200">
           <div className="px-4 py-3 border-b border-border flex items-center justify-between bg-[var(--bg-bg-secondary)]">
             <div>
               <h2 className="text-sm font-semibold text-gold-bright">LEIBO Agent</h2>
@@ -80,7 +80,7 @@ export function ChatWidget() {
             <button
               onClick={() => setOpen(false)}
               aria-label={t("closeChat")}
-              className="text-text-muted hover:text-text-primary text-lg leading-none px-1"
+              className="text-text-muted hover:text-text-primary text-xl leading-none px-1.5 py-0.5 rounded-lg hover:bg-bg-elevated transition-colors"
             >
               ×
             </button>
@@ -105,7 +105,7 @@ export function ChatWidget() {
                       {msg.toolInvocations.map((tool) => (
                         <div key={tool.id} className="text-[11px] text-text-muted flex items-center gap-1">
                           {tool.status === "running" && <span className="animate-pulse">…</span>}
-                                                    {tool.status === "error" && <span className="text-danger">Lỗi:</span>}
+                          {tool.status === "error" && <span className="text-danger">Lỗi:</span>}
                           <span>{toolLabel(tool.tool)}</span>
                         </div>
                       ))}
@@ -149,9 +149,21 @@ export function ChatWidget() {
       <button
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? t("closeChatWithAgent") : t("openChatWithAgent")}
-        className="w-14 h-14 rounded-full bg-gold hover:bg-gold-bright shadow-xl flex items-center justify-center text-sm font-semibold text-text-inverted transition-colors"
+        className="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-gradient-to-tr from-accent-600 via-accent-500 to-accent-400 text-bg-primary shadow-xl hover:shadow-accent-500/30 hover:scale-105 active:scale-95 flex items-center justify-center transition-all duration-200 border border-white/20"
       >
-        {open ? "×" : "Chat"}
+        {open ? (
+          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        ) : (
+          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+            />
+          </svg>
+        )}
       </button>
     </div>
   );

@@ -1,4 +1,5 @@
 
+import { Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/db/prisma";
 import { getWeaponById } from "@/lib/db/cached-queries";
 import { notFound } from "next/navigation";
@@ -18,6 +19,8 @@ import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { getLocalizedDescription, getLocalizedRefinements } from "@/lib/i18n/localized-content";
 import { WeaponRecommendedCharacters } from "@/features/weapons/components/WeaponRecommendedCharacters";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
+
+export const revalidate = 3600;
 
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -152,12 +155,24 @@ export default async function WeaponDetail({ params }: PageProps) {
                     const material = m.materialId ? materialIconMap.get(m.materialId) : null;
                     return (
                       <li key={j} className="flex items-center justify-between gap-3">
-                        <span className="flex items-center gap-2 min-w-0">
-                          <span className="relative w-6 h-6 shrink-0 rounded bg-bg-elevated border border-border overflow-hidden">
-                            {material?.iconUrl ? <SafeImage src={material.iconUrl} alt={material?.localizedName ?? m.name ?? ""} fill sizes="24px" className="object-contain" /> : null}
+                        {m.materialId ? (
+                          <Link
+                            href={`/materials/${m.materialId}`}
+                            className="group/mat flex items-center gap-2 min-w-0 hover:text-accent-bright transition-colors"
+                          >
+                            <span className="relative w-6 h-6 shrink-0 rounded bg-bg-elevated border border-border overflow-hidden group-hover/mat:border-accent-500 transition-colors">
+                              {material?.iconUrl ? <SafeImage src={material.iconUrl} alt={material?.localizedName ?? m.name ?? ""} fill sizes="24px" className="object-contain" /> : null}
+                            </span>
+                            <span className="text-text-secondary group-hover/mat:text-accent-bright truncate transition-colors">{material?.localizedName ?? m.name}</span>
+                          </Link>
+                        ) : (
+                          <span className="flex items-center gap-2 min-w-0">
+                            <span className="relative w-6 h-6 shrink-0 rounded bg-bg-elevated border border-border overflow-hidden">
+                              {material?.iconUrl ? <SafeImage src={material.iconUrl} alt={material?.localizedName ?? m.name ?? ""} fill sizes="24px" className="object-contain" /> : null}
+                            </span>
+                            <span className="text-text-secondary truncate">{material?.localizedName ?? m.name}</span>
                           </span>
-                          <span className="text-text-secondary truncate">{material?.localizedName ?? m.name}</span>
-                        </span>
+                        )}
                         <span className="font-semibold text-text-primary shrink-0 tabular-nums">
                           {m.count ? `x${m.count.toLocaleString(locale)}` : ""}
                         </span>

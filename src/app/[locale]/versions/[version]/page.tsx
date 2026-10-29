@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
@@ -16,7 +16,7 @@ import {
   type VersionView,
 } from "@/core/game/versions";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 interface PageProps {
   params: Promise<{ locale: string; version: string }>;

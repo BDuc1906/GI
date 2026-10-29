@@ -14,6 +14,8 @@ import { ArtifactRecommendedCharacters } from "@/features/artifacts/components/A
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
 import { localArtifactPiece, localArtifactSetIcon } from "@/lib/ui/local-assets";
 
+export const revalidate = 3600;
+
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
 }

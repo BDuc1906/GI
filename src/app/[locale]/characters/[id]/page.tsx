@@ -34,6 +34,8 @@ import { isNonPlayableCharacterId } from "@/core/game/character-catalog";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
 import { getSimilarCharacters } from "@/features/similarity/similarity-service";
 
+export const revalidate = 3600;
+
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
 }

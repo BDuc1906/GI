@@ -12,6 +12,7 @@
  * - Playstyle notes: mô tả ngắn theo nguyên tố + weapon type
  */
 
+import { Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/db/prisma";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { SafeImage } from "@/components/ui/SafeImage";
@@ -563,9 +564,9 @@ export async function RecommendedBuildTab({ character, locale, elementColor }: P
                 const style = TIER_STYLES[w.tier];
                 const localIcon = localWeaponIcon(w.id);
                 return (
-                  <a
+                  <Link
                     key={w.id}
-                    href={`/${locale}/weapons/${w.id}`}
+                    href={`/weapons/${w.id}`}
                     className={`flex items-center gap-3 rounded-xl border p-3 hover:brightness-110 transition-all group ${style.bg} ${style.border}`}
                   >
                     {/* Tier badge */}
@@ -615,7 +616,7 @@ export async function RecommendedBuildTab({ character, locale, elementColor }: P
                         ) : null}
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 );
               })
             )}
@@ -637,9 +638,9 @@ export async function RecommendedBuildTab({ character, locale, elementColor }: P
               artifactsToDisplay.map((a, idx) => {
                 const localIcon = localArtifactSetIcon(a.id);
                 return (
-                  <a
+                  <Link
                     key={a.id}
-                    href={`/${locale}/artifacts/${a.id}`}
+                    href={`/artifacts/${a.id}`}
                     className="flex items-start gap-3 rounded-xl border border-border bg-bg-elevated p-3 hover:border-accent-500/60 transition-colors group"
                   >
                     {/* Rank badge */}
@@ -694,7 +695,7 @@ export async function RecommendedBuildTab({ character, locale, elementColor }: P
                         </div>
                       )}
                     </div>
-                  </a>
+                  </Link>
                 );
               })
             )}

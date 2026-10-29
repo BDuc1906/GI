@@ -1,3 +1,4 @@
+import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import { SafeImage } from "@/components/ui/SafeImage";
 import { SectionHeading } from "@/components/layout/SectionHeading";
@@ -34,22 +35,44 @@ export async function CharacterAscension({
                 const material = m.materialId ? materialIconMap.get(m.materialId) : null;
                 return (
                   <li key={j} className="flex items-center justify-between gap-3">
-                    <span className="flex items-center gap-2 min-w-0">
-                      <span className="relative w-6 h-6 shrink-0 rounded bg-bg-elevated border border-border overflow-hidden">
-                        {material?.iconUrl ? (
-                          <SafeImage
-                            src={material.iconUrl}
-                            alt={material?.localizedName ?? m.name ?? ""}
-                            fill
-                            className="object-contain"
-                            sizes="24px"
-                          />
-                        ) : null}
+                    {m.materialId ? (
+                      <Link
+                        href={`/materials/${m.materialId}`}
+                        className="group/mat flex items-center gap-2 min-w-0 hover:text-accent-bright transition-colors"
+                      >
+                        <span className="relative w-6 h-6 shrink-0 rounded bg-bg-elevated border border-border overflow-hidden group-hover/mat:scale-110 transition-transform">
+                          {material?.iconUrl ? (
+                            <SafeImage
+                              src={material.iconUrl}
+                              alt={material?.localizedName ?? m.name ?? ""}
+                              fill
+                              className="object-contain"
+                              sizes="24px"
+                            />
+                          ) : null}
+                        </span>
+                        <span className="text-text-secondary group-hover/mat:text-accent-bright truncate transition-colors">
+                          {material?.localizedName ?? m.name}
+                        </span>
+                      </Link>
+                    ) : (
+                      <span className="flex items-center gap-2 min-w-0">
+                        <span className="relative w-6 h-6 shrink-0 rounded bg-bg-elevated border border-border overflow-hidden">
+                          {material?.iconUrl ? (
+                            <SafeImage
+                              src={material.iconUrl}
+                              alt={material?.localizedName ?? m.name ?? ""}
+                              fill
+                              className="object-contain"
+                              sizes="24px"
+                            />
+                          ) : null}
+                        </span>
+                        <span className="text-text-secondary truncate">
+                          {material?.localizedName ?? m.name}
+                        </span>
                       </span>
-                      <span className="text-text-secondary truncate">
-                        {material?.localizedName ?? m.name}
-                      </span>
-                    </span>
+                    )}
                     <span className="font-semibold text-text-primary shrink-0 tabular-nums">
                       {m.count ? `x${m.count.toLocaleString(locale)}` : ""}
                     </span>

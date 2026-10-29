@@ -9,7 +9,7 @@ export async function WikiToolsHub() {
     {
       title: "Dựng Đội Hình & Phản Ứng Nguyên Tố",
       href: "/tools/team-builder",
-      icon: "/local-genshin-assets/ui/characters.png",
+      icon: "/local-genshin-assets/ui/stardust.png",
       description: "Gợi ý đội hình tối ưu theo cơ chế phản ứng: Bốc Hơi, Tan Chảy, Khuếch Tán, Tăng Cường và Quá Tải. Hỗ trợ phương án nhân vật thay thế linh hoạt.",
       tag: "Chiến Thuật",
       badgeColor: "bg-teal-500/15 text-teal-300 border-teal-500/30",

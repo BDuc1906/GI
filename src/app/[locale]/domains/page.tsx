@@ -12,6 +12,8 @@ import { withDbRetry } from "@/lib/db/db-retry";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
 
+export const revalidate = 300;
+
 export async function generateMetadata({
   params,
 }: {
@@ -62,7 +64,16 @@ export default async function DomainsPage({ params, searchParams }: PageProps) {
         orderBy: [{ category: "asc" }, { name: "asc" }],
         skip: (page - 1) * LIST_PAGE_SIZE,
         take: LIST_PAGE_SIZE,
-        select: { id: true, name: true, nameTranslations: true, category: true, regionName: true, imageUrl: true, imageUrlOriginal: true },
+        select: {
+          id: true,
+          name: true,
+          nameTranslations: true,
+          category: true,
+          regionName: true,
+          imageUrl: true,
+          imageUrlOriginal: true,
+          materials: true,
+        },
       }),
       prisma.domain.count({ where }),
     ])
@@ -115,10 +126,10 @@ export default async function DomainsPage({ params, searchParams }: PageProps) {
         </button>
       </form>
 
-      <div className="surface-glass border border-border rounded-xl mb-8 px-4">
-        <div className="flex items-start gap-3 py-2.5">
-          <span className="text-xs text-text-muted font-medium w-24 shrink-0 pt-1.5">{t("filterCategory")}</span>
-          <div className="flex flex-wrap gap-2">
+      <div className="surface-glass border border-border rounded-xl mb-6 p-3 sm:px-4 sm:py-3">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+          <span className="text-xs text-text-muted font-medium shrink-0">{t("filterCategory")}</span>
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
             {CATEGORIES.map((c) => {
               const isActive = category === c;
               return (
@@ -126,7 +137,7 @@ export default async function DomainsPage({ params, searchParams }: PageProps) {
                   key={c}
                   href={`/domains?${buildQuery({ category: isActive ? undefined : c })}`}
                   aria-pressed={isActive}
-                  className="chip px-2.5 py-1 rounded-full text-xs"
+                  className="chip px-3 py-1 rounded-full text-xs"
                 >
                   {CATEGORY_LABEL[c]}
                 </Link>
@@ -152,36 +163,75 @@ export default async function DomainsPage({ params, searchParams }: PageProps) {
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {domains.map((d) => (
-            <Link key={d.id} href={`/domains/${d.id}`} className="surface-card overflow-hidden group flex gap-3.5 p-3 items-center">
-              <div className="relative w-24 h-16 shrink-0 rounded-lg bg-bg-elevated overflow-hidden border border-border/50">
-                <SafeImage
-                  src={d.imageUrl || "/local-genshin-assets/ui/domain.png"}
-                  fallbackSrcs={[d.imageUrlOriginal, "/local-genshin-assets/ui/domain.png"]}
-                  alt={getLocalizedName(d, locale)}
-                  fill
-                  sizes="96px"
-                  className="object-cover group-hover:scale-110 transition-transform duration-300"
-                  fallback={
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src="/local-genshin-assets/ui/domain.png"
-                      alt=""
-                      className="w-8 h-8 object-contain opacity-80 m-auto mt-4"
-                    />
-                  }
-                />
-              </div>
-              <div className="min-w-0 flex flex-col justify-center">
-                <div className="text-eyebrow mb-1">{CATEGORY_LABEL[d.category] ?? d.category}</div>
-                <div className="font-semibold truncate text-text-primary group-hover:text-accent-bright transition-colors text-sm">
-                  {getLocalizedName(d, locale)}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+          {domains.map((d) => {
+            const rawMats = (d.materials as unknown as Array<{ name: string; artifactSetId?: string; materialId?: string }>) ?? [];
+            const previewMats = rawMats.slice(0, 3);
+            return (
+              <Link
+                key={d.id}
+                href={`/domains/${d.id}`}
+                className="surface-card rounded-2xl overflow-hidden group border border-border/60 hover:border-accent-500/70 transition-all duration-300 hover:shadow-xl flex flex-col"
+              >
+                {/* Art full ô - tràn viền phần trên thẻ */}
+                <div className="relative w-full aspect-[16/9] sm:h-44 bg-bg-elevated overflow-hidden">
+                  <SafeImage
+                    src={d.imageUrl || "/local-genshin-assets/ui/domain.png"}
+                    fallbackSrcs={[d.imageUrlOriginal, "/local-genshin-assets/ui/domain.png"]}
+                    alt={getLocalizedName(d, locale)}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    fallback={
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src="/local-genshin-assets/ui/domain.png"
+                        alt=""
+                        className="w-12 h-12 object-contain opacity-70 m-auto mt-12"
+                      />
+                    }
+                  />
+                  {/* Lớp phủ gradient tối dần xuống dưới */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/90 via-bg-primary/20 to-black/25 pointer-events-none" />
+
+                  {/* Huy hiệu danh mục & khu vực nổi trên ảnh */}
+                  <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between gap-2 pointer-events-none">
+                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold tracking-wide bg-black/60 backdrop-blur-md text-accent-bright border border-white/10 uppercase">
+                      {CATEGORY_LABEL[d.category] ?? d.category}
+                    </span>
+                    {d.regionName && (
+                      <span className="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-black/50 backdrop-blur-md text-text-secondary border border-white/10">
+                        {d.regionName}
+                      </span>
+                    )}
+                  </div>
                 </div>
-                {d.regionName && <div className="text-xs text-text-muted mt-0.5">{d.regionName}</div>}
-              </div>
-            </Link>
-          ))}
+
+                {/* Nội dung thông tin bí cảnh */}
+                <div className="p-4 flex-1 flex flex-col justify-between gap-3">
+                  <div>
+                    <h2 className="font-display font-semibold text-text-primary text-base group-hover:text-accent-bright transition-colors line-clamp-2">
+                      {getLocalizedName(d, locale)}
+                    </h2>
+                  </div>
+
+                  {previewMats.length > 0 && (
+                    <div className="flex flex-wrap items-center gap-1.5 pt-2 border-t border-border/40">
+                      <span className="text-[11px] text-text-muted">Rớt:</span>
+                      {previewMats.map((m, idx) => (
+                        <span
+                          key={idx}
+                          className="text-[11px] px-2 py-0.5 rounded-md bg-bg-elevated/80 border border-border/60 text-text-secondary truncate max-w-[140px]"
+                        >
+                          {m.name}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </Link>
+            );
+          })}
         </div>
       )}
 

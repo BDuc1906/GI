@@ -18,21 +18,21 @@ export function BeginnerGuides() {
       description: "Hôm nay farm sách thiên phú và nguyên liệu vũ khí ở đâu",
       icon: "/local-genshin-assets/ui/resin.png",
       href: "/calendar",
-      tag: "Hot"
+      tag: "Nổi bật"
     },
     {
       title: "Tính nguyên liệu nâng cấp",
       description: "Tính đủ Mora, sách và nguyên liệu cho nhân vật, vũ khí",
       icon: "/local-genshin-assets/ui/calculator.png",
       href: "/tools/material-calculator",
-      tag: "Tool"
+      tag: "Công cụ"
     },
     {
       title: "Phản ứng nguyên tố",
       description: "Bảng phản ứng và công thức sát thương cho người mới",
-      icon: "/local-genshin-assets/elements/anemo.png",
+      icon: "/local-genshin-assets/ui/genesis_crystal.png",
       href: "/elements",
-      tag: "Must Read"
+      tag: "Quan trọng"
     },
   ];
 
