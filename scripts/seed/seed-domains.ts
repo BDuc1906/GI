@@ -76,9 +76,11 @@ async function resolveDomainImageUrl(domainId: string, filename: string | undefi
     return null;
   }
 
-  const candidates = [getUiAssetUrl(filename), `https://enka.network/ui/${filename}.png`].filter(
-    (u): u is string => !!u
-  );
+  const candidates = [
+    `https://raw.githubusercontent.com/PathOfGenshin/resources/main/resources/gi/Sprite/${filename}.png`,
+    getUiAssetUrl(filename),
+    `https://enka.network/ui/${filename}.png`,
+  ].filter((u): u is string => !!u);
 
   for (const url of candidates) {
     if (await urlExists(url)) return url;

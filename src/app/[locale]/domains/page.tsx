@@ -154,21 +154,21 @@ export default async function DomainsPage({ params, searchParams }: PageProps) {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {domains.map((d) => (
-            <Link key={d.id} href={`/domains/${d.id}`} className="surface-card overflow-hidden group flex gap-3 p-3">
-              <div className="relative w-16 h-16 shrink-0 rounded-lg bg-bg-elevated overflow-hidden">
+            <Link key={d.id} href={`/domains/${d.id}`} className="surface-card overflow-hidden group flex gap-3.5 p-3 items-center">
+              <div className="relative w-24 h-16 shrink-0 rounded-lg bg-bg-elevated overflow-hidden border border-border/50">
                 <SafeImage
                   src={d.imageUrl || "/local-genshin-assets/ui/domain.png"}
                   fallbackSrcs={[d.imageUrlOriginal, "/local-genshin-assets/ui/domain.png"]}
                   alt={getLocalizedName(d, locale)}
                   fill
-                  sizes="64px"
-                  className="object-contain p-2"
+                  sizes="96px"
+                  className="object-cover group-hover:scale-110 transition-transform duration-300"
                   fallback={
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src="/local-genshin-assets/ui/domain.png"
                       alt=""
-                      className="w-10 h-10 object-contain opacity-80"
+                      className="w-8 h-8 object-contain opacity-80 m-auto mt-4"
                     />
                   }
                 />

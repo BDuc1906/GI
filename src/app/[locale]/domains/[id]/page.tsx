@@ -142,21 +142,21 @@ export default async function DomainDetail({ params }: PageProps) {
         className="mb-8"
       >
         <div className="flex flex-col sm:flex-row gap-6 p-6">
-            <div className="relative w-40 h-40 rounded-xl border border-border bg-bg-card shrink-0 overflow-hidden">
+            <div className="relative w-full sm:w-64 h-36 rounded-xl border border-border bg-bg-card shrink-0 overflow-hidden shadow-md">
               <SafeImage
                 src={d.imageUrl || "/local-genshin-assets/ui/domain.png"}
                 fallbackSrcs={[d.imageUrlOriginal, "/local-genshin-assets/ui/domain.png"]}
                 alt={d.name}
                 fill
-                sizes="160px"
-                className="object-contain p-4"
+                sizes="256px"
+                className="object-cover"
                 fallbackClassName="w-full h-full flex items-center justify-center text-text-muted text-[10px]"
                 fallback={
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src="/local-genshin-assets/ui/domain.png"
                     alt=""
-                    className="w-20 h-20 object-contain opacity-80"
+                    className="w-16 h-16 object-contain opacity-80 m-auto"
                   />
                 }
               />

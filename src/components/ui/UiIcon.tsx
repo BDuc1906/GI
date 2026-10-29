@@ -7,12 +7,12 @@ interface UiIconProps {
   className?: string;
 }
 
-/** Icon tìm kiếm / kho lưu trữ — dùng asset game Archive / Items chuẩn */
+/** Icon tìm kiếm — dùng asset game Địa Lý (thấu kính / la bàn phong ấn) chuẩn Genshin */
 export function SearchIcon({ size = 18, className = "" }: UiIconProps) {
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src="/local-genshin-assets/ui/items.png"
+      src="/local-genshin-assets/ui/geography.png"
       alt="Search"
       width={size}
       height={size}

@@ -134,11 +134,11 @@ export function SearchBar() {
           title={t("searchShortcutTitle")}
           className="inline-flex items-center justify-center w-9 h-9 rounded-lg border border-border text-text-secondary hover:border-gold hover:text-text-primary transition-colors"
         >
-          <SearchIcon size={18} />
+          <SearchIcon size={20} />
         </button>
       ) : (
         <form onSubmit={handleSubmit} className="relative w-56 md:w-64">
-          <SearchIcon size={14} className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-text-muted" />
+          <SearchIcon size={16} className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2" />
           <input
             ref={inputRef}
             type="search"
