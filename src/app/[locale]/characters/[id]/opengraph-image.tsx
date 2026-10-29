@@ -1,4 +1,4 @@
-﻿import { ImageResponse } from "next/og";
+import { ImageResponse } from "next/og";
 import { getTranslations } from "next-intl/server";
 import { prisma } from "@/lib/db/prisma";
 import { getWeaponTypeLabel } from "@/core/game/weapon-type-label";
@@ -57,6 +57,7 @@ export default async function CharacterOgImage({ params }: Props) {
           // Ảnh nhân vật full-bleed bên phải — ImageResponse (satori) tự
           // fetch URL này lúc render, không đi qua next/image nên whitelist
           // remotePatterns trong next.config.ts không áp dụng ở đây.
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={imageSrc}
             alt=""

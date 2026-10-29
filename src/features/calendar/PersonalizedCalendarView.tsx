@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useCallback } from "react";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { SafeImage } from "@/components/ui/SafeImage";
@@ -77,7 +77,7 @@ export function PersonalizedCalendarView({
   }, [targets]);
 
   // Kiểm tra bí cảnh có rớt nguyên liệu của mục tiêu đã ghim không
-  const getDomainTargetMatches = (domain: CalendarDomainItem): PinnedTargetItem[] => {
+  const getDomainTargetMatches = useCallback((domain: CalendarDomainItem): PinnedTargetItem[] => {
     const matched = new Map<string, PinnedTargetItem>();
     domain.materials.forEach((m) => {
       const targetsForMat = materialToTargetsMap.get(m.name.toLowerCase());
@@ -86,7 +86,7 @@ export function PersonalizedCalendarView({
       }
     });
     return Array.from(matched.values());
-  };
+  }, [materialToTargetsMap]);
 
   // Danh sách bí cảnh mở cho mục tiêu đã ghim trong ngày đang chọn
   const domainsWithMatches = useMemo(() => {
@@ -94,7 +94,7 @@ export function PersonalizedCalendarView({
       domain: d,
       matchedTargets: getDomainTargetMatches(d),
     }));
-  }, [domains, materialToTargetsMap, getDomainTargetMatches]);
+  }, [domains, getDomainTargetMatches]);
 
   const myDomainsCount = useMemo(() => {
     return domainsWithMatches.filter((item) => item.matchedTargets.length > 0).length;
