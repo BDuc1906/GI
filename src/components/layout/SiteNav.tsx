@@ -23,8 +23,8 @@ export function SiteNav() {
     { href: "/characters", label: t("characters"), icon: "/local-genshin-assets/ui/characters.png" },
     { href: "/weapons", label: t("weapons"), icon: "/local-genshin-assets/ui/sword.png" },
     { href: "/artifacts", label: t("artifacts"), icon: "/local-genshin-assets/ui/artifacts.png" },
-    { href: "/domains", label: t("domains"), icon: "/local-genshin-assets/ui/commission.png" },
-    { href: "/tools/team-builder", label: "Đội hình", icon: "/local-genshin-assets/ui/paimon_hello.png" },
+    { href: "/domains", label: t("domains"), icon: "/local-genshin-assets/ui/condensed_resin.png" },
+    { href: "/tools/team-builder", label: "Đội hình", icon: "/local-genshin-assets/ui/calculator-character.png" },
     { href: "/calendar", label: "Lịch farm", icon: "/local-genshin-assets/ui/resin.png" },
   ];
 

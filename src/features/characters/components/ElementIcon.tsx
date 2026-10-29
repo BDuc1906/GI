@@ -33,9 +33,10 @@ export function ElementIcon({
 }) {
   const [broken, setBroken] = useState(false);
 
-  // Primary: local PNG (already downloaded); CDN fallback if local fails
-  const localAsset = `/local-genshin-assets/elements/${vision.toLowerCase()}.png`;
-  const cdnFallback = iconUrl ? toProxiedUrl(iconUrl) : localAsset;
+  const v = (vision || "Anemo").toLowerCase().trim();
+  // Primary: official game vector SVG; fallback to PNG or CDN proxy
+  const localAsset = `/local-genshin-assets/elements/${v}.svg`;
+  const cdnFallback = iconUrl ? toProxiedUrl(iconUrl) : `/local-genshin-assets/elements/${v}.png`;
   const resolvedUrl = broken ? cdnFallback : localAsset;
 
   const elementColor = elementColorVar(vision);

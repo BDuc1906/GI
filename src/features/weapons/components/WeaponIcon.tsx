@@ -56,6 +56,17 @@ const WEAPON_TYPE_R2_URLS: Record<string, string> = {
   Catalyst: "/api/images/weapons/apprentice-s-notes/icon.png",
 };
 
+function normalizeWeaponType(raw: string): string {
+  const s = raw.toLowerCase().trim();
+  if (s.includes("claymore") || s.includes("trọng") || s.includes("đại kiếm")) return "Claymore";
+  if (s.includes("pole") || s.includes("thương") || s.includes("cán dài")) return "Polearm";
+  if (s.includes("bow") || s.includes("cung")) return "Bow";
+  if (s.includes("catalyst") || s.includes("pháp khí")) return "Catalyst";
+  if (s.includes("sword") || s.includes("đơn kiếm") || s.includes("kiếm")) return "Sword";
+  // Fallback PascalCase
+  return raw.charAt(0).toUpperCase() + raw.slice(1);
+}
+
 export function WeaponIcon({
   type,
   size = 16,
@@ -67,7 +78,7 @@ export function WeaponIcon({
 }) {
   // 0 = Local game icon -> 1 = R2 proxy -> 2 = letter fallback
   const [stage, setStage] = useState(0);
-  const normalized = type.trim();
+  const normalized = normalizeWeaponType(type);
   const localUrl = WEAPON_TYPE_LOCAL_URLS[normalized];
   const r2Url = WEAPON_TYPE_R2_URLS[normalized];
   const url = stage === 0 ? localUrl ?? r2Url : stage === 1 ? r2Url : undefined;

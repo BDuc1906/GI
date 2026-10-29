@@ -19,13 +19,35 @@ export async function getGameIcon(category: string): Promise<string> {
       return '/local-genshin-assets/ui/artifacts.png';
     case 'materials':
     case 'nguyên liệu':
-      return '/local-genshin-assets/ui/mora.png';
+      return '/local-genshin-assets/ui/items.png';
     case 'domains':
     case 'bí cảnh':
-      return '/local-genshin-assets/ui/commission.png';
+      return '/local-genshin-assets/ui/condensed_resin.png';
     case 'enemies':
     case 'kẻ địch':
-      return '/local-genshin-assets/ui/paimon_faq.png';
+      return '/local-genshin-assets/ui/enemy.png';
+    case 'food':
+    case 'ẩm thực':
+    case 'món ăn':
+      return '/local-genshin-assets/ui/food.png';
+    case 'crafts':
+    case 'chế tạo':
+      return '/local-genshin-assets/ui/craft.png';
+    case 'animals':
+    case 'sinh vật':
+      return '/local-genshin-assets/ui/animal.png';
+    case 'geography':
+    case 'địa lý':
+      return '/local-genshin-assets/ui/geography.png';
+    case 'namecards':
+    case 'danh thiếp':
+      return '/local-genshin-assets/ui/namecard.png';
+    case 'outfits':
+    case 'trang phục':
+      return '/local-genshin-assets/ui/outfit.png';
+    case 'windgliders':
+    case 'dù lượn':
+      return '/local-genshin-assets/ui/windglider.png';
     default:
       return '';
   }
@@ -38,9 +60,12 @@ export async function getToolIcon(tool: string): Promise<string> {
     case 'calendar':
     case 'lịch':
       return '/local-genshin-assets/ui/resin.png';
-    case 'tierlist':
-    case 'bảng xếp hạng':
-      return '/local-genshin-assets/ui/primogem.png';
+    case 'team-builder':
+    case 'đội hình':
+      return '/local-genshin-assets/ui/characters.png';
+    case 'showcase-card':
+    case 'showcase':
+      return '/local-genshin-assets/ui/calculator-character.png';
     case 'calculator':
     case 'máy tính':
       return '/local-genshin-assets/ui/calculator.png';

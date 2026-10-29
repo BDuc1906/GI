@@ -57,7 +57,20 @@ export function localElementIcon(vision: string): string {
 
 /** Official game UI asset icon (navigation, currency, tools, paimon) */
 export function localUiIcon(name: string): string {
-  if (name === "paimon") return "/local-genshin-assets/ui/paimon_hello.png";
-  if (name === "weapons") return "/local-genshin-assets/ui/sword.png";
+  const n = name.toLowerCase().trim();
+  if (n === "paimon") return "/local-genshin-assets/ui/paimon_hello.png";
+  if (n === "weapons" || n === "weapon") return "/local-genshin-assets/ui/sword.png";
+  if (n === "characters" || n === "character") return "/local-genshin-assets/ui/characters.png";
+  if (n === "artifacts" || n === "artifact") return "/local-genshin-assets/ui/artifacts.png";
+  if (n === "enemies" || n === "enemy") return "/local-genshin-assets/ui/enemy.png";
+  if (n === "domains" || n === "domain") return "/local-genshin-assets/ui/condensed_resin.png";
+  if (n === "materials" || n === "material") return "/local-genshin-assets/ui/items.png";
+  if (n === "foods" || n === "food") return "/local-genshin-assets/ui/food.png";
+  if (n === "crafts" || n === "craft") return "/local-genshin-assets/ui/craft.png";
+  if (n === "animals" || n === "animal") return "/local-genshin-assets/ui/animal.png";
+  if (n === "geography") return "/local-genshin-assets/ui/geography.png";
+  if (n === "namecards" || n === "namecard") return "/local-genshin-assets/ui/namecard.png";
+  if (n === "outfits" || n === "outfit") return "/local-genshin-assets/ui/outfit.png";
+  if (n === "windgliders" || n === "windglider") return "/local-genshin-assets/ui/windglider.png";
   return `/local-genshin-assets/ui/${name}.png`;
 }
