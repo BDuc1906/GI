@@ -67,6 +67,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     artifact: t("categoryArtifact"),
     weapon: t("categoryWeapon"),
     talent: t("categoryTalent"),
+    trounce: t("categoryTrounce"),
+    challenge: t("categoryChallenge"),
   };
   return createLocalizedMetadata({
     locale,
@@ -90,6 +92,8 @@ export default async function DomainDetail({ params }: PageProps) {
     artifact: t("categoryArtifact"),
     weapon: t("categoryWeapon"),
     talent: t("categoryTalent"),
+    trounce: t("categoryTrounce"),
+    challenge: t("categoryChallenge"),
   };
 
   const WEEKDAY_FULL: Record<string, string> = {

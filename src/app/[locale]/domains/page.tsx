@@ -31,10 +31,11 @@ export async function generateMetadata({
 
 interface PageProps {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ category?: string; q?: string; page?: string }>;
+  searchParams: Promise<{ category?: string; region?: string; schedule?: string; q?: string; page?: string }>;
 }
 
-const CATEGORIES = ["artifact", "weapon", "talent"] as const;
+const CATEGORIES = ["artifact", "weapon", "talent", "trounce", "challenge"] as const;
+const REGIONS = ["Mondstadt", "Liyue", "Inazuma", "Sumeru", "Fontaine", "Natlan"] as const;
 
 export default async function DomainsPage({ params, searchParams }: PageProps) {
   const { locale } = await params;
@@ -45,18 +46,43 @@ export default async function DomainsPage({ params, searchParams }: PageProps) {
     artifact: t("categoryArtifact"),
     weapon: t("categoryWeapon"),
     talent: t("categoryTalent"),
+    trounce: t("categoryTrounce"),
+    challenge: t("categoryChallenge"),
   };
 
-  const { category, q, page: pageRaw } = await searchParams;
+  const SCHEDULE_OPTIONS = [
+    { id: "daily", label: t("scheduleDaily") },
+    { id: "mon-thu", label: t("scheduleMonThu") },
+    { id: "tue-fri", label: t("scheduleTueFri") },
+    { id: "wed-sat", label: t("scheduleWedSat") },
+  ] as const;
+
+  const { category, region, schedule, q, page: pageRaw } = await searchParams;
   const page = parsePageParam(pageRaw);
 
   const where: Prisma.DomainWhereInput = {};
-  if (category && CATEGORIES.includes(category as (typeof CATEGORIES)[number])) where.category = category;
+  if (category && CATEGORIES.includes(category as (typeof CATEGORIES)[number])) {
+    where.category = category;
+  }
+  if (region && REGIONS.includes(region as (typeof REGIONS)[number])) {
+    where.regionName = region;
+  }
+  if (schedule) {
+    if (schedule === "daily") {
+      where.OR = [
+        { daysOfWeek: { isEmpty: true } },
+        { daysOfWeek: { hasEvery: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] } },
+      ];
+    } else if (schedule === "mon-thu") {
+      where.daysOfWeek = { has: "Monday" };
+    } else if (schedule === "tue-fri") {
+      where.daysOfWeek = { has: "Tuesday" };
+    } else if (schedule === "wed-sat") {
+      where.daysOfWeek = { has: "Wednesday" };
+    }
+  }
   if (q) where.name = { contains: q, mode: "insensitive" };
 
-  // BUG ĐÃ SỬA: cùng lớp lỗi P1017 "Server has closed the connection" ở
-  // trang chủ/characters — bọc withDbRetry để chịu được đúng lúc Neon
-  // free tier vừa suspend compute xong.
   const [domains, total] = await withDbRetry(() =>
     Promise.all([
       prisma.domain.findMany({
@@ -73,6 +99,7 @@ export default async function DomainsPage({ params, searchParams }: PageProps) {
           imageUrl: true,
           imageUrlOriginal: true,
           materials: true,
+          recommendedLevel: true,
         },
       }),
       prisma.domain.count({ where }),
@@ -83,6 +110,8 @@ export default async function DomainsPage({ params, searchParams }: PageProps) {
   const buildQuery = (params: Record<string, string | undefined>) => {
     const sp = new URLSearchParams();
     if (category) sp.set("category", category);
+    if (region) sp.set("region", region);
+    if (schedule) sp.set("schedule", schedule);
     if (q) sp.set("q", q);
     Object.entries(params).forEach(([k, v]) => {
       if (v) sp.set(k, v);
@@ -91,6 +120,8 @@ export default async function DomainsPage({ params, searchParams }: PageProps) {
     return sp.toString();
   };
   const buildPageHref = (p: number) => `/domains?${buildQuery({ page: p > 1 ? String(p) : undefined })}`;
+
+  const hasActiveFilters = Boolean(category || region || schedule || q);
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
@@ -102,55 +133,155 @@ export default async function DomainsPage({ params, searchParams }: PageProps) {
         ]}
       />
 
-      <div className="mb-7">
-        <h1 className="font-display text-display-2 font-semibold text-text-primary mb-2">{t("title")}</h1>
-        <p className="text-sm text-text-secondary">
-          {t.rich("foundCount", {
-            count: total,
-            b: (chunks) => <span className="text-accent-bright font-semibold tabular-nums">{chunks}</span>,
-          })}
-        </p>
+      <div className="mb-7 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h1 className="font-display text-display-2 font-semibold text-text-primary mb-2">{t("title")}</h1>
+          <p className="text-sm text-text-secondary">
+            {t.rich("foundCount", {
+              count: total,
+              b: (chunks) => <span className="text-accent-bright font-semibold tabular-nums">{chunks}</span>,
+            })}
+          </p>
+        </div>
+
+        {hasActiveFilters && (
+          <Link
+            href="/domains"
+            className="text-xs text-accent-bright hover:underline flex items-center gap-1.5 self-start md:self-auto bg-bg-card px-3 py-1.5 rounded-lg border border-border"
+          >
+            <span>&times;</span>
+            <span>{t("clearAllFilters")}</span>
+          </Link>
+        )}
       </div>
 
-      <form method="GET" className="flex gap-2 mb-5">
+      {/* Thanh tìm kiếm */}
+      <form method="GET" className="flex gap-2 mb-4">
         {category && <input type="hidden" name="category" value={category} />}
+        {region && <input type="hidden" name="region" value={region} />}
+        {schedule && <input type="hidden" name="schedule" value={schedule} />}
         <input
           type="text"
           name="q"
           defaultValue={q || ""}
           placeholder={t("searchPlaceholder")}
-          className="flex-1 rounded-lg border border-border px-3 py-2 text-sm placeholder:text-text-muted focus:outline-none focus:border-border-strong transition-colors"
+          className="flex-1 rounded-xl border border-border bg-bg-card/75 px-3.5 py-2.5 text-sm placeholder:text-text-muted focus:outline-none focus:border-accent-500 transition-colors"
         />
-        <button type="submit" className="btn-accent rounded-lg px-4 py-2 text-sm">
+        <button type="submit" className="btn-accent rounded-xl px-5 py-2.5 text-sm font-semibold">
           {t("searchButton")}
         </button>
       </form>
 
-      <div className="surface-glass border border-border rounded-xl mb-6 p-3 sm:px-4 sm:py-3">
+      {/* Bộ lọc Nâng Cao Đa Chiều (Advanced Filters) */}
+      <div className="surface-glass border border-border/80 rounded-2xl mb-6 p-4 space-y-3.5 shadow-sm">
+        {/* Hàng 1: Loại Bí Cảnh */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-          <span className="text-xs text-text-muted font-medium shrink-0">{t("filterCategory")}</span>
-          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+          <span className="text-xs text-text-muted font-semibold shrink-0 sm:w-20">
+            {t("filterCategory")}:
+          </span>
+          <div className="flex flex-wrap items-center gap-1.5">
+            <Link
+              href={`/domains?${buildQuery({ category: undefined, page: undefined })}`}
+              aria-pressed={!category}
+              className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${
+                !category
+                  ? "bg-accent-500 text-bg-primary font-semibold shadow-sm"
+                  : "bg-bg-elevated/60 text-text-secondary hover:text-text-primary hover:bg-bg-elevated border border-border/50"
+              }`}
+            >
+              Tất cả
+            </Link>
             {CATEGORIES.map((c) => {
               const isActive = category === c;
               return (
                 <Link
                   key={c}
-                  href={`/domains?${buildQuery({ category: isActive ? undefined : c })}`}
+                  href={`/domains?${buildQuery({ category: isActive ? undefined : c, page: undefined })}`}
                   aria-pressed={isActive}
-                  className="chip px-3 py-1 rounded-full text-xs"
+                  className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${
+                    isActive
+                      ? "bg-accent-500 text-bg-primary font-semibold shadow-sm"
+                      : "bg-bg-elevated/60 text-text-secondary hover:text-text-primary hover:bg-bg-elevated border border-border/50"
+                  }`}
                 >
                   {CATEGORY_LABEL[c]}
                 </Link>
               );
             })}
-            {category && (
-              <Link
-                href={`/domains?${buildQuery({ category: undefined })}`}
-                className="ml-2 text-xs text-text-muted hover:text-text-primary transition-colors underline underline-offset-2"
-              >
-                {t("clearAllFilters")}
-              </Link>
-            )}
+          </div>
+        </div>
+
+        {/* Hàng 2: Khu Vực / Quốc Gia */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 pt-2.5 border-t border-border/40">
+          <span className="text-xs text-text-muted font-semibold shrink-0 sm:w-20">
+            {t("filterRegion")}:
+          </span>
+          <div className="flex flex-wrap items-center gap-1.5">
+            <Link
+              href={`/domains?${buildQuery({ region: undefined, page: undefined })}`}
+              aria-pressed={!region}
+              className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${
+                !region
+                  ? "bg-accent-500 text-bg-primary font-semibold shadow-sm"
+                  : "bg-bg-elevated/60 text-text-secondary hover:text-text-primary hover:bg-bg-elevated border border-border/50"
+              }`}
+            >
+              {t("regionAll")}
+            </Link>
+            {REGIONS.map((r) => {
+              const isActive = region === r;
+              return (
+                <Link
+                  key={r}
+                  href={`/domains?${buildQuery({ region: isActive ? undefined : r, page: undefined })}`}
+                  aria-pressed={isActive}
+                  className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${
+                    isActive
+                      ? "bg-accent-500 text-bg-primary font-semibold shadow-sm"
+                      : "bg-bg-elevated/60 text-text-secondary hover:text-text-primary hover:bg-bg-elevated border border-border/50"
+                  }`}
+                >
+                  {r}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Hàng 3: Lịch Mở / Lịch Farm */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 pt-2.5 border-t border-border/40">
+          <span className="text-xs text-text-muted font-semibold shrink-0 sm:w-20">
+            {t("filterSchedule")}:
+          </span>
+          <div className="flex flex-wrap items-center gap-1.5">
+            <Link
+              href={`/domains?${buildQuery({ schedule: undefined, page: undefined })}`}
+              aria-pressed={!schedule}
+              className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${
+                !schedule
+                  ? "bg-accent-500 text-bg-primary font-semibold shadow-sm"
+                  : "bg-bg-elevated/60 text-text-secondary hover:text-text-primary hover:bg-bg-elevated border border-border/50"
+              }`}
+            >
+              {t("scheduleAll")}
+            </Link>
+            {SCHEDULE_OPTIONS.map((s) => {
+              const isActive = schedule === s.id;
+              return (
+                <Link
+                  key={s.id}
+                  href={`/domains?${buildQuery({ schedule: isActive ? undefined : s.id, page: undefined })}`}
+                  aria-pressed={isActive}
+                  className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${
+                    isActive
+                      ? "bg-accent-500 text-bg-primary font-semibold shadow-sm"
+                      : "bg-bg-elevated/60 text-text-secondary hover:text-text-primary hover:bg-bg-elevated border border-border/50"
+                  }`}
+                >
+                  {s.label}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -167,6 +298,17 @@ export default async function DomainsPage({ params, searchParams }: PageProps) {
           {domains.map((d) => {
             const rawMats = (d.materials as unknown as Array<{ name: string; artifactSetId?: string; materialId?: string }>) ?? [];
             const previewMats = rawMats.slice(0, 3);
+            const badgeColor =
+              d.category === "trounce"
+                ? "bg-rose-500/80 text-white border-rose-300/40"
+                : d.category === "challenge"
+                ? "bg-emerald-500/80 text-white border-emerald-300/40"
+                : d.category === "artifact"
+                ? "bg-amber-500/80 text-white border-amber-300/40"
+                : d.category === "talent"
+                ? "bg-purple-500/80 text-white border-purple-300/40"
+                : "bg-teal-500/80 text-white border-teal-300/40";
+
             return (
               <Link
                 key={d.id}
@@ -196,14 +338,21 @@ export default async function DomainsPage({ params, searchParams }: PageProps) {
 
                   {/* Huy hiệu danh mục & khu vực nổi trên ảnh */}
                   <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between gap-2 pointer-events-none">
-                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold tracking-wide bg-black/60 backdrop-blur-md text-accent-bright border border-white/10 uppercase">
+                    <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-semibold tracking-wide backdrop-blur-md border uppercase ${badgeColor}`}>
                       {CATEGORY_LABEL[d.category] ?? d.category}
                     </span>
-                    {d.regionName && (
-                      <span className="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-black/50 backdrop-blur-md text-text-secondary border border-white/10">
-                        {d.regionName}
-                      </span>
-                    )}
+                    <div className="flex items-center gap-1.5">
+                      {d.recommendedLevel && (
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-medium bg-black/60 backdrop-blur-md text-amber-300 border border-amber-400/20">
+                          Lv.{d.recommendedLevel}
+                        </span>
+                      )}
+                      {d.regionName && (
+                        <span className="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-black/50 backdrop-blur-md text-text-secondary border border-white/10">
+                          {d.regionName}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
 

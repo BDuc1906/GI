@@ -17,67 +17,92 @@
  * Dark mode (forest deep teal #0d1f1c) là trải nghiệm chính chuẩn game.
  * Light mode = parchment ngà ấm #faf7f0 với viền và accent teal tự nhiên. */
 :root {
-  /* Kazuha Anemo Teal */
-  --kaz-50: #f0faf8;
-  --kaz-100: #e0f5f1;
-  --kaz-200: #b8e8df;
-  --kaz-300: #7dd4c7;
-  --kaz-400: #3ebfae;
-  --kaz-500: #2dd4bf;
-  --kaz-600: #1a7a6e;
-  --kaz-700: #145e55;
-  --kaz-800: #0f443e;
-  --kaz-900: #0a2e2a;
+  /* Kazuha Signature Multi-Color Palette:
+   * 1. Phong Diệp (Autumn Maple Crimson & Scarlet): áo choàng lá phong, lọn tóc đỏ, thắt lưng
+   * 2. Phong Linh (Anemo Jade Teal & Mint): Vision ngọc bích, gió cuốn Chihayaburu
+   * 3. Hổ Phách Mùa Thu (Maple Amber & Persimmon): viền phong diệp, lá đổi màu
+   * 4. Kim Hoàng (Antique Gold & Brass): khóa giáp samurai, viền áo hoàng kim
+   * 5. Dạ Y (Deep Samurai Charcoal & Slate): hakama, giáp vai samurai, không gian tĩnh mịch
+   * 6. Bạch Vân (Platinum Silver & Silk Cream): tóc bạc bạch kim, dải băng ngà */
 
-  /* Backward compatibility for legacy mint variables */
-  --mint-50: var(--kaz-50);
-  --mint-100: var(--kaz-100);
-  --mint-200: var(--kaz-200);
-  --mint-300: var(--kaz-300);
-  --mint-400: var(--kaz-400);
-  --mint-500: var(--kaz-500);
-  --mint-600: var(--kaz-600);
-  --mint-700: var(--kaz-700);
-  --mint-800: var(--kaz-800);
-  --mint-900: var(--kaz-900);
+  /* Kazuha Anemo Teal (Ngọc Bích Phong) */
+  --kaz-teal-50: #f0fdfa;
+  --kaz-teal-100: #ccfbf1;
+  --kaz-teal-200: #99f6e4;
+  --kaz-teal-300: #5eead4;
+  --kaz-teal-400: #2dd4bf;
+  --kaz-teal-500: #14b8a6;
+  --kaz-teal-600: #0d9488;
+  --kaz-teal-700: #0f766e;
+  --kaz-teal-800: #115e59;
+  --kaz-teal-900: #134e4a;
 
-  /* Kazuha Signature Accents */
-  --kaz-crimson: #b91c1c;
-  --kaz-crimson-bright: #ef4444;
-  --kaz-crimson-dim: #7f1d1d;
-  --kaz-maple: #e8774a;
-  --kaz-maple-bright: #f59e0b;
+  /* Kazuha Maple Crimson & Scarlet (Lá Phong Đỏ) */
+  --kaz-crimson: #dc2626;
+  --kaz-crimson-bright: #f43f5e;
+  --kaz-crimson-dim: #991b1b;
+  --kaz-crimson-deep: #7f1d1d;
 
-  /* NỀN MẶC ĐỊNH — THEO TÔNG MÀU NHÂN VẬT KAZUHA (Dark Samurai & Forest Teal)
-   * Không dùng nền trắng! Nền tối sâu thẳm đen-teal như trang phục và bối cảnh Kazuha */
-  --bg-primary: #0b1715;
-  --bg-secondary: #0e211e;
-  --bg-card: #122824;
-  --bg-elevated: #183530;
-  --bg-input: #0e1e1b;
+  /* Kazuha Autumn Amber & Gold (Cam Cháy & Hoàng Kim) */
+  --kaz-amber: #ea580c;
+  --kaz-amber-bright: #f97316;
+  --kaz-gold: #f59e0b;
+  --kaz-gold-bright: #fbbf24;
+  --kaz-cream: #fef3c7;
 
-  /* Chữ: Màu tóc bạch kim Kazuha & ánh ngọc */
-  --text-primary: #f0ede0;
-  --text-secondary: #9ac5bc;
-  --text-muted: #5f9088;
-  --text-inverted: #0b1715;
+  /* Backward compatibility */
+  --kaz-50: var(--kaz-teal-50);
+  --kaz-100: var(--kaz-teal-100);
+  --kaz-200: var(--kaz-teal-200);
+  --kaz-300: var(--kaz-teal-300);
+  --kaz-400: var(--kaz-teal-400);
+  --kaz-500: var(--kaz-teal-400);
+  --kaz-600: var(--kaz-teal-600);
+  --kaz-700: var(--kaz-teal-700);
+  --kaz-800: var(--kaz-teal-800);
+  --kaz-900: var(--kaz-teal-900);
+  --mint-50: var(--kaz-teal-50);
+  --mint-100: var(--kaz-teal-100);
+  --mint-200: var(--kaz-teal-200);
+  --mint-300: var(--kaz-teal-300);
+  --mint-400: var(--kaz-teal-400);
+  --mint-500: var(--kaz-teal-400);
+  --mint-600: var(--kaz-teal-600);
+  --mint-700: var(--kaz-teal-700);
+  --mint-800: var(--kaz-teal-800);
+  --mint-900: var(--kaz-teal-900);
+  --kaz-maple: var(--kaz-amber);
+  --kaz-maple-bright: var(--kaz-amber-bright);
 
-  /* Viền ngọc tinh tế */
-  --border-color: #1c3b35;
-  --border-strong: #2a554a;
+  /* NỀN SAMURAI DARK SLATE — Hài hòa với trang phục Kazuha (đen graphite + ánh xanh đêm) */
+  --bg-primary: #0c1219;
+  --bg-secondary: #101824;
+  --bg-card: #15202f;
+  --bg-elevated: #1b293c;
+  --bg-input: #0f1621;
 
-  /* Điểm nhấn Anemo Teal */
+  /* CHỮ: Màu tóc bạch kim Kazuha & ánh ngọc bạc */
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #8496ad;
+  --text-inverted: #0c1219;
+
+  /* VIỀN: Thép samurai viền ngọc phong */
+  --border-color: #1e2c40;
+  --border-strong: #2c3f5a;
+
+  /* ĐIỂM NHẤN CHÍNH: Anemo Teal kết hợp Maple Crimson & Amber */
   --accent-500: #2dd4bf;
   --accent-bright: #5eead4;
-  --accent-soft: #183530;
-  --gold-bright: var(--accent-bright);
+  --accent-soft: rgba(45, 212, 191, 0.12);
+  --gold-bright: #fbbf24;
 
   /* Trạng thái */
-  --success: #4ade80;
+  --success: #34d399;
   --danger: var(--kaz-crimson);
   --warning: #fbbf24;
 
-  /* Element Colors */
+  /* Nguyên tố Genshin Impact */
   --el-pyro: #ff6b3d;
   --el-hydro: #32b4e6;
   --el-anemo: #5cd4bc;
@@ -87,7 +112,7 @@
   --el-geo: #deb348;
 
   /* Rarity */
-  --rarity-5: #eac557;
+  --rarity-5: #f59e0b;
   --rarity-4: #a788d4;
   --rarity-3: #7aa5c6;
 
@@ -122,33 +147,27 @@
 
 /* === DARK THEME & ROOT ĐỒNG NHẤT MÀU KAZUHA === */
 [data-theme="dark"] {
-  --bg-primary: #0b1715;
-  --bg-secondary: #0e211e;
-  --bg-card: #122824;
-  --bg-elevated: #183530;
-  --bg-input: #0e1e1b;
+  --bg-primary: #0c1219;
+  --bg-secondary: #101824;
+  --bg-card: #15202f;
+  --bg-elevated: #1b293c;
+  --bg-input: #0f1621;
 
-  --text-primary: #f0ede0;
-  --text-secondary: #9ac5bc;
-  --text-muted: #5f9088;
-  --text-inverted: #0b1715;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #8496ad;
+  --text-inverted: #0c1219;
 
-  --border-color: #1c3b35;
-  --border-strong: #2a554a;
+  --border-color: #1e2c40;
+  --border-strong: #2c3f5a;
 
   --accent-500: #2dd4bf;
   --accent-bright: #5eead4;
-  --accent-soft: #183530;
-  --gold-bright: var(--accent-bright);
+  --accent-soft: rgba(45, 212, 191, 0.12);
+  --gold-bright: #fbbf24;
 
-  --mint-200: #5eead4;
-  --mint-300: #2dd4bf;
-  --mint-400: #14b8a6;
-  --mint-800: #115e59;
-  --mint-900: #0f3d38;
-
-  --success: #4ade80;
-  --danger: #f87171;
+  --success: #34d399;
+  --danger: #f43f5e;
   --warning: #fbbf24;
 
   --el-pyro: #ff6b3d;
@@ -369,6 +388,47 @@ body {
   background: linear-gradient(135deg, #2dd4bf 0%, #14b8a6 100%);
   transform: translateY(-1px);
   box-shadow: 0 4px 16px rgba(45, 212, 191, 0.45);
+}
+
+.btn-accent {
+  background: linear-gradient(135deg, #14b8a6 0%, #0d9488 45%, #b91c1c 100%);
+  color: #ffffff;
+  font-weight: 600;
+  border: 1px solid rgba(45, 212, 191, 0.45);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 2px 10px rgba(20, 184, 166, 0.25);
+  transition: all var(--transition-fast);
+}
+
+.btn-accent:hover {
+  background: linear-gradient(135deg, #2dd4bf 0%, #14b8a6 45%, #dc2626 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 18px rgba(45, 212, 191, 0.4);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  transition: all var(--transition-fast);
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+}
+
+.chip:hover {
+  color: var(--text-primary);
+  border-color: var(--accent-500);
+}
+
+.chip[aria-pressed="true"] {
+  background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+  color: #ffffff;
+  font-weight: 600;
+  border-color: #2dd4bf;
+  box-shadow: 0 2px 8px rgba(20, 184, 166, 0.3);
 }
 
 .btn-secondary {
