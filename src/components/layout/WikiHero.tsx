@@ -3,6 +3,7 @@
 import { SearchIcon } from "@/components/ui/UiIcon";
 import { useState } from "react";
 import { Link, useRouter } from "@/i18n/navigation";
+import { KazuhaMapleLeaves } from "@/components/effects/KazuhaMapleLeaves";
 
 /**
  * Wiki Hero 2026 — Kazuha "Autumn Breeze & Anemo Clarity"
@@ -52,6 +53,9 @@ export function WikiHero() {
           className="absolute inset-0 bg-gradient-to-b from-transparent via-bg-primary/50 to-bg-primary"
         />
       </div>
+
+      {/* Hiệu ứng lá phong rơi đặc trưng của Kaedehara Kazuha */}
+      <KazuhaMapleLeaves />
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-8">
         <div className="text-center">
