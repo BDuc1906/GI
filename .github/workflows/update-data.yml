@@ -75,7 +75,7 @@ jobs:
       - name: Check for changes in data/raw/
         id: diff
         run: |
-          git add data/raw/
+          git add -f data/raw/
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
