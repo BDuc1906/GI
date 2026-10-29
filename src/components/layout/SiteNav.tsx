@@ -57,16 +57,12 @@ export function SiteNav() {
           </div>
         </div>
 
-        {/* Ngôn ngữ + search: cả hai đều icon, ngôn ngữ đứng TRƯỚC search.
-            Hiện từ sm trở lên trên hàng chính; dưới sm chuyển xuống menu
-            mobile để không bóp méo layout. */}
-        <div className="hidden sm:flex items-center gap-2 ml-auto">
+        {/* Dark/Light toggle + Ngôn ngữ + Search — icon-only, hiện từ sm.
+            ThemeToggle tách riêng, đứng đầu hàng bên phải. */}
+        <div className="hidden sm:flex items-center gap-1.5 ml-auto">
+          <ThemeToggle />
           <LanguageSwitcher />
           <SearchBar />
-        </div>
-
-        <div className="hidden md:flex items-center gap-2">
-          <ThemeToggle />
         </div>
 
         {/* Nút hamburger: chỉ hiện dưới md */}
@@ -86,10 +82,13 @@ export function SiteNav() {
           đã có icon tương ứng ngay trên hàng chính. */}
       {menuOpen && (
         <div className="md:hidden border-t border-border px-4 py-4 flex flex-col gap-4 bg-bg-primary">
+          {/* Chỉ hiện dưới sm — từ sm trở lên đã có trên header chính */}
           <div className="sm:hidden flex items-center gap-2">
+            <ThemeToggle />
             <LanguageSwitcher />
             <SearchBar />
           </div>
+          {/* Nav links — hiện trong mobile menu (ẩn dưới lg trên header chính) */}
           <div className="flex flex-col gap-3">
             {NAV_LINKS.map((link) => (
               <Link
@@ -103,10 +102,6 @@ export function SiteNav() {
                 <span>{link.label}</span>
               </Link>
             ))}
-          </div>
-          <div className="flex items-center justify-between pt-2 border-t border-border">
-            <span className="text-sm text-text-secondary">{t("theme")}</span>
-            <ThemeToggle />
           </div>
         </div>
       )}

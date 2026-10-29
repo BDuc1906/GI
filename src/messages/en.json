@@ -55,6 +55,37 @@
     "title": "Elements",
     "description": "The 7 elements of Teyvat and their reactions"
   },
+  "Enemies": {
+    "title": "Enemies",
+    "description": "Full list of enemies in the game"
+  },
+  "Achievements": {
+    "title": "Achievements",
+    "description": "Full list of achievements and Primogem rewards",
+    "achievementGroups": "Achievement groups",
+    "achievements": "Achievements (showing first 100)"
+  },
+  "Food": {
+    "title": "Food",
+    "description": "Full list of food and cooking recipes"
+  },
+  "Geography": {
+    "title": "Viewpoints",
+    "description": "Full list of locations and viewpoints in the game"
+  },
+  "Materials": {
+    "title": "Materials",
+    "description": "Full list of ascension and upgrade materials"
+  },
+  "Navigation": {
+    "title": "Quick lookup shortcuts"
+  },
+  "Tools": {
+    "title": "Tools & Utilities"
+  },
+  "Version": {
+    "title": "Latest version updates"
+  },
   "ErrorPage": {
     "title": "Something Went Wrong",
     "description": "Unable to load data right now — this might be a temporary database connection issue. Please try again.",
