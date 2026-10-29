@@ -48,7 +48,7 @@ export async function WikiToolsHub() {
     {
       title: "Lịch Rơi Tài Nguyên Hôm Nay",
       href: "/calendar",
-      icon: "/local-genshin-assets/ui/condensed_resin.png",
+      icon: "/local-genshin-assets/ui/resin.png",
       description: "Theo dõi các bí cảnh mở sách thiên phú và nguyên liệu đột phá vũ khí theo từng ngày trong tuần.",
       tag: "Hàng Ngày",
       badgeColor: "bg-amber-500/15 text-amber-300 border-amber-500/30",
@@ -56,7 +56,7 @@ export async function WikiToolsHub() {
     {
       title: "Tạo Thẻ Nhân Vật Showcase",
       href: "/tools/showcase-card",
-      icon: "/local-genshin-assets/ui/calculator-character.png",
+      icon: "/local-genshin-assets/ui/namecard.png",
       description: "Xuất ảnh thẻ thông số nhân vật và trang bị độ phân giải cao để chia sẻ lên mạng xã hội.",
       tag: "Chia Sẻ",
       badgeColor: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",

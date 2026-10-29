@@ -33,8 +33,8 @@ jobs:
     permissions:
       issues: write
     env:
-      DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
-      DIRECT_URL: ${{ secrets.PROD_DIRECT_URL }}
+      DATABASE_URL: ${{ secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
+      DIRECT_URL: ${{ secrets.PROD_DIRECT_URL || secrets.DIRECT_URL || secrets.DATABASE_URL }}
     steps:
       - uses: actions/checkout@v7
 
@@ -48,8 +48,8 @@ jobs:
 
       - name: Validate production database secrets
         run: |
-          : "${DATABASE_URL:?Missing production database secret PROD_DATABASE_URL}"
-          : "${DIRECT_URL:?Missing production database secret PROD_DIRECT_URL}"
+          : "${DATABASE_URL:?Missing database secret (DATABASE_URL or PROD_DATABASE_URL)}"
+          : "${DIRECT_URL:?Missing database secret (DIRECT_URL, PROD_DIRECT_URL or DATABASE_URL)}"
 
       - name: Run translation consistency checker (read-only)
         run: npx tsx scripts/i18n/translation-consistency-checker.ts --check-terminology --check-formatting --check-length

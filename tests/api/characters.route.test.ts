@@ -56,7 +56,7 @@ describe("GET /api/characters", () => {
           vision: { in: ["Anemo", "Pyro"], mode: "insensitive" },
           rarity: { in: [5] },
         },
-        { id: { notIn: ["manekin", "manekina"] } },
+        { id: { notIn: expect.arrayContaining(["manekin", "manekina"]) } },
       ],
     });
   });

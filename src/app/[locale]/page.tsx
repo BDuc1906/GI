@@ -12,6 +12,7 @@ import { withDbRetry } from "@/lib/db/db-retry";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import type { Metadata } from "next";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
+import { PLAYABLE_CHARACTER_FILTER } from "@/core/game/character-catalog";
 
 export const revalidate = 60;
 
@@ -36,11 +37,12 @@ export default async function Home({ params }: HomePageProps) {
   const t = await getTranslations({ locale, namespace: "Home" });
   const tWeaponType = await getTranslations({ locale, namespace: "WeaponType" });
 
-  // Fetch data: Lấy 24 nhân vật đại diện đủ các hệ nguyên tố cho bộ lọc
+  // Fetch data: Lấy 24 nhân vật chơi được đại diện đủ các hệ nguyên tố cho bộ lọc
   const [charCount, rawCharacters] = await withDbRetry(() =>
     Promise.all([
-      prisma.character.count(),
+      prisma.character.count({ where: PLAYABLE_CHARACTER_FILTER }),
       prisma.character.findMany({
+        where: PLAYABLE_CHARACTER_FILTER,
         take: 24,
         orderBy: [{ rarity: 'desc' }, { updatedAt: 'desc' }],
         select: { id: true, name: true, nameTranslations: true, vision: true, weaponType: true, rarity: true, iconUrl: true },

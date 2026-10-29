@@ -156,18 +156,22 @@ export default async function DomainsPage({ params, searchParams }: PageProps) {
           {domains.map((d) => (
             <Link key={d.id} href={`/domains/${d.id}`} className="surface-card overflow-hidden group flex gap-3 p-3">
               <div className="relative w-16 h-16 shrink-0 rounded-lg bg-bg-elevated overflow-hidden">
-                {d.imageUrl ? (
-                  <SafeImage
-                    src={d.imageUrl}
-                    fallbackSrcs={[d.imageUrlOriginal]}
-                    alt={getLocalizedName(d, locale)}
-                    fill
-                    sizes="64px"
-                    className="object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-text-muted text-[10px]">—</div>
-                )}
+                <SafeImage
+                  src={d.imageUrl || "/local-genshin-assets/ui/domain.png"}
+                  fallbackSrcs={[d.imageUrlOriginal, "/local-genshin-assets/ui/domain.png"]}
+                  alt={getLocalizedName(d, locale)}
+                  fill
+                  sizes="64px"
+                  className="object-contain p-2"
+                  fallback={
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src="/local-genshin-assets/ui/domain.png"
+                      alt=""
+                      className="w-10 h-10 object-contain opacity-80"
+                    />
+                  }
+                />
               </div>
               <div className="min-w-0 flex flex-col justify-center">
                 <div className="text-eyebrow mb-1">{CATEGORY_LABEL[d.category] ?? d.category}</div>

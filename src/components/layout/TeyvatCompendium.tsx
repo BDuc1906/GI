@@ -60,7 +60,7 @@ const COMPENDIUM_ITEMS: CompendiumItem[] = [
     id: "domains",
     title: "Bí Cảnh & Khiêu Chiến",
     description: "Bí cảnh thánh di vật, sách thiên phú & nguyên liệu vũ khí",
-    icon: "/local-genshin-assets/ui/condensed_resin.png",
+    icon: "/local-genshin-assets/ui/domain.png",
     href: "/domains",
     tag: "Phụ bản",
     category: "combat",

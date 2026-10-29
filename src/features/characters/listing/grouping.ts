@@ -32,6 +32,9 @@ export function groupCharactersForListing(characters: Character[]): CharacterGro
       const bucket = travelerByElement.get(c.vision) ?? {};
       bucket.girl = c;
       travelerByElement.set(c.vision, bucket);
+    } else if (c.id === "aether" || c.id === "lumine") {
+      // Bỏ qua Aether/Lumine độc lập vì toàn bộ các biến thể Traveler đã gom nhóm ở trên
+      continue;
     } else {
       nonTraveler.push(c);
     }

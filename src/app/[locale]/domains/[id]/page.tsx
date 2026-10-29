@@ -142,19 +142,25 @@ export default async function DomainDetail({ params }: PageProps) {
         className="mb-8"
       >
         <div className="flex flex-col sm:flex-row gap-6 p-6">
-          {d.imageUrl && (
             <div className="relative w-40 h-40 rounded-xl border border-border bg-bg-card shrink-0 overflow-hidden">
               <SafeImage
-                src={d.imageUrl}
-                fallbackSrcs={[d.imageUrlOriginal]}
+                src={d.imageUrl || "/local-genshin-assets/ui/domain.png"}
+                fallbackSrcs={[d.imageUrlOriginal, "/local-genshin-assets/ui/domain.png"]}
                 alt={d.name}
                 fill
                 sizes="160px"
-                className="object-cover"
+                className="object-contain p-4"
                 fallbackClassName="w-full h-full flex items-center justify-center text-text-muted text-[10px]"
+                fallback={
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src="/local-genshin-assets/ui/domain.png"
+                    alt=""
+                    className="w-20 h-20 object-contain opacity-80"
+                  />
+                }
               />
             </div>
-          )}
           <div>
             <div className="text-xs uppercase tracking-wider text-text-secondary font-medium mb-1">
               {CATEGORY_LABEL[d.category] ?? d.category}

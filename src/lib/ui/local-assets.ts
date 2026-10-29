@@ -63,7 +63,7 @@ export function localUiIcon(name: string): string {
   if (n === "characters" || n === "character") return "/local-genshin-assets/ui/characters.png";
   if (n === "artifacts" || n === "artifact") return "/local-genshin-assets/ui/artifacts.png";
   if (n === "enemies" || n === "enemy") return "/local-genshin-assets/ui/enemy.png";
-  if (n === "domains" || n === "domain") return "/local-genshin-assets/ui/condensed_resin.png";
+  if (n === "domains" || n === "domain") return "/local-genshin-assets/ui/domain.png";
   if (n === "materials" || n === "material") return "/local-genshin-assets/ui/items.png";
   if (n === "foods" || n === "food") return "/local-genshin-assets/ui/food.png";
   if (n === "crafts" || n === "craft") return "/local-genshin-assets/ui/craft.png";

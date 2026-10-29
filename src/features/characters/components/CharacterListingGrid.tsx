@@ -63,7 +63,13 @@ export async function CharacterListingGrid({ locale, grouping }: CharacterListin
                   name={`${t("traveler")} (${getElementNameByKey(el, locale)})`}
                   subtitle={tWeaponType("Sword")}
                   rarity={target.rarity}
-                  imageSrc={boyImg || girlImg}
+                  imageSrc={boyImg || girlImg || "/local-genshin-assets/characters/icon/aether.png"}
+                  fallbackSrcs={[
+                    boy?.iconUrlOriginal,
+                    girl?.iconUrlOriginal,
+                    "/local-genshin-assets/characters/icon/aether.png",
+                    "/local-genshin-assets/characters/icon/lumine.png",
+                  ]}
                   aspect="square"
                   imageFit="contain"
                   compact

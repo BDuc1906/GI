@@ -32,7 +32,7 @@ export async function QuickNavigation() {
     {
       label: "Nguyên liệu",
       href: "/materials",
-      icon: "/local-genshin-assets/ui/mora.png",
+      icon: "/local-genshin-assets/ui/items.png",
       description: "Đồ đột phá & Đặc sản vùng miền",
       accent: "var(--el-dendro)",
       tag: "Vật phẩm",
@@ -40,7 +40,7 @@ export async function QuickNavigation() {
     {
       label: "Bí cảnh",
       href: "/domains",
-      icon: "/local-genshin-assets/ui/commission.png",
+      icon: "/local-genshin-assets/ui/domain.png",
       description: "Lịch rơi nguyên liệu theo thứ",
       accent: "var(--el-electro)",
       tag: "Lịch farm",
@@ -48,7 +48,7 @@ export async function QuickNavigation() {
     {
       label: "Kẻ địch & Boss",
       href: "/enemies",
-      icon: "/local-genshin-assets/ui/paimon_faq.png",
+      icon: "/local-genshin-assets/ui/enemy.png",
       description: "Thủ lĩnh thế giới & Boss tuần",
       accent: "var(--el-hydro)",
       tag: "Chiến đấu",

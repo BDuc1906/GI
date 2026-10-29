@@ -33,7 +33,12 @@ export function ElementIcon({
 }) {
   const [broken, setBroken] = useState(false);
 
-  const v = (vision || "Anemo").toLowerCase().trim();
+  const v = (vision || "").toLowerCase().trim();
+  const VALID_ELEMENTS = new Set(["anemo", "cryo", "dendro", "electro", "geo", "hydro", "pyro"]);
+  if (!v || v === "none" || !VALID_ELEMENTS.has(v)) {
+    return null;
+  }
+
   // Primary: official game vector SVG; fallback to PNG or CDN proxy
   const localAsset = `/local-genshin-assets/elements/${v}.svg`;
   const cdnFallback = iconUrl ? toProxiedUrl(iconUrl) : `/local-genshin-assets/elements/${v}.png`;

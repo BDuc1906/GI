@@ -71,18 +71,23 @@ jobs:
         run: npx prisma generate
 
       - name: Validate production database secrets
+        id: check_db
         run: |
-          : "${DATABASE_URL:?Missing production database secret PROD_DATABASE_URL}"
-          : "${DIRECT_URL:?Missing production database secret PROD_DIRECT_URL}"
+          if [ -z "$DATABASE_URL" ]; then
+            echo "has_db=false" >> $GITHUB_OUTPUT
+            echo "::warning::Missing database secret (DATABASE_URL or PROD_DATABASE_URL). Skipping auto-fix."
+          else
+            echo "has_db=true" >> $GITHUB_OUTPUT
+          fi
         env:
-          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
-          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL }}
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
 
       - name: Quét & tự sửa (AutoFixEngine)
+        if: steps.check_db.outputs.has_db == 'true'
         run: npx tsx scripts/pipeline/auto-fix.ts
         env:
-          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
-          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL }}
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL || secrets.DIRECT_URL || secrets.DATABASE_URL }}
           AGENT_LIVE_PROVIDER: ${{ vars.AGENT_LIVE_PROVIDER }}
           OPS_WEBHOOK_URL: ${{ secrets.OPS_WEBHOOK_URL }}
 
@@ -91,13 +96,15 @@ jobs:
       # biệt "lỗi tạm thời" (thường tự hết sau vài phút) với "dữ liệu
       # live đã đổi thật" (ổn định qua nhiều lần đọc).
       - name: Đợi 30 phút trước khi kiểm tra lại
+        if: steps.check_db.outputs.has_db == 'true'
         run: sleep 1800
 
       - name: Kiểm tra lại + tự revert nếu live không còn khớp
+        if: steps.check_db.outputs.has_db == 'true'
         run: npx tsx scripts/pipeline/verify-rollback.ts --window-minutes=40
         env:
-          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
-          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL }}
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL || secrets.DIRECT_URL || secrets.DATABASE_URL }}
           AGENT_LIVE_PROVIDER: ${{ vars.AGENT_LIVE_PROVIDER }}
           OPS_WEBHOOK_URL: ${{ secrets.OPS_WEBHOOK_URL }}
 

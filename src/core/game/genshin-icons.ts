@@ -22,7 +22,7 @@ export async function getGameIcon(category: string): Promise<string> {
       return '/local-genshin-assets/ui/items.png';
     case 'domains':
     case 'bí cảnh':
-      return '/local-genshin-assets/ui/condensed_resin.png';
+      return '/local-genshin-assets/ui/domain.png';
     case 'enemies':
     case 'kẻ địch':
       return '/local-genshin-assets/ui/enemy.png';

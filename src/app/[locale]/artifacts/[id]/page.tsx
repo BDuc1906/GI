@@ -1,4 +1,3 @@
-
 import { getArtifactSetById } from "@/lib/db/cached-queries";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -13,6 +12,7 @@ import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { ArtifactSourceDomain } from "@/features/artifacts/components/ArtifactSourceDomain";
 import { ArtifactRecommendedCharacters } from "@/features/artifacts/components/ArtifactRecommendedCharacters";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
+import { localArtifactPiece, localArtifactSetIcon } from "@/lib/ui/local-assets";
 
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -98,6 +98,7 @@ export default async function ArtifactDetail({ params }: PageProps) {
             >
               <SafeImage
                 src={a.iconUrl}
+                fallbackSrcs={[localArtifactSetIcon(a.id), "/local-genshin-assets/ui/artifacts.png"]}
                 alt={a.name}
                 fill
                 sizes="160px"
@@ -142,22 +143,27 @@ export default async function ArtifactDetail({ params }: PageProps) {
             if (!val) return null;
             const imgUrl = resolvePieceImage(val);
             const pieceName = resolvePieceName(val, key, PIECE_LABELS);
+            const validPieceKeys = ["flower", "feather", "sands", "goblet", "circlet"] as const;
+            const pieceKey = validPieceKeys.includes(key as (typeof validPieceKeys)[number])
+              ? (key as (typeof validPieceKeys)[number])
+              : "flower";
 
             return (
               <div key={key} className="surface-card p-4 flex flex-col items-center text-center group">
                 <div className="relative w-16 h-16 mb-3 bg-bg-elevated rounded-lg overflow-hidden flex items-center justify-center p-1 group-hover:scale-105 transition-transform">
-                  {imgUrl ? (
-                    <SafeImage
-                      src={imgUrl}
-                      alt={pieceName}
-                      fill
-                      sizes="64px"
-                      className="object-contain"
-                      fallbackClassName="w-full h-full flex items-center justify-center text-text-muted text-[10px]"
-                    />
-                  ) : (
-                    <div className="text-text-muted text-[10px]">No Image</div>
-                  )}
+                  <SafeImage
+                    src={imgUrl}
+                    fallbackSrcs={[
+                      localArtifactPiece(a.id, pieceKey),
+                      localArtifactSetIcon(a.id),
+                      "/local-genshin-assets/ui/artifacts.png",
+                    ]}
+                    alt={pieceName}
+                    fill
+                    sizes="64px"
+                    className="object-contain"
+                    fallbackClassName="w-full h-full flex items-center justify-center text-text-muted text-[10px]"
+                  />
                 </div>
                 <div className="text-eyebrow mb-1">{PIECE_LABELS[key] ?? key}</div>
                 <div className="font-semibold text-text-primary line-clamp-2 text-xs" title={pieceName}>

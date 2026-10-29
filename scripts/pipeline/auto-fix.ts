@@ -1,4 +1,4 @@
-﻿/**
+/**
  * scripts/pipeline/auto-fix.ts
  *
  * Quét TOÀN BỘ dữ liệu qua AutoFixEngine (rule-based, mỗi rule chỉ được
@@ -14,6 +14,17 @@
  * (được gọi tự động bởi .github/workflows/auto-fix.yml — KHÔNG dùng
  * --env-file ở đó vì GitHub Actions đã inject env trực tiếp)
  */
+
+if (!process.env.DATABASE_URL && process.env.PROD_DATABASE_URL) {
+  process.env.DATABASE_URL = process.env.PROD_DATABASE_URL;
+}
+if (!process.env.DIRECT_URL && process.env.PROD_DIRECT_URL) {
+  process.env.DIRECT_URL = process.env.PROD_DIRECT_URL;
+}
+if (!process.env.DATABASE_URL) {
+  console.warn("[auto-fix] DATABASE_URL không được cung cấp. Bỏ qua auto-fix scan.");
+  process.exit(0);
+}
 
 import { assertEnv } from "../../src/lib/infra/env";
 assertEnv();

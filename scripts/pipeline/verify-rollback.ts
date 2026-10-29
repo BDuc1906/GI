@@ -1,4 +1,4 @@
-﻿/**
+/**
  * scripts/pipeline/verify-rollback.ts
  *
  * LƯỚI AN TOÀN cho scripts/pipeline/auto-fix.ts — vì AutoFixEngine chỉ
@@ -18,6 +18,17 @@
  * (được gọi bởi .github/workflows/auto-fix.yml, ~30 phút SAU auto-fix.ts,
  * trong cùng 1 job)
  */
+
+if (!process.env.DATABASE_URL && process.env.PROD_DATABASE_URL) {
+  process.env.DATABASE_URL = process.env.PROD_DATABASE_URL;
+}
+if (!process.env.DIRECT_URL && process.env.PROD_DIRECT_URL) {
+  process.env.DIRECT_URL = process.env.PROD_DIRECT_URL;
+}
+if (!process.env.DATABASE_URL) {
+  console.warn("[verify-rollback] DATABASE_URL không được cung cấp. Bỏ qua verify rollback.");
+  process.exit(0);
+}
 
 import { assertEnv } from "../../src/lib/infra/env";
 assertEnv();

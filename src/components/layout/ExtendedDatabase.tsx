@@ -60,25 +60,25 @@ export function ExtendedDatabase() {
     {
       title: "Món ăn",
       description: "Công thức nấu ăn & hiệu ứng",
-      icon: "/local-genshin-assets/ui/items.png",
+      icon: "/local-genshin-assets/ui/food.png",
       href: "/food",
     },
     {
       title: "Địa lý",
       description: "Vùng đất & khu vực trong Teyvat",
-      icon: "/local-genshin-assets/ui/commission.png",
+      icon: "/local-genshin-assets/ui/geography.png",
       href: "/geography",
     },
     {
       title: "Công thức chế tạo",
       description: "Adventurer Handbook — chế đồ",
-      icon: "/local-genshin-assets/ui/items.png",
+      icon: "/local-genshin-assets/ui/craft.png",
       href: "/crafts",
     },
     {
       title: "Động vật",
       description: "Sinh vật hiền hoà trong thế giới mở",
-      icon: "/local-genshin-assets/ui/paimon_faq.png",
+      icon: "/local-genshin-assets/ui/animal.png",
       href: "/animals",
     },
     {
@@ -90,19 +90,19 @@ export function ExtendedDatabase() {
     {
       title: "Danh thiếp",
       description: "Thư viện namecard",
-      icon: "/local-genshin-assets/ui/characters.png",
+      icon: "/local-genshin-assets/ui/namecard.png",
       href: "/namecards",
     },
     {
       title: "Trang phục",
       description: "Trang phục nhân vật",
-      icon: "/local-genshin-assets/ui/calculator-character.png",
+      icon: "/local-genshin-assets/ui/outfit.png",
       href: "/outfits",
     },
     {
       title: "Dù lượn",
       description: "Thư viện dù lượn",
-      icon: "/local-genshin-assets/ui/artifacts.png",
+      icon: "/local-genshin-assets/ui/windglider.png",
       href: "/windgliders",
     },
     {
