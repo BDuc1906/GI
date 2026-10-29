@@ -41,7 +41,7 @@ interface PersonalizedCalendarViewProps {
 const MAX_MATERIALS_SHOWN = 6;
 
 export function PersonalizedCalendarView({
-  selectedDay,
+  selectedDay: _selectedDay,
   weekdayLabel,
   categoryLabels,
   domains,
@@ -94,7 +94,7 @@ export function PersonalizedCalendarView({
       domain: d,
       matchedTargets: getDomainTargetMatches(d),
     }));
-  }, [domains, materialToTargetsMap]);
+  }, [domains, materialToTargetsMap, getDomainTargetMatches]);
 
   const myDomainsCount = useMemo(() => {
     return domainsWithMatches.filter((item) => item.matchedTargets.length > 0).length;

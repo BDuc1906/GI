@@ -1,42 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useSyncExternalStore } from "react";
-
-// ── localStorage helper (SSR-safe via useSyncExternalStore) ──────────────────
-function subscribe(cb: () => void) {
-  window.addEventListener("storage", cb);
-  return () => window.removeEventListener("storage", cb);
-}
-function useLocalStorage<T>(key: string, fallback: T): [T, (v: T) => void] {
-  const snap = useSyncExternalStore(
-    subscribe,
-    () => {
-      try {
-        const raw = window.localStorage.getItem(key);
-        return raw ?? null;
-      } catch {
-        return null;
-      }
-    },
-    () => null
-  );
-
-  const value: T = snap !== null ? (JSON.parse(snap) as T) : fallback;
-
-  const set = useCallback(
-    (v: T) => {
-      try {
-        window.localStorage.setItem(key, JSON.stringify(v));
-        window.dispatchEvent(new Event("storage"));
-      } catch {
-        // ignore
-      }
-    },
-    [key]
-  );
-
-  return [value, set];
-}
+import { useState, useEffect, useCallback } from "react";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 interface CharacterOption {
@@ -73,7 +37,6 @@ export function ShowcaseCardGeneratorClient() {
   // ── Fetch characters on mount ────────────────────────────────────────────
   useEffect(() => {
     const controller = new AbortController();
-    setLoadingChars(true);
 
     fetch("/api/characters?limit=200&sort=-rarity", { signal: controller.signal })
       .then((r) => r.json())
@@ -97,13 +60,15 @@ export function ShowcaseCardGeneratorClient() {
   useEffect(() => {
     if (!selectedChar) return;
     const controller = new AbortController();
-    setLoadingWeapons(true);
-    setSelectedWeaponId("");
 
     fetch(`/api/weapons?type=${selectedChar.weaponType}&limit=200&sort=-rarity`, {
       signal: controller.signal,
     })
-      .then((r) => r.json())
+      .then((r) => {
+        setLoadingWeapons(true);
+        setSelectedWeaponId("");
+        return r.json();
+      })
       .then((json) => {
         if (json.success && Array.isArray(json.data)) {
           const list = json.data as WeaponOption[];

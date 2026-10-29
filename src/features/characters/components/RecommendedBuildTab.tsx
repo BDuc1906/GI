@@ -24,11 +24,6 @@ function getMainStatRecommendation(vision: string, weaponType: string) {
     vision === "Cryo" || vision === "Physical";
   const isCatalyst = weaponType === "Catalyst";
   const isPhysicalBow = weaponType === "Bow" && isPhysical;
-  const isReaction =
-    vision === "Pyro" || vision === "Hydro" || vision === "Electro" || vision === "Dendro" || vision === "Cryo";
-
-  // Support / Healer: ER%, Healing Bonus%/Vision DMG%, HP%
-  const isSupport = weaponType === "Catalyst" && (vision === "Hydro" || vision === "Dendro");
 
   if (isAnemo) {
     return {

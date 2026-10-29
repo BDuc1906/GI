@@ -3,7 +3,6 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/db/prisma";
 import { withDbRetry } from "@/lib/db/db-retry";
-import { SafeImage } from "@/components/ui/SafeImage";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
@@ -39,8 +38,6 @@ interface DomainMaterialEntry {
   materialId?: string | null;
   name: string;
 }
-
-const MAX_MATERIALS_SHOWN = 6;
 
 export async function generateMetadata({
   params,

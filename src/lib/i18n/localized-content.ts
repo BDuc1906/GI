@@ -86,7 +86,7 @@ export function getLocalizedTalents(
   const targetLang = GENSHINDB_LANGUAGE_MAP[locale];
   if (targetLang && characterName) {
     try {
-      const gTalents = genshindb.talents(characterName, { resultLanguage: targetLang }) as Record<string, any> | undefined;
+      const gTalents = genshindb.talents(characterName, { resultLanguage: targetLang }) as Record<string, unknown> | undefined;
       if (gTalents) {
         const talentKeyMap: Record<string, string> = {
           normalAttack: "combat1",
@@ -102,9 +102,11 @@ export function getLocalizedTalents(
           const gTal = gTalents[gKey];
           if (!gTal) return tal;
 
-          const localizedName = gTal.name || tal.name;
-          const localizedDesc = gTal.description || tal.description;
-          const localizedLabels = gTal.attributes?.labels as string[] | undefined;
+          interface GenshinTalent { name?: string; description?: string; attributes?: { labels?: string[] } }
+          const gTalTyped = gTal as GenshinTalent;
+          const localizedName = gTalTyped.name || tal.name;
+          const localizedDesc = gTalTyped.description || tal.description;
+          const localizedLabels = gTalTyped.attributes?.labels as string[] | undefined;
 
           return {
             ...tal,
@@ -171,16 +173,18 @@ export function getLocalizedConstellations(
   const targetLang = GENSHINDB_LANGUAGE_MAP[locale];
   if (targetLang && characterName) {
     try {
-      const gConst = genshindb.constellations(characterName, { resultLanguage: targetLang }) as Record<string, any> | undefined;
+      const gConst = genshindb.constellations(characterName, { resultLanguage: targetLang }) as Record<string, unknown> | undefined;
       if (gConst) {
         const cKeys = ["c1", "c2", "c3", "c4", "c5", "c6"];
         return constellations.map((cs, i) => {
           const gC = gConst[cKeys[i]];
           if (!gC) return cs;
+          interface GenshinConst { name?: string; description?: string }
+          const gCTyped = gC as GenshinConst;
           return {
             ...cs,
-            name: gC.name || cs.name,
-            description: gC.description || cs.description,
+            name: gCTyped.name || cs.name,
+            description: gCTyped.description || cs.description,
           };
         });
       }
@@ -216,13 +220,15 @@ export function getLocalizedRefinements<T extends { description: string }>(
   const targetLang = GENSHINDB_LANGUAGE_MAP[locale];
   if (targetLang && weaponName) {
     try {
-      const gWeapon = genshindb.weapons(weaponName, { resultLanguage: targetLang }) as Record<string, any> | undefined;
+      const gWeapon = genshindb.weapons(weaponName, { resultLanguage: targetLang }) as Record<string, unknown> | undefined;
       if (gWeapon) {
         const rKeys = ["r1", "r2", "r3", "r4", "r5"];
         return passiveByRefinement.map((r, i) => {
           const gR = gWeapon[rKeys[i]];
-          if (!gR?.description) return r;
-          return { ...r, description: gR.description };
+          interface GenshinRefinement { description?: string }
+          const gRTyped = gR as GenshinRefinement;
+          if (!gRTyped?.description) return r;
+          return { ...r, description: gRTyped.description };
         });
       }
     } catch {

@@ -1,5 +1,4 @@
 
-import { prisma } from "@/lib/db/prisma";
 import { getArtifactSetById } from "@/lib/db/cached-queries";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";

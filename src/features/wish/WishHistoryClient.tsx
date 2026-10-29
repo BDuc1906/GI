@@ -146,7 +146,7 @@ export function WishHistoryClient() {
   const softPity = activeTab === "weapon" ? 64 : 74;
 
   const fiveStarsInBanner = currentBannerWishes.filter((w) => w.rankType === "5");
-  const fourStarsInBanner = currentBannerWishes.filter((w) => w.rankType === "4");
+  const _fourStarsInBanner = currentBannerWishes.filter((w) => w.rankType === "4");
 
   const avgRollsPerFiveStar =
     fiveStarsInBanner.length > 0

@@ -26,7 +26,7 @@ interface ArtifactListingClientProps {
 
 const DENSE_GRID = "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3";
 
-export function ArtifactListingClient({ initialSets, locale }: ArtifactListingClientProps) {
+export function ArtifactListingClient({ initialSets, locale: _locale }: ArtifactListingClientProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedRarity, setSelectedRarity] = useState<number | "all">("all");
   const [selectedCategory, setSelectedCategory] = useState<ArtifactStatCategory>("all");

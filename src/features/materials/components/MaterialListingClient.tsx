@@ -25,7 +25,7 @@ interface MaterialListingClientProps {
 
 const DENSE_GRID = "grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3";
 
-export function MaterialListingClient({ initialMaterials, locale }: MaterialListingClientProps) {
+export function MaterialListingClient({ initialMaterials, locale: _locale }: MaterialListingClientProps) {
   const [selectedCategory, setSelectedCategory] = useState<MaterialCategoryKey>("all");
   const [searchQuery, setSearchQuery] = useState("");
 

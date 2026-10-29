@@ -32,7 +32,6 @@ import {
 } from "@/lib/i18n/localized-content";
 import { isNonPlayableCharacterId } from "@/core/game/character-catalog";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
-import { Link } from "@/i18n/navigation";
 import { getSimilarCharacters } from "@/features/similarity/similarity-service";
 
 interface PageProps {

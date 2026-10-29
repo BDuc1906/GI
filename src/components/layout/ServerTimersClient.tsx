@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ArtTile } from "@/components/ui/ArtTile";
 
 export function ServerTimersClient() {
   const [asiaTime, setAsiaTime] = useState("");

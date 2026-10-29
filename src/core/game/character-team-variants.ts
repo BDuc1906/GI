@@ -368,7 +368,7 @@ function generateDynamicVariants(
   if (v === "Dendro") {
     const electro1 = getTop("Electro", []);
     const hydro1 = getTop("Hydro", []);
-    const electro2 = getTop("Electro", [electro1?.id ?? ""]);
+    const _electro2 = getTop("Electro", [electro1?.id ?? ""]);
     const dendroBuffer = getTop("Dendro", []);
 
     return [
