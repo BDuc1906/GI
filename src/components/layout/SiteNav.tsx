@@ -21,7 +21,6 @@ export function SiteNav() {
 
   const NAV_LINKS = [
     { href: "/characters", label: t("characters"), icon: "/local-genshin-assets/ui/characters.png" },
-    { href: "/tier-list", label: "Tier List", icon: "/local-genshin-assets/ui/ascension_star.png" },
     { href: "/weapons", label: t("weapons"), icon: "/local-genshin-assets/ui/sword.png" },
     { href: "/artifacts", label: t("artifacts"), icon: "/local-genshin-assets/ui/artifacts.png" },
     { href: "/domains", label: t("domains"), icon: "/local-genshin-assets/ui/commission.png" },

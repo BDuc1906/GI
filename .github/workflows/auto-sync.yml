@@ -1,9 +1,9 @@
 name: Auto Sync Game Data
 
 on:
-  # Run daily at 2 AM UTC
+  # Run every 6 hours
   schedule:
-    - cron: '0 2 * * *'
+    - cron: '0 */6 * * *'
   
   # Run on demand
   workflow_dispatch:
@@ -20,6 +20,9 @@ on:
   # Run when genshin-db package is updated (would need webhook in production)
   repository_dispatch:
     types: [genshin-db-update]
+
+permissions:
+  contents: write
 
 # BUG ĐÃ SỬA (2026-09): thiếu 2 biến này khiến `npm ci` (hook postinstall:
 # prisma generate) báo PrismaConfigEnvError ngay ở bước cài dependency —
@@ -122,7 +125,7 @@ jobs:
       - name: Update genshin-db
         run: |
           echo "🔄 Updating genshin-db to latest version..."
-          npm update genshin-db
+          npm install "genshin-db@${{ needs.check-update.outputs.new_version }}" --save
           NEW_VERSION=$(node -p "require('./package.json').dependencies['genshin-db'].replace(/[\^~]/g, '')")
           echo "✅ Updated to genshin-db v$NEW_VERSION"
 
@@ -208,6 +211,19 @@ jobs:
           R2_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_R2_ACCOUNT_ID }}
           R2_PUBLIC_URL: ${{ secrets.R2_PUBLIC_URL }}
         run: npx tsx scripts/images/mirror-images-to-r2.ts
+
+      - name: Commit and push updated game data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json data/
+          if git diff --staged --quiet; then
+            echo "ℹ️ No changes to commit"
+          else
+            git commit -m "chore(data): auto-sync game data to genshin-db v${{ needs.check-update.outputs.new_version }} [skip ci]"
+            git push origin main
+            echo "🚀 Pushed updated game data to main (triggers automated Vercel deployment)"
+          fi
 
   notify-result:
     name: Notify Sync Result

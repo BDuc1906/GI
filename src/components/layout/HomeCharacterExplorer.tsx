@@ -67,12 +67,6 @@ export function HomeCharacterExplorer({
         </div>
         <div className="flex items-center gap-3 shrink-0 text-sm">
           <Link
-            href="/tier-list"
-            className="text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-accent-500/40 text-accent-bright hover:bg-accent-500/10 transition-colors"
-          >
-            Tier List Meta
-          </Link>
-          <Link
             href="/characters"
             className="text-xs sm:text-sm font-semibold text-text-secondary hover:text-text-primary hover:underline flex items-center gap-1"
           >

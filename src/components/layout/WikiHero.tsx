@@ -27,7 +27,7 @@ export function WikiHero() {
 
   const hotTags = [
     { label: "Kazuha", href: "/characters?search=Kazuha" },
-    { label: "Tier List", href: "/tier-list" },
+    { label: "Vũ khí 5★", href: "/weapons" },
     { label: "Dựng đội hình", href: "/tools/team-builder" },
     { label: "DPS Calculator", href: "/tools/dps-calculator" },
     { label: "Lịch Farm", href: "/calendar" },
@@ -118,10 +118,10 @@ export function WikiHero() {
               <span>Nhân vật</span>
             </Link>
             <Link
-              href="/tier-list"
+              href="/tools/team-builder"
               className="btn-anemo flex items-center justify-center px-6 py-3 rounded-xl shadow-md text-sm font-semibold tracking-wide"
             >
-              <span>Bảng xếp hạng Tier List</span>
+              <span>Dựng đội hình</span>
             </Link>
             <Link
               href="/weapons"

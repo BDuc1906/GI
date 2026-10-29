@@ -70,11 +70,11 @@ export async function WikiToolsHub() {
       badgeColor: "bg-blue-500/15 text-blue-300 border-blue-500/30",
     },
     {
-      title: "Bảng Xếp Hạng Meta Tier List",
-      href: "/tier-list",
+      title: "Tra Cứu Thành Tựu Ẩn",
+      href: "/achievements/hidden",
       icon: "/local-genshin-assets/ui/primogem.png",
-      description: "Phân hạng sức mạnh và vai trò nhân vật trong La Hoàn Thâm Cảnh theo meta phiên bản hiện tại.",
-      tag: "Xếp Hạng",
+      description: "Danh sách thành tựu ẩn kèm điều kiện mở khóa nhận Nguyên Thạch trong thế giới Teyvat.",
+      tag: "Thành Tựu",
       badgeColor: "bg-amber-500/15 text-amber-300 border-amber-500/30",
     },
   ];
