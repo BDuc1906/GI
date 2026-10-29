@@ -7,6 +7,8 @@
  * 100% sử dụng dữ liệu nhân vật thật từ PostgreSQL Prisma DB.
  */
 
+import { getCharacterBuild } from "@/data/character-builds-data";
+
 export interface TeamVariantMember {
   id: string;
   name: string;
@@ -439,6 +441,25 @@ export function buildCharacterTeamVariants(
 ): CharacterTeamVariant[] {
   const charKey = character.id.toLowerCase().replace(/[^a-z0-9]/g, "-");
   let blueprints = CANONICAL_VARIANTS[charKey];
+
+  if (!blueprints || blueprints.length === 0) {
+    const specificBuild = getCharacterBuild(character.id);
+    if (specificBuild?.teams && specificBuild.teams.length > 0) {
+      blueprints = specificBuild.teams.map((t) => ({
+        nameVi: t.nameVi,
+        situationVi: t.situationVi,
+        archetypeVi: t.archetypeVi,
+        teammateIds: t.teammateIds,
+        teammateRoles: t.teammateRoles as [
+          TeamVariantMember["roleVi"],
+          TeamVariantMember["roleVi"],
+          TeamVariantMember["roleVi"]
+        ],
+        reactionsVi: t.reactionsVi,
+        resonancesVi: t.resonancesVi,
+      }));
+    }
+  }
 
   if (!blueprints || blueprints.length === 0) {
     // Nhóm nhân vật theo vision để thuật toán sinh tự động

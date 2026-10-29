@@ -27,6 +27,7 @@
     "data:fix-vision": "tsx --env-file=.env scripts/fix/fix-vision-mismatch.ts",
     "images:mirror": "tsx --env-file=.env scripts/images/mirror-images-to-r2.ts",
     "data:update": "tsx scripts/sync/update-data.ts",
+    "builds:update": "tsx scripts/update-character-builds.ts",
     "db:full": "npm run data:update && npm run data:crawl && npm run db:seed && npm run images:mirror",
     "i18n:translate": "node scripts/i18n/i18n-translate.mjs",
     "i18n:translate-with-glossary": "tsx --env-file=.env scripts/i18n/translate-with-glossary.ts",

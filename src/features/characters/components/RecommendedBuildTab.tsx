@@ -22,6 +22,7 @@ import {
   localArtifactSetIcon,
 } from "@/lib/ui/local-assets";
 import { rarityTextClass } from "@/lib/ui/theme";
+import { getCharacterBuild } from "@/data/character-builds-data";
 
 // ─── Tier system ────────────────────────────────────────────────────────────
 
@@ -341,66 +342,186 @@ export async function RecommendedBuildTab({ character, locale, elementColor }: P
   const vision = character.vision ?? "Anemo";
   const weaponType = character.weaponType ?? "Sword";
 
-  // ── 1. Top 5 weapons ─────────────────────────────────────────────────
-  const topWeapons = await prisma.weapon.findMany({
-    where: {
-      type: weaponType,
-      rarity: { gte: 4 },
-    },
-    orderBy: [{ rarity: "desc" }, { baseAtk: "desc" }, { name: "asc" }],
-    select: {
-      id: true,
-      name: true,
-      rarity: true,
-      baseAtk: true,
-      subStatName: true,
-      subStatValue: true,
-      effectName: true,
-      iconUrl: true,
-      iconUrlOriginal: true,
-    },
-    take: 5,
-  });
+  const specificBuild = getCharacterBuild(character.id);
 
-  // ── 2. Top 4 artifact sets 5★ ────────────────────────────────────────
-  const allArtifacts = await prisma.artifactSet.findMany({
-    where: { rarityRange: { hasSome: [5] } },
-    select: {
-      id: true,
-      name: true,
-      twoPieceBonus: true,
-      fourPieceBonus: true,
-      iconUrl: true,
-      iconUrlOriginal: true,
-    },
-    orderBy: { name: "asc" },
-    take: 50,
-  });
+  // ── 1. Weapons: Specific build if available, else top 5 from DB ────────
+  type DisplayWeapon = {
+    id: string;
+    name: string;
+    rarity: number;
+    baseAtk: number | null;
+    subStatName: string | null;
+    subStatValue: string | null;
+    effectName: string | null;
+    iconUrl: string | null;
+    iconUrlOriginal: string | null;
+    tier: WeaponTier;
+    customNote?: string;
+  };
 
-  const scoredArtifacts = allArtifacts
-    .map((a) => ({
-      ...a,
-      _score: artifactMatchScore(vision, a.twoPieceBonus, a.fourPieceBonus),
-    }))
-    .sort((a, b) => b._score - a._score)
-    .slice(0, 4);
+  let weaponsToDisplay: DisplayWeapon[] = [];
+
+  if (specificBuild?.weapons && specificBuild.weapons.length > 0) {
+    const specificWeaponIds = specificBuild.weapons.map((w) => w.weaponId);
+    const dbWeapons = await prisma.weapon.findMany({
+      where: { id: { in: specificWeaponIds } },
+      select: {
+        id: true,
+        name: true,
+        rarity: true,
+        baseAtk: true,
+        subStatName: true,
+        subStatValue: true,
+        effectName: true,
+        iconUrl: true,
+        iconUrlOriginal: true,
+      },
+    });
+    const weaponMap = new Map(dbWeapons.map((w) => [w.id, w]));
+    const mappedWeapons: DisplayWeapon[] = [];
+    for (const sw of specificBuild.weapons) {
+      const w = weaponMap.get(sw.weaponId);
+      if (w) {
+        mappedWeapons.push({
+          ...w,
+          tier: sw.tier,
+          customNote: sw.noteVi,
+        });
+      }
+    }
+    weaponsToDisplay = mappedWeapons;
+  }
+
+  if (weaponsToDisplay.length === 0) {
+    const topWeapons = await prisma.weapon.findMany({
+      where: {
+        type: weaponType,
+        rarity: { gte: 4 },
+      },
+      orderBy: [{ rarity: "desc" }, { baseAtk: "desc" }, { name: "asc" }],
+      select: {
+        id: true,
+        name: true,
+        rarity: true,
+        baseAtk: true,
+        subStatName: true,
+        subStatValue: true,
+        effectName: true,
+        iconUrl: true,
+        iconUrlOriginal: true,
+      },
+      take: 5,
+    });
+    weaponsToDisplay = topWeapons.map((w, idx) => ({
+      ...w,
+      tier: getTierForRank(idx, w.rarity),
+    }));
+  }
+
+  // ── 2. Artifact sets: Specific build if available, else scored ────────
+  type DisplayArtifact = {
+    id: string;
+    name: string;
+    twoPieceBonus: string | null;
+    fourPieceBonus: string | null;
+    iconUrl: string | null;
+    iconUrlOriginal: string | null;
+    customNote?: string;
+  };
+
+  type DisplayCombo = {
+    a: { name: string };
+    b: { name: string };
+    customNote?: string;
+  };
+
+  let artifactsToDisplay: DisplayArtifact[] = [];
+  let twoTwoCombosToDisplay: DisplayCombo[] = [];
+
+  if (specificBuild?.artifacts && specificBuild.artifacts.length > 0) {
+    const specificSetIds = Array.from(new Set(specificBuild.artifacts.flatMap((a) => a.setIds)));
+    const dbArtifacts = await prisma.artifactSet.findMany({
+      where: { id: { in: specificSetIds } },
+      select: {
+        id: true,
+        name: true,
+        twoPieceBonus: true,
+        fourPieceBonus: true,
+        iconUrl: true,
+        iconUrlOriginal: true,
+      },
+    });
+    const artifactMap = new Map(dbArtifacts.map((a) => [a.id, a]));
+
+    const mappedArtifacts: DisplayArtifact[] = [];
+    for (const a of specificBuild.artifacts) {
+      if (a.mode === "4pc" || a.setIds.length === 1) {
+        const art = artifactMap.get(a.setIds[0]);
+        if (art) {
+          mappedArtifacts.push({
+            ...art,
+            customNote: a.noteVi,
+          });
+        }
+      }
+    }
+    artifactsToDisplay = mappedArtifacts;
+
+    const mappedCombos: DisplayCombo[] = [];
+    for (const a of specificBuild.artifacts) {
+      if (a.mode === "2+2" && a.setIds.length >= 2) {
+        const aSet = artifactMap.get(a.setIds[0]);
+        const bSet = artifactMap.get(a.setIds[1]);
+        if (aSet && bSet) {
+          mappedCombos.push({
+            a: { name: aSet.name },
+            b: { name: bSet.name },
+            customNote: a.noteVi,
+          });
+        }
+      }
+    }
+    twoTwoCombosToDisplay = mappedCombos;
+  }
+
+  if (artifactsToDisplay.length === 0) {
+    const allArtifacts = await prisma.artifactSet.findMany({
+      where: { rarityRange: { hasSome: [5] } },
+      select: {
+        id: true,
+        name: true,
+        twoPieceBonus: true,
+        fourPieceBonus: true,
+        iconUrl: true,
+        iconUrlOriginal: true,
+      },
+      orderBy: { name: "asc" },
+      take: 50,
+    });
+
+    artifactsToDisplay = allArtifacts
+      .map((a) => ({
+        ...a,
+        _score: artifactMatchScore(vision, a.twoPieceBonus, a.fourPieceBonus),
+      }))
+      .sort((a, b) => b._score - a._score)
+      .slice(0, 4);
+
+    if (artifactsToDisplay.length >= 2) {
+      twoTwoCombosToDisplay = [
+        { a: { name: artifactsToDisplay[0].name }, b: { name: artifactsToDisplay[1].name } },
+        artifactsToDisplay.length >= 4
+          ? { a: { name: artifactsToDisplay[2].name }, b: { name: artifactsToDisplay[3].name } }
+          : null,
+      ].filter((c): c is DisplayCombo => c !== null);
+    }
+  }
 
   // ── 3. Build-guide data ───────────────────────────────────────────────
-  const mainStats = getMainStats(vision, weaponType);
-  const subStats = getSubStatPriority(vision, weaponType);
-  const talentPriority = getTalentPriority(vision, weaponType);
-  const playstyleNote = getPlaystyleNote(vision, weaponType);
-
-  // 2+2 artifact combos (best 2 paired)
-  const twoTwoSets =
-    scoredArtifacts.length >= 2
-      ? [
-          { a: scoredArtifacts[0], b: scoredArtifacts[1] },
-          scoredArtifacts.length >= 4
-            ? { a: scoredArtifacts[2], b: scoredArtifacts[3] }
-            : null,
-        ].filter(Boolean)
-      : [];
+  const mainStats = specificBuild?.mainStats ?? getMainStats(vision, weaponType);
+  const subStats = specificBuild?.subStats ?? getSubStatPriority(vision, weaponType);
+  const talentPriority = specificBuild?.talentPriority ?? getTalentPriority(vision, weaponType);
+  const playstyleNote = specificBuild?.playstyleNoteVi ?? getPlaystyleNote(vision, weaponType);
 
   return (
     <section className="mb-10">
@@ -435,12 +556,11 @@ export async function RecommendedBuildTab({ character, locale, elementColor }: P
             <span className="text-xs text-text-secondary font-normal">({weaponType})</span>
           </h3>
           <div className="flex flex-col gap-2">
-            {topWeapons.length === 0 ? (
+            {weaponsToDisplay.length === 0 ? (
               <p className="text-text-secondary text-sm">Chưa có dữ liệu vũ khí.</p>
             ) : (
-              topWeapons.map((w, idx) => {
-                const tier = getTierForRank(idx, w.rarity);
-                const style = TIER_STYLES[tier];
+              weaponsToDisplay.map((w) => {
+                const style = TIER_STYLES[w.tier];
                 const localIcon = localWeaponIcon(w.id);
                 return (
                   <a
@@ -484,11 +604,15 @@ export async function RecommendedBuildTab({ character, locale, elementColor }: P
                             {w.subStatName}: {w.subStatValue}
                           </span>
                         )}
-                        {w.effectName && (
+                        {w.customNote ? (
+                          <span className="text-accent-bright font-medium truncate max-w-[200px]">
+                            • {w.customNote}
+                          </span>
+                        ) : w.effectName ? (
                           <span className="text-accent-bright/80 truncate max-w-[160px]">
                             {w.effectName}
                           </span>
-                        )}
+                        ) : null}
                       </div>
                     </div>
                   </a>
@@ -497,7 +621,7 @@ export async function RecommendedBuildTab({ character, locale, elementColor }: P
             )}
           </div>
           <p className="text-[11px] text-text-muted mt-2 pl-1">
-            Xếp hạng theo độ hiếm + ATK gốc. Tier S = tốt nhất cho nhân vật này.
+            Xếp hạng theo độ hiếm + hiệu quả tối ưu cho nhân vật. Tier S = tốt nhất.
           </p>
         </div>
 
@@ -507,10 +631,10 @@ export async function RecommendedBuildTab({ character, locale, elementColor }: P
             Thánh di vật đề xuất
           </h3>
           <div className="flex flex-col gap-2">
-            {scoredArtifacts.length === 0 ? (
+            {artifactsToDisplay.length === 0 ? (
               <p className="text-text-secondary text-sm">Chưa có dữ liệu thánh di vật.</p>
             ) : (
-              scoredArtifacts.map((a, idx) => {
+              artifactsToDisplay.map((a, idx) => {
                 const localIcon = localArtifactSetIcon(a.id);
                 return (
                   <a
@@ -547,8 +671,15 @@ export async function RecommendedBuildTab({ character, locale, elementColor }: P
                     </div>
 
                     <div className="flex-1 min-w-0">
-                      <div className="font-medium text-sm text-text-primary group-hover:text-accent-bright transition-colors">
-                        {a.name}
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium text-sm text-text-primary group-hover:text-accent-bright transition-colors">
+                          {a.name}
+                        </span>
+                        {a.customNote && (
+                          <span className="text-[11px] px-1.5 py-0.5 rounded bg-accent-500/10 text-accent-bright border border-accent-500/30 truncate">
+                            {a.customNote}
+                          </span>
+                        )}
                       </div>
                       {a.twoPieceBonus && (
                         <div className="text-xs text-text-secondary mt-1 line-clamp-1">
@@ -570,22 +701,26 @@ export async function RecommendedBuildTab({ character, locale, elementColor }: P
           </div>
 
           {/* 2+2 combo suggestions */}
-          {twoTwoSets.length > 0 && (
+          {twoTwoCombosToDisplay.length > 0 && (
             <div className="mt-3 p-3 rounded-xl border border-border bg-bg-overlay/40">
               <p className="text-xs font-medium text-text-primary mb-2">Kết hợp 2+2 thay thế:</p>
-              {twoTwoSets.map(
-                (combo, ci) =>
-                  combo && (
-                    <div key={ci} className="text-xs text-text-secondary flex items-center gap-1 mb-1 last:mb-0">
-                      <span className="text-accent-bright/70 font-medium shrink-0">
-                        {ci + 1}.
-                      </span>
-                      <span className="truncate">
-                        {combo.a.name} (2) + {combo.b.name} (2)
-                      </span>
-                    </div>
-                  )
-              )}
+              {twoTwoCombosToDisplay.map((combo, ci) => (
+                <div key={ci} className="text-xs text-text-secondary flex items-center justify-between gap-1 mb-1 last:mb-0">
+                  <div className="flex items-center gap-1 truncate">
+                    <span className="text-accent-bright/70 font-medium shrink-0">
+                      {ci + 1}.
+                    </span>
+                    <span className="truncate">
+                      {combo.a.name} (2) + {combo.b.name} (2)
+                    </span>
+                  </div>
+                  {combo.customNote && (
+                    <span className="text-[10px] text-text-muted shrink-0">
+                      {combo.customNote}
+                    </span>
+                  )}
+                </div>
+              ))}
               <p className="text-[11px] text-text-muted mt-1">
                 Dùng khi chưa hoàn thiện bộ 4 món. Hiệu quả thấp hơn ~5-10% so với 4 món.
               </p>
