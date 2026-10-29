@@ -7,18 +7,24 @@ interface UiIconProps {
   className?: string;
 }
 
-/** Icon tìm kiếm — dùng asset game Địa Lý (thấu kính / la bàn phong ấn) chuẩn Genshin */
+/** Icon tìm kiếm — biểu tượng kính lúp chuẩn (Magnifying Glass) */
 export function SearchIcon({ size = 18, className = "" }: UiIconProps) {
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src="/local-genshin-assets/ui/geography.png"
-      alt="Search"
+    <svg
       width={size}
       height={size}
-      className={`inline-block object-contain shrink-0 ${className}`}
-      loading="lazy"
-    />
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={`inline-block shrink-0 ${className}`}
+      aria-hidden="true"
+    >
+      <circle cx="11" cy="11" r="7" />
+      <path d="m21 21-4.35-4.35" />
+    </svg>
   );
 }
 
