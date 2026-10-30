@@ -26,10 +26,10 @@ export function BeginnerGuides() {
     {
       title: "Tính Nguyên Liệu Nâng Cấp",
       description: "Lập kế hoạch chính xác lượng Mora, sách EXP và vật phẩm đột phá lên cấp 90",
-      icon: "/local-genshin-assets/ui/items.png",
+      icon: "/local-genshin-assets/ui/calculator.png",
       href: "/tools/material-calculator",
       tag: "Công Cụ Tối Ưu",
-      bgImage: "/local-genshin-assets/ui/banner-builds.png",
+      bgImage: "/images/domains/UI_DungeonPic_XMCharacter01.png",
       badgeColor: "bg-amber-500/20 text-amber-300 border-amber-500/40",
       accentBorder: "hover:border-amber-400/80",
     },

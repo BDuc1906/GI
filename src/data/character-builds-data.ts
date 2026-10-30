@@ -1278,7 +1278,175 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
     playstyleNoteVi:
       "Q Royale Descent: convert NA -> Geo, ATK speed tăng, gain Superlative Superstrength stacks. Dùng stacks để Arataki Kesagiri CA (không tốn stamina). Gorou phải có để buff DEF +x3 Geo char. Albedo off-field Sub-DPS. Geo Resonance +15% DMG.",
   },
+
+  // ─── Geo Bow ───────────────────────────────────────────────────────────────
+
+  // Gorou: Geo DEF support chuyên buff DEF cho Mono Geo — Bow
+  gorou: {
+    weapons: [
+      { weaponId: "favonius-warbow", tier: "S", noteVi: "ER max để Q spam + energy cho team Geo" },
+      { weaponId: "elegy-for-the-end", tier: "A", noteVi: "ER + buff ATK 100 và EM 100 cho team sau Q" },
+      { weaponId: "sacrificial-bow", tier: "A", noteVi: "ER + E reset — giúp duy trì Q và khiên" },
+      { weaponId: "end-of-the-line", tier: "B", noteVi: "ER craft 4-star tốt F2P" },
+      { weaponId: "recurve-bow", tier: "C", noteVi: "ER 3-star budget" },
+    ],
+    artifacts: [
+      { setIds: ["husk-of-opulent-dreams"], mode: "4pc", priority: 1, noteVi: "DEF% + Geo DMG — passive Gorou buff thêm DMG theo DEF" },
+      { setIds: ["noblesse-oblige"], mode: "4pc", priority: 2, noteVi: "ATK team buff 20% khi Q — nếu không ai khác mang" },
+      { setIds: ["the-exile"], mode: "4pc", priority: 3, noteVi: "ER + energy team generation — budget F2P" },
+    ],
+    mainStats: {
+      sands: "ER%",
+      goblet: "DEF%",
+      circlet: "DEF% hoặc CRIT Rate",
+      note: "Gorou support: ER% bắt buộc (Q cost 80, không tự gen energy). DEF% để passive buff Geo DMG Bonus cho đội. Mỗi 100 DEF = thêm 1 layer buff.",
+    },
+    subStats: {
+      stats: ["Energy Recharge (ER 200%+)", "DEF%", "Flat DEF", "HP%", "CRIT Rate (nếu dư)"],
+      note: "Gorou ưu tiên ER tuyệt đối để spam Q liên tục. DEF% tăng passive buff Geo DMG Bonus cho đồng đội Geo. Không cần ATK hay EM.",
+    },
+    talentPriority: {
+      order: ["Nguyên tố bùng phát (Q)", "Kỹ năng nguyên tố (E)", "Đòn thường (NA)"],
+      note: "Q Juuga: Forward Unto Victory buff DEF, Geo DMG, Interrupt Res theo số Geo char. Level Q càng cao buff DEF càng nhiều. E tạo Glory construct.",
+    },
+    playstyleNoteVi:
+      "Gorou buff theo số Geo: 1 Geo = +DEF buff, 2 Geo = +Interrupt Res, 3+ Geo = +Geo DMG Bonus 15%. Q Juuga tạo aura buff liên tục. Itto + Gorou + Albedo = core Mono Geo tối ưu nhất. Gorou C4 heal theo DEF. C6 convert CRIT DMG thành Geo Skill CRIT DMG theo DEF.",
+  },
+
+  // ─── Geo Sword ─────────────────────────────────────────────────────────────
+
+  // Chiori: Geo off-field Sub-DPS scale DEF — Sword
+  chiori: {
+    weapons: [
+      { weaponId: "uraku-misugiri", tier: "S", noteVi: "Signature: DEF% + Elemental Skill DMG Bonus — tối ưu Chiori" },
+      { weaponId: "primordial-jade-cutter", tier: "S", noteVi: "CR 44.1% + HP% — rất mạnh nếu có" },
+      { weaponId: "haran-geppaku-futsu", tier: "A", noteVi: "Elemental DMG stack 3 lần + Skill DMG" },
+      { weaponId: "mistsplitter-reforged", tier: "A", noteVi: "Elemental DMG stack — ok thay thế" },
+      { weaponId: "festering-desire", tier: "B", noteVi: "Skill DMG + ER — tốt nhất 4-star craft F2P" },
+    ],
+    artifacts: [
+      { setIds: ["husk-of-opulent-dreams"], mode: "4pc", priority: 1, noteVi: "DEF% + Geo DMG stack passively off-field — tối ưu vì Chiori E scale DEF" },
+      { setIds: ["golden-troupe"], mode: "4pc", priority: 2, noteVi: "Elemental Skill DMG +70% khi off-field — Chiori E mạnh off-field" },
+      { setIds: ["husk-of-opulent-dreams", "archaic-petra"], mode: "2+2", priority: 3, noteVi: "DEF% + Geo DMG thay thế" },
+    ],
+    mainStats: {
+      sands: "DEF%",
+      goblet: "Geo DMG%",
+      circlet: "CRIT Rate hoặc CRIT DMG",
+      note: "Chiori E (Tamoto doll) scale DEF%. DEF% sands bắt buộc. DEF 2500+ mục tiêu. Geo DMG% goblet. CR/CD circlet 1:2.",
+    },
+    subStats: {
+      stats: ["CRIT Rate / CRIT DMG (1:2)", "DEF%", "Flat DEF", "Energy Recharge (ER 130%+)", "ATK%"],
+      note: "DEF% và CRIT để max Tamoto DMG. ER 130% để Q liên tục. Husk 4pc stack DEF + Geo DMG khi off-field. DEF 2500+ = ngưỡng tốt.",
+    },
+    talentPriority: {
+      order: ["Kỹ năng nguyên tố (E)", "Nguyên tố bùng phát (Q)", "Đòn thường (NA)"],
+      note: "E (Kinu + Tamoto construct off-field) là DPS chính scale DEF. Q tạo thêm Tamoto và buff Chiori. NA ít quan trọng khi off-field.",
+    },
+    playstyleNoteVi:
+      "E tạo Tamoto doll gây Geo DMG off-field (scale DEF). Q kéo thêm Tamoto và buff. Passive: thêm Geo construct trong team (Albedo E, Zhongli pillar) trigger thêm attack tự động. Đội Chiori + Albedo + Zhongli + DPS = 3 construct Geo đồng thời — cực mạnh off-field.",
+  },
+
+  // Xilonen: Geo support heal + RES shred — Sword
+  xilonen: {
+    weapons: [
+      { weaponId: "peak-patrol-song", tier: "S", noteVi: "Signature: DEF% + heal + Elemental RES shred — hoàn hảo cho Xilonen" },
+      { weaponId: "primordial-jade-cutter", tier: "A", noteVi: "CR + HP% passive — heal mạnh hơn" },
+      { weaponId: "festering-desire", tier: "A", noteVi: "Skill DMG + ER — tốt nhất 4-star" },
+      { weaponId: "favonius-sword", tier: "B", noteVi: "ER + energy cho team — budget support" },
+      { weaponId: "sacrificial-sword", tier: "B", noteVi: "ER + E reset — ok nếu cần E nhiều hơn" },
+    ],
+    artifacts: [
+      { setIds: ["scroll-of-the-hero-of-cinder-city"], mode: "4pc", priority: 1, noteVi: "Signature set Xilonen: buff Elemental DMG team khi Crystallize — cực mạnh" },
+      { setIds: ["noblesse-oblige"], mode: "4pc", priority: 2, noteVi: "ATK team buff 20% sau Q" },
+      { setIds: ["maiden-beloved"], mode: "4pc", priority: 3, noteVi: "Healing Bonus +15%+20% — nếu ưu tiên heal hơn buff" },
+    ],
+    mainStats: {
+      sands: "HP% hoặc ER%",
+      goblet: "HP%",
+      circlet: "Healing Bonus hoặc HP%",
+      note: "Xilonen support heal + shred: HP% để max heal scale. ER% nếu thiếu năng lượng. Healing Bonus circlet tốt nhất thuần support. Scroll 4pc active khi Crystallize.",
+    },
+    subStats: {
+      stats: ["Energy Recharge (ER 180%+)", "HP%", "Flat HP", "DEF%", "CRIT Rate (nếu hybrid)"],
+      note: "Xilonen ưu tiên ER để Q liên tục (cost 70). HP% tăng heal. DEF% để sống dai. Scroll 4pc: khi tạo Crystallize, buff Elemental DMG cho team theo nguyên tố Crystallize.",
+    },
+    talentPriority: {
+      order: ["Kỹ năng nguyên tố (E)", "Nguyên tố bùng phát (Q)", "Đòn thường (NA)"],
+      note: "E tạo Ocelot Roller shred Elemental RES địch. Q heal + Geo aura. E level cao = shred nhiều hơn. NA ít quan trọng.",
+    },
+    playstyleNoteVi:
+      "Xilonen E tạo Ocelot Roller shred Elemental RES địch (Pyro/Cryo/Hydro/Electro). Q heal team và Geo aura. Scroll 4pc: Crystallize tạo ra buff Elemental DMG cho team. Tối ưu với đội Pyro/Cryo/Hydro có Zhongli tạo Crystallize liên tục. Không cần vào field nhiều — on-field ngắn E+Q rồi swap.",
+  },
+
+  // ─── Geo Polearm ───────────────────────────────────────────────────────────
+
+  // Kachina: Geo Sub-DPS off-field — Polearm
+  kachina: {
+    weapons: [
+      { weaponId: "staff-of-homa", tier: "S", noteVi: "HP% + passive DMG khi HP thấp — tốt nhất polearm" },
+      { weaponId: "primordial-jade-winged-spear", tier: "A", noteVi: "CRIT Rate + stack passive ATK" },
+      { weaponId: "missive-windspear", tier: "B", noteVi: "ATK% + EM buff sau reaction — tốt craft" },
+      { weaponId: "favonius-lance", tier: "B", noteVi: "ER + energy cho team" },
+      { weaponId: "black-tassel", tier: "C", noteVi: "HP% 3-star — budget nếu build HP" },
+    ],
+    artifacts: [
+      { setIds: ["husk-of-opulent-dreams"], mode: "4pc", priority: 1, noteVi: "DEF% + Geo DMG stack off-field — nếu Kachina scale DEF" },
+      { setIds: ["golden-troupe"], mode: "4pc", priority: 2, noteVi: "Elemental Skill DMG +70% khi off-field" },
+      { setIds: ["archaic-petra", "husk-of-opulent-dreams"], mode: "2+2", priority: 3, noteVi: "Geo DMG + DEF thay thế" },
+    ],
+    mainStats: {
+      sands: "ATK% hoặc DEF%",
+      goblet: "Geo DMG%",
+      circlet: "CRIT Rate hoặc CRIT DMG",
+      note: "Kachina Geo polearm: tùy kit scale ATK hay DEF, check ingame. Geo DMG% goblet. CRIT circlet 1:2.",
+    },
+    subStats: {
+      stats: ["CRIT Rate / CRIT DMG (1:2)", "ATK%", "DEF%", "Energy Recharge (ER 140%+)", "Flat ATK"],
+      note: "ER để Q liên tục. Geo Resonance (+15% DMG khi shield). Team 2+ Geo tối ưu.",
+    },
+    talentPriority: {
+      order: ["Kỹ năng nguyên tố (E)", "Nguyên tố bùng phát (Q)", "Đòn thường (NA)"],
+      note: "E off-field Geo DMG là DPS chính. Q buff và Geo aura. NA ít quan trọng khi off-field.",
+    },
+    playstyleNoteVi:
+      "Kachina Geo off-field sub-DPS. E tạo construct Geo off-field. Q tạo Geo field buff. Geo Resonance (2+ Geo char) +15% DMG và giảm Geo RES địch. Kết hợp với Gorou hoặc Zhongli để buff.",
+  },
+
+  // Yun Jin: Geo Normal Attack flat DMG buffer — Polearm
+  "yun-jin": {
+    weapons: [
+      { weaponId: "favonius-lance", tier: "S", noteVi: "ER max + energy cho team — Q cần spam liên tục" },
+      { weaponId: "engulfing-lightning", tier: "A", noteVi: "ER 36.3% sub + passive ATK từ ER — rất tốt" },
+      { weaponId: "prototype-starglitter", tier: "A", noteVi: "ER craft + stack NA DMG bonus — tốt nhất F2P" },
+      { weaponId: "kitain-cross-spear", tier: "B", noteVi: "EM + passive energy khi E" },
+      { weaponId: "black-tassel", tier: "B", noteVi: "HP% 3-star — budget nếu cần DEF cao" },
+    ],
+    artifacts: [
+      { setIds: ["husk-of-opulent-dreams"], mode: "4pc", priority: 1, noteVi: "DEF% stack — Q buff NA scale theo DEF Yun Jin" },
+      { setIds: ["noblesse-oblige"], mode: "4pc", priority: 2, noteVi: "ATK team buff 20% sau Q — nếu không ai khác mang" },
+      { setIds: ["husk-of-opulent-dreams", "emblem-of-severed-fate"], mode: "2+2", priority: 3, noteVi: "DEF% + ER thay thế" },
+    ],
+    mainStats: {
+      sands: "ER% hoặc DEF%",
+      goblet: "DEF%",
+      circlet: "DEF%",
+      note: "Yun Jin Q Flying Cloud Flag Formation buff NA DMG flat (scale DEF Yun Jin). DEF% 2000+ mục tiêu. ER% để Q spam (cost 60). DEF% cả 3 slot nếu có ER từ vũ khí.",
+    },
+    subStats: {
+      stats: ["Energy Recharge (ER 180%+)", "DEF%", "Flat DEF", "HP%", "CRIT Rate (nếu hybrid)"],
+      note: "Yun Jin ưu tiên ER rất cao để spam Q (cost 60, thiếu self-energy gen). DEF% để buff NA mạnh hơn. Husk 4pc stack DEF khi off-field. Thích hợp với NA DPS nhanh như Yoimiya, Hu Tao.",
+    },
+    talentPriority: {
+      order: ["Nguyên tố bùng phát (Q)", "Kỹ năng nguyên tố (E)", "Đòn thường (NA)"],
+      note: "Q Flying Cloud Flag Formation buff NA flat DMG — level càng cao buff càng mạnh (scale DEF). E Counter Geo DMG. NA ít dùng.",
+    },
+    playstyleNoteVi:
+      "Yun Jin Q tạo aura Flying Cloud Flag (8 hit buff NA DMG flat, scale DEF). Hoạt động tốt với NA DPS đánh nhanh: Yoimiya (Pyro Bow Charged), Cyno (Electro Polearm), Hu Tao (CA ít). E Counter: giữ E khi bị đánh release Geo DMG. Đội đa nguyên tố Yun Jin buff +1 layer mỗi element khác nhau (tối đa C6 unlock điều này).",
+  },
+
 };
+
 
 const ID_ALIASES: Record<string, string> = {
   "kamisato-ayaka": "ayaka",
@@ -1302,6 +1470,11 @@ const ID_ALIASES: Record<string, string> = {
   "hutao": "hu-tao",
   "hu-tao": "hu-tao",
   "yae": "yae-miko",
+  "yae-miko": "yae-miko",
+  "scaramouche": "wanderer",
+  "kunikuzushi": "wanderer",
+  "yunjin": "yun-jin",
+  "goroubow": "gorou",
 };
 
 /**

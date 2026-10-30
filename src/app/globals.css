@@ -208,13 +208,27 @@
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
-/* === CHỦ ĐỀ MÀU SẮC NHÂN VẬT (Character Themes) === */
+/* === CHỦ ĐỀ MÀU SẮC NHÂN VẬT (Character Themes) ===
+ * CSS variables được inject bởi JS (CharacterThemeSelector.applyTheme).
+ * Chỉ override accent + bg palette, không override typography. */
+
+/* Default: Kazuha (Anemo teal) */
 [data-char-theme="kazuha"], :root:not([data-char-theme]) {
   --accent-500: #2dd4bf;
   --accent-bright: #5eead4;
   --accent-soft: rgba(45, 212, 191, 0.15);
+  --gold-bright: #5eead4;
 }
 
+/* Wanderer (Anemo + Indigo) */
+[data-char-theme="wanderer"] {
+  --accent-500: #6ee7b7;
+  --accent-bright: #a7f3d0;
+  --accent-soft: rgba(110, 231, 183, 0.15);
+  --gold-bright: #a7f3d0;
+}
+
+/* Raiden Shogun (Electro purple) */
 [data-char-theme="raiden"] {
   --accent-500: #a855f7;
   --accent-bright: #c084fc;
@@ -222,6 +236,15 @@
   --gold-bright: #c084fc;
 }
 
+/* Yae Miko (Electro pink) */
+[data-char-theme="yae-miko"] {
+  --accent-500: #f472b6;
+  --accent-bright: #f9a8d4;
+  --accent-soft: rgba(244, 114, 182, 0.18);
+  --gold-bright: #f9a8d4;
+}
+
+/* Hu Tao (Pyro red-orange) */
 [data-char-theme="hutao"] {
   --accent-500: #f43f5e;
   --accent-bright: #fb7185;
@@ -229,13 +252,23 @@
   --gold-bright: #fb7185;
 }
 
-[data-char-theme="zhongli"] {
-  --accent-500: #eab308;
-  --accent-bright: #facc15;
-  --accent-soft: rgba(234, 179, 8, 0.18);
-  --gold-bright: #facc15;
+/* Arlecchino (Pyro blood red) */
+[data-char-theme="arlecchino"] {
+  --accent-500: #ef4444;
+  --accent-bright: #f87171;
+  --accent-soft: rgba(239, 68, 68, 0.18);
+  --gold-bright: #f87171;
 }
 
+/* Mavuika (Pyro orange-red) */
+[data-char-theme="mavuika"] {
+  --accent-500: #f97316;
+  --accent-bright: #fb923c;
+  --accent-soft: rgba(249, 115, 22, 0.18);
+  --gold-bright: #fb923c;
+}
+
+/* Furina (Hydro sky blue) */
 [data-char-theme="furina"] {
   --accent-500: #38bdf8;
   --accent-bright: #7dd3fc;
@@ -243,6 +276,23 @@
   --gold-bright: #7dd3fc;
 }
 
+/* Neuvillette (Hydro deep blue) */
+[data-char-theme="neuvillette"] {
+  --accent-500: #60a5fa;
+  --accent-bright: #93c5fd;
+  --accent-soft: rgba(96, 165, 250, 0.18);
+  --gold-bright: #93c5fd;
+}
+
+/* Zhongli (Geo amber-gold) */
+[data-char-theme="zhongli"] {
+  --accent-500: #eab308;
+  --accent-bright: #facc15;
+  --accent-soft: rgba(234, 179, 8, 0.18);
+  --gold-bright: #facc15;
+}
+
+/* Nahida (Dendro lime green) */
 [data-char-theme="nahida"] {
   --accent-500: #84cc16;
   --accent-bright: #a3e635;
@@ -250,6 +300,15 @@
   --gold-bright: #a3e635;
 }
 
+/* Al-Haitham (Dendro dark green) */
+[data-char-theme="alhaitham"] {
+  --accent-500: #4ade80;
+  --accent-bright: #86efac;
+  --accent-soft: rgba(74, 222, 128, 0.18);
+  --gold-bright: #86efac;
+}
+
+/* Kamisato Ayaka (Cryo ice blue) */
 [data-char-theme="ayaka"] {
   --accent-500: #67e8f9;
   --accent-bright: #a5f3fc;
@@ -257,12 +316,25 @@
   --gold-bright: #a5f3fc;
 }
 
-[data-char-theme="mavuika"] {
-  --accent-500: #f97316;
-  --accent-bright: #fb923c;
-  --accent-soft: rgba(249, 115, 22, 0.18);
-  --gold-bright: #fb923c;
+/* Wriothesley (Cryo white-steel) */
+[data-char-theme="wriothesley"] {
+  --accent-500: #94a3b8;
+  --accent-bright: #cbd5e1;
+  --accent-soft: rgba(148, 163, 184, 0.18);
+  --gold-bright: #cbd5e1;
 }
+
+/* === JS-INJECTED FULL-SITE PALETTE (via CharacterThemeSelector.applyTheme) ===
+ * JS sets: --char-bg-primary, --char-bg-card, --char-border, --char-accent, --char-accent-2
+ * These cascade through the bg-primary, bg-card, border-color tokens. */
+[data-char-theme]:not([data-char-theme="kazuha"]) {
+  --bg-primary: var(--char-bg-primary, var(--bg-primary));
+  --bg-card: var(--char-bg-card, var(--bg-card));
+  --bg-elevated: color-mix(in srgb, var(--char-bg-card, #15202f) 70%, white 30%);
+  --border-color: var(--char-border, var(--border-color));
+  --border-strong: color-mix(in srgb, var(--char-border, #1e2c40) 60%, white 40%);
+}
+
 
 @theme inline {
   --color-bg-primary: var(--bg-primary);

@@ -18,19 +18,22 @@ export function ThemeToggle() {
   if (!mounted) {
     return (
       <div
-        className="w-9 h-9 rounded-xl border border-border/80 bg-bg-card/75 flex items-center justify-center text-text-muted"
+        className="w-9 h-9 rounded-xl border border-border/80 bg-bg-card/75 flex items-center justify-center text-text-muted opacity-50"
         aria-hidden="true"
       >
+        {/* Placeholder sun/moon icon before hydration */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth={2}
-          className="w-[18px] h-[18px] opacity-35"
+          strokeWidth={2.2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="w-[18px] h-[18px]"
           aria-hidden="true"
         >
-          <circle cx="12" cy="12" r="4.5" />
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
         </svg>
       </div>
     );

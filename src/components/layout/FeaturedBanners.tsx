@@ -10,30 +10,49 @@ import { Link } from "@/i18n/navigation";
 export function FeaturedBanners() {
   return (
     <section className="max-w-7xl mx-auto px-4 md:px-8 py-6">
-      {/* 1. Main Hero Banner: Bảng Xếp Hạng Nhân Vật (Tier List) — giống chuẩn ảnh Game8 */}
+      {/* 1. Main Hero Banner: Bảng Xếp Hạng Nhân Vật (Tier List) — 100% Game Art Chính Gốc */}
       <Link
         href="/characters"
-        className="group relative block w-full h-48 sm:h-56 md:h-64 rounded-2xl md:rounded-3xl overflow-hidden border border-border/80 hover:border-accent-500/80 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-black/50 mb-5"
+        className="group relative block w-full h-52 sm:h-60 md:h-72 rounded-2xl md:rounded-3xl overflow-hidden border border-border/80 hover:border-accent-500/80 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-black/50 mb-5 bg-bg-card"
       >
-        {/* Background Image with smooth hover zoom */}
+        {/* Authentic In-Game Environment: Fontaine Relic Domain Background */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/local-genshin-assets/ui/banner-tier-list-art.png"
-          alt="Genshin Impact Tier List"
-          className="absolute inset-0 w-full h-full object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-700 ease-out select-none"
+          src="/images/domains/UI_DungeonPic_FDRelic01.png"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-700 ease-out select-none opacity-45"
         />
 
-        {/* Cinematic Scrim & Vignette Overlays: Dark edges, subtle center shadow for 100% text legibility */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-black/80 pointer-events-none" />
-        <div className="absolute inset-0 bg-radial from-transparent via-black/30 to-black/70 pointer-events-none" />
+        {/* Flank Character 1 (Right): Official Furina Splash Art */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/local-genshin-assets/characters/splash/furina.png"
+          alt=""
+          aria-hidden="true"
+          className="absolute -right-10 -bottom-10 h-[120%] w-auto max-w-none object-contain opacity-40 group-hover:opacity-60 group-hover:scale-105 transition-all duration-700 ease-out select-none pointer-events-none"
+        />
+
+        {/* Flank Character 2 (Left): Official Kazuha Splash Art */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/local-genshin-assets/characters/splash/kaedehara-kazuha.png"
+          alt=""
+          aria-hidden="true"
+          className="hidden sm:block absolute -left-12 -bottom-8 h-[115%] w-auto max-w-none object-contain opacity-35 group-hover:opacity-55 group-hover:scale-105 transition-all duration-700 ease-out select-none pointer-events-none -scale-x-100"
+        />
+
+        {/* Cinematic Scrim & Vignette Overlays: Ensure razor-sharp center text legibility */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/35 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/40 to-black/90 pointer-events-none" />
+        <div className="absolute inset-0 bg-radial from-transparent via-black/30 to-black/75 pointer-events-none" />
 
         {/* Foreground Content: Centered bold typography */}
         <div className="relative z-10 w-full h-full flex flex-col items-center justify-center text-center px-4 sm:px-8">
           {/* Top Pill Tag */}
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent-500/25 border border-accent-500/50 text-accent-bright font-mono text-[11px] sm:text-xs font-bold uppercase tracking-wider backdrop-blur-md mb-2.5 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-accent-500/20 border border-accent-500/50 text-accent-bright font-mono text-[11px] sm:text-xs font-bold uppercase tracking-wider backdrop-blur-md mb-2.5 shadow-sm">
             <span className="w-2 h-2 rounded-full bg-accent-500 animate-pulse" />
-            <span>Tier List Meta · Patch 5.5</span>
+            <span>Bảng Xếp Hạng Meta · La Hoàn &amp; Nhà Hát</span>
           </div>
 
           {/* Main Title — Bold gaming typography with drop shadow */}
