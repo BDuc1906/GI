@@ -832,14 +832,36 @@ export async function RecommendedBuildTab({ character, locale, elementColor }: P
             </div>
           </div>
 
-          {/* DPS Calculator link */}
-          <div className="mt-3">
-            <a
-              href={`/${locale}/tools/dps-calculator`}
-              className="inline-flex items-center gap-1.5 text-sm px-4 py-2.5 rounded-lg border border-accent-500/60 bg-bg-elevated text-accent-bright hover:border-accent-500 hover:bg-bg-elevated/80 transition-colors w-full justify-center font-medium"
+          {/* Team Builder & DPS Calculator CTA */}
+          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <Link
+              href={`/tools/team-builder?character=${character.id}`}
+              className="inline-flex items-center gap-2 text-sm px-4 py-2.5 rounded-xl border border-accent-500/60 bg-bg-elevated text-accent-bright hover:border-accent-500 hover:bg-bg-elevated/90 transition-all justify-center font-semibold shadow-sm"
             >
-              Tính DPS với build này
-            </a>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/local-genshin-assets/ui/party.png"
+                alt=""
+                width={18}
+                height={18}
+                className="w-[18px] h-[18px] object-contain"
+              />
+              <span>Dựng đội hình cho {character.name}</span>
+            </Link>
+            <Link
+              href="/tools/dps-calculator"
+              className="inline-flex items-center gap-2 text-sm px-4 py-2.5 rounded-xl border border-border/80 bg-bg-card/75 text-text-secondary hover:border-accent-500 hover:text-text-primary transition-all justify-center font-medium"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/local-genshin-assets/ui/calculator.png"
+                alt=""
+                width={16}
+                height={16}
+                className="w-4 h-4 object-contain"
+              />
+              <span>Mô phỏng &amp; tính DPS</span>
+            </Link>
           </div>
         </div>
       </div>

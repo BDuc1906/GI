@@ -64,7 +64,7 @@ export async function WikiToolsHub() {
     {
       title: "Máy Tính Nguyên Liệu",
       href: "/tools/material-calculator",
-      icon: "/local-genshin-assets/ui/mora.png",
+      icon: "/local-genshin-assets/ui/items.png",
       description: "Lập kế hoạch farm Mora, sách kinh nghiệm và vật phẩm đột phá từ cấp hiện tại lên cấp 90.",
       tag: "Kế Hoạch",
       badgeColor: "bg-blue-500/15 text-blue-300 border-blue-500/30",
@@ -72,7 +72,7 @@ export async function WikiToolsHub() {
     {
       title: "Tra Cứu Thành Tựu Ẩn",
       href: "/achievements/hidden",
-      icon: "/local-genshin-assets/ui/primogem.png",
+      icon: "/local-genshin-assets/ui/achievement.png",
       description: "Danh sách thành tựu ẩn kèm điều kiện mở khóa nhận Nguyên Thạch trong thế giới Teyvat.",
       tag: "Thành Tựu",
       badgeColor: "bg-amber-500/15 text-amber-300 border-amber-500/30",

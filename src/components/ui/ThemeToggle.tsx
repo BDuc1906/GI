@@ -21,7 +21,17 @@ export function ThemeToggle() {
         className="w-9 h-9 rounded-xl border border-border/80 bg-bg-card/75 flex items-center justify-center text-text-muted"
         aria-hidden="true"
       >
-        <span className="w-4 h-4 rounded-full bg-border/40" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          className="w-[18px] h-[18px] opacity-35"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="4.5" />
+        </svg>
       </div>
     );
   }

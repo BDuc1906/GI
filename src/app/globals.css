@@ -187,6 +187,83 @@
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.55);
 }
 
+/* === LIGHT THEME — Giấy điệp ngà thanh thoát chuẩn Genshin === */
+[data-theme="light"] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-elevated: #e2e8f0;
+  --bg-input: #ffffff;
+
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --text-inverted: #f8fafc;
+
+  --border-color: #cbd5e1;
+  --border-strong: #94a3b8;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+/* === CHỦ ĐỀ MÀU SẮC NHÂN VẬT (Character Themes) === */
+[data-char-theme="kazuha"], :root:not([data-char-theme]) {
+  --accent-500: #2dd4bf;
+  --accent-bright: #5eead4;
+  --accent-soft: rgba(45, 212, 191, 0.15);
+}
+
+[data-char-theme="raiden"] {
+  --accent-500: #a855f7;
+  --accent-bright: #c084fc;
+  --accent-soft: rgba(168, 85, 247, 0.18);
+  --gold-bright: #c084fc;
+}
+
+[data-char-theme="hutao"] {
+  --accent-500: #f43f5e;
+  --accent-bright: #fb7185;
+  --accent-soft: rgba(244, 63, 94, 0.18);
+  --gold-bright: #fb7185;
+}
+
+[data-char-theme="zhongli"] {
+  --accent-500: #eab308;
+  --accent-bright: #facc15;
+  --accent-soft: rgba(234, 179, 8, 0.18);
+  --gold-bright: #facc15;
+}
+
+[data-char-theme="furina"] {
+  --accent-500: #38bdf8;
+  --accent-bright: #7dd3fc;
+  --accent-soft: rgba(56, 189, 248, 0.18);
+  --gold-bright: #7dd3fc;
+}
+
+[data-char-theme="nahida"] {
+  --accent-500: #84cc16;
+  --accent-bright: #a3e635;
+  --accent-soft: rgba(132, 204, 22, 0.18);
+  --gold-bright: #a3e635;
+}
+
+[data-char-theme="ayaka"] {
+  --accent-500: #67e8f9;
+  --accent-bright: #a5f3fc;
+  --accent-soft: rgba(103, 232, 249, 0.18);
+  --gold-bright: #a5f3fc;
+}
+
+[data-char-theme="mavuika"] {
+  --accent-500: #f97316;
+  --accent-bright: #fb923c;
+  --accent-soft: rgba(249, 115, 22, 0.18);
+  --gold-bright: #fb923c;
+}
+
 @theme inline {
   --color-bg-primary: var(--bg-primary);
   --color-bg-secondary: var(--bg-secondary);

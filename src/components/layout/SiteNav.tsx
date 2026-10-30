@@ -6,14 +6,12 @@ import { Link } from "@/i18n/navigation";
 import { SearchBar } from "@/features/search/components/SearchBar";
 import { ThemeToggle } from "../ui/ThemeToggle";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { CharacterThemeSelector } from "../ui/CharacterThemeSelector";
 
 /**
- * Header đầy đủ: logo + link điều hướng + [ngôn ngữ] + [search] + theme
- * toggle. Ngôn ngữ và search đều thu gọn thành icon — bấm vào mới bung ra
- * (dropdown / ô nhập) — để không chiếm chỗ ngang trên header, nhất là ở
- * các breakpoint hẹp.
- * Dưới breakpoint `md`, link điều hướng gộp vào menu hamburger để tránh
- * tràn ngang.
+ * Header đầy đủ: logo + link điều hướng + [ngôn ngữ] + [search] + [theme nhân vật] + [dark/light].
+ * Ngôn ngữ và search đều thu gọn thành icon — bấm vào mới bung ra
+ * (dropdown / ô nhập) — để không chiếm chỗ ngang trên header.
  */
 export function SiteNav() {
   const t = useTranslations("Nav");
@@ -56,11 +54,12 @@ export function SiteNav() {
           </div>
         </div>
 
-        {/* Dark/Light toggle + Ngôn ngữ + Search */}
+        {/* Header Controls: [Địa Cầu] [Kính Lúp] [Theme Nhân Vật] [Sáng / Tối] */}
         <div className="flex items-center gap-1.5 ml-auto">
           <div className="hidden sm:flex items-center gap-1.5">
             <LanguageSwitcher />
             <SearchBar />
+            <CharacterThemeSelector />
           </div>
           <ThemeToggle />
 
@@ -85,14 +84,14 @@ export function SiteNav() {
         </div>
       </nav>
 
-      {/* Panel mobile: link + search + ngôn ngữ gộp lại, chỉ render khi mở. */}
+      {/* Panel mobile: link + search + ngôn ngữ + theme gộp lại, chỉ render khi mở. */}
       {menuOpen && (
         <div className="lg:hidden border-t border-border px-4 py-4 flex flex-col gap-3.5 bg-bg-primary/95 backdrop-blur-md shadow-xl animate-in slide-in-from-top-2 duration-200">
-          {/* Quick controls on mobile (< sm): Language & Search */}
+          {/* Quick controls on mobile (< sm): Language, Theme & Search */}
           <div className="sm:hidden flex items-center justify-between gap-2 pb-2.5 border-b border-border/50">
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-text-muted font-medium">Ngôn ngữ:</span>
+            <div className="flex items-center gap-1.5">
               <LanguageSwitcher />
+              <CharacterThemeSelector />
             </div>
             <div className="flex items-center">
               <SearchBar />

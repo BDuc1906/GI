@@ -62,7 +62,7 @@ export async function getToolIcon(tool: string): Promise<string> {
       return '/local-genshin-assets/ui/resin.png';
     case 'team-builder':
     case 'đội hình':
-      return '/local-genshin-assets/ui/stardust.png';
+      return '/local-genshin-assets/ui/party.png';
     case 'showcase-card':
     case 'showcase':
       return '/local-genshin-assets/ui/calculator-character.png';
@@ -85,5 +85,5 @@ export async function getToolIcon(tool: string): Promise<string> {
 
 // Lấy ảnh Spiral Abyss (La Hoàn Thâm Cảnh)
 export async function getSpiralAbyssImage(): Promise<string> {
-  return '/local-genshin-assets/ui/artifacts.png';
+  return '/local-genshin-assets/ui/spiral-abyss.jpg';
 }
