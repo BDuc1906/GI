@@ -182,53 +182,92 @@ export function ServerTimersClient() {
         </div>
 
         {/* Nhà Hát Giả Tưởng (Imaginarium Theater) */}
-        <div className="relative group bg-gradient-to-br from-bg-card to-[#25152a] border border-[#d97706]/40 hover:border-[#fbbf24] rounded-xl p-3.5 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">
-          <div className="flex items-center justify-between text-xs text-amber-300 font-medium mb-1.5">
-            <span className="font-semibold text-amber-200 truncate">Nhà Hát Giả Tưởng</span>
-            <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-200 border border-amber-500/30 font-semibold shrink-0">
-              Kỳ Diễn
-            </span>
-          </div>
-          <div className="font-mono text-lg sm:text-xl font-bold tracking-tight text-amber-200 tabular-nums">
-            {theaterReset || "--d --h"}
-          </div>
-          <div className="text-[11px] text-amber-300/70 mt-1.5 flex items-center justify-between">
-            <span>Làm mới ngày 01</span>
-            <span className="text-amber-300 font-medium">800 Nguyên Thạch</span>
+        <div className="relative group bg-gradient-to-br from-bg-card to-[#25152a] border border-[#d97706]/40 hover:border-[#fbbf24] rounded-xl p-3.5 transition-all duration-200 hover:-translate-y-0.5 shadow-sm overflow-hidden">
+          {/* Game artwork background */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/local-genshin-assets/ui/imaginarium-theater.png"
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover object-center opacity-15 group-hover:opacity-20 transition-opacity duration-300 select-none pointer-events-none"
+          />
+          {/* Gradient overlay để text dễ đọc */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#25152a]/80 via-[#25152a]/60 to-transparent pointer-events-none" />
+          {/* Content */}
+          <div className="relative z-10">
+            <div className="flex items-center justify-between text-xs text-amber-300 font-medium mb-1.5">
+              <span className="font-semibold text-amber-200 truncate">Nhà Hát Giả Tưởng</span>
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-200 border border-amber-500/30 font-semibold shrink-0">
+                Kỳ Diễn
+              </span>
+            </div>
+            <div className="font-mono text-lg sm:text-xl font-bold tracking-tight text-amber-200 tabular-nums">
+              {theaterReset || "--d --h"}
+            </div>
+            <div className="text-[11px] text-amber-300/70 mt-1.5 flex items-center justify-between">
+              <span>Làm mới ngày 01</span>
+              <span className="text-amber-300 font-medium">800 Nguyên Thạch</span>
+            </div>
           </div>
         </div>
 
         {/* La Hoàn Thâm Cảnh (Spiral Abyss) */}
-        <div className="relative group bg-gradient-to-br from-bg-card to-[#1a1528] border border-[#764fb0]/40 hover:border-[#b075dd] rounded-xl p-3.5 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">
-          <div className="flex items-center justify-between text-xs text-purple-300 font-medium mb-1.5">
-            <span className="font-semibold text-purple-200 truncate">La Hoàn Thâm Cảnh</span>
-            <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#764fb0]/20 text-purple-200 border border-[#764fb0]/30 font-semibold shrink-0">
-              Tầng 9-12
-            </span>
-          </div>
-          <div className="font-mono text-lg sm:text-xl font-bold tracking-tight text-purple-200 tabular-nums">
-            {spiralReset || "--d --h"}
-          </div>
-          <div className="text-[11px] text-purple-300/70 mt-1.5 flex items-center justify-between">
-            <span>Làm mới ngày 16</span>
-            <span className="text-purple-300 font-medium">800 Nguyên Thạch</span>
+        <div className="relative group bg-gradient-to-br from-bg-card to-[#1a1528] border border-[#764fb0]/40 hover:border-[#b075dd] rounded-xl p-3.5 transition-all duration-200 hover:-translate-y-0.5 shadow-sm overflow-hidden">
+          {/* Game artwork background */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/local-genshin-assets/ui/spiral-abyss.jpg"
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover object-center opacity-20 group-hover:opacity-28 transition-opacity duration-300 select-none pointer-events-none"
+          />
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#1a1528]/90 via-[#1a1528]/65 to-transparent pointer-events-none" />
+          {/* Content */}
+          <div className="relative z-10">
+            <div className="flex items-center justify-between text-xs text-purple-300 font-medium mb-1.5">
+              <span className="font-semibold text-purple-200 truncate">La Hoàn Thâm Cảnh</span>
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#764fb0]/20 text-purple-200 border border-[#764fb0]/30 font-semibold shrink-0">
+                Tầng 9-12
+              </span>
+            </div>
+            <div className="font-mono text-lg sm:text-xl font-bold tracking-tight text-purple-200 tabular-nums">
+              {spiralReset || "--d --h"}
+            </div>
+            <div className="text-[11px] text-purple-300/70 mt-1.5 flex items-center justify-between">
+              <span>Làm mới ngày 16</span>
+              <span className="text-purple-300 font-medium">800 Nguyên Thạch</span>
+            </div>
           </div>
         </div>
 
         {/* Ảo Cảnh Hiểm Ác (Stygian Onslaught) */}
-        <div className="relative group bg-gradient-to-br from-bg-card to-[#281515] border border-[#ef4444]/40 hover:border-[#f87171] rounded-xl p-3.5 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">
-          <div className="flex items-center justify-between text-xs text-rose-300 font-medium mb-1.5">
-            <span className="font-semibold text-rose-200 truncate">Ảo Cảnh Hiểm Ác</span>
-            <span className="text-[10px] px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-200 border border-rose-500/30 font-semibold shrink-0">
-              Endgame
-            </span>
-          </div>
-          <div className="font-mono text-lg sm:text-xl font-bold tracking-tight text-rose-200 tabular-nums">
-            {stygianReset || "--d --h"}
-          </div>
-          <div className="text-[11px] text-rose-300/70 mt-1.5 flex items-center justify-between">
-            <span>Kỳ Luân Phiên Boss</span>
-            <span className="text-rose-300 font-medium">Bụi &amp; TDV 5★</span>
+        <div className="relative group bg-gradient-to-br from-bg-card to-[#281515] border border-[#ef4444]/40 hover:border-[#f87171] rounded-xl p-3.5 transition-all duration-200 hover:-translate-y-0.5 shadow-sm overflow-hidden">
+          {/* Game artwork background */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/local-genshin-assets/ui/stygian-onslaught.png"
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover object-center opacity-18 group-hover:opacity-25 transition-opacity duration-300 select-none pointer-events-none"
+          />
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#281515]/90 via-[#281515]/65 to-transparent pointer-events-none" />
+          {/* Content */}
+          <div className="relative z-10">
+            <div className="flex items-center justify-between text-xs text-rose-300 font-medium mb-1.5">
+              <span className="font-semibold text-rose-200 truncate">Ảo Cảnh Hiểm Ác</span>
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-200 border border-rose-500/30 font-semibold shrink-0">
+                Endgame
+              </span>
+            </div>
+            <div className="font-mono text-lg sm:text-xl font-bold tracking-tight text-rose-200 tabular-nums">
+              {stygianReset || "--d --h"}
+            </div>
+            <div className="text-[11px] text-rose-300/70 mt-1.5 flex items-center justify-between">
+              <span>Kỳ Luân Phiên Boss</span>
+              <span className="text-rose-300 font-medium">Bụi &amp; TDV 5★</span>
+            </div>
           </div>
         </div>
       </div>
