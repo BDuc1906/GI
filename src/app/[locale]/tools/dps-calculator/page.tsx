@@ -46,8 +46,8 @@ export default async function DpsCalculatorPage({ params }: DpsCalculatorPagePro
           Máy tính DPS
         </h1>
         <p className="text-text-secondary mb-8">
-          Nhập chỉ số build (thánh di vật, thiên phú, vũ khí) để ước tính sát
-          thương trung bình mỗi giây.
+          Mô phỏng sát thương chu kỳ toàn đội (Team Rotation DPS), tính phản ứng nguyên tố
+          (Bốc Hơi, Tan Chảy, Nở Rộ, Lan Tràn...), cộng hưởng và so sánh đối đầu trang bị.
         </p>
 
         <DpsCalculatorClient characters={characters} weapons={weapons} />

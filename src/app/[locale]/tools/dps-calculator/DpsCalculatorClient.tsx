@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { GearShowdownClient } from "@/features/dps/GearShowdownClient";
+import { TeamDpsCalculatorClient } from "@/features/dps/TeamDpsCalculatorClient";
 
 interface CharacterOption {
   id: string;
@@ -76,8 +77,8 @@ export function DpsCalculatorClient({
   const [selectedChar, setSelectedChar] = useState<CharacterOption | null>(null);
   const [selectedWeapon, setSelectedWeapon] = useState<WeaponOption | null>(null);
 
-  // Tab chính: Đơn lẻ vs So sánh đối đầu 2 trang bị
-  const [mainTab, setMainTab] = useState<"single" | "showdown">("single");
+  // Tab chính: Tính Toàn Đội vs Đơn Lẻ vs So Sánh Đối Đầu
+  const [mainTab, setMainTab] = useState<"team" | "single" | "showdown">("team");
 
   const [characterLevel, setCharacterLevel] = useState(90);
   const [weaponLevel, setWeaponLevel] = useState(90);
@@ -198,38 +199,55 @@ export function DpsCalculatorClient({
 
   return (
     <div className="space-y-6">
-      {/* Thanh chuyển đổi chế độ chính: Đơn Lẻ vs So Sánh Đối Đầu */}
-      <div className="flex border-b-2 border-border mb-6">
+      {/* Thanh chuyển đổi chế độ chính: Toàn Đội vs Đơn Lẻ vs So Sánh Đối Đầu */}
+      <div className="flex border-b-2 border-border mb-6 overflow-x-auto">
+        <button
+          type="button"
+          onClick={() => setMainTab("team")}
+          className={`py-3 px-4 sm:px-5 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center gap-2 shrink-0 cursor-pointer ${
+            mainTab === "team"
+              ? "border-accent-500 text-accent-bright bg-accent-500/10"
+              : "border-transparent text-text-muted hover:text-text-primary"
+          }`}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/local-genshin-assets/ui/party.png" alt="" width={18} height={18} className="w-4.5 h-4.5 object-contain shrink-0" />
+          <span>Sát Thương Toàn Đội &amp; Phản Ứng (Team DPS)</span>
+          <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-accent-500/25 text-accent-bright">
+            CHUẨN META
+          </span>
+        </button>
         <button
           type="button"
           onClick={() => setMainTab("single")}
-          className={`py-3 px-5 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center gap-2 ${
+          className={`py-3 px-4 sm:px-5 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center gap-2 shrink-0 cursor-pointer ${
             mainTab === "single"
-              ? "border-gold text-gold-bright bg-gold/5"
+              ? "border-accent-500 text-accent-bright bg-accent-500/10"
               : "border-transparent text-text-muted hover:text-text-primary"
           }`}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/local-genshin-assets/ui/calculator.png" alt="" width={16} height={16} className="w-4 h-4 object-contain shrink-0" />
-          <span>Tính Toán Sát Thương (Đơn Lẻ)</span>
+          <span>Tính Sát Thương (Đơn Lẻ)</span>
         </button>
         <button
           type="button"
           onClick={() => setMainTab("showdown")}
-          className={`py-3 px-5 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center gap-2 ${
+          className={`py-3 px-4 sm:px-5 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center gap-2 shrink-0 cursor-pointer ${
             mainTab === "showdown"
-              ? "border-gold text-gold-bright bg-gold/5"
+              ? "border-accent-500 text-accent-bright bg-accent-500/10"
               : "border-transparent text-text-muted hover:text-text-primary"
           }`}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/local-genshin-assets/ui/sword.png" alt="" width={16} height={16} className="w-4 h-4 object-contain shrink-0" />
-          <span>1-Click Gear Showdown (So Sánh 2 Đồ / 2 Build)</span>
-          <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-gold/20 text-gold">MỚI</span>
+          <span>1-Click Gear Showdown (So Sánh 2 Đồ)</span>
         </button>
       </div>
 
-      {mainTab === "showdown" ? (
+      {mainTab === "team" ? (
+        <TeamDpsCalculatorClient characters={characters} weapons={weapons} />
+      ) : mainTab === "showdown" ? (
         <GearShowdownClient characters={characters} weapons={weapons} />
       ) : (
         <div className="space-y-6">

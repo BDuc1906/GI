@@ -115,66 +115,96 @@ export function KazuhaMapleLeaves() {
       oCtx.save();
       oCtx.translate(cx, cy);
 
-      // Vẽ hình dáng 7 thùy nhọn đặc trưng của lá phong Nhật Bản (Momiji)
+      // Vẽ lá phong Nhật Bản (Momiji / Japanese Maple) chuẩn dạng bàn tay 5-7 thùy tỏa lên trên
+      // Đáy có cuống lá (stem), các thùy mở rộng hình quạt sang hai bên và đỉnh, không tỏa tròn như hoa tuyết
       oCtx.beginPath();
-      oCtx.moveTo(0, -18 * s);
-      oCtx.bezierCurveTo(2 * s, -12 * s, 5 * s, -8 * s, 3 * s, -4 * s);
+      // Bắt đầu từ cuống lá ở gốc dưới
+      oCtx.moveTo(0, 20 * s);
+      oCtx.lineTo(1.2 * s, 6 * s);
 
-      // Thùy trên phải
-      oCtx.bezierCurveTo(8 * s, -9 * s, 14 * s, -12 * s, 16 * s, -11 * s);
-      oCtx.bezierCurveTo(14 * s, -6 * s, 9 * s, -3 * s, 5 * s, -1 * s);
+      // Thùy dưới phải (nằm ngang hơi chúc lên)
+      oCtx.lineTo(6 * s, 6 * s);
+      oCtx.lineTo(13 * s, 8 * s);
+      oCtx.lineTo(18 * s, 5 * s); // đỉnh thùy dưới phải
+      oCtx.lineTo(14 * s, 2 * s);
+      oCtx.lineTo(10 * s, 2 * s);
 
-      // Thùy giữa phải
-      oCtx.bezierCurveTo(11 * s, 1 * s, 16 * s, 2 * s, 17 * s, 5 * s);
-      oCtx.bezierCurveTo(13 * s, 7 * s, 8 * s, 5 * s, 4 * s, 3 * s);
+      // Thùy giữa phải (chếch 45 độ)
+      oCtx.lineTo(15 * s, -3 * s);
+      oCtx.lineTo(21 * s, -6 * s); // đỉnh thùy giữa phải
+      oCtx.lineTo(16 * s, -9 * s);
+      oCtx.lineTo(10 * s, -7 * s);
 
-      // Thùy dưới phải
-      oCtx.bezierCurveTo(7 * s, 8 * s, 11 * s, 12 * s, 10 * s, 14 * s);
-      oCtx.bezierCurveTo(7 * s, 13 * s, 4 * s, 9 * s, 2 * s, 6 * s);
+      // Thùy trên phải (chếch 65 độ)
+      oCtx.lineTo(13 * s, -13 * s);
+      oCtx.lineTo(15 * s, -19 * s); // đỉnh thùy trên phải
+      oCtx.lineTo(9 * s, -17 * s);
+      oCtx.lineTo(5 * s, -13 * s);
 
-      // Cuống lá (stem)
-      oCtx.lineTo(1 * s, 17 * s);
-      oCtx.lineTo(-1 * s, 17 * s);
-      oCtx.lineTo(-2 * s, 6 * s);
+      // Thùy đỉnh chính giữa (vươn thẳng lên trên với 3 chóp nhọn)
+      oCtx.lineTo(4 * s, -18 * s);
+      oCtx.lineTo(0, -24 * s); // đỉnh cao nhất của lá
+      oCtx.lineTo(-4 * s, -18 * s);
+      oCtx.lineTo(-5 * s, -13 * s);
 
-      // Thùy dưới trái
-      oCtx.bezierCurveTo(-4 * s, 9 * s, -7 * s, 13 * s, -10 * s, 14 * s);
-      oCtx.bezierCurveTo(-11 * s, 12 * s, -7 * s, 8 * s, -4 * s, 3 * s);
+      // Thùy trên trái (đối xứng chếch 65 độ)
+      oCtx.lineTo(-9 * s, -17 * s);
+      oCtx.lineTo(-15 * s, -19 * s); // đỉnh thùy trên trái
+      oCtx.lineTo(-13 * s, -13 * s);
+      oCtx.lineTo(-10 * s, -7 * s);
 
-      // Thùy giữa trái
-      oCtx.bezierCurveTo(-8 * s, 5 * s, -13 * s, 7 * s, -17 * s, 5 * s);
-      oCtx.bezierCurveTo(-16 * s, 2 * s, -11 * s, 1 * s, -5 * s, -1 * s);
+      // Thùy giữa trái (đối xứng chếch 45 độ)
+      oCtx.lineTo(-16 * s, -9 * s);
+      oCtx.lineTo(-21 * s, -6 * s); // đỉnh thùy giữa trái
+      oCtx.lineTo(-15 * s, -3 * s);
+      oCtx.lineTo(-10 * s, 2 * s);
 
-      // Thùy trên trái
-      oCtx.bezierCurveTo(-9 * s, -3 * s, -14 * s, -6 * s, -16 * s, -11 * s);
-      oCtx.bezierCurveTo(-14 * s, -12 * s, -8 * s, -9 * s, -3 * s, -4 * s);
+      // Thùy dưới trái (đối xứng nằm ngang)
+      oCtx.lineTo(-14 * s, 2 * s);
+      oCtx.lineTo(-18 * s, 5 * s); // đỉnh thùy dưới trái
+      oCtx.lineTo(-13 * s, 8 * s);
+      oCtx.lineTo(-6 * s, 6 * s);
 
-      // Quay lại thùy đỉnh
-      oCtx.bezierCurveTo(-5 * s, -8 * s, -2 * s, -12 * s, 0, -18 * s);
+      // Quay về cuống lá bên trái
+      oCtx.lineTo(-1.2 * s, 6 * s);
+      oCtx.lineTo(-1 * s, 20 * s);
       oCtx.closePath();
 
       oCtx.fillStyle = grad;
       oCtx.fill();
 
-      // Gân lá tinh tế
+      // Viền nhẹ tạo độ sâu cho cánh lá
+      oCtx.strokeStyle = pal.secondary;
+      oCtx.lineWidth = 0.8 * s;
+      oCtx.stroke();
+
+      // Gân lá tự nhiên hình rẻ quạt tỏa từ cuống lên các thùy
       oCtx.strokeStyle = pal.vein;
-      oCtx.globalAlpha = 0.45;
-      oCtx.lineWidth = 1;
+      oCtx.globalAlpha = 0.55;
+      oCtx.lineWidth = 1 * s;
 
-      // Gân chính
+      // Gân chính giữa
       oCtx.beginPath();
-      oCtx.moveTo(0, 16 * s);
-      oCtx.lineTo(0, -16 * s);
+      oCtx.moveTo(0, 18 * s);
+      oCtx.lineTo(0, -22 * s);
 
-      // Gân nhánh tỏa ra các thùy
-      oCtx.moveTo(0, 0);
-      oCtx.lineTo(13 * s, -9 * s);
-      oCtx.moveTo(0, 0);
-      oCtx.lineTo(-13 * s, -9 * s);
-      oCtx.moveTo(0, 2 * s);
-      oCtx.lineTo(14 * s, 4 * s);
-      oCtx.moveTo(0, 2 * s);
-      oCtx.lineTo(-14 * s, 4 * s);
+      // Gân tỏa sang thùy trên
+      oCtx.moveTo(0, 5 * s);
+      oCtx.lineTo(13 * s, -17 * s);
+      oCtx.moveTo(0, 5 * s);
+      oCtx.lineTo(-13 * s, -17 * s);
+
+      // Gân tỏa sang thùy giữa
+      oCtx.moveTo(0, 6 * s);
+      oCtx.lineTo(19 * s, -5 * s);
+      oCtx.moveTo(0, 6 * s);
+      oCtx.lineTo(-19 * s, -5 * s);
+
+      // Gân tỏa sang thùy dưới
+      oCtx.moveTo(0, 8 * s);
+      oCtx.lineTo(16 * s, 5 * s);
+      oCtx.moveTo(0, 8 * s);
+      oCtx.lineTo(-16 * s, 5 * s);
       oCtx.stroke();
 
       oCtx.restore();
