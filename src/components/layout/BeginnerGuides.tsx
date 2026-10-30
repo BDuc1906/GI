@@ -14,25 +14,34 @@ import { Link } from "@/i18n/navigation";
 export function BeginnerGuides() {
   const guides = [
     {
-      title: "Lịch farm hằng tuần",
-      description: "Hôm nay farm sách thiên phú và nguyên liệu vũ khí ở đâu",
+      title: "Lịch Farm Hằng Tuần",
+      description: "Tra cứu bí cảnh sách thiên phú và nguyên liệu đột phá vũ khí theo từng ngày",
       icon: "/local-genshin-assets/ui/resin.png",
       href: "/calendar",
-      tag: "Nổi bật"
+      tag: "Thời Gian Thực",
+      bgImage: "/images/domains/UI_DungeonPic_CycleDungeonChasm.png",
+      badgeColor: "bg-teal-500/20 text-teal-300 border-teal-500/40",
+      accentBorder: "hover:border-teal-400/80",
     },
     {
-      title: "Tính nguyên liệu nâng cấp",
-      description: "Tính đủ Mora, sách và nguyên liệu cho nhân vật, vũ khí",
-      icon: "/local-genshin-assets/ui/calculator.png",
+      title: "Tính Nguyên Liệu Nâng Cấp",
+      description: "Lập kế hoạch chính xác lượng Mora, sách EXP và vật phẩm đột phá lên cấp 90",
+      icon: "/local-genshin-assets/ui/items.png",
       href: "/tools/material-calculator",
-      tag: "Công cụ"
+      tag: "Công Cụ Tối Ưu",
+      bgImage: "/local-genshin-assets/ui/banner-builds.png",
+      badgeColor: "bg-amber-500/20 text-amber-300 border-amber-500/40",
+      accentBorder: "hover:border-amber-400/80",
     },
     {
-      title: "Phản ứng nguyên tố",
-      description: "Bảng phản ứng và công thức sát thương cho người mới",
+      title: "Cơ Chế Phản Ứng Nguyên Tố",
+      description: "Bảng tra cứu công thức tính sát thương, phản ứng khuếch đại & biến đổi 7 nguyên tố",
       icon: "/local-genshin-assets/ui/genesis_crystal.png",
       href: "/elements",
-      tag: "Quan trọng"
+      tag: "Chiến Thuật",
+      bgImage: "/local-genshin-assets/characters/splash/raiden-shogun.png",
+      badgeColor: "bg-purple-500/20 text-purple-300 border-purple-500/40",
+      accentBorder: "hover:border-purple-400/80",
     },
   ];
 
@@ -41,7 +50,7 @@ export function BeginnerGuides() {
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-6 pb-2 border-b border-border/40">
         <div>
           <h2 className="font-display text-2xl font-bold text-text-primary tracking-tight">
-            Cẩm Nang Dành Cho Nhà Lữ Hành Mới
+            Cẩm Nang Dành Cho Nhà Lữ Hành
           </h2>
           <p className="text-sm text-text-secondary mt-1">
             Những kiến thức cốt lõi về cơ chế phản ứng, lịch tài nguyên và tối ưu nguyên liệu
@@ -54,29 +63,46 @@ export function BeginnerGuides() {
           <Link
             key={guide.href}
             href={guide.href}
-            className="group relative bg-bg-card/85 border border-border/80 hover:border-accent-500 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/20 overflow-hidden flex flex-col justify-between"
+            className={`group relative h-48 sm:h-52 rounded-2xl overflow-hidden border border-border/80 ${guide.accentBorder} transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/40 flex flex-col justify-between p-5`}
           >
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={guide.icon} alt="" width={22} height={22} className="w-5.5 h-5.5 object-contain" />
-                  <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-accent-500/15 text-accent-bright border border-accent-500/30">
-                    {guide.tag}
-                  </span>
-                </div>
-                <span className="text-xs text-text-muted group-hover:text-accent-bright transition-colors font-medium">
-                  Chi tiết &rarr;
+            {/* Background Image with hover zoom */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={guide.bgImage}
+              alt=""
+              aria-hidden="true"
+              className="absolute inset-0 w-full h-full object-cover object-center opacity-30 group-hover:opacity-40 group-hover:scale-105 transition-all duration-700 ease-out select-none pointer-events-none"
+            />
+
+            {/* Gradient Scrim Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-bg-card via-bg-card/85 to-bg-card/40 pointer-events-none" />
+
+            {/* Content Top */}
+            <div className="relative z-10 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={guide.icon} alt="" width={22} height={22} className="w-5.5 h-5.5 object-contain shrink-0" />
+                <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full border ${guide.badgeColor}`}>
+                  {guide.tag}
                 </span>
               </div>
-              <div className="font-semibold text-lg text-text-primary group-hover:text-accent-bright transition-colors mb-2">
-                {guide.title}
-              </div>
-              <div className="text-sm text-text-secondary leading-relaxed">
-                {guide.description}
-              </div>
+              <span className="text-xs text-text-muted group-hover:text-accent-bright transition-colors font-semibold">
+                Xem ngay &rarr;
+              </span>
             </div>
-            <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-transparent via-accent-500/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+            {/* Content Bottom: Title & Description */}
+            <div className="relative z-10">
+              <h3 className="font-display font-bold text-lg sm:text-xl text-text-primary group-hover:text-accent-bright transition-colors drop-shadow-md mb-1.5">
+                {guide.title}
+              </h3>
+              <p className="text-xs sm:text-sm text-text-secondary leading-relaxed line-clamp-2">
+                {guide.description}
+              </p>
+            </div>
+
+            {/* Bottom Accent line */}
+            <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-transparent via-accent-500/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
           </Link>
         ))}
       </div>

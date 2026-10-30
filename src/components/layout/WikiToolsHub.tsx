@@ -15,6 +15,7 @@ export async function WikiToolsHub() {
       badgeColor: "bg-teal-500/15 text-teal-300 border-teal-500/30",
       accentBorder: "hover:border-teal-400/60",
       accentGlow: "group-hover:shadow-[0_0_25px_rgba(45,212,191,0.15)]",
+      bgArtwork: "/local-genshin-assets/characters/splash/kaedehara-kazuha.png",
     },
     {
       title: "Máy Tính Sát Thương & So Sánh DPS",
@@ -25,6 +26,7 @@ export async function WikiToolsHub() {
       badgeColor: "bg-rose-500/15 text-rose-300 border-rose-500/30",
       accentBorder: "hover:border-rose-400/60",
       accentGlow: "group-hover:shadow-[0_0_25px_rgba(244,63,94,0.15)]",
+      bgArtwork: "/local-genshin-assets/characters/splash/furina.png",
     },
   ];
 
@@ -99,9 +101,23 @@ export async function WikiToolsHub() {
           <Link
             key={tool.href}
             href={tool.href}
-            className={`group relative flex flex-col justify-between p-6 rounded-2xl bg-gradient-to-br from-bg-card via-bg-card/90 to-bg-elevated/40 border border-border/80 ${tool.accentBorder} transition-all duration-300 hover:-translate-y-1 shadow-sm ${tool.accentGlow} lg:col-span-1 min-h-[220px]`}
+            className={`group relative flex flex-col justify-between p-6 rounded-2xl bg-gradient-to-br from-bg-card via-bg-card/90 to-bg-elevated/40 border border-border/80 ${tool.accentBorder} transition-all duration-300 hover:-translate-y-1 shadow-sm ${tool.accentGlow} lg:col-span-1 min-h-[220px] overflow-hidden`}
           >
-            <div>
+            {/* Background artwork with hover zoom */}
+            {tool.bgArtwork && (
+              <>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={tool.bgArtwork}
+                  alt=""
+                  aria-hidden="true"
+                  className="absolute right-0 top-0 w-3/5 h-full object-cover object-top opacity-15 group-hover:opacity-25 group-hover:scale-105 transition-all duration-700 ease-out select-none pointer-events-none"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-bg-card via-bg-card/90 to-transparent pointer-events-none" />
+              </>
+            )}
+
+            <div className="relative z-10">
               <div className="flex items-center justify-between gap-2 mb-3">
                 <div className="flex items-center gap-2">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -121,7 +137,7 @@ export async function WikiToolsHub() {
                 {tool.description}
               </p>
             </div>
-            <div className="pt-4 border-t border-border/40 flex items-center justify-between text-xs text-text-muted">
+            <div className="relative z-10 pt-4 border-t border-border/40 flex items-center justify-between text-xs text-text-muted">
               <span>Đầy đủ cơ chế &amp; công thức</span>
               <span className="text-accent-bright font-medium">Chi tiết</span>
             </div>

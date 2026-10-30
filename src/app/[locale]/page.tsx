@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 import { WikiHero } from "../../components/layout/WikiHero";
+import { FeaturedBanners } from "../../components/layout/FeaturedBanners";
 import { WikiToolsHub } from "../../components/layout/WikiToolsHub";
 import { VersionHub } from "../../components/layout/VersionHub";
 import { ServerTimers } from "../../components/layout/ServerTimers";
@@ -41,7 +42,10 @@ export default async function Home({ params }: HomePageProps) {
       {/* 2. Live Server Reset Timers (Compact HUD) */}
       <ServerTimers />
 
-      {/* 3. Tactical Bento Tools Hub */}
+      {/* 3. Featured Tactical Banners (Game8 / Prydwen cinematic wide visual banners) */}
+      <FeaturedBanners />
+
+      {/* 4. Tactical Bento Tools Hub */}
       <WikiToolsHub />
 
       {/* 4. Phiên Bản Hiện Tại: Chỉ hiển thị Nhân vật mới & Vũ khí mới của bản hiện tại */}
