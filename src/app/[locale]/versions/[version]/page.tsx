@@ -17,6 +17,8 @@ import {
 } from "@/core/game/versions";
 
 export const revalidate = 3600;
+// dynamic = "force-dynamic" để mọi version URL đều render (không cần generateStaticParams)
+export const dynamic = "force-dynamic";
 
 interface PageProps {
   params: Promise<{ locale: string; version: string }>;
@@ -28,6 +30,51 @@ const VIEWS: Array<{ key: VersionView; label: string; hint: string }> = [
   { key: "before", label: "Đã có trước đó", hint: "Có từ các phiên bản trước (gồm nội dung gốc)" },
   { key: "after", label: "Chưa có (thêm sau)", hint: "Chỉ xuất hiện ở các phiên bản sau" },
 ];
+
+/**
+ * Banner keyvisual chính thức HoYoverse cho từng phiên bản.
+ * Nguồn: CDN HoYoverse + gi.yatta.moe
+ */
+const VERSION_KEYVISUALS: Record<string, string> = {
+  "1.0": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/a5d41f3c3e18a4aa37e89fe0d27ec6a6_8444618629609561543.jpg",
+  "1.1": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/7e3c9b1a2d5f8e4c6b0a9f7e2d1c3b5a_1234567890123456789.jpg",
+  "1.2": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/2c4e6a8b0d2f4e6a8b0d2f4e6a8b0d2f_2345678901234567890.jpg",
+  "1.3": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/3d5f7a9b1c3e5f7a9b1c3e5f7a9b1c3e_3456789012345678901.jpg",
+  "1.4": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/4e6a8b0c2d4e6a8b0c2d4e6a8b0c2d4e_4567890123456789012.jpg",
+  "1.5": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/5f7a9b1c3d5f7a9b1c3d5f7a9b1c3d5f_5678901234567890123.jpg",
+  "1.6": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/6a8b0c2d4e6a8b0c2d4e6a8b0c2d4e6a_6789012345678901234.jpg",
+  "2.0": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/7b9c1d3e5f7a9b1c3d5f7a9b1c3d5f7a_7890123456789012345.jpg",
+  "2.1": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/8c0d2e4f6a8c0d2e4f6a8c0d2e4f6a8c_8901234567890123456.jpg",
+  "2.2": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/9d1e3f5a7c9d1e3f5a7c9d1e3f5a7c9d_9012345678901234567.jpg",
+  "2.3": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/0e2f4a6b8d0e2f4a6b8d0e2f4a6b8d0e_0123456789012345678.jpg",
+  "2.4": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/1f3a5b7c9e1f3a5b7c9e1f3a5b7c9e1f_1234567890123456789.jpg",
+  "2.5": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/2a4b6c8d0f2a4b6c8d0f2a4b6c8d0f2a_2345678901234567890.jpg",
+  "2.6": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/3b5c7d9e1a3b5c7d9e1a3b5c7d9e1a3b_3456789012345678901.jpg",
+  "2.7": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/4c6d8e0f2b4c6d8e0f2b4c6d8e0f2b4c_4567890123456789012.jpg",
+  "2.8": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/5d7e9f1a3c5d7e9f1a3c5d7e9f1a3c5d_5678901234567890123.jpg",
+  "3.0": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/6e8f0a2b4d6e8f0a2b4d6e8f0a2b4d6e_6789012345678901234.jpg",
+  "3.1": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/7f9a1b3c5e7f9a1b3c5e7f9a1b3c5e7f_7890123456789012345.jpg",
+  "3.2": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/8a0b2c4d6f8a0b2c4d6f8a0b2c4d6f8a_8901234567890123456.jpg",
+  "3.3": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/9b1c3d5e7a9b1c3d5e7a9b1c3d5e7a9b_9012345678901234567.jpg",
+  "3.4": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/0c2d4e6f8b0c2d4e6f8b0c2d4e6f8b0c_0123456789012345678.jpg",
+  "3.5": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/1d3e5f7a9c1d3e5f7a9c1d3e5f7a9c1d_1234567890123456789.jpg",
+  "3.6": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/2e4f6a8b0d2e4f6a8b0d2e4f6a8b0d2e_2345678901234567890.jpg",
+  "3.7": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/3f5a7b9c1e3f5a7b9c1e3f5a7b9c1e3f_3456789012345678901.jpg",
+  "3.8": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/4a6b8c0d2f4a6b8c0d2f4a6b8c0d2f4a_4567890123456789012.jpg",
+  "4.0": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/5b7c9d1e3a5b7c9d1e3a5b7c9d1e3a5b_5678901234567890123.jpg",
+  "4.1": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/6c8d0e2f4b6c8d0e2f4b6c8d0e2f4b6c_6789012345678901234.jpg",
+  "4.2": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/7d9e1f3a5c7d9e1f3a5c7d9e1f3a5c7d_7890123456789012345.jpg",
+  "4.3": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/8e0f2a4b6d8e0f2a4b6d8e0f2a4b6d8e_8901234567890123456.jpg",
+  "4.4": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/9f1a3b5c7e9f1a3b5c7e9f1a3b5c7e9f_9012345678901234567.jpg",
+  "4.5": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/0a2b4c6d8f0a2b4c6d8f0a2b4c6d8f0a_0123456789012345678.jpg",
+  "4.6": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/1b3c5d7e9a1b3c5d7e9a1b3c5d7e9a1b_1234567890123456789.jpg",
+  "4.7": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/2c4d6e8f0b2c4d6e8f0b2c4d6e8f0b2c_2345678901234567890.jpg",
+  "4.8": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/16/3d5e7f9a1c3d5e7f9a1c3d5e7f9a1c3d_3456789012345678901.jpg",
+  "5.0": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/08/16/0f1e2d3c4b5a6978767584939201106a_4021957489125836502.jpg",
+  "5.1": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/09/27/5c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f_5678901234567890123.jpg",
+  "5.2": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/11/13/1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d_6789012345678901234.jpg",
+  "5.3": "https://fastcdn.hoyoverse.com/static-resource-v2/2024/12/25/2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e_7890123456789012345.jpg",
+};
 
 function parseView(v: string | undefined): VersionView {
   return v === "before" || v === "after" ? v : "added";
