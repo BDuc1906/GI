@@ -311,7 +311,7 @@ function getPlaystyleNote(vision: string, weaponType: string): string {
   return "Chú trọng combo E → Q → NA để tối đa hóa uptime buff và sát thương. Quản lý năng lượng để Q luôn sẵn sàng.";
 }
 
-/** Score artifact set theo nguyên tố nhân vật */
+/** Score artifact set theo nguyên tố & thuộc tính nhân vật (loại trừ tuyệt đối nguyên tố lệch) */
 function artifactMatchScore(
   vision: string,
   two: string | null,
@@ -319,14 +319,52 @@ function artifactMatchScore(
 ): number {
   const text = `${two ?? ""} ${four ?? ""}`.toLowerCase();
   const v = vision.toLowerCase();
-  // Exact element bonus
-  if (text.includes(v)) return 3;
+
+  // BẢO VỆ CHỐNG LỆCH HỆ: Nếu bộ tăng sát thương nguyên tố khác mà không phải nguyên tố của nhân vật -> LOẠI BỎ NGAY LẬP TỨC
+  const elements = [
+    { key: "geo", name: "nham" },
+    { key: "pyro", name: "hỏa" },
+    { key: "hydro", name: "thủy" },
+    { key: "cryo", name: "băng" },
+    { key: "electro", name: "lôi" },
+    { key: "anemo", name: "phong" },
+    { key: "dendro", name: "thảo" },
+  ];
+
+  for (const el of elements) {
+    if (el.key !== v) {
+      if (
+        text.includes(`${el.key} dmg`) ||
+        text.includes(`${el.key} damage`) ||
+        text.includes(`sát thương ${el.name}`) ||
+        text.includes(`st ${el.name}`)
+      ) {
+        return -100;
+      }
+    }
+  }
+
+  // Exact element bonus (+15% Element DMG)
+  if (text.includes(v) || text.includes(`sát thương ${v}`)) return 10;
+  // Nightsoul / Natlan sets
+  if (text.includes("nightsoul") || text.includes("dạ hồn")) return 8;
+  // Crit buffs (Marechaussee Hunter, Blizzard)
+  if (text.includes("crit")) return 6;
+  // Skill / Burst / Normal Attack DMG (Emblem, Golden Troupe, Shimenawa)
+  if (
+    text.includes("burst dmg") ||
+    text.includes("skill dmg") ||
+    text.includes("normal attack") ||
+    text.includes("charged attack")
+  ) {
+    return 5;
+  }
   // Universal buffs (ATK, EM, Healing, ER)
-  if (text.includes("atk")) return 2;
-  if (text.includes("elemental mastery") || text.includes(" em")) return 2;
-  if (text.includes("healing") || text.includes("hp")) return 1;
-  if (text.includes("energy recharge") || text.includes("recharge")) return 1;
-  return 0;
+  if (text.includes("atk") || text.includes("tấn công")) return 4;
+  if (text.includes("elemental mastery") || text.includes(" em") || text.includes("tinh thông")) return 3;
+  if (text.includes("energy recharge") || text.includes("recharge") || text.includes("hiệu quả nạp")) return 3;
+  if (text.includes("healing") || text.includes("trị liệu") || text.includes("hp")) return 2;
+  return 1;
 }
 
 const STAR = "★";
@@ -430,9 +468,17 @@ export async function RecommendedBuildTab({ character, locale, elementColor }: P
     customNote?: string;
   };
 
+  type ComboSetInfo = {
+    id: string;
+    name: string;
+    iconUrl: string | null;
+    iconUrlOriginal: string | null;
+    twoPieceBonus: string | null;
+  };
+
   type DisplayCombo = {
-    a: { name: string };
-    b: { name: string };
+    a: ComboSetInfo;
+    b: ComboSetInfo;
     customNote?: string;
   };
 
@@ -475,8 +521,20 @@ export async function RecommendedBuildTab({ character, locale, elementColor }: P
         const bSet = artifactMap.get(a.setIds[1]);
         if (aSet && bSet) {
           mappedCombos.push({
-            a: { name: aSet.name },
-            b: { name: bSet.name },
+            a: {
+              id: aSet.id,
+              name: aSet.name,
+              iconUrl: aSet.iconUrl,
+              iconUrlOriginal: aSet.iconUrlOriginal,
+              twoPieceBonus: aSet.twoPieceBonus,
+            },
+            b: {
+              id: bSet.id,
+              name: bSet.name,
+              iconUrl: bSet.iconUrl,
+              iconUrlOriginal: bSet.iconUrlOriginal,
+              twoPieceBonus: bSet.twoPieceBonus,
+            },
             customNote: a.noteVi,
           });
         }
@@ -497,7 +555,7 @@ export async function RecommendedBuildTab({ character, locale, elementColor }: P
         iconUrlOriginal: true,
       },
       orderBy: { name: "asc" },
-      take: 50,
+      take: 60,
     });
 
     artifactsToDisplay = allArtifacts
@@ -505,14 +563,45 @@ export async function RecommendedBuildTab({ character, locale, elementColor }: P
         ...a,
         _score: artifactMatchScore(vision, a.twoPieceBonus, a.fourPieceBonus),
       }))
+      .filter((a) => a._score > 0) // Loại bỏ hoàn toàn các bộ có điểm âm hoặc bằng 0
       .sort((a, b) => b._score - a._score)
       .slice(0, 4);
 
     if (artifactsToDisplay.length >= 2) {
       twoTwoCombosToDisplay = [
-        { a: { name: artifactsToDisplay[0].name }, b: { name: artifactsToDisplay[1].name } },
+        {
+          a: {
+            id: artifactsToDisplay[0].id,
+            name: artifactsToDisplay[0].name,
+            iconUrl: artifactsToDisplay[0].iconUrl,
+            iconUrlOriginal: artifactsToDisplay[0].iconUrlOriginal,
+            twoPieceBonus: artifactsToDisplay[0].twoPieceBonus,
+          },
+          b: {
+            id: artifactsToDisplay[1].id,
+            name: artifactsToDisplay[1].name,
+            iconUrl: artifactsToDisplay[1].iconUrl,
+            iconUrlOriginal: artifactsToDisplay[1].iconUrlOriginal,
+            twoPieceBonus: artifactsToDisplay[1].twoPieceBonus,
+          },
+        },
         artifactsToDisplay.length >= 4
-          ? { a: { name: artifactsToDisplay[2].name }, b: { name: artifactsToDisplay[3].name } }
+          ? {
+              a: {
+                id: artifactsToDisplay[2].id,
+                name: artifactsToDisplay[2].name,
+                iconUrl: artifactsToDisplay[2].iconUrl,
+                iconUrlOriginal: artifactsToDisplay[2].iconUrlOriginal,
+                twoPieceBonus: artifactsToDisplay[2].twoPieceBonus,
+              },
+              b: {
+                id: artifactsToDisplay[3].id,
+                name: artifactsToDisplay[3].name,
+                iconUrl: artifactsToDisplay[3].iconUrl,
+                iconUrlOriginal: artifactsToDisplay[3].iconUrlOriginal,
+                twoPieceBonus: artifactsToDisplay[3].twoPieceBonus,
+              },
+            }
           : null,
       ].filter((c): c is DisplayCombo => c !== null);
     }
@@ -703,27 +792,102 @@ export async function RecommendedBuildTab({ character, locale, elementColor }: P
 
           {/* 2+2 combo suggestions */}
           {twoTwoCombosToDisplay.length > 0 && (
-            <div className="mt-3 p-3 rounded-xl border border-border bg-bg-overlay/40">
-              <p className="text-xs font-medium text-text-primary mb-2">Kết hợp 2+2 thay thế:</p>
-              {twoTwoCombosToDisplay.map((combo, ci) => (
-                <div key={ci} className="text-xs text-text-secondary flex items-center justify-between gap-1 mb-1 last:mb-0">
-                  <div className="flex items-center gap-1 truncate">
-                    <span className="text-accent-bright/70 font-medium shrink-0">
-                      {ci + 1}.
-                    </span>
-                    <span className="truncate">
-                      {combo.a.name} (2) + {combo.b.name} (2)
-                    </span>
-                  </div>
-                  {combo.customNote && (
-                    <span className="text-[10px] text-text-muted shrink-0">
-                      {combo.customNote}
-                    </span>
-                  )}
-                </div>
-              ))}
-              <p className="text-[11px] text-text-muted mt-1">
-                Dùng khi chưa hoàn thiện bộ 4 món. Hiệu quả thấp hơn ~5-10% so với 4 món.
+            <div className="mt-4 p-3.5 rounded-2xl border border-border/70 bg-bg-card/80 backdrop-blur-sm shadow-sm">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="w-1.5 h-3.5 rounded-full bg-accent-500" />
+                <p className="text-xs font-bold uppercase tracking-wider text-text-primary">
+                  Kết hợp 2+2 thay thế (Hiển thị đầy đủ Icon):
+                </p>
+              </div>
+
+              <div className="space-y-2.5">
+                {twoTwoCombosToDisplay.map((combo, ci) => {
+                  const iconA = localArtifactSetIcon(combo.a.id);
+                  const iconB = localArtifactSetIcon(combo.b.id);
+
+                  return (
+                    <div
+                      key={ci}
+                      className="p-3 rounded-xl border border-border/60 bg-bg-elevated/40 hover:bg-bg-elevated/70 transition-colors flex flex-col gap-2"
+                    >
+                      <div className="flex items-center justify-between gap-2 flex-wrap">
+                        <div className="flex items-center gap-2 flex-wrap min-w-0">
+                          <span className="text-xs font-bold font-mono text-accent-bright bg-accent-500/10 px-2 py-0.5 rounded-md border border-accent-500/20 shrink-0">
+                            #{ci + 1}
+                          </span>
+
+                          {/* Set A */}
+                          <div className="flex items-center gap-2 bg-bg-card px-2.5 py-1.5 rounded-lg border border-border/50 shrink-0">
+                            <div className="relative w-7 h-7 rounded overflow-hidden bg-bg-secondary shrink-0">
+                              <SafeImage
+                                src={iconA}
+                                fallbackSrcs={[combo.a.iconUrl, combo.a.iconUrlOriginal]}
+                                alt={combo.a.name}
+                                fill
+                                sizes="28px"
+                                className="object-contain"
+                              />
+                            </div>
+                            <span className="text-xs font-semibold text-text-primary truncate max-w-[150px]">
+                              {combo.a.name}
+                            </span>
+                            <span className="text-[10px] font-bold text-accent-bright bg-accent-500/15 px-1.5 py-0.5 rounded">
+                              2 món
+                            </span>
+                          </div>
+
+                          <span className="text-accent-bright font-bold text-sm px-1">+</span>
+
+                          {/* Set B */}
+                          <div className="flex items-center gap-2 bg-bg-card px-2.5 py-1.5 rounded-lg border border-border/50 shrink-0">
+                            <div className="relative w-7 h-7 rounded overflow-hidden bg-bg-secondary shrink-0">
+                              <SafeImage
+                                src={iconB}
+                                fallbackSrcs={[combo.b.iconUrl, combo.b.iconUrlOriginal]}
+                                alt={combo.b.name}
+                                fill
+                                sizes="28px"
+                                className="object-contain"
+                              />
+                            </div>
+                            <span className="text-xs font-semibold text-text-primary truncate max-w-[150px]">
+                              {combo.b.name}
+                            </span>
+                            <span className="text-[10px] font-bold text-accent-bright bg-accent-500/15 px-1.5 py-0.5 rounded">
+                              2 món
+                            </span>
+                          </div>
+                        </div>
+
+                        {combo.customNote && (
+                          <div className="text-[11px] text-text-secondary bg-bg-card/90 px-2.5 py-1 rounded-md border border-border/40 shrink-0">
+                            {combo.customNote}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Hiển thị chi tiết hiệu ứng 2 món của cả 2 bộ */}
+                      {(combo.a.twoPieceBonus || combo.b.twoPieceBonus) && (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 pt-2 border-t border-border/40 text-[11px] text-text-secondary">
+                          {combo.a.twoPieceBonus && (
+                            <div className="truncate">
+                              <span className="font-medium text-text-primary">{combo.a.name}:</span> {combo.a.twoPieceBonus}
+                            </div>
+                          )}
+                          {combo.b.twoPieceBonus && (
+                            <div className="truncate">
+                              <span className="font-medium text-text-primary">{combo.b.name}:</span> {combo.b.twoPieceBonus}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              <p className="text-[11px] text-text-muted mt-2.5 italic">
+                * Dùng tạm khi chưa hoàn thiện đủ bộ 4 món cùng loại. Hiệu quả DPS thường thấp hơn khoảng 5-10% so với bộ 4 món kích hoạt đủ hiệu ứng.
               </p>
             </div>
           )}
