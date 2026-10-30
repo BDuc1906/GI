@@ -132,13 +132,13 @@ export function SearchBar() {
           onClick={openSearch}
           aria-label={t("ariaSearch")}
           title={t("searchShortcutTitle")}
-          className="inline-flex items-center justify-center w-9 h-9 rounded-lg border border-border text-text-secondary hover:border-gold hover:text-text-primary transition-colors"
+          className="inline-flex items-center justify-center w-9 h-9 rounded-xl border border-border/80 bg-bg-card/75 text-text-secondary hover:border-accent-500 hover:text-accent-bright hover:bg-bg-elevated transition-all cursor-pointer"
         >
-          <SearchIcon size={20} />
+          <SearchIcon size={18} />
         </button>
       ) : (
         <form onSubmit={handleSubmit} className="relative w-56 md:w-64">
-          <SearchIcon size={16} className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2" />
+          <SearchIcon size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-accent-bright" />
           <input
             ref={inputRef}
             type="search"

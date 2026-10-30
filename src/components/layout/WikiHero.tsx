@@ -26,13 +26,6 @@ export function WikiHero() {
     }
   };
 
-  const hotTags = [
-    { label: "Kazuha", href: "/characters?search=Kazuha" },
-    { label: "Vũ khí 5★", href: "/weapons" },
-    { label: "Dựng đội hình", href: "/tools/team-builder" },
-    { label: "DPS Calculator", href: "/tools/dps-calculator" },
-    { label: "Lịch Farm", href: "/calendar" },
-  ];
 
   return (
     <section className="relative overflow-hidden bg-bg-primary pt-12 pb-16 md:pt-20 md:pb-24 border-b border-border/50">
@@ -98,23 +91,10 @@ export function WikiHero() {
               </button>
             </form>
 
-            {/* Hot search tags */}
-            <div className="flex flex-wrap items-center justify-center gap-2 mt-3.5">
-              <span className="text-xs text-text-muted mr-1 font-medium">Gợi ý:</span>
-              {hotTags.map((tag) => (
-                <Link
-                  key={tag.label}
-                  href={tag.href}
-                  className="px-2.5 py-1 text-xs rounded-lg bg-bg-card/60 border border-border/70 text-text-secondary hover:text-accent-bright hover:border-accent-500/50 transition-all"
-                >
-                  {tag.label}
-                </Link>
-              ))}
-            </div>
           </div>
 
-          {/* Quick CTAs */}
-          <div className="flex flex-wrap justify-center gap-3 pt-2 mb-10">
+          {/* Quick CTAs — 4 nút điều hướng chính theo thứ tự ưu tiên dùng nhiều nhất */}
+          <div className="flex flex-wrap justify-center gap-3 pt-2 mb-4">
             <Link
               href="/characters"
               className="btn-primary flex items-center justify-center px-6 py-3 rounded-xl shadow-md text-sm font-semibold tracking-wide"
@@ -122,16 +102,10 @@ export function WikiHero() {
               <span>Nhân vật</span>
             </Link>
             <Link
-              href="/tools/team-builder"
-              className="btn-anemo flex items-center justify-center px-6 py-3 rounded-xl shadow-md text-sm font-semibold tracking-wide"
-            >
-              <span>Dựng đội hình</span>
-            </Link>
-            <Link
               href="/weapons"
               className="btn-secondary flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold tracking-wide hover:border-accent-500/60"
             >
-              <span>Kho vũ khí</span>
+              <span>Vũ khí</span>
             </Link>
             <Link
               href="/artifacts"
@@ -139,26 +113,18 @@ export function WikiHero() {
             >
               <span>Thánh di vật</span>
             </Link>
-          </div>
-
-          {/* Live Wiki Metrics Strip */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-3xl mx-auto pt-6 border-t border-border/60">
-            <div className="p-3 rounded-xl bg-bg-card/40 border border-border/50">
-              <div className="text-xl md:text-2xl font-bold font-mono text-accent-bright">100+</div>
-              <div className="text-xs text-text-muted mt-0.5">Nhân vật đầy đủ</div>
-            </div>
-            <div className="p-3 rounded-xl bg-bg-card/40 border border-border/50">
-              <div className="text-xl md:text-2xl font-bold font-mono text-accent-bright">180+</div>
-              <div className="text-xs text-text-muted mt-0.5">Vũ khí &amp; Chỉ số</div>
-            </div>
-            <div className="p-3 rounded-xl bg-bg-card/40 border border-border/50">
-              <div className="text-xl md:text-2xl font-bold font-mono text-accent-bright">60+</div>
-              <div className="text-xs text-text-muted mt-0.5">Bộ Thánh di vật</div>
-            </div>
-            <div className="p-3 rounded-xl bg-bg-card/40 border border-border/50">
-              <div className="text-xl md:text-2xl font-bold font-mono text-accent-bright">100%</div>
-              <div className="text-xs text-text-muted mt-0.5">Live Database</div>
-            </div>
+            <Link
+              href="/domains"
+              className="btn-secondary flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold tracking-wide hover:border-accent-500/60"
+            >
+              <span>Bí cảnh</span>
+            </Link>
+            <Link
+              href="/calendar"
+              className="btn-anemo flex items-center justify-center px-6 py-3 rounded-xl shadow-md text-sm font-semibold tracking-wide"
+            >
+              <span>Lịch farm</span>
+            </Link>
           </div>
         </div>
       </div>

@@ -24,7 +24,6 @@ export function SiteNav() {
     { href: "/weapons", label: t("weapons"), icon: "/local-genshin-assets/ui/sword.png" },
     { href: "/artifacts", label: t("artifacts"), icon: "/local-genshin-assets/ui/artifacts.png" },
     { href: "/domains", label: t("domains"), icon: "/local-genshin-assets/ui/domain.png" },
-    { href: "/tools/team-builder", label: "Đội hình", icon: "/local-genshin-assets/ui/stardust.png" },
     { href: "/calendar", label: "Lịch farm", icon: "/local-genshin-assets/ui/resin.png" },
   ];
 

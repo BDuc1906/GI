@@ -28,17 +28,24 @@ export function SearchIcon({ size = 18, className = "" }: UiIconProps) {
   );
 }
 
-/** Icon Paimon trợ thủ / ngôn ngữ — dùng asset game Paimon chuẩn */
+/** Icon quả địa cầu (Globe) chuẩn quốc tế */
 export function GlobeIcon({ size = 18, className = "" }: UiIconProps) {
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src="/local-genshin-assets/ui/paimon_hello.png"
-      alt="Language"
+    <svg
       width={size}
       height={size}
-      className={`inline-block object-contain shrink-0 ${className}`}
-      loading="lazy"
-    />
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={`inline-block shrink-0 ${className}`}
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <line x1="2" y1="12" x2="22" y2="12" />
+      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+    </svg>
   );
 }

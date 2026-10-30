@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { routing } from "@/i18n/routing";
 import { usePathname, useRouter } from "@/i18n/navigation";
+import { GlobeIcon } from "@/components/ui/UiIcon";
 
 // Tên hiển thị BẰNG CHÍNH ngôn ngữ đó (không dịch qua tiếng Anh/Việt) —
 // đúng chuẩn UX cho bộ chọn ngôn ngữ: người đọc tiếng Nhật cần thấy
@@ -81,8 +82,9 @@ export function LanguageSwitcher() {
         aria-haspopup="listbox"
         title={t("language")}
         disabled={isPending}
-        className="inline-flex items-center justify-center px-2.5 h-9 rounded-lg border border-border text-text-secondary hover:border-accent-500 hover:text-text-primary transition-colors disabled:opacity-50 text-xs font-mono font-bold tracking-wider uppercase"
+        className="inline-flex items-center gap-1.5 px-2.5 h-9 rounded-xl border border-border/80 bg-bg-card/75 text-text-secondary hover:border-accent-500 hover:text-text-primary hover:bg-bg-elevated transition-all disabled:opacity-50 text-xs font-mono font-bold tracking-wider uppercase cursor-pointer"
       >
+        <GlobeIcon size={16} className="text-accent-bright" />
         <span>{locale.slice(0, 2).toUpperCase()}</span>
       </button>
 
