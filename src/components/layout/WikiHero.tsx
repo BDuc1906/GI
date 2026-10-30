@@ -31,15 +31,15 @@ export function WikiHero() {
     <section className="relative overflow-hidden bg-bg-primary pt-12 pb-16 md:pt-20 md:pb-24 border-b border-border/50">
       {/* Dynamic Background Atmosphere: Anemo Swirl & Autumn Glow */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Deep Anemo Teal radial glow */}
+        {/* Deep Character Primary Accent radial glow */}
         <div 
-          className="absolute -top-40 left-1/4 w-[600px] h-[600px] rounded-full blur-[140px] opacity-30"
-          style={{ background: "radial-gradient(circle, #2dd4bf 0%, transparent 70%)" }}
+          className="absolute -top-40 left-1/4 w-[600px] h-[600px] rounded-full blur-[140px] opacity-35 transition-all duration-700"
+          style={{ background: "radial-gradient(circle, var(--accent-500) 0%, transparent 70%)" }}
         />
-        {/* Deep Maple Crimson warm ambient glow */}
+        {/* Deep Character Secondary Accent ambient glow */}
         <div 
-          className="absolute top-10 right-1/6 w-[550px] h-[550px] rounded-full blur-[150px] opacity-25"
-          style={{ background: "radial-gradient(circle, #b91c1c 0%, transparent 70%)" }}
+          className="absolute top-10 right-1/6 w-[550px] h-[550px] rounded-full blur-[150px] opacity-25 transition-all duration-700"
+          style={{ background: "radial-gradient(circle, var(--accent-bright) 0%, transparent 70%)" }}
         />
         {/* Center subtle obsidian depth gradient */}
         <div 
