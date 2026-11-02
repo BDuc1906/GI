@@ -187,33 +187,12 @@
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.55);
 }
 
-/* === LIGHT THEME — Giấy điệp ngà thanh thoát chuẩn Genshin === */
-[data-theme="light"] {
-  --bg-primary: #f8fafc;
-  --bg-secondary: #f1f5f9;
-  --bg-card: #ffffff;
-  --bg-elevated: #e2e8f0;
-  --bg-input: #ffffff;
-
-  --text-primary: #0f172a;
-  --text-secondary: #334155;
-  --text-muted: #64748b;
-  --text-inverted: #f8fafc;
-
-  --border-color: #cbd5e1;
-  --border-strong: #94a3b8;
-
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
-}
-
 /* === CHỦ ĐỀ MÀU SẮC NHÂN VẬT TOÀN DIỆN (Full-Site Character Palettes) ===
  * Khi chọn bất kỳ nhân vật nào, toàn bộ website (nền chính, thanh điều hướng, card, viền, hiệu ứng sáng)
  * sẽ đồng bộ 100% sang màu sắc biểu tượng của nhân vật đó. */
 
 /* Default: Kaedehara Kazuha (Anemo Teal & Samurai Slate) */
-[data-char-theme="kazuha"], :root:not([data-char-theme]) {
+[data-char-theme="kazuha"], :root[data-theme="dark"]:not([data-char-theme]) {
   --bg-primary: #0c1219;
   --bg-secondary: #101824;
   --bg-card: #15202f;
@@ -408,6 +387,26 @@
   --gold-bright: #cbd5e1;
 }
 
+/* Light mode owns the surface and text palette regardless of character theme. */
+[data-theme="light"] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-elevated: #e2e8f0;
+  --bg-input: #ffffff;
+
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --text-inverted: #f8fafc;
+
+  --border-color: #cbd5e1;
+  --border-strong: #94a3b8;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
 
 @theme inline {
   --color-bg-primary: var(--bg-primary);

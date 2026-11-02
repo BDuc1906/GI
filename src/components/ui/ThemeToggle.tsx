@@ -3,11 +3,7 @@
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
-/**
- * Nút bật/tắt chế độ sáng/tối với icon mặt trời và mặt trăng.
- * Tách biệt hoàn toàn khỏi phần chọn theme màu sắc.
- * Dùng pattern "mounted flag" chuẩn của next-themes để né hydration mismatch.
- */
+/** Chọn chế độ sáng/tối độc lập với bảng màu nhân vật. */
 export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
   const { theme, resolvedTheme, setTheme } = useTheme();
@@ -18,22 +14,35 @@ export function ThemeToggle() {
   if (!mounted) {
     return (
       <div
-        className="w-9 h-9 rounded-xl border border-border/80 bg-bg-card/75 flex items-center justify-center text-text-muted opacity-50"
+        className="flex items-center gap-1 rounded-xl border border-border/80 bg-bg-card/75 p-1 opacity-50"
         aria-hidden="true"
       >
-        {/* Placeholder sun/moon icon before hydration */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth={2.2}
+          strokeWidth={2}
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="w-[18px] h-[18px]"
+          className="h-8 w-8 rounded-lg p-2 text-text-muted"
           aria-hidden="true"
         >
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />
+        </svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="h-8 w-8 rounded-lg p-2 text-text-muted"
+          aria-hidden="true"
+        >
+          <path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z" />
         </svg>
       </div>
     );
@@ -43,56 +52,64 @@ export function ThemeToggle() {
   const isDark = currentTheme === "dark";
 
   return (
-    <button
-      type="button"
-      onClick={() => setTheme(isDark ? "light" : "dark")}
-      aria-label={isDark ? "Chuyển sang chế độ sáng" : "Chuyển sang chế độ tối"}
-      title={isDark ? "Chuyển sang chế độ sáng (Light)" : "Chuyển sang chế độ tối (Dark)"}
-      className="w-9 h-9 flex items-center justify-center rounded-xl border border-border/80 bg-bg-card/75 text-text-secondary hover:border-accent-500 hover:text-accent-bright hover:bg-bg-elevated transition-all duration-200 shrink-0 cursor-pointer group"
+    <div
+      role="group"
+      aria-label="Chế độ giao diện"
+      className="flex items-center gap-1 rounded-xl border border-border/80 bg-bg-card/75 p-1 shrink-0"
     >
-      {isDark ? (
-        /* Icon mặt trời — biểu tượng chế độ sáng với tia sáng sắc nét */
+      <button
+        type="button"
+        onClick={() => setTheme("light")}
+        aria-label="Chế độ sáng"
+        aria-pressed={!isDark}
+        title="Chế độ sáng (Light)"
+        className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors ${
+          !isDark
+            ? "bg-bg-elevated text-amber-500 shadow-sm"
+            : "text-text-muted hover:bg-bg-elevated hover:text-amber-500"
+        }`}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth={2.2}
+          strokeWidth={2}
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="w-[18px] h-[18px] text-amber-300 group-hover:rotate-45 transition-transform duration-300"
+          className="h-[18px] w-[18px]"
           aria-hidden="true"
         >
-          <circle cx="12" cy="12" r="4.5" fill="currentColor" fillOpacity={0.25} />
-          <line x1="12" y1="2" x2="12" y2="4.5" />
-          <line x1="12" y1="19.5" x2="12" y2="22" />
-          <line x1="4.93" y1="4.93" x2="6.7" y2="6.7" />
-          <line x1="17.3" y1="17.3" x2="19.07" y2="19.07" />
-          <line x1="2" y1="12" x2="4.5" y2="12" />
-          <line x1="19.5" y1="12" x2="22" y2="12" />
-          <line x1="4.93" y1="19.07" x2="6.7" y2="17.3" />
-          <line x1="17.3" y1="6.7" x2="19.07" y2="4.93" />
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />
         </svg>
-      ) : (
-        /* Icon mặt trăng — biểu tượng chế độ tối */
+      </button>
+      <button
+        type="button"
+        onClick={() => setTheme("dark")}
+        aria-label="Chế độ tối"
+        aria-pressed={isDark}
+        title="Chế độ tối (Dark)"
+        className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors ${
+          isDark
+            ? "bg-bg-elevated text-teal-500 shadow-sm"
+            : "text-text-muted hover:bg-bg-elevated hover:text-teal-500"
+        }`}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth={2.2}
+          strokeWidth={2}
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="w-[18px] h-[18px] text-teal-400 group-hover:-rotate-12 transition-transform duration-300"
+          className="h-[18px] w-[18px]"
           aria-hidden="true"
         >
-          <path
-            d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
-            fill="currentColor"
-            fillOpacity={0.25}
-          />
+          <path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z" />
         </svg>
-      )}
-    </button>
+      </button>
+    </div>
   );
 }

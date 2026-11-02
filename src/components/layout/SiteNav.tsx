@@ -11,7 +11,8 @@ import { CharacterThemeSelector } from "../ui/CharacterThemeSelector";
 /**
  * Header đầy đủ: logo + link điều hướng + [ngôn ngữ] + [search] + [theme nhân vật] + [dark/light].
  * Ngôn ngữ và search đều thu gọn thành icon — bấm vào mới bung ra
- * (dropdown / ô nhập) — để không chiếm chỗ ngang trên header.
+ * (dropdown / ô nhập) — để không chiếm chỗ ngang trên header. Trên mobile,
+ * icon đổi ngôn ngữ luôn nằm cạnh công tắc sáng/tối, ngoài menu hamburger.
  */
 export function SiteNav() {
   const t = useTranslations("Nav");
@@ -65,13 +66,18 @@ export function SiteNav() {
         </div>
 
         {/* Header Controls: [Địa Cầu] [Kính Lúp] [Theme Nhân Vật] [Sáng / Tối] */}
-        <div className="flex items-center gap-1.5 ml-auto">
+        <div className="flex items-center gap-1 ml-auto">
           <div className="hidden sm:flex items-center gap-1.5">
             <LanguageSwitcher />
             <SearchBar />
             <CharacterThemeSelector />
           </div>
-          <ThemeToggle />
+          <div className="sm:hidden">
+            <LanguageSwitcher />
+          </div>
+          <div className="ml-1 border-l border-border/70 pl-2">
+            <ThemeToggle />
+          </div>
 
           {/* Nút hamburger 3 gạch: hiện trên mobile & tablet (< lg) */}
           <button
@@ -94,13 +100,12 @@ export function SiteNav() {
         </div>
       </nav>
 
-      {/* Panel mobile: link + search + ngôn ngữ + theme gộp lại, chỉ render khi mở. */}
+      {/* Panel mobile: link + search + theme nhân vật gộp lại, chỉ render khi mở. */}
       {menuOpen && (
         <div className="lg:hidden border-t border-border px-4 py-4 flex flex-col gap-3.5 bg-bg-primary/95 backdrop-blur-md shadow-xl animate-in slide-in-from-top-2 duration-200">
-          {/* Quick controls on mobile (< sm): Language, Theme & Search */}
+          {/* Quick controls on mobile (< sm): Character theme & Search */}
           <div className="sm:hidden flex items-center justify-between gap-2 pb-2.5 border-b border-border/50">
             <div className="flex items-center gap-1.5">
-              <LanguageSwitcher />
               <CharacterThemeSelector />
             </div>
             <div className="flex items-center">
