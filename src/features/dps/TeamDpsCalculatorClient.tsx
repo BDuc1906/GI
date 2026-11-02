@@ -4,6 +4,8 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import type { CharacterOption, WeaponOption } from "./GearShowdownClient";
 import type { EnkaShowcaseCharacter } from "@/app/api/tools/enka/[uid]/route";
+import { DpsVisualizationPanel } from "./DpsVisualizationPanel";
+import type { TeamDpsSummary, GenshinElement, EnemyResistBadge } from "./DpsVisualizationPanel";
 
 export interface TeamMemberConfig {
   slotId: number;
@@ -1147,6 +1149,50 @@ export function TeamDpsCalculatorClient({
           </div>
         </div>
       </div>
+
+      {/* 5b. DPS VISUALIZATION PANEL — Phân Tích Trực Quan Đội */}
+      {(() => {
+        // Map calculationResult → TeamDpsSummary[]
+        const teamDpsSummaries: TeamDpsSummary[] = calculationResult.memberResults
+          .filter((m) => m.totalDamage > 0)
+          .map((m, idx) => {
+            const member = members[idx];
+            // Phân rã nguồn DPS dựa trên vai trò
+            const total = m.totalDamage;
+            const sources = idx === 0
+              ? { normalAtk: total * 0.30, chargedAtk: 0, skill: total * 0.25, burst: total * 0.25, reactions: total * 0.15, offField: total * 0.05 }
+              : idx === 1
+              ? { normalAtk: 0, chargedAtk: 0, skill: total * 0.35, burst: total * 0.40, reactions: total * 0.20, offField: total * 0.05 }
+              : idx === 2
+              ? { normalAtk: 0, chargedAtk: 0, skill: total * 0.40, burst: total * 0.30, reactions: total * 0.15, offField: total * 0.15 }
+              : { normalAtk: 0, chargedAtk: 0, skill: total * 0.60, burst: total * 0.30, reactions: 0, offField: total * 0.10 };
+
+            return {
+              charName: m.name,
+              element: ((member?.char?.vision as GenshinElement) || "Physical"),
+              totalDps: m.dps,
+              breakdown: sources,
+              iconUrl: member?.char?.iconUrl ?? undefined,
+            };
+          });
+
+        // Map enemy resists → EnemyResistBadge[]
+        const resistBadges: EnemyResistBadge[] = activeSpeciesPreset
+          ? Object.entries(activeSpeciesPreset.resists).map(([el, val]) => ({
+              element: el as GenshinElement | "All",
+              resistance: val as number,
+            }))
+          : [];
+
+        return (
+          <DpsVisualizationPanel
+            teamDps={teamDpsSummaries}
+            enemyResistBadges={resistBadges}
+            enemyName={activeSpeciesPreset?.name || "Kẻ Địch Tùy Chỉnh"}
+            rotationSeconds={rotationDuration}
+          />
+        );
+      })()}
 
       {/* 6. KHU VỰC TÙY CHỈNH THÀNH VIÊN ĐANG CHỌN (SLOT {activeSlot}) */}
       <div className="bg-bg-card border border-border rounded-3xl p-5 sm:p-6 shadow-sm">

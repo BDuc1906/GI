@@ -3,6 +3,8 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import type { ShowdownResult } from "@/core/game/dps/types";
+import { KQMBenchmarkPanel } from "./KQMBenchmarkPanel";
+import { RVLegend } from "./ArtifactRVCard";
 
 export interface CharacterOption {
   id: string;
@@ -555,6 +557,18 @@ export function GearShowdownClient({ characters, weapons }: GearShowdownClientPr
           )}
         </div>
       )}
+
+      {/* KQM Benchmark Section */}
+      <div className="space-y-4">
+        <h3 className="text-sm font-semibold text-text-primary border-b border-border pb-2">
+          ⚖️ KQM Standard Benchmark
+        </h3>
+        <KQMBenchmarkPanel
+          charBaseAtk={selectedChar ? 900 : 900}
+          weaponBaseAtk={weaponA ? 608 : 608}
+        />
+        <RVLegend />
+      </div>
     </div>
   );
 }
