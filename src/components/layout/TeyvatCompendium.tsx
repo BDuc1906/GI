@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
@@ -245,6 +246,30 @@ const AVAILABLE_ITEMS = COMPENDIUM_ITEMS.filter(
   (item): item is CompendiumItem & { href: string } => Boolean(item.href)
 );
 
+const ITEM_BACKGROUNDS: Record<string, string> = {
+  characters: "/local-genshin-assets/characters/splash/furina.png",
+  weapons: "/local-genshin-assets/characters/splash/raiden-shogun.png",
+  artifacts: "/local-genshin-assets/characters/splash/nahida.png",
+  enemies: "/local-genshin-assets/characters/splash/arlecchino.png",
+  domains: "/local-genshin-assets/characters/splash/zhongli.png",
+  elements: "/local-genshin-assets/characters/splash/kaedehara-kazuha.png",
+  calendar: "/local-genshin-assets/characters/splash/barbara.png",
+  materials: "/local-genshin-assets/characters/splash/kuki-shinobu.png",
+  food: "/local-genshin-assets/characters/splash/xiangling.png",
+  crafts: "/local-genshin-assets/characters/splash/lisa.png",
+  animals: "/local-genshin-assets/characters/splash/diona.png",
+  geography: "/local-genshin-assets/characters/splash/alhaitham.png",
+  achievements: "/local-genshin-assets/characters/splash/noelle.png",
+  "hidden-achievements": "/local-genshin-assets/characters/splash/cyno.png",
+  namecards: "/local-genshin-assets/characters/splash/xingqiu.png",
+  outfits: "/local-genshin-assets/characters/splash/klee.png",
+  windgliders: "/local-genshin-assets/characters/splash/sayu.png",
+  "adventure-ranks": "/local-genshin-assets/characters/splash/amber.png",
+  birthdays: "/local-genshin-assets/characters/splash/kaeya.png",
+  versions: "/local-genshin-assets/characters/splash/neuvillette.png",
+  "serenitea-pot": "/local-genshin-assets/characters/splash/yaoyao.png",
+};
+
 type CategoryFilter = "all" | "combat" | "world" | "profile";
 
 export function TeyvatCompendium() {
@@ -343,28 +368,42 @@ export function TeyvatCompendium() {
             <Link
               key={item.id}
               href={item.href}
-              className="group relative flex min-h-[68px] items-center gap-3 p-3 rounded-xl bg-bg-card/75 border border-border/80 hover:border-accent-500/80 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md shadow-sm overflow-hidden active:scale-[0.98]"
+              className="group relative flex min-h-[112px] items-center justify-center rounded-xl bg-bg-card border border-border/80 p-3 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg overflow-hidden active:scale-[0.98] sm:min-h-[132px]"
               style={{
                 borderColor: item.accentColor ? `color-mix(in srgb, ${item.accentColor} 30%, var(--border-color))` : undefined,
               }}
             >
-              <div className="flex items-center gap-3 min-w-0">
-                <div className="w-10 h-10 rounded-lg bg-bg-elevated flex items-center justify-center p-1.5 border border-border/60 shrink-0 group-hover:scale-105 transition-transform">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={item.icon}
-                    alt=""
-                    width={24}
-                    height={24}
-                    className="w-6 h-6 object-contain"
-                  />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <h3 className="font-semibold text-sm text-text-primary group-hover:text-accent-bright transition-colors leading-snug line-clamp-2">
-                    {localizedItems[item.id]?.title ?? item.title}
-                  </h3>
-                </div>
+              <Image
+                src={ITEM_BACKGROUNDS[item.id] ?? item.icon}
+                alt=""
+                aria-hidden="true"
+                fill
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                className="absolute inset-0 h-full w-full object-cover opacity-100 transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-black/10 to-black/45 transition-colors group-hover:from-transparent group-hover:via-black/5 group-hover:to-black/40" />
+              <div className="absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/10" />
+              <div className="absolute left-2.5 top-2.5 flex h-8 w-8 items-center justify-center rounded-lg border border-white/15 bg-black/40 p-1.5 backdrop-blur-sm">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={item.icon}
+                  alt=""
+                  width={24}
+                  height={24}
+                  className="h-5 w-5 object-contain"
+                />
               </div>
+              <div className="relative z-10 max-w-full px-1 text-center">
+                <h3 className="font-display text-sm font-bold leading-snug text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] transition-colors group-hover:text-accent-bright sm:text-base">
+                  {localizedItems[item.id]?.title ?? item.title}
+                </h3>
+              </div>
+              <div
+                className="absolute inset-x-0 bottom-0 h-0.5 opacity-60 transition-opacity group-hover:opacity-100"
+                style={{
+                  backgroundColor: item.accentColor ?? "var(--accent-bright)",
+                }}
+              />
             </Link>
           ))}
       </div>
