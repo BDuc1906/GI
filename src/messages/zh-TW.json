@@ -531,5 +531,12 @@
   },
   "Navigation": {
     "title": "Quick lookup shortcuts"
+  },
+  "BuildAdvisor": {
+    "title": "AI 配裝顧問",
+    "button": "使用 AI 分析配裝",
+    "loading": "正在分析配裝…",
+    "privacyNote": "UID 僅用於取得 Enka 公開展示資訊，不會傳送給 AI 服務商。",
+    "error": "暫時無法產生建議，請重試。"
   }
 }

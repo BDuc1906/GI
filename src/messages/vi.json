@@ -533,5 +533,12 @@
     "reactionColumn": "Phản ứng",
     "coefficientColumn": "Hệ số nền",
     "shatterNote": "áp dụng cho đòn phá băng, không phải Đóng Băng"
+  },
+  "BuildAdvisor": {
+    "title": "AI Build Advisor",
+    "button": "Phân tích build bằng AI",
+    "loading": "Đang phân tích build…",
+    "privacyNote": "UID chỉ dùng để lấy showcase công khai từ Enka, không gửi UID cho nhà cung cấp AI.",
+    "error": "Chưa thể tạo tư vấn. Vui lòng thử lại."
   }
 }

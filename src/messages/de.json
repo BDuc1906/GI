@@ -531,5 +531,12 @@
   },
   "Navigation": {
     "title": "Quick lookup shortcuts"
+  },
+  "BuildAdvisor": {
+    "title": "KI-Build-Berater",
+    "button": "Build mit KI analysieren",
+    "loading": "Build wird analysiert…",
+    "privacyNote": "Deine UID wird nur zum Abrufen des öffentlichen Enka-Showcases verwendet und nicht an den KI-Anbieter gesendet.",
+    "error": "Beratung konnte nicht erstellt werden. Bitte versuche es erneut."
   }
 }

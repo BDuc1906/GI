@@ -531,5 +531,12 @@
   },
   "Navigation": {
     "title": "Quick lookup shortcuts"
+  },
+  "BuildAdvisor": {
+    "title": "AIビルドアドバイザー",
+    "button": "AIでビルドを分析",
+    "loading": "ビルドを分析中…",
+    "privacyNote": "UIDはEnkaの公開ショーケース取得のみに使用し、AI提供元には送信しません。",
+    "error": "アドバイスを生成できませんでした。もう一度お試しください。"
   }
 }

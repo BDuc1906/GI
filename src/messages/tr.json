@@ -531,5 +531,12 @@
   },
   "Navigation": {
     "title": "Quick lookup shortcuts"
+  },
+  "BuildAdvisor": {
+    "title": "Yapay Zeka Build Danışmanı",
+    "button": "Yapay zekâ ile build analizi",
+    "loading": "Build analiz ediliyor…",
+    "privacyNote": "UID yalnızca Enka herkese açık vitrinini almak için kullanılır, yapay zekâ sağlayıcısına gönderilmez.",
+    "error": "Öneri oluşturulamadı. Lütfen tekrar deneyin."
   }
 }

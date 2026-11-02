@@ -531,5 +531,12 @@
   },
   "Navigation": {
     "title": "Quick lookup shortcuts"
+  },
+  "BuildAdvisor": {
+    "title": "AI 빌드 어드바이저",
+    "button": "AI 빌드 분석",
+    "loading": "빌드 분석 중…",
+    "privacyNote": "UID는 Enka 공개 쇼케이스 조회에만 사용되며 AI 제공업체로 전송되지 않습니다.",
+    "error": "조언을 생성할 수 없습니다. 다시 시도해 주세요."
   }
 }

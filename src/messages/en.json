@@ -533,5 +533,12 @@
     "baseCoefficientTableTitle": "Base Coefficient Table — Transformative Reactions",
     "baseCoefficientTableNote": "Use this in the Transformative Reaction formula above instead. Electro-Charged can trigger twice per cycle, so actual total damage can be double the value shown below.",
     "shatterNote": "applies to the Shatter hit, not Frozen itself"
+  },
+  "BuildAdvisor": {
+    "title": "AI Build Advisor",
+    "button": "Analyze build with AI",
+    "loading": "Analyzing build…",
+    "privacyNote": "Your UID is used to retrieve the public Enka showcase and is not sent to the AI provider.",
+    "error": "Could not generate advice. Please try again."
   }
 }

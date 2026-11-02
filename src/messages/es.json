@@ -531,5 +531,12 @@
   },
   "Navigation": {
     "title": "Quick lookup shortcuts"
+  },
+  "BuildAdvisor": {
+    "title": "Asesor de builds con IA",
+    "button": "Analizar build con IA",
+    "loading": "Analizando el build…",
+    "privacyNote": "Tu UID solo se usa para consultar el showcase público de Enka y no se envía al proveedor de IA.",
+    "error": "No se pudo generar el consejo. Inténtalo de nuevo."
   }
 }

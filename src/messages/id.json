@@ -531,5 +531,12 @@
   },
   "Navigation": {
     "title": "Quick lookup shortcuts"
+  },
+  "BuildAdvisor": {
+    "title": "Penasihat Build AI",
+    "button": "Analisis build dengan AI",
+    "loading": "Menganalisis build…",
+    "privacyNote": "UID hanya digunakan untuk mengambil showcase Enka publik dan tidak dikirim ke penyedia AI.",
+    "error": "Saran tidak dapat dibuat. Silakan coba lagi."
   }
 }

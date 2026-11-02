@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useSyncExternalStore } from "react";
+import { useTranslations } from "next-intl";
 import type { EnkaShowcaseResult, EnkaShowcaseCharacter } from "@/app/api/tools/enka/[uid]/route";
 import { WeaponIcon } from "@/features/weapons/components/WeaponIcon";
 
@@ -56,13 +57,19 @@ function StatBadge({ label, value }: { label: string; value: string | number }) 
 
 function CharacterShowcaseCard({
   char,
+  uid,
   onUseBuild,
 }: {
   char: EnkaShowcaseCharacter;
+  uid: string;
   onUseBuild: (char: EnkaShowcaseCharacter) => void;
 }) {
+  const t = useTranslations("BuildAdvisor");
   const fightProps = char.fightProps;
   const [showArtifacts, setShowArtifacts] = useState(false);
+  const [advisorLoading, setAdvisorLoading] = useState(false);
+  const [advisorError, setAdvisorError] = useState<string | null>(null);
+  const [advice, setAdvice] = useState<string | null>(null);
 
   // Huy hiệu CV
   const cvBadgeColor =
@@ -73,6 +80,34 @@ function CharacterShowcaseCard({
         : char.totalCritValue >= 140
           ? "bg-blue-500/20 text-blue-300 border-blue-500/40"
           : "bg-bg-elevated text-text-muted border-border-default";
+
+  async function handleGetAdvice() {
+    if (!char.characterId || advisorLoading) return;
+    setAdvisorLoading(true);
+    setAdvisorError(null);
+    setAdvice(null);
+
+    try {
+      const response = await fetch("/api/tools/build-advisor", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ uid, characterId: char.characterId }),
+      });
+      const payload = await response.json() as
+        | { success: true; data: { advice: string } }
+        | { success: false; error: { message: string } };
+
+      if (!response.ok || !payload.success) {
+        throw new Error(payload.success ? t("error") : payload.error.message);
+      }
+
+      setAdvice(payload.data.advice);
+    } catch (error) {
+      setAdvisorError(error instanceof Error ? error.message : t("error"));
+    } finally {
+      setAdvisorLoading(false);
+    }
+  }
 
   return (
     <div className="rounded-xl border border-border-default bg-bg-card p-4 flex flex-col gap-3">
@@ -224,12 +259,33 @@ function CharacterShowcaseCard({
 
       {/* CTA */}
       {char.characterId && (
-        <button
-          onClick={() => onUseBuild(char)}
-          className="mt-auto text-xs px-3 py-1.5 rounded-lg border border-accent-500/60 bg-bg-elevated text-accent-bright hover:border-accent-500 transition-colors font-medium"
-        >
-          Dùng build này cho DPS Calculator
-        </button>
+        <div className="mt-auto space-y-2">
+          <button
+            onClick={() => onUseBuild(char)}
+            className="w-full text-xs px-3 py-1.5 rounded-lg border border-accent-500/60 bg-bg-elevated text-accent-bright hover:border-accent-500 transition-colors font-medium"
+          >
+            Dùng build này cho DPS Calculator
+          </button>
+          <button
+            type="button"
+            onClick={handleGetAdvice}
+            disabled={advisorLoading}
+            aria-busy={advisorLoading}
+            className="w-full text-xs px-3 py-2 rounded-lg bg-accent-500 text-bg-primary hover:bg-accent-bright disabled:opacity-60 transition-colors font-semibold"
+          >
+            {advisorLoading ? t("loading") : t("button")}
+          </button>
+          <p className="text-[10px] leading-relaxed text-text-muted">{t("privacyNote")}</p>
+          {advisorError && (
+            <p role="alert" className="text-xs text-red-400">{advisorError}</p>
+          )}
+          {advice && (
+            <div aria-live="polite" className="max-h-80 overflow-y-auto rounded-lg border border-border-default bg-bg-elevated/60 p-3">
+              <h4 className="mb-2 text-xs font-semibold text-accent-bright">{t("title")}</h4>
+              <p className="whitespace-pre-wrap text-xs leading-relaxed text-text-secondary">{advice}</p>
+            </div>
+          )}
+        </div>
       )}
     </div>
   );
@@ -269,6 +325,7 @@ export function EnkaImporterClient({ onUseBuild }: EnkaImporterClientProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<EnkaShowcaseResult | null>(null);
+  const [resultUid, setResultUid] = useState<string | null>(null);
 
   // Khởi tạo UID từ localStorage khi mount (chỉ cần set 1 lần)
   const initUid = useCallback((val: string) => {
@@ -296,6 +353,7 @@ export function EnkaImporterClient({ onUseBuild }: EnkaImporterClientProps) {
     setLoading(true);
     setError(null);
     setResult(null);
+    setResultUid(null);
 
     try {
       const resp = await fetch(`/api/tools/enka/${uid.trim()}`);
@@ -309,6 +367,7 @@ export function EnkaImporterClient({ onUseBuild }: EnkaImporterClientProps) {
       }
 
       setResult(json.data);
+      setResultUid(uid.trim());
       setLocalStorageValue(STORAGE_KEY, uid.trim());
     } catch {
       setError("Lỗi kết nối mạng, vui lòng thử lại.");
@@ -434,8 +493,9 @@ export function EnkaImporterClient({ onUseBuild }: EnkaImporterClientProps) {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {result.showcaseCharacters.map((char) => (
                   <CharacterShowcaseCard
-                    key={char.avatarId}
+                    key={`${resultUid}:${char.avatarId}`}
                     char={char}
+                    uid={resultUid ?? ""}
                     onUseBuild={handleUseBuild}
                   />
                 ))}
