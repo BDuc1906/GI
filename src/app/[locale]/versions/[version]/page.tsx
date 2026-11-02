@@ -149,8 +149,12 @@ export default async function VersionDetailPage({ params, searchParams }: PagePr
                 const body = (
                   <>
                     <div
-                      className={`relative w-10 h-10 bg-bg-elevated overflow-hidden shrink-0 ${
-                        src.shape === "round" ? "rounded-full" : "rounded-lg"
+                      className={`relative bg-bg-elevated overflow-hidden shrink-0 ${
+                        src.shape === "landscape"
+                          ? "w-16 aspect-[2/1] rounded-md"
+                          : src.shape === "round"
+                            ? "w-10 h-10 rounded-full"
+                            : "w-10 h-10 rounded-lg"
                       }`}
                     >
                       <SafeImage
@@ -158,8 +162,12 @@ export default async function VersionDetailPage({ params, searchParams }: PagePr
                         fallbackSrcs={[e.iconUrlOriginal]}
                         alt={name}
                         fill
-                        sizes="40px"
-                        className={src.shape === "round" ? "object-cover" : "object-contain p-0.5"}
+                        sizes={src.shape === "landscape" ? "64px" : "40px"}
+                        className={
+                          src.shape === "round" || src.shape === "landscape"
+                            ? "object-cover"
+                            : "object-contain p-0.5"
+                        }
                       />
                     </div>
                     <div className="min-w-0">

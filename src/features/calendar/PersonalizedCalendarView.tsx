@@ -173,8 +173,18 @@ export function PersonalizedCalendarView({
                 className="flex items-center gap-2 bg-bg-input border border-border/80 rounded-xl px-2.5 py-1 text-xs text-text-primary hover:border-gold/50 transition-colors"
               >
                 {t.iconUrl && (
-                  <div className="relative w-6 h-6 rounded-full overflow-hidden bg-bg-elevated shrink-0">
-                    <Image src={t.iconUrl} alt={t.name} fill sizes="24px" className="object-cover" />
+                  <div
+                    className={`relative w-6 h-6 overflow-hidden bg-bg-elevated shrink-0 ${
+                      t.type === "character" ? "rounded-full" : "rounded-md"
+                    }`}
+                  >
+                    <Image
+                      src={t.iconUrl}
+                      alt={t.name}
+                      fill
+                      sizes="24px"
+                      className={t.type === "character" ? "object-cover" : "object-contain p-0.5"}
+                    />
                   </div>
                 )}
                 <span className="font-medium text-xs">{t.name}</span>
@@ -294,8 +304,18 @@ export function PersonalizedCalendarView({
                             className="inline-flex items-center gap-1 bg-gold/15 text-gold px-2 py-0.5 rounded-md text-[11px] font-medium"
                           >
                             {tgt.iconUrl && (
-                              <span className="relative w-3.5 h-3.5 rounded-full overflow-hidden inline-block shrink-0">
-                                <Image src={tgt.iconUrl} alt={tgt.name} fill sizes="14px" className="object-cover" />
+                              <span
+                                className={`relative w-3.5 h-3.5 overflow-hidden inline-block shrink-0 ${
+                                  tgt.type === "character" ? "rounded-full" : "rounded-sm"
+                                }`}
+                              >
+                                <Image
+                                  src={tgt.iconUrl}
+                                  alt={tgt.name}
+                                  fill
+                                  sizes="14px"
+                                  className={tgt.type === "character" ? "object-cover" : "object-contain"}
+                                />
                               </span>
                             )}
                             <span>{tgt.name}</span>

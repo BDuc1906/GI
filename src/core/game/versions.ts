@@ -71,7 +71,7 @@ export interface VersionSource {
   label: string;
   /** Trang chi tiết = `${hrefBase}/${id}`; null nếu chưa có trang chi tiết. */
   hrefBase: string | null;
-  shape: "round" | "square";
+  shape: "round" | "square" | "landscape";
   load: () => Promise<RawEntry[]>;
 }
 
@@ -149,7 +149,7 @@ export const VERSION_SOURCES: VersionSource[] = [
     key: "domains",
     label: "Bí cảnh",
     hrefBase: "/domains",
-    shape: "square",
+    shape: "landscape",
     load: async () =>
       (
         await prisma.domain.findMany({

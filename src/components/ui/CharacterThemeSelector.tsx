@@ -8,7 +8,7 @@ export interface CharacterTheme {
   element: string; // Anemo, Geo, Hydro, etc.
   elementVi: string;
   region: string; // Vùng đất
-  splashPath: string; // /local-genshin-assets/characters/splash/...
+  iconPath: string; // /local-genshin-assets/characters/icon/...
   colors: [string, string]; // [primary, secondary]
   desc: string;
   // CSS variables override khi chọn theme này
@@ -29,7 +29,7 @@ export const CHARACTER_THEMES: CharacterTheme[] = [
     element: "Anemo",
     elementVi: "Phong",
     region: "Inazuma",
-    splashPath: "/local-genshin-assets/characters/splash/kaedehara-kazuha.png",
+    iconPath: "/local-genshin-assets/characters/icon/kaedehara-kazuha.png",
     colors: ["#2dd4bf", "#dc2626"],
     desc: "Ngọc bích Anemo · Lá phong đỏ thẫm · Mặc định",
     bgPrimary: "#0c1a19",
@@ -42,7 +42,7 @@ export const CHARACTER_THEMES: CharacterTheme[] = [
     element: "Anemo",
     elementVi: "Phong",
     region: "Sumeru",
-    splashPath: "/local-genshin-assets/characters/splash/wanderer.png",
+    iconPath: "/local-genshin-assets/characters/icon/wanderer.png",
     colors: ["#6ee7b7", "#818cf8"],
     desc: "Ngọc lục bảo Anemo · Tím xanh huyền bí · Xứ sa mạc",
     bgPrimary: "#0e1220",
@@ -56,7 +56,7 @@ export const CHARACTER_THEMES: CharacterTheme[] = [
     element: "Electro",
     elementVi: "Lôi",
     region: "Inazuma",
-    splashPath: "/local-genshin-assets/characters/splash/raiden-shogun.png",
+    iconPath: "/local-genshin-assets/characters/icon/raiden-shogun.png",
     colors: ["#a855f7", "#6b21a8"],
     desc: "Tím lôi vĩnh cửu · Lôi Thần Narukami · Nhật Nguyệt",
     bgPrimary: "#0f0b1a",
@@ -69,7 +69,7 @@ export const CHARACTER_THEMES: CharacterTheme[] = [
     element: "Electro",
     elementVi: "Lôi",
     region: "Inazuma",
-    splashPath: "/local-genshin-assets/characters/splash/yae-miko.png",
+    iconPath: "/local-genshin-assets/characters/icon/yae-miko.png",
     colors: ["#f472b6", "#a855f7"],
     desc: "Hồng đào Electro · Kiko của Narukami Shrine · Linh hồ",
     bgPrimary: "#1a0f1a",
@@ -83,7 +83,7 @@ export const CHARACTER_THEMES: CharacterTheme[] = [
     element: "Pyro",
     elementVi: "Hỏa",
     region: "Liyue",
-    splashPath: "/local-genshin-assets/characters/splash/hu-tao.png",
+    iconPath: "/local-genshin-assets/characters/icon/hu-tao.png",
     colors: ["#f43f5e", "#ea580c"],
     desc: "Đỏ rực Vãng Sinh · Hoa liên · Tàn tro ấm áp",
     bgPrimary: "#1a0c0c",
@@ -96,7 +96,7 @@ export const CHARACTER_THEMES: CharacterTheme[] = [
     element: "Pyro",
     elementVi: "Hỏa",
     region: "Fatui",
-    splashPath: "/local-genshin-assets/characters/splash/arlecchino.png",
+    iconPath: "/local-genshin-assets/characters/icon/arlecchino.png",
     colors: ["#ef4444", "#1c1c1c"],
     desc: "Đỏ huyết · Trắng ngà · Hề Vương Fatui",
     bgPrimary: "#140808",
@@ -109,7 +109,7 @@ export const CHARACTER_THEMES: CharacterTheme[] = [
     element: "Pyro",
     elementVi: "Hỏa",
     region: "Natlan",
-    splashPath: "/local-genshin-assets/characters/splash/mavuika.png",
+    iconPath: "/local-genshin-assets/characters/icon/mavuika.png",
     colors: ["#f97316", "#e11d48"],
     desc: "Lửa Natlan · Cam rực rỡ · Hào khí Archon Pyro",
     bgPrimary: "#180e06",
@@ -123,7 +123,7 @@ export const CHARACTER_THEMES: CharacterTheme[] = [
     element: "Hydro",
     elementVi: "Thủy",
     region: "Fontaine",
-    splashPath: "/local-genshin-assets/characters/splash/furina.png",
+    iconPath: "/local-genshin-assets/characters/icon/furina.png",
     colors: ["#38bdf8", "#0284c7"],
     desc: "Lam ngọc Thủy · Ca kịch Fontaine · Thần biển sâu",
     bgPrimary: "#060f1a",
@@ -136,7 +136,7 @@ export const CHARACTER_THEMES: CharacterTheme[] = [
     element: "Hydro",
     elementVi: "Thủy",
     region: "Fontaine",
-    splashPath: "/local-genshin-assets/characters/splash/neuvillette.png",
+    iconPath: "/local-genshin-assets/characters/icon/neuvillette.png",
     colors: ["#7dd3fc", "#1d4ed8"],
     desc: "Xanh hoàng gia Hydro · Thẩm phán Fontaine · Rồng biển",
     bgPrimary: "#06101e",
@@ -150,7 +150,7 @@ export const CHARACTER_THEMES: CharacterTheme[] = [
     element: "Geo",
     elementVi: "Nham",
     region: "Liyue",
-    splashPath: "/local-genshin-assets/characters/splash/zhongli.png",
+    iconPath: "/local-genshin-assets/characters/icon/zhongli.png",
     colors: ["#eab308", "#92400e"],
     desc: "Hoàng kim hổ phách · Sa khoáng Liyue · Nham Vương",
     bgPrimary: "#140f04",
@@ -164,7 +164,7 @@ export const CHARACTER_THEMES: CharacterTheme[] = [
     element: "Dendro",
     elementVi: "Thảo",
     region: "Sumeru",
-    splashPath: "/local-genshin-assets/characters/splash/nahida.png",
+    iconPath: "/local-genshin-assets/characters/icon/nahida.png",
     colors: ["#84cc16", "#4d7c0f"],
     desc: "Mầm xanh Thảo · Trí tuệ vũ trụ · Archon Sumeru",
     bgPrimary: "#080f04",
@@ -177,7 +177,7 @@ export const CHARACTER_THEMES: CharacterTheme[] = [
     element: "Dendro",
     elementVi: "Thảo",
     region: "Sumeru",
-    splashPath: "/local-genshin-assets/characters/splash/alhaitham.png",
+    iconPath: "/local-genshin-assets/characters/icon/alhaitham.png",
     colors: ["#4ade80", "#1a6b3a"],
     desc: "Xanh lá trầm · Học giả Sumeru · Bóng tối Dendro",
     bgPrimary: "#060e08",
@@ -191,7 +191,7 @@ export const CHARACTER_THEMES: CharacterTheme[] = [
     element: "Cryo",
     elementVi: "Băng",
     region: "Inazuma",
-    splashPath: "/local-genshin-assets/characters/splash/kamisato-ayaka.png",
+    iconPath: "/local-genshin-assets/characters/icon/kamisato-ayaka.png",
     colors: ["#bae6fd", "#93c5fd"],
     desc: "Băng tuyết thanh nhã · Bạch hạc sương mai · Inazuma",
     bgPrimary: "#060e14",
@@ -204,7 +204,7 @@ export const CHARACTER_THEMES: CharacterTheme[] = [
     element: "Cryo",
     elementVi: "Băng",
     region: "Fontaine",
-    splashPath: "/local-genshin-assets/characters/splash/wriothesley.png",
+    iconPath: "/local-genshin-assets/characters/icon/wriothesley.png",
     colors: ["#e0f2fe", "#475569"],
     desc: "Trắng băng · Tối thép xám · Giám đốc ngục Fontaine",
     bgPrimary: "#080d12",
@@ -302,9 +302,9 @@ export function CharacterThemeSelector() {
         <div className="relative w-6 h-6 rounded-full overflow-hidden border-2 shrink-0" style={{ borderColor: currentTheme.colors[0] }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={currentTheme.splashPath}
+            src={currentTheme.iconPath}
             alt={currentTheme.name}
-            className="w-full h-full object-cover object-top scale-150 translate-y-1"
+            className="w-full h-full object-contain p-0.5"
           />
         </div>
         <span className="tracking-wide">Theme</span>
@@ -352,9 +352,9 @@ export function CharacterThemeSelector() {
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={theme.splashPath}
+                      src={theme.iconPath}
                       alt={theme.name}
-                      className="w-full h-full object-cover object-top scale-[1.6] translate-y-1.5 group-hover:scale-[1.8] transition-transform duration-300"
+                      className="w-full h-full object-contain p-0.5"
                     />
                     {/* Vision element color overlay at bottom */}
                     <div

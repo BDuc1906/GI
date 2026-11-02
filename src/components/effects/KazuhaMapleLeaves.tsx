@@ -115,59 +115,27 @@ export function KazuhaMapleLeaves() {
       oCtx.save();
       oCtx.translate(cx, cy);
 
-      // Vẽ lá phong Nhật Bản (Momiji / Japanese Maple) chuẩn dạng bàn tay 5-7 thùy tỏa lên trên
-      // Đáy có cuống lá (stem), các thùy mở rộng hình quạt sang hai bên và đỉnh, không tỏa tròn như hoa tuyết
+      // Vẽ lá phong 5 thùy với các hõm sâu và đầu thùy nhọn, dễ nhận ra khi lá xoay.
       oCtx.beginPath();
-      // Bắt đầu từ cuống lá ở gốc dưới
-      oCtx.moveTo(0, 20 * s);
-      oCtx.lineTo(1.2 * s, 6 * s);
-
-      // Thùy dưới phải (nằm ngang hơi chúc lên)
-      oCtx.lineTo(6 * s, 6 * s);
-      oCtx.lineTo(13 * s, 8 * s);
-      oCtx.lineTo(18 * s, 5 * s); // đỉnh thùy dưới phải
-      oCtx.lineTo(14 * s, 2 * s);
-      oCtx.lineTo(10 * s, 2 * s);
-
-      // Thùy giữa phải (chếch 45 độ)
-      oCtx.lineTo(15 * s, -3 * s);
-      oCtx.lineTo(21 * s, -6 * s); // đỉnh thùy giữa phải
-      oCtx.lineTo(16 * s, -9 * s);
-      oCtx.lineTo(10 * s, -7 * s);
-
-      // Thùy trên phải (chếch 65 độ)
-      oCtx.lineTo(13 * s, -13 * s);
-      oCtx.lineTo(15 * s, -19 * s); // đỉnh thùy trên phải
-      oCtx.lineTo(9 * s, -17 * s);
-      oCtx.lineTo(5 * s, -13 * s);
-
-      // Thùy đỉnh chính giữa (vươn thẳng lên trên với 3 chóp nhọn)
-      oCtx.lineTo(4 * s, -18 * s);
-      oCtx.lineTo(0, -24 * s); // đỉnh cao nhất của lá
-      oCtx.lineTo(-4 * s, -18 * s);
-      oCtx.lineTo(-5 * s, -13 * s);
-
-      // Thùy trên trái (đối xứng chếch 65 độ)
-      oCtx.lineTo(-9 * s, -17 * s);
-      oCtx.lineTo(-15 * s, -19 * s); // đỉnh thùy trên trái
-      oCtx.lineTo(-13 * s, -13 * s);
-      oCtx.lineTo(-10 * s, -7 * s);
-
-      // Thùy giữa trái (đối xứng chếch 45 độ)
-      oCtx.lineTo(-16 * s, -9 * s);
-      oCtx.lineTo(-21 * s, -6 * s); // đỉnh thùy giữa trái
-      oCtx.lineTo(-15 * s, -3 * s);
-      oCtx.lineTo(-10 * s, 2 * s);
-
-      // Thùy dưới trái (đối xứng nằm ngang)
-      oCtx.lineTo(-14 * s, 2 * s);
-      oCtx.lineTo(-18 * s, 5 * s); // đỉnh thùy dưới trái
-      oCtx.lineTo(-13 * s, 8 * s);
-      oCtx.lineTo(-6 * s, 6 * s);
-
-      // Quay về cuống lá bên trái
-      oCtx.lineTo(-1.2 * s, 6 * s);
-      oCtx.lineTo(-1 * s, 20 * s);
+      oCtx.moveTo(0, 21 * s);
+      oCtx.bezierCurveTo(-1 * s, 16 * s, -2 * s, 12 * s, -5 * s, 8 * s);
+      oCtx.bezierCurveTo(-8 * s, 9 * s, -10 * s, 11 * s, -13 * s, 13 * s);
+      oCtx.bezierCurveTo(-12 * s, 9 * s, -12 * s, 7 * s, -13 * s, 4 * s);
+      oCtx.bezierCurveTo(-17 * s, 5 * s, -20 * s, 6 * s, -23 * s, 6 * s);
+      oCtx.bezierCurveTo(-20 * s, 1 * s, -18 * s, -2 * s, -16 * s, -4 * s);
+      oCtx.bezierCurveTo(-20 * s, -6 * s, -22 * s, -8 * s, -24 * s, -10 * s);
+      oCtx.bezierCurveTo(-18 * s, -11 * s, -14 * s, -12 * s, -10 * s, -12 * s);
+      oCtx.bezierCurveTo(-11 * s, -16 * s, -11 * s, -19 * s, -11 * s, -22 * s);
+      oCtx.bezierCurveTo(-6 * s, -20 * s, -3 * s, -17 * s, 0, -14 * s);
+      oCtx.bezierCurveTo(3 * s, -17 * s, 6 * s, -20 * s, 11 * s, -22 * s);
+      oCtx.bezierCurveTo(11 * s, -18 * s, 11 * s, -15 * s, 10 * s, -12 * s);
+      oCtx.bezierCurveTo(14 * s, -12 * s, 18 * s, -11 * s, 24 * s, -10 * s);
+      oCtx.bezierCurveTo(22 * s, -7 * s, 20 * s, -5 * s, 16 * s, -4 * s);
+      oCtx.bezierCurveTo(18 * s, -2 * s, 20 * s, 1 * s, 23 * s, 6 * s);
+      oCtx.bezierCurveTo(19 * s, 6 * s, 16 * s, 5 * s, 13 * s, 4 * s);
+      oCtx.bezierCurveTo(12 * s, 7 * s, 12 * s, 10 * s, 13 * s, 13 * s);
+      oCtx.bezierCurveTo(10 * s, 11 * s, 8 * s, 9 * s, 5 * s, 8 * s);
+      oCtx.bezierCurveTo(2 * s, 12 * s, 1 * s, 16 * s, 0, 21 * s);
       oCtx.closePath();
 
       oCtx.fillStyle = grad;
@@ -387,28 +355,32 @@ export function KazuhaMapleLeaves() {
         />
       )}
 
-      {/* Nút bật/tắt hiệu ứng lá phong Kazuha tinh tế ở góc dưới banner */}
+      {/* Công tắc bật/tắt hiệu ứng lá phong ở góc dưới banner */}
       <button
         type="button"
         onClick={toggleLeaves}
-        title={enabled ? "Tạm tắt lá phong rơi" : "Bật hiệu ứng lá phong rơi Kazuha"}
-        aria-label={enabled ? "Tắt lá phong rơi" : "Bật lá phong rơi"}
-        className={`absolute bottom-3 right-3 sm:bottom-4 sm:right-4 z-20 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs transition-all backdrop-blur-md border ${
+        role="switch"
+        aria-checked={enabled}
+        aria-label="Hiệu ứng lá phong rơi"
+        title={enabled ? "Tắt hiệu ứng lá phong rơi" : "Bật hiệu ứng lá phong rơi"}
+        className={`absolute bottom-3 right-3 sm:bottom-4 sm:right-4 z-20 flex items-center gap-2 px-2.5 py-1.5 rounded-full text-xs transition-all backdrop-blur-md border ${
           enabled
-            ? "bg-bg-card/70 border-accent-500/50 text-accent-bright hover:bg-bg-elevated hover:border-accent-500 shadow-sm"
-            : "bg-bg-card/40 border-border text-text-muted hover:text-text-primary hover:border-border-strong"
+            ? "bg-bg-card/80 border-accent-500/50 text-text-secondary hover:bg-bg-elevated shadow-sm"
+            : "bg-bg-card/60 border-border text-text-muted hover:text-text-primary hover:border-border-strong"
         }`}
       >
-        <svg
-          className={`w-3.5 h-3.5 transition-transform ${enabled ? "text-amber-400 rotate-12 scale-110" : "opacity-60"}`}
-          viewBox="0 0 24 24"
-          fill="currentColor"
+        <span className="font-medium text-[11px]">Lá phong</span>
+        <span
+          aria-hidden="true"
+          className={`flex h-[18px] w-8 items-center rounded-full p-0.5 transition-colors ${
+            enabled ? "bg-accent-500" : "bg-bg-elevated"
+          }`}
         >
-          {/* Biểu tượng lá phong */}
-          <path d="M12 2C12.5 4.5 13.5 6 15 7C17 5 19 3 20 4C19 6 18 8 16.5 9.5C18.5 10 21 11 21 12.5C19.5 13.5 17.5 13 16 12C16.5 14 17 16 16 17C14.5 16.5 13.5 15 13 13.5C12.8 17 12.5 20 12 22C11.5 20 11.2 17 11 13.5C10.5 15 9.5 16.5 8 17C7 16 7.5 14 8 12C6.5 13 4.5 13.5 3 12.5C3 11 5.5 10 7.5 9.5C6 8 5 6 4 4C5 3 7 5 9 7C10.5 6 11.5 4.5 12 2Z" />
-        </svg>
-        <span className="hidden xs:inline font-medium text-[11px]">
-          {enabled ? "Lá phong: Bật" : "Lá phong: Tắt"}
+          <span
+            className={`h-3.5 w-3.5 rounded-full bg-white shadow-sm transition-transform ${
+              enabled ? "translate-x-3.5" : "translate-x-0"
+            }`}
+          />
         </span>
       </button>
     </>

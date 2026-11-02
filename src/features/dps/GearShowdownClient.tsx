@@ -235,7 +235,7 @@ export function GearShowdownClient({ characters, weapons }: GearShowdownClientPr
               {weaponA ? (
                 <div className="flex items-center justify-between bg-bg-primary border border-border rounded-lg p-2.5 mb-3">
                   <div className="flex items-center gap-2.5">
-                    {weaponA.iconUrl && <Image src={weaponA.iconUrl} alt={weaponA.name} width={32} height={32} className="rounded-full" />}
+                    {weaponA.iconUrl && <Image src={weaponA.iconUrl} alt={weaponA.name} width={32} height={32} className="rounded-md object-contain" />}
                     <span className="font-semibold text-text-primary text-xs sm:text-sm">{weaponA.name}</span>
                   </div>
                   <button onClick={() => setWeaponA(null)} className="text-xs text-text-muted hover:text-text-primary">Đổi</button>
@@ -248,7 +248,7 @@ export function GearShowdownClient({ characters, weapons }: GearShowdownClientPr
                       onClick={() => setWeaponA(w)}
                       className="flex items-center gap-1.5 bg-bg-primary border border-border rounded-lg p-1.5 hover:border-cyan-400 text-left text-xs"
                     >
-                      {w.iconUrl && <Image src={w.iconUrl} alt={w.name} width={20} height={20} className="rounded-full shrink-0" />}
+                      {w.iconUrl && <Image src={w.iconUrl} alt={w.name} width={20} height={20} className="rounded-sm object-contain shrink-0" />}
                       <span className="truncate">{w.name}</span>
                     </button>
                   ))}
@@ -339,7 +339,7 @@ export function GearShowdownClient({ characters, weapons }: GearShowdownClientPr
               {weaponB ? (
                 <div className="flex items-center justify-between bg-bg-primary border border-border rounded-lg p-2.5 mb-3">
                   <div className="flex items-center gap-2.5">
-                    {weaponB.iconUrl && <Image src={weaponB.iconUrl} alt={weaponB.name} width={32} height={32} className="rounded-full" />}
+                    {weaponB.iconUrl && <Image src={weaponB.iconUrl} alt={weaponB.name} width={32} height={32} className="rounded-md object-contain" />}
                     <span className="font-semibold text-text-primary text-xs sm:text-sm">{weaponB.name}</span>
                   </div>
                   <button onClick={() => setWeaponB(null)} className="text-xs text-text-muted hover:text-text-primary">Đổi</button>
@@ -352,7 +352,7 @@ export function GearShowdownClient({ characters, weapons }: GearShowdownClientPr
                       onClick={() => setWeaponB(w)}
                       className="flex items-center gap-1.5 bg-bg-primary border border-border rounded-lg p-1.5 hover:border-rose-400 text-left text-xs"
                     >
-                      {w.iconUrl && <Image src={w.iconUrl} alt={w.name} width={20} height={20} className="rounded-full shrink-0" />}
+                      {w.iconUrl && <Image src={w.iconUrl} alt={w.name} width={20} height={20} className="rounded-sm object-contain shrink-0" />}
                       <span className="truncate">{w.name}</span>
                     </button>
                   ))}

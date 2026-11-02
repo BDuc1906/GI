@@ -32,8 +32,22 @@ export function SiteNav() {
       <nav className="flex items-center gap-4 px-4 md:px-8 py-3 max-w-7xl mx-auto">
         <div className="flex items-center gap-6 shrink-0">
           <Link href="/" className="group flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-accent-500 group-hover:scale-125 transition-transform" />
-            <span className="font-display text-xl font-black tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-[#5eead4] via-[#f0ede0] to-[#e8774a]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/local-genshin-assets/characters/icon/kaedehara-kazuha.png"
+              alt=""
+              aria-hidden="true"
+              width={30}
+              height={30}
+              className="w-[30px] h-[30px] rounded-full border border-accent-500/50 bg-bg-elevated object-contain p-0.5 group-hover:scale-105 transition-transform"
+            />
+            <span
+              className="font-display text-xl font-black tracking-wider bg-clip-text text-transparent"
+              style={{
+                backgroundImage:
+                  "linear-gradient(90deg, #5eead4 0%, #f0ede0 38%, #dc2626 68%, #fbbf24 100%)",
+              }}
+            >
               LEIBO
             </span>
             <span className="text-[10px] font-mono tracking-widest uppercase px-1.5 py-0.5 rounded bg-bg-elevated/80 text-accent-bright border border-border/50 hidden sm:inline-block">
