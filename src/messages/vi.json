@@ -27,7 +27,7 @@
     "description": "Khám phá dữ liệu chi tiết về nhân vật, vũ khí và thánh di vật – được cập nhật từ nguồn chính thức.",
     "exploreCharacters": "Khám phá nhân vật",
     "weaponArsenal": "Kho vũ khí",
-    "searchPlaceholder": "Tìm kiếm nhanh mọi thứ (Nhân vật, Vũ khí, Thánh di vật, Nguyên liệu, Nhiệm vụ)..."
+    "searchPlaceholder": "Tìm kiếm nhanh..."
   },
   "Home": {
     "latestCharacters": "Nhân vật mới cập nhật",
@@ -147,7 +147,7 @@
     "description": "Danh sách toàn bộ nguyên liệu đột phá và nâng cấp"
   },
   "Navigation": {
-    "title": "Lối tắt tra cứu nhanh"
+    "title": "Thư viện Teyvat"
   },
   "Tools": {
     "title": "Công cụ & Tiện ích"

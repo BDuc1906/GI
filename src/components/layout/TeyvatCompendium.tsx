@@ -241,6 +241,10 @@ const COMPENDIUM_ITEMS: CompendiumItem[] = [
   },
 ];
 
+const AVAILABLE_ITEMS = COMPENDIUM_ITEMS.filter(
+  (item): item is CompendiumItem & { href: string } => Boolean(item.href)
+);
+
 type CategoryFilter = "all" | "combat" | "world" | "profile";
 
 export function TeyvatCompendium() {
@@ -274,15 +278,15 @@ export function TeyvatCompendium() {
   };
 
   const filteredItems = useMemo(() => {
-    if (activeCategory === "all") return COMPENDIUM_ITEMS;
-    return COMPENDIUM_ITEMS.filter((item) => item.category === activeCategory);
+    if (activeCategory === "all") return AVAILABLE_ITEMS;
+    return AVAILABLE_ITEMS.filter((item) => item.category === activeCategory);
   }, [activeCategory]);
 
   const categories = [
-    { id: "all", label: tHome("categoryAll"), count: COMPENDIUM_ITEMS.length, icon: "/local-genshin-assets/ui/home.png" },
-    { id: "combat", label: tHome("categoryCombat"), count: COMPENDIUM_ITEMS.filter(i => i.category === "combat").length, icon: "/local-genshin-assets/ui/sword.png" },
-    { id: "world", label: tHome("categoryWorld"), count: COMPENDIUM_ITEMS.filter(i => i.category === "world").length, icon: "/local-genshin-assets/ui/resin.png" },
-    { id: "profile", label: tHome("categoryProfile"), count: COMPENDIUM_ITEMS.filter(i => i.category === "profile").length, icon: "/local-genshin-assets/ui/achievement.png" },
+    { id: "all", label: tHome("categoryAll"), count: AVAILABLE_ITEMS.length, icon: "/local-genshin-assets/ui/home.png" },
+    { id: "combat", label: tHome("categoryCombat"), count: AVAILABLE_ITEMS.filter(i => i.category === "combat").length, icon: "/local-genshin-assets/ui/sword.png" },
+    { id: "world", label: tHome("categoryWorld"), count: AVAILABLE_ITEMS.filter(i => i.category === "world").length, icon: "/local-genshin-assets/ui/resin.png" },
+    { id: "profile", label: tHome("categoryProfile"), count: AVAILABLE_ITEMS.filter(i => i.category === "profile").length, icon: "/local-genshin-assets/ui/achievement.png" },
   ] as const;
 
   return (
@@ -334,85 +338,35 @@ export function TeyvatCompendium() {
       </div>
 
       {/* Compendium Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-        {filteredItems.map((item) =>
-          item.href ? (
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+        {filteredItems.map((item) => (
             <Link
               key={item.id}
               href={item.href}
-              className="group relative flex flex-col justify-between p-4 rounded-xl bg-bg-card/75 border border-border/80 hover:border-accent-500/80 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg shadow-sm overflow-hidden active:scale-[0.98]"
+              className="group relative flex min-h-[68px] items-center gap-3 p-3 rounded-xl bg-bg-card/75 border border-border/80 hover:border-accent-500/80 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md shadow-sm overflow-hidden active:scale-[0.98]"
               style={{
                 borderColor: item.accentColor ? `color-mix(in srgb, ${item.accentColor} 30%, var(--border-color))` : undefined,
               }}
             >
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-2.5">
-                  <div className="w-9 h-9 rounded-lg bg-bg-elevated flex items-center justify-center p-1.5 border border-border/60 group-hover:scale-110 transition-transform duration-300">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={item.icon}
-                      alt=""
-                      width={24}
-                      height={24}
-                      className="w-6 h-6 object-contain"
-                      onError={(e) => {
-                        (e.currentTarget as HTMLImageElement).style.display = "none";
-                      }}
-                    />
-                  </div>
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-10 h-10 rounded-lg bg-bg-elevated flex items-center justify-center p-1.5 border border-border/60 shrink-0 group-hover:scale-105 transition-transform">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={item.icon}
+                    alt=""
+                    width={24}
+                    height={24}
+                    className="w-6 h-6 object-contain"
+                  />
                 </div>
-
-                <h3 className="font-semibold text-sm text-text-primary group-hover:text-accent-bright transition-colors mb-1 truncate">
-                  {localizedItems[item.id]?.title ?? item.title}
-                </h3>
-                {localizedItems[item.id] && (
-                  <p className="text-xs text-text-muted leading-relaxed line-clamp-2">
-                    {localizedItems[item.id].description}
-                  </p>
-                )}
-              </div>
-
-              {/* Bottom accent indicator */}
-              <div
-                className="mt-3 pt-2 border-t border-border/30 flex items-center justify-between text-[11px] text-text-muted group-hover:text-accent-bright transition-colors"
-              >
-                <span>{tHome("viewAll")}</span>
-                <span>&rarr;</span>
+                <div className="min-w-0 flex-1">
+                  <h3 className="font-semibold text-sm text-text-primary group-hover:text-accent-bright transition-colors leading-snug line-clamp-2">
+                    {localizedItems[item.id]?.title ?? item.title}
+                  </h3>
+                </div>
               </div>
             </Link>
-          ) : (
-            <div
-              key={item.id}
-              className="relative flex flex-col justify-between p-4 rounded-xl bg-bg-card/40 border border-border/40 opacity-55 cursor-not-allowed"
-            >
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-2.5">
-                  <div className="w-9 h-9 rounded-lg bg-bg-elevated flex items-center justify-center p-1.5 border border-border/40">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={item.icon}
-                      alt=""
-                      width={24}
-                      height={24}
-                      className="w-6 h-6 object-contain opacity-60"
-                      onError={(e) => {
-                        (e.currentTarget as HTMLImageElement).style.display = "none";
-                      }}
-                    />
-                  </div>
-                </div>
-
-                <h3 className="font-semibold text-sm text-text-muted mb-1 truncate">
-                  {localizedItems[item.id]?.title ?? item.title}
-                </h3>
-              </div>
-
-              <div className="mt-3 pt-2 border-t border-border/20 text-[11px] text-text-muted/60">
-                {tHome("comingSoon")}
-              </div>
-            </div>
-          )
-        )}
+          ))}
       </div>
     </section>
   );

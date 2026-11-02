@@ -37,7 +37,10 @@ export default async function Home({ params }: HomePageProps) {
         <WikiHero />
       </Suspense>
 
-      {/* Daily reset timers */}
+      {/* Teyvat reference categories */}
+      <TeyvatCompendium />
+
+      {/* Daily game activity */}
       <ServerTimers />
 
       {/* Core tools */}
@@ -45,9 +48,6 @@ export default async function Home({ params }: HomePageProps) {
 
       {/* Latest version updates */}
       <VersionHub />
-
-      {/* Teyvat reference categories */}
-      <TeyvatCompendium />
 
       {/* Footer */}
       <footer className="max-w-7xl mx-auto px-4 md:px-8 py-12 border-t border-border/60 text-center text-sm text-text-muted">

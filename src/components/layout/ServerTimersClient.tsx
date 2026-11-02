@@ -5,9 +5,7 @@ import { useTranslations } from "next-intl";
 
 export function ServerTimersClient() {
   const t = useTranslations("Home");
-  const [asiaTime, setAsiaTime] = useState("");
-  const [americaTime, setAmericaTime] = useState("");
-  const [europeTime, setEuropeTime] = useState("");
+  const [serverTime, setServerTime] = useState("");
   const [spiralReset, setSpiralReset] = useState("");
   const [theaterReset, setTheaterReset] = useState("");
   const [stygianReset, setStygianReset] = useState("");
@@ -16,41 +14,17 @@ export function ServerTimersClient() {
     const updateTimers = () => {
       const now = new Date();
 
-      // Asia server reset: 4:00 UTC = 11:00 UTC+7
-      const asiaReset = new Date(now);
-      asiaReset.setUTCHours(4, 0, 0, 0);
-      if (now > asiaReset) {
-        asiaReset.setDate(asiaReset.getDate() + 1);
+      // All three regional servers reset at 04:00 UTC.
+      const serverReset = new Date(now);
+      serverReset.setUTCHours(4, 0, 0, 0);
+      if (now >= serverReset) {
+        serverReset.setUTCDate(serverReset.getUTCDate() + 1);
       }
-      const asiaDiff = asiaReset.getTime() - now.getTime();
-      const asiaHours = Math.floor(asiaDiff / (1000 * 60 * 60));
-      const asiaMins = Math.floor((asiaDiff % (1000 * 60 * 60)) / (1000 * 60));
-      const asiaSecs = Math.floor((asiaDiff % (1000 * 60)) / 1000);
-      setAsiaTime(t("timerServerCountdown", { hours: asiaHours, minutes: asiaMins, seconds: asiaSecs }));
-
-      // America server reset: 4:00 UTC = 23:00 UTC-5
-      const americaReset = new Date(now);
-      americaReset.setUTCHours(4, 0, 0, 0);
-      if (now > americaReset) {
-        americaReset.setDate(americaReset.getDate() + 1);
-      }
-      const americaDiff = americaReset.getTime() - now.getTime();
-      const americaHours = Math.floor(americaDiff / (1000 * 60 * 60));
-      const americaMins = Math.floor((americaDiff % (1000 * 60 * 60)) / (1000 * 60));
-      const americaSecs = Math.floor((americaDiff % (1000 * 60)) / 1000);
-      setAmericaTime(t("timerServerCountdown", { hours: americaHours, minutes: americaMins, seconds: americaSecs }));
-
-      // Europe server reset: 4:00 UTC = 5:00 UTC+1
-      const europeReset = new Date(now);
-      europeReset.setUTCHours(4, 0, 0, 0);
-      if (now > europeReset) {
-        europeReset.setDate(europeReset.getDate() + 1);
-      }
-      const europeDiff = europeReset.getTime() - now.getTime();
-      const europeHours = Math.floor(europeDiff / (1000 * 60 * 60));
-      const europeMins = Math.floor((europeDiff % (1000 * 60 * 60)) / (1000 * 60));
-      const europeSecs = Math.floor((europeDiff % (1000 * 60)) / 1000);
-      setEuropeTime(t("timerServerCountdown", { hours: europeHours, minutes: europeMins, seconds: europeSecs }));
+      const serverDiff = serverReset.getTime() - now.getTime();
+      const serverHours = Math.floor(serverDiff / (1000 * 60 * 60));
+      const serverMins = Math.floor((serverDiff % (1000 * 60 * 60)) / (1000 * 60));
+      const serverSecs = Math.floor((serverDiff % (1000 * 60)) / 1000);
+      setServerTime(t("timerServerCountdown", { hours: serverHours, minutes: serverMins, seconds: serverSecs }));
 
       // 1. Nhà Hát Giả Tưởng (Imaginarium Theater): Reset ngày 1 hàng tháng lúc 04:00 UTC
       const theaterDate = new Date(now);
@@ -136,50 +110,27 @@ export function ServerTimersClient() {
         </div>
       </div>
 
-      {/* Grid: 3 Server Reset + 3 Endgame Modes = 6 cards total */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 md:gap-4">
-        {/* Asia Server */}
-        <div className="relative group bg-bg-card/75 border border-border/80 hover:border-accent-500/50 rounded-xl p-3.5 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">
+      {/* Four cards: one shared server reset and three endgame modes. */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+        <div className="relative rounded-xl bg-bg-card/75 border border-border/80 p-3.5 shadow-sm sm:col-span-2 lg:col-span-1">
           <div className="flex items-center justify-between text-xs text-text-secondary font-medium mb-1.5">
-            <span className="font-semibold text-text-primary">{t("timerAsiaServer")}</span>
-            <span className="text-[10px] px-1.5 py-0.5 rounded bg-bg-elevated text-text-muted">UTC+7</span>
+            <span className="font-semibold text-text-primary">{t("timerTitle")}</span>
+            <span className="text-[10px] px-1.5 py-0.5 rounded bg-bg-elevated text-text-muted">UTC</span>
           </div>
           <div className="font-mono text-lg sm:text-xl font-bold tracking-tight text-accent-bright tabular-nums">
-            {asiaTime || "--:--:--"}
+            {serverTime || "--:--:--"}
           </div>
-          <div className="text-[11px] text-text-muted mt-1.5 flex items-center justify-between">
-            <span>{t("timerResetAt", { time: "11:00" })}</span>
-            <span className="text-emerald-400/80">{t("timerActive")}</span>
-          </div>
-        </div>
-
-        {/* America Server */}
-        <div className="relative group bg-bg-card/75 border border-border/80 hover:border-accent-500/50 rounded-xl p-3.5 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">
-          <div className="flex items-center justify-between text-xs text-text-secondary font-medium mb-1.5">
-            <span className="font-semibold text-text-primary">{t("timerAmericaServer")}</span>
-            <span className="text-[10px] px-1.5 py-0.5 rounded bg-bg-elevated text-text-muted">UTC-5</span>
-          </div>
-          <div className="font-mono text-lg sm:text-xl font-bold tracking-tight text-accent-bright tabular-nums">
-            {americaTime || "--:--:--"}
-          </div>
-          <div className="text-[11px] text-text-muted mt-1.5 flex items-center justify-between">
-            <span>{t("timerResetAt", { time: "23:00" })}</span>
-            <span className="text-emerald-400/80">{t("timerActive")}</span>
-          </div>
-        </div>
-
-        {/* Europe Server */}
-        <div className="relative group bg-bg-card/75 border border-border/80 hover:border-accent-500/50 rounded-xl p-3.5 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">
-          <div className="flex items-center justify-between text-xs text-text-secondary font-medium mb-1.5">
-            <span className="font-semibold text-text-primary">{t("timerEuropeServer")}</span>
-            <span className="text-[10px] px-1.5 py-0.5 rounded bg-bg-elevated text-text-muted">UTC+1</span>
-          </div>
-          <div className="font-mono text-lg sm:text-xl font-bold tracking-tight text-accent-bright tabular-nums">
-            {europeTime || "--:--:--"}
-          </div>
-          <div className="text-[11px] text-text-muted mt-1.5 flex items-center justify-between">
-            <span>{t("timerResetAt", { time: "05:00" })}</span>
-            <span className="text-emerald-400/80">{t("timerActive")}</span>
+          <div className="mt-2 grid grid-cols-3 gap-1 border-t border-border/50 pt-2">
+            {[
+              { label: t("timerAsiaServer"), time: "11:00" },
+              { label: t("timerEuropeServer"), time: "05:00" },
+              { label: t("timerAmericaServer"), time: "23:00" },
+            ].map((server) => (
+              <div key={server.label} className="text-center">
+                <div className="text-[10px] text-text-muted truncate">{server.label}</div>
+                <div className="text-xs font-medium text-text-secondary">{server.time}</div>
+              </div>
+            ))}
           </div>
         </div>
 
