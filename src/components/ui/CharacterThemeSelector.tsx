@@ -224,6 +224,18 @@ export function CharacterThemeSelector() {
   const [selectedTheme, setSelectedTheme] = useState<string>("kazuha");
   const containerRef = useRef<HTMLDivElement>(null);
 
+  function applyTheme(themeId: string) {
+    const theme = CHARACTER_THEMES.find((t) => t.id === themeId);
+    if (!theme) return;
+    const root = document.documentElement;
+    root.setAttribute("data-char-theme", themeId);
+    root.style.setProperty("--char-bg-primary", theme.bgPrimary);
+    root.style.setProperty("--char-bg-card", theme.bgCard);
+    root.style.setProperty("--char-border", theme.borderColor);
+    root.style.setProperty("--char-accent", theme.colors[0]);
+    root.style.setProperty("--char-accent-2", theme.colors[1]);
+  }
+
   // Đọc từ localStorage lúc mount
   useEffect(() => {
     try {
@@ -250,19 +262,6 @@ export function CharacterThemeSelector() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  function applyTheme(themeId: string) {
-    const theme = CHARACTER_THEMES.find((t) => t.id === themeId);
-    if (!theme) return;
-    const root = document.documentElement;
-    root.setAttribute("data-char-theme", themeId);
-    // Apply full palette
-    root.style.setProperty("--char-bg-primary", theme.bgPrimary);
-    root.style.setProperty("--char-bg-card", theme.bgCard);
-    root.style.setProperty("--char-border", theme.borderColor);
-    root.style.setProperty("--char-accent", theme.colors[0]);
-    root.style.setProperty("--char-accent-2", theme.colors[1]);
-  }
 
   const handleSelectTheme = (themeId: string) => {
     setSelectedTheme(themeId);

@@ -2,7 +2,7 @@
 // Hệ thống tự động kiểm tra, đồng bộ và giám sát độ bao phủ build nhân vật so với DB.
 import "dotenv/config";
 import { prisma } from "../src/lib/db/prisma";
-import { CHARACTER_BUILDS, getCharacterBuild, getBuildSource } from "../src/data/character-builds-data";
+import { CHARACTER_BUILDS, getBuildSource } from "../src/data/character-builds-data";
 import { DRAFT_BUILDS } from "../src/data/character-builds-draft";
 import { NON_PLAYABLE_CHARACTER_IDS } from "../src/core/game/character-catalog";
 

@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 # DB giả (service container) — build của app này chạy ISR (revalidate) nên
 # `next build` thực sự query DB, không thể giả bằng URL rỗng.
 #
@@ -31,6 +34,7 @@ jobs:
   lint-and-typecheck:
     name: Lint & Typecheck
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     # Khai báo tường minh lại (xem giải thích ở env cấp workflow phía
     # trên) — `npm ci` ở bước dưới tự chạy hook `postinstall: prisma
     # generate`, cần DIRECT_URL đọc được NGAY tại thời điểm đó.
@@ -63,6 +67,7 @@ jobs:
   build:
     name: Migrate & Build
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     needs: lint-and-typecheck
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
@@ -103,6 +108,7 @@ jobs:
   api-smoke-test:
     name: API smoke test
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     needs: build
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
@@ -147,7 +153,8 @@ jobs:
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
 
-          npx wait-on http://localhost:3000/api/health -t 60000 || {
+          curl --fail --silent --show-error --retry 30 --retry-connrefused \
+            --retry-delay 1 --max-time 2 http://localhost:3000/api/health > /dev/null || {
             cat /tmp/leibo-next.log
             exit 1
           }
@@ -159,6 +166,11 @@ jobs:
           grep -q '"success":true' /tmp/characters.json
           grep -q '"meta"' /tmp/characters.json
 
+          curl -sf "http://localhost:3000/api/search?q=raiden&locale=en&limit=1" | tee /tmp/search.json
+          grep -q '"success":true' /tmp/search.json
+          grep -q '"characters":' /tmp/search.json
+          grep -q '"materials":' /tmp/search.json
+
           status=$(curl -s -o /tmp/bad.json -w "%{http_code}" "http://localhost:3000/api/characters?rarity=9")
           cat /tmp/bad.json
           test "$status" = "400"
@@ -166,4 +178,3 @@ jobs:
           status=$(curl -s -o /tmp/notfound.json -w "%{http_code}" "http://localhost:3000/api/characters/khong-ton-tai")
           cat /tmp/notfound.json
           test "$status" = "404"
-

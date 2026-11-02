@@ -4,6 +4,7 @@ import { SearchIcon } from "@/components/ui/UiIcon";
 import { useState } from "react";
 import { Link, useRouter } from "@/i18n/navigation";
 import { KazuhaMapleLeaves } from "@/components/effects/KazuhaMapleLeaves";
+import { useTranslations } from "next-intl";
 
 /**
  * Wiki Hero 2026 — Kazuha "Autumn Breeze & Anemo Clarity"
@@ -14,15 +15,19 @@ import { KazuhaMapleLeaves } from "@/components/effects/KazuhaMapleLeaves";
  */
 export function WikiHero() {
   const router = useRouter();
+  const t = useTranslations("Hero");
+  const tNav = useTranslations("Nav");
+  const tHome = useTranslations("Home");
+  const tSearch = useTranslations("Search");
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     const query = searchQuery.trim();
     if (query) {
-      router.push(`/characters?search=${encodeURIComponent(query)}`);
+      router.push(`/search?q=${encodeURIComponent(query)}`);
     } else {
-      router.push("/characters");
+      router.push("/search");
     }
   };
 
@@ -56,7 +61,7 @@ export function WikiHero() {
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-bg-card/80 border border-border/80 backdrop-blur-md mb-6 shadow-sm">
             <span className="w-2 h-2 rounded-full bg-accent-500 animate-pulse" />
             <span className="text-xs font-semibold tracking-wider uppercase text-text-secondary">
-              Genshin Impact Companion &amp; Tactical Wiki
+              LEIBO · Genshin Impact
             </span>
           </div>
 
@@ -68,7 +73,7 @@ export function WikiHero() {
           </h1>
           
           <p className="text-base sm:text-lg md:text-xl text-text-secondary font-light max-w-2xl mx-auto mb-8 leading-relaxed">
-            Cẩm nang chiến thuật toàn diện · Tối ưu build &amp; đội hình phản ứng · Lịch farm tài nguyên
+            {t("tagline")}
           </p>
 
           {/* Search Bar - Professional & Interactive */}
@@ -78,16 +83,16 @@ export function WikiHero() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Tìm nhân vật, vũ khí, thánh di vật, đội hình..."
+                placeholder={t("searchPlaceholder")}
                 className="w-full pl-6 pr-28 py-4 text-base md:text-lg bg-bg-card/90 border border-border-strong rounded-2xl outline-none focus:border-accent-500 focus:ring-4 focus:ring-accent-500/15 transition-all text-text-primary placeholder:text-text-muted shadow-lg shadow-black/10 backdrop-blur-sm"
               />
               <button
                 type="submit"
-                aria-label="Tìm kiếm"
+                aria-label={tSearch("title")}
                 className="absolute right-2.5 top-1/2 -translate-y-1/2 px-4 py-2 bg-accent-500 text-bg-primary hover:bg-accent-bright font-medium text-sm rounded-xl flex items-center gap-1.5 shadow-sm transition-all active:scale-95 cursor-pointer"
               >
                 <SearchIcon size={16} />
-                <span className="hidden sm:inline">Tìm</span>
+                <span className="hidden sm:inline">{tSearch("title")}</span>
               </button>
             </form>
 
@@ -99,31 +104,31 @@ export function WikiHero() {
               href="/characters"
               className="btn-primary flex items-center justify-center px-6 py-3 rounded-xl shadow-md text-sm font-semibold tracking-wide"
             >
-              <span>Nhân vật</span>
+              <span>{t("exploreCharacters")}</span>
             </Link>
             <Link
               href="/weapons"
               className="btn-secondary flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold tracking-wide hover:border-accent-500/60"
             >
-              <span>Vũ khí</span>
+              <span>{t("weaponArsenal")}</span>
             </Link>
             <Link
               href="/artifacts"
               className="btn-secondary flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold tracking-wide hover:border-accent-500/60"
             >
-              <span>Thánh di vật</span>
+              <span>{tNav("artifacts")}</span>
             </Link>
             <Link
               href="/domains"
               className="btn-secondary flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold tracking-wide hover:border-accent-500/60"
             >
-              <span>Bí cảnh</span>
+              <span>{tNav("domains")}</span>
             </Link>
             <Link
               href="/calendar"
               className="btn-anemo flex items-center justify-center px-6 py-3 rounded-xl shadow-md text-sm font-semibold tracking-wide"
             >
-              <span>Lịch farm</span>
+              <span>{tHome("viewFullSchedule")}</span>
             </Link>
           </div>
         </div>

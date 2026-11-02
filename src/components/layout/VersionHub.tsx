@@ -1,6 +1,7 @@
 import { Link } from "@/i18n/navigation";
 import { getVersionIndex, summarize, pickEntries, type VersionEntry } from "@/core/game/versions";
 import { SafeImage } from "@/components/ui/SafeImage";
+import { getTranslations } from "next-intl/server";
 
 const SOURCE_ICONS: Record<string, string> = {
   characters: "/local-genshin-assets/ui/characters.png",
@@ -15,6 +16,22 @@ const SOURCE_ICONS: Record<string, string> = {
  * Hiển thị đầy đủ hình ảnh, icon game chuẩn và liên kết trực tiếp tới các nhân vật/vũ khí mới.
  */
 export async function VersionHub() {
+  const t = await getTranslations("Version");
+  const tHome = await getTranslations("Home");
+  const [tCharacters, tWeapons, tArtifacts, tDomains, tMaterials] = await Promise.all([
+    getTranslations("Characters"),
+    getTranslations("Weapons"),
+    getTranslations("Artifacts"),
+    getTranslations("Domains"),
+    getTranslations("Materials"),
+  ]);
+  const sourceNames: Record<string, string> = {
+    characters: tCharacters("title"),
+    weapons: tWeapons("title"),
+    artifacts: tArtifacts("title"),
+    domains: tDomains("title"),
+    materials: tMaterials("title"),
+  };
   let latest: string | undefined;
   let chips: Array<{ key: string; label: string; n: number; icon: string }> = [];
   let total = 0;
@@ -30,7 +47,7 @@ export async function VersionHub() {
       chips = index.sources
         .map((src) => ({
           key: src.key,
-          label: src.label,
+          label: sourceNames[src.key] ?? src.label,
           n: s.bySource[src.key]?.added ?? 0,
           icon: SOURCE_ICONS[src.key] ?? "/local-genshin-assets/ui/timeline.png",
         }))
@@ -60,21 +77,18 @@ export async function VersionHub() {
               className="w-5 h-5 object-contain"
             />
             <span className="text-xs font-mono uppercase text-accent-bright font-semibold tracking-wider">
-              Dòng Thời Gian Teyvat
+              {tHome("quickLinks")}
             </span>
           </div>
           <h2 className="font-display text-2xl font-bold text-text-primary tracking-tight">
-            Cập Nhật Phiên Bản Genshin Impact
+            {t("title")}
           </h2>
-          <p className="text-sm text-text-secondary mt-1">
-            Theo dõi chi tiết thay đổi và nhân vật/vũ khí mới theo từng bản cập nhật
-          </p>
         </div>
         <Link
           href="/versions"
           className="text-sm font-semibold text-accent-bright hover:underline shrink-0 flex items-center gap-1"
         >
-          <span>Lịch sử phiên bản</span>
+          <span>{tHome("viewAll")}</span>
           <span>&rarr;</span>
         </Link>
       </div>
@@ -85,14 +99,14 @@ export async function VersionHub() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <span className="text-xs font-mono uppercase text-accent-bright tracking-wider font-semibold">
-              Bản phát hành hiện tại
+              {tHome("versionCurrent")}
             </span>
             <h3 className="font-display text-3xl sm:text-4xl font-extrabold text-text-primary mt-0.5 tracking-tight">
-              Phiên bản {latest}
+              {tHome("versionNumber", { version: latest })}
             </h3>
           </div>
           <span className="px-4 py-1.5 bg-accent-500/15 text-accent-bright border border-accent-500/30 text-xs font-semibold rounded-full self-start sm:self-center">
-            +{total} nội dung &amp; dữ liệu mới
+            {tHome("versionNewContent", { count: total })}
           </span>
         </div>
 
@@ -107,7 +121,7 @@ export async function VersionHub() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={c.icon} alt="" width={18} height={18} className="w-4.5 h-4.5 object-contain shrink-0" />
                 <span>
-                  +{c.n} {c.label.toLowerCase()}
+                  +{c.n} {c.label}
                 </span>
               </li>
             ))}
@@ -127,7 +141,7 @@ export async function VersionHub() {
                   height={16}
                   className="w-4 h-4 object-contain"
                 />
-                <span>Nhân vật mới xuất hiện ({newCharacters.length})</span>
+                <span>{tHome("latestCharacters")} ({newCharacters.length})</span>
               </h4>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -176,7 +190,7 @@ export async function VersionHub() {
                   height={16}
                   className="w-4 h-4 object-contain"
                 />
-                <span>Vũ khí mới ({newWeapons.length})</span>
+                <span>{tHome("latestWeapons")} ({newWeapons.length})</span>
               </h4>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5">
@@ -216,14 +230,14 @@ export async function VersionHub() {
             href={`/versions/${latest}`}
             className="btn-anemo px-5 py-2.5 rounded-xl text-sm font-semibold shadow-sm inline-flex items-center gap-2"
           >
-            <span>Xem chi tiết bản {latest}</span>
+            <span>{tHome("versionViewDetails", { version: latest })}</span>
             <span>&rarr;</span>
           </Link>
           <Link
             href="/versions"
             className="btn-secondary px-5 py-2.5 rounded-xl text-sm font-semibold"
           >
-            Tất cả phiên bản từ 1.0
+            {tHome("viewAll")}
           </Link>
         </div>
       </div>

@@ -49,7 +49,72 @@
     "elements": "Elementler",
     "elementsDesc": "Element sistemi ve tepkimeler",
     "artifacts": "Yadigar / Eserler",
-    "artifactsDesc": "Eser setleri ve bonuslar"
+    "artifactsDesc": "Eser setleri ve bonuslar",
+    "categoryAll": "All",
+    "categoryCombat": "Combat",
+    "categoryWorld": "World",
+    "categoryProfile": "Profile",
+    "comingSoon": "Coming soon",
+    "cardTcgTitle": "Genius Invokation TCG",
+    "cardTcgDescription": "Browse character cards and strategy decks.",
+    "cardCraftsTitle": "Crafting Recipes",
+    "cardCraftsDescription": "Find alchemy and weapon-forging recipes.",
+    "cardAnimalsTitle": "Teyvat Wildlife",
+    "cardAnimalsDescription": "Browse animals, birds, and capturable creatures.",
+    "cardNamecardsTitle": "Namecard Collection",
+    "cardNamecardsDescription": "Browse character, event, and reputation namecards.",
+    "cardOutfitsTitle": "Character Outfits",
+    "cardOutfitsDescription": "Browse character skins and event outfits.",
+    "cardWindglidersTitle": "Wind Gliders",
+    "cardWindglidersDescription": "Browse reputation and event gliders.",
+    "cardAdventureRanksTitle": "Adventure Ranks",
+    "cardAdventureRanksDescription": "View rank rewards and World Levels.",
+    "cardBirthdaysTitle": "Character Birthdays",
+    "cardBirthdaysDescription": "See character birthdays by month.",
+    "cardSereniteaTitle": "Serenitea Pot",
+    "cardSereniteaDescription": "Browse furnishings, sets, and Adeptal Energy.",
+    "cardHiddenAchievementsTitle": "Hidden Achievements",
+    "cardHiddenAchievementsDescription": "Discover achievements not listed in the game.",
+    "toolDamageTitle": "Damage & DPS Calculator",
+    "toolDamageDescription": "Estimate team rotation damage and compare builds.",
+    "toolEstimate": "Estimated damage; results vary by build.",
+    "toolTeamTitle": "Team Builder",
+    "toolTeamDescription": "Build teams around reactions and role synergy.",
+    "toolEnkaTitle": "Sync Showcase by UID",
+    "toolEnkaDescription": "Load character builds and stats from Enka Network.",
+    "toolWishTitle": "Wish History Analyzer",
+    "toolWishDescription": "Track pity and review your wish history.",
+    "toolShowcaseTitle": "Showcase Character Card",
+    "toolShowcaseDescription": "Create a shareable card of character stats and builds.",
+    "toolMaterialsTitle": "Material Calculator",
+    "toolMaterialsDescription": "Plan materials needed to level a character to 90.",
+    "versionCurrent": "Mevcut sürüm",
+    "versionNumber": "Sürüm {version}",
+    "versionNewContent": "+{count} yeni içerik ve veri",
+    "versionViewDetails": "{version} sürümünü görüntüle",
+    "versionAllFrom": "{version} sürümünden itibaren tüm sürümler",
+    "timerTitle": "Sunucu sıfırlamaları ve oyun sonu",
+    "timerLiveSync": "CANLI SENKRON",
+    "timerUpdatesEverySecond": "Her saniye güncellenir",
+    "timerAsiaServer": "Asya Sunucusu",
+    "timerAmericaServer": "Amerika Sunucusu",
+    "timerEuropeServer": "Avrupa Sunucusu",
+    "timerResetAt": "Sıfırlanma: {time}",
+    "timerActive": "Etkin",
+    "timerTheater": "Hayal Tiyatrosu",
+    "timerSeason": "Sezon",
+    "timerAbyss": "Mühürlü Kuyu",
+    "timerAbyssTag": "Kat 9–12",
+    "timerStygian": "Stygian Onslaught",
+    "timerEndgame": "Oyun Sonu",
+    "timerRefreshDay": "Her ayın {day}. günü yenilenir",
+    "timerPrimogems": "{count} İlkel Öz",
+    "timerBossRotation": "Boss rotasyonu",
+    "timerRewards": "5★ ödüller",
+    "timerOpenIn": "{days}g {hours}s sonra açılır",
+    "timerNextCycle": "Yeni döngüye {days}g {hours}s",
+    "timerCountdown": "{days}g {hours}s {minutes}d",
+    "timerServerCountdown": "{hours}s {minutes}d {seconds}sn"
   },
   "ErrorPage": {
     "title": "Bir Hata Oluştu",
@@ -135,7 +200,17 @@
     "categoryTalent": "Yetenek Diyarı",
     "clearAllFilters": "Tüm filtreleri temizle",
     "noResults": "Filtrelerle eşleşen diyar yok.",
-    "clearFilters": "Filtreleri temizle"
+    "clearFilters": "Filtreleri temizle",
+    "categoryTrounce": "Trounce / Weekly Boss",
+    "categoryChallenge": "Challenge & Exploration",
+    "filterRegion": "Region",
+    "filterSchedule": "Schedule",
+    "regionAll": "All regions",
+    "scheduleAll": "All days",
+    "scheduleDaily": "Open daily",
+    "scheduleMonThu": "Mon / Thu / Sun",
+    "scheduleTueFri": "Tue / Fri / Sun",
+    "scheduleWedSat": "Wed / Sat / Sun"
   },
   "DomainDetail": {
     "notFoundTitle": "Diyar bulunamadı — LEIBO",
@@ -162,9 +237,9 @@
   "Search": {
     "metaTitleQuery": "\"{query}\" araması — LEIBO",
     "metaTitleEmpty": "Ara — LEIBO",
-    "metaDescription": "LEIBO'da Genshin Impact karakterlerini, silahlarını ve eserlerini ara.",
+    "metaDescription": "LEIBO'da Genshin Impact karakterlerini, silahlarını, eserlerini, diyarlarını ve malzemelerini ara.",
     "title": "Ara",
-    "emptyPrompt": "Başlamak için yukarıdaki arama kutusuna bir karakter, silah veya eser adı girin.",
+    "emptyPrompt": "Yukarıdaki arama kutusuna karakter, silah, eser, diyar veya malzeme adı girin.",
     "resultsTitle": "Arama Sonuçları",
     "foundFor": "<q>{query}</q> için <b>{count}</b> sonuç bulundu",
     "noneFor": "<q>{query}</q> için sonuç bulunamadı",
@@ -172,6 +247,7 @@
     "sectionWeapons": "Silahlar ({count})",
     "sectionArtifacts": "Eserler ({count})",
     "sectionDomains": "Diyarlar ({count})",
+    "sectionMaterials": "Malzemeler ({count})",
     "tryAnotherKeyword": "Başka bir anahtar kelime deneyin veya yazımı kontrol edin."
   },
   "WeaponDetail": {
@@ -250,15 +326,17 @@
   "SearchWidget": {
     "ariaSearch": "Ara",
     "searchShortcutTitle": "Ara (⌘K)",
-    "placeholder": "Karakter, silah, eser ara...",
-    "palettePlaceholder": "Karakter, silah, eser, diyar ara...",
+    "placeholder": "Karakter, silah, eser, diyar ve malzeme ara...",
+    "palettePlaceholder": "Karakter, silah, eser, diyar ve malzeme ara...",
     "searching": "Aranıyor...",
     "noResultsFor": "\"{query}\" için sonuç yok",
     "noResultsForDot": "\"{query}\" için sonuç yok.",
+    "searchFailed": "Arama geçici olarak kullanılamıyor. Lütfen tekrar deneyin.",
     "sectionCharacters": "Karakterler",
     "sectionWeapons": "Silahlar",
     "sectionArtifacts": "Eserler",
     "sectionDomains": "Diyarlar",
+    "sectionMaterials": "Malzemeler",
     "viewAllResults": "\"{query}\" için {count} sonucun tümünü gör",
     "paletteHintPrefix": "Aramak için yazın — veya kapatmak için",
     "paletteHintSuffix": "tuşuna basın."
@@ -422,5 +500,36 @@
     "baseCoefficientTableTitle": "Temel Katsayı Tablosu — Dönüştürücü Tepkimeler",
     "baseCoefficientTableNote": "Yukarıdaki Dönüştürücü Tepkime formülü yerine bu değeri kullanın. Elektro Yüklü bir döngüde 2 kez tetiklenebilir, bu yüzden gerçek toplam hasar aşağıdaki değerin iki katı olabilir.",
     "shatterNote": "Parçalanma vuruşuna uygulanır, Donmuş durumunun kendisine değil"
+  },
+  "Version": {
+    "title": "Mevcut sürüm"
+  },
+  "Tools": {
+    "title": "Tools & Utilities"
+  },
+  "Materials": {
+    "title": "Materials",
+    "description": "Full list of ascension and upgrade materials"
+  },
+  "Enemies": {
+    "title": "Enemies",
+    "description": "Full list of enemies in the game"
+  },
+  "Food": {
+    "title": "Food",
+    "description": "Full list of food and cooking recipes"
+  },
+  "Geography": {
+    "title": "Viewpoints",
+    "description": "Full list of locations and viewpoints in the game"
+  },
+  "Achievements": {
+    "title": "Achievements",
+    "description": "Full list of achievements and Primogem rewards",
+    "achievementGroups": "Achievement groups",
+    "achievements": "Achievements (showing first 100)"
+  },
+  "Navigation": {
+    "title": "Quick lookup shortcuts"
   }
 }

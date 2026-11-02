@@ -49,7 +49,72 @@
     "elements": "Elemen",
     "elementsDesc": "Sistem elemen dan reaksi",
     "artifacts": "Artefak",
-    "artifactsDesc": "Set artefak dan bonus"
+    "artifactsDesc": "Set artefak dan bonus",
+    "categoryAll": "All",
+    "categoryCombat": "Combat",
+    "categoryWorld": "World",
+    "categoryProfile": "Profile",
+    "comingSoon": "Coming soon",
+    "cardTcgTitle": "Genius Invokation TCG",
+    "cardTcgDescription": "Browse character cards and strategy decks.",
+    "cardCraftsTitle": "Crafting Recipes",
+    "cardCraftsDescription": "Find alchemy and weapon-forging recipes.",
+    "cardAnimalsTitle": "Teyvat Wildlife",
+    "cardAnimalsDescription": "Browse animals, birds, and capturable creatures.",
+    "cardNamecardsTitle": "Namecard Collection",
+    "cardNamecardsDescription": "Browse character, event, and reputation namecards.",
+    "cardOutfitsTitle": "Character Outfits",
+    "cardOutfitsDescription": "Browse character skins and event outfits.",
+    "cardWindglidersTitle": "Wind Gliders",
+    "cardWindglidersDescription": "Browse reputation and event gliders.",
+    "cardAdventureRanksTitle": "Adventure Ranks",
+    "cardAdventureRanksDescription": "View rank rewards and World Levels.",
+    "cardBirthdaysTitle": "Character Birthdays",
+    "cardBirthdaysDescription": "See character birthdays by month.",
+    "cardSereniteaTitle": "Serenitea Pot",
+    "cardSereniteaDescription": "Browse furnishings, sets, and Adeptal Energy.",
+    "cardHiddenAchievementsTitle": "Hidden Achievements",
+    "cardHiddenAchievementsDescription": "Discover achievements not listed in the game.",
+    "toolDamageTitle": "Damage & DPS Calculator",
+    "toolDamageDescription": "Estimate team rotation damage and compare builds.",
+    "toolEstimate": "Estimated damage; results vary by build.",
+    "toolTeamTitle": "Team Builder",
+    "toolTeamDescription": "Build teams around reactions and role synergy.",
+    "toolEnkaTitle": "Sync Showcase by UID",
+    "toolEnkaDescription": "Load character builds and stats from Enka Network.",
+    "toolWishTitle": "Wish History Analyzer",
+    "toolWishDescription": "Track pity and review your wish history.",
+    "toolShowcaseTitle": "Showcase Character Card",
+    "toolShowcaseDescription": "Create a shareable card of character stats and builds.",
+    "toolMaterialsTitle": "Material Calculator",
+    "toolMaterialsDescription": "Plan materials needed to level a character to 90.",
+    "versionCurrent": "Versi terbaru",
+    "versionNumber": "Versi {version}",
+    "versionNewContent": "+{count} konten dan data baru",
+    "versionViewDetails": "Lihat detail versi {version}",
+    "versionAllFrom": "Semua versi sejak {version}",
+    "timerTitle": "Reset server dan konten endgame",
+    "timerLiveSync": "SINKRON LANGSUNG",
+    "timerUpdatesEverySecond": "Diperbarui setiap detik",
+    "timerAsiaServer": "Server Asia",
+    "timerAmericaServer": "Server Amerika",
+    "timerEuropeServer": "Server Eropa",
+    "timerResetAt": "Reset pukul {time}",
+    "timerActive": "Aktif",
+    "timerTheater": "Teater Imajinarium",
+    "timerSeason": "Musim",
+    "timerAbyss": "Jurang Spiral",
+    "timerAbyssTag": "Lantai 9–12",
+    "timerStygian": "Stygian Onslaught",
+    "timerEndgame": "Endgame",
+    "timerRefreshDay": "Reset pada tanggal {day}",
+    "timerPrimogems": "{count} Primogem",
+    "timerBossRotation": "Rotasi boss",
+    "timerRewards": "Hadiah 5★",
+    "timerOpenIn": "Dibuka dalam {days}h {hours}j",
+    "timerNextCycle": "Siklus berikutnya dalam {days}h {hours}j",
+    "timerCountdown": "{days}h {hours}j {minutes}m",
+    "timerServerCountdown": "{hours}j {minutes}m {seconds}d"
   },
   "ErrorPage": {
     "title": "Terjadi Kesalahan",
@@ -135,7 +200,17 @@
     "categoryTalent": "Domain Talenta",
     "clearAllFilters": "Hapus semua filter",
     "noResults": "Tidak ada domain yang cocok dengan filter.",
-    "clearFilters": "Hapus filter"
+    "clearFilters": "Hapus filter",
+    "categoryTrounce": "Trounce / Weekly Boss",
+    "categoryChallenge": "Challenge & Exploration",
+    "filterRegion": "Region",
+    "filterSchedule": "Schedule",
+    "regionAll": "All regions",
+    "scheduleAll": "All days",
+    "scheduleDaily": "Open daily",
+    "scheduleMonThu": "Mon / Thu / Sun",
+    "scheduleTueFri": "Tue / Fri / Sun",
+    "scheduleWedSat": "Wed / Sat / Sun"
   },
   "DomainDetail": {
     "notFoundTitle": "Domain tidak ditemukan — LEIBO",
@@ -162,9 +237,9 @@
   "Search": {
     "metaTitleQuery": "Cari \"{query}\" — LEIBO",
     "metaTitleEmpty": "Cari — LEIBO",
-    "metaDescription": "Cari karakter, senjata, dan artefak Genshin Impact di LEIBO.",
+    "metaDescription": "Cari karakter, senjata, artefak, domain, dan material Genshin Impact di LEIBO.",
     "title": "Cari",
-    "emptyPrompt": "Masukkan nama karakter, senjata, atau artefak di kotak pencarian di atas untuk memulai.",
+    "emptyPrompt": "Masukkan nama karakter, senjata, artefak, domain, atau material pada kotak pencarian di atas.",
     "resultsTitle": "Hasil Pencarian",
     "foundFor": "Ditemukan <b>{count}</b> hasil untuk <q>{query}</q>",
     "noneFor": "Tidak ada hasil untuk <q>{query}</q>",
@@ -172,6 +247,7 @@
     "sectionWeapons": "Senjata ({count})",
     "sectionArtifacts": "Artefak ({count})",
     "sectionDomains": "Domain ({count})",
+    "sectionMaterials": "Material ({count})",
     "tryAnotherKeyword": "Coba kata kunci lain atau periksa kembali ejaannya."
   },
   "WeaponDetail": {
@@ -250,15 +326,17 @@
   "SearchWidget": {
     "ariaSearch": "Cari",
     "searchShortcutTitle": "Cari (⌘K)",
-    "placeholder": "Cari karakter, senjata, artefak...",
-    "palettePlaceholder": "Cari karakter, senjata, artefak, domain...",
+    "placeholder": "Cari karakter, senjata, artefak, domain, material...",
+    "palettePlaceholder": "Cari karakter, senjata, artefak, domain, material...",
     "searching": "Mencari...",
     "noResultsFor": "Tidak ada hasil untuk \"{query}\"",
     "noResultsForDot": "Tidak ada hasil untuk \"{query}\".",
+    "searchFailed": "Pencarian sementara tidak tersedia. Silakan coba lagi.",
     "sectionCharacters": "Karakter",
     "sectionWeapons": "Senjata",
     "sectionArtifacts": "Artefak",
     "sectionDomains": "Domain",
+    "sectionMaterials": "Material",
     "viewAllResults": "Lihat semua {count} hasil untuk \"{query}\"",
     "paletteHintPrefix": "Ketik untuk mencari — atau tekan",
     "paletteHintSuffix": "untuk menutup."
@@ -422,5 +500,36 @@
     "baseCoefficientTableTitle": "Tabel Koefisien Dasar — Reaksi Transformatif",
     "baseCoefficientTableNote": "Gunakan nilai ini pada rumus Reaksi Transformatif di atas. Electro-Charged bisa terjadi hingga 2 kali per siklus, jadi total damage sebenarnya bisa dua kali lipat dari nilai di bawah ini.",
     "shatterNote": "berlaku untuk hit Shattered, bukan Frozen itu sendiri"
+  },
+  "Version": {
+    "title": "Versi terbaru"
+  },
+  "Tools": {
+    "title": "Tools & Utilities"
+  },
+  "Materials": {
+    "title": "Materials",
+    "description": "Full list of ascension and upgrade materials"
+  },
+  "Enemies": {
+    "title": "Enemies",
+    "description": "Full list of enemies in the game"
+  },
+  "Food": {
+    "title": "Food",
+    "description": "Full list of food and cooking recipes"
+  },
+  "Geography": {
+    "title": "Viewpoints",
+    "description": "Full list of locations and viewpoints in the game"
+  },
+  "Achievements": {
+    "title": "Achievements",
+    "description": "Full list of achievements and Primogem rewards",
+    "achievementGroups": "Achievement groups",
+    "achievements": "Achievements (showing first 100)"
+  },
+  "Navigation": {
+    "title": "Quick lookup shortcuts"
   }
 }

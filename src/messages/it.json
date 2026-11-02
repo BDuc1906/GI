@@ -49,7 +49,72 @@
     "elements": "Elementi",
     "elementsDesc": "Sistema elementale e reazioni",
     "artifacts": "Artefatti",
-    "artifactsDesc": "Set di artefatti e bonus"
+    "artifactsDesc": "Set di artefatti e bonus",
+    "categoryAll": "All",
+    "categoryCombat": "Combat",
+    "categoryWorld": "World",
+    "categoryProfile": "Profile",
+    "comingSoon": "Coming soon",
+    "cardTcgTitle": "Genius Invokation TCG",
+    "cardTcgDescription": "Browse character cards and strategy decks.",
+    "cardCraftsTitle": "Crafting Recipes",
+    "cardCraftsDescription": "Find alchemy and weapon-forging recipes.",
+    "cardAnimalsTitle": "Teyvat Wildlife",
+    "cardAnimalsDescription": "Browse animals, birds, and capturable creatures.",
+    "cardNamecardsTitle": "Namecard Collection",
+    "cardNamecardsDescription": "Browse character, event, and reputation namecards.",
+    "cardOutfitsTitle": "Character Outfits",
+    "cardOutfitsDescription": "Browse character skins and event outfits.",
+    "cardWindglidersTitle": "Wind Gliders",
+    "cardWindglidersDescription": "Browse reputation and event gliders.",
+    "cardAdventureRanksTitle": "Adventure Ranks",
+    "cardAdventureRanksDescription": "View rank rewards and World Levels.",
+    "cardBirthdaysTitle": "Character Birthdays",
+    "cardBirthdaysDescription": "See character birthdays by month.",
+    "cardSereniteaTitle": "Serenitea Pot",
+    "cardSereniteaDescription": "Browse furnishings, sets, and Adeptal Energy.",
+    "cardHiddenAchievementsTitle": "Hidden Achievements",
+    "cardHiddenAchievementsDescription": "Discover achievements not listed in the game.",
+    "toolDamageTitle": "Damage & DPS Calculator",
+    "toolDamageDescription": "Estimate team rotation damage and compare builds.",
+    "toolEstimate": "Estimated damage; results vary by build.",
+    "toolTeamTitle": "Team Builder",
+    "toolTeamDescription": "Build teams around reactions and role synergy.",
+    "toolEnkaTitle": "Sync Showcase by UID",
+    "toolEnkaDescription": "Load character builds and stats from Enka Network.",
+    "toolWishTitle": "Wish History Analyzer",
+    "toolWishDescription": "Track pity and review your wish history.",
+    "toolShowcaseTitle": "Showcase Character Card",
+    "toolShowcaseDescription": "Create a shareable card of character stats and builds.",
+    "toolMaterialsTitle": "Material Calculator",
+    "toolMaterialsDescription": "Plan materials needed to level a character to 90.",
+    "versionCurrent": "Versione attuale",
+    "versionNumber": "Versione {version}",
+    "versionNewContent": "+{count} nuovi contenuti e dati",
+    "versionViewDetails": "Visualizza la versione {version}",
+    "versionAllFrom": "Tutte le versioni dalla {version}",
+    "timerTitle": "Reset server e contenuti endgame",
+    "timerLiveSync": "SINCRONIZZAZIONE LIVE",
+    "timerUpdatesEverySecond": "Aggiornato ogni secondo",
+    "timerAsiaServer": "Server Asia",
+    "timerAmericaServer": "Server America",
+    "timerEuropeServer": "Server Europa",
+    "timerResetAt": "Reset alle {time}",
+    "timerActive": "Attivo",
+    "timerTheater": "Teatro Immaginario",
+    "timerSeason": "Stagione",
+    "timerAbyss": "Abisso a Spirale",
+    "timerAbyssTag": "Piani 9–12",
+    "timerStygian": "Assalto Stigio",
+    "timerEndgame": "Endgame",
+    "timerRefreshDay": "Reset il giorno {day}",
+    "timerPrimogems": "{count} Primogemme",
+    "timerBossRotation": "Rotazione boss",
+    "timerRewards": "Ricompense 5★",
+    "timerOpenIn": "Apre tra {days}g {hours}h",
+    "timerNextCycle": "Nuovo ciclo tra {days}g {hours}h",
+    "timerCountdown": "{days}g {hours}h {minutes}m",
+    "timerServerCountdown": "{hours}h {minutes}m {seconds}s"
   },
   "ErrorPage": {
     "title": "Si è verificato un errore",
@@ -135,7 +200,17 @@
     "categoryTalent": "Dominio di talenti",
     "clearAllFilters": "Cancella tutti i filtri",
     "noResults": "Nessun dominio corrisponde ai filtri.",
-    "clearFilters": "Cancella filtri"
+    "clearFilters": "Cancella filtri",
+    "categoryTrounce": "Trounce / Weekly Boss",
+    "categoryChallenge": "Challenge & Exploration",
+    "filterRegion": "Region",
+    "filterSchedule": "Schedule",
+    "regionAll": "All regions",
+    "scheduleAll": "All days",
+    "scheduleDaily": "Open daily",
+    "scheduleMonThu": "Mon / Thu / Sun",
+    "scheduleTueFri": "Tue / Fri / Sun",
+    "scheduleWedSat": "Wed / Sat / Sun"
   },
   "DomainDetail": {
     "notFoundTitle": "Dominio non trovato — LEIBO",
@@ -162,9 +237,9 @@
   "Search": {
     "metaTitleQuery": "Cerca \"{query}\" — LEIBO",
     "metaTitleEmpty": "Cerca — LEIBO",
-    "metaDescription": "Cerca personaggi, armi e artefatti di Genshin Impact su LEIBO.",
+    "metaDescription": "Cerca personaggi, armi, artefatti, domini e materiali di Genshin Impact su LEIBO.",
     "title": "Cerca",
-    "emptyPrompt": "Inserisci il nome di un personaggio, un'arma o un artefatto nella barra di ricerca in alto per iniziare.",
+    "emptyPrompt": "Inserisci il nome di un personaggio, un'arma, un artefatto, un dominio o un materiale nella ricerca.",
     "resultsTitle": "Risultati della ricerca",
     "foundFor": "Trovati <b>{count}</b> risultati per <q>{query}</q>",
     "noneFor": "Nessun risultato trovato per <q>{query}</q>",
@@ -172,6 +247,7 @@
     "sectionWeapons": "Armi ({count})",
     "sectionArtifacts": "Artefatti ({count})",
     "sectionDomains": "Domini ({count})",
+    "sectionMaterials": "Materiali ({count})",
     "tryAnotherKeyword": "Prova con un'altra parola chiave o controlla l'ortografia."
   },
   "WeaponDetail": {
@@ -250,15 +326,17 @@
   "SearchWidget": {
     "ariaSearch": "Cerca",
     "searchShortcutTitle": "Cerca (⌘K)",
-    "placeholder": "Cerca personaggi, armi, artefatti...",
-    "palettePlaceholder": "Cerca personaggi, armi, artefatti, domini...",
+    "placeholder": "Cerca personaggi, armi, artefatti, domini e materiali...",
+    "palettePlaceholder": "Cerca personaggi, armi, artefatti, domini e materiali...",
     "searching": "Ricerca in corso...",
     "noResultsFor": "Nessun risultato per \"{query}\"",
     "noResultsForDot": "Nessun risultato per \"{query}\".",
+    "searchFailed": "La ricerca non è temporaneamente disponibile. Riprova.",
     "sectionCharacters": "Personaggi",
     "sectionWeapons": "Armi",
     "sectionArtifacts": "Artefatti",
     "sectionDomains": "Domini",
+    "sectionMaterials": "Materiali",
     "viewAllResults": "Vedi tutti i {count} risultati per \"{query}\"",
     "paletteHintPrefix": "Digita per cercare — o premi",
     "paletteHintSuffix": "per chiudere."
@@ -422,5 +500,36 @@
     "baseCoefficientTableTitle": "Tabella dei Coefficienti Base — Reazioni di Trasformazione",
     "baseCoefficientTableNote": "Usa questo valore al posto della formula per le Reazioni di Trasformazione qui sopra. L'Elettrocarica può attivarsi fino a 2 volte per ciclo, quindi il danno totale reale può essere il doppio del valore mostrato sotto.",
     "shatterNote": "si applica al colpo di Frantumazione, non a Congelamento in sé"
+  },
+  "Version": {
+    "title": "Versione attuale"
+  },
+  "Tools": {
+    "title": "Tools & Utilities"
+  },
+  "Materials": {
+    "title": "Materials",
+    "description": "Full list of ascension and upgrade materials"
+  },
+  "Enemies": {
+    "title": "Enemies",
+    "description": "Full list of enemies in the game"
+  },
+  "Food": {
+    "title": "Food",
+    "description": "Full list of food and cooking recipes"
+  },
+  "Geography": {
+    "title": "Viewpoints",
+    "description": "Full list of locations and viewpoints in the game"
+  },
+  "Achievements": {
+    "title": "Achievements",
+    "description": "Full list of achievements and Primogem rewards",
+    "achievementGroups": "Achievement groups",
+    "achievements": "Achievements (showing first 100)"
+  },
+  "Navigation": {
+    "title": "Quick lookup shortcuts"
   }
 }

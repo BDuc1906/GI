@@ -49,7 +49,72 @@
     "elements": "元素",
     "elementsDesc": "元素システムと反応",
     "artifacts": "聖遺物",
-    "artifactsDesc": "聖遺物セットとボーナス"
+    "artifactsDesc": "聖遺物セットとボーナス",
+    "categoryAll": "All",
+    "categoryCombat": "Combat",
+    "categoryWorld": "World",
+    "categoryProfile": "Profile",
+    "comingSoon": "Coming soon",
+    "cardTcgTitle": "Genius Invokation TCG",
+    "cardTcgDescription": "Browse character cards and strategy decks.",
+    "cardCraftsTitle": "Crafting Recipes",
+    "cardCraftsDescription": "Find alchemy and weapon-forging recipes.",
+    "cardAnimalsTitle": "Teyvat Wildlife",
+    "cardAnimalsDescription": "Browse animals, birds, and capturable creatures.",
+    "cardNamecardsTitle": "Namecard Collection",
+    "cardNamecardsDescription": "Browse character, event, and reputation namecards.",
+    "cardOutfitsTitle": "Character Outfits",
+    "cardOutfitsDescription": "Browse character skins and event outfits.",
+    "cardWindglidersTitle": "Wind Gliders",
+    "cardWindglidersDescription": "Browse reputation and event gliders.",
+    "cardAdventureRanksTitle": "Adventure Ranks",
+    "cardAdventureRanksDescription": "View rank rewards and World Levels.",
+    "cardBirthdaysTitle": "Character Birthdays",
+    "cardBirthdaysDescription": "See character birthdays by month.",
+    "cardSereniteaTitle": "Serenitea Pot",
+    "cardSereniteaDescription": "Browse furnishings, sets, and Adeptal Energy.",
+    "cardHiddenAchievementsTitle": "Hidden Achievements",
+    "cardHiddenAchievementsDescription": "Discover achievements not listed in the game.",
+    "toolDamageTitle": "Damage & DPS Calculator",
+    "toolDamageDescription": "Estimate team rotation damage and compare builds.",
+    "toolEstimate": "Estimated damage; results vary by build.",
+    "toolTeamTitle": "Team Builder",
+    "toolTeamDescription": "Build teams around reactions and role synergy.",
+    "toolEnkaTitle": "Sync Showcase by UID",
+    "toolEnkaDescription": "Load character builds and stats from Enka Network.",
+    "toolWishTitle": "Wish History Analyzer",
+    "toolWishDescription": "Track pity and review your wish history.",
+    "toolShowcaseTitle": "Showcase Character Card",
+    "toolShowcaseDescription": "Create a shareable card of character stats and builds.",
+    "toolMaterialsTitle": "Material Calculator",
+    "toolMaterialsDescription": "Plan materials needed to level a character to 90.",
+    "versionCurrent": "現在のバージョン",
+    "versionNumber": "バージョン{version}",
+    "versionNewContent": "新コンテンツ・データ {count} 件",
+    "versionViewDetails": "バージョン{version}の詳細",
+    "versionAllFrom": "バージョン{version}以降",
+    "timerTitle": "サーバーリセットとエンドゲーム",
+    "timerLiveSync": "ライブ同期",
+    "timerUpdatesEverySecond": "毎秒更新",
+    "timerAsiaServer": "アジアサーバー",
+    "timerAmericaServer": "アメリカサーバー",
+    "timerEuropeServer": "ヨーロッパサーバー",
+    "timerResetAt": "リセット時刻 {time}",
+    "timerActive": "稼働中",
+    "timerTheater": "幻想シアター",
+    "timerSeason": "シーズン",
+    "timerAbyss": "深境螺旋",
+    "timerAbyssTag": "第9～12層",
+    "timerStygian": "幽境の激戦",
+    "timerEndgame": "エンドゲーム",
+    "timerRefreshDay": "毎月{day}日に更新",
+    "timerPrimogems": "原石 {count} 個",
+    "timerBossRotation": "ボスローテーション",
+    "timerRewards": "★5報酬",
+    "timerOpenIn": "{days}日{hours}時間後に開放",
+    "timerNextCycle": "次の開催まで{days}日{hours}時間",
+    "timerCountdown": "{days}日{hours}時間{minutes}分",
+    "timerServerCountdown": "{hours}時間{minutes}分{seconds}秒"
   },
   "ErrorPage": {
     "title": "エラーが発生しました",
@@ -135,7 +200,17 @@
     "categoryTalent": "天賦の書の秘境",
     "clearAllFilters": "すべてのフィルターを解除",
     "noResults": "条件に一致する秘境が見つかりません。",
-    "clearFilters": "フィルターを解除"
+    "clearFilters": "フィルターを解除",
+    "categoryTrounce": "Trounce / Weekly Boss",
+    "categoryChallenge": "Challenge & Exploration",
+    "filterRegion": "Region",
+    "filterSchedule": "Schedule",
+    "regionAll": "All regions",
+    "scheduleAll": "All days",
+    "scheduleDaily": "Open daily",
+    "scheduleMonThu": "Mon / Thu / Sun",
+    "scheduleTueFri": "Tue / Fri / Sun",
+    "scheduleWedSat": "Wed / Sat / Sun"
   },
   "DomainDetail": {
     "notFoundTitle": "秘境が見つかりません — LEIBO",
@@ -162,9 +237,9 @@
   "Search": {
     "metaTitleQuery": "「{query}」の検索結果 — LEIBO",
     "metaTitleEmpty": "検索 — LEIBO",
-    "metaDescription": "LEIBOで原神のキャラクター、武器、聖遺物を検索。",
+    "metaDescription": "LEIBOで原神のキャラクター、武器、聖遺物、秘境、素材を検索。",
     "title": "検索",
-    "emptyPrompt": "上の検索ボックスにキャラクター、武器、聖遺物の名前を入力してください。",
+    "emptyPrompt": "上の検索ボックスにキャラクター、武器、聖遺物、秘境、素材の名前を入力してください。",
     "resultsTitle": "検索結果",
     "foundFor": "<q>{query}</q> の検索結果 <b>{count}</b> 件",
     "noneFor": "<q>{query}</q> に一致する結果が見つかりません",
@@ -172,6 +247,7 @@
     "sectionWeapons": "武器 ({count})",
     "sectionArtifacts": "聖遺物 ({count})",
     "sectionDomains": "秘境 ({count})",
+    "sectionMaterials": "素材 ({count})",
     "tryAnotherKeyword": "別のキーワードを試すか、スペルを確認してください。"
   },
   "WeaponDetail": {
@@ -250,15 +326,17 @@
   "SearchWidget": {
     "ariaSearch": "検索",
     "searchShortcutTitle": "検索 (⌘K)",
-    "placeholder": "キャラクター、武器、聖遺物を検索...",
-    "palettePlaceholder": "キャラクター、武器、聖遺物、秘境を検索...",
+    "placeholder": "キャラクター、武器、聖遺物、秘境、素材を検索...",
+    "palettePlaceholder": "キャラクター、武器、聖遺物、秘境、素材を検索...",
     "searching": "検索中...",
     "noResultsFor": "「{query}」の検索結果はありません",
     "noResultsForDot": "「{query}」の検索結果はありません。",
+    "searchFailed": "検索は一時的に利用できません。もう一度お試しください。",
     "sectionCharacters": "キャラクター",
     "sectionWeapons": "武器",
     "sectionArtifacts": "聖遺物",
     "sectionDomains": "秘境",
+    "sectionMaterials": "素材",
     "viewAllResults": "「{query}」の検索結果 {count} 件をすべて見る",
     "paletteHintPrefix": "入力して検索 — または",
     "paletteHintSuffix": "で閉じる。"
@@ -422,5 +500,36 @@
     "baseCoefficientTableTitle": "基礎係数表 — 変容反応",
     "baseCoefficientTableNote": "上記の変容反応の計算式の代わりにこの値を使用してください。感電は1サイクルで最大2回発生することがあるため、実際の合計ダメージは以下の値の2倍になる場合があります。",
     "shatterNote": "粉砕のヒットに適用され、凍結自体には適用されません"
+  },
+  "Version": {
+    "title": "現在のバージョン"
+  },
+  "Tools": {
+    "title": "Tools & Utilities"
+  },
+  "Materials": {
+    "title": "Materials",
+    "description": "Full list of ascension and upgrade materials"
+  },
+  "Enemies": {
+    "title": "Enemies",
+    "description": "Full list of enemies in the game"
+  },
+  "Food": {
+    "title": "Food",
+    "description": "Full list of food and cooking recipes"
+  },
+  "Geography": {
+    "title": "Viewpoints",
+    "description": "Full list of locations and viewpoints in the game"
+  },
+  "Achievements": {
+    "title": "Achievements",
+    "description": "Full list of achievements and Primogem rewards",
+    "achievementGroups": "Achievement groups",
+    "achievements": "Achievements (showing first 100)"
+  },
+  "Navigation": {
+    "title": "Quick lookup shortcuts"
   }
 }

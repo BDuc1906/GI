@@ -49,7 +49,72 @@
     "elements": "원소",
     "elementsDesc": "원소 시스템과 반응",
     "artifacts": "성유물",
-    "artifactsDesc": "성유물 세트와 보너스"
+    "artifactsDesc": "성유물 세트와 보너스",
+    "categoryAll": "All",
+    "categoryCombat": "Combat",
+    "categoryWorld": "World",
+    "categoryProfile": "Profile",
+    "comingSoon": "Coming soon",
+    "cardTcgTitle": "Genius Invokation TCG",
+    "cardTcgDescription": "Browse character cards and strategy decks.",
+    "cardCraftsTitle": "Crafting Recipes",
+    "cardCraftsDescription": "Find alchemy and weapon-forging recipes.",
+    "cardAnimalsTitle": "Teyvat Wildlife",
+    "cardAnimalsDescription": "Browse animals, birds, and capturable creatures.",
+    "cardNamecardsTitle": "Namecard Collection",
+    "cardNamecardsDescription": "Browse character, event, and reputation namecards.",
+    "cardOutfitsTitle": "Character Outfits",
+    "cardOutfitsDescription": "Browse character skins and event outfits.",
+    "cardWindglidersTitle": "Wind Gliders",
+    "cardWindglidersDescription": "Browse reputation and event gliders.",
+    "cardAdventureRanksTitle": "Adventure Ranks",
+    "cardAdventureRanksDescription": "View rank rewards and World Levels.",
+    "cardBirthdaysTitle": "Character Birthdays",
+    "cardBirthdaysDescription": "See character birthdays by month.",
+    "cardSereniteaTitle": "Serenitea Pot",
+    "cardSereniteaDescription": "Browse furnishings, sets, and Adeptal Energy.",
+    "cardHiddenAchievementsTitle": "Hidden Achievements",
+    "cardHiddenAchievementsDescription": "Discover achievements not listed in the game.",
+    "toolDamageTitle": "Damage & DPS Calculator",
+    "toolDamageDescription": "Estimate team rotation damage and compare builds.",
+    "toolEstimate": "Estimated damage; results vary by build.",
+    "toolTeamTitle": "Team Builder",
+    "toolTeamDescription": "Build teams around reactions and role synergy.",
+    "toolEnkaTitle": "Sync Showcase by UID",
+    "toolEnkaDescription": "Load character builds and stats from Enka Network.",
+    "toolWishTitle": "Wish History Analyzer",
+    "toolWishDescription": "Track pity and review your wish history.",
+    "toolShowcaseTitle": "Showcase Character Card",
+    "toolShowcaseDescription": "Create a shareable card of character stats and builds.",
+    "toolMaterialsTitle": "Material Calculator",
+    "toolMaterialsDescription": "Plan materials needed to level a character to 90.",
+    "versionCurrent": "현재 버전",
+    "versionNumber": "버전 {version}",
+    "versionNewContent": "신규 콘텐츠 및 데이터 {count}개",
+    "versionViewDetails": "버전 {version} 자세히 보기",
+    "versionAllFrom": "버전 {version}부터 전체 버전",
+    "timerTitle": "서버 초기화 및 엔드게임",
+    "timerLiveSync": "실시간 동기화",
+    "timerUpdatesEverySecond": "매초 업데이트",
+    "timerAsiaServer": "아시아 서버",
+    "timerAmericaServer": "아메리카 서버",
+    "timerEuropeServer": "유럽 서버",
+    "timerResetAt": "초기화 시각 {time}",
+    "timerActive": "진행 중",
+    "timerTheater": "환상극",
+    "timerSeason": "시즌",
+    "timerAbyss": "나선 비경",
+    "timerAbyssTag": "9~12층",
+    "timerStygian": "幽境의 격전",
+    "timerEndgame": "엔드게임",
+    "timerRefreshDay": "매월 {day}일 초기화",
+    "timerPrimogems": "원석 {count}개",
+    "timerBossRotation": "보스 로테이션",
+    "timerRewards": "5성 보상",
+    "timerOpenIn": "{days}일 {hours}시간 후 개방",
+    "timerNextCycle": "다음 주기까지 {days}일 {hours}시간",
+    "timerCountdown": "{days}일 {hours}시간 {minutes}분",
+    "timerServerCountdown": "{hours}시간 {minutes}분 {seconds}초"
   },
   "ErrorPage": {
     "title": "오류가 발생했습니다",
@@ -135,7 +200,17 @@
     "categoryTalent": "천부 교본 비경",
     "clearAllFilters": "모든 필터 지우기",
     "noResults": "필터와 일치하는 비경이 없습니다.",
-    "clearFilters": "필터 지우기"
+    "clearFilters": "필터 지우기",
+    "categoryTrounce": "Trounce / Weekly Boss",
+    "categoryChallenge": "Challenge & Exploration",
+    "filterRegion": "Region",
+    "filterSchedule": "Schedule",
+    "regionAll": "All regions",
+    "scheduleAll": "All days",
+    "scheduleDaily": "Open daily",
+    "scheduleMonThu": "Mon / Thu / Sun",
+    "scheduleTueFri": "Tue / Fri / Sun",
+    "scheduleWedSat": "Wed / Sat / Sun"
   },
   "DomainDetail": {
     "notFoundTitle": "비경을 찾을 수 없습니다 — LEIBO",
@@ -162,9 +237,9 @@
   "Search": {
     "metaTitleQuery": "\"{query}\" 검색 — LEIBO",
     "metaTitleEmpty": "검색 — LEIBO",
-    "metaDescription": "LEIBO에서 원신 캐릭터, 무기, 성유물을 검색하세요.",
+    "metaDescription": "LEIBO에서 원신 캐릭터, 무기, 성유물, 비경, 재료를 검색하세요.",
     "title": "검색",
-    "emptyPrompt": "위의 검색창에 캐릭터, 무기, 성유물 이름을 입력해 보세요.",
+    "emptyPrompt": "위 검색창에 캐릭터, 무기, 성유물, 비경 또는 재료 이름을 입력하세요.",
     "resultsTitle": "검색 결과",
     "foundFor": "<q>{query}</q>에 대한 검색 결과 <b>{count}</b>개",
     "noneFor": "<q>{query}</q>에 대한 검색 결과가 없습니다",
@@ -172,6 +247,7 @@
     "sectionWeapons": "무기 ({count})",
     "sectionArtifacts": "성유물 ({count})",
     "sectionDomains": "비경 ({count})",
+    "sectionMaterials": "재료 ({count})",
     "tryAnotherKeyword": "다른 키워드로 시도하거나 철자를 확인해 보세요."
   },
   "WeaponDetail": {
@@ -250,15 +326,17 @@
   "SearchWidget": {
     "ariaSearch": "검색",
     "searchShortcutTitle": "검색 (⌘K)",
-    "placeholder": "캐릭터, 무기, 성유물 검색...",
-    "palettePlaceholder": "캐릭터, 무기, 성유물, 비경 검색...",
+    "placeholder": "캐릭터, 무기, 성유물, 비경, 재료 검색...",
+    "palettePlaceholder": "캐릭터, 무기, 성유물, 비경, 재료 검색...",
     "searching": "검색 중...",
     "noResultsFor": "\"{query}\"에 대한 검색 결과가 없습니다",
     "noResultsForDot": "\"{query}\"에 대한 검색 결과가 없습니다.",
+    "searchFailed": "검색을 일시적으로 사용할 수 없습니다. 다시 시도해 주세요.",
     "sectionCharacters": "캐릭터",
     "sectionWeapons": "무기",
     "sectionArtifacts": "성유물",
     "sectionDomains": "비경",
+    "sectionMaterials": "재료",
     "viewAllResults": "\"{query}\"에 대한 검색 결과 {count}개 모두 보기",
     "paletteHintPrefix": "입력하여 검색 — 또는",
     "paletteHintSuffix": "를 눌러 닫기."
@@ -422,5 +500,36 @@
     "baseCoefficientTableTitle": "기본 계수표 — 변형 반응",
     "baseCoefficientTableNote": "위의 변형 반응 공식 대신 이 값을 사용하세요. 감전은 한 주기에 최대 2번 발동할 수 있어 실제 총 피해량이 아래 값의 2배가 될 수 있습니다.",
     "shatterNote": "빙결 파쇄 타격에 적용되며, 빙결 자체에는 적용되지 않습니다"
+  },
+  "Version": {
+    "title": "현재 버전"
+  },
+  "Tools": {
+    "title": "Tools & Utilities"
+  },
+  "Materials": {
+    "title": "Materials",
+    "description": "Full list of ascension and upgrade materials"
+  },
+  "Enemies": {
+    "title": "Enemies",
+    "description": "Full list of enemies in the game"
+  },
+  "Food": {
+    "title": "Food",
+    "description": "Full list of food and cooking recipes"
+  },
+  "Geography": {
+    "title": "Viewpoints",
+    "description": "Full list of locations and viewpoints in the game"
+  },
+  "Achievements": {
+    "title": "Achievements",
+    "description": "Full list of achievements and Primogem rewards",
+    "achievementGroups": "Achievement groups",
+    "achievements": "Achievements (showing first 100)"
+  },
+  "Navigation": {
+    "title": "Quick lookup shortcuts"
   }
 }

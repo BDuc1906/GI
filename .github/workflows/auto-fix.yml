@@ -28,13 +28,14 @@ on:
   workflow_dispatch: # vẫn cho phép chạy tay khi cần kiểm tra ngay
 
 concurrency:
-  group: auto-fix-data
+  group: leibo-production-data
   cancel-in-progress: false # không huỷ nửa chừng 1 lần đang ghi DB thật
 
 jobs:
   auto-fix:
     name: Quét, tự sửa, rồi tự kiểm tra lại
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     environment: production
     # Cần "issues: write" cho step "Tạo issue nếu cả 2 bước trên fail" ở
     # cuối file — không khai permissions ở đây thì job chỉ được quyền mặc

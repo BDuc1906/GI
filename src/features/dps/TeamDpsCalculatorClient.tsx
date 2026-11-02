@@ -211,12 +211,8 @@ const TEAM_ARTIFACT_SETS = [
   { id: "none", name: "2+2 Món / Tùy Biến Chỉ Số", buff: "Chỉ số độc lập" },
 ];
 
-export function TeamDpsCalculatorClient({
-  characters,
-  weapons,
-}: {
+export function TeamDpsCalculatorClient({ characters }: {
   characters: CharacterOption[];
-  weapons: WeaponOption[];
 }) {
   // 4 vị trí thành viên đội
   const [members, setMembers] = useState<TeamMemberConfig[]>([
@@ -287,14 +283,14 @@ export function TeamDpsCalculatorClient({
   ]);
 
   const [activeSlot, setActiveSlot] = useState<number>(1);
-  const [rotationDuration, setRotationDuration] = useState<number>(20); // 20s tiêu chuẩn
+  const rotationDuration = 20;
 
   // --- THIẾT LẬP KẺ ĐỊCH THEO CONTENT GAME ---
   const [selectedContentId, setSelectedContentId] = useState<string>("abyss_12");
   const [selectedSpeciesId, setSelectedSpeciesId] = useState<string>("standard_humanoid");
   const [customEnemyLevel, setCustomEnemyLevel] = useState<number>(100);
-  const [customEnemyRes, setCustomEnemyRes] = useState<number>(10);
-  const [customDefRed, setCustomDefRed] = useState<number>(0);
+  const customEnemyRes = 10;
+  const customDefRed = 0;
 
   // --- ENKA NETWORK API LIVE UID IMPORT ---
   const [enkaUid, setEnkaUid] = useState<string>("");
@@ -394,46 +390,7 @@ export function TeamDpsCalculatorClient({
   const enemyBaseRes = selectedSpeciesId === "custom" ? customEnemyRes : (activeSpeciesPreset.resists["All"] ?? 10);
   const totalEnemyHp = Math.round(activeContentPreset.baseHp * activeContentPreset.hpMultiplier);
 
-  // 1. TÍNH TOÁN CỘNG HƯỞNG NGUYÊN TỐ
-  const resonances = useMemo(() => {
-    const elementCounts: Record<string, number> = {};
-    members.forEach((m) => {
-      if (m.char?.vision) {
-        elementCounts[m.char.vision] = (elementCounts[m.char.vision] || 0) + 1;
-      }
-    });
-
-    const activeList: { name: string; desc: string; icon: string; color: string }[] = [];
-
-    if ((elementCounts["Pyro"] || 0) >= 2) {
-      activeList.push({ name: "Cộng Hưởng Hỏa", desc: "+25% ATK toàn đội", icon: "🔥", color: "text-red-400 border-red-500/40 bg-red-500/10" });
-    }
-    if ((elementCounts["Hydro"] || 0) >= 2) {
-      activeList.push({ name: "Cộng Hưởng Thủy", desc: "+25% Max HP toàn đội", icon: "💧", color: "text-blue-400 border-blue-500/40 bg-blue-500/10" });
-    }
-    if ((elementCounts["Cryo"] || 0) >= 2) {
-      activeList.push({ name: "Cộng Hưởng Băng", desc: "+15% CRIT Rate lên địch dính Băng/Đóng Băng", icon: "❄️", color: "text-cyan-300 border-cyan-500/40 bg-cyan-500/10" });
-    }
-    if ((elementCounts["Geo"] || 0) >= 2) {
-      activeList.push({ name: "Cộng Hưởng Nham", desc: "+15% Hiệu Lực Khiên, +15% DMG khi có khiên, -20% Kháng Nham", icon: "🛡️", color: "text-amber-400 border-amber-500/40 bg-amber-500/10" });
-    }
-    if ((elementCounts["Dendro"] || 0) >= 2) {
-      activeList.push({ name: "Cộng Hưởng Thảo", desc: "+50 EM cơ bản, kích phản ứng nhận thêm tới +50 EM", icon: "🌿", color: "text-emerald-400 border-emerald-500/40 bg-emerald-500/10" });
-    }
-    if ((elementCounts["Anemo"] || 0) >= 2) {
-      activeList.push({ name: "Cộng Hưởng Phong", desc: "-15% Thể Lực, +10% Tốc Độ Di Chuyển, -5% CD Kỹ Năng", icon: "🌪️", color: "text-teal-400 border-teal-500/40 bg-teal-500/10" });
-    }
-    if ((elementCounts["Electro"] || 0) >= 2) {
-      activeList.push({ name: "Cộng Hưởng Lôi", desc: "Tạo hạt nguyên tố khi kích phản ứng Lôi", icon: "⚡", color: "text-purple-400 border-purple-500/40 bg-purple-500/10" });
-    }
-    if (Object.keys(elementCounts).length === 4) {
-      activeList.push({ name: "Màn Chắn Đan Xen (4 Hệ Khác Nhau)", desc: "+15% Tất Cả Kháng Nguyên Tố & Vật Lý", icon: "✨", color: "text-slate-300 border-slate-500/40 bg-slate-500/10" });
-    }
-
-    return activeList;
-  }, [members]);
-
-  // 2. PHÂN TÍCH LIÊN KẾT ĐỘI HÌNH & XỬ LÝ ĐỘI HÌNH KHÔNG LIÊN QUAN (ANTI-SYNERGY)
+  // 1. PHÂN TÍCH LIÊN KẾT ĐỘI HÌNH & XỬ LÝ ĐỘI HÌNH KHÔNG LIÊN QUAN (ANTI-SYNERGY)
   const teamSynergyAnalysis = useMemo(() => {
     const visions = members.map((m) => m.char?.vision).filter(Boolean) as string[];
     const visionSet = new Set(visions);
@@ -490,7 +447,7 @@ export function TeamDpsCalculatorClient({
     let bonusCritDmg = 0;
     let bonusEm = 0;
     let resShredPct = 0;
-    let defIgnorePct = 0;
+    const defIgnorePct = 0;
     const sources: string[] = [];
 
     // Cộng hưởng

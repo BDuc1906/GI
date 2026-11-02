@@ -1,12 +1,15 @@
 ﻿
-import Link from "next/link";
 import type { Metadata } from "next";
-import { prisma } from "@/lib/db/prisma";
+import { Link } from "@/i18n/navigation";
+import { hasLocale } from "next-intl";
+import { notFound } from "next/navigation";
+import { routing, type AppLocale } from "@/i18n/routing";
 import { elementColorVar, rarityColorVar } from "@/lib/ui/theme";
 import { ElementIcon } from "@/features/characters/components/ElementIcon";
 import { SafeImage } from "@/components/ui/SafeImage";
 import { EntityCard } from "@/components/ui/EntityCard";
-import { resolveCharacterCardImage } from "@/core/game/character-helpers";
+import { SearchService } from "@/features/search/service";
+import { searchRepository } from "@/features/search/repository";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
@@ -17,6 +20,7 @@ interface PageProps {
 }
 
 const MAX_RESULTS_PER_TYPE = 24;
+const searchService = new SearchService(searchRepository);
 
 export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
   const { locale } = await params;
@@ -33,7 +37,9 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
 }
 
 export default async function SearchPage({ params, searchParams }: PageProps) {
-  const { locale } = await params;
+  const { locale: localeParam } = await params;
+  if (!hasLocale(routing.locales, localeParam)) notFound();
+  const locale: AppLocale = localeParam;
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "Search" });
   const tWeaponType = await getTranslations({ locale, namespace: "WeaponType" });
@@ -50,34 +56,13 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
     );
   }
 
-  const [characters, weapons, artifacts, domains] = await Promise.all([
-    prisma.character.findMany({
-      where: { name: { contains: query, mode: "insensitive" } },
-      orderBy: [{ rarity: "desc" }, { name: "asc" }],
-      take: MAX_RESULTS_PER_TYPE,
-      select: { id: true, name: true, nameTranslations: true, vision: true, weaponType: true, rarity: true, iconUrl: true, splashUrl: true, elementIcon: true },
-    }),
-    prisma.weapon.findMany({
-      where: { name: { contains: query, mode: "insensitive" } },
-      orderBy: [{ rarity: "desc" }, { name: "asc" }],
-      take: MAX_RESULTS_PER_TYPE,
-      select: { id: true, name: true, nameTranslations: true, type: true, rarity: true, iconUrl: true },
-    }),
-    prisma.artifactSet.findMany({
-      where: { name: { contains: query, mode: "insensitive" } },
-      orderBy: { name: "asc" },
-      take: MAX_RESULTS_PER_TYPE,
-      select: { id: true, name: true, nameTranslations: true, rarityRange: true, iconUrl: true },
-    }),
-    prisma.domain.findMany({
-      where: { name: { contains: query, mode: "insensitive" } },
-      orderBy: { name: "asc" },
-      take: MAX_RESULTS_PER_TYPE,
-      select: { id: true, name: true, nameTranslations: true, category: true, imageUrl: true, imageUrlOriginal: true },
-    }),
-  ]);
+  const { characters, weapons, artifacts, domains, materials } = await searchService.search(query, {
+    limit: MAX_RESULTS_PER_TYPE,
+    locale,
+  });
 
-  const totalResults = characters.length + weapons.length + artifacts.length + domains.length;
+  const totalResults =
+    characters.length + weapons.length + artifacts.length + domains.length + materials.length;
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -111,8 +96,7 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
                 name={getLocalizedName(c, locale)}
                 subtitle={tWeaponType(c.weaponType as "Sword" | "Claymore" | "Polearm" | "Bow" | "Catalyst")}
                 rarity={c.rarity}
-                imageSrc={resolveCharacterCardImage(c)}
-                aspect="portrait"
+                imageSrc={c.iconUrl}
                 elementColor={elementColorVar(c.vision)}
                 cornerBadge={<ElementIcon vision={c.vision} iconUrl={c.elementIcon} size={16} />}
               />
@@ -142,7 +126,7 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
       )}
 
       {artifacts.length > 0 && (
-        <section className={domains.length > 0 ? "mb-12" : ""}>
+        <section className="mb-12">
           <h2 className="font-display text-display-3 font-semibold text-text-primary mb-4">{t("sectionArtifacts", { count: artifacts.length })}</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {artifacts.map((a) => {
@@ -166,7 +150,7 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
       )}
 
       {domains.length > 0 && (
-        <section>
+        <section className="mb-12">
           <h2 className="font-display text-display-3 font-semibold text-text-primary mb-4">{t("sectionDomains", { count: domains.length })}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {domains.map((d) => (
@@ -182,6 +166,39 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
                   <div className="font-semibold truncate text-text-primary group-hover:text-accent-bright transition-colors text-sm">{getLocalizedName(d, locale)}</div>
                   <div className="text-eyebrow mt-1">{d.category}</div>
                 </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {materials.length > 0 && (
+        <section>
+          <h2 className="font-display text-display-3 font-semibold text-text-primary mb-4">
+            {t("sectionMaterials", { count: materials.length })}
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {materials.map((material) => (
+              <Link
+                key={material.id}
+                href={`/materials/${material.id}`}
+                className="surface-card flex items-center gap-3 p-3 hover:border-accent-500/60 transition-colors"
+              >
+                <span className="relative w-12 h-12 shrink-0 rounded-lg bg-bg-elevated overflow-hidden">
+                  {material.iconUrl && (
+                    <SafeImage
+                      src={material.iconUrl}
+                      fallbackSrcs={[material.iconUrlOriginal]}
+                      alt={getLocalizedName(material, locale)}
+                      fill
+                      sizes="48px"
+                      className="object-contain"
+                    />
+                  )}
+                </span>
+                <span className="min-w-0 text-sm font-medium text-text-primary line-clamp-2">
+                  {getLocalizedName(material, locale)}
+                </span>
               </Link>
             ))}
           </div>

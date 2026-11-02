@@ -76,7 +76,7 @@ Toàn bộ endpoint (trừ `/api` và `/api/health`) đều giới hạn theo IP
 | `/api/food*`                   | 60 request/phút |
 | `/api/geography*`              | 60 request/phút |
 | `/api/crafts*`                 | 60 request/phút |
-| `/api/search`                  | 30 request/phút (chạy 4 query song song mỗi lần gọi) |
+| `/api/search`                  | 30 request/phút (chạy 5 query song song mỗi lần gọi) |
 | `/api/tools/dps`               | 30 request/phút |
 | `/api/tools/team-builder`      | 30 request/phút |
 | `/api/tools/material-calculator`| 30 request/phút |
@@ -249,18 +249,19 @@ trưng, không gồm Mora/EXP chung), `monsterNames`.
 
 ## `GET /api/search` — tìm kiếm tổng hợp
 
-Tìm cùng lúc trên cả 4 loại tài nguyên (characters, weapons, artifacts,
-domains) — dùng cho thanh tìm kiếm toàn site. Không gồm `materials` (xem
-ghi chú ở mục Nguồn dữ liệu trong README). **Không phân trang** — kết quả
+Tìm cùng lúc trên cả 5 loại tài nguyên (characters, weapons, artifacts,
+domains, materials) — dùng cho thanh tìm kiếm toàn site. Hỗ trợ tìm theo tên
+đã dịch của locale đang chọn. **Không phân trang** — kết quả
 là "gợi ý nhanh", giới hạn số lượng mỗi loại qua `limit`.
 
 | Param   | Bắt buộc | Ghi chú                                    |
 |---------|----------|----------------------------------------------|
-| `q`     | Có       | Tối thiểu 1 ký tự sau khi trim                |
+| `q`     | Có       | Từ 1 đến 120 ký tự sau khi trim                |
 | `limit` | Không    | Số kết quả tối đa MỖI loại (mặc định 12, tối đa 50) |
+| `locale` | Không   | Mã locale hỗ trợ, dùng để tìm tên đã dịch (mặc định `en`) |
 
 ```bash
-curl "https://<domain>/api/search?q=kazuha&limit=5"
+curl "https://<domain>/api/search?q=kazuha&limit=5&locale=vi"
 ```
 
 ```json
@@ -272,13 +273,15 @@ curl "https://<domain>/api/search?q=kazuha&limit=5"
     "characters": [ { "id": "kazuha", "name": "Kaedehara Kazuha", "...": "..." } ],
     "weapons": [],
     "artifacts": [],
-    "domains": []
+    "domains": [],
+    "materials": []
   }
 }
 ```
 
 Muốn xem đầy đủ, phân trang được: gọi thẳng `/api/characters?q=...`,
-`/api/weapons?q=...`, `/api/artifacts?q=...`, hoặc `/api/domains?q=...`.
+`/api/weapons?q=...`, `/api/artifacts?q=...`, `/api/domains?q=...`, hoặc
+`/api/materials?q=...`.
 
 ---
 

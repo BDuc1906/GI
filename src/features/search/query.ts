@@ -11,10 +11,20 @@ const WEAPON_ALIASES: Readonly<Record<string, string>> = {
   "prized isshin blade 2": "Prized Isshin Blade",
 };
 
-export function buildCharacterSearchWhere(query: string): Prisma.CharacterWhereInput {
+export function buildCharacterSearchWhereForLocale(
+  query: string,
+  locale: string
+): Prisma.CharacterWhereInput {
   const normalizedQuery = query.trim();
   const matches: Prisma.CharacterWhereInput[] = [
     { name: { contains: normalizedQuery, mode: "insensitive" } },
+    {
+      nameTranslations: {
+        path: [locale],
+        string_contains: normalizedQuery,
+        mode: "insensitive",
+      },
+    },
   ];
 
   if (normalizedQuery.length >= MIN_ALIAS_QUERY_LENGTH) {
@@ -30,14 +40,81 @@ export function buildCharacterSearchWhere(query: string): Prisma.CharacterWhereI
   return { OR: matches };
 }
 
-export function buildWeaponSearchWhere(query: string): Prisma.WeaponWhereInput {
+export function buildWeaponSearchWhereForLocale(
+  query: string,
+  locale: string
+): Prisma.WeaponWhereInput {
   const normalizedQuery = query.trim();
   const matches: Prisma.WeaponWhereInput[] = [
     { name: { contains: normalizedQuery, mode: "insensitive" } },
+    {
+      nameTranslations: {
+        path: [locale],
+        string_contains: normalizedQuery,
+        mode: "insensitive",
+      },
+    },
   ];
   const alias = WEAPON_ALIASES[normalizedQuery.toLocaleLowerCase("en-US")];
 
   if (alias) matches.push({ name: { equals: alias, mode: "insensitive" } });
 
   return { OR: matches };
+}
+
+export function buildArtifactSearchWhere(
+  query: string,
+  locale: string
+): Prisma.ArtifactSetWhereInput {
+  const normalizedQuery = query.trim();
+  return {
+    OR: [
+      { name: { contains: normalizedQuery, mode: "insensitive" } },
+      {
+        nameTranslations: {
+          path: [locale],
+          string_contains: normalizedQuery,
+          mode: "insensitive",
+        },
+      },
+    ],
+  };
+}
+
+export function buildDomainSearchWhere(
+  query: string,
+  locale: string
+): Prisma.DomainWhereInput {
+  const normalizedQuery = query.trim();
+  return {
+    OR: [
+      { name: { contains: normalizedQuery, mode: "insensitive" } },
+      {
+        nameTranslations: {
+          path: [locale],
+          string_contains: normalizedQuery,
+          mode: "insensitive",
+        },
+      },
+    ],
+  };
+}
+
+export function buildMaterialSearchWhere(
+  query: string,
+  locale: string
+): Prisma.MaterialWhereInput {
+  const normalizedQuery = query.trim();
+  return {
+    OR: [
+      { name: { contains: normalizedQuery, mode: "insensitive" } },
+      {
+        nameTranslations: {
+          path: [locale],
+          string_contains: normalizedQuery,
+          mode: "insensitive",
+        },
+      },
+    ],
+  };
 }

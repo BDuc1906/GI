@@ -22,7 +22,7 @@ on:
     types: [genshin-db-update]
 
 permissions:
-  contents: write
+  contents: read
 
 # BUG ĐÃ SỬA (2026-09): thiếu 2 biến này khiến `npm ci` (hook postinstall:
 # prisma generate) báo PrismaConfigEnvError ngay ở bước cài dependency —
@@ -41,7 +41,7 @@ env:
 # Cần cấu hình DIRECT_URL, AWS_REGION, AWS_ACCESS_KEY_ID,
 # AWS_SECRET_ACCESS_KEY và BACKUP_S3_BUCKET trong GitHub Secrets.
 concurrency:
-  group: auto-sync-game-data
+  group: leibo-production-data
   cancel-in-progress: false
 
 jobs:
@@ -91,6 +91,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: check-update
     if: needs.check-update.outputs.should_update == 'true'
+    permissions:
+      contents: write
     services:
       postgres:
         image: postgres:16
@@ -159,14 +161,16 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL || secrets.DIRECT_URL || secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
         run: |
           set -euo pipefail
           : "${BACKUP_S3_BUCKET:?Missing BACKUP_S3_BUCKET secret}"
           : "${AWS_REGION:?Missing AWS_REGION secret}"
           : "${AWS_ACCESS_KEY_ID:?Missing AWS_ACCESS_KEY_ID secret}"
           : "${AWS_SECRET_ACCESS_KEY:?Missing AWS_SECRET_ACCESS_KEY secret}"
-          : "${DIRECT_URL:?Missing DIRECT_URL secret}"
+          : "${DATABASE_URL:?Missing production database secret (PROD_DATABASE_URL or DATABASE_URL)}"
+          : "${DIRECT_URL:?Missing direct database secret (PROD_DIRECT_URL, DIRECT_URL, PROD_DATABASE_URL or DATABASE_URL)}"
 
           backup_name="leibo-$(date -u +%Y%m%dT%H%M%SZ)-${GITHUB_RUN_ID}.dump"
           backup_file="$(mktemp --suffix=.dump)"
@@ -194,17 +198,20 @@ jobs:
 
       - name: Seed production database
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL || secrets.DIRECT_URL || secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
         run: npx tsx scripts/seed/seed.ts
 
       - name: Verify production database integrity
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL || secrets.DIRECT_URL || secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
         run: npx tsx scripts/seed/verify-seed-integrity.ts
 
       - name: Mirror images to R2
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL || secrets.DIRECT_URL || secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
           R2_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
           R2_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET_ACCESS_KEY }}
           R2_BUCKET_NAME: ${{ secrets.CLOUDFLARE_R2_BUCKET }}

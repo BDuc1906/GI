@@ -682,7 +682,7 @@ async function main() {
 
   // Cap nhat file src/data/character-builds-data.ts
   const dataPath = path.resolve(process.cwd(), "src/data/character-builds-data.ts");
-  let content = fs.readFileSync(dataPath, "utf-8");
+  const content = fs.readFileSync(dataPath, "utf-8");
 
   let added = 0;
   let newEntriesCode = "";

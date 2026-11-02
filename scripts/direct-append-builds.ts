@@ -7,7 +7,7 @@ import path from "path";
 import { EXPERT_BUILDS } from "./append-expert-builds";
 
 const dataPath = path.resolve(process.cwd(), "src/data/character-builds-data.ts");
-let content = fs.readFileSync(dataPath, "utf-8");
+const content = fs.readFileSync(dataPath, "utf-8");
 
 let added = 0;
 let skipped = 0;

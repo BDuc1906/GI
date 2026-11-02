@@ -2,7 +2,7 @@ import "dotenv/config";
 import fs from "fs";
 import path from "path";
 import { prisma } from "../src/lib/db/prisma";
-import { CHARACTER_BUILDS, type CharacterBuildEntry } from "../src/data/character-builds-data";
+import { type CharacterBuildEntry } from "../src/data/character-builds-data";
 
 export const EXPERT_BUILDS: Record<string, CharacterBuildEntry> = {
   // ── Chasca: Anemo Bow (Natlan Multi-element Burst DPS) ──
@@ -948,7 +948,7 @@ async function main() {
 
   // Cap nhat file src/data/character-builds-data.ts
   const dataPath = path.resolve(__dirname, "../src/data/character-builds-data.ts");
-  let content = fs.readFileSync(dataPath, "utf-8");
+  const content = fs.readFileSync(dataPath, "utf-8");
 
   // Format cac object moi thanh TypeScript code
   let newEntriesCode = "";

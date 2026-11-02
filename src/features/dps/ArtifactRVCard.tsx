@@ -11,7 +11,6 @@ import { useMemo } from "react";
 import {
   calculateArtifactRV,
   GRADE_COLORS,
-  SUBSTAT_LABELS,
   type SubstatKey,
   type ArtifactRVResult,
   type RVGrade,
@@ -246,4 +245,3 @@ export function RVLegend() {
     </div>
   );
 }
-

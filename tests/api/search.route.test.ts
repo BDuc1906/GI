@@ -6,6 +6,7 @@ const mockPrisma = vi.hoisted(() => ({
   weapon: { findMany: vi.fn() },
   artifactSet: { findMany: vi.fn() },
   domain: { findMany: vi.fn() },
+  material: { findMany: vi.fn() },
 }));
 
 vi.mock("@/lib/db/prisma", () => ({ prisma: mockPrisma }));
@@ -26,6 +27,7 @@ beforeEach(() => {
   mockPrisma.weapon.findMany.mockResolvedValue([]);
   mockPrisma.artifactSet.findMany.mockResolvedValue([]);
   mockPrisma.domain.findMany.mockResolvedValue([]);
+  mockPrisma.material.findMany.mockResolvedValue([]);
 });
 
 describe("GET /api/search", () => {
@@ -41,20 +43,47 @@ describe("GET /api/search", () => {
     expect(res.status).toBe(400);
   });
 
-  it("gộp kết quả cả 4 loại và tính đúng total", async () => {
+  it("gộp kết quả cả 5 loại và tính đúng total", async () => {
     mockPrisma.character.findMany.mockResolvedValue([{ id: "kazuha" }]);
     mockPrisma.weapon.findMany.mockResolvedValue([{ id: "aquila" }, { id: "wolfs-gravestone" }]);
     mockPrisma.domain.findMany.mockResolvedValue([{ id: "domain-of-forgery-artisanship" }]);
+    mockPrisma.material.findMany.mockResolvedValue([{ id: "mora" }]);
 
     const res = await search(req("http://localhost/api/search?q=a"), listCtx);
     const body = await res.json();
 
     expect(res.status).toBe(200);
-    expect(body.data.total).toBe(4);
+    expect(body.data.total).toBe(5);
     expect(body.data.characters).toHaveLength(1);
     expect(body.data.weapons).toHaveLength(2);
     expect(body.data.artifacts).toHaveLength(0);
     expect(body.data.domains).toHaveLength(1);
+    expect(body.data.materials).toHaveLength(1);
+  });
+
+  it("chuyển locale cho các truy vấn và trả tên đã dịch", async () => {
+    mockPrisma.material.findMany.mockResolvedValue([
+      { id: "mora", name: "Mora", nameTranslations: { vi: "Mora" }, iconUrl: null, iconUrlOriginal: null },
+    ]);
+
+    const res = await search(req("http://localhost/api/search?q=mora&locale=vi"), listCtx);
+    const body = await res.json();
+    const [[args]] = mockPrisma.material.findMany.mock.calls;
+
+    expect(args.where.OR[1].nameTranslations.path).toEqual(["vi"]);
+    expect(body.data.materials[0].name).toBe("Mora");
+    expect(body.data.materials[0]).not.toHaveProperty("nameTranslations");
+  });
+
+  it("từ chối locale không hỗ trợ", async () => {
+    const res = await search(req("http://localhost/api/search?q=a&locale=xx"), listCtx);
+    expect(res.status).toBe(400);
+  });
+
+  it("từ chối query vượt giới hạn", async () => {
+    const query = "a".repeat(121);
+    const res = await search(req(`http://localhost/api/search?q=${query}`), listCtx);
+    expect(res.status).toBe(400);
   });
 
   it("clamp limit vượt MAX_PER_TYPE (50)", async () => {

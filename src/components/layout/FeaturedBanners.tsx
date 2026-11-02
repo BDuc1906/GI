@@ -1,6 +1,7 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 /**
  * FeaturedBanners — Banner Tiêu Điểm Chiến Thuật Chuẩn Gaming Wiki (Game8 / Prydwen style)
@@ -8,9 +9,13 @@ import { Link } from "@/i18n/navigation";
  * chữ in đậm nổi bật chèn trực tiếp lên ảnh kèm hiệu ứng zoom hover mượt mà.
  */
 export function FeaturedBanners() {
+  const t = useTranslations("Home");
+  const tHero = useTranslations("Hero");
+  const tCharacters = useTranslations("Characters");
+
   return (
     <section className="max-w-7xl mx-auto px-4 md:px-8 py-6">
-      {/* 1. Main Hero Banner: Bảng Xếp Hạng Nhân Vật (Tier List) — 100% Game Art Chính Gốc */}
+      {/* Featured character directory banner */}
       <Link
         href="/characters"
         className="group relative block w-full h-52 sm:h-60 md:h-72 rounded-2xl md:rounded-3xl overflow-hidden border border-border/80 hover:border-accent-500/80 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-black/50 mb-5 bg-bg-card"
@@ -67,22 +72,22 @@ export function FeaturedBanners() {
           {/* Top Pill Tag */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-accent-500/20 border border-accent-500/50 text-accent-bright font-mono text-[11px] sm:text-xs font-bold uppercase tracking-wider backdrop-blur-md mb-2.5 shadow-sm">
             <span className="w-2 h-2 rounded-full bg-accent-500 animate-pulse" />
-            <span>Bảng Xếp Hạng Meta · La Hoàn &amp; Nhà Hát</span>
+            <span>{t("featuredCharacter")}</span>
           </div>
 
           {/* Main Title — Bold gaming typography with drop shadow */}
           <h2 className="font-display font-black text-2xl sm:text-4xl md:text-5xl text-white tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)] group-hover:text-accent-bright transition-colors mb-2">
-            Bảng Xếp Hạng Nhân Vật (Tier List)
+            {tHero("exploreCharacters")}
           </h2>
 
           {/* Subtitle */}
           <p className="text-xs sm:text-sm md:text-base text-slate-200/90 font-medium max-w-2xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] leading-relaxed">
-            Phân cấp sức mạnh Main DPS, Sub-DPS &amp; Hỗ Trợ trong La Hoàn Thâm Cảnh &amp; Nhà Hát Giả Tưởng
+            {tCharacters("metaDescription")}
           </p>
 
           {/* Action pill button */}
           <div className="mt-3.5 inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-white/10 group-hover:bg-accent-500 group-hover:text-bg-primary text-white text-xs font-semibold backdrop-blur-md border border-white/20 group-hover:border-accent-500 transition-all duration-200 shadow-md">
-            <span>Xem Chi Tiết Bảng Xếp Hạng</span>
+            <span>{t("viewAll")}</span>
             <span className="group-hover:translate-x-1 transition-transform">&rarr;</span>
           </div>
         </div>

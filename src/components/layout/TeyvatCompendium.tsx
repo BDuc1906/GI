@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 export interface CompendiumItem {
   id: string;
@@ -243,7 +244,34 @@ const COMPENDIUM_ITEMS: CompendiumItem[] = [
 type CategoryFilter = "all" | "combat" | "world" | "profile";
 
 export function TeyvatCompendium() {
+  const t = useTranslations();
+  const tHome = useTranslations("Home");
   const [activeCategory, setActiveCategory] = useState<CategoryFilter>("all");
+
+  const localizedItems: Record<string, { title: string; description: string }> = {
+    characters: { title: t("Characters.title"), description: t("Characters.metaDescription") },
+    weapons: { title: t("Weapons.title"), description: t("Weapons.metaDescription") },
+    artifacts: { title: t("Artifacts.title"), description: t("Artifacts.metaDescription") },
+    enemies: { title: t("Enemies.title"), description: t("Enemies.description") },
+    domains: { title: t("Domains.title"), description: t("Domains.metaDescription") },
+    elements: { title: t("Elements.title"), description: t("Elements.metaDescription") },
+    materials: { title: t("Materials.title"), description: t("Materials.description") },
+    food: { title: t("Food.title"), description: t("Food.description") },
+    geography: { title: t("Geography.title"), description: t("Geography.description") },
+    achievements: { title: t("Achievements.title"), description: t("Achievements.description") },
+    "hidden-achievements": { title: tHome("cardHiddenAchievementsTitle"), description: tHome("cardHiddenAchievementsDescription") },
+    calendar: { title: tHome("viewFullSchedule"), description: tHome("domainsToday") },
+    versions: { title: t("Version.title"), description: tHome("viewAll") },
+    tcg: { title: tHome("cardTcgTitle"), description: tHome("cardTcgDescription") },
+    crafts: { title: tHome("cardCraftsTitle"), description: tHome("cardCraftsDescription") },
+    animals: { title: tHome("cardAnimalsTitle"), description: tHome("cardAnimalsDescription") },
+    namecards: { title: tHome("cardNamecardsTitle"), description: tHome("cardNamecardsDescription") },
+    outfits: { title: tHome("cardOutfitsTitle"), description: tHome("cardOutfitsDescription") },
+    windgliders: { title: tHome("cardWindglidersTitle"), description: tHome("cardWindglidersDescription") },
+    "adventure-ranks": { title: tHome("cardAdventureRanksTitle"), description: tHome("cardAdventureRanksDescription") },
+    birthdays: { title: tHome("cardBirthdaysTitle"), description: tHome("cardBirthdaysDescription") },
+    "serenitea-pot": { title: tHome("cardSereniteaTitle"), description: tHome("cardSereniteaDescription") },
+  };
 
   const filteredItems = useMemo(() => {
     if (activeCategory === "all") return COMPENDIUM_ITEMS;
@@ -251,10 +279,10 @@ export function TeyvatCompendium() {
   }, [activeCategory]);
 
   const categories = [
-    { id: "all", label: "Tất cả danh mục", count: COMPENDIUM_ITEMS.length, icon: "/local-genshin-assets/ui/home.png" },
-    { id: "combat", label: "Chiến Đấu & Trang Bị", count: COMPENDIUM_ITEMS.filter(i => i.category === "combat").length, icon: "/local-genshin-assets/ui/sword.png" },
-    { id: "world", label: "Tài Nguyên & Thế Giới", count: COMPENDIUM_ITEMS.filter(i => i.category === "world").length, icon: "/local-genshin-assets/ui/resin.png" },
-    { id: "profile", label: "Hồ Sơ & Hoạt Động", count: COMPENDIUM_ITEMS.filter(i => i.category === "profile").length, icon: "/local-genshin-assets/ui/achievement.png" },
+    { id: "all", label: tHome("categoryAll"), count: COMPENDIUM_ITEMS.length, icon: "/local-genshin-assets/ui/home.png" },
+    { id: "combat", label: tHome("categoryCombat"), count: COMPENDIUM_ITEMS.filter(i => i.category === "combat").length, icon: "/local-genshin-assets/ui/sword.png" },
+    { id: "world", label: tHome("categoryWorld"), count: COMPENDIUM_ITEMS.filter(i => i.category === "world").length, icon: "/local-genshin-assets/ui/resin.png" },
+    { id: "profile", label: tHome("categoryProfile"), count: COMPENDIUM_ITEMS.filter(i => i.category === "profile").length, icon: "/local-genshin-assets/ui/achievement.png" },
   ] as const;
 
   return (
@@ -265,15 +293,12 @@ export function TeyvatCompendium() {
           <div className="flex items-center gap-2 mb-1">
             <span className="w-2 h-2 rounded-full bg-accent-500" />
             <span className="text-xs font-mono uppercase tracking-wider text-accent-bright font-semibold">
-              Bách Khoa Toàn Thư Teyvat
+              {tHome("quickLinks")}
             </span>
           </div>
           <h2 className="font-display text-2xl font-bold text-text-primary tracking-tight">
-            Trung Tâm Cơ Sở Dữ Liệu Teyvat
+            {t("Navigation.title")}
           </h2>
-          <p className="text-sm text-text-secondary mt-0.5">
-            Tổng hợp toàn bộ hệ thống trang bị, sinh thái, tài nguyên và hồ sơ nhân vật trong trò chơi
-          </p>
         </div>
       </div>
 
@@ -341,24 +366,23 @@ export function TeyvatCompendium() {
                       }}
                     />
                   </div>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-accent-500/10 text-accent-bright border border-accent-500/25">
-                    {item.tag}
-                  </span>
                 </div>
 
                 <h3 className="font-semibold text-sm text-text-primary group-hover:text-accent-bright transition-colors mb-1 truncate">
-                  {item.title}
+                  {localizedItems[item.id]?.title ?? item.title}
                 </h3>
-                <p className="text-xs text-text-muted leading-relaxed line-clamp-2">
-                  {item.description}
-                </p>
+                {localizedItems[item.id] && (
+                  <p className="text-xs text-text-muted leading-relaxed line-clamp-2">
+                    {localizedItems[item.id].description}
+                  </p>
+                )}
               </div>
 
               {/* Bottom accent indicator */}
               <div
                 className="mt-3 pt-2 border-t border-border/30 flex items-center justify-between text-[11px] text-text-muted group-hover:text-accent-bright transition-colors"
               >
-                <span>Tra cứu dữ liệu</span>
+                <span>{tHome("viewAll")}</span>
                 <span>&rarr;</span>
               </div>
             </Link>
@@ -382,21 +406,15 @@ export function TeyvatCompendium() {
                       }}
                     />
                   </div>
-                  <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-bg-elevated text-text-muted border border-border/40">
-                    {item.tag}
-                  </span>
                 </div>
 
                 <h3 className="font-semibold text-sm text-text-muted mb-1 truncate">
-                  {item.title}
+                  {localizedItems[item.id]?.title ?? item.title}
                 </h3>
-                <p className="text-xs text-text-muted/70 leading-relaxed line-clamp-2">
-                  {item.description}
-                </p>
               </div>
 
               <div className="mt-3 pt-2 border-t border-border/20 text-[11px] text-text-muted/60">
-                Đang biên soạn dữ liệu
+                {tHome("comingSoon")}
               </div>
             </div>
           )

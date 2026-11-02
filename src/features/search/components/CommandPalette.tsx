@@ -1,8 +1,8 @@
 "use client";
 
 import { SearchIcon } from "@/components/ui/UiIcon";
-import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ElementIcon } from "@/features/characters/components/ElementIcon";
 import { rarityStars, elementColorVar, rarityColorVar } from "@/lib/ui/theme";
@@ -42,13 +42,14 @@ interface SearchData {
   weapons: SearchWeapon[];
   artifacts: SearchArtifact[];
   domains: SearchDomain[];
+  materials: Array<{ id: string; name: string; iconUrl: string | null; iconUrlOriginal: string | null }>;
 }
 
-const EMPTY: SearchData = { total: 0, characters: [], weapons: [], artifacts: [], domains: [] };
+const EMPTY: SearchData = { total: 0, characters: [], weapons: [], artifacts: [], domains: [], materials: [] };
 
 /**
  * Cmd/Ctrl+K mở modal tìm kiếm nổi — không cần cuộn lên đầu trang bấm vào
- * ô search như trước. Dùng chung API /api/search đã có sẵn (4 loại tài
+ * ô search như trước. Dùng chung API /api/search đã có sẵn (5 loại tài
  * nguyên trong 1 lần gọi), chỉ thêm lớp UI + phím tắt.
  *
  * Đóng bằng: Esc, click ra ngoài panel, hoặc chọn 1 kết quả (điều hướng
@@ -56,12 +57,14 @@ const EMPTY: SearchData = { total: 0, characters: [], weapons: [], artifacts: []
  */
 export function CommandPalette() {
   const t = useTranslations("SearchWidget");
+  const locale = useLocale();
   const tWeaponType = useTranslations("WeaponType");
   const tDomains = useTranslations("Domains");
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [data, setData] = useState<SearchData>(EMPTY);
   const [loading, setLoading] = useState(false);
+  const [failed, setFailed] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -109,22 +112,37 @@ export function CommandPalette() {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setData(EMPTY);
       setLoading(false);
+      setFailed(false);
       return;
     }
+    const controller = new AbortController();
     setLoading(true);
+    setData(EMPTY);
+    setFailed(false);
     const timer = setTimeout(async () => {
       try {
-        const res = await fetch(`/api/search?q=${encodeURIComponent(q)}&limit=6`);
+        const res = await fetch(
+          `/api/search?q=${encodeURIComponent(q)}&limit=6&locale=${encodeURIComponent(locale)}`,
+          { signal: controller.signal }
+        );
+        if (!res.ok) throw new Error(`Search request failed with status ${res.status}`);
         const body = await res.json();
-        if (body?.success) setData(body.data as SearchData);
-      } catch {
-        // Lỗi mạng: giữ nguyên kết quả cũ, không làm gián đoạn palette.
+        if (!body?.success) throw new Error("Search API returned an unsuccessful response");
+        setData(body.data as SearchData);
+      } catch (error) {
+        if ((error as Error).name !== "AbortError") {
+          console.error("Command palette search failed:", error);
+          setFailed(true);
+        }
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) setLoading(false);
       }
     }, 250);
-    return () => clearTimeout(timer);
-  }, [query, open]);
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [query, open, locale]);
 
   function handleBackdropClick(e: React.MouseEvent) {
     if (panelRef.current && !panelRef.current.contains(e.target as Node)) close();
@@ -178,7 +196,13 @@ export function CommandPalette() {
             <div className="px-4 py-8 text-center text-xs text-text-muted">{t("searching")}</div>
           )}
 
-          {trimmedQuery && !loading && !hasResults && (
+          {trimmedQuery && !loading && failed && (
+            <div role="alert" className="px-4 py-8 text-center text-xs text-text-muted">
+              {t("searchFailed")}
+            </div>
+          )}
+
+          {trimmedQuery && !loading && !failed && !hasResults && (
             <div className="px-4 py-8 text-center text-xs text-text-muted">
               {t("noResultsForDot", { query: trimmedQuery })}
             </div>
@@ -251,6 +275,21 @@ export function CommandPalette() {
                       name={d.name}
                       iconUrl={d.imageUrl}
                       meta={<span>{domainCategoryLabel[d.category] ?? d.category}</span>}
+                    />
+                  ))}
+                </ResultGroup>
+              )}
+
+              {data.materials.length > 0 && (
+                <ResultGroup label={t("sectionMaterials")}>
+                  {data.materials.map((m) => (
+                    <ResultRow
+                      key={m.id}
+                      href={`/materials/${m.id}`}
+                      onNavigate={close}
+                      name={m.name}
+                      iconUrl={m.iconUrl}
+                      meta={<span>{t("sectionMaterials")}</span>}
                     />
                   ))}
                 </ResultGroup>

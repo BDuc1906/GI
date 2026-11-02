@@ -49,7 +49,72 @@
     "elements": "Элементы",
     "elementsDesc": "Система элементов и реакции",
     "artifacts": "Артефакты",
-    "artifactsDesc": "Наборы артефактов и бонусы"
+    "artifactsDesc": "Наборы артефактов и бонусы",
+    "categoryAll": "All",
+    "categoryCombat": "Combat",
+    "categoryWorld": "World",
+    "categoryProfile": "Profile",
+    "comingSoon": "Coming soon",
+    "cardTcgTitle": "Genius Invokation TCG",
+    "cardTcgDescription": "Browse character cards and strategy decks.",
+    "cardCraftsTitle": "Crafting Recipes",
+    "cardCraftsDescription": "Find alchemy and weapon-forging recipes.",
+    "cardAnimalsTitle": "Teyvat Wildlife",
+    "cardAnimalsDescription": "Browse animals, birds, and capturable creatures.",
+    "cardNamecardsTitle": "Namecard Collection",
+    "cardNamecardsDescription": "Browse character, event, and reputation namecards.",
+    "cardOutfitsTitle": "Character Outfits",
+    "cardOutfitsDescription": "Browse character skins and event outfits.",
+    "cardWindglidersTitle": "Wind Gliders",
+    "cardWindglidersDescription": "Browse reputation and event gliders.",
+    "cardAdventureRanksTitle": "Adventure Ranks",
+    "cardAdventureRanksDescription": "View rank rewards and World Levels.",
+    "cardBirthdaysTitle": "Character Birthdays",
+    "cardBirthdaysDescription": "See character birthdays by month.",
+    "cardSereniteaTitle": "Serenitea Pot",
+    "cardSereniteaDescription": "Browse furnishings, sets, and Adeptal Energy.",
+    "cardHiddenAchievementsTitle": "Hidden Achievements",
+    "cardHiddenAchievementsDescription": "Discover achievements not listed in the game.",
+    "toolDamageTitle": "Damage & DPS Calculator",
+    "toolDamageDescription": "Estimate team rotation damage and compare builds.",
+    "toolEstimate": "Estimated damage; results vary by build.",
+    "toolTeamTitle": "Team Builder",
+    "toolTeamDescription": "Build teams around reactions and role synergy.",
+    "toolEnkaTitle": "Sync Showcase by UID",
+    "toolEnkaDescription": "Load character builds and stats from Enka Network.",
+    "toolWishTitle": "Wish History Analyzer",
+    "toolWishDescription": "Track pity and review your wish history.",
+    "toolShowcaseTitle": "Showcase Character Card",
+    "toolShowcaseDescription": "Create a shareable card of character stats and builds.",
+    "toolMaterialsTitle": "Material Calculator",
+    "toolMaterialsDescription": "Plan materials needed to level a character to 90.",
+    "versionCurrent": "Текущая версия",
+    "versionNumber": "Версия {version}",
+    "versionNewContent": "Новых материалов и данных: {count}",
+    "versionViewDetails": "Подробнее о версии {version}",
+    "versionAllFrom": "Все версии начиная с {version}",
+    "timerTitle": "Сброс серверов и эндгейм",
+    "timerLiveSync": "СИНХРОНИЗАЦИЯ",
+    "timerUpdatesEverySecond": "Обновление каждую секунду",
+    "timerAsiaServer": "Азиатский сервер",
+    "timerAmericaServer": "Американский сервер",
+    "timerEuropeServer": "Европейский сервер",
+    "timerResetAt": "Сброс в {time}",
+    "timerActive": "Активно",
+    "timerTheater": "Театр воображариум",
+    "timerSeason": "Сезон",
+    "timerAbyss": "Витая Бездна",
+    "timerAbyssTag": "Этажи 9–12",
+    "timerStygian": "Натиск в глубинах",
+    "timerEndgame": "Эндгейм",
+    "timerRefreshDay": "Сброс {day}-го числа",
+    "timerPrimogems": "Камней Истока: {count}",
+    "timerBossRotation": "Ротация боссов",
+    "timerRewards": "Награды 5★",
+    "timerOpenIn": "Откроется через {days}д {hours}ч",
+    "timerNextCycle": "Новый цикл через {days}д {hours}ч",
+    "timerCountdown": "{days}д {hours}ч {minutes}м",
+    "timerServerCountdown": "{hours}ч {minutes}м {seconds}с"
   },
   "ErrorPage": {
     "title": "Произошла ошибка",
@@ -135,7 +200,17 @@
     "categoryTalent": "Подземелье талантов",
     "clearAllFilters": "Сбросить все фильтры",
     "noResults": "Нет подземелий, соответствующих фильтрам.",
-    "clearFilters": "Сбросить фильтры"
+    "clearFilters": "Сбросить фильтры",
+    "categoryTrounce": "Trounce / Weekly Boss",
+    "categoryChallenge": "Challenge & Exploration",
+    "filterRegion": "Region",
+    "filterSchedule": "Schedule",
+    "regionAll": "All regions",
+    "scheduleAll": "All days",
+    "scheduleDaily": "Open daily",
+    "scheduleMonThu": "Mon / Thu / Sun",
+    "scheduleTueFri": "Tue / Fri / Sun",
+    "scheduleWedSat": "Wed / Sat / Sun"
   },
   "DomainDetail": {
     "notFoundTitle": "Подземелье не найдено — LEIBO",
@@ -162,9 +237,9 @@
   "Search": {
     "metaTitleQuery": "Поиск \"{query}\" — LEIBO",
     "metaTitleEmpty": "Поиск — LEIBO",
-    "metaDescription": "Поиск персонажей, оружия и артефактов Genshin Impact на LEIBO.",
+    "metaDescription": "Поиск персонажей, оружия, артефактов, подземелий и материалов Genshin Impact на LEIBO.",
     "title": "Поиск",
-    "emptyPrompt": "Введите имя персонажа, оружия или артефакта в поле поиска выше, чтобы начать.",
+    "emptyPrompt": "Введите имя персонажа, оружия, артефакта, подземелья или материала в поле поиска выше.",
     "resultsTitle": "Результаты поиска",
     "foundFor": "Найдено <b>{count}</b> результатов по запросу <q>{query}</q>",
     "noneFor": "Нет результатов по запросу <q>{query}</q>",
@@ -172,6 +247,7 @@
     "sectionWeapons": "Оружие ({count})",
     "sectionArtifacts": "Артефакты ({count})",
     "sectionDomains": "Подземелья ({count})",
+    "sectionMaterials": "Материалы ({count})",
     "tryAnotherKeyword": "Попробуйте другое ключевое слово или проверьте написание."
   },
   "WeaponDetail": {
@@ -250,15 +326,17 @@
   "SearchWidget": {
     "ariaSearch": "Поиск",
     "searchShortcutTitle": "Поиск (⌘K)",
-    "placeholder": "Поиск персонажей, оружия, артефактов...",
-    "palettePlaceholder": "Поиск персонажей, оружия, артефактов, подземелий...",
+    "placeholder": "Поиск персонажей, оружия, артефактов, подземелий и материалов...",
+    "palettePlaceholder": "Поиск персонажей, оружия, артефактов, подземелий и материалов...",
     "searching": "Поиск...",
     "noResultsFor": "Нет результатов по запросу \"{query}\"",
     "noResultsForDot": "Нет результатов по запросу \"{query}\".",
+    "searchFailed": "Поиск временно недоступен. Попробуйте ещё раз.",
     "sectionCharacters": "Персонажи",
     "sectionWeapons": "Оружие",
     "sectionArtifacts": "Артефакты",
     "sectionDomains": "Подземелья",
+    "sectionMaterials": "Материалы",
     "viewAllResults": "Показать все {count} результатов по запросу \"{query}\"",
     "paletteHintPrefix": "Введите запрос — или нажмите",
     "paletteHintSuffix": "чтобы закрыть."
@@ -422,5 +500,36 @@
     "baseCoefficientTableTitle": "Таблица базовых коэффициентов — реакции взаимодействия",
     "baseCoefficientTableNote": "Используйте это значение вместо формулы реакции взаимодействия выше. Наэлектризованность может срабатывать до 2 раз за цикл, поэтому реальный суммарный урон может быть вдвое больше указанного ниже значения.",
     "shatterNote": "относится к удару Раскола, а не к самой Заморозке"
+  },
+  "Version": {
+    "title": "Текущая версия"
+  },
+  "Tools": {
+    "title": "Tools & Utilities"
+  },
+  "Materials": {
+    "title": "Materials",
+    "description": "Full list of ascension and upgrade materials"
+  },
+  "Enemies": {
+    "title": "Enemies",
+    "description": "Full list of enemies in the game"
+  },
+  "Food": {
+    "title": "Food",
+    "description": "Full list of food and cooking recipes"
+  },
+  "Geography": {
+    "title": "Viewpoints",
+    "description": "Full list of locations and viewpoints in the game"
+  },
+  "Achievements": {
+    "title": "Achievements",
+    "description": "Full list of achievements and Primogem rewards",
+    "achievementGroups": "Achievement groups",
+    "achievements": "Achievements (showing first 100)"
+  },
+  "Navigation": {
+    "title": "Quick lookup shortcuts"
   }
 }

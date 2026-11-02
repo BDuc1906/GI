@@ -33,7 +33,7 @@ export default async function Home({ params }: HomePageProps) {
 
   return (
     <div className="min-h-screen bg-bg-primary">
-      {/* 1. Kazuha Hero Banner with Smart Search & Falling Maple Leaves */}
+      {/* 1. Hero banner with global search and falling maple leaves */}
       <Suspense fallback={null}>
         <WikiHero />
       </Suspense>

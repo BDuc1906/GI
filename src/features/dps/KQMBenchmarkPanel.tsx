@@ -120,14 +120,8 @@ function DistributionTable({ dist }: { dist: KQMDistribution }) {
 // KQM Stats Preview
 // ---------------------------------------------------------------------------
 
-function KQMStatsPreview({
-  result,
-  charBaseAtk,
-  weaponBaseAtk,
-}: {
+function KQMStatsPreview({ result }: {
   result: KQMComparisonResult;
-  charBaseAtk: number;
-  weaponBaseAtk: number;
 }) {
   const cvColor =
     result.critValue >= 220
@@ -273,11 +267,7 @@ export function KQMBenchmarkPanel({
         <DistributionTable dist={selectedDist} />
 
         {/* KQM Stats Preview */}
-        <KQMStatsPreview
-          result={kqmResult}
-          charBaseAtk={charBaseAtk}
-          weaponBaseAtk={weaponBaseAtk}
-        />
+        <KQMStatsPreview result={kqmResult} />
 
         {/* Max Roll Reference */}
         <div className="rounded-lg bg-bg-secondary border border-border p-3">

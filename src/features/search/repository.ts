@@ -1,6 +1,12 @@
 ﻿import { prisma } from "@/lib/db/prisma";
 import { PLAYABLE_CHARACTER_FILTER } from "@/core/game/character-catalog";
-import { buildCharacterSearchWhere, buildWeaponSearchWhere } from "./query";
+import {
+  buildArtifactSearchWhere,
+  buildCharacterSearchWhereForLocale,
+  buildDomainSearchWhere,
+  buildMaterialSearchWhere,
+  buildWeaponSearchWhereForLocale,
+} from "./query";
 
 /**
  * Search aliases from fields already stored in the database. Keeping the
@@ -8,16 +14,17 @@ import { buildCharacterSearchWhere, buildWeaponSearchWhere } from "./query";
  * JSON file into the server function.
  */
 export const searchRepository = {
-  async searchCharacters(query: string, limit: number) {
+  async searchCharacters(query: string, limit: number, locale: string) {
     return prisma.character.findMany({
       where: {
-        AND: [PLAYABLE_CHARACTER_FILTER, buildCharacterSearchWhere(query)],
+        AND: [PLAYABLE_CHARACTER_FILTER, buildCharacterSearchWhereForLocale(query, locale)],
       },
       orderBy: [{ rarity: "desc" }, { name: "asc" }],
       take: limit,
       select: {
         id: true,
         name: true,
+        nameTranslations: true,
         vision: true,
         weaponType: true,
         rarity: true,
@@ -27,14 +34,15 @@ export const searchRepository = {
     });
   },
 
-  async searchWeapons(query: string, limit: number) {
+  async searchWeapons(query: string, limit: number, locale: string) {
     return prisma.weapon.findMany({
-      where: buildWeaponSearchWhere(query),
+      where: buildWeaponSearchWhereForLocale(query, locale),
       orderBy: [{ rarity: "desc" }, { name: "asc" }],
       take: limit,
       select: {
         id: true,
         name: true,
+        nameTranslations: true,
         type: true,
         rarity: true,
         iconUrl: true,
@@ -42,30 +50,48 @@ export const searchRepository = {
     });
   },
 
-  async searchArtifacts(query: string, limit: number) {
+  async searchArtifacts(query: string, limit: number, locale: string) {
     return prisma.artifactSet.findMany({
-      where: { name: { contains: query, mode: "insensitive" } },
+      where: buildArtifactSearchWhere(query, locale),
       orderBy: { name: "asc" },
       take: limit,
       select: {
         id: true,
         name: true,
+        nameTranslations: true,
         rarityRange: true,
         iconUrl: true,
       },
     });
   },
 
-  async searchDomains(query: string, limit: number) {
+  async searchDomains(query: string, limit: number, locale: string) {
     return prisma.domain.findMany({
-      where: { name: { contains: query, mode: "insensitive" } },
+      where: buildDomainSearchWhere(query, locale),
       orderBy: { name: "asc" },
       take: limit,
       select: {
         id: true,
         name: true,
+        nameTranslations: true,
         category: true,
         imageUrl: true,
+        imageUrlOriginal: true,
+      },
+    });
+  },
+
+  async searchMaterials(query: string, limit: number, locale: string) {
+    return prisma.material.findMany({
+      where: buildMaterialSearchWhere(query, locale),
+      orderBy: { name: "asc" },
+      take: limit,
+      select: {
+        id: true,
+        name: true,
+        nameTranslations: true,
+        iconUrl: true,
+        iconUrlOriginal: true,
       },
     });
   },

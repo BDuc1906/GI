@@ -1,9 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { Link, useRouter } from "@/i18n/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
 import { SearchIcon } from "@/components/ui/UiIcon";
 
@@ -19,6 +18,8 @@ interface SearchApiData {
   characters: SearchResultItem[];
   weapons: SearchResultItem[];
   artifacts: SearchResultItem[];
+  domains: Array<{ id: string; name: string; imageUrl: string | null }>;
+  materials: SearchResultItem[];
 }
 
 const MIN_QUERY_LENGTH = 2;
@@ -33,6 +34,7 @@ const SUGGESTIONS_PER_TYPE = 4;
  */
 export function SearchBar() {
   const t = useTranslations("SearchWidget");
+  const locale = useLocale();
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -43,6 +45,7 @@ export function SearchBar() {
   const [expanded, setExpanded] = useState(false);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<SearchApiData | null>(null);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     const query = value.trim();
@@ -54,25 +57,33 @@ export function SearchBar() {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setData(null);
       setLoading(false);
+      setFailed(false);
       return;
     }
 
     setLoading(true);
+    setData(null);
+    setFailed(false);
     const controller = new AbortController();
     abortRef.current = controller;
 
     const timer = setTimeout(async () => {
       try {
         const res = await fetch(
-          `/api/search?q=${encodeURIComponent(query)}&limit=${SUGGESTIONS_PER_TYPE}`,
+          `/api/search?q=${encodeURIComponent(query)}&limit=${SUGGESTIONS_PER_TYPE}&locale=${encodeURIComponent(locale)}`,
           { signal: controller.signal }
         );
+        if (!res.ok) throw new Error(`Search request failed with status ${res.status}`);
         const body = await res.json();
-        if (body.success) setData(body.data);
+        if (!body?.success) throw new Error("Search API returned an unsuccessful response");
+        setData(body.data);
       } catch (err) {
-        if ((err as Error).name !== "AbortError") console.error("Search suggestion failed:", err);
+        if ((err as Error).name !== "AbortError") {
+          console.error("Search suggestion failed:", err);
+          setFailed(true);
+        }
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) setLoading(false);
       }
     }, DEBOUNCE_MS);
 
@@ -80,7 +91,7 @@ export function SearchBar() {
       clearTimeout(timer);
       controller.abort();
     };
-  }, [value]);
+  }, [value, locale]);
 
   // Đóng dropdown + thu icon lại khi click ra ngoài (chỉ thu icon nếu ô
   // đang trống, tránh mất chữ người dùng gõ dở khi họ vô tình click ra
@@ -160,7 +171,11 @@ export function SearchBar() {
             <div className="px-3 py-3 text-xs text-text-muted">{t("searching")}</div>
           )}
 
-          {!loading && data && !hasResults && (
+          {!loading && failed && (
+            <div role="alert" className="px-3 py-3 text-xs text-text-muted">{t("searchFailed")}</div>
+          )}
+
+          {!loading && !failed && data && !hasResults && (
             <div className="px-3 py-3 text-xs text-text-muted">
               {t("noResultsFor", { query: value.trim() })}
             </div>
@@ -171,6 +186,13 @@ export function SearchBar() {
               <SuggestionGroup title={t("sectionCharacters")} items={data!.characters} basePath="/characters" onNavigate={() => setOpen(false)} />
               <SuggestionGroup title={t("sectionWeapons")} items={data!.weapons} basePath="/weapons" onNavigate={() => setOpen(false)} />
               <SuggestionGroup title={t("sectionArtifacts")} items={data!.artifacts} basePath="/artifacts" onNavigate={() => setOpen(false)} />
+              <SuggestionGroup
+                title={t("sectionDomains")}
+                items={data!.domains.map(({ id, name, imageUrl }) => ({ id, name, iconUrl: imageUrl }))}
+                basePath="/domains"
+                onNavigate={() => setOpen(false)}
+              />
+              <SuggestionGroup title={t("sectionMaterials")} items={data!.materials} basePath="/materials" onNavigate={() => setOpen(false)} />
 
               <button
                 type="button"

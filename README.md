@@ -47,7 +47,7 @@ Dự án được thiết kế theo hướng **production-ready**: có migration
 | 💠 **Thánh di vật** | Hiệu ứng 1/2/4 mảnh, danh sách các mảnh trong bộ |
 | 🧪 **Danh mục dữ liệu** | Nguyên liệu, bí cảnh, kẻ địch, thành tựu, namecard, outfit, món ăn, động vật và địa lý |
 | 🗺️ **Bí cảnh** | Lịch mở theo ngày trong tuần, nguyên liệu đặc trưng, gợi ý "hôm nay nên đánh gì" |
-| 🔍 **Tìm kiếm tổng hợp** | Tìm kiếm xuyên suốt 4 loại dữ liệu (nhân vật, vũ khí, thánh di vật, bí cảnh) trong một endpoint |
+| 🔍 **Tìm kiếm tổng hợp** | Tìm kiếm xuyên suốt 5 loại dữ liệu (nhân vật, vũ khí, thánh di vật, bí cảnh, nguyên liệu) trong một endpoint |
 | 🌗 **Dark / Light mode** | Chuyển giao diện mượt mà bằng `next-themes` |
 | 🗺️ **SEO tự động** | Metadata đa ngôn ngữ, canonical/hreflang, OG/Twitter cards, structured data, `sitemap.xml` và `robots.txt` |
 | 🛡️ **API an toàn** | Envelope response chuẩn hoá, phân trang có giới hạn, xử lý lỗi tập trung |
@@ -180,7 +180,7 @@ Base URL: `/api` — mọi response đều theo envelope chuẩn `{ success, dat
 | `GET` | `/api/materials/:id` | Chi tiết một nguyên liệu |
 | `GET` | `/api/domains` | Danh sách bí cảnh (hỗ trợ lọc `category`, `day`, `today`) |
 | `GET` | `/api/domains/:id` | Chi tiết một bí cảnh |
-| `GET` | `/api/search?q=...` | Tìm kiếm tổng hợp trên 4 loại dữ liệu — characters, weapons, artifacts, domains (không gồm materials — xem `docs/api.md`) |
+| `GET` | `/api/search?q=...` | Tìm kiếm tổng hợp trên characters, weapons, artifacts, domains và materials |
 
 > Phân trang mặc định `limit=24`, tối đa `limit=100` — chặn client kéo toàn bộ bảng trong 1 request.
 
@@ -254,22 +254,23 @@ npm run db:verify   # kiểm tra tính toàn vẹn dữ liệu vừa seed — xe
 
 ## 🔄 CI/CD
 
-Pipeline `.github/workflows/ci.yml` có 4 job chạy tuần tự (`needs: ...`), job nào fail thì các job phía sau **không chạy**:
+Pipeline `.github/workflows/ci.yml` có 3 job chạy tuần tự (`needs: ...`), job nào fail thì các job phía sau **không chạy**:
 
-1. **Lint, Typecheck & Test** (mọi push/PR) — `npm run lint` (ESLint), `npx tsc --noEmit`, rồi `npm run test` (Vitest — mock Prisma hoàn toàn, không cần DB thật nên chạy được ngay trong job này).
-2. **Migrate & Build** (mọi push/PR) — dựng service Postgres tạm, `npx prisma migrate deploy`, sau đó `next build` (build có query DB thật vì dùng ISR).
-3. **API smoke test** (mọi push/PR) — gọi thử các endpoint chính sau khi build để phát hiện lỗi runtime sớm.
-4. **Deploy to Vercel (Production)** — **chỉ chạy khi push thẳng vào `main`** (không chạy cho PR), và chỉ sau khi 3 job trên đều pass. Job này áp migration lên **database production thật** (`prisma migrate deploy` với `DIRECT_URL` production, khác với `DIRECT_URL` giả dùng để test ở job 1–3), rồi `vercel build --prod` + `vercel deploy --prebuilt --prod`.
+1. **Lint & Typecheck** (mọi push/PR) — cài dependencies, chạy `npm run lint`, `npm run typecheck` và `npm run test` (Vitest mock Prisma nên không cần DB thật).
+2. **Migrate & Build** (mọi push/PR) — dựng Postgres tạm, áp migration và chạy `npm run build`.
+3. **API smoke test** (mọi push/PR) — dựng DB tạm riêng, build ứng dụng và kiểm tra API health, characters, search cùng các trường hợp lỗi cơ bản.
 
-Workflow còn có `concurrency` (hủy run cũ hơn của cùng nhánh khi có push mới, tránh chạy trùng) và job cuối gắn với GitHub Environment `production` — bạn có thể bật [required reviewers](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment) trong **Settings → Environments → production** nếu muốn có bước duyệt thủ công trước khi lên production.
+Workflow giới hạn quyền token ở `contents: read`, có timeout cho từng job và hủy run CI cũ hơn trên cùng nhánh khi có push mới.
 
-> ⚠️ Dự án dùng **ESLint v9 flat config** (`eslint.config.mjs` ở thư mục gốc) — đây là *bắt buộc*, không phải tuỳ chọn. Thiếu file này khiến `npm run lint` fail ngay lập tức với lỗi `ESLint couldn't find an eslint.config.(js|mjs|cjs) file`, khiến toàn bộ pipeline dừng lại ở bước đầu tiên. Rule `@typescript-eslint/no-explicit-any` được bật nghiêm ở `src/**` nhưng tắt riêng cho `scripts/**` (script seed làm việc với dữ liệu thô từ `genshin-db`, một package không có type definitions chính thức).
+> **Lưu ý:** CI không có job deploy production. Việc deploy được thực hiện bởi Vercel Git Integration (xem bên dưới), độc lập với workflow CI. Hãy cấu hình branch protection để yêu cầu các check CI thành công trước khi merge vào `main`; nếu cần duyệt thủ công cho thao tác production, cấu hình reviewer trên GitHub Environment tương ứng.
+
+Dự án dùng **ESLint v10 flat config** (`eslint.config.mjs` ở thư mục gốc). Rule `@typescript-eslint/no-explicit-any` được bật nghiêm ở `src/**` nhưng tắt riêng cho `scripts/**` (script seed làm việc với dữ liệu thô từ `genshin-db`, một package không có type definitions chính thức).
 
 Chạy đúng những gì CI chạy trước khi push, để tránh phải chờ CI báo lỗi:
 
 ```bash
 npm run lint
-npx tsc --noEmit
+npm run typecheck
 npm run test
 npm run build
 ```
@@ -279,7 +280,7 @@ npm run build
 Ứng dụng deploy **trực tiếp qua Vercel Web Dashboard**:
 - Khi có Pull Request, Vercel tự động tạo **Preview Deployment**.
 - Khi merge / push vào nhánh `main`, Vercel tự động build và deploy lên **Production**.
-- GitHub Actions CI (`ci.yml`) tập trung kiểm thử chất lượng code (Lint, Typecheck, Test, Next.js Build, API Smoke Test) trước khi merge.
+- GitHub Actions CI (`ci.yml`) kiểm thử chất lượng code (Lint, Typecheck, Test, Next.js Build, API Smoke Test). CI không tự chặn deploy của Vercel; cấu hình branch protection/deployment checks riêng nếu cần bảo đảm deploy chỉ sau khi CI pass.
 
 Các biến môi trường runtime (`DATABASE_URL`, `DIRECT_URL`, `UPSTASH_REDIS_REST_URL`/`TOKEN`, `NEXT_PUBLIC_SITE_URL`...) được cấu hình trực tiếp trong **Vercel Project Settings → Environment Variables**.
 

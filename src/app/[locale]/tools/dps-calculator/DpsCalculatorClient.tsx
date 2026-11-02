@@ -246,7 +246,7 @@ export function DpsCalculatorClient({
       </div>
 
       {mainTab === "team" ? (
-        <TeamDpsCalculatorClient characters={characters} weapons={weapons} />
+        <TeamDpsCalculatorClient characters={characters} />
       ) : mainTab === "showdown" ? (
         <GearShowdownClient characters={characters} weapons={weapons} />
       ) : (

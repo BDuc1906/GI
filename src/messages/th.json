@@ -49,7 +49,72 @@
     "elements": "ธาตุ",
     "elementsDesc": "ระบบธาตุและปฏิกิริยา",
     "artifacts": "อาร์ติแฟกต์",
-    "artifactsDesc": "เซ็ตอาร์ติแฟกต์และโบนัส"
+    "artifactsDesc": "เซ็ตอาร์ติแฟกต์และโบนัส",
+    "categoryAll": "All",
+    "categoryCombat": "Combat",
+    "categoryWorld": "World",
+    "categoryProfile": "Profile",
+    "comingSoon": "Coming soon",
+    "cardTcgTitle": "Genius Invokation TCG",
+    "cardTcgDescription": "Browse character cards and strategy decks.",
+    "cardCraftsTitle": "Crafting Recipes",
+    "cardCraftsDescription": "Find alchemy and weapon-forging recipes.",
+    "cardAnimalsTitle": "Teyvat Wildlife",
+    "cardAnimalsDescription": "Browse animals, birds, and capturable creatures.",
+    "cardNamecardsTitle": "Namecard Collection",
+    "cardNamecardsDescription": "Browse character, event, and reputation namecards.",
+    "cardOutfitsTitle": "Character Outfits",
+    "cardOutfitsDescription": "Browse character skins and event outfits.",
+    "cardWindglidersTitle": "Wind Gliders",
+    "cardWindglidersDescription": "Browse reputation and event gliders.",
+    "cardAdventureRanksTitle": "Adventure Ranks",
+    "cardAdventureRanksDescription": "View rank rewards and World Levels.",
+    "cardBirthdaysTitle": "Character Birthdays",
+    "cardBirthdaysDescription": "See character birthdays by month.",
+    "cardSereniteaTitle": "Serenitea Pot",
+    "cardSereniteaDescription": "Browse furnishings, sets, and Adeptal Energy.",
+    "cardHiddenAchievementsTitle": "Hidden Achievements",
+    "cardHiddenAchievementsDescription": "Discover achievements not listed in the game.",
+    "toolDamageTitle": "Damage & DPS Calculator",
+    "toolDamageDescription": "Estimate team rotation damage and compare builds.",
+    "toolEstimate": "Estimated damage; results vary by build.",
+    "toolTeamTitle": "Team Builder",
+    "toolTeamDescription": "Build teams around reactions and role synergy.",
+    "toolEnkaTitle": "Sync Showcase by UID",
+    "toolEnkaDescription": "Load character builds and stats from Enka Network.",
+    "toolWishTitle": "Wish History Analyzer",
+    "toolWishDescription": "Track pity and review your wish history.",
+    "toolShowcaseTitle": "Showcase Character Card",
+    "toolShowcaseDescription": "Create a shareable card of character stats and builds.",
+    "toolMaterialsTitle": "Material Calculator",
+    "toolMaterialsDescription": "Plan materials needed to level a character to 90.",
+    "versionCurrent": "เวอร์ชันปัจจุบัน",
+    "versionNumber": "เวอร์ชัน {version}",
+    "versionNewContent": "เนื้อหาและข้อมูลใหม่ {count} รายการ",
+    "versionViewDetails": "ดูรายละเอียดเวอร์ชัน {version}",
+    "versionAllFrom": "ทุกเวอร์ชันตั้งแต่ {version}",
+    "timerTitle": "เวลารีเซ็ตเซิร์ฟเวอร์และคอนเทนต์ท้ายเกม",
+    "timerLiveSync": "ซิงก์สด",
+    "timerUpdatesEverySecond": "อัปเดตทุกวินาที",
+    "timerAsiaServer": "เซิร์ฟเวอร์เอเชีย",
+    "timerAmericaServer": "เซิร์ฟเวอร์อเมริกา",
+    "timerEuropeServer": "เซิร์ฟเวอร์ยุโรป",
+    "timerResetAt": "รีเซ็ตเวลา {time}",
+    "timerActive": "กำลังทำงาน",
+    "timerTheater": "โรงละครแห่งจินตภาพ",
+    "timerSeason": "ซีซัน",
+    "timerAbyss": "หุบเหวลึก",
+    "timerAbyssTag": "ชั้น 9–12",
+    "timerStygian": "ศึกแดนมรณะ",
+    "timerEndgame": "ท้ายเกม",
+    "timerRefreshDay": "รีเซ็ตวันที่ {day}",
+    "timerPrimogems": "{count} ศิลาแห่งปฐมกาล",
+    "timerBossRotation": "รอบหมุนเวียนบอส",
+    "timerRewards": "รางวัล 5★",
+    "timerOpenIn": "เปิดในอีก {days} วัน {hours} ชม.",
+    "timerNextCycle": "รอบใหม่ในอีก {days} วัน {hours} ชม.",
+    "timerCountdown": "{days} วัน {hours} ชม. {minutes} นาที",
+    "timerServerCountdown": "{hours} ชม. {minutes} นาที {seconds} วินาที"
   },
   "ErrorPage": {
     "title": "เกิดข้อผิดพลาด",
@@ -135,7 +200,17 @@
     "categoryTalent": "ดันเจี้ยนตำราพรสวรรค์",
     "clearAllFilters": "ล้างตัวกรองทั้งหมด",
     "noResults": "ไม่พบดันเจี้ยนที่ตรงกับตัวกรอง",
-    "clearFilters": "ล้างตัวกรอง"
+    "clearFilters": "ล้างตัวกรอง",
+    "categoryTrounce": "Trounce / Weekly Boss",
+    "categoryChallenge": "Challenge & Exploration",
+    "filterRegion": "Region",
+    "filterSchedule": "Schedule",
+    "regionAll": "All regions",
+    "scheduleAll": "All days",
+    "scheduleDaily": "Open daily",
+    "scheduleMonThu": "Mon / Thu / Sun",
+    "scheduleTueFri": "Tue / Fri / Sun",
+    "scheduleWedSat": "Wed / Sat / Sun"
   },
   "DomainDetail": {
     "notFoundTitle": "ไม่พบดันเจี้ยน — LEIBO",
@@ -162,9 +237,9 @@
   "Search": {
     "metaTitleQuery": "ค้นหา \"{query}\" — LEIBO",
     "metaTitleEmpty": "ค้นหา — LEIBO",
-    "metaDescription": "ค้นหาตัวละคร อาวุธ และอาร์ติแฟกต์ Genshin Impact บน LEIBO",
+    "metaDescription": "ค้นหาตัวละคร อาวุธ อาร์ติแฟกต์ ดันเจี้ยน และวัสดุ Genshin Impact บน LEIBO",
     "title": "ค้นหา",
-    "emptyPrompt": "พิมพ์ชื่อตัวละคร อาวุธ หรืออาร์ติแฟกต์ในช่องค้นหาด้านบนเพื่อเริ่มต้น",
+    "emptyPrompt": "พิมพ์ชื่อตัวละคร อาวุธ อาร์ติแฟกต์ ดันเจี้ยน หรือวัสดุในช่องค้นหาด้านบน",
     "resultsTitle": "ผลการค้นหา",
     "foundFor": "พบ <b>{count}</b> ผลลัพธ์สำหรับ <q>{query}</q>",
     "noneFor": "ไม่พบผลลัพธ์สำหรับ <q>{query}</q>",
@@ -172,6 +247,7 @@
     "sectionWeapons": "อาวุธ ({count})",
     "sectionArtifacts": "อาร์ติแฟกต์ ({count})",
     "sectionDomains": "ดันเจี้ยน ({count})",
+    "sectionMaterials": "วัสดุ ({count})",
     "tryAnotherKeyword": "ลองคำค้นหาอื่นหรือตรวจสอบการสะกดอีกครั้ง"
   },
   "WeaponDetail": {
@@ -250,15 +326,17 @@
   "SearchWidget": {
     "ariaSearch": "ค้นหา",
     "searchShortcutTitle": "ค้นหา (⌘K)",
-    "placeholder": "ค้นหาตัวละคร อาวุธ อาร์ติแฟกต์...",
-    "palettePlaceholder": "ค้นหาตัวละคร อาวุธ อาร์ติแฟกต์ ดันเจี้ยน...",
+    "placeholder": "ค้นหาตัวละคร อาวุธ อาร์ติแฟกต์ ดันเจี้ยน วัสดุ...",
+    "palettePlaceholder": "ค้นหาตัวละคร อาวุธ อาร์ติแฟกต์ ดันเจี้ยน วัสดุ...",
     "searching": "กำลังค้นหา...",
     "noResultsFor": "ไม่พบผลลัพธ์สำหรับ \"{query}\"",
     "noResultsForDot": "ไม่พบผลลัพธ์สำหรับ \"{query}\"",
+    "searchFailed": "การค้นหาใช้งานไม่ได้ชั่วคราว โปรดลองอีกครั้ง",
     "sectionCharacters": "ตัวละคร",
     "sectionWeapons": "อาวุธ",
     "sectionArtifacts": "อาร์ติแฟกต์",
     "sectionDomains": "ดันเจี้ยน",
+    "sectionMaterials": "วัสดุ",
     "viewAllResults": "ดูผลลัพธ์ทั้งหมด {count} รายการสำหรับ \"{query}\"",
     "paletteHintPrefix": "พิมพ์เพื่อค้นหา — หรือกด",
     "paletteHintSuffix": "เพื่อปิด"
@@ -422,5 +500,36 @@
     "baseCoefficientTableTitle": "ตารางค่าสัมประสิทธิ์พื้นฐาน — ปฏิกิริยาแปรสภาพ",
     "baseCoefficientTableNote": "ใช้ค่านี้แทนในสูตรปฏิกิริยาแปรสภาพด้านบน ไฟฟ้าช็อตสามารถเกิดได้ 2 ครั้งต่อรอบ ดังนั้นดาเมจรวมจริงอาจสูงเป็น 2 เท่าของค่าด้านล่างนี้",
     "shatterNote": "ใช้กับการโจมตีแตกละเอียด ไม่ใช่สถานะแช่แข็งเอง"
+  },
+  "Version": {
+    "title": "เวอร์ชันปัจจุบัน"
+  },
+  "Tools": {
+    "title": "Tools & Utilities"
+  },
+  "Materials": {
+    "title": "Materials",
+    "description": "Full list of ascension and upgrade materials"
+  },
+  "Enemies": {
+    "title": "Enemies",
+    "description": "Full list of enemies in the game"
+  },
+  "Food": {
+    "title": "Food",
+    "description": "Full list of food and cooking recipes"
+  },
+  "Geography": {
+    "title": "Viewpoints",
+    "description": "Full list of locations and viewpoints in the game"
+  },
+  "Achievements": {
+    "title": "Achievements",
+    "description": "Full list of achievements and Primogem rewards",
+    "achievementGroups": "Achievement groups",
+    "achievements": "Achievements (showing first 100)"
+  },
+  "Navigation": {
+    "title": "Quick lookup shortcuts"
   }
 }

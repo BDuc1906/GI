@@ -418,7 +418,7 @@ function BuildSourceBadge({
   );
 }
 
-export async function RecommendedBuildTab({ character, locale, elementColor }: Props) {
+export async function RecommendedBuildTab({ character, locale: _locale, elementColor }: Props) {
   const vision = character.vision ?? "Anemo";
   const weaponType = character.weaponType ?? "Sword";
 

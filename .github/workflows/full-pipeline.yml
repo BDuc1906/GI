@@ -1,6 +1,6 @@
 name: Full Data Pipeline
 
-# Pipeline hoàn chỉnh: Crawl → Seed → Auto-fix → Deploy
+# Pipeline dữ liệu: Crawl → Seed → Auto-fix → Verify
 # Chạy hàng tuần vào thứ 4 lúc 22:00 UTC (5:00 sáng thứ 5 Việt Nam)
 # Có thể chạy tay khi cần
 
@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: full-pipeline
+  group: leibo-production-data
   cancel-in-progress: false # không huỷ nửa chừng đang ghi DB
 
 jobs:
@@ -84,6 +84,14 @@ jobs:
       - name: Prisma generate
         run: npx prisma generate
 
+      - name: Validate production database secrets
+        run: |
+          : "${DATABASE_URL:?Missing production database secret (PROD_DATABASE_URL or DATABASE_URL)}"
+          : "${DIRECT_URL:?Missing direct database secret (PROD_DIRECT_URL, DIRECT_URL or DATABASE_URL)}"
+        env:
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL || secrets.DIRECT_URL || secrets.DATABASE_URL }}
+
       - name: Seed production database
         run: npx tsx scripts/seed/seed.ts
         env:
@@ -119,8 +127,8 @@ jobs:
       - name: Run AutoFixEngine
         run: npx tsx scripts/pipeline/auto-fix.ts
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL || secrets.DIRECT_URL || secrets.DATABASE_URL }}
           AGENT_LIVE_PROVIDER: ${{ vars.AGENT_LIVE_PROVIDER }}
           OPS_WEBHOOK_URL: ${{ secrets.OPS_WEBHOOK_URL }}
 
@@ -130,8 +138,8 @@ jobs:
       - name: Verify and rollback if needed
         run: npx tsx scripts/pipeline/verify-rollback.ts --window-minutes=40
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL || secrets.DIRECT_URL || secrets.DATABASE_URL }}
           AGENT_LIVE_PROVIDER: ${{ vars.AGENT_LIVE_PROVIDER }}
           OPS_WEBHOOK_URL: ${{ secrets.OPS_WEBHOOK_URL }}
 
@@ -150,4 +158,4 @@ jobs:
 
       - name: Pipeline summary
         run: |
-          echo "✅ Full data pipeline completed successfully. Vercel Web will deploy any pushed changes automatically." >> "$GITHUB_STEP_SUMMARY"
+          echo "✅ Full data pipeline completed successfully. Application deployments are handled by the Vercel Git integration when code is pushed or merged." >> "$GITHUB_STEP_SUMMARY"

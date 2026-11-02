@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 
 export function ServerTimersClient() {
+  const t = useTranslations("Home");
   const [asiaTime, setAsiaTime] = useState("");
   const [americaTime, setAmericaTime] = useState("");
   const [europeTime, setEuropeTime] = useState("");
@@ -24,7 +26,7 @@ export function ServerTimersClient() {
       const asiaHours = Math.floor(asiaDiff / (1000 * 60 * 60));
       const asiaMins = Math.floor((asiaDiff % (1000 * 60 * 60)) / (1000 * 60));
       const asiaSecs = Math.floor((asiaDiff % (1000 * 60)) / 1000);
-      setAsiaTime(`${asiaHours}h ${asiaMins}m ${asiaSecs}s`);
+      setAsiaTime(t("timerServerCountdown", { hours: asiaHours, minutes: asiaMins, seconds: asiaSecs }));
 
       // America server reset: 4:00 UTC = 23:00 UTC-5
       const americaReset = new Date(now);
@@ -36,7 +38,7 @@ export function ServerTimersClient() {
       const americaHours = Math.floor(americaDiff / (1000 * 60 * 60));
       const americaMins = Math.floor((americaDiff % (1000 * 60 * 60)) / (1000 * 60));
       const americaSecs = Math.floor((americaDiff % (1000 * 60)) / 1000);
-      setAmericaTime(`${americaHours}h ${americaMins}m ${americaSecs}s`);
+      setAmericaTime(t("timerServerCountdown", { hours: americaHours, minutes: americaMins, seconds: americaSecs }));
 
       // Europe server reset: 4:00 UTC = 5:00 UTC+1
       const europeReset = new Date(now);
@@ -48,7 +50,7 @@ export function ServerTimersClient() {
       const europeHours = Math.floor(europeDiff / (1000 * 60 * 60));
       const europeMins = Math.floor((europeDiff % (1000 * 60 * 60)) / (1000 * 60));
       const europeSecs = Math.floor((europeDiff % (1000 * 60)) / 1000);
-      setEuropeTime(`${europeHours}h ${europeMins}m ${europeSecs}s`);
+      setEuropeTime(t("timerServerCountdown", { hours: europeHours, minutes: europeMins, seconds: europeSecs }));
 
       // 1. Nhà Hát Giả Tưởng (Imaginarium Theater): Reset ngày 1 hàng tháng lúc 04:00 UTC
       const theaterDate = new Date(now);
@@ -62,7 +64,7 @@ export function ServerTimersClient() {
       const tDays = Math.floor(theaterDiff / (1000 * 60 * 60 * 24));
       const tHours = Math.floor((theaterDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const tMins = Math.floor((theaterDiff % (1000 * 60 * 60)) / (1000 * 60));
-      setTheaterReset(`${tDays}d ${tHours}h ${tMins}m`);
+      setTheaterReset(t("timerCountdown", { days: tDays, hours: tHours, minutes: tMins }));
 
       // 2. La Hoàn Thâm Cảnh (Spiral Abyss): Reset ngày 16 hàng tháng lúc 04:00 UTC
       const abyssDate = new Date(now);
@@ -76,7 +78,7 @@ export function ServerTimersClient() {
       const aDays = Math.floor(abyssDiff / (1000 * 60 * 60 * 24));
       const aHours = Math.floor((abyssDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const aMins = Math.floor((abyssDiff % (1000 * 60 * 60)) / (1000 * 60));
-      setSpiralReset(`${aDays}d ${aHours}h ${aMins}m`);
+      setSpiralReset(t("timerCountdown", { days: aDays, hours: aHours, minutes: aMins }));
 
       // 3. Ảo Cảnh Hiểm Ác (Stygian Onslaught): Xoay tua theo chu kỳ phiên bản 42 ngày (mở ngày 8, kéo dài 35 ngày)
       // Mốc chuẩn Genshin 5.0: 2024-08-28T04:00:00Z
@@ -93,28 +95,28 @@ export function ServerTimersClient() {
         const diff = stygianStart - now.getTime();
         const d = Math.floor(diff / (1000 * 60 * 60 * 24));
         const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        setStygianReset(`Mở sau: ${d}d ${h}h`);
+        setStygianReset(t("timerOpenIn", { days: d, hours: h }));
       } else if (now.getTime() <= stygianEnd) {
         // Đang mở, đếm ngược kết thúc kỳ
         const diff = stygianEnd - now.getTime();
         const d = Math.floor(diff / (1000 * 60 * 60 * 24));
         const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        setStygianReset(`${d}d ${h}h ${m}m`);
+        setStygianReset(t("timerCountdown", { days: d, hours: h, minutes: m }));
       } else {
         // Kết thúc kỳ hiện tại, đếm ngược đến kỳ kế tiếp
         const nextStart = currentPatchStart + patchLength + 8 * 24 * 60 * 60 * 1000;
         const diff = nextStart - now.getTime();
         const d = Math.floor(diff / (1000 * 60 * 60 * 24));
         const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        setStygianReset(`Kỳ mới: ${d}d ${h}h`);
+        setStygianReset(t("timerNextCycle", { days: d, hours: h }));
       }
     };
 
     updateTimers();
     const interval = setInterval(updateTimers, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [t]);
 
   return (
     <section className="max-w-7xl mx-auto px-4 md:px-8 py-6 md:py-8">
@@ -123,14 +125,14 @@ export function ServerTimersClient() {
         <div className="flex items-center gap-2.5">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
           <h2 className="font-display text-lg md:text-xl font-bold text-text-primary tracking-wide">
-            Thời Gian Reset Máy Chủ &amp; Khiêu Chiến End-Game
+            {t("timerTitle")}
           </h2>
         </div>
         <div className="text-xs text-text-muted flex items-center gap-2 font-mono">
           <span className="px-2 py-0.5 rounded bg-bg-card border border-border/60 text-accent-bright font-semibold">
-            LIVE SYNC
+            {t("timerLiveSync")}
           </span>
-          <span>Tự động cập nhật mỗi giây</span>
+          <span>{t("timerUpdatesEverySecond")}</span>
         </div>
       </div>
 
@@ -139,45 +141,45 @@ export function ServerTimersClient() {
         {/* Asia Server */}
         <div className="relative group bg-bg-card/75 border border-border/80 hover:border-accent-500/50 rounded-xl p-3.5 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">
           <div className="flex items-center justify-between text-xs text-text-secondary font-medium mb-1.5">
-            <span className="font-semibold text-text-primary">Asia Server</span>
+            <span className="font-semibold text-text-primary">{t("timerAsiaServer")}</span>
             <span className="text-[10px] px-1.5 py-0.5 rounded bg-bg-elevated text-text-muted">UTC+7</span>
           </div>
           <div className="font-mono text-lg sm:text-xl font-bold tracking-tight text-accent-bright tabular-nums">
             {asiaTime || "--:--:--"}
           </div>
           <div className="text-[11px] text-text-muted mt-1.5 flex items-center justify-between">
-            <span>Reset lúc 11:00</span>
-            <span className="text-emerald-400/80">Hoạt động</span>
+            <span>{t("timerResetAt", { time: "11:00" })}</span>
+            <span className="text-emerald-400/80">{t("timerActive")}</span>
           </div>
         </div>
 
         {/* America Server */}
         <div className="relative group bg-bg-card/75 border border-border/80 hover:border-accent-500/50 rounded-xl p-3.5 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">
           <div className="flex items-center justify-between text-xs text-text-secondary font-medium mb-1.5">
-            <span className="font-semibold text-text-primary">America Server</span>
+            <span className="font-semibold text-text-primary">{t("timerAmericaServer")}</span>
             <span className="text-[10px] px-1.5 py-0.5 rounded bg-bg-elevated text-text-muted">UTC-5</span>
           </div>
           <div className="font-mono text-lg sm:text-xl font-bold tracking-tight text-accent-bright tabular-nums">
             {americaTime || "--:--:--"}
           </div>
           <div className="text-[11px] text-text-muted mt-1.5 flex items-center justify-between">
-            <span>Reset lúc 23:00</span>
-            <span className="text-emerald-400/80">Hoạt động</span>
+            <span>{t("timerResetAt", { time: "23:00" })}</span>
+            <span className="text-emerald-400/80">{t("timerActive")}</span>
           </div>
         </div>
 
         {/* Europe Server */}
         <div className="relative group bg-bg-card/75 border border-border/80 hover:border-accent-500/50 rounded-xl p-3.5 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">
           <div className="flex items-center justify-between text-xs text-text-secondary font-medium mb-1.5">
-            <span className="font-semibold text-text-primary">Europe Server</span>
+            <span className="font-semibold text-text-primary">{t("timerEuropeServer")}</span>
             <span className="text-[10px] px-1.5 py-0.5 rounded bg-bg-elevated text-text-muted">UTC+1</span>
           </div>
           <div className="font-mono text-lg sm:text-xl font-bold tracking-tight text-accent-bright tabular-nums">
             {europeTime || "--:--:--"}
           </div>
           <div className="text-[11px] text-text-muted mt-1.5 flex items-center justify-between">
-            <span>Reset lúc 05:00</span>
-            <span className="text-emerald-400/80">Hoạt động</span>
+            <span>{t("timerResetAt", { time: "05:00" })}</span>
+            <span className="text-emerald-400/80">{t("timerActive")}</span>
           </div>
         </div>
 
@@ -196,17 +198,17 @@ export function ServerTimersClient() {
           {/* Content */}
           <div className="relative z-10">
             <div className="flex items-center justify-between text-xs text-amber-300 font-medium mb-1.5">
-              <span className="font-semibold text-amber-200 truncate">Nhà Hát Giả Tưởng</span>
+              <span className="font-semibold text-amber-200 truncate">{t("timerTheater")}</span>
               <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-200 border border-amber-500/30 font-semibold shrink-0">
-                Kỳ Diễn
+                {t("timerSeason")}
               </span>
             </div>
             <div className="font-mono text-lg sm:text-xl font-bold tracking-tight text-amber-200 tabular-nums">
-              {theaterReset || "--d --h"}
+              {theaterReset || "--:--"}
             </div>
             <div className="text-[11px] text-amber-300/70 mt-1.5 flex items-center justify-between">
-              <span>Làm mới ngày 01</span>
-              <span className="text-amber-300 font-medium">800 Nguyên Thạch</span>
+              <span>{t("timerRefreshDay", { day: 1 })}</span>
+              <span className="text-amber-300 font-medium">{t("timerPrimogems", { count: 800 })}</span>
             </div>
           </div>
         </div>
@@ -226,17 +228,17 @@ export function ServerTimersClient() {
           {/* Content */}
           <div className="relative z-10">
             <div className="flex items-center justify-between text-xs text-purple-300 font-medium mb-1.5">
-              <span className="font-semibold text-purple-200 truncate">La Hoàn Thâm Cảnh</span>
+              <span className="font-semibold text-purple-200 truncate">{t("timerAbyss")}</span>
               <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#764fb0]/20 text-purple-200 border border-[#764fb0]/30 font-semibold shrink-0">
-                Tầng 9-12
+                {t("timerAbyssTag")}
               </span>
             </div>
             <div className="font-mono text-lg sm:text-xl font-bold tracking-tight text-purple-200 tabular-nums">
-              {spiralReset || "--d --h"}
+              {spiralReset || "--:--"}
             </div>
             <div className="text-[11px] text-purple-300/70 mt-1.5 flex items-center justify-between">
-              <span>Làm mới ngày 16</span>
-              <span className="text-purple-300 font-medium">800 Nguyên Thạch</span>
+              <span>{t("timerRefreshDay", { day: 16 })}</span>
+              <span className="text-purple-300 font-medium">{t("timerPrimogems", { count: 800 })}</span>
             </div>
           </div>
         </div>
@@ -256,17 +258,17 @@ export function ServerTimersClient() {
           {/* Content */}
           <div className="relative z-10">
             <div className="flex items-center justify-between text-xs text-rose-300 font-medium mb-1.5">
-              <span className="font-semibold text-rose-200 truncate">Ảo Cảnh Hiểm Ác</span>
+              <span className="font-semibold text-rose-200 truncate">{t("timerStygian")}</span>
               <span className="text-[10px] px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-200 border border-rose-500/30 font-semibold shrink-0">
-                Endgame
+                {t("timerEndgame")}
               </span>
             </div>
             <div className="font-mono text-lg sm:text-xl font-bold tracking-tight text-rose-200 tabular-nums">
-              {stygianReset || "--d --h"}
+              {stygianReset || "--:--"}
             </div>
             <div className="text-[11px] text-rose-300/70 mt-1.5 flex items-center justify-between">
-              <span>Kỳ Luân Phiên Boss</span>
-              <span className="text-rose-300 font-medium">Bụi &amp; TDV 5★</span>
+              <span>{t("timerBossRotation")}</span>
+              <span className="text-rose-300 font-medium">{t("timerRewards")}</span>
             </div>
           </div>
         </div>

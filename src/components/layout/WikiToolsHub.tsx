@@ -1,4 +1,5 @@
 import { Link } from "@/i18n/navigation";
+import { getTranslations } from "next-intl/server";
 
 /**
  * Wiki Tools Hub — Bento Grid Chiến Thuật Chuẩn Gaming Wiki (React Bits & Emil Kowalski inspired)
@@ -6,6 +7,9 @@ import { Link } from "@/i18n/navigation";
  * cùng 4 công cụ tiện ích phụ trợ bên dưới. Không trùng lặp với Compendium.
  */
 export async function WikiToolsHub() {
+  const t = await getTranslations("Tools");
+  const tHome = await getTranslations("Home");
+
   return (
     <section className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-10">
       {/* Section Header */}
@@ -14,15 +18,12 @@ export async function WikiToolsHub() {
           <div className="flex items-center gap-2 mb-1">
             <span className="w-2 h-2 rounded-full bg-accent-500 animate-pulse" />
             <span className="text-xs font-mono uppercase text-accent-bright font-semibold tracking-wider">
-              Trung Tâm Tính Toán &amp; Tối Ưu Hóa
+              {tHome("quickLinks")}
             </span>
           </div>
           <h2 className="font-display text-2xl md:text-3xl font-extrabold text-text-primary tracking-tight">
-            Bộ Công Cụ Chiến Thuật Teyvat
+            {t("title")}
           </h2>
-          <p className="text-sm text-text-secondary mt-1">
-            Mô phỏng rotation sát thương đội hình, đồng bộ trang bị từ UID và tính toán tài nguyên chuẩn xác
-          </p>
         </div>
       </div>
 
@@ -43,9 +44,6 @@ export async function WikiToolsHub() {
               loading="lazy"
               decoding="async"
               className="absolute -right-4 -top-8 w-full h-[125%] object-contain object-top opacity-20 group-hover:opacity-35 group-hover:scale-105 transition-all duration-700 ease-out"
-              onError={(e) => {
-                (e.currentTarget as HTMLImageElement).style.display = "none";
-              }}
             />
             <div className="absolute inset-0 bg-gradient-to-r from-bg-card via-bg-card/90 to-transparent" />
           </div>
@@ -60,29 +58,22 @@ export async function WikiToolsHub() {
                 height={24}
                 className="w-6 h-6 object-contain shrink-0"
               />
-              <span className="text-[11px] font-mono tracking-wide uppercase px-2.5 py-1 rounded-full border font-bold bg-rose-500/15 text-rose-300 border-rose-500/40">
-                Tính Toán Đội Hình
-              </span>
-              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-accent-500/10 text-accent-bright border border-accent-500/20">
-                Mô Phỏng Rotation
-              </span>
             </div>
 
             <h3 className="font-display text-2xl sm:text-3xl font-black text-text-primary group-hover:text-rose-400 transition-colors mb-2.5 tracking-tight">
-              Máy Tính Sát Thương &amp; So Sánh DPS
+              {tHome("toolDamageTitle")}
             </h3>
             <p className="text-xs sm:text-sm text-text-secondary leading-relaxed max-w-md">
-              Mô phỏng chu kỳ combo 4 nhân vật với phản ứng nguyên tố Bốc Hơi, Tan Chảy, Khuếch Tán. So sánh trực tiếp hiệu quả giữa các bộ Thánh Di Vật &amp; vũ khí khác nhau.
+              {tHome("toolDamageDescription")}
             </p>
           </div>
 
           <div className="relative z-10 pt-5 mt-4 border-t border-border/40 flex items-center justify-between text-xs">
-            <span className="text-text-muted flex items-center gap-1.5 font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              Tích hợp công thức game chính xác 100%
+            <span className="text-text-muted font-medium">
+              {tHome("toolEstimate")}
             </span>
             <span className="text-rose-400 font-bold group-hover:translate-x-1 transition-transform flex items-center gap-1">
-              <span>Bắt đầu tính toán</span>
+              <span>{tHome("viewAll")}</span>
               <span>&rarr;</span>
             </span>
           </div>
@@ -105,9 +96,6 @@ export async function WikiToolsHub() {
               loading="lazy"
               decoding="async"
               className="absolute -right-6 -top-4 w-full h-[120%] object-contain object-top opacity-20 group-hover:opacity-35 group-hover:scale-105 transition-all duration-700 ease-out"
-              onError={(e) => {
-                (e.currentTarget as HTMLImageElement).style.display = "none";
-              }}
             />
             <div className="absolute inset-0 bg-gradient-to-r from-bg-card via-bg-card/90 to-transparent" />
           </div>
@@ -122,23 +110,19 @@ export async function WikiToolsHub() {
                 height={24}
                 className="w-6 h-6 object-contain shrink-0"
               />
-              <span className="text-[11px] font-mono tracking-wide uppercase px-2.5 py-1 rounded-full border font-bold bg-teal-500/15 text-teal-300 border-teal-500/40">
-                Chiến Thuật
-              </span>
             </div>
 
             <h3 className="font-display text-xl sm:text-2xl font-black text-text-primary group-hover:text-teal-300 transition-colors mb-2 tracking-tight">
-              Dựng Đội Hình Chuẩn Meta
+              {tHome("toolTeamTitle")}
             </h3>
             <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
-              Gợi ý đội hình tối ưu phản ứng nguyên tố và phương án nhân vật thay thế cho La Hoàn &amp; Nhà Hát.
+              {tHome("toolTeamDescription")}
             </p>
           </div>
 
           <div className="relative z-10 pt-5 mt-4 border-t border-border/40 flex items-center justify-between text-xs">
-            <span className="text-text-muted font-medium">Tự động cộng hưởng</span>
             <span className="text-teal-300 font-bold group-hover:translate-x-1 transition-transform flex items-center gap-1">
-              <span>Mở công cụ</span>
+              <span>{tHome("viewAll")}</span>
               <span>&rarr;</span>
             </span>
           </div>
@@ -159,17 +143,14 @@ export async function WikiToolsHub() {
               <div className="flex items-center gap-2">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/local-genshin-assets/ui/paimon_hello.png" alt="" width={22} height={22} className="w-5.5 h-5.5 object-contain shrink-0" />
-                <span className="text-[10px] font-mono tracking-wide uppercase px-2 py-0.5 rounded border font-bold bg-purple-500/15 text-purple-300 border-purple-500/30">
-                  Dữ Liệu Live
-                </span>
               </div>
               <span className="text-xs text-text-muted group-hover:text-purple-300 transition-colors">&rarr;</span>
             </div>
             <h4 className="font-bold text-sm text-text-primary group-hover:text-purple-300 transition-colors mb-1">
-              Đồng Bộ Showcase UID
+              {tHome("toolEnkaTitle")}
             </h4>
             <p className="text-xs text-text-secondary leading-relaxed line-clamp-2">
-              Nhập 9 chữ số UID để tải trang bị, TDV và chỉ số nhân vật trực tiếp từ game.
+              {tHome("toolEnkaDescription")}
             </p>
           </div>
         </Link>
@@ -184,17 +165,14 @@ export async function WikiToolsHub() {
               <div className="flex items-center gap-2">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/local-genshin-assets/ui/wish.png" alt="" width={22} height={22} className="w-5.5 h-5.5 object-contain shrink-0" />
-                <span className="text-[10px] font-mono tracking-wide uppercase px-2 py-0.5 rounded border font-bold bg-cyan-500/15 text-cyan-300 border-cyan-500/30">
-                  Pity Tracker
-                </span>
               </div>
               <span className="text-xs text-text-muted group-hover:text-cyan-300 transition-colors">&rarr;</span>
             </div>
             <h4 className="font-bold text-sm text-text-primary group-hover:text-cyan-300 transition-colors mb-1">
-              Phân Tích Lịch Sử Gacha
+              {tHome("toolWishTitle")}
             </h4>
             <p className="text-xs text-text-secondary leading-relaxed line-clamp-2">
-              Đếm số lần quay đến bảo hiểm 5★, thống kê tỷ lệ trúng nhân vật giới hạn.
+              {tHome("toolWishDescription")}
             </p>
           </div>
         </Link>
@@ -209,17 +187,14 @@ export async function WikiToolsHub() {
               <div className="flex items-center gap-2">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/local-genshin-assets/ui/namecard.png" alt="" width={22} height={22} className="w-5.5 h-5.5 object-contain shrink-0" />
-                <span className="text-[10px] font-mono tracking-wide uppercase px-2 py-0.5 rounded border font-bold bg-emerald-500/15 text-emerald-300 border-emerald-500/30">
-                  Thẻ Chia Sẻ
-                </span>
               </div>
               <span className="text-xs text-text-muted group-hover:text-emerald-300 transition-colors">&rarr;</span>
             </div>
             <h4 className="font-bold text-sm text-text-primary group-hover:text-emerald-300 transition-colors mb-1">
-              Thẻ Nhân Vật Showcase
+              {tHome("toolShowcaseTitle")}
             </h4>
             <p className="text-xs text-text-secondary leading-relaxed line-clamp-2">
-              Xuất ảnh thẻ thông số và build nhân vật độ nét cao để chia sẻ bạn bè.
+              {tHome("toolShowcaseDescription")}
             </p>
           </div>
         </Link>
@@ -234,17 +209,14 @@ export async function WikiToolsHub() {
               <div className="flex items-center gap-2">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/local-genshin-assets/ui/items.png" alt="" width={22} height={22} className="w-5.5 h-5.5 object-contain shrink-0" />
-                <span className="text-[10px] font-mono tracking-wide uppercase px-2 py-0.5 rounded border font-bold bg-amber-500/15 text-amber-300 border-amber-500/30">
-                  Lập Kế Hoạch
-                </span>
               </div>
               <span className="text-xs text-text-muted group-hover:text-amber-300 transition-colors">&rarr;</span>
             </div>
             <h4 className="font-bold text-sm text-text-primary group-hover:text-amber-300 transition-colors mb-1">
-              Máy Tính Nguyên Liệu
+              {tHome("toolMaterialsTitle")}
             </h4>
             <p className="text-xs text-text-secondary leading-relaxed line-clamp-2">
-              Tính lượng Mora, sách kinh nghiệm &amp; vật phẩm đột phá từ cấp hiện tại lên cấp 90.
+              {tHome("toolMaterialsDescription")}
             </p>
           </div>
         </Link>
