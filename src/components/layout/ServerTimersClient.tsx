@@ -119,7 +119,7 @@ export function ServerTimersClient() {
   }, [t]);
 
   return (
-    <section className="max-w-7xl mx-auto px-4 md:px-8 py-6 md:py-8">
+    <section className="max-w-7xl mx-auto px-4 md:px-8 py-5 md:py-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 pb-2 border-b border-border/40">
         <div className="flex items-center gap-2.5">

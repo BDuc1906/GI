@@ -11,16 +11,10 @@ export async function WikiToolsHub() {
   const tHome = await getTranslations("Home");
 
   return (
-    <section className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-10">
+    <section className="max-w-7xl mx-auto px-4 md:px-8 py-6 md:py-8">
       {/* Section Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-6 pb-2 border-b border-border/40">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-5 pb-2 border-b border-border/40">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="w-2 h-2 rounded-full bg-accent-500 animate-pulse" />
-            <span className="text-xs font-mono uppercase text-accent-bright font-semibold tracking-wider">
-              {tHome("quickLinks")}
-            </span>
-          </div>
           <h2 className="font-display text-2xl md:text-3xl font-extrabold text-text-primary tracking-tight">
             {t("title")}
           </h2>

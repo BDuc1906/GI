@@ -1,7 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 import { WikiHero } from "../../components/layout/WikiHero";
-import { FeaturedBanners } from "../../components/layout/FeaturedBanners";
 import { WikiToolsHub } from "../../components/layout/WikiToolsHub";
 import { VersionHub } from "../../components/layout/VersionHub";
 import { ServerTimers } from "../../components/layout/ServerTimers";
@@ -33,24 +32,21 @@ export default async function Home({ params }: HomePageProps) {
 
   return (
     <div className="min-h-screen bg-bg-primary">
-      {/* 1. Hero banner with global search and falling maple leaves */}
+      {/* Search and primary destinations */}
       <Suspense fallback={null}>
         <WikiHero />
       </Suspense>
 
-      {/* 2. Live Server Reset Timers (Compact HUD) */}
+      {/* Daily reset timers */}
       <ServerTimers />
 
-      {/* 3. Featured Tactical Spotlight Banner (Tier List) */}
-      <FeaturedBanners />
-
-      {/* 4. Tactical Bento Tools Hub (DPS Calculator, Team Builder, Enka Sync...) */}
+      {/* Core tools */}
       <WikiToolsHub />
 
-      {/* 5. Phiên Bản Hiện Tại: Điểm tin bản cập nhật, nhân vật & vũ khí mới */}
+      {/* Latest version updates */}
       <VersionHub />
 
-      {/* 6. Unified Teyvat Compendium (Trung tâm dữ liệu 22 danh mục Teyvat) */}
+      {/* Teyvat reference categories */}
       <TeyvatCompendium />
 
       {/* Footer */}

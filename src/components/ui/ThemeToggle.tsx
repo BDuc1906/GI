@@ -13,7 +13,7 @@ export function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <div className="h-10 w-10 rounded-xl border border-border/80 bg-bg-card/75 opacity-50" aria-hidden="true">
+      <div className="h-11 w-11 rounded-xl border border-border/80 bg-bg-card/75 opacity-50" aria-hidden="true">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -22,7 +22,7 @@ export function ThemeToggle() {
           strokeWidth={2}
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="h-full w-full p-2 text-text-muted"
+          className="h-full w-full p-2.5 text-text-muted"
           aria-hidden="true"
         >
           <circle cx="12" cy="12" r="4" />
@@ -42,7 +42,7 @@ export function ThemeToggle() {
       aria-label={isDark ? "Chuyển sang chế độ sáng" : "Chuyển sang chế độ tối"}
       aria-pressed={isDark}
       title={isDark ? "Chuyển sang chế độ sáng" : "Chuyển sang chế độ tối"}
-      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border/80 bg-bg-card/75 transition-colors ${
+      className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-border/80 bg-bg-card/75 transition-colors ${
         isDark
           ? "text-teal-500 hover:bg-bg-elevated hover:text-teal-400"
           : "text-amber-500 hover:bg-bg-elevated hover:text-amber-600"
@@ -57,7 +57,7 @@ export function ThemeToggle() {
           strokeWidth={2}
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="h-[18px] w-[18px]"
+          className="h-6 w-6"
           aria-hidden="true"
         >
           <path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z" />
@@ -71,7 +71,7 @@ export function ThemeToggle() {
           strokeWidth={2}
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="h-[18px] w-[18px]"
+          className="h-6 w-6"
           aria-hidden="true"
         >
           <circle cx="12" cy="12" r="4" />

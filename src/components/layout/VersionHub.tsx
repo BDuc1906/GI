@@ -63,23 +63,10 @@ export async function VersionHub() {
   if (!latest) return null;
 
   return (
-    <section className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-10">
+    <section className="max-w-7xl mx-auto px-4 md:px-8 py-6 md:py-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-6 pb-2 border-b border-border/40">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/local-genshin-assets/ui/timeline.png"
-              alt=""
-              width={20}
-              height={20}
-              className="w-5 h-5 object-contain"
-            />
-            <span className="text-xs font-mono uppercase text-accent-bright font-semibold tracking-wider">
-              {tHome("quickLinks")}
-            </span>
-          </div>
           <h2 className="font-display text-2xl font-bold text-text-primary tracking-tight">
             {t("title")}
           </h2>

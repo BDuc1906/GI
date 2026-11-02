@@ -16,7 +16,6 @@ import { useTranslations } from "next-intl";
 export function WikiHero() {
   const router = useRouter();
   const t = useTranslations("Hero");
-  const tNav = useTranslations("Nav");
   const tHome = useTranslations("Home");
   const tSearch = useTranslations("Search");
   const [searchQuery, setSearchQuery] = useState("");
@@ -33,7 +32,7 @@ export function WikiHero() {
 
 
   return (
-    <section className="relative overflow-hidden bg-bg-primary pt-12 pb-16 md:pt-20 md:pb-24 border-b border-border/50">
+    <section className="relative overflow-hidden bg-bg-primary pt-10 pb-12 md:pt-14 md:pb-16 border-b border-border/50">
       {/* Dynamic Background Atmosphere: Anemo Swirl & Autumn Glow */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {/* Deep Character Primary Accent radial glow */}
@@ -57,27 +56,11 @@ export function WikiHero() {
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-8">
         <div className="text-center">
-          {/* Top Pill Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-bg-card/80 border border-border/80 backdrop-blur-md mb-6 shadow-sm">
-            <span className="w-2 h-2 rounded-full bg-accent-500 animate-pulse" />
-            <span className="text-xs font-semibold tracking-wider uppercase text-text-secondary">
-              LEIBO · Genshin Impact
-            </span>
-          </div>
-
-          {/* Logo / Main Title */}
-          <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight mb-4">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#e6faf7] via-[#5eead4] to-[#f59e0b]">
-              LEIBO
-            </span>
-          </h1>
-          
-          <p className="text-base sm:text-lg md:text-xl text-text-secondary font-light max-w-2xl mx-auto mb-8 leading-relaxed">
+          <h1 className="font-display text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-7 text-text-primary">
             {t("tagline")}
-          </p>
+          </h1>
 
-          {/* Search Bar - Professional & Interactive */}
-          <div className="max-w-2xl mx-auto mb-6">
+          <div className="max-w-2xl mx-auto mb-5">
             <form onSubmit={handleSearch} className="relative group">
               <input
                 type="text"
@@ -98,35 +81,16 @@ export function WikiHero() {
 
           </div>
 
-          {/* Quick CTAs — 4 nút điều hướng chính theo thứ tự ưu tiên dùng nhiều nhất */}
-          <div className="flex flex-wrap justify-center gap-3 pt-2 mb-4">
+          <div className="flex flex-wrap justify-center gap-2.5">
             <Link
               href="/characters"
-              className="btn-primary flex items-center justify-center px-6 py-3 rounded-xl shadow-md text-sm font-semibold tracking-wide"
+              className="btn-primary flex items-center justify-center px-5 py-2.5 rounded-xl shadow-sm text-sm font-semibold"
             >
               <span>{t("exploreCharacters")}</span>
             </Link>
             <Link
-              href="/weapons"
-              className="btn-secondary flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold tracking-wide hover:border-accent-500/60"
-            >
-              <span>{t("weaponArsenal")}</span>
-            </Link>
-            <Link
-              href="/artifacts"
-              className="btn-secondary flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold tracking-wide hover:border-accent-500/60"
-            >
-              <span>{tNav("artifacts")}</span>
-            </Link>
-            <Link
-              href="/domains"
-              className="btn-secondary flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold tracking-wide hover:border-accent-500/60"
-            >
-              <span>{tNav("domains")}</span>
-            </Link>
-            <Link
               href="/calendar"
-              className="btn-anemo flex items-center justify-center px-6 py-3 rounded-xl shadow-md text-sm font-semibold tracking-wide"
+              className="btn-secondary flex items-center justify-center px-5 py-2.5 rounded-xl text-sm font-semibold hover:border-accent-500/60"
             >
               <span>{tHome("viewFullSchedule")}</span>
             </Link>

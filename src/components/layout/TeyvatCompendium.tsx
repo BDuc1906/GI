@@ -246,7 +246,7 @@ type CategoryFilter = "all" | "combat" | "world" | "profile";
 export function TeyvatCompendium() {
   const t = useTranslations();
   const tHome = useTranslations("Home");
-  const [activeCategory, setActiveCategory] = useState<CategoryFilter>("all");
+  const [activeCategory, setActiveCategory] = useState<CategoryFilter>("combat");
 
   const localizedItems: Record<string, { title: string; description: string }> = {
     characters: { title: t("Characters.title"), description: t("Characters.metaDescription") },
@@ -286,16 +286,10 @@ export function TeyvatCompendium() {
   ] as const;
 
   return (
-    <section className="max-w-7xl mx-auto px-4 md:px-8 py-10">
+    <section className="max-w-7xl mx-auto px-4 md:px-8 py-6 md:py-8">
       {/* Header bar */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 pb-2 border-b border-border/40">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-5 pb-2 border-b border-border/40">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="w-2 h-2 rounded-full bg-accent-500" />
-            <span className="text-xs font-mono uppercase tracking-wider text-accent-bright font-semibold">
-              {tHome("quickLinks")}
-            </span>
-          </div>
           <h2 className="font-display text-2xl font-bold text-text-primary tracking-tight">
             {t("Navigation.title")}
           </h2>
@@ -340,7 +334,7 @@ export function TeyvatCompendium() {
       </div>
 
       {/* Compendium Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
         {filteredItems.map((item) =>
           item.href ? (
             <Link
