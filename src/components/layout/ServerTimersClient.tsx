@@ -110,32 +110,31 @@ export function ServerTimersClient() {
         </div>
       </div>
 
-      {/* Four cards: one shared server reset and three endgame modes. */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-        <div className="relative rounded-xl bg-bg-card/75 border border-border/80 p-3.5 shadow-sm sm:col-span-2 lg:col-span-1">
-          <div className="flex items-center justify-between text-xs text-text-secondary font-medium mb-1.5">
-            <span className="font-semibold text-text-primary">{t("timerTitle")}</span>
-            <span className="text-[10px] px-1.5 py-0.5 rounded bg-bg-elevated text-text-muted">UTC</span>
-          </div>
-          <div className="font-mono text-lg sm:text-xl font-bold tracking-tight text-accent-bright tabular-nums">
+      <div className="mb-3 flex flex-col gap-2 rounded-xl border border-border/70 bg-bg-card/60 px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-2.5">
+          <span className="text-xs font-semibold text-text-secondary">{t("timerTitle")}</span>
+          <span className="font-mono text-sm font-bold tabular-nums text-accent-bright">
             {serverTime || "--:--:--"}
-          </div>
-          <div className="mt-2 grid grid-cols-3 gap-1 border-t border-border/50 pt-2">
-            {[
-              { label: t("timerAsiaServer"), time: "11:00" },
-              { label: t("timerEuropeServer"), time: "05:00" },
-              { label: t("timerAmericaServer"), time: "23:00" },
-            ].map((server) => (
-              <div key={server.label} className="text-center">
-                <div className="text-[10px] text-text-muted truncate">{server.label}</div>
-                <div className="text-xs font-medium text-text-secondary">{server.time}</div>
-              </div>
-            ))}
-          </div>
+          </span>
+          <span className="rounded bg-bg-elevated px-1.5 py-0.5 text-[10px] text-text-muted">UTC</span>
         </div>
+        <div className="grid grid-cols-3 gap-2 sm:flex sm:items-center sm:gap-4">
+          {[
+            { label: t("timerAsiaServer"), time: "11:00" },
+            { label: t("timerEuropeServer"), time: "05:00" },
+            { label: t("timerAmericaServer"), time: "23:00" },
+          ].map((server) => (
+            <div key={server.label} className="flex items-center gap-1.5 text-[10px] sm:text-xs">
+              <span className="text-text-muted">{server.label}</span>
+              <span className="font-medium text-text-secondary">{server.time}</span>
+            </div>
+          ))}
+        </div>
+      </div>
 
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 md:gap-4">
         {/* Nhà Hát Giả Tưởng (Imaginarium Theater) */}
-        <div className="relative group bg-gradient-to-br from-bg-card to-[#25152a] border border-[#d97706]/40 hover:border-[#fbbf24] rounded-xl p-3.5 transition-all duration-200 hover:-translate-y-0.5 shadow-sm overflow-hidden">
+        <div className="relative group min-h-[148px] bg-gradient-to-br from-bg-card to-[#25152a] border border-[#d97706]/40 hover:border-[#fbbf24] rounded-xl p-4 md:p-5 transition-all duration-200 hover:-translate-y-0.5 shadow-sm hover:shadow-lg overflow-hidden">
           {/* Game artwork background */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -147,7 +146,7 @@ export function ServerTimersClient() {
           {/* Gradient overlay để text dễ đọc */}
           <div className="absolute inset-0 bg-gradient-to-br from-[#25152a]/80 via-[#25152a]/60 to-transparent pointer-events-none" />
           {/* Content */}
-          <div className="relative z-10">
+          <div className="relative z-10 flex min-h-[106px] flex-col justify-between">
             <div className="flex items-center justify-between text-xs text-amber-300 font-medium mb-1.5">
               <span className="font-semibold text-amber-200 truncate">{t("timerTheater")}</span>
               <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-200 border border-amber-500/30 font-semibold shrink-0">
@@ -165,7 +164,7 @@ export function ServerTimersClient() {
         </div>
 
         {/* La Hoàn Thâm Cảnh (Spiral Abyss) */}
-        <div className="relative group bg-gradient-to-br from-bg-card to-[#1a1528] border border-[#764fb0]/40 hover:border-[#b075dd] rounded-xl p-3.5 transition-all duration-200 hover:-translate-y-0.5 shadow-sm overflow-hidden">
+        <div className="relative group min-h-[148px] bg-gradient-to-br from-bg-card to-[#1a1528] border border-[#764fb0]/40 hover:border-[#b075dd] rounded-xl p-4 md:p-5 transition-all duration-200 hover:-translate-y-0.5 shadow-sm hover:shadow-lg overflow-hidden">
           {/* Game artwork background */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -177,7 +176,7 @@ export function ServerTimersClient() {
           {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-br from-[#1a1528]/90 via-[#1a1528]/65 to-transparent pointer-events-none" />
           {/* Content */}
-          <div className="relative z-10">
+          <div className="relative z-10 flex min-h-[106px] flex-col justify-between">
             <div className="flex items-center justify-between text-xs text-purple-300 font-medium mb-1.5">
               <span className="font-semibold text-purple-200 truncate">{t("timerAbyss")}</span>
               <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#764fb0]/20 text-purple-200 border border-[#764fb0]/30 font-semibold shrink-0">
@@ -195,7 +194,7 @@ export function ServerTimersClient() {
         </div>
 
         {/* Ảo Cảnh Hiểm Ác (Stygian Onslaught) */}
-        <div className="relative group bg-gradient-to-br from-bg-card to-[#281515] border border-[#ef4444]/40 hover:border-[#f87171] rounded-xl p-3.5 transition-all duration-200 hover:-translate-y-0.5 shadow-sm overflow-hidden">
+        <div className="relative group min-h-[148px] bg-gradient-to-br from-bg-card to-[#281515] border border-[#ef4444]/40 hover:border-[#f87171] rounded-xl p-4 md:p-5 transition-all duration-200 hover:-translate-y-0.5 shadow-sm hover:shadow-lg overflow-hidden">
           {/* Game artwork background */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -207,7 +206,7 @@ export function ServerTimersClient() {
           {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-br from-[#281515]/90 via-[#281515]/65 to-transparent pointer-events-none" />
           {/* Content */}
-          <div className="relative z-10">
+          <div className="relative z-10 flex min-h-[106px] flex-col justify-between">
             <div className="flex items-center justify-between text-xs text-rose-300 font-medium mb-1.5">
               <span className="font-semibold text-rose-200 truncate">{t("timerStygian")}</span>
               <span className="text-[10px] px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-200 border border-rose-500/30 font-semibold shrink-0">
