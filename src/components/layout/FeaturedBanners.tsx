@@ -21,6 +21,8 @@ export function FeaturedBanners() {
           src="/images/domains/UI_DungeonPic_FDRelic01.png"
           alt=""
           aria-hidden="true"
+          loading="lazy"
+          decoding="async"
           className="absolute inset-0 w-full h-full object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-700 ease-out select-none opacity-45"
           onError={(e) => {
             (e.currentTarget as HTMLImageElement).style.display = "none";
@@ -33,6 +35,8 @@ export function FeaturedBanners() {
           src="/local-genshin-assets/characters/splash/furina.png"
           alt=""
           aria-hidden="true"
+          loading="lazy"
+          decoding="async"
           className="absolute -right-10 -bottom-10 h-[120%] w-auto max-w-none object-contain opacity-40 group-hover:opacity-60 group-hover:scale-105 transition-all duration-700 ease-out select-none pointer-events-none"
           onError={(e) => {
             (e.currentTarget as HTMLImageElement).style.display = "none";
@@ -45,6 +49,8 @@ export function FeaturedBanners() {
           src="/local-genshin-assets/characters/splash/kaedehara-kazuha.png"
           alt=""
           aria-hidden="true"
+          loading="lazy"
+          decoding="async"
           className="hidden sm:block absolute -left-12 -bottom-8 h-[115%] w-auto max-w-none object-contain opacity-35 group-hover:opacity-55 group-hover:scale-105 transition-all duration-700 ease-out select-none pointer-events-none -scale-x-100"
           onError={(e) => {
             (e.currentTarget as HTMLImageElement).style.display = "none";

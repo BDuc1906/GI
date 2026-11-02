@@ -3,7 +3,8 @@
  *
  * Tab "Build Khuyên Dùng" — Server component, hiển thị trên trang chi tiết nhân vật.
  *
- * Nguồn dữ liệu: 100% Prisma DB thật
+ * Nguồn dữ liệu: Prisma DB + build soạn tay/bản nháp (src/data/character-builds-*.ts)
+ * Nhân vật chưa có build riêng sẽ dùng gợi ý tự động và được gắn nhãn rõ ràng.
  * - Weapon: query theo weaponType + rarity DESC, top 5 (phân tầng S/A/B)
  * - Artifact: query 5★ sets, score theo nguyên tố, top 4 + gợi ý kết hợp 2+2
  * - Main stats: logic theo KQM meta dựa trên vision + weaponType
@@ -23,7 +24,7 @@ import {
   localArtifactSetIcon,
 } from "@/lib/ui/local-assets";
 import { rarityTextClass } from "@/lib/ui/theme";
-import { getCharacterBuild } from "@/data/character-builds-data";
+import { getCharacterBuild, getBuildSource } from "@/data/character-builds-data";
 
 // ─── Tier system ────────────────────────────────────────────────────────────
 
@@ -377,11 +378,52 @@ interface Props {
   elementColor?: string;
 }
 
+
+// ─── Nhãn nguồn build ───────────────────────────────────────────────────────
+
+const SOURCE_BADGE: Record<
+  "curated" | "draft" | "auto",
+  { title: string; body: string; className: string }
+> = {
+  curated: {
+    title: "Build biên tập",
+    body: "Do người soạn chọn tay cho nhân vật này.",
+    className: "border-border bg-bg-overlay/30 text-text-secondary",
+  },
+  draft: {
+    title: "Bản nháp, chưa được duyệt",
+    body: "Soạn từ tài liệu tham khảo và dữ liệu kỹ năng trong game, chưa được biên tập viên kiểm tra. Hãy đối chiếu trước khi dựa vào.",
+    className: "border-yellow-500/40 bg-yellow-500/10 text-yellow-200",
+  },
+  auto: {
+    title: "Gợi ý tự động, chưa có build riêng",
+    body: "Nhân vật này chưa có build soạn riêng. Nội dung bên dưới được suy ra theo nguyên tố và loại vũ khí nên độ chính xác thấp hơn.",
+    className: "border-orange-500/40 bg-orange-500/10 text-orange-200",
+  },
+};
+
+function BuildSourceBadge({
+  source,
+  updatedAt,
+}: {
+  source: "curated" | "draft" | "auto";
+  updatedAt?: string;
+}) {
+  const s = SOURCE_BADGE[source];
+  return (
+    <div className={`mb-4 rounded-lg border px-3 py-2 text-xs leading-relaxed ${s.className}`} role="note">
+      <span className="font-semibold">{s.title}.</span> {s.body}
+      {updatedAt ? <span className="opacity-80"> Cập nhật: {updatedAt}.</span> : null}
+    </div>
+  );
+}
+
 export async function RecommendedBuildTab({ character, locale, elementColor }: Props) {
   const vision = character.vision ?? "Anemo";
   const weaponType = character.weaponType ?? "Sword";
 
   const specificBuild = getCharacterBuild(character.id);
+  const buildSource = getBuildSource(character.id);
 
   // ── 1. Weapons: Specific build if available, else top 5 from DB ────────
   type DisplayWeapon = {
@@ -619,6 +661,9 @@ export async function RecommendedBuildTab({ character, locale, elementColor }: P
         Build Khuyên Dùng
       </SectionHeading>
 
+      {/* ── Nhãn nguồn build: luôn nói rõ build đến từ đâu ── */}
+      <BuildSourceBadge source={buildSource} updatedAt={specificBuild?.updatedAt} />
+
       {/* ── Playstyle note ── */}
       <div
         className="mb-6 p-4 rounded-xl border text-sm text-text-secondary leading-relaxed"
@@ -711,7 +756,9 @@ export async function RecommendedBuildTab({ character, locale, elementColor }: P
             )}
           </div>
           <p className="text-[11px] text-text-muted mt-2 pl-1">
-            Xếp hạng theo độ hiếm + hiệu quả tối ưu cho nhân vật. Tier S = tốt nhất.
+            {buildSource === "auto"
+              ? "Danh sách tự động: 5 vũ khí cùng loại có chỉ số ATK cơ bản cao nhất. Đây KHÔNG phải xếp hạng hiệu quả; chưa tính đến chỉ số phụ hay hiệu ứng hợp với nhân vật."
+              : "Tier S = tốt nhất theo đánh giá của người soạn build; chỉ mang tính tham khảo."}
           </p>
         </div>
 
@@ -1034,9 +1081,11 @@ export async function RecommendedBuildTab({ character, locale, elementColor }: P
       <div className="mt-4 p-3 rounded-lg border border-border bg-bg-overlay/30">
         <p className="text-[11px] text-text-muted leading-relaxed">
           <span className="font-medium text-text-secondary">Lưu ý:</span>{" "}
-          Gợi ý được tính tự động dựa trên nguyên tố {vision} + {weaponType} theo chuẩn KQM meta.
-          Build thực tế có thể thay đổi tùy constellation, playstyle và đội hình cụ thể.
-          Tham khảo thêm KQM Guides hoặc Honey Hunter World để có build tối ưu nhất.
+          {buildSource === "auto"
+            ? `Phần gợi ý này được suy ra tự động từ nguyên tố ${vision} + loại vũ khí ${weaponType}, chưa được biên tập viên soạn riêng cho nhân vật này. `
+            : "Build là ý kiến tham khảo, không phải dữ liệu gốc của game. "}
+          Build thực tế phụ thuộc chòm sao, lối chơi và đội hình. Hãy đối chiếu thêm với các guide cộng đồng
+          (ví dụ KQM, Prydwen) trước khi đầu tư tài nguyên.
         </p>
       </div>
     </section>

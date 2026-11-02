@@ -40,7 +40,12 @@ export async function WikiToolsHub() {
               src="/local-genshin-assets/characters/splash/furina.png"
               alt=""
               aria-hidden="true"
+              loading="lazy"
+              decoding="async"
               className="absolute -right-4 -top-8 w-full h-[125%] object-contain object-top opacity-20 group-hover:opacity-35 group-hover:scale-105 transition-all duration-700 ease-out"
+              onError={(e) => {
+                (e.currentTarget as HTMLImageElement).style.display = "none";
+              }}
             />
             <div className="absolute inset-0 bg-gradient-to-r from-bg-card via-bg-card/90 to-transparent" />
           </div>
@@ -97,7 +102,12 @@ export async function WikiToolsHub() {
               src="/local-genshin-assets/characters/splash/kaedehara-kazuha.png"
               alt=""
               aria-hidden="true"
+              loading="lazy"
+              decoding="async"
               className="absolute -right-6 -top-4 w-full h-[120%] object-contain object-top opacity-20 group-hover:opacity-35 group-hover:scale-105 transition-all duration-700 ease-out"
+              onError={(e) => {
+                (e.currentTarget as HTMLImageElement).style.display = "none";
+              }}
             />
             <div className="absolute inset-0 bg-gradient-to-r from-bg-card via-bg-card/90 to-transparent" />
           </div>

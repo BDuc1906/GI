@@ -1,4 +1,5 @@
 // src/data/character-builds-data.ts
+import { DRAFT_BUILDS } from "./character-builds-draft";
 // AUTO-MANAGED: Thêm/cập nhật build nhân vật ở đây.
 // Chạy `npm run builds:update` để validate sau khi sửa.
 
@@ -25,7 +26,19 @@ export interface CharacterTeamBuild {
   resonancesVi: string[];
 }
 
+/**
+ * Nguồn của một build:
+ *  - "curated": viết tay / đã được biên tập viên duyệt (mặc định khi không ghi `status`).
+ *  - "draft"  : bản nháp soạn từ tài liệu tham khảo, CHƯA được biên tập viên duyệt.
+ *  - "auto"   : không có dữ liệu ở đây, UI tự suy ra theo nguyên tố + loại vũ khí.
+ */
+export type BuildSource = "curated" | "draft" | "auto";
+
 export interface CharacterBuildEntry {
+  /** Bỏ trống = "curated". Đặt "draft" cho bản nháp chưa duyệt. */
+  status?: "draft";
+  /** Ngày soạn/duyệt gần nhất (YYYY-MM-DD) để hiển thị cho người đọc. */
+  updatedAt?: string;
   weapons?: CharacterWeaponBuild[];
   artifacts?: CharacterArtifactBuild[];
   teams?: CharacterTeamBuild[];
@@ -3863,15 +3876,22 @@ const ID_ALIASES: Record<string, string> = {
 
 /**
  * Lấy cấu hình build chuyên sâu của nhân vật, hỗ trợ cả alias và ID chuẩn.
+ * Ưu tiên build viết tay (CHARACTER_BUILDS); nếu không có mới dùng bản nháp.
  */
 export function getCharacterBuild(characterId: string): CharacterBuildEntry | undefined {
   const normalized = characterId.toLowerCase().trim();
-  if (CHARACTER_BUILDS[normalized]) {
-    return CHARACTER_BUILDS[normalized];
-  }
   const alias = ID_ALIASES[normalized];
-  if (alias && CHARACTER_BUILDS[alias]) {
-    return CHARACTER_BUILDS[alias];
-  }
-  return undefined;
+  return (
+    CHARACTER_BUILDS[normalized] ??
+    (alias ? CHARACTER_BUILDS[alias] : undefined) ??
+    DRAFT_BUILDS[normalized] ??
+    (alias ? DRAFT_BUILDS[alias] : undefined)
+  );
+}
+
+/** Cho biết build đang hiển thị thuộc loại nào (để gắn nhãn trên UI). */
+export function getBuildSource(characterId: string): BuildSource {
+  const build = getCharacterBuild(characterId);
+  if (!build) return "auto";
+  return build.status === "draft" ? "draft" : "curated";
 }

@@ -2,7 +2,8 @@
 // Hệ thống tự động kiểm tra, đồng bộ và giám sát độ bao phủ build nhân vật so với DB.
 import "dotenv/config";
 import { prisma } from "../src/lib/db/prisma";
-import { CHARACTER_BUILDS, getCharacterBuild } from "../src/data/character-builds-data";
+import { CHARACTER_BUILDS, getCharacterBuild, getBuildSource } from "../src/data/character-builds-data";
+import { DRAFT_BUILDS } from "../src/data/character-builds-draft";
 import { NON_PLAYABLE_CHARACTER_IDS } from "../src/core/game/character-catalog";
 
 async function main() {
@@ -33,7 +34,11 @@ async function main() {
   let invalidArtifactsCount = 0;
   let invalidTeammatesCount = 0;
 
-  for (const [charId, build] of Object.entries(CHARACTER_BUILDS)) {
+  const allBuilds: Array<[string, (typeof CHARACTER_BUILDS)[string]]> = [
+    ...Object.entries(CHARACTER_BUILDS),
+    ...Object.entries(DRAFT_BUILDS),
+  ];
+  for (const [charId, build] of allBuilds) {
     // Kiem tra vu khi
     if (build.weapons) {
       for (const w of build.weapons) {
@@ -69,37 +74,37 @@ async function main() {
     }
   }
 
-  // 2. Thong ke do bao phu
-  let coveredCount = 0;
+  // 2. Thong ke do bao phu theo 3 loai: curated (viet tay) / draft (ban nhap) / auto (goi y chung)
+  let curatedCount = 0;
+  let draftCount = 0;
   const missing: typeof playable = [];
 
   for (const c of playable) {
-    const build = getCharacterBuild(c.id);
-    if (build) {
-      coveredCount++;
-    } else {
-      missing.push(c);
-    }
+    const source = getBuildSource(c.id);
+    if (source === "curated") curatedCount++;
+    else if (source === "draft") draftCount++;
+    else missing.push(c);
   }
 
-  const coveragePercent = ((coveredCount / playable.length) * 100).toFixed(1);
-
   console.log("\n---------------- KET QUA KIEM TRA ----------------");
-  console.log(`- So nhan vat co build chuyen sau: ${coveredCount}/${playable.length} (${coveragePercent}%)`);
-  console.log(`- So nhan vat su dung build dong (auto-logic): ${missing.length}`);
+  console.log(`- Build bien tap (curated):           ${curatedCount}/${playable.length}`);
+  console.log(`- Ban nhap chua duyet (draft):        ${draftCount}/${playable.length}`);
+  console.log(`- Chua co build rieng (goi y tu dong): ${missing.length}/${playable.length}`);
   console.log(`- Vu khi khong hop le: ${invalidWeaponsCount}`);
   console.log(`- Bo TDV khong hop le: ${invalidArtifactsCount}`);
   console.log(`- Dong doi khong hop le: ${invalidTeammatesCount}`);
 
   if (missing.length > 0) {
-    console.log("\nTop nhan vat 5 sao chua co build thu cong (dang dung engine dong):");
+    console.log("\nTop nhan vat 5 sao chua co build rieng (UI se hien nhan \"goi y tu dong\"):");
     const missing5Star = missing.filter((c) => c.rarity === 5).slice(0, 15);
     missing5Star.forEach((c) => {
       console.log(`  * ${c.id.padEnd(24)} [${c.vision.padEnd(7)} | ${c.weaponType.padEnd(8)}]`);
     });
   }
 
-  console.log("\n[OK] He thong tu dong san sang. Cac nhan vat chua co build thu cong se tu dong sinh build qua KQM dynamic engine.");
+  console.log("\n[INFO] Nhan vat chua co build rieng chi hien goi y chung theo nguyen to + loai vu khi, va duoc gan nhan tren UI.");
+  console.log("[INFO] Ban nhap (draft) can bien tap vien duyet roi chuyen sang CHARACTER_BUILDS.");
+  if (invalidWeaponsCount + invalidArtifactsCount + invalidTeammatesCount > 0) process.exitCode = 1;
 }
 
 main()

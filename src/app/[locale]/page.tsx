@@ -9,7 +9,7 @@ import { TeyvatCompendium } from "../../components/layout/TeyvatCompendium";
 import type { Metadata } from "next";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 interface HomePageProps {
   params: Promise<{ locale: string }>;
