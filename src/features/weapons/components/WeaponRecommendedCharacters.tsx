@@ -158,7 +158,7 @@ export async function WeaponRecommendedCharacters({ weapon, locale, weaponColor 
                     {localizedName}
                   </span>
                   {isTopTier && (
-                    <span className="text-[10px] uppercase font-semibold px-1.5 py-0.5 rounded bg-accent-500/20 text-accent-bright shrink-0">
+                    <span className="text-[10px] uppercase font-semibold text-accent-bright shrink-0">
                       Đề xuất
                     </span>
                   )}

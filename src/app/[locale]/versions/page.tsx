@@ -59,9 +59,6 @@ export default async function VersionsPage({ params }: PageProps) {
         <ol className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {newestFirst.map((v) => {
             const s = summarize(index, v);
-            const chips = index.sources
-              .map((src) => ({ label: src.label, n: s.bySource[src.key]?.added ?? 0 }))
-              .filter((c) => c.n > 0);
             return (
               <li key={v}>
                 <Link
@@ -72,26 +69,7 @@ export default async function VersionsPage({ params }: PageProps) {
                     <span className="font-display text-2xl font-bold text-text-primary group-hover:text-accent-bright transition-colors">
                       Phiên bản {v}
                     </span>
-                    {v === latest && (
-                      <span className="text-[10px] uppercase tracking-wide px-2 py-0.5 rounded-full bg-bg-elevated text-accent-bright font-semibold">
-                        Mới nhất
-                      </span>
-                    )}
                   </div>
-                  {chips.length > 0 ? (
-                    <ul className="flex flex-wrap gap-1.5">
-                      {chips.map((c) => (
-                        <li
-                          key={c.label}
-                          className="text-xs px-2 py-0.5 rounded-full border border-border text-text-secondary"
-                        >
-                          +{c.n} {c.label.toLowerCase()}
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p className="text-xs text-text-muted">Không có mục mới được đánh dấu.</p>
-                  )}
                   <p className="text-xs text-text-muted mt-auto">
                     Tổng thêm: {s.added} · Đã có trước: {s.before}
                   </p>

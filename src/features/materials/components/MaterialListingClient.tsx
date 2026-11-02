@@ -134,12 +134,8 @@ export function MaterialListingClient({ initialMaterials, locale: _locale }: Mat
                   }`}
                 >
                   <span>{cat.nameVi}</span>
-                  <span
-                    className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-                      active ? "bg-white/20 text-white" : "bg-bg-card text-text-muted"
-                    }`}
-                  >
-                    {count}
+                  <span className={`text-[10px] font-medium ${active ? "text-white/80" : "text-text-muted"}`}>
+                    ({count})
                   </span>
                 </button>
               );

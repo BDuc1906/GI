@@ -103,9 +103,7 @@ export function ServerTimersClient() {
           </h2>
         </div>
         <div className="text-xs text-text-muted flex items-center gap-2 font-mono">
-          <span className="px-2 py-0.5 rounded bg-bg-card border border-border/60 text-accent-bright font-semibold">
-            {t("timerLiveSync")}
-          </span>
+          <span className="text-accent-bright font-semibold">{t("timerLiveSync")}</span>
           <span>{t("timerUpdatesEverySecond")}</span>
         </div>
       </div>
@@ -116,7 +114,7 @@ export function ServerTimersClient() {
           <span className="font-mono text-sm font-bold tabular-nums text-accent-bright">
             {serverTime || "--:--:--"}
           </span>
-          <span className="rounded bg-bg-elevated px-1.5 py-0.5 text-[10px] text-text-muted">UTC</span>
+          <span className="text-[10px] text-text-muted">UTC</span>
         </div>
         <div className="grid grid-cols-3 gap-2 sm:flex sm:items-center sm:gap-4">
           {[
@@ -147,11 +145,8 @@ export function ServerTimersClient() {
           <div className="absolute inset-0 bg-gradient-to-br from-[#25152a]/80 via-[#25152a]/60 to-transparent pointer-events-none" />
           {/* Content */}
           <div className="relative z-10 flex min-h-[106px] flex-col justify-between">
-            <div className="flex items-center justify-between text-xs text-amber-300 font-medium mb-1.5">
+            <div className="text-xs text-amber-300 font-medium mb-1.5">
               <span className="font-semibold text-amber-200 truncate">{t("timerTheater")}</span>
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-200 border border-amber-500/30 font-semibold shrink-0">
-                {t("timerSeason")}
-              </span>
             </div>
             <div className="font-mono text-lg sm:text-xl font-bold tracking-tight text-amber-200 tabular-nums">
               {theaterReset || "--:--"}
@@ -177,11 +172,8 @@ export function ServerTimersClient() {
           <div className="absolute inset-0 bg-gradient-to-br from-[#1a1528]/90 via-[#1a1528]/65 to-transparent pointer-events-none" />
           {/* Content */}
           <div className="relative z-10 flex min-h-[106px] flex-col justify-between">
-            <div className="flex items-center justify-between text-xs text-purple-300 font-medium mb-1.5">
+            <div className="text-xs text-purple-300 font-medium mb-1.5">
               <span className="font-semibold text-purple-200 truncate">{t("timerAbyss")}</span>
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#764fb0]/20 text-purple-200 border border-[#764fb0]/30 font-semibold shrink-0">
-                {t("timerAbyssTag")}
-              </span>
             </div>
             <div className="font-mono text-lg sm:text-xl font-bold tracking-tight text-purple-200 tabular-nums">
               {spiralReset || "--:--"}
@@ -207,11 +199,8 @@ export function ServerTimersClient() {
           <div className="absolute inset-0 bg-gradient-to-br from-[#281515]/90 via-[#281515]/65 to-transparent pointer-events-none" />
           {/* Content */}
           <div className="relative z-10 flex min-h-[106px] flex-col justify-between">
-            <div className="flex items-center justify-between text-xs text-rose-300 font-medium mb-1.5">
+            <div className="text-xs text-rose-300 font-medium mb-1.5">
               <span className="font-semibold text-rose-200 truncate">{t("timerStygian")}</span>
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-200 border border-rose-500/30 font-semibold shrink-0">
-                {t("timerEndgame")}
-              </span>
             </div>
             <div className="font-mono text-lg sm:text-xl font-bold tracking-tight text-rose-200 tabular-nums">
               {stygianReset || "--:--"}

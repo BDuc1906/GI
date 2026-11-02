@@ -367,7 +367,7 @@ export function WishHistoryClient() {
 
               <div className="text-xs text-text-secondary sm:text-right">
                 {currentPity >= softPity ? (
-                  <span className="px-2.5 py-1 rounded-full bg-yellow-500/10 text-yellow-400 border border-yellow-500/30 font-semibold">
+                  <span className="text-yellow-400 font-semibold">
                     Đang trong Soft Pity ({softPity}+) — Tỷ lệ 5★ tăng vọt!
                   </span>
                 ) : (
@@ -412,7 +412,7 @@ export function WishHistoryClient() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <span className="font-mono font-bold text-sm px-2 py-0.5 rounded bg-yellow-500/20 text-yellow-300">
+                      <span className="font-mono font-bold text-sm text-yellow-300">
                         {item.pity ?? "—"} roll
                       </span>
                     </div>
@@ -502,12 +502,12 @@ export function WishHistoryClient() {
                           </td>
                           <td className="py-2.5 px-4 text-center">
                             <span
-                              className={`text-xs px-2 py-0.5 rounded font-mono font-bold ${
+                              className={`text-xs font-mono font-bold ${
                                 isFive
-                                  ? "bg-yellow-500/20 text-yellow-400"
+                                  ? "text-yellow-400"
                                   : isFour
-                                  ? "bg-purple-500/20 text-purple-400"
-                                  : "bg-blue-500/10 text-blue-400"
+                                  ? "text-purple-400"
+                                  : "text-blue-400"
                               }`}
                             >
                               {w.rankType}★

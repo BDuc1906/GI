@@ -258,17 +258,16 @@ export default async function MaterialDetailPage({ params }: PageProps) {
                   {c.recipe.map((r) => {
                     const m = craftMatByName.get(r.name);
                     const label = m ? getLocalizedName(m, locale) : r.name;
-                    const chipCls =
-                      "inline-block px-3 py-1 rounded-full border border-border text-sm text-text-secondary";
+                    const linkCls = "text-sm text-text-secondary hover:text-accent-bright underline underline-offset-2";
                     return (
                       <li key={r.name}>
                         {m ? (
-                          <Link href={`/materials/${m.id}`} className={`${chipCls} hover:border-accent-500 hover:text-accent-bright`}>
+                          <Link href={`/materials/${m.id}`} className={linkCls}>
                             {label}
                             {typeof r.count === "number" ? ` × ${r.count}` : ""}
                           </Link>
                         ) : (
-                          <span className={chipCls}>
+                          <span className="text-sm text-text-secondary">
                             {label}
                             {typeof r.count === "number" ? ` × ${r.count}` : ""}
                           </span>
@@ -292,15 +291,14 @@ export default async function MaterialDetailPage({ params }: PageProps) {
           <ul className="flex flex-wrap gap-2">
             {crafts.uses.map((c) => {
               const m = craftMatByName.get(c.name);
-              const chipCls = "inline-block px-3 py-1 rounded-full border border-border text-sm text-text-secondary";
               return (
                 <li key={c.id}>
                   {m ? (
-                    <Link href={`/materials/${m.id}`} className={`${chipCls} hover:border-accent-500 hover:text-accent-bright`}>
+                    <Link href={`/materials/${m.id}`} className="text-sm text-text-secondary hover:text-accent-bright underline underline-offset-2">
                       {getLocalizedName(m, locale)}
                     </Link>
                   ) : (
-                    <span className={chipCls}>{c.name}</span>
+                    <span className="text-sm text-text-secondary">{c.name}</span>
                   )}
                 </li>
               );
@@ -320,7 +318,7 @@ export default async function MaterialDetailPage({ params }: PageProps) {
               <li key={f.id}>
                 <Link
                   href={`/food/${f.id}`}
-                  className="inline-block px-3 py-1 rounded-full border border-border text-sm text-text-secondary hover:border-accent-500 hover:text-accent-bright"
+                  className="text-sm text-text-secondary hover:text-accent-bright underline underline-offset-2"
                 >
                   {f.name}
                   {f.rarity ? ` ${stars(f.rarity)}` : ""}
@@ -342,7 +340,7 @@ export default async function MaterialDetailPage({ params }: PageProps) {
               <li key={e.id}>
                 <Link
                   href={`/enemies/${e.id}`}
-                  className="inline-block px-3 py-1 rounded-full border border-border text-sm text-text-secondary hover:border-accent-500 hover:text-accent-bright"
+                  className="text-sm text-text-secondary hover:text-accent-bright underline underline-offset-2"
                 >
                   {e.name}
                   {e.enemyType && e.enemyType !== "COMMON" ? ` · ${ENEMY_TYPE_LABEL[e.enemyType] ?? e.enemyType}` : ""}

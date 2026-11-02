@@ -6,7 +6,6 @@ import { GlossaryText } from "@/features/glossary/GlossaryText";
 import {
   ELEMENT_ICON_URLS,
   ELEMENTAL_REACTIONS,
-  CATEGORY_COLOR,
   elementColor,
   getReactionName,
   getReactionDescription,
@@ -38,9 +37,7 @@ export function ReactionCard({ r, categoryLabel, locale }: ReactionCardProps) {
           </span>
           {displayName !== r.name && <span className="text-text-muted text-xs ml-2">({r.name})</span>}
         </div>
-        <span
-          className={`text-[10px] px-2 py-0.5 rounded-full border font-medium shrink-0 ${CATEGORY_COLOR[r.category]}`}
-        >
+        <span className="text-xs text-text-muted font-medium shrink-0">
           {categoryLabel[r.category]}
         </span>
       </div>

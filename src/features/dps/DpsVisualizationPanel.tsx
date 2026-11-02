@@ -129,18 +129,16 @@ function ResistBadge({ badge }: { badge: EnemyResistBadge }) {
   const isDebuff = badge.resistance < 0;
   const isNeutral = badge.resistance === 0;
 
-  const colorClass =
+  const labelColor =
     badge.element === "All"
-      ? isDebuff
-        ? "text-red-400 bg-red-400/10 border-red-500/40"
-        : "text-slate-300 bg-slate-300/10 border-slate-400/40"
-      : ELEMENT_COLORS[badge.element as GenshinElement];
+      ? "text-slate-300"
+      : ELEMENT_COLORS[badge.element as GenshinElement].split(" ").find((color) => color.startsWith("text-")) ?? "text-text-secondary";
 
   const sign = badge.resistance > 0 ? "+" : "";
 
   return (
     <div
-      className={`inline-flex flex-col items-center px-2 py-1 rounded-lg border text-[10px] font-mono ${colorClass}`}
+      className={`inline-flex flex-col items-center text-[10px] font-mono ${labelColor}`}
       title={badge.phase}
     >
       <span className="font-bold text-[9px] uppercase tracking-wide opacity-70">
@@ -277,15 +275,13 @@ function TeamMemberDpsCard({
           </div>
         )}
 
-        {/* Name + Element badge */}
+        {/* Name + Element */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5">
             <span className="text-sm font-semibold text-text-primary truncate">
               {member.charName}
             </span>
-            <span
-              className={`text-[9px] font-bold px-1.5 py-0.5 rounded border ${elColor}`}
-            >
+            <span className={`text-[10px] font-medium ${elColor.split(" ").find((color) => color.startsWith("text-")) ?? "text-text-muted"}`}>
               {ELEMENT_VN_NAMES[member.element]}
             </span>
           </div>

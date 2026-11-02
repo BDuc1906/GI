@@ -306,7 +306,7 @@ export function TeamBuilderClient({
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                     <h3 className="font-semibold text-text-primary">Đội #{i + 1}</h3>
                     <span
-                      className="text-xs px-2.5 py-1 rounded-full bg-bg-elevated text-accent-bright font-medium"
+                      className="text-xs text-accent-bright font-medium"
                       title={
                         focusRule
                           ? "Số thành viên có nguyên tố tham gia phản ứng đã chọn"

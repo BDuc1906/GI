@@ -88,18 +88,9 @@ export function GlossaryProvider({ children }: { children: React.ReactNode }) {
                 >
                   {term.title}
                 </span>
-                <div className="mt-1">
-                  <span
-                    className="text-[10px] px-2 py-0.5 rounded-full border font-medium"
-                    style={{
-                      borderColor: `${term.accentColor}88`,
-                      backgroundColor: `${term.accentColor}22`,
-                      color: term.accentColor,
-                    }}
-                  >
-                    {term.badge}
-                  </span>
-                </div>
+                <p className="mt-1 text-xs font-medium" style={{ color: term.accentColor }}>
+                  {term.badge}
+                </p>
               </div>
               <button
                 type="button"

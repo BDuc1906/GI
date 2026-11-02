@@ -34,17 +34,14 @@ export function LoreCard({ name, subtitle, badges, description, thumb, banner }:
           <h3 className="font-semibold text-text-primary">{name}</h3>
           {subtitle && <p className="text-xs text-text-muted mt-0.5">{subtitle}</p>}
           {badges && badges.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 mt-2 text-[11px]">
-              {badges.map((b) => (
-                <span
-                  key={b.label}
-                  title={b.title}
-                  className="px-2 py-0.5 rounded-full border border-border text-text-secondary"
-                >
+            <p className="text-[11px] text-text-secondary mt-1">
+              {badges.map((b, index) => (
+                <span key={b.label} title={b.title}>
+                  {index > 0 && " · "}
                   {b.label}
                 </span>
               ))}
-            </div>
+            </p>
           )}
         </div>
       </div>

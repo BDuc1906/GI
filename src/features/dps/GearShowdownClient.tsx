@@ -226,7 +226,6 @@ export function GearShowdownClient({ characters, weapons }: GearShowdownClientPr
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-cyan-400" />
           <h3 className="font-bold text-sm text-cyan-400 mb-3 flex items-center justify-between">
             <span>PHƯƠNG ÁN A</span>
-            <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300">Slot A</span>
           </h3>
 
           {compareMode === "weapons" ? (
@@ -330,7 +329,6 @@ export function GearShowdownClient({ characters, weapons }: GearShowdownClientPr
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-rose-400" />
           <h3 className="font-bold text-sm text-rose-400 mb-3 flex items-center justify-between">
             <span>PHƯƠNG ÁN B</span>
-            <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-rose-500/10 text-rose-300">Slot B</span>
           </h3>
 
           {compareMode === "weapons" ? (

@@ -117,22 +117,19 @@ export default async function FoodDetailPage({ params }: PageProps) {
         <h1 className="font-display text-display-2 font-semibold text-text-primary">
           {food.name} <span className="text-rarity-5 text-xl align-middle">{stars(food.rarity)}</span>
         </h1>
-        <div className="flex flex-wrap gap-2 mt-3 text-xs">
+        <p className="text-xs text-text-muted mt-2">
           {food.foodtype && (
-            <span className="px-2.5 py-1 rounded-full bg-bg-elevated text-accent-bright font-semibold">
-              {FOOD_TYPE_LABEL[food.foodtype] ?? food.foodtype}
-            </span>
+            <span>{FOOD_TYPE_LABEL[food.foodtype] ?? food.foodtype}</span>
           )}
           {food.filterType && (
-            <Link
-              href={`/food?filter=${food.filterType}`}
-              title={raw.filterText}
-              className="px-2.5 py-1 rounded-full border border-border text-text-secondary hover:border-accent-500 hover:text-accent-bright"
-            >
-              {FOOD_FILTER_LABEL[food.filterType] ?? raw.filterText}
-            </Link>
+            <>
+              {food.foodtype && " · "}
+              <Link href={`/food?filter=${food.filterType}`} title={raw.filterText} className="hover:text-accent-bright underline underline-offset-2">
+                {FOOD_FILTER_LABEL[food.filterType] ?? raw.filterText}
+              </Link>
+            </>
           )}
-        </div>
+        </p>
         </div>
       </header>
 

@@ -4,13 +4,7 @@
 /**
  * src/components/glossary/ReactionPillLink.tsx
  *
- * Giống GlossaryTerm (bấm mở popup chi tiết qua GlossaryProvider) nhưng
- * KHÔNG tự ý đổi màu theo accentColor của thuật ngữ — nhận `style` từ
- * bên ngoài, vì có những chỗ (vd elements/page.tsx) pill cần giữ đúng
- * màu theo NGUYÊN TỐ CỦA SECTION đang xem (xem reactionPillStyle trong
- * element-reactions-data.ts), không phải màu cố định của phản ứng.
- * Hover dùng thuộc tính `title` gốc của trình duyệt — nhẹ, không đụng
- * tới màu/khung của pill.
+ * Giữ liên kết mở glossary có thể dùng trong văn bản mà không tạo badge.
  *
  * ĐA NGÔN NGỮ (2026-08): GLOSSARY_MAP tĩnh cũ đã đổi thành
  * getGlossaryTerm(id, locale) — lấy locale qua useLocale() để tooltip
@@ -39,8 +33,8 @@ export function ReactionPillLink({
       type="button"
       onClick={() => open(id)}
       title={term?.summary}
-      className="text-xs px-3 py-1.5 rounded-full border font-medium hover:brightness-125 active:scale-95 transition cursor-pointer"
-      style={style}
+      className="text-xs font-medium underline decoration-dotted underline-offset-2 hover:brightness-125 transition cursor-pointer"
+      style={{ color: style.color }}
     >
       {label}
     </button>

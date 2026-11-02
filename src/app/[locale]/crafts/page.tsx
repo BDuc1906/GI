@@ -142,7 +142,7 @@ export default async function CraftsPage({ params, searchParams }: CraftsPagePro
                           <li
                             key={r.name}
                             title={r.name}
-                            className="flex items-center gap-1.5 pr-2 rounded-full border border-border text-xs text-text-secondary"
+                            className="flex items-center gap-1.5 text-xs text-text-secondary"
                           >
                             <EntityThumb candidates={iconOf(r.name)} alt={r.name} size="sm" round className="!w-7 !h-7" />
                             {typeof r.count === "number" ? `× ${r.count}` : ""}

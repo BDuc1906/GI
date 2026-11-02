@@ -198,7 +198,7 @@ export function ArtifactListingClient({ initialSets, locale: _locale }: Artifact
             Hiển thị <strong className="text-accent-bright font-semibold">{filteredSets.length}</strong> / {initialSets.length} bộ Thánh Di Vật
           </span>
           {selectedCategory !== "all" && (
-            <span className="text-[11px] bg-accent-500/10 text-accent-bright px-2 py-0.5 rounded border border-accent-500/20">
+            <span className="text-[11px] text-accent-bright">
               Đang lọc: {ARTIFACT_CATEGORIES.find((c) => c.key === selectedCategory)?.nameVi}
             </span>
           )}

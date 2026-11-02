@@ -140,22 +140,19 @@ export default async function EnemyDetailPage({ params }: PageProps) {
         {raw.specialNames && raw.specialNames.length > 0 && (
           <p className="text-sm text-text-muted mt-1">{raw.specialNames.join(" · ")}</p>
         )}
-        <div className="flex flex-wrap gap-2 mt-3 text-xs">
+        <p className="text-xs text-text-muted mt-2">
           {enemy.enemyType && (
-            <span className="px-2.5 py-1 rounded-full bg-bg-elevated text-accent-bright font-semibold">
-              {ENEMY_TYPE_LABEL[enemy.enemyType] ?? enemy.enemyType}
-            </span>
+            <span>{ENEMY_TYPE_LABEL[enemy.enemyType] ?? enemy.enemyType}</span>
           )}
           {enemy.categoryType && (
-            <Link
-              href={`/enemies?cat=${enemy.categoryType}`}
-              title={enemy.categoryText ?? undefined}
-              className="px-2.5 py-1 rounded-full border border-border text-text-secondary hover:border-accent-500 hover:text-accent-bright"
-            >
-              {ENEMY_CATEGORY_LABEL[enemy.categoryType] ?? enemy.categoryText}
-            </Link>
+            <>
+              {enemy.enemyType && " · "}
+              <Link href={`/enemies?cat=${enemy.categoryType}`} title={enemy.categoryText ?? undefined} className="hover:text-accent-bright underline underline-offset-2">
+                {ENEMY_CATEGORY_LABEL[enemy.categoryType] ?? enemy.categoryText}
+              </Link>
+            </>
           )}
-        </div>
+        </p>
         </div>
       </header>
 
@@ -290,7 +287,7 @@ export default async function EnemyDetailPage({ params }: PageProps) {
               <li key={r.id}>
                 <Link
                   href={`/enemies/${r.id}`}
-                  className="inline-block px-3 py-1 rounded-full border border-border text-sm text-text-secondary hover:border-accent-500 hover:text-accent-bright"
+                  className="text-sm text-text-secondary underline underline-offset-2 hover:text-accent-bright"
                 >
                   {r.name}
                 </Link>

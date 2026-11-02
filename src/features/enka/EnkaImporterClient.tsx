@@ -46,9 +46,9 @@ function setLocalStorageValue(key: string, value: string) {
 // Subcomponents
 // ---------------------------------------------------------------------------
 
-function StatBadge({ label, value }: { label: string; value: string | number }) {
+function StatValue({ label, value }: { label: string; value: string | number }) {
   return (
-    <span className="inline-flex items-center gap-1 text-xs bg-bg-elevated rounded px-1.5 py-0.5">
+    <span className="inline-flex items-center gap-1 text-xs">
       <span className="text-text-muted">{label}</span>
       <span className="text-text-primary font-mono font-semibold">{value}</span>
     </span>
@@ -70,16 +70,6 @@ function CharacterShowcaseCard({
   const [advisorLoading, setAdvisorLoading] = useState(false);
   const [advisorError, setAdvisorError] = useState<string | null>(null);
   const [advice, setAdvice] = useState<string | null>(null);
-
-  // Huy hiệu CV
-  const cvBadgeColor =
-    char.totalCritValue >= 220
-      ? "bg-yellow-500/20 text-yellow-300 border-yellow-500/40"
-      : char.totalCritValue >= 180
-        ? "bg-purple-500/20 text-purple-300 border-purple-500/40"
-        : char.totalCritValue >= 140
-          ? "bg-blue-500/20 text-blue-300 border-blue-500/40"
-          : "bg-bg-elevated text-text-muted border-border-default";
 
   async function handleGetAdvice() {
     if (!char.characterId || advisorLoading) return;
@@ -137,14 +127,10 @@ function CharacterShowcaseCard({
           </div>
         </div>
 
-        {/* CV Badge */}
         {char.totalCritValue > 0 && (
-          <div
-            className={`px-2 py-1 rounded-lg border text-right shrink-0 ${cvBadgeColor}`}
-            title={`Tổng điểm CV: ${char.totalCritValue}`}
-          >
-            <div className="text-xs font-bold font-mono">{char.totalCritValue} CV</div>
-            <div className="text-[10px] uppercase font-semibold">{char.totalCvRating}</div>
+          <div className="text-right shrink-0" title={`Tổng điểm CV: ${char.totalCritValue}`}>
+            <div className="text-xs font-bold font-mono text-text-primary">{char.totalCritValue} CV</div>
+            <div className="text-[10px] uppercase font-semibold text-text-muted">{char.totalCvRating}</div>
           </div>
         )}
       </div>
@@ -174,13 +160,13 @@ function CharacterShowcaseCard({
 
       {/* Stats */}
       <div className="flex flex-wrap gap-1.5">
-        <StatBadge label="HP" value={fightProps.hp.toLocaleString()} />
-        <StatBadge label="ATK" value={fightProps.atk.toLocaleString()} />
-        <StatBadge label="DEF" value={fightProps.def.toLocaleString()} />
-        <StatBadge label="CR" value={`${fightProps.critRate}%`} />
-        <StatBadge label="CD" value={`${fightProps.critDmg}%`} />
-        <StatBadge label="EM" value={fightProps.em} />
-        <StatBadge label="ER" value={`${fightProps.er}%`} />
+        <StatValue label="HP" value={fightProps.hp.toLocaleString()} />
+        <StatValue label="ATK" value={fightProps.atk.toLocaleString()} />
+        <StatValue label="DEF" value={fightProps.def.toLocaleString()} />
+        <StatValue label="CR" value={`${fightProps.critRate}%`} />
+        <StatValue label="CD" value={`${fightProps.critDmg}%`} />
+        <StatValue label="EM" value={fightProps.em} />
+        <StatValue label="ER" value={`${fightProps.er}%`} />
       </div>
 
       {/* Talent levels */}

@@ -66,14 +66,14 @@ export function AchievementCard({
               <h3 className={`font-semibold text-sm sm:text-base leading-snug ${isCompleted ? "text-emerald-300" : "text-text-primary"}`}>
                 {name}
               </h3>
-              <div className="flex items-center gap-1 shrink-0">
+              <div className="flex flex-col items-end gap-0.5 shrink-0">
                 {isHidden && (
-                  <span className="px-2 py-0.5 bg-warning/20 text-warning text-[10px] font-medium rounded-full">
+                  <span className="text-warning text-[10px] font-medium">
                     Ẩn
                   </span>
                 )}
                 {isCompleted && (
-                  <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-[10px] font-semibold rounded-full flex items-center gap-1">
+                  <span className="text-emerald-400 text-[10px] font-semibold">
                     ✓ Xong
                   </span>
                 )}

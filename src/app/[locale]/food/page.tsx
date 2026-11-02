@@ -148,21 +148,16 @@ export default async function FoodPage({ params, searchParams }: FoodPageProps) 
                       <h3 className="font-semibold text-text-primary">{food.name}</h3>
                       <span className="text-rarity-5 text-sm whitespace-nowrap">{stars(food.rarity)}</span>
                     </div>
-                    <div className="flex flex-wrap gap-1.5 text-[11px] mb-2">
-                      {food.foodtype && (
-                        <span className="px-2 py-0.5 rounded-full bg-bg-elevated text-accent-bright font-medium">
-                          {FOOD_TYPE_LABEL[food.foodtype] ?? food.foodtype}
-                        </span>
-                      )}
-                      {food.filterType && (
-                        <span
-                          className="px-2 py-0.5 rounded-full border border-border text-text-secondary"
-                          title={r.filterText}
-                        >
-                          {FOOD_FILTER_LABEL[food.filterType] ?? r.filterText}
-                        </span>
-                      )}
-                    </div>
+                    {(food.foodtype || food.filterType) && (
+                      <p className="text-[11px] text-text-muted mb-2">
+                        {[
+                          food.foodtype ? FOOD_TYPE_LABEL[food.foodtype] ?? food.foodtype : null,
+                          food.filterType ? FOOD_FILTER_LABEL[food.filterType] ?? r.filterText : null,
+                        ]
+                          .filter(Boolean)
+                          .join(" · ")}
+                      </p>
+                    )}
                     {r.characterName && (
                       <p className="text-xs text-text-muted">Món đặc biệt của {r.characterName}</p>
                     )}

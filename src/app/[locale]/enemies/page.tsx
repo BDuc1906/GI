@@ -157,21 +157,16 @@ export default async function EnemiesPage({ params, searchParams }: EnemiesPageP
                     <div className="min-w-0 flex-1">
                     <h3 className="font-semibold text-text-primary">{enemy.name}</h3>
                     {special && <p className="text-xs text-text-muted mt-0.5">{special}</p>}
-                    <div className="flex flex-wrap gap-1.5 mt-3 text-[11px]">
-                      {enemy.enemyType && (
-                        <span className="px-2 py-0.5 rounded-full bg-bg-elevated text-accent-bright font-medium">
-                          {ENEMY_TYPE_LABEL[enemy.enemyType] ?? enemy.enemyType}
-                        </span>
-                      )}
-                      {enemy.categoryType && (
-                        <span
-                          className="px-2 py-0.5 rounded-full border border-border text-text-secondary"
-                          title={enemy.categoryText ?? undefined}
-                        >
-                          {ENEMY_CATEGORY_LABEL[enemy.categoryType] ?? enemy.categoryText}
-                        </span>
-                      )}
-                    </div>
+                    {(enemy.enemyType || enemy.categoryType) && (
+                      <p className="text-[11px] text-text-muted mt-2">
+                        {[
+                          enemy.enemyType ? ENEMY_TYPE_LABEL[enemy.enemyType] ?? enemy.enemyType : null,
+                          enemy.categoryType ? ENEMY_CATEGORY_LABEL[enemy.categoryType] ?? enemy.categoryText : null,
+                        ]
+                          .filter(Boolean)
+                          .join(" · ")}
+                      </p>
+                    )}
                     </div>
                   </Link>
                 </li>

@@ -277,7 +277,7 @@ export function WeaponListingClient({ initialWeapons, locale, typeLabels }: Weap
             Hiển thị <strong className="text-accent-bright font-semibold">{filteredWeapons.length}</strong> / {initialWeapons.length} vũ khí
           </span>
           {selectedSubstat !== "all" && (
-            <span className="text-[11px] bg-accent-500/10 text-accent-bright px-2 py-0.5 rounded border border-accent-500/20">
+            <span className="text-[11px] text-accent-bright">
               Chỉ số phụ: {SUBSTAT_FILTERS.find((s) => s.key === selectedSubstat)?.labelVi}
             </span>
           )}

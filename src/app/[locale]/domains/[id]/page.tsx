@@ -190,9 +190,10 @@ export default async function DomainDetail({ params }: PageProps) {
         {d.daysOfWeek.length === 0 ? (
           <p className="text-sm text-text-secondary">{t("opensDaily")}</p>
         ) : (
-          <div className="flex flex-wrap gap-2 text-sm">
+          <div className="text-sm text-text-secondary">
             {d.daysOfWeek.map((wd) => (
-              <span key={wd} className="px-3 py-1.5 rounded-full border border-gold/40 bg-gold/10 text-gold-bright">
+              <span key={wd}>
+                {wd !== d.daysOfWeek[0] && " · "}
                 {WEEKDAY_FULL[wd] ?? wd}
               </span>
             ))}
@@ -206,9 +207,9 @@ export default async function DomainDetail({ params }: PageProps) {
           <h2 className="font-display text-xl font-bold mb-2 text-gold border-b border-border pb-2">
             {t("recommendedElements")}
           </h2>
-          <div className="flex flex-wrap gap-2 text-sm">
+          <div className="flex flex-wrap gap-x-3 gap-y-1 text-sm text-text-secondary">
             {d.recommendedElements.map((el) => (
-              <span key={el} className="px-3 py-1.5 rounded-full border border-border bg-bg-card/60 text-text-primary">
+              <span key={el}>
                 {el}
               </span>
             ))}
@@ -270,11 +271,9 @@ export default async function DomainDetail({ params }: PageProps) {
           <h2 className="font-display text-xl font-bold mb-4 text-gold border-b border-border pb-2">
             {t("enemiesInDomain")}
           </h2>
-          <ul className="flex flex-wrap gap-2 text-sm">
+          <ul className="flex flex-wrap gap-x-3 gap-y-1 text-sm text-text-secondary">
             {d.monsterNames.map((m) => (
-              <li key={m} className="px-3 py-1.5 rounded-full border border-border bg-bg-card/60 text-text-secondary">
-                {m}
-              </li>
+              <li key={m}>{m}</li>
             ))}
           </ul>
         </section>

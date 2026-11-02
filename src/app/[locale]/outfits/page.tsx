@@ -61,7 +61,7 @@ export default async function OutfitsPage({ params }: OutfitsPageProps) {
                     <div className="flex items-center gap-2 mb-1">
                       <h3 className="font-semibold text-text-primary">{outfit.name}</h3>
                       {outfit.isDefault && (
-                        <span className="px-2 py-0.5 bg-border text-text-muted text-xs rounded-full">
+                        <span className="text-xs text-text-muted">
                           Mặc định
                         </span>
                       )}

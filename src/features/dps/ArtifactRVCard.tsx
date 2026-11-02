@@ -94,9 +94,7 @@ function RVProgressBar({
 
 function GradeBadge({ grade }: { grade: RVGrade }) {
   return (
-    <span
-      className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold border font-mono ${GRADE_COLORS[grade]}`}
-    >
+    <span className={`text-[10px] font-bold font-mono ${GRADE_COLORS[grade].split(" ").find((c) => c.startsWith("text-")) ?? "text-text-muted"}`}>
       {grade}
     </span>
   );

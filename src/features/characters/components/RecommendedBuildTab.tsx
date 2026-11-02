@@ -813,7 +813,7 @@ export async function RecommendedBuildTab({ character, locale: _locale, elementC
                           {a.name}
                         </span>
                         {a.customNote && (
-                          <span className="text-[11px] px-1.5 py-0.5 rounded bg-accent-500/10 text-accent-bright border border-accent-500/30 truncate">
+                          <span className="text-[11px] text-accent-bright truncate">
                             {a.customNote}
                           </span>
                         )}
@@ -859,7 +859,7 @@ export async function RecommendedBuildTab({ character, locale: _locale, elementC
                     >
                       <div className="flex items-center justify-between gap-2 flex-wrap">
                         <div className="flex items-center gap-2 flex-wrap min-w-0">
-                          <span className="text-xs font-bold font-mono text-accent-bright bg-accent-500/10 px-2 py-0.5 rounded-md border border-accent-500/20 shrink-0">
+                          <span className="text-xs font-bold font-mono text-accent-bright shrink-0">
                             #{ci + 1}
                           </span>
 
@@ -878,7 +878,7 @@ export async function RecommendedBuildTab({ character, locale: _locale, elementC
                             <span className="text-xs font-semibold text-text-primary truncate max-w-[150px]">
                               {combo.a.name}
                             </span>
-                            <span className="text-[10px] font-bold text-accent-bright bg-accent-500/15 px-1.5 py-0.5 rounded">
+                            <span className="text-[10px] font-bold text-accent-bright">
                               2 món
                             </span>
                           </div>
@@ -900,14 +900,14 @@ export async function RecommendedBuildTab({ character, locale: _locale, elementC
                             <span className="text-xs font-semibold text-text-primary truncate max-w-[150px]">
                               {combo.b.name}
                             </span>
-                            <span className="text-[10px] font-bold text-accent-bright bg-accent-500/15 px-1.5 py-0.5 rounded">
+                            <span className="text-[10px] font-bold text-accent-bright">
                               2 món
                             </span>
                           </div>
                         </div>
 
                         {combo.customNote && (
-                          <div className="text-[11px] text-text-secondary bg-bg-card/90 px-2.5 py-1 rounded-md border border-border/40 shrink-0">
+                          <div className="text-[11px] text-text-secondary shrink-0">
                             {combo.customNote}
                           </div>
                         )}

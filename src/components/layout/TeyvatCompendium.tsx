@@ -352,10 +352,8 @@ export function TeyvatCompendium() {
                 }}
               />
               <span>{cat.label}</span>
-              <span className={`px-1.5 py-0.2 rounded text-[10px] font-bold ${
-                isActive ? "bg-bg-primary/20 text-bg-primary" : "bg-bg-card text-text-muted"
-              }`}>
-                {cat.count}
+              <span className={`text-[10px] font-medium ${isActive ? "text-bg-primary/80" : "text-text-muted"}`}>
+                ({cat.count})
               </span>
             </button>
           );

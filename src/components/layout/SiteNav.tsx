@@ -50,9 +50,6 @@ export function SiteNav() {
             >
               LEIBO
             </span>
-            <span className="text-[10px] font-mono tracking-widest uppercase px-1.5 py-0.5 rounded bg-bg-elevated/80 text-accent-bright border border-border/50 hidden sm:inline-block">
-              WIKI
-            </span>
           </Link>
           {/* Link điều hướng: ẩn dưới md, hiện dạng hàng ngang từ md trở lên */}
           <div className="hidden lg:flex items-center gap-4 text-sm font-medium">

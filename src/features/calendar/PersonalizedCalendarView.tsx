@@ -129,7 +129,7 @@ export function PersonalizedCalendarView({
           <div>
             <h2 className="font-display text-lg font-bold text-text-primary flex items-center gap-2">
               <span>Mục tiêu cần farm của bạn</span>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-gold/10 text-gold font-semibold">
+              <span className="text-xs text-gold font-semibold">
                 {targets.length} đã ghim
               </span>
             </h2>
@@ -284,7 +284,7 @@ export function PersonalizedCalendarView({
                           {d.localizedName}
                         </div>
                         {hasMatch && (
-                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-gold text-bg-primary">
+                          <span className="text-[10px] font-bold text-gold">
                             MỤC TIÊU CỦA BẠN
                           </span>
                         )}
@@ -294,15 +294,16 @@ export function PersonalizedCalendarView({
                       )}
                     </div>
 
-                    {/* Huy hiệu mục tiêu liên quan */}
+                    {/* Mục tiêu liên quan */}
                     {hasMatch && (
                       <div className="flex flex-wrap gap-1.5 items-center pt-1 border-t border-gold/20 text-xs">
                         <span className="text-[11px] text-gold font-semibold">Cần bởi:</span>
-                        {matchedTargets.map((tgt) => (
+                        {matchedTargets.map((tgt, index) => (
                           <span
                             key={tgt.id}
-                            className="inline-flex items-center gap-1 bg-gold/15 text-gold px-2 py-0.5 rounded-md text-[11px] font-medium"
+                            className="inline-flex items-center gap-1 text-gold text-[11px] font-medium"
                           >
+                            {index > 0 && <span aria-hidden="true">·</span>}
                             {tgt.iconUrl && (
                               <span
                                 className={`relative w-3.5 h-3.5 overflow-hidden inline-block shrink-0 ${

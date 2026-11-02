@@ -754,7 +754,7 @@ export function TeamDpsCalculatorClient({ characters }: {
                             <div className="min-w-0 flex-1">
                               <div className="flex items-center justify-between">
                                 <span className="font-bold text-sm text-text-primary truncate">{charName}</span>
-                                <span className="text-[10px] px-1.5 py-0.5 rounded bg-bg-card font-mono text-accent-bright">
+                                <span className="text-[10px] font-mono text-accent-bright">
                                   C{c.constellations} · Lv.{c.level}
                                 </span>
                               </div>
@@ -805,7 +805,7 @@ export function TeamDpsCalculatorClient({ characters }: {
               Cùng một kẻ địch nhưng ở La Hoàn Tầng 12, Nhà Hát Giả Tưởng hay Thế Giới Mở có lượng Máu và Phòng Ngự khác biệt hoàn toàn.
             </p>
           </div>
-          <span className="text-xs px-2.5 py-1 rounded-full bg-red-500/15 border border-red-500/40 text-red-300 font-mono font-bold shrink-0 self-start sm:self-auto">
+          <span className="text-xs text-red-300 font-mono font-bold shrink-0 self-start sm:self-auto">
             {activeContentPreset.badge}
           </span>
         </div>
@@ -892,14 +892,14 @@ export function TeamDpsCalculatorClient({ characters }: {
               Đánh Giá Phối Hợp Đội Hình (Team Synergy Rating)
             </span>
             <span
-              className={`text-xs px-2.5 py-0.5 rounded-full font-bold font-mono ${
+              className={`text-xs font-bold font-mono ${
                 teamSynergyAnalysis.rating === "S"
-                  ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
+                  ? "text-amber-300"
                   : teamSynergyAnalysis.rating === "A"
-                  ? "bg-teal-500/20 text-teal-300 border border-teal-500/40"
+                  ? "text-teal-300"
                   : teamSynergyAnalysis.rating === "B"
-                  ? "bg-blue-500/20 text-blue-300 border border-blue-500/40"
-                  : "bg-rose-500/20 text-rose-300 border border-rose-500/40"
+                  ? "text-blue-300"
+                  : "text-rose-300"
               }`}
             >
               Hạng {teamSynergyAnalysis.rating}
@@ -1013,9 +1013,8 @@ export function TeamDpsCalculatorClient({ characters }: {
       <div className="bg-gradient-to-br from-bg-card via-bg-card to-bg-elevated border-2 border-accent-500/40 rounded-3xl p-5 sm:p-7 shadow-xl">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-border/60">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-500/15 border border-accent-500/40 text-accent-bright text-xs font-mono font-bold uppercase tracking-wider mb-2">
-              <span className="w-2 h-2 rounded-full bg-accent-500 animate-ping" />
-              <span>Chu Kỳ Tác Chiến 20 Giây</span>
+            <div className="text-xs font-mono font-bold uppercase tracking-wider text-accent-bright mb-2">
+              Chu Kỳ Tác Chiến 20 Giây
             </div>
             <h3 className="font-display text-2xl sm:text-3xl font-black text-text-primary">
               Tổng Sát Thương Cả Đội:{" "}
@@ -1096,10 +1095,7 @@ export function TeamDpsCalculatorClient({ characters }: {
           </div>
           <div className="flex flex-wrap gap-1.5">
             {teamBuffs.sources.map((s, i) => (
-              <span
-                key={i}
-                className="text-[11px] px-2.5 py-1 rounded-lg bg-bg-elevated border border-border text-text-secondary font-medium"
-              >
+              <span key={i} className="text-[11px] text-text-secondary font-medium">
                 ✓ {s}
               </span>
             ))}
@@ -1155,7 +1151,7 @@ export function TeamDpsCalculatorClient({ characters }: {
       <div className="bg-bg-card border border-border rounded-3xl p-5 sm:p-6 shadow-sm">
         <div className="flex items-center justify-between pb-3 border-b border-border/60 mb-4">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono uppercase px-2 py-0.5 rounded bg-accent-500/20 text-accent-bright font-bold">
+            <span className="text-xs font-mono uppercase text-accent-bright font-bold">
               Đang Chỉnh Sửa Vị Trí {activeSlot}
             </span>
             <span className="text-sm font-bold text-text-primary">{activeMember.char?.name || "Chưa chọn"}</span>

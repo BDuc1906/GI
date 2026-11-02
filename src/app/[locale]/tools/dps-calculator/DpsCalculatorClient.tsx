@@ -213,7 +213,7 @@ export function DpsCalculatorClient({
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/local-genshin-assets/ui/party.png" alt="" width={18} height={18} className="w-4.5 h-4.5 object-contain shrink-0" />
           <span>Sát Thương Toàn Đội &amp; Phản Ứng (Team DPS)</span>
-          <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-accent-500/25 text-accent-bright">
+          <span className="text-[10px] uppercase font-bold text-accent-bright">
             CHUẨN META
           </span>
         </button>
@@ -355,7 +355,7 @@ export function DpsCalculatorClient({
             <div>
               <h3 className="text-sm font-bold text-text-primary flex items-center gap-2">
                 <span>Chỉ số nhân vật trong game</span>
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-semibold">
+                <span className="text-[10px] text-emerald-400 font-semibold">
                   Chuẩn xác 100%
                 </span>
               </h3>

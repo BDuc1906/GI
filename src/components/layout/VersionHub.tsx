@@ -1,15 +1,7 @@
 import { Link } from "@/i18n/navigation";
-import { getVersionIndex, summarize, pickEntries, type VersionEntry } from "@/core/game/versions";
+import { getVersionIndex, pickEntries, type VersionEntry } from "@/core/game/versions";
 import { SafeImage } from "@/components/ui/SafeImage";
 import { getTranslations } from "next-intl/server";
-
-const SOURCE_ICONS: Record<string, string> = {
-  characters: "/local-genshin-assets/ui/characters.png",
-  weapons: "/local-genshin-assets/ui/sword.png",
-  artifacts: "/local-genshin-assets/ui/artifacts.png",
-  domains: "/local-genshin-assets/ui/domain.png",
-  materials: "/local-genshin-assets/ui/items.png",
-};
 
 /**
  * Khối "Cập Nhật Phiên Bản Genshin Impact" trên trang chủ
@@ -18,23 +10,7 @@ const SOURCE_ICONS: Record<string, string> = {
 export async function VersionHub() {
   const t = await getTranslations("Version");
   const tHome = await getTranslations("Home");
-  const [tCharacters, tWeapons, tArtifacts, tDomains, tMaterials] = await Promise.all([
-    getTranslations("Characters"),
-    getTranslations("Weapons"),
-    getTranslations("Artifacts"),
-    getTranslations("Domains"),
-    getTranslations("Materials"),
-  ]);
-  const sourceNames: Record<string, string> = {
-    characters: tCharacters("title"),
-    weapons: tWeapons("title"),
-    artifacts: tArtifacts("title"),
-    domains: tDomains("title"),
-    materials: tMaterials("title"),
-  };
   let latest: string | undefined;
-  let chips: Array<{ key: string; label: string; n: number; icon: string }> = [];
-  let total = 0;
   let newCharacters: VersionEntry[] = [];
   let newWeapons: VersionEntry[] = [];
 
@@ -42,17 +18,6 @@ export async function VersionHub() {
     const index = await getVersionIndex();
     latest = index.versions.at(-1);
     if (latest) {
-      const s = summarize(index, latest);
-      total = s.added;
-      chips = index.sources
-        .map((src) => ({
-          key: src.key,
-          label: sourceNames[src.key] ?? src.label,
-          n: s.bySource[src.key]?.added ?? 0,
-          icon: SOURCE_ICONS[src.key] ?? "/local-genshin-assets/ui/timeline.png",
-        }))
-        .filter((c) => c.n > 0);
-
       newCharacters = pickEntries(index.entries["characters"] ?? [], latest, "added");
       newWeapons = pickEntries(index.entries["weapons"] ?? [], latest, "added");
     }
@@ -92,28 +57,7 @@ export async function VersionHub() {
               {tHome("versionNumber", { version: latest })}
             </h3>
           </div>
-          <span className="px-4 py-1.5 bg-accent-500/15 text-accent-bright border border-accent-500/30 text-xs font-semibold rounded-full self-start sm:self-center">
-            {tHome("versionNewContent", { count: total })}
-          </span>
         </div>
-
-        {/* Category count chips with in-game icons */}
-        {chips.length > 0 && (
-          <ul className="flex flex-wrap gap-2.5">
-            {chips.map((c) => (
-              <li
-                key={c.key}
-                className="flex items-center gap-2 text-xs px-3.5 py-1.5 rounded-xl bg-bg-elevated/80 border border-border/80 text-text-primary font-medium shadow-xs"
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={c.icon} alt="" width={18} height={18} className="w-4.5 h-4.5 object-contain shrink-0" />
-                <span>
-                  +{c.n} {c.label}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
 
         {/* Visual Spotlight: Newly Added Characters */}
         {newCharacters.length > 0 && (

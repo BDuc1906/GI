@@ -7,7 +7,6 @@ import { GlossaryText } from "@/features/glossary/GlossaryText";
 import {
   ELEMENTS,
   ELEMENT_ICON_URLS,
-  CATEGORY_COLOR,
   elementColor,
   getReactionName,
   getReactionDescription,
@@ -188,7 +187,7 @@ export function ReactionTabs() {
                         </td>
                         <td className="border-r border-border px-4 py-3.5">
                           <span
-                            className={`inline-block whitespace-nowrap rounded-full border px-2.5 py-1 text-xs font-medium ${CATEGORY_COLOR[r.category]}`}
+                            className="text-xs font-medium text-text-muted whitespace-nowrap"
                           >
                             {CATEGORY_LABEL[r.category]}
                           </span>

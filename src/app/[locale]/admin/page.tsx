@@ -216,7 +216,7 @@ export default function AdminPage() {
                       >
                         <td className="px-4 py-3 text-text-primary font-medium">{PIPELINE_LABELS[run.name] || run.name}</td>
                         <td className="px-4 py-3">
-                          <span className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-semibold ${statusColor}`}>
+                          <span className={`text-xs font-semibold ${statusColor}`}>
                             {run.status === "success" && t("statusSuccess")}
                             {run.status === "failed" && t("statusFailed")}
                             {run.status === "started" && t("statusRunning")}

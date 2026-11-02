@@ -298,16 +298,6 @@ export default async function DomainsPage({ params, searchParams }: PageProps) {
           {domains.map((d) => {
             const rawMats = (d.materials as unknown as Array<{ name: string; artifactSetId?: string; materialId?: string }>) ?? [];
             const previewMats = rawMats.slice(0, 3);
-            const badgeColor =
-              d.category === "trounce"
-                ? "bg-rose-500/80 text-white border-rose-300/40"
-                : d.category === "challenge"
-                ? "bg-emerald-500/80 text-white border-emerald-300/40"
-                : d.category === "artifact"
-                ? "bg-amber-500/80 text-white border-amber-300/40"
-                : d.category === "talent"
-                ? "bg-purple-500/80 text-white border-purple-300/40"
-                : "bg-teal-500/80 text-white border-teal-300/40";
 
             return (
               <Link
@@ -336,24 +326,6 @@ export default async function DomainsPage({ params, searchParams }: PageProps) {
                   {/* Lớp phủ gradient tối dần xuống dưới */}
                   <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/90 via-bg-primary/20 to-black/25 pointer-events-none" />
 
-                  {/* Huy hiệu danh mục & khu vực nổi trên ảnh */}
-                  <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between gap-2 pointer-events-none">
-                    <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-semibold tracking-wide backdrop-blur-md border uppercase ${badgeColor}`}>
-                      {CATEGORY_LABEL[d.category] ?? d.category}
-                    </span>
-                    <div className="flex items-center gap-1.5">
-                      {d.recommendedLevel && (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-medium bg-black/60 backdrop-blur-md text-amber-300 border border-amber-400/20">
-                          Lv.{d.recommendedLevel}
-                        </span>
-                      )}
-                      {d.regionName && (
-                        <span className="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-black/50 backdrop-blur-md text-text-secondary border border-white/10">
-                          {d.regionName}
-                        </span>
-                      )}
-                    </div>
-                  </div>
                 </div>
 
                 {/* Nội dung thông tin bí cảnh */}
@@ -362,16 +334,23 @@ export default async function DomainsPage({ params, searchParams }: PageProps) {
                     <h2 className="font-display font-semibold text-text-primary text-base group-hover:text-accent-bright transition-colors line-clamp-2">
                       {getLocalizedName(d, locale)}
                     </h2>
+                    <p className="text-xs text-text-muted mt-1">
+                      {[
+                        CATEGORY_LABEL[d.category] ?? d.category,
+                        d.regionName,
+                        d.recommendedLevel ? `Lv.${d.recommendedLevel}` : null,
+                      ]
+                        .filter(Boolean)
+                        .join(" · ")}
+                    </p>
                   </div>
 
                   {previewMats.length > 0 && (
                     <div className="flex flex-wrap items-center gap-1.5 pt-2 border-t border-border/40">
                       <span className="text-[11px] text-text-muted">Rớt:</span>
                       {previewMats.map((m, idx) => (
-                        <span
-                          key={idx}
-                          className="text-[11px] px-2 py-0.5 rounded-md bg-bg-elevated/80 border border-border/60 text-text-secondary truncate max-w-[140px]"
-                        >
+                        <span key={idx} className="text-[11px] text-text-secondary">
+                          {idx > 0 && " · "}
                           {m.name}
                         </span>
                       ))}

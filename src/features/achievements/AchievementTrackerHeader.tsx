@@ -98,7 +98,7 @@ export function AchievementTrackerHeader({
         <div>
           <h2 className="font-display text-xl md:text-2xl font-bold text-text-primary flex items-center gap-2">
             <span>Tiến độ Thành tựu cá nhân</span>
-            <span className="text-xs px-2.5 py-0.5 rounded-full bg-accent-500/10 text-accent-bright font-semibold">
+            <span className="text-xs text-accent-bright font-semibold">
               Lưu tự động
             </span>
           </h2>

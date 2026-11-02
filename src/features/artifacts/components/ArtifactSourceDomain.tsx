@@ -78,13 +78,10 @@ export async function ArtifactSourceDomain({ artifactSetId, locale, rarityColor 
           </h3>
 
           {sourceDomain.recommendedElements.length > 0 && (
-            <div className="flex items-center gap-1.5 flex-wrap mb-4">
+            <div className="flex items-center gap-x-2 gap-y-1 flex-wrap mb-4 text-xs text-text-secondary">
               <span className="text-xs text-text-secondary">Nguyên tố đề xuất:</span>
               {sourceDomain.recommendedElements.map((el) => (
-                <span
-                  key={el}
-                  className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full border border-border bg-bg-elevated text-text-primary"
-                >
+                <span key={el} className="inline-flex items-center gap-1">
                   <ElementIcon vision={el} size={14} />
                   <span>{el}</span>
                 </span>

@@ -69,7 +69,7 @@ export async function CharacterTeamVariants({ character, locale, elementColor }:
                   <h3 className="font-display text-base sm:text-lg font-bold text-text-primary">
                     {variant.nameVi}
                   </h3>
-                  <span className="text-xs px-2 py-0.5 rounded-full border border-accent-500/40 bg-accent-500/10 text-accent-bright font-medium shrink-0">
+                  <span className="text-xs text-accent-bright font-medium shrink-0">
                     {variant.archetypeVi}
                   </span>
                 </div>
@@ -134,7 +134,7 @@ export async function CharacterTeamVariants({ character, locale, elementColor }:
                       </span>
                     </div>
 
-                    <div className="text-[10px] text-text-secondary mt-1 px-1.5 py-0.5 rounded bg-bg-overlay/60 border border-border/80 w-full truncate">
+                    <div className="text-[10px] text-text-secondary mt-1 w-full truncate">
                       {member.roleVi}
                     </div>
                   </Link>
@@ -144,29 +144,15 @@ export async function CharacterTeamVariants({ character, locale, elementColor }:
 
             {/* Cơ chế kích hoạt: Phản ứng + Cộng hưởng */}
             <div className="flex flex-wrap items-center justify-between gap-3 text-xs bg-bg-overlay/40 p-3 rounded-xl border border-border">
-              <div className="flex flex-wrap items-center gap-1.5">
+              <div className="flex flex-wrap items-center gap-x-1.5">
                 <span className="text-text-muted font-medium">Phản ứng:</span>
-                {variant.reactionsVi.map((reac, rIdx) => (
-                  <span
-                    key={rIdx}
-                    className="px-2 py-0.5 rounded bg-bg-elevated border border-border text-text-primary font-medium text-[11px]"
-                  >
-                    {reac}
-                  </span>
-                ))}
+                <span className="text-text-primary">{variant.reactionsVi.join(" · ")}</span>
               </div>
 
               {variant.resonancesVi.length > 0 && (
-                <div className="flex flex-wrap items-center gap-1.5">
+                <div className="flex flex-wrap items-center gap-x-1.5">
                   <span className="text-text-muted font-medium">Cộng hưởng:</span>
-                  {variant.resonancesVi.map((res, resIdx) => (
-                    <span
-                      key={resIdx}
-                      className="px-2 py-0.5 rounded bg-accent-500/10 border border-accent-500/30 text-accent-bright font-medium text-[11px]"
-                    >
-                      {res}
-                    </span>
-                  ))}
+                  <span className="text-accent-bright font-medium">{variant.resonancesVi.join(" · ")}</span>
                 </div>
               )}
             </div>

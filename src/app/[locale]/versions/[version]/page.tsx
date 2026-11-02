@@ -92,7 +92,7 @@ export default async function VersionDetailPage({ params, searchParams }: PagePr
           {prev ? (
             <Link
               href={`/versions/${prev}?view=${view}`}
-              className="px-3 py-1.5 rounded-full border border-border text-text-secondary hover:border-accent-500 hover:text-accent-bright"
+              className="text-text-secondary underline underline-offset-2 hover:text-accent-bright"
             >
               ← {prev}
             </Link>
@@ -100,7 +100,7 @@ export default async function VersionDetailPage({ params, searchParams }: PagePr
           {next ? (
             <Link
               href={`/versions/${next}?view=${view}`}
-              className="px-3 py-1.5 rounded-full border border-border text-text-secondary hover:border-accent-500 hover:text-accent-bright"
+              className="text-text-secondary underline underline-offset-2 hover:text-accent-bright"
             >
               {next} →
             </Link>

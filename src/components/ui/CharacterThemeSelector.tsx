@@ -373,14 +373,9 @@ export function CharacterThemeSelector() {
                       >
                         {theme.name}
                       </span>
-                      {/* Element + Region tag */}
                       <span
-                        className="text-[9px] px-1.5 py-0.5 rounded-full font-bold shrink-0"
-                        style={{
-                          backgroundColor: `${elColor}22`,
-                          color: elColor,
-                          border: `1px solid ${elColor}44`,
-                        }}
+                        className="text-[10px] font-medium shrink-0"
+                        style={{ color: elColor }}
                       >
                         {theme.elementVi}
                       </span>
