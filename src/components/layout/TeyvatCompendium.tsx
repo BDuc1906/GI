@@ -247,27 +247,27 @@ const AVAILABLE_ITEMS = COMPENDIUM_ITEMS.filter(
 );
 
 const ITEM_BACKGROUNDS: Record<string, string> = {
-  characters: "/local-genshin-assets/characters/splash/furina.png",
-  weapons: "/local-genshin-assets/characters/splash/raiden-shogun.png",
-  artifacts: "/local-genshin-assets/characters/splash/nahida.png",
-  enemies: "/local-genshin-assets/characters/splash/arlecchino.png",
-  domains: "/local-genshin-assets/characters/splash/zhongli.png",
-  elements: "/local-genshin-assets/characters/splash/kaedehara-kazuha.png",
-  calendar: "/local-genshin-assets/characters/splash/barbara.png",
-  materials: "/local-genshin-assets/characters/splash/kuki-shinobu.png",
-  food: "/local-genshin-assets/characters/splash/xiangling.png",
-  crafts: "/local-genshin-assets/characters/splash/lisa.png",
-  animals: "/local-genshin-assets/characters/splash/diona.png",
-  geography: "/local-genshin-assets/characters/splash/alhaitham.png",
-  achievements: "/local-genshin-assets/characters/splash/noelle.png",
-  "hidden-achievements": "/local-genshin-assets/characters/splash/cyno.png",
-  namecards: "/local-genshin-assets/characters/splash/xingqiu.png",
-  outfits: "/local-genshin-assets/characters/splash/klee.png",
-  windgliders: "/local-genshin-assets/characters/splash/sayu.png",
-  "adventure-ranks": "/local-genshin-assets/characters/splash/amber.png",
-  birthdays: "/local-genshin-assets/characters/splash/kaeya.png",
-  versions: "/local-genshin-assets/characters/splash/neuvillette.png",
-  "serenitea-pot": "/local-genshin-assets/characters/splash/yaoyao.png",
+  characters: "/images/home-cards/characters.webp",
+  weapons: "/images/home-cards/weapons.webp",
+  artifacts: "/images/home-cards/artifacts.webp",
+  enemies: "/images/home-cards/enemies.webp",
+  domains: "/images/home-cards/domains.webp",
+  elements: "/images/home-cards/elements.webp",
+  calendar: "/images/home-cards/calendar.webp",
+  materials: "/images/home-cards/materials.webp",
+  food: "/images/home-cards/food.webp",
+  crafts: "/images/home-cards/crafts.webp",
+  animals: "/images/home-cards/animals.webp",
+  geography: "/images/home-cards/geography.webp",
+  achievements: "/images/home-cards/achievements.webp",
+  "hidden-achievements": "/images/home-cards/hidden-achievements.webp",
+  namecards: "/images/home-cards/namecards.webp",
+  outfits: "/images/home-cards/outfits.webp",
+  windgliders: "/images/home-cards/windgliders.webp",
+  "adventure-ranks": "/images/home-cards/adventure-ranks.webp",
+  birthdays: "/images/home-cards/birthdays.webp",
+  versions: "/images/home-cards/versions.webp",
+  "serenitea-pot": "/images/home-cards/serenitea-pot.webp",
 };
 
 type CategoryFilter = "all" | "combat" | "world" | "profile";
@@ -378,19 +378,20 @@ export function TeyvatCompendium() {
                 alt=""
                 aria-hidden="true"
                 fill
+                unoptimized
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 className="absolute inset-0 h-full w-full object-cover opacity-100 transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-black/10 to-black/45 transition-colors group-hover:from-transparent group-hover:via-black/5 group-hover:to-black/40" />
               <div className="absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/10" />
-              <div className="absolute left-2.5 top-2.5 flex h-8 w-8 items-center justify-center rounded-lg border border-white/15 bg-black/40 p-1.5 backdrop-blur-sm">
+              <div className="absolute left-2.5 top-2.5 flex h-12 w-12 items-center justify-center rounded-full border border-white/25 bg-black/50 p-2 backdrop-blur-sm shadow-md">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={item.icon}
                   alt=""
-                  width={24}
-                  height={24}
-                  className="h-5 w-5 object-contain"
+                  width={32}
+                  height={32}
+                  className="h-8 w-8 object-contain"
                 />
               </div>
               <div className="relative z-10 max-w-full px-1 text-center">
