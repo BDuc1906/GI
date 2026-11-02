@@ -47,7 +47,16 @@ export function SiteNav() {
                 className="group flex items-center gap-1.5 relative py-1 text-text-secondary hover:text-text-primary transition-colors after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-accent-500 hover:after:w-full after:transition-all"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={link.icon} alt="" width={18} height={18} className="w-[18px] h-[18px] object-contain opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all shrink-0" />
+                <img
+                  src={link.icon}
+                  alt=""
+                  width={18}
+                  height={18}
+                  className="w-[18px] h-[18px] object-contain opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all shrink-0"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).style.display = "none";
+                  }}
+                />
                 <span>{link.label}</span>
               </Link>
             ))}
@@ -114,6 +123,9 @@ export function SiteNav() {
                   width={22}
                   height={22}
                   className="w-[22px] h-[22px] object-contain shrink-0 group-hover:scale-110 transition-transform"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).style.display = "none";
+                  }}
                 />
                 <span className="font-medium text-sm">{link.label}</span>
               </Link>

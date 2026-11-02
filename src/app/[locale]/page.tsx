@@ -5,7 +5,6 @@ import { FeaturedBanners } from "../../components/layout/FeaturedBanners";
 import { WikiToolsHub } from "../../components/layout/WikiToolsHub";
 import { VersionHub } from "../../components/layout/VersionHub";
 import { ServerTimers } from "../../components/layout/ServerTimers";
-import { BeginnerGuides } from "../../components/layout/BeginnerGuides";
 import { TeyvatCompendium } from "../../components/layout/TeyvatCompendium";
 import type { Metadata } from "next";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
@@ -42,20 +41,17 @@ export default async function Home({ params }: HomePageProps) {
       {/* 2. Live Server Reset Timers (Compact HUD) */}
       <ServerTimers />
 
-      {/* 3. Featured Tactical Banners (Game8 / Prydwen cinematic wide visual banners) */}
+      {/* 3. Featured Tactical Spotlight Banner (Tier List) */}
       <FeaturedBanners />
 
-      {/* 4. Tactical Bento Tools Hub */}
+      {/* 4. Tactical Bento Tools Hub (DPS Calculator, Team Builder, Enka Sync...) */}
       <WikiToolsHub />
 
-      {/* 4. Phiên Bản Hiện Tại: Chỉ hiển thị Nhân vật mới & Vũ khí mới của bản hiện tại */}
+      {/* 5. Phiên Bản Hiện Tại: Điểm tin bản cập nhật, nhân vật & vũ khí mới */}
       <VersionHub />
 
-      {/* 5. Unified Teyvat Compendium (21 Categories with Smart Filter Tabs) */}
+      {/* 6. Unified Teyvat Compendium (Trung tâm dữ liệu 22 danh mục Teyvat) */}
       <TeyvatCompendium />
-
-      {/* 6. Cẩm nang dành cho người mới */}
-      <BeginnerGuides />
 
       {/* Footer */}
       <footer className="max-w-7xl mx-auto px-4 md:px-8 py-12 border-t border-border/60 text-center text-sm text-text-muted">

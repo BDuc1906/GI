@@ -75,6 +75,16 @@ const COMPENDIUM_ITEMS: CompendiumItem[] = [
     category: "combat",
     accentColor: "var(--el-dendro)",
   },
+  {
+    id: "elements",
+    title: "Phản Ứng Nguyên Tố",
+    description: "Bảng cơ chế khuếch đại, biến đổi & công thức tính sát thương 7 nguyên tố",
+    icon: "/local-genshin-assets/ui/alchemy.png",
+    href: "/elements",
+    tag: "Cơ chế game",
+    category: "combat",
+    accentColor: "var(--el-pyro)",
+  },
 
   // --- TÀI NGUYÊN & THẾ GIỚI ---
   {
@@ -153,7 +163,7 @@ const COMPENDIUM_ITEMS: CompendiumItem[] = [
     id: "hidden-achievements",
     title: "Thành Tựu Ẩn",
     description: "Bộ sưu tập thành tựu ẩn không xuất hiện sẵn trong game",
-    icon: "/local-genshin-assets/ui/primogem.png",
+    icon: "/local-genshin-assets/ui/achievement.png",
     href: "/achievements/hidden",
     tag: "Bí mật",
     category: "profile",
@@ -283,7 +293,16 @@ export function TeyvatCompendium() {
               }`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={cat.icon} alt="" width={16} height={16} className="w-4 h-4 object-contain shrink-0" />
+              <img
+                src={cat.icon}
+                alt=""
+                width={16}
+                height={16}
+                className="w-4 h-4 object-contain shrink-0"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).style.display = "none";
+                }}
+              />
               <span>{cat.label}</span>
               <span className={`px-1.5 py-0.2 rounded text-[10px] font-bold ${
                 isActive ? "bg-bg-primary/20 text-bg-primary" : "bg-bg-card text-text-muted"
@@ -302,7 +321,7 @@ export function TeyvatCompendium() {
             <Link
               key={item.id}
               href={item.href}
-              className="group relative flex flex-col justify-between p-4 rounded-xl bg-bg-card/75 border border-border/80 hover:border-accent-500/80 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg shadow-sm overflow-hidden"
+              className="group relative flex flex-col justify-between p-4 rounded-xl bg-bg-card/75 border border-border/80 hover:border-accent-500/80 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg shadow-sm overflow-hidden active:scale-[0.98]"
               style={{
                 borderColor: item.accentColor ? `color-mix(in srgb, ${item.accentColor} 30%, var(--border-color))` : undefined,
               }}
@@ -311,7 +330,16 @@ export function TeyvatCompendium() {
                 <div className="flex items-center justify-between gap-2 mb-2.5">
                   <div className="w-9 h-9 rounded-lg bg-bg-elevated flex items-center justify-center p-1.5 border border-border/60 group-hover:scale-110 transition-transform duration-300">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={item.icon} alt="" width={24} height={24} className="w-6 h-6 object-contain" />
+                    <img
+                      src={item.icon}
+                      alt=""
+                      width={24}
+                      height={24}
+                      className="w-6 h-6 object-contain"
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).style.display = "none";
+                      }}
+                    />
                   </div>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-accent-500/10 text-accent-bright border border-accent-500/25">
                     {item.tag}
@@ -343,7 +371,16 @@ export function TeyvatCompendium() {
                 <div className="flex items-center justify-between gap-2 mb-2.5">
                   <div className="w-9 h-9 rounded-lg bg-bg-elevated flex items-center justify-center p-1.5 border border-border/40">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={item.icon} alt="" width={24} height={24} className="w-6 h-6 object-contain opacity-60" />
+                    <img
+                      src={item.icon}
+                      alt=""
+                      width={24}
+                      height={24}
+                      className="w-6 h-6 object-contain opacity-60"
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).style.display = "none";
+                      }}
+                    />
                   </div>
                   <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-bg-elevated text-text-muted border border-border/40">
                     {item.tag}
