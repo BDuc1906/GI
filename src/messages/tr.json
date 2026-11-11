@@ -17,7 +17,8 @@
     "openMenu": "Menüyü aç",
     "closeMenu": "Menüyü kapat",
     "theme": "Tema",
-    "language": "Dil"
+    "language": "Dil",
+    "tools": "Araçlar"
   },
   "Theme": {
     "toggleLabel": "Açık/koyu mod değiştir"

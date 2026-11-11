@@ -17,7 +17,8 @@
     "openMenu": "Menü öffnen",
     "closeMenu": "Menü schließen",
     "theme": "Design",
-    "language": "Sprache"
+    "language": "Sprache",
+    "tools": "Werkzeuge"
   },
   "Theme": {
     "toggleLabel": "Hell-/Dunkelmodus umschalten"

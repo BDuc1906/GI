@@ -4,16 +4,8 @@ export const size = { width: 32, height: 32 };
 export const contentType = "image/png";
 
 /**
- * Favicon sinh bằng code (Next.js App Router quy ước: file `icon.tsx` ngay
- * trong app/ tự động trở thành favicon, không cần khai báo gì thêm trong
- * metadata hay <head>).
- *
- * Trước đây thư mục public/ hoàn toàn trống — không có favicon.ico nào,
- * trình duyệt hiển thị icon mặc định/trống trên tab. Dùng ImageResponse để
- * không phụ thuộc một file .ico/.png thiết kế tay nào — hình khối đơn giản
- * (kim cương vàng) để tránh vẽ lại bất kỳ icon/logo nào của Genshin Impact
- * (thuộc bản quyền miHoYo/HoYoverse), chỉ dùng đúng bảng màu thương hiệu đã
- * có sẵn trong globals.css (--bg-primary, --gold-bright).
+ * Favicon LEIBO - Phong cách Lãng khách Kaedehara Kazuha
+ * Biểu tượng Lá phong đỏ (Momiji) kết hợp làn gió thu Anemo xoáy lượn
  */
 export default function Icon() {
   return new ImageResponse(
@@ -26,16 +18,45 @@ export default function Icon() {
           alignItems: "center",
           justifyContent: "center",
           background: "#0d0d0d",
+          borderRadius: "8px",
         }}
       >
-        <div
-          style={{
-            width: 14,
-            height: 14,
-            background: "#F4D03F",
-            transform: "rotate(45deg)",
-          }}
-        />
+        <svg
+          width="26"
+          height="26"
+          viewBox="0 0 48 48"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          {/* Làn gió xoáy Anemo */}
+          <path
+            d="M 6 24 C 6 12 18 4 28 6 C 38 8 44 18 42 28 C 40 38 30 44 20 42 C 12 40 8 32 10 26"
+            stroke="#2dd4bf"
+            strokeWidth="3.5"
+            strokeLinecap="round"
+          />
+          {/* Lá phong đỏ Kazuha Momiji */}
+          <path
+            d="M 24 8 
+               C 25 12, 28 15, 33 13 
+               C 32 17, 36 20, 41 21 
+               C 36 23, 35 27, 38 32 
+               C 33 30, 30 33, 29 38 
+               C 27 34, 25 35, 24 41 
+               C 23 35, 21 34, 19 38 
+               C 18 33, 15 30, 10 32 
+               C 13 27, 12 23, 7 21 
+               C 12 20, 16 17, 15 13 
+               C 20 15, 23 12, 24 8 Z"
+            fill="#f43f5e"
+            stroke="#fef08a"
+            strokeWidth="2"
+          />
+          {/* Gân lá */}
+          <path d="M 24 14 L 24 36" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" />
+          <path d="M 24 22 L 31 18" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M 24 22 L 17 18" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
       </div>
     ),
     { ...size }

@@ -17,7 +17,8 @@
     "openMenu": "Открыть меню",
     "closeMenu": "Закрыть меню",
     "theme": "Тема",
-    "language": "Язык"
+    "language": "Язык",
+    "tools": "Инструменты"
   },
   "Theme": {
     "toggleLabel": "Переключить светлую/тёмную тему"

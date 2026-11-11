@@ -17,7 +17,8 @@
     "openMenu": "Apri menu",
     "closeMenu": "Chiudi menu",
     "theme": "Tema",
-    "language": "Lingua"
+    "language": "Lingua",
+    "tools": "Strumenti"
   },
   "Theme": {
     "toggleLabel": "Attiva/disattiva modalità chiara/scura"

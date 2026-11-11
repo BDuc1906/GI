@@ -1,5 +1,7 @@
 "use client";
 
+import { KazuhaBrandLogo } from "./KazuhaBrandLogo";
+
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Link } from "@/i18n/navigation";
@@ -25,31 +27,15 @@ export function SiteNav() {
     { href: "/artifacts", label: t("artifacts"), icon: "/local-genshin-assets/ui/artifacts.png" },
     { href: "/domains", label: t("domains"), icon: "/local-genshin-assets/ui/domain.png" },
     { href: "/calendar", label: tHome("viewFullSchedule"), icon: "/local-genshin-assets/ui/resin.png" },
+    { href: "/tools", label: t("tools"), icon: "/local-genshin-assets/ui/calculator.png" },
   ];
 
   return (
     <header className="border-b border-border/80 sticky top-0 bg-bg-primary/85 backdrop-blur-md z-30 transition-colors">
       <nav className="flex items-center gap-4 px-4 md:px-8 py-3 max-w-7xl mx-auto">
         <div className="flex items-center gap-6 shrink-0">
-          <Link href="/" className="group flex items-center gap-2">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/local-genshin-assets/characters/icon/kaedehara-kazuha.png"
-              alt=""
-              aria-hidden="true"
-              width={30}
-              height={30}
-              className="w-[30px] h-[30px] rounded-full border border-accent-500/50 bg-bg-elevated object-contain p-0.5 group-hover:scale-105 transition-transform"
-            />
-            <span
-              className="font-display text-xl font-black tracking-wider bg-clip-text text-transparent"
-              style={{
-                backgroundImage:
-                  "linear-gradient(90deg, #5eead4 0%, #f0ede0 38%, #dc2626 68%, #fbbf24 100%)",
-              }}
-            >
-              LEIBO
-            </span>
+          <Link href="/" className="group flex items-center">
+            <KazuhaBrandLogo size="md" />
           </Link>
           {/* Link điều hướng: ẩn dưới md, hiện dạng hàng ngang từ md trở lên */}
           <div className="hidden lg:flex items-center gap-4 text-sm font-medium">

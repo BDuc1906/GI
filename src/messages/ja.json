@@ -17,7 +17,8 @@
     "openMenu": "メニューを開く",
     "closeMenu": "メニューを閉じる",
     "theme": "テーマ",
-    "language": "言語"
+    "language": "言語",
+    "tools": "ツール"
   },
   "Theme": {
     "toggleLabel": "ライト/ダークモード切替"

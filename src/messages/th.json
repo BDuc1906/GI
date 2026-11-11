@@ -17,7 +17,8 @@
     "openMenu": "เปิดเมนู",
     "closeMenu": "ปิดเมนู",
     "theme": "ธีม",
-    "language": "ภาษา"
+    "language": "ภาษา",
+    "tools": "เครื่องมือ"
   },
   "Theme": {
     "toggleLabel": "สลับโหมดสว่าง/มืด"

@@ -17,7 +17,8 @@
     "openMenu": "開啟選單",
     "closeMenu": "關閉選單",
     "theme": "主題",
-    "language": "語言"
+    "language": "語言",
+    "tools": "工具"
   },
   "Theme": {
     "toggleLabel": "切換明暗模式"

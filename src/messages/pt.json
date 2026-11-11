@@ -17,7 +17,8 @@
     "openMenu": "Abrir menu",
     "closeMenu": "Fechar menu",
     "theme": "Tema",
-    "language": "Idioma"
+    "language": "Idioma",
+    "tools": "Ferramentas"
   },
   "Theme": {
     "toggleLabel": "Alternar modo claro/escuro"

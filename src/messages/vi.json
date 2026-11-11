@@ -17,7 +17,8 @@
     "openMenu": "Mở menu",
     "closeMenu": "Đóng menu",
     "theme": "Giao diện",
-    "language": "Ngôn ngữ"
+    "language": "Ngôn ngữ",
+    "tools": "Công cụ"
   },
   "Theme": {
     "toggleLabel": "Chuyển đổi chế độ sáng/tối"

@@ -17,7 +17,8 @@
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
     "theme": "Theme",
-    "language": "Language"
+    "language": "Language",
+    "tools": "Tools"
   },
   "Theme": {
     "toggleLabel": "Toggle light/dark mode"

@@ -13,9 +13,6 @@ interface CharacterOption {
   elementIcon: string | null;
 }
 
-// Khớp response của /api/tools/material-calculator (dữ liệu THẬT từ DB —
-// xem real-material-plan.ts). Không còn resin/số ngày farm: DB không có tỉ
-// lệ rớt thật nên không ước lượng, tránh hiển thị số bịa.
 interface PlanMaterial {
   materialId?: string;
   name: string;
@@ -37,22 +34,75 @@ interface CalculatorResult {
   domains: MatchedDomain[];
 }
 
+function slugify(text: string) {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+// Hàm tính ước tính EXP Sách Kinh Nghiệm & Mora theo khoảng level
+function estimateExpAndMora(current: number, target: number, includeTalents: boolean, talentLevel: number) {
+  // Bảng kinh nghiệm xấp xỉ nhân vật 1-90
+  const expTotal = Math.max(0, (target - current) * 93500);
+  const herosWitCount = Math.round(expTotal / 20000);
+  const charMora = Math.round(herosWitCount * 4000 + (target - current) * 12000);
+
+  // Mora thiên phú (nâng 3 skill từ 1 lên talentLevel)
+  const talentMoraTable: Record<number, number> = {
+    1: 0,
+    2: 12500,
+    3: 17500,
+    4: 25000,
+    5: 30000,
+    6: 37500,
+    7: 120000,
+    8: 260000,
+    9: 450000,
+    10: 700000,
+  };
+
+  let talentMora = 0;
+  if (includeTalents) {
+    for (let i = 2; i <= talentLevel; i++) {
+      talentMora += (talentMoraTable[i] || 0) * 3; // 3 kỹ năng
+    }
+  }
+
+  return {
+    herosWit: herosWitCount,
+    totalMora: charMora + talentMora,
+  };
+}
+
+const PRESETS = [
+  { label: "1 → 90 (Tối đa)", current: 1, target: 90, talent: 10 },
+  { label: "80 → 90 (Đột phá 6)", current: 80, target: 90, talent: 10 },
+  { label: "1 → 80 (Tiết kiệm)", current: 1, target: 80, talent: 8 },
+  { label: "70 → 80 (Thăng cấp)", current: 70, target: 80, talent: 8 },
+];
+
 export function MaterialCalculatorClient({ characters }: { characters: CharacterOption[] }) {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<CharacterOption | null>(null);
   const [currentLevel, setCurrentLevel] = useState(1);
   const [targetLevel, setTargetLevel] = useState(90);
-  const [includeTalent, setIncludeTalent] = useState(false);
-  const [talentTarget, setTalentTarget] = useState(10);
+  const [includeTalent, setIncludeTalent] = useState(true);
+  const [talentTarget, setTalentTarget] = useState(9);
   const [result, setResult] = useState<CalculatorResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
-    if (!query.trim()) return characters.slice(0, 8);
+    if (!query.trim()) return characters.slice(0, 12);
     const q = query.toLowerCase();
-    return characters.filter((c) => c.name.toLowerCase().includes(q)).slice(0, 8);
+    return characters.filter((c) => c.name.toLowerCase().includes(q)).slice(0, 12);
   }, [characters, query]);
+
+  const estimates = useMemo(() => {
+    return estimateExpAndMora(currentLevel, targetLevel, includeTalent, talentTarget);
+  }, [currentLevel, targetLevel, includeTalent, talentTarget]);
 
   async function handleCalculate() {
     if (!selected) return;
@@ -82,33 +132,52 @@ export function MaterialCalculatorClient({ characters }: { characters: Character
       }
       setResult(json.data as CalculatorResult);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Có lỗi xảy ra");
+      setError(err instanceof Error ? err.message : "Có lỗi xảy ra khi tính toán");
     } finally {
       setLoading(false);
     }
   }
 
+  const applyPreset = (preset: (typeof PRESETS)[number]) => {
+    setCurrentLevel(preset.current);
+    setTargetLevel(preset.target);
+    setTalentTarget(preset.talent);
+  };
+
   return (
     <div className="space-y-6">
-      {/* Chọn nhân vật */}
-      <div className="bg-bg-card border-2 border-border rounded-xl p-5">
-        <label className="block text-sm font-medium text-text-secondary mb-2">Nhân vật</label>
+      {/* 1. Chọn nhân vật */}
+      <div className="bg-bg-card border border-border rounded-2xl p-5 shadow-sm">
+        <label className="block text-sm font-semibold text-text-primary mb-2">
+          1. Chọn nhân vật mục tiêu
+        </label>
         {selected ? (
-          <div className="flex items-center justify-between bg-bg-primary border border-border rounded-lg p-3">
-            <div className="flex items-center gap-3">
+          <div className="flex items-center justify-between bg-bg-elevated border border-accent-500/40 rounded-xl p-3.5">
+            <div className="flex items-center gap-3.5">
               {selected.iconUrl && (
-                <Image src={selected.iconUrl} alt={selected.name} width={40} height={40} className="rounded-full" />
+                <Image
+                  src={selected.iconUrl}
+                  alt={selected.name}
+                  width={46}
+                  height={46}
+                  className="rounded-full ring-2 ring-accent-500/40 bg-bg-primary"
+                />
               )}
               <div>
-                <div className="font-semibold text-text-primary">{selected.name}</div>
+                <div className="font-bold text-text-primary text-base flex items-center gap-2">
+                  {selected.name}
+                  <span className="text-xs px-2 py-0.5 rounded bg-bg-secondary text-text-secondary border border-border">
+                    {selected.vision}
+                  </span>
+                </div>
                 <RarityStars count={selected.rarity} size="sm" />
               </div>
             </div>
             <button
               onClick={() => setSelected(null)}
-              className="text-sm text-text-muted hover:text-text-primary transition-colors"
+              className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-border hover:bg-bg-secondary text-text-muted hover:text-text-primary transition-colors"
             >
-              Đổi
+              Đổi nhân vật
             </button>
           </div>
         ) : (
@@ -117,20 +186,26 @@ export function MaterialCalculatorClient({ characters }: { characters: Character
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Gõ tên nhân vật..."
-              className="w-full bg-bg-primary border border-border rounded-lg px-3 py-2 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-gold/50"
+              placeholder="🔍 Nhập tên nhân vật (ví dụ: Kazuha, Raiden, Hu Tao, Furina...)"
+              className="w-full bg-bg-primary border border-border rounded-xl px-3.5 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-500 transition-colors"
             />
-            <div className="mt-2 grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
               {filtered.map((c) => (
                 <button
                   key={c.id}
                   onClick={() => setSelected(c)}
-                  className="flex items-center gap-2 bg-bg-primary border border-border rounded-lg p-2 hover:border-gold/50 transition-colors text-left"
+                  className="flex items-center gap-2.5 bg-bg-primary border border-border/80 rounded-xl p-2 hover:border-accent-500/50 hover:bg-bg-elevated transition-all text-left group"
                 >
                   {c.iconUrl && (
-                    <Image src={c.iconUrl} alt={c.name} width={28} height={28} className="rounded-full shrink-0" />
+                    <Image
+                      src={c.iconUrl}
+                      alt={c.name}
+                      width={32}
+                      height={32}
+                      className="rounded-full shrink-0 group-hover:scale-105 transition-transform"
+                    />
                   )}
-                  <span className="text-sm text-text-primary truncate">{c.name}</span>
+                  <span className="text-xs font-medium text-text-primary truncate">{c.name}</span>
                 </button>
               ))}
             </div>
@@ -138,66 +213,121 @@ export function MaterialCalculatorClient({ characters }: { characters: Character
         )}
       </div>
 
-      {/* Khoảng cấp độ */}
-      <div className="bg-bg-card border-2 border-border rounded-xl p-5">
-        <label className="block text-sm font-medium text-text-secondary mb-3">Khoảng cấp độ đột phá</label>
-        <div className="flex items-center gap-4">
-          <div className="flex-1">
-            <span className="text-xs text-text-muted">Hiện tại</span>
+      {/* 2. Khoảng cấp độ & Thiết lập nâng cấp */}
+      <div className="bg-bg-card border border-border rounded-2xl p-5 shadow-sm space-y-4">
+        <div className="flex items-center justify-between">
+          <label className="text-sm font-semibold text-text-primary">
+            2. Thiết lập mục tiêu nâng cấp
+          </label>
+          {/* Quick presets */}
+          <div className="flex flex-wrap items-center gap-1.5">
+            {PRESETS.map((p) => (
+              <button
+                key={p.label}
+                onClick={() => applyPreset(p)}
+                className="text-[11px] font-mono px-2.5 py-1 rounded-lg border border-border bg-bg-primary hover:bg-bg-elevated hover:border-accent-500/50 text-text-secondary hover:text-accent-bright transition-all"
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="bg-bg-primary border border-border/70 rounded-xl p-3">
+            <span className="text-xs text-text-muted font-medium block mb-1">Cấp độ hiện tại</span>
             <input
               type="number"
               min={1}
               max={90}
               value={currentLevel}
               onChange={(e) => setCurrentLevel(Math.min(90, Math.max(1, Number(e.target.value) || 1)))}
-              className="w-full bg-bg-primary border border-border rounded-lg px-3 py-2 text-text-primary mt-1"
+              className="w-full bg-bg-secondary border border-border rounded-lg px-3 py-1.5 text-text-primary font-mono font-bold text-sm"
             />
           </div>
-          <span className="text-text-muted mt-4">→</span>
-          <div className="flex-1">
-            <span className="text-xs text-text-muted">Mục tiêu</span>
+          <div className="bg-bg-primary border border-border/70 rounded-xl p-3">
+            <span className="text-xs text-text-muted font-medium block mb-1">Cấp độ mục tiêu</span>
             <input
               type="number"
               min={1}
               max={90}
               value={targetLevel}
               onChange={(e) => setTargetLevel(Math.min(90, Math.max(1, Number(e.target.value) || 90)))}
-              className="w-full bg-bg-primary border border-border rounded-lg px-3 py-2 text-text-primary mt-1"
+              className="w-full bg-bg-secondary border border-border rounded-lg px-3 py-1.5 text-text-primary font-mono font-bold text-sm"
             />
           </div>
         </div>
 
-        <label className="flex items-center gap-2 mt-4 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={includeTalent}
-            onChange={(e) => setIncludeTalent(e.target.checked)}
-            className="accent-gold"
-          />
-          <span className="text-sm text-text-secondary">Tính cả nguyên liệu lên cấp thiên phú (mục tiêu cấp {talentTarget})</span>
-        </label>
-        {includeTalent && (
-          <input
-            type="range"
-            min={2}
-            max={10}
-            value={talentTarget}
-            onChange={(e) => setTalentTarget(Number(e.target.value))}
-            className="w-full mt-2 accent-gold"
-          />
-        )}
+        <div className="bg-bg-primary border border-border/70 rounded-xl p-3.5 space-y-2">
+          <label className="flex items-center gap-2.5 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={includeTalent}
+              onChange={(e) => setIncludeTalent(e.target.checked)}
+              className="accent-amber-400 w-4 h-4 rounded"
+            />
+            <span className="text-sm font-medium text-text-primary">
+              Bao gồm nguyên liệu nâng Thiên phú (3 kỹ năng chính lên cấp {talentTarget})
+            </span>
+          </label>
+          {includeTalent && (
+            <div className="pl-6 space-y-1">
+              <div className="flex justify-between text-xs text-text-muted font-mono">
+                <span>Cấp 2</span>
+                <span className="text-accent-bright font-bold">Mục tiêu: Cấp {talentTarget}</span>
+                <span>Cấp 10 (Vương miện)</span>
+              </div>
+              <input
+                type="range"
+                min={2}
+                max={10}
+                value={talentTarget}
+                onChange={(e) => setTalentTarget(Number(e.target.value))}
+                className="w-full accent-amber-400"
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Ước tính EXP & Mora */}
+        <div className="grid grid-cols-2 gap-3 pt-1">
+          <div className="bg-bg-primary/60 border border-border/50 rounded-xl p-3 flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-purple-500/10 border border-purple-500/30 flex items-center justify-center shrink-0">
+              <span className="text-lg">📜</span>
+            </div>
+            <div>
+              <div className="text-[11px] text-text-muted font-medium">Kinh Nghiệm Anh Hùng</div>
+              <div className="text-sm font-bold font-mono text-purple-300">
+                ~{estimates.herosWit.toLocaleString("vi-VN")} cuốn
+              </div>
+            </div>
+          </div>
+          <div className="bg-bg-primary/60 border border-border/50 rounded-xl p-3 flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center shrink-0">
+              <span className="text-lg">🪙</span>
+            </div>
+            <div>
+              <div className="text-[11px] text-text-muted font-medium">Tổng Mora Ước Tính</div>
+              <div className="text-sm font-bold font-mono text-amber-300">
+                ~{estimates.totalMora.toLocaleString("vi-VN")} Mora
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <button
         onClick={handleCalculate}
         disabled={!selected || loading}
-        className="w-full bg-gold text-bg-primary font-semibold rounded-lg py-3 hover:bg-gold-bright transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+        className="w-full bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-bg-primary font-bold text-sm rounded-xl py-3.5 transition-all shadow-md disabled:opacity-40 disabled:cursor-not-allowed"
       >
-        {loading ? "Đang tính..." : "Tính nguyên liệu"}
+        {loading ? "⏳ Đang tính toán dữ liệu chính thức..." : "🚀 Tính Tổng Nguyên Liệu Cần Farm"}
       </button>
 
       {error && (
-        <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 text-red-400 text-sm">{error}</div>
+        <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 text-red-400 text-sm">
+          {error}
+        </div>
       )}
 
       {result && <ResultPanel result={result} />}
@@ -217,24 +347,39 @@ const DAY_VI: Record<string, string> = {
 
 function ResultPanel({ result }: { result: CalculatorResult }) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-in fade-in duration-300">
       <MaterialPlanCard
-        title={`Đột phá: cấp ${result.ascension.currentLevel} → ${result.ascension.targetLevel}`}
+        title={`🌟 Nguyên Liệu Đột Phá Nhân Vật (Cấp ${result.ascension.currentLevel} → ${result.ascension.targetLevel})`}
         materials={result.ascension.materials}
       />
-      {result.talent && <MaterialPlanCard title="Nguyên liệu thiên phú" materials={result.talent.materials} />}
+      {result.talent && (
+        <MaterialPlanCard
+          title="⚡ Nguyên Liệu Nâng Cấp Kỹ Năng / Thiên Phú"
+          materials={result.talent.materials}
+        />
+      )}
       {result.domains.length > 0 && (
-        <div className="bg-bg-card border-2 border-border rounded-xl p-5">
-          <h3 className="font-display text-lg font-bold text-text-primary mb-3">Bí cảnh có rớt nguyên liệu cần</h3>
-          <div className="space-y-2">
+        <div className="bg-bg-card border border-border rounded-2xl p-5 shadow-sm">
+          <h3 className="font-display text-base font-bold text-text-primary mb-3 flex items-center gap-2">
+            🏛️ Bí Cảnh Rơi Nguyên Liệu Phù Hợp ({result.domains.length})
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {result.domains.map((d) => (
-              <div key={d.id} className="bg-bg-primary border border-border rounded-lg p-3 text-sm">
-                <div className="text-text-primary font-medium">{d.name}</div>
-                <div className="text-xs text-text-muted mt-1">
+              <div key={d.id} className="bg-bg-primary border border-border/80 rounded-xl p-3.5 text-xs space-y-1.5">
+                <div className="text-text-primary font-bold text-sm flex items-center justify-between">
+                  <span>{d.name}</span>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-bg-secondary text-text-muted border border-border">
+                    {d.category}
+                  </span>
+                </div>
+                <div className="text-amber-400 font-mono text-[11px]">
+                  📅 Lịch mở:{" "}
                   {d.daysOfWeek.length > 0
-                    ? `Mở: ${d.daysOfWeek.map((day) => DAY_VI[day] ?? day).join(", ")}`
-                    : "Mở hằng ngày"}
-                  {" · "}Rớt: {d.dropsMaterials.join(", ")}
+                    ? d.daysOfWeek.map((day) => DAY_VI[day] ?? day).join(", ")
+                    : "Mở tất cả các ngày"}
+                </div>
+                <div className="text-text-muted text-[11px] truncate">
+                  Rơi: {d.dropsMaterials.join(", ")}
                 </div>
               </div>
             ))}
@@ -247,18 +392,42 @@ function ResultPanel({ result }: { result: CalculatorResult }) {
 
 function MaterialPlanCard({ title, materials }: { title: string; materials: PlanMaterial[] }) {
   return (
-    <div className="bg-bg-card border-2 border-gold/30 rounded-xl p-5">
-      <h3 className="font-display text-lg font-bold text-text-primary mb-3">{title}</h3>
+    <div className="bg-bg-card border border-amber-500/30 rounded-2xl p-5 shadow-sm">
+      <h3 className="font-display text-base font-bold text-text-primary mb-3">{title}</h3>
       {materials.length === 0 ? (
-        <p className="text-sm text-text-muted">Không cần nguyên liệu nào trong khoảng này.</p>
+        <p className="text-xs text-text-muted">Không cần thêm nguyên liệu nào trong khoảng này.</p>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-          {materials.map((m) => (
-            <div key={m.name} className="bg-bg-primary border border-border rounded-lg p-3">
-              <div className="text-sm text-text-primary font-medium truncate">{m.name}</div>
-              <div className="text-xs text-text-muted mt-1">×{m.quantity.toLocaleString("vi-VN")}</div>
-            </div>
-          ))}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
+          {materials.map((m) => {
+            const iconPath = `/local-genshin-assets/materials/${slugify(m.name)}.png`;
+            return (
+              <div
+                key={m.name}
+                className="bg-bg-primary border border-border rounded-xl p-3 flex items-center gap-3 hover:border-amber-500/40 transition-colors"
+              >
+                <div className="relative w-10 h-10 rounded-lg bg-bg-secondary border border-border/60 shrink-0 overflow-hidden flex items-center justify-center p-1">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={iconPath}
+                    alt={m.name}
+                    className="w-full h-full object-contain filter drop-shadow-sm"
+                    loading="lazy"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).style.opacity = "0.3";
+                    }}
+                  />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="text-xs font-semibold text-text-primary truncate" title={m.name}>
+                    {m.name}
+                  </div>
+                  <div className="text-xs font-mono font-bold text-amber-400 mt-0.5">
+                    ×{m.quantity.toLocaleString("vi-VN")}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

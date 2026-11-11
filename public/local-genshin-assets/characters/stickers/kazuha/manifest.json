@@ -1,0 +1,81 @@
+{
+  "character": "Kaedehara Kazuha",
+  "vision": "Anemo",
+  "region": "Inazuma",
+  "totalStickers": 18,
+  "folder": "/local-genshin-assets/characters/stickers/kazuha/",
+  "stickers": [
+    {
+      "file": "kazuha_01_leaf_flute.png",
+      "url": "/local-genshin-assets/characters/stickers/kazuha/kazuha_01_leaf_flute.png"
+    },
+    {
+      "file": "kazuha_02_surprised.png",
+      "url": "/local-genshin-assets/characters/stickers/kazuha/kazuha_02_surprised.png"
+    },
+    {
+      "file": "kazuha_03_thinking.png",
+      "url": "/local-genshin-assets/characters/stickers/kazuha/kazuha_03_thinking.png"
+    },
+    {
+      "file": "kazuha_04_nap_relax.png",
+      "url": "/local-genshin-assets/characters/stickers/kazuha/kazuha_04_nap_relax.png"
+    },
+    {
+      "file": "kazuha_05_tea_sip.png",
+      "url": "/local-genshin-assets/characters/stickers/kazuha/kazuha_05_tea_sip.png"
+    },
+    {
+      "file": "kazuha_06_smile_gentle.png",
+      "url": "/local-genshin-assets/characters/stickers/kazuha/kazuha_06_smile_gentle.png"
+    },
+    {
+      "file": "kazuha_07_wind_listening.png",
+      "url": "/local-genshin-assets/characters/stickers/kazuha/kazuha_07_wind_listening.png"
+    },
+    {
+      "file": "kazuha_08_slash_ready.png",
+      "url": "/local-genshin-assets/characters/stickers/kazuha/kazuha_08_slash_ready.png"
+    },
+    {
+      "file": "kazuha_09_maple_leaf.png",
+      "url": "/local-genshin-assets/characters/stickers/kazuha/kazuha_09_maple_leaf.png"
+    },
+    {
+      "file": "kazuha_10_poem_recite.png",
+      "url": "/local-genshin-assets/characters/stickers/kazuha/kazuha_10_poem_recite.png"
+    },
+    {
+      "file": "kazuha_11_grilled_fish.png",
+      "url": "/local-genshin-assets/characters/stickers/kazuha/kazuha_11_grilled_fish.png"
+    },
+    {
+      "file": "kazuha_12_sleep_peaceful.png",
+      "url": "/local-genshin-assets/characters/stickers/kazuha/kazuha_12_sleep_peaceful.png"
+    },
+    {
+      "file": "kazuha_13_chibi_wave.png",
+      "url": "/local-genshin-assets/characters/stickers/kazuha/kazuha_13_chibi_wave.png"
+    },
+    {
+      "file": "kazuha_14_sparkle_eyes.png",
+      "url": "/local-genshin-assets/characters/stickers/kazuha/kazuha_14_sparkle_eyes.png"
+    },
+    {
+      "file": "kazuha_15_curious.png",
+      "url": "/local-genshin-assets/characters/stickers/kazuha/kazuha_15_curious.png"
+    },
+    {
+      "file": "kazuha_16_satisfied.png",
+      "url": "/local-genshin-assets/characters/stickers/kazuha/kazuha_16_satisfied.png"
+    },
+    {
+      "file": "kazuha_17_travel_wander.png",
+      "url": "/local-genshin-assets/characters/stickers/kazuha/kazuha_17_travel_wander.png"
+    },
+    {
+      "file": "kazuha_18_autumn_breeze.png",
+      "url": "/local-genshin-assets/characters/stickers/kazuha/kazuha_18_autumn_breeze.png"
+    }
+  ]
+}

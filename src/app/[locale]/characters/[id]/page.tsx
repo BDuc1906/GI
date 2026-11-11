@@ -13,6 +13,7 @@ import { CharacterConstellations } from "@/features/characters/components/Charac
 import { CharacterSimilarSection } from "@/features/characters/components/CharacterSimilarSection";
 import { RecommendedBuildTab } from "@/features/characters/components/RecommendedBuildTab";
 import { CharacterTeamVariants } from "@/features/characters/components/CharacterTeamVariants";
+import { CharacterStickerGallery } from "@/features/characters/components/CharacterStickerGallery";
 import type { Metadata } from "next";
 import {
   resolveTravelerSibling,
@@ -191,6 +192,8 @@ export default async function CharacterDetail({ params }: PageProps) {
         locale={locale}
         elementColor={el}
       />
+
+      <CharacterStickerGallery characterId={c.id} elementColor={el} />
 
       <CharacterSimilarSection
         similar={similar}

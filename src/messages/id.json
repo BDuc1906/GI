@@ -17,7 +17,8 @@
     "openMenu": "Buka menu",
     "closeMenu": "Tutup menu",
     "theme": "Tema",
-    "language": "Bahasa"
+    "language": "Bahasa",
+    "tools": "Alat"
   },
   "Theme": {
     "toggleLabel": "Ganti mode terang/gelap"
