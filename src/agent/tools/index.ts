@@ -6,3 +6,5 @@ export { CompareTool } from "./compare.tool";
 export { FixTool } from "./fix.tool";
 export { SyncTool } from "./sync.tool";
 export { AuditTool } from "./audit.tool";
+export { KQMBenchmarkTool } from "./kqm-benchmark.tool";
+export { CharacterBuildTool } from "./character-build.tool";

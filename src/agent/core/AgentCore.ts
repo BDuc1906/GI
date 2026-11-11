@@ -112,9 +112,9 @@ export class AgentCore {
   private buildToolSubset(intent: IntentResult): string[] | undefined {
     switch (intent.intent) {
       case "search":
-        return ["searchData"];
+        return ["searchData", "getCharacterBuildGuide", "kqmBenchmark"];
       case "compare":
-        return ["fetchLiveData", "compareData"];
+        return ["fetchLiveData", "compareData", "kqmBenchmark"];
       case "audit":
         return ["getAuditLogs"];
       case "explain":

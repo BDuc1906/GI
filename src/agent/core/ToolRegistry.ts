@@ -37,7 +37,7 @@
 
 import { z } from "zod";
 import { tool as createAITool, type ToolSet } from "ai";
-import { SearchTool, FetchLiveTool, CompareTool, FixTool, SyncTool, AuditTool } from "../tools";
+import { SearchTool, FetchLiveTool, CompareTool, FixTool, SyncTool, AuditTool, KQMBenchmarkTool, CharacterBuildTool } from "../tools";
 import { getConfig } from "./config";
 import type { ToolContext, ToolResult } from "../tools/base.tool";
 
@@ -112,7 +112,7 @@ export class ToolRegistry {
   }
 
   private registerDefaultTools(): void {
-    const tools = [new SearchTool(), new FetchLiveTool(), new CompareTool(), new FixTool(), new SyncTool(), new AuditTool()];
+    const tools = [new SearchTool(), new FetchLiveTool(), new CompareTool(), new FixTool(), new SyncTool(), new AuditTool(), new KQMBenchmarkTool(), new CharacterBuildTool()];
 
     for (const tool of tools) {
       this.register({

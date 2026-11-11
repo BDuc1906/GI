@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { SiteNav } from "@/components/layout/SiteNav";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { CommandPalette } from "@/features/search/components/CommandPalette";
+import { PwaRegister } from "@/components/pwa/PwaRegister";
 import { GlossaryProvider } from "@/features/glossary/GlossaryProvider";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
@@ -49,6 +50,7 @@ export async function generateMetadata({
     category: "games",
     referrer: "origin-when-cross-origin",
     formatDetection: { telephone: false },
+    appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "LEIBO" },
     robots: {
       index: true,
       follow: true,
@@ -186,6 +188,7 @@ export default async function LocaleLayout({
               </footer>
               <ChatWidget />
               <CommandPalette />
+              <PwaRegister />
             </GlossaryProvider>
           </ThemeProvider>
         </NextIntlClientProvider>

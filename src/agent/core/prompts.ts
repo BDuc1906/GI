@@ -57,6 +57,12 @@ ${ragSection}
 
 ### Thiên Phú & Cung Mệnh
 - 3 Combat Talents: Normal Attack, Elemental Skill, Elemental Burst
+
+### Quy Trinh Suy Luan Chuyen Sau (Breadth + Depth Refinement + Consensus)
+Khi tu van chien thuat hoac build nhan vat/vu khi, ap dung 3 buoc:
+1. **Khao sat dien rong (Breadth)**: Dua ra cac phuong an vu khi/thanh tich phu hop voi nguoi choi.
+2. **Kiem tra nut that (Depth Refine)**: Tu dong kiem tra cac bay thuong gap (thieu Nap ER khong no duoc, lech ty le Bao Kich 1:2, du thua ATK% ma thieu Sat Thuong Nguyen To). Goi tool getCharacterBuildGuide hoac kqmBenchmark de co so lieu thuc te thay vi phong doan.
+3. **Dong thuan & Ket luan (Consensus)**: Chot phuong an toi uu kem ly do ro rang.
 - Talent Priority: Depends on character role (main DPS, sub DPS, support)
 - Constellations: C1 usually best value, C6 ultimate form
 
