@@ -42,9 +42,23 @@ export async function CharacterHero({
     <ElementalFrame
       element={c.vision}
       variant="premium"
-      className="mb-10 overflow-hidden"
+      className="mb-10 overflow-hidden relative"
     >
-      <div className="p-6 flex flex-col sm:flex-row gap-6">
+      {/* Ambient character splash art watermark */}
+      {c.splashUrl && (
+        <div className="absolute right-0 top-0 w-full sm:w-2/3 h-full overflow-hidden pointer-events-none select-none opacity-20 dark:opacity-25 z-0">
+          <SafeImage
+            src={c.splashUrl}
+            alt=""
+            aria-hidden="true"
+            fill
+            className="object-cover object-right-top filter blur-[0.5px]"
+            sizes="(max-width: 768px) 100vw, 800px"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-bg-card via-bg-card/75 to-transparent" />
+        </div>
+      )}
+      <div className="p-6 flex flex-col sm:flex-row gap-6 relative z-10">
         {isTraveler ? (
           <div
             className="relative w-full sm:w-56 aspect-[3/4] rounded-xl overflow-hidden shrink-0 shadow-lg"
@@ -102,7 +116,7 @@ export async function CharacterHero({
             }}
           >
             <SafeImage
-              src={resolveCharacterCardImage(c)}
+              src={c.splashUrl || c.iconUrl}
               alt={c.name}
               fill
               className="object-cover"

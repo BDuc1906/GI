@@ -21,7 +21,7 @@ export function localCharacterSide(id: string): string {
 
 /** Character splash art (gacha/portrait) */
 export function localCharacterSplash(id: string): string {
-  return `/local-genshin-assets/characters/splash/${id}.png`;
+  return `/local-genshin-assets/characters/splash/${id}.webp`;
 }
 
 /** Weapon icon */

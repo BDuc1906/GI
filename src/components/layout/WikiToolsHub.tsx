@@ -32,7 +32,7 @@ export async function WikiToolsHub() {
           <div className="absolute right-0 top-0 w-3/5 h-full overflow-hidden select-none pointer-events-none">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/local-genshin-assets/characters/splash/furina.png"
+              src="/local-genshin-assets/characters/splash/furina.webp"
               alt=""
               aria-hidden="true"
               loading="lazy"
@@ -84,7 +84,7 @@ export async function WikiToolsHub() {
           <div className="absolute right-0 top-0 w-3/4 h-full overflow-hidden select-none pointer-events-none">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/local-genshin-assets/characters/splash/kaedehara-kazuha.png"
+              src="/local-genshin-assets/characters/splash/kaedehara-kazuha.webp"
               alt=""
               aria-hidden="true"
               loading="lazy"

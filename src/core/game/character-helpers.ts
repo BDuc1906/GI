@@ -175,8 +175,8 @@ export async function resolveTravelerSibling(character: Character): Promise<{
 
   return {
     isTraveler: true,
-    boySplash: boy ? resolveCharacterCardImage(boy) : null,
-    girlSplash: girl ? resolveCharacterCardImage(girl) : null,
+    boySplash: boy?.splashUrl || "/local-genshin-assets/characters/splash/aether.webp",
+    girlSplash: girl?.splashUrl || "/local-genshin-assets/characters/splash/lumine.webp",
   };
 }
 
