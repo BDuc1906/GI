@@ -12,6 +12,16 @@ const EnkaResponseSchema = z.object({
     z.object({
       avatarId: z.number(),
       fightPropMap: z.record(z.string(), z.number()).optional(),
+      propMap: z
+        .record(
+          z.string(),
+          z.object({
+            val: z.string().optional(),
+            ival: z.string().optional(),
+          }).passthrough()
+        )
+        .optional(),
+      skillLevelMap: z.record(z.string(), z.number()).optional(),
       equipList: z.array(z.unknown()).optional(),
     }).passthrough()
   ).default([]),
@@ -164,9 +174,15 @@ async function getEnkaAvatar(uid: string, characterId: string) {
 
   const fightProps = avatar.fightPropMap ?? {};
   const equipped = analyzeEquipment(avatar.equipList);
+  const parsedLevel = Number.parseInt(
+    avatar.propMap?.["4001"]?.val ?? avatar.propMap?.["4001"]?.ival ?? "1",
+    10
+  );
 
   return {
     character,
+    level: Number.isFinite(parsedLevel) && parsedLevel > 0 ? parsedLevel : 1,
+    talentLevels: Object.values(avatar.skillLevelMap ?? {}).slice(0, 3),
     observedStats: {
       hp: Math.round(fightProps["2000"] ?? 0),
       atk: Math.round(fightProps["2001"] ?? 0),
@@ -246,6 +262,8 @@ export async function generateBuildAdvice(uid: string, characterId: string): Pro
       element: liveBuild.character.vision,
       weaponType: liveBuild.character.weaponType,
       rarity: liveBuild.character.rarity,
+      level: liveBuild.level,
+      talentLevels: liveBuild.talentLevels,
     },
     observedStats: liveBuild.observedStats,
     equippedWeapon: liveBuild.weapon,
@@ -269,6 +287,7 @@ export async function generateBuildAdvice(uid: string, characterId: string): Pro
         "Đối chiếu hướng build LEIBO với vũ khí, main stat, substat, chỉ số chiến đấu và KQM Roll Value theo từng món.",
         "KQM 20-roll chỉ là benchmark tham khảo cho DPS phù hợp, không áp dụng máy móc cho support, healer, EM/reaction build.",
         "Ghi rõ nguồn hướng dẫn curated/draft/auto; không mô tả draft hoặc auto là đã được chuyên gia xác minh.",
+        "Dùng cấp nhân vật và cấp thiên phú hiện tại để cân nhắc ưu tiên nâng thiên phú so với farm thánh di vật.",
         "Đưa ra ưu tiên nâng cấp cụ thể theo thứ tự, giải thích vì sao; phân biệt vấn đề chắc chắn và điều còn tùy team/rotation.",
         "Nếu thiếu dữ liệu, nói rõ thiếu gì. Không đưa tên UID, nickname hoặc chữ ký người chơi vào phản hồi.",
         "Trả lời bằng tiếng Việt, ngắn gọn theo mục: Tóm tắt; Điểm tốt; Ưu tiên cải thiện; Mục tiêu chỉ số/build; Lưu ý.",

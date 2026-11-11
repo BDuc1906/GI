@@ -30,6 +30,8 @@
     "searchPlaceholder": "Tìm kiếm nhanh..."
   },
   "Home": {
+    "buildReviewTitle": "Kiểm tra build thật của bạn, không chỉ xem mẫu",
+    "buildReviewDescription": "Lấy nhân vật từ showcase Enka công khai, rồi chuyển chỉ số chiến đấu thực tế sang máy tính DPS để so sánh các lựa chọn build.",
     "latestCharacters": "Nhân vật mới cập nhật",
     "latestWeapons": "Vũ khí mới cập nhật",
     "viewAll": "Xem tất cả",

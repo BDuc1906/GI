@@ -30,6 +30,8 @@
     "searchPlaceholder": "Schnell suchen (Charaktere, Waffen, Artefakte, Materialien)..."
   },
   "Home": {
+    "buildReviewTitle": "Prüfe deinen echten Build statt nur einer Vorlage",
+    "buildReviewDescription": "Importiere einen Charakter aus deinem öffentlichen Enka-Showcase und übertrage seine tatsächlichen Kampfwerte in den DPS-Rechner, um Build-Optionen zu vergleichen.",
     "latestCharacters": "Kürzlich aktualisierte Charaktere",
     "latestWeapons": "Kürzlich aktualisierte Waffen",
     "viewAll": "Alle anzeigen",

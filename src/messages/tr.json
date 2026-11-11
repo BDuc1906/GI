@@ -30,6 +30,8 @@
     "searchPlaceholder": "Hızlı ara (karakterler, silahlar, eserler, materyaller)..."
   },
   "Home": {
+    "buildReviewTitle": "Şablonu değil, gerçek build'ini test et",
+    "buildReviewDescription": "Herkese açık Enka vitrininizden bir karakter içe aktarın, ardından gerçek savaş istatistiklerini DPS hesaplayıcısına göndererek build seçeneklerini karşılaştırın.",
     "latestCharacters": "Son güncellenen karakterler",
     "latestWeapons": "Son güncellenen silahlar",
     "viewAll": "Tümünü gör",

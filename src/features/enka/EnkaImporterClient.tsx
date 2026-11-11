@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useSyncExternalStore } from "react";
 import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 import type { EnkaShowcaseResult, EnkaShowcaseCharacter } from "@/app/api/tools/enka/[uid]/route";
 import { WeaponIcon } from "@/features/weapons/components/WeaponIcon";
 
@@ -306,6 +307,7 @@ interface EnkaImporterClientProps {
 }
 
 export function EnkaImporterClient({ onUseBuild }: EnkaImporterClientProps) {
+  const router = useRouter();
   const savedUid = useLocalStorageValue(STORAGE_KEY);
   const [uid, setUid] = useState<string>("");
   const [loading, setLoading] = useState(false);
@@ -367,8 +369,17 @@ export function EnkaImporterClient({ onUseBuild }: EnkaImporterClientProps) {
       onUseBuild(char);
       return;
     }
-    // Default: điều hướng sang DPS Calculator với stats trong URL
+    // Chuyển dữ liệu showcase sang chế độ DPS đơn của máy tính.
     const params = new URLSearchParams({
+      source: "enka",
+      characterId: char.characterId ?? "",
+      characterLevel: String(char.level),
+      weaponLevel: String(char.weapon?.level ?? 90),
+      weaponRefinement: String(char.weapon?.refinement ?? 1),
+      weaponIconKey: char.weapon?.iconKey ?? "",
+      normalTalent: String(char.talentLevels[0] ?? 10),
+      skillTalent: String(char.talentLevels[1] ?? 10),
+      burstTalent: String(char.talentLevels[2] ?? 10),
       hp: String(char.fightProps.hp),
       atk: String(char.fightProps.atk),
       def: String(char.fightProps.def),
@@ -376,9 +387,9 @@ export function EnkaImporterClient({ onUseBuild }: EnkaImporterClientProps) {
       critDmg: String(char.fightProps.critDmg),
       em: String(char.fightProps.em),
       er: String(char.fightProps.er),
-      ...(char.characterId ? { characterId: char.characterId } : {}),
+      damageBonus: String(char.fightProps.damageBonus),
     });
-    window.location.href = `/tools/dps-calculator?${params.toString()}`;
+    router.push(`/tools/dps-calculator?${params.toString()}`);
   }
 
   return (

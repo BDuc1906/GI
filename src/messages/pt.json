@@ -30,6 +30,8 @@
     "searchPlaceholder": "Pesquisa rápida (personagens, armas, artefatos, materiais)..."
   },
   "Home": {
+    "buildReviewTitle": "Teste sua build real, não apenas um modelo",
+    "buildReviewDescription": "Importe um personagem do seu showcase público do Enka e envie os atributos reais de combate para a calculadora de DPS para comparar builds.",
     "latestCharacters": "Personagens atualizados recentemente",
     "latestWeapons": "Armas atualizadas recentemente",
     "viewAll": "Ver tudo",

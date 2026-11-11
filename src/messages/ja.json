@@ -30,6 +30,8 @@
     "searchPlaceholder": "クイック検索（キャラクター、武器、聖遺物、素材）..."
   },
   "Home": {
+    "buildReviewTitle": "テンプレートだけでなく、実際のビルドを試そう",
+    "buildReviewDescription": "公開中のEnkaショーケースからキャラクターを取り込み、実際の戦闘ステータスをDPS計算機に送ってビルドを比較できます。",
     "latestCharacters": "最近更新されたキャラクター",
     "latestWeapons": "最近更新された武器",
     "viewAll": "すべて見る",

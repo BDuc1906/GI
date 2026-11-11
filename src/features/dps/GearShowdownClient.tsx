@@ -26,16 +26,41 @@ export interface WeaponOption {
 interface GearShowdownClientProps {
   characters: CharacterOption[];
   weapons: WeaponOption[];
+  importedBuild?: {
+    characterId: string;
+    characterLevel: number;
+    talentLevels: {
+      normalAttack: number;
+      elementalSkill: number;
+      elementalBurst: number;
+    };
+    totalStats: {
+      totalATK: number;
+      critRate: number;
+      critDmg: number;
+      em: number;
+      er: number;
+      damageBonus: number;
+    };
+  };
 }
 
-const REACTIONS = ["Vaporize", "Melt", "Overload", "Superconduct", "Electro-Charged", "Aggravate", "Spread"];
+const REACTIONS = ["Frozen", "Vaporize", "Melt", "Overload", "Superconduct", "Electro-Charged", "Aggravate", "Spread"];
 
-export function GearShowdownClient({ characters, weapons }: GearShowdownClientProps) {
+export function GearShowdownClient({
+  characters,
+  weapons,
+  importedBuild,
+}: GearShowdownClientProps) {
   const [charQuery, setCharQuery] = useState("");
-  const [selectedChar, setSelectedChar] = useState<CharacterOption | null>(null);
+  const [selectedChar, setSelectedChar] = useState<CharacterOption | null>(
+    () => characters.find((character) => character.id === importedBuild?.characterId) ?? null
+  );
 
   // Chế độ: So sánh 2 Vũ khí hoặc So sánh 2 Bảng chỉ số
-  const [compareMode, setCompareMode] = useState<"weapons" | "totalStats">("weapons");
+  const [compareMode, setCompareMode] = useState<"weapons" | "totalStats">(
+    importedBuild ? "totalStats" : "weapons"
+  );
 
   // Vũ khí A vs B
   const [weaponA, setWeaponA] = useState<WeaponOption | null>(null);
@@ -44,29 +69,50 @@ export function GearShowdownClient({ characters, weapons }: GearShowdownClientPr
   const [refinementB, setRefinementB] = useState(1);
 
   // Chỉ số A vs B
-  const [labelA, setLabelA] = useState("Phương án A (Vd: Nón Crit Rate)");
-  const [statsA, setStatsA] = useState({
-    totalATK: 2100,
-    critRate: 75.0,
-    critDmg: 140.0,
-    em: 100,
-    er: 120,
-    damageBonus: 46.6,
-  });
+  const importedStats = importedBuild?.totalStats;
+  const [labelA, setLabelA] = useState(
+    importedBuild ? "Build hiện tại (Enka)" : "Phương án A (Vd: Nón Crit Rate)"
+  );
+  const [statsA, setStatsA] = useState(
+    importedStats ?? {
+      totalATK: 2100,
+      critRate: 75.0,
+      critDmg: 140.0,
+      em: 100,
+      er: 120,
+      damageBonus: 46.6,
+    }
+  );
 
-  const [labelB, setLabelB] = useState("Phương án B (Vd: Nón Crit DMG)");
-  const [statsB, setStatsB] = useState({
-    totalATK: 2100,
-    critRate: 50.0,
-    critDmg: 190.0,
-    em: 100,
-    er: 120,
-    damageBonus: 46.6,
-  });
+  const [labelB, setLabelB] = useState(
+    importedBuild ? "Phương án thay đổi" : "Phương án B (Vd: Nón Crit DMG)"
+  );
+  const [statsB, setStatsB] = useState(
+    importedStats ?? {
+      totalATK: 2100,
+      critRate: 50.0,
+      critDmg: 190.0,
+      em: 100,
+      er: 120,
+      damageBonus: 46.6,
+    }
+  );
 
   // Môi trường
-  const [reaction, setReaction] = useState("Vaporize");
+  const [reaction, setReaction] = useState(importedBuild ? "Frozen" : "Vaporize");
   const [reactionDirection, setReactionDirection] = useState<"forward" | "reverse">("forward");
+  const [enemyLevel, setEnemyLevel] = useState(90);
+  const [enemyRes, setEnemyRes] = useState(10);
+  const [defenseReduction, setDefenseReduction] = useState(0);
+  const [defenseIgnore, setDefenseIgnore] = useState(0);
+  const [damageBonus, setDamageBonus] = useState(0);
+  const [vulnerability, setVulnerability] = useState(0);
+  const [reactionBonus, setReactionBonus] = useState(0);
+  const [reactionChancePercent, setReactionChancePercent] = useState(100);
+  const [rotationDurationSeconds, setRotationDurationSeconds] = useState(10);
+  const [normalAttackCount, setNormalAttackCount] = useState(3);
+  const [skillCastCount, setSkillCastCount] = useState(1);
+  const [burstCastCount, setBurstCastCount] = useState(1);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -94,16 +140,30 @@ export function GearShowdownClient({ characters, weapons }: GearShowdownClientPr
     try {
       const payload: Record<string, unknown> = {
         characterId: selectedChar.id,
-        characterLevel: 90,
-        talentLevels: { normalAttack: 10, elementalSkill: 10, elementalBurst: 10 },
+        characterLevel: importedBuild?.characterLevel ?? 90,
+        talentLevels: importedBuild?.talentLevels ?? {
+          normalAttack: 10,
+          elementalSkill: 10,
+          elementalBurst: 10,
+        },
         mode: compareMode,
         modifiers: {
-          enemyRes: 10,
-          defenseReduction: 0,
-          damageBonus: 0,
-          vulnerability: 0,
+          enemyLevel,
+          enemyRes,
+          defenseReduction,
+          defenseIgnore,
+          damageBonus,
+          vulnerability,
           reaction,
           reactionDirection,
+          reactionBonus,
+        },
+        rotation: {
+          normalAttacks: normalAttackCount,
+          skillCasts: skillCastCount,
+          burstCasts: burstCastCount,
+          reactionChance: reactionChancePercent / 100,
+          durationSeconds: rotationDurationSeconds,
         },
       };
 
@@ -219,6 +279,15 @@ export function GearShowdownClient({ characters, weapons }: GearShowdownClientPr
         </button>
       </div>
 
+      {importedBuild && compareMode === "totalStats" && (
+        <div
+          role="status"
+          className="rounded-xl border border-accent-500/30 bg-accent-500/5 px-4 py-3 text-xs leading-relaxed text-text-secondary"
+        >
+          Build A đã nạp từ Enka. Hãy nhập chỉ số dự kiến sau khi đổi món hoặc nâng cấp vào Build B; cấp nhân vật và thiên phú được giữ nguyên. Kết quả ước tính sát thương trực tiếp, chưa mô phỏng năng lượng/uptime Nộ, rotation hay buff đội hình.
+        </div>
+      )}
+
       {/* 3. Khung cấu hình 2 Cột Đối Đầu Song Song (Side-by-Side) */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* CỘT A */}
@@ -319,6 +388,16 @@ export function GearShowdownClient({ characters, weapons }: GearShowdownClientPr
                     className="w-full bg-bg-primary border border-border rounded px-2 py-1 text-text-primary"
                   />
                 </div>
+                <div>
+                  <label className="text-[11px] text-text-muted">Bonus sát thương (%)</label>
+                  <input
+                    type="number"
+                    value={statsA.damageBonus}
+                    step={0.1}
+                    onChange={(e) => setStatsA({ ...statsA, damageBonus: Number(e.target.value) || 0 })}
+                    className="w-full bg-bg-primary border border-border rounded px-2 py-1 text-text-primary"
+                  />
+                </div>
               </div>
             </div>
           )}
@@ -329,6 +408,15 @@ export function GearShowdownClient({ characters, weapons }: GearShowdownClientPr
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-rose-400" />
           <h3 className="font-bold text-sm text-rose-400 mb-3 flex items-center justify-between">
             <span>PHƯƠNG ÁN B</span>
+            {importedBuild && compareMode === "totalStats" && (
+              <button
+                type="button"
+                onClick={() => setStatsB({ ...statsA })}
+                className="text-[10px] font-medium text-text-muted hover:text-text-primary"
+              >
+                Sao chép chỉ số A
+              </button>
+            )}
           </h3>
 
           {compareMode === "weapons" ? (
@@ -422,6 +510,16 @@ export function GearShowdownClient({ characters, weapons }: GearShowdownClientPr
                     className="w-full bg-bg-primary border border-border rounded px-2 py-1 text-text-primary"
                   />
                 </div>
+                <div>
+                  <label className="text-[11px] text-text-muted">Bonus sát thương (%)</label>
+                  <input
+                    type="number"
+                    value={statsB.damageBonus}
+                    step={0.1}
+                    onChange={(e) => setStatsB({ ...statsB, damageBonus: Number(e.target.value) || 0 })}
+                    className="w-full bg-bg-primary border border-border rounded px-2 py-1 text-text-primary"
+                  />
+                </div>
               </div>
             </div>
           )}
@@ -430,7 +528,74 @@ export function GearShowdownClient({ characters, weapons }: GearShowdownClientPr
 
       {/* 4. Tùy chọn Phản ứng & Nút Bắt đầu */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-bg-card border-2 border-border rounded-xl p-4">
-        <div className="flex items-center gap-3 w-full sm:w-auto">
+        <div className="flex flex-wrap items-end gap-3 w-full sm:w-auto">
+          <label className="text-[11px] text-text-muted">
+            Cấp kẻ địch
+            <input
+              type="number"
+              min={1}
+              max={100}
+              step={1}
+              value={enemyLevel}
+              onChange={(e) => setEnemyLevel(Math.min(100, Math.max(1, Math.floor(Number(e.target.value) || 1))))}
+              className="mt-1 block w-24 bg-bg-primary border border-border rounded-lg px-2.5 py-1.5 text-xs text-text-primary"
+            />
+          </label>
+          <label className="text-[11px] text-text-muted">
+            Kháng địch (%)
+            <input
+              type="number"
+              min={-100}
+              max={100}
+              value={enemyRes}
+              onChange={(e) => setEnemyRes(Math.min(100, Math.max(-100, Number(e.target.value) || 0)))}
+              className="mt-1 block w-24 bg-bg-primary border border-border rounded-lg px-2.5 py-1.5 text-xs text-text-primary"
+            />
+          </label>
+          <label className="text-[11px] text-text-muted">
+            Giảm DEF (%)
+            <input
+              type="number"
+              min={0}
+              max={90}
+              value={defenseReduction}
+              onChange={(e) => setDefenseReduction(Math.min(90, Math.max(0, Number(e.target.value) || 0)))}
+              className="mt-1 block w-24 bg-bg-primary border border-border rounded-lg px-2.5 py-1.5 text-xs text-text-primary"
+            />
+          </label>
+          <label className="text-[11px] text-text-muted">
+            Bỏ qua DEF (%)
+            <input
+              type="number"
+              min={0}
+              max={100}
+              value={defenseIgnore}
+              onChange={(e) => setDefenseIgnore(Math.min(100, Math.max(0, Number(e.target.value) || 0)))}
+              className="mt-1 block w-24 bg-bg-primary border border-border rounded-lg px-2.5 py-1.5 text-xs text-text-primary"
+            />
+          </label>
+          <label className="text-[11px] text-text-muted">
+            DMG Bonus (%)
+            <input
+              type="number"
+              min={0}
+              step={0.1}
+              value={damageBonus}
+              onChange={(e) => setDamageBonus(Math.max(0, Number(e.target.value) || 0))}
+              className="mt-1 block w-24 bg-bg-primary border border-border rounded-lg px-2.5 py-1.5 text-xs text-text-primary"
+            />
+          </label>
+          <label className="text-[11px] text-text-muted">
+            Địch nhận thêm (%)
+            <input
+              type="number"
+              min={0}
+              step={0.1}
+              value={vulnerability}
+              onChange={(e) => setVulnerability(Math.max(0, Number(e.target.value) || 0))}
+              className="mt-1 block w-24 bg-bg-primary border border-border rounded-lg px-2.5 py-1.5 text-xs text-text-primary"
+            />
+          </label>
           <label className="text-xs text-text-muted shrink-0">Phản ứng nguyên tố:</label>
           <select
             value={reaction}
@@ -449,6 +614,79 @@ export function GearShowdownClient({ characters, weapons }: GearShowdownClientPr
             <option value="forward">Thuận (2.0x)</option>
             <option value="reverse">Nghịch (1.5x)</option>
           </select>
+          <label className="text-[11px] text-text-muted">
+            Bonus phản ứng (%)
+            <input
+              type="number"
+              min={0}
+              step={0.1}
+              value={reactionBonus}
+              onChange={(e) => setReactionBonus(Math.max(0, Number(e.target.value) || 0))}
+              className="mt-1 block w-28 bg-bg-primary border border-border rounded-lg px-2.5 py-1.5 text-xs text-text-primary"
+            />
+          </label>
+          <label className="text-[11px] text-text-muted">
+            Thời lượng chu kỳ (giây)
+            <input
+              type="number"
+              min={1}
+              max={180}
+              value={rotationDurationSeconds}
+              onChange={(e) =>
+                setRotationDurationSeconds(Math.min(180, Math.max(1, Number(e.target.value) || 1)))
+              }
+              className="mt-1 block w-28 bg-bg-primary border border-border rounded-lg px-2.5 py-1.5 text-xs text-text-primary"
+            />
+          </label>
+          <label className="text-[11px] text-text-muted">
+            Đòn thường
+            <input
+              type="number"
+              min={0}
+              step={1}
+              value={normalAttackCount}
+              onChange={(e) => setNormalAttackCount(Math.max(0, Math.floor(Number(e.target.value) || 0)))}
+              className="mt-1 block w-24 bg-bg-primary border border-border rounded-lg px-2.5 py-1.5 text-xs text-text-primary"
+            />
+          </label>
+          <label className="text-[11px] text-text-muted">
+            Dùng Kỹ năng
+            <input
+              type="number"
+              min={0}
+              step={1}
+              value={skillCastCount}
+              onChange={(e) => setSkillCastCount(Math.max(0, Math.floor(Number(e.target.value) || 0)))}
+              className="mt-1 block w-24 bg-bg-primary border border-border rounded-lg px-2.5 py-1.5 text-xs text-text-primary"
+            />
+          </label>
+          <label className="text-[11px] text-text-muted">
+            Dùng Nộ
+            <input
+              type="number"
+              min={0}
+              step={1}
+              value={burstCastCount}
+              onChange={(e) => setBurstCastCount(Math.max(0, Math.floor(Number(e.target.value) || 0)))}
+              className="mt-1 block w-24 bg-bg-primary border border-border rounded-lg px-2.5 py-1.5 text-xs text-text-primary"
+            />
+          </label>
+          <label className="text-[11px] text-text-muted">
+            Tỷ lệ kích hoạt (%)
+            <input
+              type="number"
+              min={0}
+              max={100}
+              value={reactionChancePercent}
+              onChange={(e) =>
+                setReactionChancePercent(Math.min(100, Math.max(0, Number(e.target.value) || 0)))
+              }
+              className="mt-1 block w-28 bg-bg-primary border border-border rounded-lg px-2.5 py-1.5 text-xs text-text-primary"
+            />
+          </label>
+          <p className="basis-full text-[11px] text-text-muted">
+            Mỗi lần dùng là một hit đại diện (param1). 100% giả định mọi hit kích hoạt phản ứng; chưa mô phỏng combo nhiều hit hoặc ICD riêng.
+          </p>
         </div>
 
         <button

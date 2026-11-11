@@ -6,9 +6,6 @@ import { useTranslations } from "next-intl";
 export function ServerTimersClient() {
   const t = useTranslations("Home");
   const [serverTime, setServerTime] = useState("");
-  const [spiralReset, setSpiralReset] = useState("");
-  const [theaterReset, setTheaterReset] = useState("");
-  const [stygianReset, setStygianReset] = useState("");
 
   useEffect(() => {
     const updateTimers = () => {
@@ -25,66 +22,6 @@ export function ServerTimersClient() {
       const serverMins = Math.floor((serverDiff % (1000 * 60 * 60)) / (1000 * 60));
       const serverSecs = Math.floor((serverDiff % (1000 * 60)) / 1000);
       setServerTime(t("timerServerCountdown", { hours: serverHours, minutes: serverMins, seconds: serverSecs }));
-
-      // 1. Nhà Hát Giả Tưởng (Imaginarium Theater): Reset ngày 1 hàng tháng lúc 04:00 UTC
-      const theaterDate = new Date(now);
-      theaterDate.setUTCHours(4, 0, 0, 0);
-      theaterDate.setUTCDate(1);
-      if (now.getTime() >= theaterDate.getTime()) {
-        theaterDate.setUTCMonth(theaterDate.getUTCMonth() + 1);
-        theaterDate.setUTCDate(1);
-      }
-      const theaterDiff = theaterDate.getTime() - now.getTime();
-      const tDays = Math.floor(theaterDiff / (1000 * 60 * 60 * 24));
-      const tHours = Math.floor((theaterDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const tMins = Math.floor((theaterDiff % (1000 * 60 * 60)) / (1000 * 60));
-      setTheaterReset(t("timerCountdown", { days: tDays, hours: tHours, minutes: tMins }));
-
-      // 2. La Hoàn Thâm Cảnh (Spiral Abyss): Reset ngày 16 hàng tháng lúc 04:00 UTC
-      const abyssDate = new Date(now);
-      abyssDate.setUTCHours(4, 0, 0, 0);
-      abyssDate.setUTCDate(16);
-      if (now.getTime() >= abyssDate.getTime()) {
-        abyssDate.setUTCMonth(abyssDate.getUTCMonth() + 1);
-        abyssDate.setUTCDate(16);
-      }
-      const abyssDiff = abyssDate.getTime() - now.getTime();
-      const aDays = Math.floor(abyssDiff / (1000 * 60 * 60 * 24));
-      const aHours = Math.floor((abyssDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const aMins = Math.floor((abyssDiff % (1000 * 60 * 60)) / (1000 * 60));
-      setSpiralReset(t("timerCountdown", { days: aDays, hours: aHours, minutes: aMins }));
-
-      // 3. Ảo Cảnh Hiểm Ác (Stygian Onslaught): Xoay tua theo chu kỳ phiên bản 42 ngày (mở ngày 8, kéo dài 35 ngày)
-      // Mốc chuẩn Genshin 5.0: 2024-08-28T04:00:00Z
-      const epochRef = new Date("2024-08-28T04:00:00Z").getTime();
-      const patchLength = 42 * 24 * 60 * 60 * 1000;
-      const stygianDuration = 35 * 24 * 60 * 60 * 1000;
-      const elapsedSinceRef = (now.getTime() - epochRef) % patchLength;
-      const currentPatchStart = now.getTime() - elapsedSinceRef;
-      const stygianStart = currentPatchStart + 8 * 24 * 60 * 60 * 1000;
-      const stygianEnd = stygianStart + stygianDuration;
-
-      if (now.getTime() < stygianStart) {
-        // Chưa mở trong patch này, đếm ngược mở
-        const diff = stygianStart - now.getTime();
-        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        setStygianReset(t("timerOpenIn", { days: d, hours: h }));
-      } else if (now.getTime() <= stygianEnd) {
-        // Đang mở, đếm ngược kết thúc kỳ
-        const diff = stygianEnd - now.getTime();
-        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        setStygianReset(t("timerCountdown", { days: d, hours: h, minutes: m }));
-      } else {
-        // Kết thúc kỳ hiện tại, đếm ngược đến kỳ kế tiếp
-        const nextStart = currentPatchStart + patchLength + 8 * 24 * 60 * 60 * 1000;
-        const diff = nextStart - now.getTime();
-        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        setStygianReset(t("timerNextCycle", { days: d, hours: h }));
-      }
     };
 
     updateTimers();
@@ -96,8 +33,7 @@ export function ServerTimersClient() {
     <section className="max-w-7xl mx-auto px-4 md:px-8 py-5 md:py-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 pb-2 border-b border-border/40">
-        <div className="flex items-center gap-2.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+        <div>
           <h2 className="font-display text-lg md:text-xl font-bold text-text-primary tracking-wide">
             {t("timerTitle")}
           </h2>
@@ -132,83 +68,56 @@ export function ServerTimersClient() {
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 md:gap-4">
         {/* Nhà Hát Giả Tưởng (Imaginarium Theater) */}
-        <div className="relative group min-h-[148px] bg-gradient-to-br from-bg-card to-[#25152a] border border-[#d97706]/40 hover:border-[#fbbf24] rounded-xl p-4 md:p-5 transition-all duration-200 hover:-translate-y-0.5 shadow-sm hover:shadow-lg overflow-hidden">
-          {/* Game artwork background */}
+        <div className="relative group min-h-[180px] sm:min-h-[200px] bg-bg-card border border-[#d97706]/40 hover:border-[#fbbf24] rounded-xl p-4 md:p-5 transition-all duration-200 hover:-translate-y-0.5 shadow-sm hover:shadow-lg overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/local-genshin-assets/ui/imaginarium-theater.png"
             alt=""
             aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover object-center opacity-15 group-hover:opacity-20 transition-opacity duration-300 select-none pointer-events-none"
+            className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105 select-none pointer-events-none"
           />
-          {/* Gradient overlay để text dễ đọc */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#25152a]/80 via-[#25152a]/60 to-transparent pointer-events-none" />
-          {/* Content */}
-          <div className="relative z-10 flex min-h-[106px] flex-col justify-between">
-            <div className="text-xs text-amber-300 font-medium mb-1.5">
-              <span className="font-semibold text-amber-200 truncate">{t("timerTheater")}</span>
-            </div>
-            <div className="font-mono text-lg sm:text-xl font-bold tracking-tight text-amber-200 tabular-nums">
-              {theaterReset || "--:--"}
-            </div>
-            <div className="text-[11px] text-amber-300/70 mt-1.5 flex items-center justify-between">
-              <span>{t("timerRefreshDay", { day: 1 })}</span>
-              <span className="text-amber-300 font-medium">{t("timerPrimogems", { count: 800 })}</span>
-            </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-black/10 to-black/65 pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-0.5 bg-[#fbbf24]/70 transition-opacity group-hover:opacity-100" />
+          <div className="absolute inset-x-4 bottom-4 z-10">
+            <h3 className="font-display text-base font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] sm:text-lg">
+              {t("timerTheater")}
+            </h3>
           </div>
         </div>
 
         {/* La Hoàn Thâm Cảnh (Spiral Abyss) */}
-        <div className="relative group min-h-[148px] bg-gradient-to-br from-bg-card to-[#1a1528] border border-[#764fb0]/40 hover:border-[#b075dd] rounded-xl p-4 md:p-5 transition-all duration-200 hover:-translate-y-0.5 shadow-sm hover:shadow-lg overflow-hidden">
-          {/* Game artwork background */}
+        <div className="relative group min-h-[180px] sm:min-h-[200px] bg-bg-card border border-[#764fb0]/40 hover:border-[#b075dd] rounded-xl p-4 md:p-5 transition-all duration-200 hover:-translate-y-0.5 shadow-sm hover:shadow-lg overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/local-genshin-assets/ui/spiral-abyss.jpg"
             alt=""
             aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover object-center opacity-20 group-hover:opacity-28 transition-opacity duration-300 select-none pointer-events-none"
+            className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105 select-none pointer-events-none"
           />
-          {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#1a1528]/90 via-[#1a1528]/65 to-transparent pointer-events-none" />
-          {/* Content */}
-          <div className="relative z-10 flex min-h-[106px] flex-col justify-between">
-            <div className="text-xs text-purple-300 font-medium mb-1.5">
-              <span className="font-semibold text-purple-200 truncate">{t("timerAbyss")}</span>
-            </div>
-            <div className="font-mono text-lg sm:text-xl font-bold tracking-tight text-purple-200 tabular-nums">
-              {spiralReset || "--:--"}
-            </div>
-            <div className="text-[11px] text-purple-300/70 mt-1.5 flex items-center justify-between">
-              <span>{t("timerRefreshDay", { day: 16 })}</span>
-              <span className="text-purple-300 font-medium">{t("timerPrimogems", { count: 800 })}</span>
-            </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-black/10 to-black/65 pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-0.5 bg-[#b075dd]/70 transition-opacity group-hover:opacity-100" />
+          <div className="absolute inset-x-4 bottom-4 z-10">
+            <h3 className="font-display text-base font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] sm:text-lg">
+              {t("timerAbyss")}
+            </h3>
           </div>
         </div>
 
         {/* Ảo Cảnh Hiểm Ác (Stygian Onslaught) */}
-        <div className="relative group min-h-[148px] bg-gradient-to-br from-bg-card to-[#281515] border border-[#ef4444]/40 hover:border-[#f87171] rounded-xl p-4 md:p-5 transition-all duration-200 hover:-translate-y-0.5 shadow-sm hover:shadow-lg overflow-hidden">
-          {/* Game artwork background */}
+        <div className="relative group min-h-[180px] sm:min-h-[200px] bg-bg-card border border-[#ef4444]/40 hover:border-[#f87171] rounded-xl p-4 md:p-5 transition-all duration-200 hover:-translate-y-0.5 shadow-sm hover:shadow-lg overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/local-genshin-assets/ui/stygian-onslaught.png"
             alt=""
             aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover object-center opacity-18 group-hover:opacity-25 transition-opacity duration-300 select-none pointer-events-none"
+            className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105 select-none pointer-events-none"
           />
-          {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#281515]/90 via-[#281515]/65 to-transparent pointer-events-none" />
-          {/* Content */}
-          <div className="relative z-10 flex min-h-[106px] flex-col justify-between">
-            <div className="text-xs text-rose-300 font-medium mb-1.5">
-              <span className="font-semibold text-rose-200 truncate">{t("timerStygian")}</span>
-            </div>
-            <div className="font-mono text-lg sm:text-xl font-bold tracking-tight text-rose-200 tabular-nums">
-              {stygianReset || "--:--"}
-            </div>
-            <div className="text-[11px] text-rose-300/70 mt-1.5 flex items-center justify-between">
-              <span>{t("timerBossRotation")}</span>
-              <span className="text-rose-300 font-medium">{t("timerRewards")}</span>
-            </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-black/10 to-black/65 pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-0.5 bg-[#f87171]/70 transition-opacity group-hover:opacity-100" />
+          <div className="absolute inset-x-4 bottom-4 z-10">
+            <h3 className="font-display text-base font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] sm:text-lg">
+              {t("timerStygian")}
+            </h3>
           </div>
         </div>
       </div>

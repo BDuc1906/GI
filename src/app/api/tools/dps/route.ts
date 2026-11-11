@@ -86,8 +86,10 @@ const dpsRequestSchema = z.object({
     })),
   modifiers: z
     .object({
+      enemyLevel: z.number().int().min(1).max(100).default(90),
       enemyRes: z.number().min(-100).max(100).default(10),
-      defenseReduction: z.number().min(0).max(100).default(0),
+      defenseReduction: z.number().min(0).max(90).default(0),
+      defenseIgnore: z.number().min(0).max(100).default(0),
       damageBonus: z.number().min(0).default(0),
       vulnerability: z.number().min(0).default(0),
       reaction: z
@@ -110,27 +112,33 @@ const dpsRequestSchema = z.object({
         ])
         .default("Vaporize"),
       reactionDirection: z.enum(["forward", "reverse"]).default("forward"),
+      reactionBonus: z.number().min(0).default(0),
     })
     .default(() => ({
+      enemyLevel: 90,
       enemyRes: 10,
       defenseReduction: 0,
+      defenseIgnore: 0,
       damageBonus: 0,
       vulnerability: 0,
       reaction: "Vaporize" as const,
       reactionDirection: "forward" as const,
+      reactionBonus: 0,
     })),
   rotation: z
     .object({
-      normalAttacks: z.number().min(0).default(3),
-      skillCasts: z.number().min(0).default(1),
-      burstCasts: z.number().min(0).default(1),
+      normalAttacks: z.number().int().min(0).default(3),
+      skillCasts: z.number().int().min(0).default(1),
+      burstCasts: z.number().int().min(0).default(1),
       reactionChance: z.number().min(0).max(1).default(1),
+      durationSeconds: z.number().min(1).max(180).default(10),
     })
     .default(() => ({
       normalAttacks: 3,
       skillCasts: 1,
       burstCasts: 1,
       reactionChance: 1,
+      durationSeconds: 10,
     })),
 });
 
@@ -263,12 +271,15 @@ export const POST = withErrorHandling(
               elementalBurst: burstMultiplier,
             },
             {
+              enemyLevel: input.modifiers.enemyLevel,
               enemyRes: input.modifiers.enemyRes,
               defenseReduction: input.modifiers.defenseReduction,
+              defenseIgnore: input.modifiers.defenseIgnore,
               damageBonus: input.modifiers.damageBonus,
               vulnerability: input.modifiers.vulnerability,
               reaction: input.modifiers.reaction,
               reactionDirection: input.modifiers.reactionDirection,
+              reactionBonus: input.modifiers.reactionBonus,
             },
             input.rotation
           )
@@ -299,12 +310,15 @@ export const POST = withErrorHandling(
               elementalBurst: burstMultiplier,
             },
             {
+              enemyLevel: input.modifiers.enemyLevel,
               enemyRes: input.modifiers.enemyRes,
               defenseReduction: input.modifiers.defenseReduction,
+              defenseIgnore: input.modifiers.defenseIgnore,
               damageBonus: input.modifiers.damageBonus,
               vulnerability: input.modifiers.vulnerability,
               reaction: input.modifiers.reaction,
               reactionDirection: input.modifiers.reactionDirection,
+              reactionBonus: input.modifiers.reactionBonus,
             },
             input.rotation
           );

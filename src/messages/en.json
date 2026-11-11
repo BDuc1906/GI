@@ -30,6 +30,8 @@
     "searchPlaceholder": "Search characters, weapons, artifacts..."
   },
   "Home": {
+    "buildReviewTitle": "Test your real build, not just a template",
+    "buildReviewDescription": "Import a character from your public Enka showcase, then send its actual combat stats to the DPS calculator to compare build options.",
     "latestCharacters": "Recently updated characters",
     "latestWeapons": "Recently updated weapons",
     "viewAll": "View all",

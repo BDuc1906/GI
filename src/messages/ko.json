@@ -30,6 +30,8 @@
     "searchPlaceholder": "빠른 검색 (캐릭터, 무기, 성유물, 재료)..."
   },
   "Home": {
+    "buildReviewTitle": "템플릿이 아닌 내 실제 빌드를 테스트하세요",
+    "buildReviewDescription": "공개 Enka 쇼케이스에서 캐릭터를 가져온 뒤 실제 전투 능력치를 DPS 계산기로 보내 빌드 선택지를 비교하세요.",
     "latestCharacters": "최근 업데이트된 캐릭터",
     "latestWeapons": "최근 업데이트된 무기",
     "viewAll": "전체 보기",

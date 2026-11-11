@@ -1,121 +1,150 @@
-﻿import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
+import {
+  calculateAdditiveReactionBaseDamage,
+  calculateAmplifyingReactionMultiplier,
+  calculateDefenseMitigation,
+  calculateResistanceMitigation,
+  calculateTransformativeReactionBaseDamage,
+  getElementalLevelMultiplier,
+} from "@/core/game/dps/formulas";
 import { DPSCalculator } from "@/core/game/dps-calculator";
 
-const calc = new DPSCalculator();
-
-describe("calculateReactionMultiplier — chiều phản ứng (forward/reverse)", () => {
-  it("Vaporize forward (Hydro áp lên Pyro) mạnh hơn reverse (Pyro áp lên Hydro)", () => {
-    const forward = calc.calculateReactionMultiplier("Vaporize", 0, 90, "forward");
-    const reverse = calc.calculateReactionMultiplier("Vaporize", 0, 90, "reverse");
-    expect(forward).toBeGreaterThan(reverse);
-    // Tỉ lệ hệ số gốc đúng 2.0 / 1.5 bất kể levelBonus áp dụng cho cả hai.
-    expect(forward / reverse).toBeCloseTo(2.0 / 1.5, 5);
+describe("Genshin reaction damage formulas", () => {
+  it("uses the in-game elemental level multiplier at levels 1 and 90", () => {
+    expect(getElementalLevelMultiplier(1)).toBeCloseTo(17.165606, 6);
+    expect(getElementalLevelMultiplier(90)).toBeCloseTo(1446.8535, 4);
+    expect(getElementalLevelMultiplier(0)).toBe(getElementalLevelMultiplier(1));
+    expect(getElementalLevelMultiplier(91)).toBe(getElementalLevelMultiplier(90));
   });
 
-  it("Melt forward (Pyro áp lên Cryo) mạnh hơn reverse (Cryo áp lên Pyro)", () => {
-    const forward = calc.calculateReactionMultiplier("Melt", 0, 90, "forward");
-    const reverse = calc.calculateReactionMultiplier("Melt", 0, 90, "reverse");
-    expect(forward).toBeGreaterThan(reverse);
-    expect(forward / reverse).toBeCloseTo(2.0 / 1.5, 5);
+  it("applies forward and reverse amplifying reactions without a character-level multiplier", () => {
+    const forward = calculateAmplifyingReactionMultiplier("Vaporize", 0, "forward");
+    const reverse = calculateAmplifyingReactionMultiplier("Vaporize", 0, "reverse");
+
+    expect(forward).toBe(2);
+    expect(reverse).toBe(1.5);
+    expect(forward / reverse).toBeCloseTo(2 / 1.5, 8);
+    expect(calculateAmplifyingReactionMultiplier("Melt", 0, "forward")).toBe(2);
   });
 
-  it("direction mặc định là 'forward' khi không truyền", () => {
-    const withoutDirection = calc.calculateReactionMultiplier("Vaporize", 0, 90);
-    const explicitForward = calc.calculateReactionMultiplier("Vaporize", 0, 90, "forward");
-    expect(withoutDirection).toBe(explicitForward);
+  it("applies the published EM scaling to amplifying reactions", () => {
+    const em = 200;
+    const expected = 2 * (1 + (2.78 * em) / (1400 + em));
+    expect(calculateAmplifyingReactionMultiplier("Vaporize", em)).toBeCloseTo(expected, 8);
+    expect(calculateAmplifyingReactionMultiplier("Vaporize", em, "forward", 15)).toBeCloseTo(
+      expected + 0.3,
+      8
+    );
   });
 
-  it("direction không ảnh hưởng phản ứng transformative có EM scaling (vd Overload)", () => {
-    const forward = calc.calculateReactionMultiplier("Overload", 500, 90, "forward");
-    const reverse = calc.calculateReactionMultiplier("Overload", 500, 90, "reverse");
-    expect(forward).toBe(reverse);
-  });
-});
-
-describe("calculateReactionMultiplier — Aggravate/Spread/Quicken (công thức Additive Reaction)", () => {
-  it("Quicken không gây sát thương trực tiếp (luôn trả 1.0, không phụ thuộc EM/level)", () => {
-    expect(calc.calculateReactionMultiplier("Quicken", 0, 90)).toBe(1.0);
-    expect(calc.calculateReactionMultiplier("Quicken", 1000, 1)).toBe(1.0);
-  });
-
-  it("Aggravate tăng theo EM (0 EM phải nhỏ hơn hẳn 800 EM)", () => {
-    const lowEM = calc.calculateReactionMultiplier("Aggravate", 0, 90);
-    const highEM = calc.calculateReactionMultiplier("Aggravate", 800, 90);
-    expect(highEM).toBeGreaterThan(lowEM);
+  it("calculates additive reaction damage as a flat base-damage addition", () => {
+    const levelMultiplier = getElementalLevelMultiplier(90);
+    expect(calculateAdditiveReactionBaseDamage("Aggravate", 90, 0)).toBeCloseTo(
+      1.15 * levelMultiplier,
+      5
+    );
+    expect(calculateAdditiveReactionBaseDamage("Spread", 90, 0)).toBeCloseTo(
+      1.25 * levelMultiplier,
+      5
+    );
+    expect(calculateAdditiveReactionBaseDamage("Aggravate", 90, 500)).toBeGreaterThan(
+      calculateAdditiveReactionBaseDamage("Aggravate", 90, 0)
+    );
   });
 
-  it("Spread luôn mạnh hơn Aggravate ở cùng EM/level (hằng số 1.25 > 1.15)", () => {
-    const aggravate = calc.calculateReactionMultiplier("Aggravate", 400, 90);
-    const spread = calc.calculateReactionMultiplier("Spread", 400, 90);
-    expect(spread).toBeGreaterThan(aggravate);
-  });
-
-  it("Aggravate ở 0 EM khớp hằng số gốc 1.15 (không có bonus EM)", () => {
-    const level = 90;
-    const levelBonus = 1 + (level / 9) * 2.78;
-    const result = calc.calculateReactionMultiplier("Aggravate", 0, level);
-    expect(result).toBeCloseTo(1.15 * levelBonus, 5);
-  });
-});
-
-describe("calculateReactionMultiplier — hệ số cơ bản Transformative Reaction (KQM/Genshin Wiki)", () => {
-  const level = 90;
-  const levelBonus = 1 + (level / 9) * 2.78;
-
-  it.each([
-    ["Burning", 0.25],
-    ["Swirl", 0.6],
-    ["Superconduct", 1.5],
-    ["Electro-Charged", 2.0],
-    ["Bloom", 2.0],
-    ["Overload", 2.75],
-    ["Burgeon", 3.0],
-    ["Hyperbloom", 3.0],
-    ["Shatter", 3.0],
-  ] as const)("%s ở 0 EM khớp đúng hệ số cơ bản chính thức ×levelBonus", (reaction, coefficient) => {
-    const result = calc.calculateReactionMultiplier(reaction, 0, level);
-    expect(result).toBeCloseTo(coefficient * levelBonus, 5);
-  });
-
-  it("Hyperbloom mạnh hơn Superconduct đúng tỉ lệ 3.0/1.5 = 2x ở cùng EM/level", () => {
-    const hyperbloom = calc.calculateReactionMultiplier("Hyperbloom", 500, level);
-    const superconduct = calc.calculateReactionMultiplier("Superconduct", 500, level);
-    expect(hyperbloom / superconduct).toBeCloseTo(2.0, 5);
-  });
-
-  it("EM cao hơn luôn cho sát thương transformative cao hơn (mọi phản ứng)", () => {
-    const low = calc.calculateReactionMultiplier("Overload", 0, level);
-    const high = calc.calculateReactionMultiplier("Overload", 1000, level);
-    expect(high).toBeGreaterThan(low);
+  it("calculates transformative reactions from their base coefficient, level, and EM", () => {
+    expect(calculateTransformativeReactionBaseDamage("Overload", 90, 0)).toBeCloseTo(
+      2.75 * getElementalLevelMultiplier(90),
+      5
+    );
+    expect(calculateTransformativeReactionBaseDamage("Hyperbloom", 90, 500)).toBeCloseTo(
+      3 * getElementalLevelMultiplier(90) * (1 + (16 * 500) / 2500),
+      5
+    );
+    expect(calculateTransformativeReactionBaseDamage("Frozen", 90, 1000)).toBe(0);
   });
 });
 
-describe("calculateDefenseMitigation — công thức DEF Multiplier chính thức", () => {
-  it("cùng level, không giảm/bỏ qua DEF -> giảm còn đúng 50% (ví dụ chính thức trên Genshin Wiki)", () => {
-    const result = calc.calculateDefenseMitigation(90, 90, 0, 0);
-    expect(result).toBeCloseTo(0.5, 5);
+describe("enemy mitigation formulas", () => {
+  it("uses percentage units for enemy resistance and handles negative/high resistance", () => {
+    expect(calculateResistanceMitigation(10)).toBeCloseTo(0.9, 8);
+    expect(calculateResistanceMitigation(-20)).toBeCloseTo(1.1, 8);
+    expect(calculateResistanceMitigation(75)).toBeCloseTo(0.25, 8);
+    expect(calculateResistanceMitigation(100)).toBeCloseTo(0.2, 8);
   });
 
-  it("nhân vật cấp thấp hơn địch -> DEF Multiplier < 0.5 (bất lợi hơn)", () => {
-    const lowLevel = calc.calculateDefenseMitigation(1, 90, 0, 0);
-    const equalLevel = calc.calculateDefenseMitigation(90, 90, 0, 0);
-    expect(lowLevel).toBeLessThan(equalLevel);
+  it("caps defense reduction at 90% and applies defense ignore separately", () => {
+    expect(calculateDefenseMitigation(90, 90)).toBeCloseTo(0.5, 8);
+    expect(calculateDefenseMitigation(90, 90, 100)).toBeCloseTo(
+      calculateDefenseMitigation(90, 90, 90),
+      8
+    );
+    expect(calculateDefenseMitigation(90, 90, 0, 100)).toBeCloseTo(1, 8);
+  });
+});
+
+describe("DPS calculation reaction integration", () => {
+  const calculator = new DPSCalculator();
+  const talents = { normalAttack: 1, elementalSkill: 0, elementalBurst: 0 };
+  const rotation = { normalAttacks: 1, skillCasts: 0, burstCasts: 0, reactionChance: 0.5 };
+
+  it("applies the enemy's 10% resistance to direct and amplifying damage", () => {
+    const result = calculator.calculateExpectedDPSFromTotalStats(
+      90,
+      { totalATK: 2000, critRate: 60, critDmg: 120, em: 0, damageBonus: 0 },
+      talents,
+      {
+        enemyRes: 10,
+        defenseReduction: 0,
+        damageBonus: 0,
+        vulnerability: 0,
+        reaction: "Vaporize",
+        reactionDirection: "forward",
+      },
+      rotation
+    );
+
+    expect(result.damageBreakdown.normalAttack).toBe(1548);
+    expect(result.damageBreakdown.reactions).toBe(774);
+    expect(result.expectedDPS).toBe(232);
   });
 
-  it("giảm DEF địch (defenseReduction) làm DEF Multiplier tăng (đỡ bị giảm sát thương hơn)", () => {
-    const noReduction = calc.calculateDefenseMitigation(90, 90, 0, 0);
-    const withReduction = calc.calculateDefenseMitigation(90, 90, 20, 0); // vd Zhongli -20%
-    expect(withReduction).toBeGreaterThan(noReduction);
+  it("divides rotation damage by the user-selected duration", () => {
+    const result = calculator.calculateExpectedDPSFromTotalStats(
+      90,
+      { totalATK: 2000, critRate: 60, critDmg: 120, em: 0, damageBonus: 0 },
+      talents,
+      {
+        enemyRes: 10,
+        defenseReduction: 0,
+        damageBonus: 0,
+        vulnerability: 0,
+        reaction: "Vaporize",
+        reactionDirection: "forward",
+      },
+      { ...rotation, durationSeconds: 20 }
+    );
+
+    expect(result.expectedDPS).toBe(116);
   });
 
-  it("bỏ qua DEF hoàn toàn (defenseIgnore=100) -> DEF Multiplier = 1.0 (không giảm sát thương gì)", () => {
-    const result = calc.calculateDefenseMitigation(90, 90, 0, 100);
-    expect(result).toBeCloseTo(1.0, 5);
-  });
+  it("does not apply CRIT, defense, or damage bonuses to transformative reaction damage", () => {
+    const result = calculator.calculateExpectedDPSFromTotalStats(
+      90,
+      { totalATK: 0, critRate: 100, critDmg: 400, em: 0, damageBonus: 200 },
+      { normalAttack: 0, elementalSkill: 0, elementalBurst: 0 },
+      {
+        enemyRes: 0,
+        defenseReduction: 0,
+        damageBonus: 0,
+        vulnerability: 0,
+        reaction: "Overload",
+      },
+      { normalAttacks: 1, skillCasts: 0, burstCasts: 0, reactionChance: 1 }
+    );
 
-  it("mặc định (không truyền defenseReduction/defenseIgnore) vẫn tính đúng như truyền 0", () => {
-    const withDefaults = calc.calculateDefenseMitigation(90, 90);
-    const explicit = calc.calculateDefenseMitigation(90, 90, 0, 0);
-    expect(withDefaults).toBeCloseTo(explicit, 10);
+    expect(result.damageBreakdown.reactions).toBe(
+      Math.round(2.75 * getElementalLevelMultiplier(90))
+    );
   });
 });

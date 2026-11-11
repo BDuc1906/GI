@@ -5,9 +5,11 @@
  */
 
 import {
-  calculateReactionMultiplier,
+  calculateAdditiveReactionBaseDamage,
+  calculateAmplifyingReactionMultiplier,
   calculateDefenseMitigation,
   calculateResistanceMitigation,
+  calculateTransformativeReactionBaseDamage,
 } from "./formulas";
 import type {
   CharacterStats,
@@ -16,12 +18,110 @@ import type {
   TalentLevels,
   DamageModifiers,
   DPSCalculationResult,
-  ReactionType,
-  ReactionDirection,
   RotationConfig,
   TotalStatsInput,
   ShowdownResult,
 } from "./types";
+
+interface RotationDamageInput {
+  characterLevel: number;
+  totalATK: number;
+  critRate: number;
+  critDmg: number;
+  em: number;
+  damageBonus: number;
+  talents: TalentLevels;
+  modifiers: DamageModifiers;
+  rotation: RotationConfig;
+}
+
+function calculateRotationDamage({
+  characterLevel,
+  totalATK,
+  critRate,
+  critDmg,
+  em,
+  damageBonus,
+  talents,
+  modifiers,
+  rotation,
+}: RotationDamageInput): DPSCalculationResult {
+  const avgCritMultiplier =
+    1 + Math.min(1, Math.max(0, critRate / 100)) * Math.max(0, critDmg / 100);
+  const damageBonusMultiplier =
+    1 + (damageBonus + modifiers.damageBonus + modifiers.vulnerability) / 100;
+  const defenseMitigation = calculateDefenseMitigation(
+    characterLevel,
+    modifiers.enemyLevel ?? 90,
+    modifiers.defenseReduction,
+    modifiers.defenseIgnore ?? 0
+  );
+  const resistanceMitigation = calculateResistanceMitigation(modifiers.enemyRes);
+  const commonDamageMultiplier =
+    avgCritMultiplier * damageBonusMultiplier * defenseMitigation * resistanceMitigation;
+
+  const normalAttackDamage = totalATK * talents.normalAttack * commonDamageMultiplier;
+  const skillDamage = totalATK * talents.elementalSkill * commonDamageMultiplier;
+  const burstDamage = totalATK * talents.elementalBurst * commonDamageMultiplier;
+  const attackCount = rotation.normalAttacks + rotation.skillCasts + rotation.burstCasts;
+  const reactionChance = Math.min(1, Math.max(0, rotation.reactionChance));
+  const reaction = modifiers.reaction;
+  let reactionDamage = 0;
+
+  if (reaction === "Vaporize" || reaction === "Melt") {
+    const multiplier = calculateAmplifyingReactionMultiplier(
+      reaction,
+      em,
+      modifiers.reactionDirection ?? "forward",
+      modifiers.reactionBonus ?? 0
+    );
+    const unmitigatedAttackDamage =
+      totalATK *
+      (talents.normalAttack * rotation.normalAttacks +
+        talents.elementalSkill * rotation.skillCasts +
+        talents.elementalBurst * rotation.burstCasts);
+    reactionDamage =
+      unmitigatedAttackDamage *
+      (multiplier - 1) *
+      reactionChance *
+      commonDamageMultiplier;
+  } else if (reaction === "Aggravate" || reaction === "Spread") {
+    const additiveDamage = calculateAdditiveReactionBaseDamage(
+      reaction,
+      characterLevel,
+      em,
+      modifiers.reactionBonus ?? 0
+    );
+    reactionDamage =
+      additiveDamage * reactionChance * attackCount * commonDamageMultiplier;
+  } else if (reaction) {
+    const transformativeDamage = calculateTransformativeReactionBaseDamage(
+      reaction,
+      characterLevel,
+      em,
+      modifiers.reactionBonus ?? 0
+    );
+    reactionDamage = transformativeDamage * reactionChance * attackCount * resistanceMitigation;
+  }
+
+  const totalRotationDamage =
+    normalAttackDamage * rotation.normalAttacks +
+    skillDamage * rotation.skillCasts +
+    burstDamage * rotation.burstCasts +
+    reactionDamage;
+  const durationSeconds = Math.max(1, rotation.durationSeconds ?? 10);
+
+  return {
+    expectedDPS: Math.round(totalRotationDamage / durationSeconds),
+    damageBreakdown: {
+      normalAttack: Math.round(normalAttackDamage),
+      skill: Math.round(skillDamage),
+      burst: Math.round(burstDamage),
+      reactions: Math.round(reactionDamage),
+    },
+    optimizationTips: [],
+  };
+}
 
 export class DPSCalculator {
   /**
@@ -110,18 +210,6 @@ export class DPSCalculator {
   }
 
   /**
-   * Calculate reaction damage multiplier (delegates to formulas)
-   */
-  calculateReactionMultiplier(
-    reaction: ReactionType,
-    em: number,
-    level: number,
-    direction: ReactionDirection = "forward"
-  ): number {
-    return calculateReactionMultiplier(reaction, em, level, direction);
-  }
-
-  /**
    * Calculate defense mitigation (delegates to formulas)
    */
   calculateDefenseMitigation(
@@ -157,92 +245,49 @@ export class DPSCalculator {
     rotation: RotationConfig
   ): DPSCalculationResult {
     const totalATK = this.calculateTotalATK(charStats, weapon, artifacts);
-    const em = this.calculateEM(artifacts);
+    const em =
+      this.calculateEM(artifacts) +
+      (weapon.subStat.toLowerCase().includes("elemental mastery") ? weapon.subStatValue : 0) +
+      (charStats.ascensionStat.toLowerCase().includes("elemental mastery")
+        ? charStats.ascensionStatValue
+        : 0);
     const cv = this.calculateCV(artifacts);
     const er = this.calculateER(artifacts);
-
-    // Baseline 5% CRIT Rate / 50% CRIT DMG mốc tối thiểu của mọi nhân vật
-    const BASE_CRIT_RATE = 5; // %
-    const BASE_CRIT_DMG = 50; // %
-    const critRate = Math.min(
-      1,
-      (BASE_CRIT_RATE +
-        artifacts.subStats.critRate +
-        (artifacts.circletMainStat === "CRIT Rate%" ? artifacts.circletValue : 0)) /
-        100
-    );
+    const critRate =
+      5 +
+      artifacts.subStats.critRate +
+      artifacts.circletValue * Number(artifacts.circletMainStat === "CRIT Rate%") +
+      artifacts.sandsValue * Number(artifacts.sandsMainStat === "CRIT Rate%") +
+      artifacts.gobletValue * Number(artifacts.gobletMainStat === "CRIT Rate%") +
+      weapon.subStatValue * Number(weapon.subStat.toLowerCase().includes("crit rate")) +
+      charStats.ascensionStatValue * Number(charStats.ascensionStat.toLowerCase().includes("crit rate"));
     const critDmg =
-      1 +
-      (BASE_CRIT_DMG +
-        artifacts.subStats.critDmg +
-        (artifacts.circletMainStat === "CRIT DMG%" ? artifacts.circletValue : 0)) /
-        100;
+      50 +
+      artifacts.subStats.critDmg +
+      artifacts.circletValue * Number(artifacts.circletMainStat === "CRIT DMG%") +
+      artifacts.sandsValue * Number(artifacts.sandsMainStat === "CRIT DMG%") +
+      artifacts.gobletValue * Number(artifacts.gobletMainStat === "CRIT DMG%") +
+      weapon.subStatValue * Number(weapon.subStat.toLowerCase().includes("crit dmg")) +
+      charStats.ascensionStatValue * Number(charStats.ascensionStat.toLowerCase().includes("crit dmg"));
+    const artifactDamageBonus =
+      (artifacts.gobletMainStat.includes("DMG%") ? artifacts.gobletValue : 0) +
+      (artifacts.sandsMainStat.includes("DMG%") ? artifacts.sandsValue : 0);
 
-    const avgCritMultiplier = 1 - critRate + critRate * critDmg;
-
-    // Calculate damage bonuses
-    const dmgBonus =
-      1 +
-      modifiers.damageBonus / 100 +
-      (artifacts.gobletMainStat.includes("DMG%") ? artifacts.gobletValue / 100 : 0) +
-      (artifacts.sandsMainStat.includes("DMG%") ? artifacts.sandsValue / 100 : 0);
-
-    // Calculate mitigation
-    const defenseMitigation = this.calculateDefenseMitigation(
-      charStats.level,
-      modifiers.enemyLevel ?? 90,
-      modifiers.defenseReduction,
-      modifiers.defenseIgnore ?? 0
-    );
-    const resistanceMitigation = this.calculateResistanceMitigation(modifiers.enemyRes);
-
-    // Calculate reaction multiplier
-    const reactionMultiplier = this.calculateReactionMultiplier(
-      modifiers.reaction ?? "Vaporize",
+    const result = calculateRotationDamage({
+      characterLevel: charStats.level,
+      totalATK,
+      critRate,
+      critDmg,
       em,
-      charStats.level,
-      modifiers.reactionDirection ?? "forward"
-    );
-
-    // Base damage formulas
-    const normalAttackBase = totalATK * talents.normalAttack;
-    const skillBase = totalATK * talents.elementalSkill;
-    const burstBase = totalATK * talents.elementalBurst;
-
-    // Apply multipliers
-    const normalAttackDamage =
-      normalAttackBase * avgCritMultiplier * dmgBonus * defenseMitigation * resistanceMitigation;
-
-    const skillDamage =
-      skillBase * avgCritMultiplier * dmgBonus * defenseMitigation * resistanceMitigation;
-
-    const burstDamage =
-      burstBase * avgCritMultiplier * dmgBonus * defenseMitigation * resistanceMitigation;
-
-    // Reaction damage
-    const reactionDamage = normalAttackDamage * reactionMultiplier * rotation.reactionChance;
-
-    // Calculate DPS based on rotation (assumes 10-second rotation)
-    const totalDamage =
-      normalAttackDamage * rotation.normalAttacks +
-      skillDamage * rotation.skillCasts +
-      burstDamage * rotation.burstCasts +
-      reactionDamage;
-
-    const expectedDPS = Math.floor(totalDamage / 10);
-
-    // Generate optimization tips
-    const tips = this.generateOptimizationTips(artifacts, em, cv, er);
+      damageBonus: artifactDamageBonus,
+      talents,
+      modifiers,
+      rotation,
+    });
 
     return {
-      expectedDPS,
-      damageBreakdown: {
-        normalAttack: normalAttackDamage,
-        skill: skillDamage,
-        burst: burstDamage,
-        reactions: reactionDamage,
-      },
-      optimizationTips: tips,
+      ...result,
+      optimizationTips: this.generateOptimizationTips(artifacts, em, cv, er),
     };
   }
 
@@ -366,54 +411,17 @@ export class DPSCalculator {
   ): DPSCalculationResult {
     const totalATK = Math.max(0, totalStats.totalATK);
     const em = Math.max(0, totalStats.em);
-
-    const critRate = Math.min(1, Math.max(0, totalStats.critRate / 100));
-    const critDmg = 1 + Math.max(0, totalStats.critDmg / 100);
-    const avgCritMultiplier = 1 - critRate + critRate * critDmg;
-
-    const dmgBonus = 1 + (modifiers.damageBonus + (totalStats.damageBonus ?? 0)) / 100;
-
-    const defenseMitigation = this.calculateDefenseMitigation(
+    const result = calculateRotationDamage({
       characterLevel,
-      modifiers.enemyLevel ?? 90,
-      modifiers.defenseReduction,
-      modifiers.defenseIgnore ?? 0
-    );
-    const resistanceMitigation = this.calculateResistanceMitigation(modifiers.enemyRes);
-
-    const reactionMultiplier = this.calculateReactionMultiplier(
-      modifiers.reaction ?? "Vaporize",
+      totalATK,
+      critRate: totalStats.critRate,
+      critDmg: totalStats.critDmg,
       em,
-      characterLevel,
-      modifiers.reactionDirection ?? "forward"
-    );
-
-    const normalAttackBase = totalATK * talents.normalAttack;
-    const skillBase = totalATK * talents.elementalSkill;
-    const burstBase = totalATK * talents.elementalBurst;
-
-    const normalAttackDamage =
-      normalAttackBase * avgCritMultiplier * dmgBonus * defenseMitigation * resistanceMitigation;
-    const skillDamage =
-      skillBase * avgCritMultiplier * dmgBonus * defenseMitigation * resistanceMitigation;
-    const burstDamage =
-      burstBase * avgCritMultiplier * dmgBonus * defenseMitigation * resistanceMitigation;
-
-    let reactionDamage = 0;
-    if (modifiers.reaction && modifiers.reaction !== "Frozen" && modifiers.reaction !== "Crystallize") {
-      const baseDamageForReaction = (skillDamage + burstDamage) / 2;
-      reactionDamage =
-        baseDamageForReaction * (reactionMultiplier - 1) * (rotation.reactionChance ?? 1);
-    }
-
-    const totalRotationDamage =
-      normalAttackDamage * rotation.normalAttacks +
-      skillDamage * rotation.skillCasts +
-      burstDamage * rotation.burstCasts +
-      reactionDamage;
-
-    const rotationDuration = 10;
-    const expectedDPS = Math.round(totalRotationDamage / rotationDuration);
+      damageBonus: totalStats.damageBonus ?? 0,
+      talents,
+      modifiers,
+      rotation,
+    });
 
     const optimizationTips: string[] = [];
     const critRatio = totalStats.critRate > 0 ? totalStats.critDmg / totalStats.critRate : 0;
@@ -439,16 +447,7 @@ export class DPSCalculator {
       );
     }
 
-    return {
-      expectedDPS,
-      damageBreakdown: {
-        normalAttack: Math.round(normalAttackDamage),
-        skill: Math.round(skillDamage),
-        burst: Math.round(burstDamage),
-        reactions: Math.round(reactionDamage),
-      },
-      optimizationTips,
-    };
+    return { ...result, optimizationTips };
   }
 
   /**

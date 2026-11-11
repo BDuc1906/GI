@@ -62,6 +62,7 @@ export interface EnkaFightProps {
   critDmg: number;
   em: number;
   er: number;
+  damageBonus: number;
 }
 
 export interface EnkaArtifactPiece {
@@ -90,6 +91,7 @@ export interface EnkaArtifactPiece {
 export interface EnkaWeaponInfo {
   name: string;
   iconUrl: string | null;
+  iconKey: string | null;
   level: number;
   refinement: number;
   rarity: number;
@@ -100,6 +102,7 @@ export interface EnkaShowcaseCharacter {
   characterId: string | null;
   characterName: string | null;
   iconUrl: string | null;
+  vision: string | null;
   /** Enka avatarId gốc để debug */
   avatarId: number;
   level: number;
@@ -133,7 +136,20 @@ function parseLevel(propMap: EnkaAvatarInfo["propMap"]): number {
   return raw ? parseInt(raw, 10) : 1;
 }
 
-function parseFightProps(fp: EnkaFightPropMap | undefined): EnkaFightProps {
+const ELEMENT_DAMAGE_PROP: Record<string, string> = {
+  Pyro: "40",
+  Electro: "41",
+  Hydro: "42",
+  Dendro: "43",
+  Anemo: "44",
+  Geo: "45",
+  Cryo: "46",
+};
+
+function parseFightProps(
+  fp: EnkaFightPropMap | undefined,
+  vision: string | null
+): EnkaFightProps {
   return {
     hp: Math.round(fp?.["2000"] ?? 0),
     atk: Math.round(fp?.["2001"] ?? 0),
@@ -142,6 +158,9 @@ function parseFightProps(fp: EnkaFightPropMap | undefined): EnkaFightProps {
     critDmg: parseFloat(((fp?.["22"] ?? 0) * 100).toFixed(1)),
     em: Math.round(fp?.["28"] ?? 0),
     er: parseFloat(((fp?.["23"] ?? 1) * 100).toFixed(1)),
+    damageBonus: parseFloat(
+      (((fp?.[ELEMENT_DAMAGE_PROP[vision ?? ""]] ?? 0) * 100)).toFixed(1)
+    ),
   };
 }
 
@@ -224,6 +243,7 @@ function parseEquipList(equipList: unknown[] | undefined): {
       weapon = {
         name: (flat.nameTextMapHash as string) ?? "Vũ khí",
         iconUrl: icon ? `https://enka.network/ui/${icon}.png` : null,
+        iconKey: icon ?? null,
         level: (weaponObj?.level as number) ?? 1,
         refinement,
         rarity: (flat.rankLevel as number) ?? 4,
@@ -375,7 +395,7 @@ export const GET = withErrorHandling(
       // Thử match theo genshinDbId trước
       const charactersByGenshinDbId = await prisma.character.findMany({
         where: { genshinDbId: { in: avatarIds } },
-        select: { id: true, name: true, iconUrl: true, genshinDbId: true },
+        select: { id: true, name: true, iconUrl: true, vision: true, genshinDbId: true },
       });
       const dbMapByGenshinId = new Map(
         charactersByGenshinDbId.map((c) => [c.genshinDbId!, c])
@@ -390,12 +410,15 @@ export const GET = withErrorHandling(
       const charactersByOffset = offsetIds.length > 0
         ? await prisma.character.findMany({
             where: { genshinDbId: { in: offsetIds } },
-            select: { id: true, name: true, iconUrl: true, genshinDbId: true },
+            select: { id: true, name: true, iconUrl: true, vision: true, genshinDbId: true },
           })
         : [];
 
       // Build final map: avatarId (string) -> character
-      const finalMap = new Map<string, { id: string; name: string; iconUrl: string | null }>();
+      const finalMap = new Map<
+        string,
+        { id: string; name: string; iconUrl: string | null; vision: string }
+      >();
       for (const c of charactersByGenshinDbId) {
         finalMap.set(String(c.genshinDbId), c);
       }
@@ -415,9 +438,10 @@ export const GET = withErrorHandling(
           characterId: dbChar?.id ?? null,
           characterName: dbChar?.name ?? null,
           iconUrl: dbChar?.iconUrl ?? null,
+          vision: dbChar?.vision ?? null,
           avatarId: avatar.avatarId,
           level: parseLevel(avatar.propMap),
-          fightProps: parseFightProps(avatar.fightPropMap),
+          fightProps: parseFightProps(avatar.fightPropMap, dbChar?.vision ?? null),
           constellations: avatar.talentIdList?.length ?? 0,
           talentLevels: Object.values(avatar.skillLevelMap ?? {}).slice(0, 3),
           weapon: equipParsed.weapon,

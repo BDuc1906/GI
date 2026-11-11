@@ -30,6 +30,8 @@
     "searchPlaceholder": "Búsqueda rápida (personajes, armas, artefactos, materiales)..."
   },
   "Home": {
+    "buildReviewTitle": "Comprueba tu build real, no solo una plantilla",
+    "buildReviewDescription": "Importa un personaje de tu showcase público de Enka y envía sus estadísticas de combate reales a la calculadora de DPS para comparar builds.",
     "latestCharacters": "Personajes actualizados recientemente",
     "latestWeapons": "Armas actualizadas recientemente",
     "viewAll": "Ver todo",

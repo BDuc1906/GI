@@ -248,11 +248,8 @@ const AVAILABLE_ITEMS = COMPENDIUM_ITEMS.filter(
 
 const ITEM_BACKGROUNDS: Record<string, string> = {
   characters: "/images/home-cards/characters.webp",
-  weapons: "/images/home-cards/weapons.webp",
-  artifacts: "/images/home-cards/artifacts.webp",
   enemies: "/images/home-cards/enemies.webp",
   domains: "/images/home-cards/domains.webp",
-  elements: "/images/home-cards/elements.webp",
   calendar: "/images/home-cards/calendar.webp",
   materials: "/images/home-cards/materials.webp",
   food: "/images/home-cards/food.webp",
@@ -269,6 +266,53 @@ const ITEM_BACKGROUNDS: Record<string, string> = {
   versions: "/images/home-cards/versions.webp",
   "serenitea-pot": "/images/home-cards/serenitea-pot.webp",
 };
+
+const ITEM_FEATURED_ARTWORK: Record<
+  string,
+  { src: string; background: string }
+> = {
+  weapons: {
+    src: "/local-genshin-assets/weapons/a-thousand-blazing-suns.png",
+    background:
+      "radial-gradient(ellipse at 76% 50%, rgba(245, 158, 11, 0.28), transparent 52%), linear-gradient(115deg, #171923, #30251d 58%, #131722)",
+  },
+  artifacts: {
+    src: "/local-genshin-assets/artifacts/sets/golden-troupe.png",
+    background:
+      "radial-gradient(ellipse at 76% 50%, rgba(167, 139, 250, 0.28), transparent 52%), linear-gradient(115deg, #171923, #282139 58%, #131722)",
+  },
+};
+
+const ELEMENT_ARTWORK = [
+  {
+    src: "/local-genshin-assets/elements/anemo.png",
+    className: "left-1/2 top-[5%]",
+  },
+  {
+    src: "/local-genshin-assets/elements/pyro.png",
+    className: "left-[14%] top-[15%]",
+  },
+  {
+    src: "/local-genshin-assets/elements/hydro.png",
+    className: "left-[86%] top-[15%]",
+  },
+  {
+    src: "/local-genshin-assets/elements/electro.png",
+    className: "left-[5%] top-[58%]",
+  },
+  {
+    src: "/local-genshin-assets/elements/cryo.png",
+    className: "left-[95%] top-[58%]",
+  },
+  {
+    src: "/local-genshin-assets/elements/geo.png",
+    className: "left-[30%] top-[92%]",
+  },
+  {
+    src: "/local-genshin-assets/elements/dendro.png",
+    className: "left-[70%] top-[92%]",
+  },
+] as const;
 
 type CategoryFilter = "all" | "combat" | "world" | "profile";
 
@@ -362,7 +406,10 @@ export function TeyvatCompendium() {
 
       {/* Compendium Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-        {filteredItems.map((item) => (
+        {filteredItems.map((item) => {
+          const featuredArtwork = ITEM_FEATURED_ARTWORK[item.id];
+          const isElementArtwork = item.id === "elements";
+          return (
             <Link
               key={item.id}
               href={item.href}
@@ -371,28 +418,72 @@ export function TeyvatCompendium() {
                 borderColor: item.accentColor ? `color-mix(in srgb, ${item.accentColor} 30%, var(--border-color))` : undefined,
               }}
             >
-              <Image
-                src={ITEM_BACKGROUNDS[item.id] ?? item.icon}
-                alt=""
-                aria-hidden="true"
-                fill
-                unoptimized
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                className="absolute inset-0 h-full w-full object-cover opacity-100 transition-transform duration-500 group-hover:scale-105"
-              />
+              {isElementArtwork ? (
+                <>
+                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_68%_50%,rgba(99,102,241,0.2),transparent_54%),linear-gradient(115deg,#10151f,#1b1b38_62%,#111522)]" />
+                  <div className="absolute right-[3%] top-1/2 aspect-square h-[90%] -translate-y-1/2 rounded-full border border-white/10 shadow-[0_0_40px_rgba(99,102,241,0.12)]" />
+                  <div className="absolute right-[12%] top-1/2 aspect-square h-[72%] -translate-y-1/2 rounded-full border border-white/5" />
+                  <div className="absolute right-[3%] top-1/2 aspect-square h-[90%] -translate-y-1/2">
+                    {ELEMENT_ARTWORK.map((element) => (
+                      <div
+                        key={element.src}
+                        className={`absolute h-6 w-6 -translate-x-1/2 -translate-y-1/2 sm:h-8 sm:w-8 ${element.className}`}
+                      >
+                        <div className="relative h-full w-full drop-shadow-[0_0_10px_currentColor]">
+                          <Image
+                            src={element.src}
+                            alt=""
+                            aria-hidden="true"
+                            fill
+                            unoptimized
+                            sizes="32px"
+                            className="object-contain"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              ) : featuredArtwork ? (
+                <>
+                  <div
+                    className="absolute inset-0"
+                    style={{ backgroundImage: featuredArtwork.background }}
+                  />
+                  <div className="absolute inset-y-0 right-0 w-[58%]">
+                    <Image
+                      src={featuredArtwork.src}
+                      alt=""
+                      aria-hidden="true"
+                      fill
+                      unoptimized
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                      className="object-contain p-1 drop-shadow-[0_8px_18px_rgba(0,0,0,0.55)] transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                </>
+              ) : (
+                <Image
+                  src={ITEM_BACKGROUNDS[item.id] ?? item.icon}
+                  alt=""
+                  aria-hidden="true"
+                  fill
+                  unoptimized
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  className="absolute inset-0 h-full w-full object-cover opacity-100 transition-transform duration-500 group-hover:scale-105"
+                />
+              )}
               <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-black/10 to-black/45 transition-colors group-hover:from-transparent group-hover:via-black/5 group-hover:to-black/40" />
               <div className="absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/10" />
-              <div className="absolute left-2.5 top-2.5 flex h-12 w-12 items-center justify-center rounded-full border border-white/25 bg-black/50 p-2 backdrop-blur-sm shadow-md">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={item.icon}
-                  alt=""
-                  width={32}
-                  height={32}
-                  className="h-8 w-8 object-contain"
-                />
-              </div>
-              <div className="relative z-10 max-w-full px-1 text-center">
+              <div
+                className={`relative z-10 max-w-full px-1 ${
+                  isElementArtwork
+                    ? "w-[40%] text-center"
+                    : featuredArtwork
+                      ? "w-[58%] text-left"
+                      : "text-center"
+                }`}
+              >
                 <h3 className="font-display text-sm font-bold leading-snug text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] transition-colors group-hover:text-accent-bright sm:text-base">
                   {localizedItems[item.id]?.title ?? item.title}
                 </h3>
@@ -404,7 +495,8 @@ export function TeyvatCompendium() {
                 }}
               />
             </Link>
-          ))}
+          );
+        })}
       </div>
     </section>
   );

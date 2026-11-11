@@ -30,6 +30,8 @@
     "searchPlaceholder": "Pencarian cepat (karakter, senjata, artefak, material)..."
   },
   "Home": {
+    "buildReviewTitle": "Uji build aslimu, bukan hanya template",
+    "buildReviewDescription": "Impor karakter dari showcase Enka publikmu, lalu kirim statistik pertarungan sebenarnya ke kalkulator DPS untuk membandingkan pilihan build.",
     "latestCharacters": "Karakter baru diperbarui",
     "latestWeapons": "Senjata baru diperbarui",
     "viewAll": "Lihat semua",

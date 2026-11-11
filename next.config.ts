@@ -185,17 +185,21 @@ const nextConfig: NextConfig = {
 
   async headers() {
     return [
-      // === Long-term cache cho static assets Next.js (JS/CSS/fonts đã hash) ===
-      // Content-hash thay đổi mỗi build → immutable an toàn tuyệt đối.
-      {
-        source: "/_next/static/:path*",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
+      ...(process.env.NODE_ENV === "production"
+        ? [
+            // Production assets are content-hashed; dev chunk URLs can stay
+            // stable across edits and must not be cached as immutable.
+            {
+              source: "/_next/static/:path*",
+              headers: [
+                {
+                  key: "Cache-Control",
+                  value: "public, max-age=31536000, immutable",
+                },
+              ],
+            },
+          ]
+        : []),
       // === Cache cho ảnh proxy /api/images/* (đã set trong route.ts nhưng
       //     thêm header ở đây để Vercel Edge Cache nhận diện) ===
       {

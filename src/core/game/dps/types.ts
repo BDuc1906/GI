@@ -86,6 +86,8 @@ export interface DamageModifiers {
   reaction?: ReactionType;
   /** Chiều phản ứng ("forward" = 2.0x, "reverse" = 1.5x cho Vaporize/Melt). */
   reactionDirection?: ReactionDirection;
+  /** Bonus sát thương phản ứng riêng, tính theo phần trăm. */
+  reactionBonus?: number;
 }
 
 export interface DPSCalculationResult {
@@ -104,6 +106,7 @@ export interface RotationConfig {
   skillCasts: number;
   burstCasts: number;
   reactionChance: number;
+  durationSeconds?: number;
 }
 
 /** Chế độ nhập trực tiếp Bảng chỉ số tổng trong game */

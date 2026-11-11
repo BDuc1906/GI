@@ -30,6 +30,8 @@
     "searchPlaceholder": "快速搜索（角色、武器、圣遗物、材料）..."
   },
   "Home": {
+    "buildReviewTitle": "测试你的真实配装，而不只是套用模板",
+    "buildReviewDescription": "从公开的 Enka 展示柜导入角色，再将实际战斗属性传入 DPS 计算器，比较不同配装方案。",
     "latestCharacters": "最新更新的角色",
     "latestWeapons": "最新更新的武器",
     "viewAll": "查看全部",

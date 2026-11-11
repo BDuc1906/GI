@@ -20,12 +20,34 @@ interface WeaponOption {
   type: string;
   rarity: number;
   iconUrl: string | null;
+  iconUrlOriginal: string | null;
+}
+
+export interface ImportedBuildStats {
+  characterId: string;
+  characterLevel: number;
+  weaponLevel: number;
+  weaponRefinement: number;
+  talentLevels: {
+    normalAttack: number;
+    elementalSkill: number;
+    elementalBurst: number;
+  };
+  weaponIconKey: string | null;
+  totalStats: {
+    totalATK: number;
+    critRate: number;
+    critDmg: number;
+    em: number;
+    er: number;
+    damageBonus: number;
+  };
 }
 
 const SANDS_OPTIONS = ["ATK%", "HP%", "DEF%", "EM", "ER%"];
 const GOBLET_OPTIONS = ["ATK%", "HP%", "DEF%", "EM", "Elemental DMG%", "Physical DMG%"];
 const CIRCLET_OPTIONS = ["ATK%", "HP%", "DEF%", "EM", "CRIT Rate%", "CRIT DMG%", "Healing Bonus%"];
-const REACTIONS = ["Vaporize", "Melt", "Overload", "Superconduct", "Electro-Charged", "Aggravate", "Spread"];
+const REACTIONS = ["Frozen", "Vaporize", "Melt", "Overload", "Superconduct", "Electro-Charged", "Aggravate", "Spread"];
 
 interface DpsResult {
   characterName: string;
@@ -66,35 +88,66 @@ function NumberField({
   );
 }
 
+function getWeaponIconKey(url: string | null): string | null {
+  if (!url) return null;
+  try {
+    const filename = new URL(url, "https://leibo.invalid").pathname.split("/").pop();
+    return filename?.replace(/\.png$/i, "") ?? null;
+  } catch {
+    return null;
+  }
+}
+
 export function DpsCalculatorClient({
   characters,
   weapons,
+  importedBuild,
 }: {
   characters: CharacterOption[];
   weapons: WeaponOption[];
+  importedBuild?: ImportedBuildStats;
 }) {
   const [charQuery, setCharQuery] = useState("");
-  const [selectedChar, setSelectedChar] = useState<CharacterOption | null>(null);
-  const [selectedWeapon, setSelectedWeapon] = useState<WeaponOption | null>(null);
+  const [selectedChar, setSelectedChar] = useState<CharacterOption | null>(
+    () => characters.find((character) => character.id === importedBuild?.characterId) ?? null
+  );
+  const [selectedWeapon, setSelectedWeapon] = useState<WeaponOption | null>(() => {
+    if (!importedBuild?.weaponIconKey) return null;
+    return (
+      weapons.find(
+        (weapon) =>
+          getWeaponIconKey(weapon.iconUrlOriginal) === importedBuild.weaponIconKey ||
+          getWeaponIconKey(weapon.iconUrl) === importedBuild.weaponIconKey
+      ) ?? null
+    );
+  });
 
   // Tab chính: Tính Toàn Đội vs Đơn Lẻ vs So Sánh Đối Đầu
-  const [mainTab, setMainTab] = useState<"team" | "single" | "showdown">("team");
+  const [mainTab, setMainTab] = useState<"team" | "single" | "showdown">(
+    importedBuild ? "single" : "team"
+  );
 
-  const [characterLevel, setCharacterLevel] = useState(90);
-  const [weaponLevel, setWeaponLevel] = useState(90);
-  const [weaponRefinement, setWeaponRefinement] = useState(1);
-  const [talents, setTalents] = useState({ normalAttack: 10, elementalSkill: 10, elementalBurst: 10 });
+  const [characterLevel, setCharacterLevel] = useState(importedBuild?.characterLevel ?? 90);
+  const [weaponLevel, setWeaponLevel] = useState(importedBuild?.weaponLevel ?? 90);
+  const [weaponRefinement, setWeaponRefinement] = useState(importedBuild?.weaponRefinement ?? 1);
+  const [talents, setTalents] = useState(
+    importedBuild?.talentLevels ?? {
+      normalAttack: 10,
+      elementalSkill: 10,
+      elementalBurst: 10,
+    }
+  );
 
   // Chế độ tính toán: Nhập bảng tổng (khuyên dùng) hoặc Tự ghép 5 món
   const [calcMode, setCalcMode] = useState<"totalStats" | "artifacts">("totalStats");
 
   // State Bảng chỉ số tổng trong game
-  const [totalAtk, setTotalAtk] = useState(2100);
-  const [totalCritRate, setTotalCritRate] = useState(65.0);
-  const [totalCritDmg, setTotalCritDmg] = useState(150.0);
-  const [totalEm, setTotalEm] = useState(120);
-  const [totalEr, setTotalEr] = useState(130);
-  const [totalDamageBonus, setTotalDamageBonus] = useState(46.6);
+  const [totalAtk, setTotalAtk] = useState(importedBuild?.totalStats.totalATK ?? 2100);
+  const [totalCritRate, setTotalCritRate] = useState(importedBuild?.totalStats.critRate ?? 65.0);
+  const [totalCritDmg, setTotalCritDmg] = useState(importedBuild?.totalStats.critDmg ?? 150.0);
+  const [totalEm, setTotalEm] = useState(importedBuild?.totalStats.em ?? 120);
+  const [totalEr, setTotalEr] = useState(importedBuild?.totalStats.er ?? 130);
+  const [totalDamageBonus, setTotalDamageBonus] = useState(importedBuild?.totalStats.damageBonus ?? 46.6);
 
   // State 5 món Thánh di vật chi tiết
   const [flowerHp, setFlowerHp] = useState(4780);
@@ -115,9 +168,19 @@ export function DpsCalculatorClient({
     erPercent: 0,
   });
 
+  const [enemyLevel, setEnemyLevel] = useState(90);
   const [enemyRes, setEnemyRes] = useState(10);
+  const [defenseReduction, setDefenseReduction] = useState(0);
+  const [defenseIgnore, setDefenseIgnore] = useState(0);
   const [damageBonus, setDamageBonus] = useState(0);
-  const [reaction, setReaction] = useState("Vaporize");
+  const [vulnerability, setVulnerability] = useState(0);
+  const [reactionBonus, setReactionBonus] = useState(0);
+  const [reactionChancePercent, setReactionChancePercent] = useState(100);
+  const [rotationDurationSeconds, setRotationDurationSeconds] = useState(10);
+  const [normalAttackCount, setNormalAttackCount] = useState(3);
+  const [skillCastCount, setSkillCastCount] = useState(1);
+  const [burstCastCount, setBurstCastCount] = useState(1);
+  const [reaction, setReaction] = useState(importedBuild ? "Frozen" : "Vaporize");
   const [reactionDirection, setReactionDirection] = useState<"forward" | "reverse">("forward");
 
   const [result, setResult] = useState<DpsResult | null>(null);
@@ -151,8 +214,24 @@ export function DpsCalculatorClient({
         weaponLevel,
         weaponRefinement,
         talentLevels: talents,
-        modifiers: { enemyRes, defenseReduction: 0, damageBonus, vulnerability: 0, reaction, reactionDirection },
-        rotation: { normalAttacks: 3, skillCasts: 1, burstCasts: 1, reactionChance: 1 },
+        modifiers: {
+          enemyLevel,
+          enemyRes,
+          defenseReduction,
+          defenseIgnore,
+          damageBonus,
+          vulnerability,
+          reaction,
+          reactionDirection,
+          reactionBonus,
+        },
+        rotation: {
+          normalAttacks: normalAttackCount,
+          skillCasts: skillCastCount,
+          burstCasts: burstCastCount,
+          reactionChance: reactionChancePercent / 100,
+          durationSeconds: rotationDurationSeconds,
+        },
       };
 
       if (calcMode === "totalStats") {
@@ -245,10 +324,32 @@ export function DpsCalculatorClient({
         </button>
       </div>
 
+      {importedBuild && (
+        <div
+          role="status"
+          className="rounded-xl border border-accent-500/30 bg-accent-500/5 px-4 py-3 text-sm text-text-secondary"
+        >
+          <p className="font-semibold text-text-primary">
+            Đã nạp chỉ số thực từ showcase Enka
+          </p>
+          <p className="mt-1 text-xs leading-relaxed">
+            {selectedWeapon
+              ? `Đã nhận diện vũ khí ${selectedWeapon.name}.`
+              : "Chưa nhận diện được vũ khí trong dữ liệu LEIBO; hãy chọn vũ khí đang trang bị để tiếp tục."}{" "}
+            Mặc định không cộng thêm sát thương phản ứng. Nếu đổi vũ khí, các chỉ số tổng từ showcase không tự tính lại.
+            Hiệu quả nạp không ảnh hưởng kết quả vì công cụ chưa mô phỏng năng lượng/uptime Nộ. DPS là ước tính theo hệ số thiên phú và chu kỳ mẫu, không mô phỏng đầy đủ kỹ năng hay buff đội hình.
+          </p>
+        </div>
+      )}
+
       {mainTab === "team" ? (
         <TeamDpsCalculatorClient characters={characters} />
       ) : mainTab === "showdown" ? (
-        <GearShowdownClient characters={characters} weapons={weapons} />
+        <GearShowdownClient
+          characters={characters}
+          weapons={weapons}
+          importedBuild={importedBuild}
+        />
       ) : (
         <div className="space-y-6">
           {/* Nhân vật + vũ khí */}
@@ -301,7 +402,7 @@ export function DpsCalculatorClient({
       {/* Cấp độ */}
       <div className="bg-bg-card border-2 border-border rounded-xl p-5">
         <h3 className="text-sm font-medium text-text-secondary mb-3">Cấp độ &amp; Thiên phú</h3>
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           <NumberField label="Cấp nhân vật" value={characterLevel} onChange={setCharacterLevel} min={1} max={90} />
           <NumberField label="Cấp vũ khí" value={weaponLevel} onChange={setWeaponLevel} min={1} max={90} />
           <NumberField label="Tinh luyện" value={weaponRefinement} onChange={setWeaponRefinement} min={1} max={5} />
@@ -309,6 +410,13 @@ export function DpsCalculatorClient({
             label="Đòn thường"
             value={talents.normalAttack}
             onChange={(v) => setTalents((t) => ({ ...t, normalAttack: v }))}
+            min={1}
+            max={15}
+          />
+          <NumberField
+            label="Kỹ năng nguyên tố"
+            value={talents.elementalSkill}
+            onChange={(v) => setTalents((t) => ({ ...t, elementalSkill: v }))}
             min={1}
             max={15}
           />
@@ -405,8 +513,81 @@ export function DpsCalculatorClient({
       <div className="bg-bg-card border-2 border-border rounded-xl p-5">
         <h3 className="text-sm font-medium text-text-secondary mb-3">Kẻ địch &amp; Phản ứng</h3>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <NumberField label="Kháng nguyên tố (%)" value={enemyRes} onChange={setEnemyRes} min={-100} max={100} />
-          <NumberField label="DMG Bonus khác (%)" value={damageBonus} onChange={setDamageBonus} />
+          <NumberField
+            label="Cấp kẻ địch"
+            value={enemyLevel}
+            onChange={(value) => setEnemyLevel(Math.min(100, Math.max(1, Math.floor(value))))}
+            min={1}
+            max={100}
+          />
+          <NumberField
+            label="Kháng nguyên tố (%)"
+            value={enemyRes}
+            onChange={(value) => setEnemyRes(Math.min(100, Math.max(-100, value)))}
+            min={-100}
+            max={100}
+          />
+          <NumberField
+            label="Giảm DEF (%)"
+            value={defenseReduction}
+            onChange={(value) => setDefenseReduction(Math.min(90, Math.max(0, value)))}
+            min={0}
+            max={90}
+          />
+          <NumberField
+            label="Bỏ qua DEF (%)"
+            value={defenseIgnore}
+            onChange={(value) => setDefenseIgnore(Math.min(100, Math.max(0, value)))}
+            min={0}
+            max={100}
+          />
+          <NumberField
+            label="DMG Bonus khác (%)"
+            value={damageBonus}
+            onChange={(value) => setDamageBonus(Math.max(0, value))}
+          />
+          <NumberField
+            label="Địch nhận thêm sát thương (%)"
+            value={vulnerability}
+            onChange={(value) => setVulnerability(Math.max(0, value))}
+          />
+          <NumberField
+            label="Bonus sát thương phản ứng (%)"
+            value={reactionBonus}
+            onChange={(value) => setReactionBonus(Math.max(0, value))}
+          />
+          <NumberField
+            label="Đòn kích hoạt phản ứng (%)"
+            value={reactionChancePercent}
+            onChange={(value) => setReactionChancePercent(Math.min(100, Math.max(0, value)))}
+            min={0}
+            max={100}
+          />
+          <NumberField
+            label="Thời lượng chu kỳ (giây)"
+            value={rotationDurationSeconds}
+            onChange={(value) => setRotationDurationSeconds(Math.min(180, Math.max(1, value)))}
+            min={1}
+            max={180}
+          />
+          <NumberField
+            label="Đòn đánh thường"
+            value={normalAttackCount}
+            onChange={(value) => setNormalAttackCount(Math.max(0, Math.floor(value)))}
+            min={0}
+          />
+          <NumberField
+            label="Số lần dùng Kỹ năng"
+            value={skillCastCount}
+            onChange={(value) => setSkillCastCount(Math.max(0, Math.floor(value)))}
+            min={0}
+          />
+          <NumberField
+            label="Số lần dùng Nộ"
+            value={burstCastCount}
+            onChange={(value) => setBurstCastCount(Math.max(0, Math.floor(value)))}
+            min={0}
+          />
           <SelectField label="Phản ứng" value={reaction} onChange={setReaction} options={REACTIONS} />
           <SelectField
             label="Chiều phản ứng"
@@ -415,6 +596,9 @@ export function DpsCalculatorClient({
             options={["forward", "reverse"]}
           />
         </div>
+        <p className="mt-3 text-[11px] text-text-muted">
+          Mỗi lần dùng được tính bằng một hit đại diện (param1). Tỷ lệ kích hoạt là giả định cho từng hit; 100% là mức tối đa. Chưa mô phỏng combo nhiều hit hoặc ICD riêng của nhân vật.
+        </p>
       </div>
 
       <button
