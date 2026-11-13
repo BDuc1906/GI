@@ -58,13 +58,13 @@ export async function VersionHub() {
               src={backgroundArt}
               alt={`Version ${latest} Art`}
               fill
-              className="object-cover object-right md:object-right-top opacity-20 group-hover:opacity-30 group-hover:scale-105 transition-all duration-700 ease-out"
+              className="object-cover object-right md:object-right-top opacity-55 group-hover:opacity-75 group-hover:scale-105 transition-all duration-700 ease-out"
               sizes="(max-width: 1280px) 100vw, 1280px"
               priority
             />
             {/* Cinematic dark gradients for crisp contrast and readability */}
-            <div className="absolute inset-0 bg-gradient-to-r from-bg-card via-bg-card/90 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-t from-bg-card via-transparent to-bg-card/40" />
+            <div className="absolute inset-0 bg-gradient-to-r from-bg-card/95 via-bg-card/75 md:via-bg-card/55 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-bg-card via-transparent to-bg-card/30" />
           </div>
         )}
 

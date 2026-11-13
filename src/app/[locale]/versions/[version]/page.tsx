@@ -96,11 +96,11 @@ export default async function VersionDetailPage({ params, searchParams }: PagePr
               src={backgroundArt}
               alt={`Phiên bản ${version}`}
               fill
-              className="object-cover object-right opacity-20"
+              className="object-cover object-right opacity-55"
               sizes="(max-width: 1280px) 100vw, 1280px"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-bg-card via-bg-card/90 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-bg-card/95 via-bg-card/75 md:via-bg-card/55 to-transparent" />
           </div>
         )}
         <div className="relative z-10 flex flex-wrap items-center justify-between gap-3">

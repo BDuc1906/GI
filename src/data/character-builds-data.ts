@@ -5785,10 +5785,84 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
       "Vodyanitsa (5 sao Thủy) điều khiển thủy triều áp đảo kẻ địch, cấp ấn Thủy diện rộng và khuếch đại sức mạnh cho toàn bộ đội hình.",
   },
 
+  "yumemizuki-mizuki": {
+    weapons: [
+      {
+        weaponId: "a-thousand-floating-dreams",
+        tier: "S",
+        noteVi: "Trấn tốt nhất - Cung cấp 265 EM khổng lồ và buff Elemental DMG cho đồng đội",
+      },
+      {
+        weaponId: "sacrificial-fragments",
+        tier: "S",
+        noteVi: "Mảnh Chương Tế Lễ 4★ tốt nhất - 221 EM và hồi chiêu E ngay lập tức",
+      },
+      {
+        weaponId: "wandering-evenstar",
+        tier: "A",
+        noteVi: "Sao Đêm Rong Ruổi - Tăng EM và chia sẻ ATK cho toàn đội dựa trên EM",
+      },
+      {
+        weaponId: "the-widsith",
+        tier: "A",
+        noteVi: "Chương Nhạc Lang Thang - Sát thương bạo kích và buff chỉ số ngẫu nhiên cực mạnh",
+      },
+      {
+        weaponId: "favonius-codex",
+        tier: "B",
+        noteVi: "Tây Phong - Đảm bảo sạc nạp Q mượt mà và sinh hạt nguyên tố cho team",
+      },
+      {
+        weaponId: "magic-guide",
+        tier: "B",
+        noteVi: "Tóm Tắt Ma Pháp 3★ F2P - EM cao và tăng sát thương lên kẻ địch nhiễm Thủy/Lôi",
+      },
+    ],
+    artifacts: [
+      {
+        setIds: ["viridescent-venerer"],
+        mode: "4pc",
+        priority: 1,
+        noteVi: "Bóng Hình Màu Xanh 4 món - Giảm 40% kháng nguyên tố của mục tiêu khi Khuếch Tán",
+      },
+      {
+        setIds: ["gilded-dreams"],
+        mode: "4pc",
+        priority: 2,
+        noteVi: "Giấc Mộng Hoàng Kim 4 món - Tối đa hóa Tinh Thông Nguyên Tố cho chuỗi phản ứng",
+      },
+      {
+        setIds: ["desert-pavilion-chronicle"],
+        mode: "4pc",
+        priority: 3,
+        noteVi: "Sử thi Đình Các Sa Mạc - Lựa chọn cho phong cách On-field DPS Anemo tốc đánh cao",
+      },
+    ],
+    mainStats: {
+      sands: "Tinh Thông Nguyên Tố (EM) hoặc Hiệu Quả Nạp (ER%)",
+      goblet: "Tinh Thông Nguyên Tố (EM) hoặc Sát Thương Phong (Anemo DMG%)",
+      circlet: "Tinh Thông Nguyên Tố (EM) hoặc Tỷ Lệ Bạo Kích (CRIT Rate)",
+      note: "Hướng build Full EM (EM/EM/EM) là tối ưu nhất cho hiệu quả Khuếch Tán và buff đội hình.",
+    },
+    subStats: {
+      stats: ["Tinh Thông Nguyên Tố (EM)", "Hiệu Quả Nạp (ER%)", "Tỷ Lệ Bạo Kích (CRIT Rate)", "Sát Thương Bạo Kích (CRIT DMG)", "Tấn Công (ATK%)"],
+      note: "Ưu tiên đạt 140-160% ER để nạp Q liên tục, sau đó dồn toàn lực vào Tinh Thông Nguyên Tố (EM).",
+    },
+    talentPriority: {
+      order: ["Kỹ năng nguyên tố (E)", "Kỹ năng nộ (Q)", "Đòn đánh thường (NA)"],
+      note: "Kỹ năng E là nguồn kích hoạt Khuếch Tán và gom ấn chính, nâng Q song song để hỗ trợ toàn diện.",
+    },
+    playstyleNoteVi:
+      "Yumemizuki Mizuki (5 sao Pháp Khí hệ Phong từ Inazuma) chuyên gia ru ngủ ác mộng và trị liệu tâm lý. Đóng vai trò Driver đứng sân hoặc Hỗ Trợ Khuếch Tán giảm kháng diện rộng cực kỳ xuất sắc với bộ Bóng Hình Màu Xanh.",
+  },
+
 };
 
 
 const ID_ALIASES: Record<string, string> = {
+  "yumemizuki-mizuki": "yumemizuki-mizuki",
+  "mizuki": "yumemizuki-mizuki",
+  "yumemizuki": "yumemizuki-mizuki",
   "traveler-boy-dendro": "traveler-dendro",
   "traveler-girl-dendro": "traveler-dendro",
   "traveler-dendro": "traveler-dendro",

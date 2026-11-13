@@ -5,6 +5,8 @@ import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
 import { countUnknown, getVersionIndex, summarize } from "@/core/game/versions";
+import { resolveVersionBackgroundArt, VERSION_THEMES } from "@/core/game/version-art";
+import { SafeImage } from "@/components/ui/SafeImage";
 
 export const revalidate = 3600;
 
@@ -59,20 +61,41 @@ export default async function VersionsPage({ params }: PageProps) {
         <ol className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {newestFirst.map((v) => {
             const s = summarize(index, v);
+            const theme = VERSION_THEMES[v];
+            const art = resolveVersionBackgroundArt(v);
             return (
               <li key={v}>
                 <Link
                   href={`/versions/${v}`}
-                  className="surface-card p-4 flex flex-col gap-3 h-full group"
+                  className="relative overflow-hidden surface-card p-4 flex flex-col gap-3 h-full group hover:border-accent-500/50 transition-all"
                 >
-                  <div className="flex items-baseline justify-between gap-2">
-                    <span className="font-display text-2xl font-bold text-text-primary group-hover:text-accent-bright transition-colors">
-                      Phiên bản {v}
-                    </span>
+                  {art && (
+                    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden select-none">
+                      <SafeImage
+                        src={art}
+                        alt={`Phiên bản ${v}`}
+                        fill
+                        className="object-cover object-right opacity-25 group-hover:opacity-40 group-hover:scale-105 transition-all duration-500 ease-out"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-r from-bg-card via-bg-card/90 to-bg-card/40" />
+                    </div>
+                  )}
+                  <div className="relative z-10 flex flex-col gap-3 h-full">
+                    <div className="flex items-baseline justify-between gap-2 flex-wrap">
+                      <span className="font-display text-2xl font-bold text-text-primary group-hover:text-accent-bright transition-colors">
+                        Phiên bản {v}
+                      </span>
+                      {theme && (
+                        <span className="text-xs font-medium text-text-secondary italic">
+                          {theme.vi}
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs text-text-muted mt-auto">
+                      Tổng thêm: {s.added} · Đã có trước: {s.before}
+                    </p>
                   </div>
-                  <p className="text-xs text-text-muted mt-auto">
-                    Tổng thêm: {s.added} · Đã có trước: {s.before}
-                  </p>
                 </Link>
               </li>
             );

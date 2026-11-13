@@ -39,10 +39,10 @@ export function ElementIcon({
     return null;
   }
 
-  // Primary: local high-res PNG (256x256); fallback to CDN proxy
+  // Primary: local high-res PNG (256x256) extracted directly from game client
   const localAsset = `/local-genshin-assets/elements/${v}.png`;
-  const cdnFallback = iconUrl ? toProxiedUrl(iconUrl) : undefined;
-  const resolvedUrl = broken && cdnFallback ? cdnFallback : localAsset;
+  const safeFallback = iconUrl && !iconUrl.endsWith(".svg") ? toProxiedUrl(iconUrl) : undefined;
+  const resolvedUrl = broken && safeFallback ? safeFallback : localAsset;
 
   const elementColor = elementColorVar(vision);
   const glowStyle = glow ? {
