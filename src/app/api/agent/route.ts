@@ -27,7 +27,7 @@ async function handler(req: NextRequest) {
     if (!body) {
       return fail(400, "INVALID_BODY", "Body phải là JSON hợp lệ");
     }
-    const { message, sessionId } = body;
+    const { message, sessionId, role } = body;
 
     if (!message || typeof message !== "string") {
       return fail(400, "MISSING_MESSAGE", "Thiếu tin nhắn hoặc tin nhắn không hợp lệ");
@@ -42,6 +42,7 @@ async function handler(req: NextRequest) {
       user,
       maxSteps: 5,
       useDb: true,
+      role: typeof role === "string" ? role : undefined,
     });
 
     const sseStream = await agent.processStream(message);

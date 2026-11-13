@@ -57,6 +57,7 @@ export interface AgentOptions {
   maxSteps?: number;
   useDb?: boolean;
   debug?: boolean;
+  role?: string;
 }
 
 export class AgentCore {
@@ -66,6 +67,7 @@ export class AgentCore {
   private toolRegistry: ToolRegistry;
   private maxSteps: number;
   private debug: boolean;
+  private role?: string;
 
   constructor(options: AgentOptions) {
     // Fail sớm với thông báo rõ ràng thay vì để lỗi mơ hồ xảy ra giữa
@@ -82,6 +84,7 @@ export class AgentCore {
     this.toolRegistry = new ToolRegistry();
     this.maxSteps = options.maxSteps || getConfig().agent.maxSteps;
     this.debug = options.debug || getConfig().agent.debug;
+    this.role = options.role;
     
     // Start performance monitoring for this session
     const perfMonitor = getPerformanceMonitor();
@@ -156,6 +159,9 @@ export class AgentCore {
       sessionId: this.sessionId,
       tools: this.toolRegistry.listDescriptions(),
       ragKnowledge: relevantKnowledge,
+      role: this.role,
+      userMessage,
+      isA2A: this.role === "swarm",
     });
 
     return { systemPrompt, history, tools, intent };

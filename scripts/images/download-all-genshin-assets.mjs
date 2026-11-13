@@ -268,7 +268,7 @@ for (const { file, folder } of jsonFiles) {
   if (fs.existsSync(filePath)) {
     try {
       const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-      for (const [id, val] of Object.entries(data)) {
+      for (const val of Object.values(data)) {
         if (Array.isArray(val) && val[0]) {
           const filename = val[0];
           addDownloadTask(folder, `${filename}.png`, getCandidateUrls(filename));

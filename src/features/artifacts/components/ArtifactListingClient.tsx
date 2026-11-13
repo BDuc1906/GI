@@ -8,6 +8,7 @@ import {
   categorizeArtifactSet,
   type ArtifactStatCategory,
 } from "@/core/game/artifact-filter-categories";
+import { ArtifactOddsTable } from "./ArtifactOddsTable";
 
 export interface ArtifactListingItem {
   id: string;
@@ -30,6 +31,7 @@ export function ArtifactListingClient({ initialSets, locale: _locale }: Artifact
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedRarity, setSelectedRarity] = useState<number | "all">("all");
   const [selectedCategory, setSelectedCategory] = useState<ArtifactStatCategory>("all");
+  const [showOddsTable, setShowOddsTable] = useState(false);
 
   // Gắn nhãn phân loại cho từng bộ
   const enrichedSets = useMemo(() => {
@@ -192,18 +194,35 @@ export function ArtifactListingClient({ initialSets, locale: _locale }: Artifact
           </div>
         </div>
 
-        {/* Báo cáo số lượng */}
-        <div className="pt-2 border-t border-border/60 flex items-center justify-between text-xs text-text-muted">
-          <span>
-            Hiển thị <strong className="text-accent-bright font-semibold">{filteredSets.length}</strong> / {initialSets.length} bộ Thánh Di Vật
-          </span>
-          {selectedCategory !== "all" && (
-            <span className="text-[11px] text-accent-bright">
-              Đang lọc: {ARTIFACT_CATEGORIES.find((c) => c.key === selectedCategory)?.nameVi}
+        {/* Báo cáo số lượng & Toggle Bảng Xác Suất */}
+        <div className="pt-2 border-t border-border/60 flex flex-wrap items-center justify-between gap-2 text-xs text-text-muted">
+          <div className="flex items-center gap-3">
+            <span>
+              Hiển thị <strong className="text-accent-bright font-semibold">{filteredSets.length}</strong> / {initialSets.length} bộ Thánh Di Vật
             </span>
-          )}
+            {selectedCategory !== "all" && (
+              <span className="text-[11px] text-accent-bright">
+                Đang lọc: {ARTIFACT_CATEGORIES.find((c) => c.key === selectedCategory)?.nameVi}
+              </span>
+            )}
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setShowOddsTable((prev) => !prev)}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
+              showOddsTable
+                ? "bg-accent-500 text-white border-accent-500 shadow-sm"
+                : "bg-bg-elevated border-border text-text-primary hover:border-accent-500 hover:text-accent-bright"
+            }`}
+          >
+            <span>📊</span>
+            <span>{showOddsTable ? "Đóng Bảng Xác Suất KQM" : "Bảng Xác Suất & Bậc Roll Dòng Phụ (KQM)"}</span>
+          </button>
         </div>
       </div>
+
+      {showOddsTable && <ArtifactOddsTable />}
 
       {/* =========================================================================
           LƯỚI HIỂN THỊ THÁNH DI VẬT

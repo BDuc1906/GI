@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 
 export interface StickerItem {

@@ -76,6 +76,7 @@ async function run() {
   const webpMB = (totalWebpBytes / (1024 * 1024)).toFixed(2);
   const savedPercent = (((totalOriginalBytes - totalWebpBytes) / totalOriginalBytes) * 100).toFixed(1);
   console.log(`\n🎉 Nén WebP hoàn tất:`);
+  console.log(`- Số ảnh đã nén thành công: ${convertedCount}/${pngFiles.length}`);
   console.log(`- Dung lượng gốc PNG: ${origMB} MB`);
   console.log(`- Dung lượng sau nén WebP: ${webpMB} MB`);
   console.log(`- Tiết kiệm: ${savedPercent}% băng thông tải web!\n`);

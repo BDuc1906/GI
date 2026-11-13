@@ -260,6 +260,7 @@ function TeamMemberDpsCard({
 
         {/* Avatar */}
         {member.iconUrl ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
           <img
             src={member.iconUrl}
             alt={member.charName}

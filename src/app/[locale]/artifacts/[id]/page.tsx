@@ -11,6 +11,7 @@ import { GlossaryText } from "@/features/glossary/GlossaryText";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { ArtifactSourceDomain } from "@/features/artifacts/components/ArtifactSourceDomain";
 import { ArtifactRecommendedCharacters } from "@/features/artifacts/components/ArtifactRecommendedCharacters";
+import { ArtifactOddsTable } from "@/features/artifacts/components/ArtifactOddsTable";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
 import { localArtifactPiece, localArtifactSetIcon } from "@/lib/ui/local-assets";
 
@@ -176,6 +177,8 @@ export default async function ArtifactDetail({ params }: PageProps) {
           })}
         </div>
       </section>
+
+      <ArtifactOddsTable />
 
       <ArtifactSourceDomain artifactSetId={a.id} locale={locale} rarityColor={rc} />
 

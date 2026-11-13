@@ -205,10 +205,7 @@ export function KazuhaMapleLeavesEffect({
       curvature: (Math.random() - 0.5) * 30,
     }));
 
-    let time = 0;
-
     const render = () => {
-      time += 1;
       ctx.clearRect(0, 0, width, height);
 
       // 1. Vẽ các vệt gió phong Anemo lướt nhẹ

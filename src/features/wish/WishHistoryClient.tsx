@@ -47,7 +47,16 @@ export function WishHistoryClient() {
   const [filterRarity, setFilterRarity] = useState<string>("all");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [showGuide, setShowGuide] = useState(false);
+  const [copiedScript, setCopiedScript] = useState(false);
   const [isPending, startTransition] = useTransition();
+
+  const POWERSHELL_COMMAND = `Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://gist.githubusercontent.com/MadeBaruna/109312984852924513783a37866e4a50/raw/getlink.ps1'))`;
+
+  const handleCopyScript = () => {
+    navigator.clipboard.writeText(POWERSHELL_COMMAND);
+    setCopiedScript(true);
+    setTimeout(() => setCopiedScript(false), 2500);
+  };
 
   const currentResult = cachedData;
 
@@ -153,6 +162,41 @@ export function WishHistoryClient() {
       ? (currentBannerWishes.length / fiveStarsInBanner.length).toFixed(1)
       : "—";
 
+  // 50/50 win rate calculation for character banner
+  const STANDARD_POOL = new Set(["Jean", "Diluc", "Qiqi", "Mona", "Keqing", "Tighnari", "Dehya"]);
+  const charFiveStars = (currentResult?.banners.character ?? []).filter((w) => w.rankType === "5");
+  let won5050Count = 0;
+  let total5050Rounds = 0;
+  let isGuaranteed = false;
+
+  const chronoFiveStars = [...charFiveStars].reverse();
+  for (const item of chronoFiveStars) {
+    const isStandard = STANDARD_POOL.has(item.name);
+    if (!isGuaranteed) {
+      total5050Rounds++;
+      if (!isStandard) {
+        won5050Count++;
+        isGuaranteed = false;
+      } else {
+        isGuaranteed = true;
+      }
+    } else {
+      isGuaranteed = false;
+    }
+  }
+
+  const winRate5050 = total5050Rounds > 0 ? Math.round((won5050Count / total5050Rounds) * 100) : null;
+  const avgRollsNum = parseFloat(avgRollsPerFiveStar);
+  const luckTier = isNaN(avgRollsNum)
+    ? null
+    : avgRollsNum <= 55
+    ? { label: "Kỳ Lân (Top 5%)", color: "text-amber-400", desc: "Cực kỳ may mắn!" }
+    : avgRollsNum <= 66
+    ? { label: "May Mắn (Top 25%)", color: "text-emerald-400", desc: "Nổ vàng sớm hơn bình quân" }
+    : avgRollsNum <= 75
+    ? { label: "Tiêu Chuẩn (Top 50%)", color: "text-blue-400", desc: "Đúng theo xác suất game" }
+    : { label: "Cần Kiên Trì", color: "text-rose-400", desc: "Nhiều lần chạm trần Pity" };
+
   const filteredWishes = currentBannerWishes.filter((w) => {
     if (filterRarity === "all") return true;
     return w.rankType === filterRarity;
@@ -187,11 +231,28 @@ export function WishHistoryClient() {
               <li>Dán đoạn lệnh script sau rồi nhấn Enter:</li>
             </ol>
             <div className="mt-2.5 p-3 rounded-lg bg-bg-primary font-mono text-xs text-accent-bright overflow-x-auto select-all">
-              {`Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://gist.githubusercontent.com/MadeBaruna/109312984852924513783a37866e4a50/raw/getlink.ps1'))`}
+              {POWERSHELL_COMMAND}
             </div>
-            <p className="mt-2 text-xs text-text-secondary">
-              Script sẽ tự động copy URL vào Clipboard của bạn. Sau đó chỉ cần dán vào ô bên dưới!
-            </p>
+            <div className="mt-3 flex items-center gap-3">
+              <button
+                type="button"
+                onClick={handleCopyScript}
+                className="px-4 py-2 rounded-lg bg-accent-500 hover:bg-accent-600 text-white font-semibold text-xs transition-all flex items-center gap-2 shadow-sm"
+              >
+                {copiedScript ? (
+                  <>
+                    <span>✓</span>
+                    <span>Đã sao chép vào Clipboard!</span>
+                  </>
+                ) : (
+                  <>
+                    <span>📋</span>
+                    <span>Sao chép lệnh PowerShell (1-Click)</span>
+                  </>
+                )}
+              </button>
+              <span className="text-xs text-text-muted">Chạy lệnh trong PowerShell $\rightarrow$ Dán vào ô bên dưới</span>
+            </div>
           </div>
         )}
 
@@ -313,6 +374,39 @@ export function WishHistoryClient() {
               <span className="text-xs text-text-secondary mt-0.5 block">
                 trên banner đang chọn
               </span>
+            </div>
+          </div>
+
+          {/* Thống kê 50/50 & Vận may toàn cầu */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="rounded-xl border border-border bg-bg-surface p-4 flex items-center justify-between">
+              <div>
+                <span className="text-xs text-text-secondary">Tỉ lệ Thắng 50/50 (Banner Nhân vật)</span>
+                <div className="text-xl font-bold font-mono text-text-primary mt-0.5">
+                  {winRate5050 !== null ? `${winRate5050}%` : "Chưa đủ dữ liệu"}
+                </div>
+                <span className="text-[11px] text-text-muted">
+                  {total5050Rounds > 0 ? `Thắng ${won5050Count}/${total5050Rounds} lần bảo hiểm 50/50` : "Chưa có lượt 50/50 nào"}
+                </span>
+              </div>
+              <div className="w-10 h-10 rounded-full bg-accent-500/10 border border-accent-500/30 flex items-center justify-center text-lg">
+                🎯
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-border bg-bg-surface p-4 flex items-center justify-between">
+              <div>
+                <span className="text-xs text-text-secondary">Xếp Hạng Vận May Toàn Cầu</span>
+                <div className={`text-xl font-bold font-mono mt-0.5 ${luckTier?.color ?? "text-text-primary"}`}>
+                  {luckTier ? luckTier.label : "—"}
+                </div>
+                <span className="text-[11px] text-text-muted">
+                  {luckTier ? luckTier.desc : "Dựa trên số roll trung bình ra 5★"}
+                </span>
+              </div>
+              <div className="w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-lg">
+                ✨
+              </div>
             </div>
           </div>
 

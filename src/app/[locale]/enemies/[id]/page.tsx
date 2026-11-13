@@ -19,6 +19,7 @@ import {
   paragraphs,
   readEnemyRaw,
 } from "@/core/game/enemy-format";
+import { calculateEnemyResistances } from "@/core/game/enemy-stats";
 
 export const revalidate = 3600;
 
@@ -31,6 +32,17 @@ const DOMAIN_CATEGORY_LABEL: Record<string, string> = {
   weapon: "Nguyên liệu vũ khí",
   artifact: "Thánh di vật",
 };
+
+const ELEMENT_RES_CONFIG = [
+  { key: "pyro" as const, label: "Hỏa", icon: "/local-genshin-assets/elements/pyro.png" },
+  { key: "hydro" as const, label: "Thủy", icon: "/local-genshin-assets/elements/hydro.png" },
+  { key: "cryo" as const, label: "Băng", icon: "/local-genshin-assets/elements/cryo.png" },
+  { key: "electro" as const, label: "Lôi", icon: "/local-genshin-assets/elements/electro.png" },
+  { key: "anemo" as const, label: "Phong", icon: "/local-genshin-assets/elements/anemo.png" },
+  { key: "geo" as const, label: "Nham", icon: "/local-genshin-assets/elements/geo.png" },
+  { key: "dendro" as const, label: "Thảo", icon: "/local-genshin-assets/elements/dendro.png" },
+  { key: "physical" as const, label: "Vật lý", icon: "/local-genshin-assets/ui/sword.png" },
+];
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, id } = await params;
@@ -122,6 +134,7 @@ export default async function EnemyDetailPage({ params }: PageProps) {
   const inv = raw.investigation;
   const descParas = paragraphs(raw.description);
   const invParas = paragraphs(inv?.description);
+  const resistances = calculateEnemyResistances(enemy);
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
@@ -155,6 +168,55 @@ export default async function EnemyDetailPage({ params }: PageProps) {
         </p>
         </div>
       </header>
+
+      {/* Combat Stats & Resistance Table */}
+      <section className="mb-8 p-5 rounded-2xl bg-bg-card border border-border/80 shadow-sm">
+        <h2 className="font-display text-base font-bold mb-1 text-accent-bright flex items-center gap-2">
+          <span>🛡️</span>
+          <span>Bảng Kháng Nguyên Tố Cơ Bản</span>
+        </h2>
+        <p className="text-xs text-text-muted mb-4">
+          Kháng xác định mức giảm sát thương của đòn tấn công. Kháng âm (&lt;0%) khuếch đại sát thương; kháng &ge;100% hoàn toàn miễn nhiễm.
+        </p>
+
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5">
+          {ELEMENT_RES_CONFIG.map((el) => {
+            const val = resistances[el.key];
+            const isWeak = val < 10;
+            const isHigh = val >= 50 && val < 100;
+            const isImmune = val >= 100;
+
+            return (
+              <div
+                key={el.key}
+                className="bg-bg-elevated/70 border border-border/80 rounded-xl p-2.5 text-center flex flex-col items-center justify-between"
+              >
+                <div className="flex items-center gap-1.5 mb-1">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={el.icon} alt={el.label} className="w-4 h-4 object-contain" />
+                  <span className="text-xs font-semibold text-text-secondary">{el.label}</span>
+                </div>
+                <div
+                  className={`text-sm font-bold font-mono mt-0.5 ${
+                    isImmune
+                      ? "text-purple-400"
+                      : isHigh
+                      ? "text-rose-400"
+                      : isWeak
+                      ? "text-emerald-400"
+                      : "text-text-primary"
+                  }`}
+                >
+                  {isImmune ? "Miễn nhiễm" : `${val}%`}
+                </div>
+                <div className="text-[10px] text-text-muted mt-0.5">
+                  {isImmune ? "Immune" : isWeak ? "Điểm yếu" : isHigh ? "Kháng cao" : "Chuẩn 10%"}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
 
       {descParas.length > 0 && (
         <section className="mb-8 max-w-3xl space-y-2 text-text-secondary">

@@ -15,6 +15,7 @@ import {
   summarize,
   type VersionView,
 } from "@/core/game/versions";
+import { resolveVersionBackgroundArt, VERSION_THEMES } from "@/core/game/version-art";
 
 export const revalidate = 3600;
 // dynamic = "force-dynamic" để mọi version URL đều render (không cần generateStaticParams)
@@ -79,33 +80,59 @@ export default async function VersionDetailPage({ params, searchParams }: PagePr
     .map((src) => ({ src, items: pickEntries(index.entries[src.key] ?? [], version, view) }))
     .filter((s) => s.items.length > 0);
 
+  const addedChars = pickEntries(index.entries["characters"] ?? [], version, "added");
+  const backgroundArt = resolveVersionBackgroundArt(version, addedChars);
+  const theme = VERSION_THEMES[version];
+
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <BreadcrumbJsonLd locale={locale} items={breadcrumbItems} />
       <Breadcrumb items={breadcrumbItems} />
 
-      <header className="flex flex-wrap items-center justify-between gap-3 mb-6">
-        <h1 className="font-display text-display-2 font-semibold text-text-primary">
-          Phiên bản {version}
-        </h1>
-        <nav aria-label="Chuyển phiên bản" className="flex gap-2 text-sm">
-          {prev ? (
-            <Link
-              href={`/versions/${prev}?view=${view}`}
-              className="text-text-secondary underline underline-offset-2 hover:text-accent-bright"
-            >
-              ← {prev}
-            </Link>
-          ) : null}
-          {next ? (
-            <Link
-              href={`/versions/${next}?view=${view}`}
-              className="text-text-secondary underline underline-offset-2 hover:text-accent-bright"
-            >
-              {next} →
-            </Link>
-          ) : null}
-        </nav>
+      <header className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-bg-card via-bg-card/90 to-bg-card/40 border border-border/80 p-6 mb-6">
+        {backgroundArt && (
+          <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden select-none">
+            <SafeImage
+              src={backgroundArt}
+              alt={`Phiên bản ${version}`}
+              fill
+              className="object-cover object-right opacity-20"
+              sizes="(max-width: 1280px) 100vw, 1280px"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-bg-card via-bg-card/90 to-transparent" />
+          </div>
+        )}
+        <div className="relative z-10 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h1 className="font-display text-display-2 font-semibold text-text-primary">
+              Phiên bản {version}
+            </h1>
+            {theme && (
+              <p className="text-sm font-medium text-text-secondary mt-1">
+                {theme.vi} ({theme.en})
+              </p>
+            )}
+          </div>
+          <nav aria-label="Chuyển phiên bản" className="flex gap-2 text-sm">
+            {prev ? (
+              <Link
+                href={`/versions/${prev}?view=${view}`}
+                className="text-text-secondary underline underline-offset-2 hover:text-accent-bright"
+              >
+                ← {prev}
+              </Link>
+            ) : null}
+            {next ? (
+              <Link
+                href={`/versions/${next}?view=${view}`}
+                className="text-text-secondary underline underline-offset-2 hover:text-accent-bright"
+              >
+                {next} →
+              </Link>
+            ) : null}
+          </nav>
+        </div>
       </header>
 
       {/* 3 chế độ xem: thêm ở bản này / đã có trước / thêm sau */}

@@ -1,15 +1,42 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform: string }>;
 }
 
+function subscribeToInstall(callback: () => void) {
+  if (typeof window === "undefined") return () => {};
+  const mql = window.matchMedia("(display-mode: standalone)");
+  mql.addEventListener("change", callback);
+  window.addEventListener("appinstalled", callback);
+  return () => {
+    mql.removeEventListener("change", callback);
+    window.removeEventListener("appinstalled", callback);
+  };
+}
+
+function getInstallSnapshot() {
+  if (typeof window === "undefined") return false;
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    (window.navigator as unknown as { standalone?: boolean }).standalone === true
+  );
+}
+
+function getInstallServerSnapshot() {
+  return false;
+}
+
 export function PwaRegister() {
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-  const [isInstalled, setIsInstalled] = useState(false);
+  const isInstalled = useSyncExternalStore(
+    subscribeToInstall,
+    getInstallSnapshot,
+    getInstallServerSnapshot
+  );
   const [showBanner, setShowBanner] = useState(false);
 
   useEffect(() => {
@@ -27,15 +54,7 @@ export function PwaRegister() {
         });
     }
 
-    // 2. Check if already installed
-    if (
-      window.matchMedia("(display-mode: standalone)").matches ||
-      (window.navigator as unknown as { standalone?: boolean }).standalone === true
-    ) {
-      setIsInstalled(true);
-    }
-
-    // 3. Listen for browser install prompt
+    // 2. Listen for browser install prompt
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
       setInstallPrompt(e as BeforeInstallPromptEvent);
@@ -46,16 +65,17 @@ export function PwaRegister() {
       }
     };
 
-    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-
-    window.addEventListener("appinstalled", () => {
-      setIsInstalled(true);
+    const handleAppInstalled = () => {
       setShowBanner(false);
       setInstallPrompt(null);
-    });
+    };
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    window.addEventListener("appinstalled", handleAppInstalled);
 
     return () => {
       window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+      window.removeEventListener("appinstalled", handleAppInstalled);
     };
   }, []);
 

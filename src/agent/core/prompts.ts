@@ -4,15 +4,58 @@
  * Tách riêng để dễ dàng fine-tune và versioning
  */
 
+import { SWARM_PERSONAS } from "../swarm/personas";
+import type { AgentRole } from "../swarm/types";
+import { planA2ACollaboration, formatA2ASystemPrompt } from "../swarm/a2a-protocol";
+
 export interface PromptContext {
   userName: string;
   userId: string;
   sessionId: string;
   tools: string;
   ragKnowledge?: string;
+  role?: string;
+  userMessage?: string;
+  isA2A?: boolean;
 }
 
 export function getSystemPrompt(ctx: PromptContext): string {
+  const isA2AMode = 
+    ctx.isA2A || 
+    ctx.role === "swarm" || 
+    (ctx.userMessage && (
+      ctx.userMessage.toLowerCase().includes("agent to agent") ||
+      ctx.userMessage.toLowerCase().includes("hội chẩn") ||
+      ctx.userMessage.toLowerCase().includes("phối hợp") ||
+      ctx.userMessage.toLowerCase().includes("kết hợp") ||
+      ctx.userMessage.toLowerCase().includes("đội ai") ||
+      ctx.userMessage.toLowerCase().includes("cùng nhau")
+    ));
+
+  let a2aSection = "";
+  if (isA2AMode) {
+    const plan = planA2ACollaboration(ctx.userMessage || "Hỗ trợ tối ưu Genshin Impact toàn diện");
+    a2aSection = formatA2ASystemPrompt(plan);
+  }
+
+  const persona = !isA2AMode && ctx.role && ctx.role in SWARM_PERSONAS 
+    ? SWARM_PERSONAS[ctx.role as AgentRole] 
+    : null;
+
+  const personaSection = persona
+    ? `
+## Danh Tính Chuyên Biệt (LEIBO AI Specialist Swarm)
+Bạn đang đảm nhận vai trò: **${persona.name}** (${persona.titleVi} - ${persona.title}).
+Huy hiệu chuyên môn: [${persona.badge}].
+Nguyên tố biểu trưng: ${persona.element}.
+Lời chào đại diện: "${persona.greeting}"
+
+Chỉ đạo tính cách & nghiệp vụ chuyên sâu:
+${persona.systemPrompt}
+Hãy trả lời đúng ngữ điệu, góc nhìn và chuyên môn sâu sắc của ${persona.name}.
+`
+    : "";
+
   const ragSection = ctx.ragKnowledge 
     ? `
 ## Kiến thức liên quan từ RAG System
@@ -23,7 +66,8 @@ Sử dụng kiến thức này để trả lời câu hỏi chính xác hơn. Ki
     : "";
 
   return `Bạn là **LEIBO Agent** - trợ lý AI toàn năng về Genshin Impact chuyên nghiệp.
-
+${personaSection}
+${a2aSection}
 ## Vai trò của bạn
 Bạn là chuyên gia Genshin Impact toàn diện, có nhiệm vụ:
 1. Tra cứu thông tin nhân vật, vũ khí, thánh di vật, bí cảnh, nguyên liệu, phản ứng nguyên tố

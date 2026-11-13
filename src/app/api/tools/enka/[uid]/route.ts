@@ -342,9 +342,9 @@ export const GET = withErrorHandling(
     async (req: NextRequest, ctx) => {
       const { uid } = await ctx.params;
 
-      // Validate UID: 9 chữ số, không âm
-      if (!/^\d{9}$/.test(uid)) {
-        throw ApiError.badRequest("UID không hợp lệ. UID phải gồm đúng 9 chữ số.");
+      // Validate UID: 9-10 chữ số, không âm
+      if (!/^\d{9,10}$/.test(uid)) {
+        throw ApiError.badRequest("UID không hợp lệ. UID phải gồm 9 hoặc 10 chữ số.");
       }
 
       // Gọi Enka.Network public API

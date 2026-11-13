@@ -32,7 +32,7 @@ export interface UseAgentReturn {
   isLoading: boolean;
   error: Error | null;
   sessionId: string | null;
-  sendMessage: (content: string) => Promise<void>;
+  sendMessage: (content: string, role?: string) => Promise<void>;
   clearMessages: () => void;
   stop: () => void;
 }
@@ -68,7 +68,7 @@ export function useAgent(options: UseAgentOptions = {}): UseAgentReturn {
   const { onMessage, onToolInvocation, onError } = options;
 
   const sendMessage = useCallback(
-    async (content: string) => {
+    async (content: string, role?: string) => {
       if (!content.trim() || isLoading) return;
 
       // Tạo tin nhắn user
@@ -110,6 +110,7 @@ export function useAgent(options: UseAgentOptions = {}): UseAgentReturn {
           body: JSON.stringify({
             message: content.trim(),
             sessionId,
+            role,
           }),
           signal: abortControllerRef.current.signal,
         });

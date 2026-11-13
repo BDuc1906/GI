@@ -346,16 +346,95 @@ const DAY_VI: Record<string, string> = {
 };
 
 function ResultPanel({ result }: { result: CalculatorResult }) {
+  // Kho đồ cá nhân lưu trong localStorage
+  const [inventory, setInventory] = useState<Record<string, number>>(() => {
+    if (typeof window === "undefined") return {};
+    try {
+      const stored = window.localStorage.getItem("leibo-user-inventory");
+      return stored ? JSON.parse(stored) : {};
+    } catch {
+      return {};
+    }
+  });
+
+  const updateInventory = (name: string, count: number) => {
+    setInventory((prev) => {
+      const next = { ...prev, [name]: Math.max(0, count) };
+      try {
+        window.localStorage.setItem("leibo-user-inventory", JSON.stringify(next));
+      } catch {
+        // ignore
+      }
+      return next;
+    });
+  };
+
+  // Tính tổng Nhựa ước tính
+  const allMaterials = [
+    ...result.ascension.materials,
+    ...(result.talent?.materials ?? []),
+  ];
+
+  let totalResinEstimate = 0;
+  for (const m of allMaterials) {
+    const owned = inventory[m.name] || 0;
+    const missing = Math.max(0, m.quantity - owned);
+    if (missing > 0) {
+      // Boss drop: 40 resin per ~2.5 drops
+      if (m.name.includes("Seed") || m.name.includes("Core") || m.name.includes("Regalia") || m.name.includes("Scale") || m.name.includes("Prism")) {
+        totalResinEstimate += Math.ceil(missing / 2.5) * 40;
+      } else if (m.name.includes("Teachings") || m.name.includes("Guide") || m.name.includes("Philosophies")) {
+        // Talent books: ~20 resin per 2.2 purple-equivalent
+        totalResinEstimate += Math.ceil(missing / 2.2) * 20;
+      }
+    }
+  }
+
+  const estimatedDays = Math.max(1, Math.ceil(totalResinEstimate / 180));
+  const currentDayOfWeek = new Date().toLocaleDateString("en-US", { weekday: "long" });
+
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
+      {/* Thẻ Kế hoạch Nhựa & Thời gian */}
+      {totalResinEstimate > 0 && (
+        <div className="bg-gradient-to-r from-bg-card via-bg-card/95 to-bg-elevated border border-accent-500/40 rounded-2xl p-5 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-xl">🧪</span>
+              <h3 className="font-display text-base font-bold text-text-primary">
+                Kế Hoạch Nông Nghiệp &amp; Ước Tính Nhựa
+              </h3>
+            </div>
+            <p className="text-xs text-text-muted mt-1 max-w-xl">
+              Dựa trên số lượng còn thiếu sau khi trừ số lượng bạn đang có sẵn trong túi đồ.
+            </p>
+          </div>
+          <div className="flex items-center gap-4 bg-bg-primary/80 border border-border px-4 py-2.5 rounded-xl shrink-0">
+            <div>
+              <div className="text-[10px] uppercase font-mono tracking-wider text-text-muted">Ước tính Nhựa</div>
+              <div className="text-lg font-bold font-mono text-amber-400">~{totalResinEstimate.toLocaleString("vi-VN")} Resin</div>
+            </div>
+            <div className="w-px h-8 bg-border" />
+            <div>
+              <div className="text-[10px] uppercase font-mono tracking-wider text-text-muted">Thời gian farm</div>
+              <div className="text-lg font-bold font-mono text-emerald-400">~{estimatedDays} ngày</div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <MaterialPlanCard
         title={`🌟 Nguyên Liệu Đột Phá Nhân Vật (Cấp ${result.ascension.currentLevel} → ${result.ascension.targetLevel})`}
         materials={result.ascension.materials}
+        inventory={inventory}
+        onUpdateInventory={updateInventory}
       />
       {result.talent && (
         <MaterialPlanCard
           title="⚡ Nguyên Liệu Nâng Cấp Kỹ Năng / Thiên Phú"
           materials={result.talent.materials}
+          inventory={inventory}
+          onUpdateInventory={updateInventory}
         />
       )}
       {result.domains.length > 0 && (
@@ -364,25 +443,35 @@ function ResultPanel({ result }: { result: CalculatorResult }) {
             🏛️ Bí Cảnh Rơi Nguyên Liệu Phù Hợp ({result.domains.length})
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {result.domains.map((d) => (
-              <div key={d.id} className="bg-bg-primary border border-border/80 rounded-xl p-3.5 text-xs space-y-1.5">
-                <div className="text-text-primary font-bold text-sm flex items-center justify-between">
-                  <span>{d.name}</span>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-bg-secondary text-text-muted border border-border">
-                    {d.category}
-                  </span>
+            {result.domains.map((d) => {
+              const isOpenToday = d.daysOfWeek.length === 0 || d.daysOfWeek.includes(currentDayOfWeek);
+              return (
+                <div key={d.id} className="bg-bg-primary border border-border/80 rounded-xl p-3.5 text-xs space-y-1.5">
+                  <div className="text-text-primary font-bold text-sm flex items-center justify-between">
+                    <span>{d.name}</span>
+                    <div className="flex items-center gap-1.5">
+                      {isOpenToday && (
+                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">
+                          Đang mở hôm nay!
+                        </span>
+                      )}
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-bg-secondary text-text-muted border border-border">
+                        {d.category}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="text-amber-400 font-mono text-[11px]">
+                    📅 Lịch mở:{" "}
+                    {d.daysOfWeek.length > 0
+                      ? d.daysOfWeek.map((day) => DAY_VI[day] ?? day).join(", ")
+                      : "Mở tất cả các ngày"}
+                  </div>
+                  <div className="text-text-muted text-[11px] truncate">
+                    Rơi: {d.dropsMaterials.join(", ")}
+                  </div>
                 </div>
-                <div className="text-amber-400 font-mono text-[11px]">
-                  📅 Lịch mở:{" "}
-                  {d.daysOfWeek.length > 0
-                    ? d.daysOfWeek.map((day) => DAY_VI[day] ?? day).join(", ")
-                    : "Mở tất cả các ngày"}
-                </div>
-                <div className="text-text-muted text-[11px] truncate">
-                  Rơi: {d.dropsMaterials.join(", ")}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}
@@ -390,39 +479,85 @@ function ResultPanel({ result }: { result: CalculatorResult }) {
   );
 }
 
-function MaterialPlanCard({ title, materials }: { title: string; materials: PlanMaterial[] }) {
+function MaterialPlanCard({
+  title,
+  materials,
+  inventory,
+  onUpdateInventory,
+}: {
+  title: string;
+  materials: PlanMaterial[];
+  inventory: Record<string, number>;
+  onUpdateInventory: (name: string, count: number) => void;
+}) {
   return (
     <div className="bg-bg-card border border-amber-500/30 rounded-2xl p-5 shadow-sm">
-      <h3 className="font-display text-base font-bold text-text-primary mb-3">{title}</h3>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+        <h3 className="font-display text-base font-bold text-text-primary">{title}</h3>
+        <span className="text-[11px] text-text-muted italic">
+          💡 Bạn có thể nhập số lượng có sẵn trong túi vào ô &quot;Có&quot; để tính số lượng còn thiếu
+        </span>
+      </div>
       {materials.length === 0 ? (
         <p className="text-xs text-text-muted">Không cần thêm nguyên liệu nào trong khoảng này.</p>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5">
           {materials.map((m) => {
             const iconPath = `/local-genshin-assets/materials/${slugify(m.name)}.png`;
+            const owned = inventory[m.name] || 0;
+            const missing = Math.max(0, m.quantity - owned);
+            const isCompleted = owned >= m.quantity;
+
             return (
               <div
                 key={m.name}
-                className="bg-bg-primary border border-border rounded-xl p-3 flex items-center gap-3 hover:border-amber-500/40 transition-colors"
+                className={`bg-bg-primary border rounded-xl p-3 transition-colors ${
+                  isCompleted ? "border-emerald-500/50 bg-emerald-500/5" : "border-border hover:border-amber-500/40"
+                }`}
               >
-                <div className="relative w-10 h-10 rounded-lg bg-bg-secondary border border-border/60 shrink-0 overflow-hidden flex items-center justify-center p-1">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={iconPath}
-                    alt={m.name}
-                    className="w-full h-full object-contain filter drop-shadow-sm"
-                    loading="lazy"
-                    onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).style.opacity = "0.3";
-                    }}
-                  />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="text-xs font-semibold text-text-primary truncate" title={m.name}>
-                    {m.name}
+                <div className="flex items-center gap-2.5">
+                  <div className="relative w-10 h-10 rounded-lg bg-bg-secondary border border-border/60 shrink-0 overflow-hidden flex items-center justify-center p-1">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={iconPath}
+                      alt={m.name}
+                      className="w-full h-full object-contain filter drop-shadow-sm"
+                      loading="lazy"
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).style.opacity = "0.3";
+                      }}
+                    />
                   </div>
-                  <div className="text-xs font-mono font-bold text-amber-400 mt-0.5">
-                    ×{m.quantity.toLocaleString("vi-VN")}
+                  <div className="min-w-0 flex-1">
+                    <div className="text-xs font-semibold text-text-primary truncate" title={m.name}>
+                      {m.name}
+                    </div>
+                    <div className="flex items-baseline justify-between mt-1 text-xs">
+                      <span className="font-mono text-text-muted">Cần: <strong className="text-text-primary">{m.quantity}</strong></span>
+                      {isCompleted ? (
+                        <span className="font-semibold text-emerald-400 text-[11px] flex items-center gap-1">
+                          <span>✓ Đủ</span>
+                        </span>
+                      ) : (
+                        <span className="font-mono text-rose-400 text-[11px]">Thiếu: {missing}</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Input nhập số lượng có sẵn trong kho */}
+                <div className="mt-2.5 pt-2 border-t border-border/60 flex items-center justify-between text-[11px]">
+                  <span className="text-text-muted">Có sẵn:</span>
+                  <div className="flex items-center gap-1">
+                    <input
+                      type="number"
+                      min={0}
+                      max={9999}
+                      value={owned || ""}
+                      placeholder="0"
+                      onChange={(e) => onUpdateInventory(m.name, parseInt(e.target.value) || 0)}
+                      className="w-16 px-2 py-0.5 rounded bg-bg-secondary border border-border text-center font-mono text-xs text-text-primary focus:outline-none focus:border-accent-500"
+                    />
                   </div>
                 </div>
               </div>

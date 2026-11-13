@@ -31,12 +31,13 @@ describe("Enka.Network Fight Props Parsing", () => {
     expect(parsed.er).toBe(135.2);
   });
 
-  it("validate UID chỉ chấp nhận đúng 9 chữ số", () => {
-    const isValidUid = (uid: string) => /^\d{9}$/.test(uid);
+  it("validate UID chấp nhận 9 hoặc 10 chữ số", () => {
+    const isValidUid = (uid: string) => /^\d{9,10}$/.test(uid);
 
-    expect(isValidUid("812345678")).toBe(true);
+    expect(isValidUid("812345678")).toBe(true);   // 9 số (Asia/NA/EU/TW)
+    expect(isValidUid("1800000001")).toBe(true);  // 10 số (Dải mở rộng tương lai)
     expect(isValidUid("81234567")).toBe(false);   // 8 số
-    expect(isValidUid("8123456789")).toBe(false);  // 10 số
+    expect(isValidUid("812345678911")).toBe(false); // 11 số
     expect(isValidUid("81234abcd")).toBe(false);   // có chữ
     expect(isValidUid("-81234567")).toBe(false);   // số âm
   });

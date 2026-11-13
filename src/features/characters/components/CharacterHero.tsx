@@ -6,7 +6,7 @@ import { RarityStars } from "@/components/ui/RarityStars";
 import { ElementalFrame } from "@/components/ui/ElementalFrame";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { getElementNameByKey } from "@/core/game/element-reactions-data";
-import { resolveCharacterCardImage, type VoiceActors } from "@/core/game/character-helpers";
+import { type VoiceActors } from "@/core/game/character-helpers";
 
 export interface CharacterHeroProps {
   character: Character;

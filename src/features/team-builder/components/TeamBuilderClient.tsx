@@ -10,6 +10,7 @@ import {
   type ResonanceRule,
   type TeamChar,
 } from "@/core/game/team-synergy";
+import { TeamRotationERAdvisor } from "./TeamRotationERAdvisor";
 
 export interface BuilderChar extends TeamChar {
   /** Tên hiển thị theo ngôn ngữ đang chọn. */
@@ -60,6 +61,13 @@ export function TeamBuilderClient({
   initialFocus,
 }: TeamBuilderProps) {
   const byId = useMemo(() => new Map(characters.map((c) => [c.id, c])), [characters]);
+  const characterMap = useMemo(() => {
+    const map: Record<string, { name: string; label: string; element: string; icons: string[] }> = {};
+    for (const c of characters) {
+      map[c.id] = { name: c.name, label: c.label, element: c.element, icons: c.icons };
+    }
+    return map;
+  }, [characters]);
   const [owned, setOwned] = useState<string[]>([]);
   const [pinned, setPinned] = useState<string[]>(initialPinned);
   const [focus, setFocus] = useState(initialFocus);
@@ -386,6 +394,11 @@ export function TeamBuilderClient({
                       </div>
                     )}
                   </dl>
+
+                  <TeamRotationERAdvisor
+                    memberIds={team.slots.map((s) => s.character.id)}
+                    characterMap={characterMap}
+                  />
                 </li>
               );
             })}

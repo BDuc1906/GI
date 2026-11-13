@@ -1,5 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { getVersionIndex, pickEntries, type VersionEntry } from "@/core/game/versions";
+import { resolveVersionBackgroundArt, VERSION_THEMES } from "@/core/game/version-art";
 import { SafeImage } from "@/components/ui/SafeImage";
 import { getTranslations } from "next-intl/server";
 
@@ -27,6 +28,9 @@ export async function VersionHub() {
 
   if (!latest) return null;
 
+  const backgroundArt = resolveVersionBackgroundArt(latest, newCharacters);
+  const theme = VERSION_THEMES[latest];
+
   return (
     <section className="max-w-7xl mx-auto px-4 md:px-8 py-6 md:py-8">
       {/* Header */}
@@ -45,19 +49,44 @@ export async function VersionHub() {
         </Link>
       </div>
 
-      {/* Main Version Showcase Card */}
-      <div className="bg-gradient-to-br from-bg-card via-bg-card/90 to-bg-elevated/40 border border-border/80 hover:border-accent-500/50 rounded-2xl p-6 transition-all shadow-sm space-y-6">
-        {/* Version banner title & stats */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div>
-            <span className="text-xs font-mono uppercase text-accent-bright tracking-wider font-semibold">
-              {tHome("versionCurrent")}
-            </span>
-            <h3 className="font-display text-3xl sm:text-4xl font-extrabold text-text-primary mt-0.5 tracking-tight">
-              {tHome("versionNumber", { version: latest })}
-            </h3>
+      {/* Main Version Showcase Card with Exclusive Key Art Background */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-bg-card via-bg-card/95 to-bg-elevated/60 border border-border/80 hover:border-accent-500/50 rounded-2xl p-6 transition-all shadow-sm group">
+        {/* Exclusive Version Background Art Layer */}
+        {backgroundArt && (
+          <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden select-none">
+            <SafeImage
+              src={backgroundArt}
+              alt={`Version ${latest} Art`}
+              fill
+              className="object-cover object-right md:object-right-top opacity-20 group-hover:opacity-30 group-hover:scale-105 transition-all duration-700 ease-out"
+              sizes="(max-width: 1280px) 100vw, 1280px"
+              priority
+            />
+            {/* Cinematic dark gradients for crisp contrast and readability */}
+            <div className="absolute inset-0 bg-gradient-to-r from-bg-card via-bg-card/90 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-bg-card via-transparent to-bg-card/40" />
           </div>
-        </div>
+        )}
+
+        <div className="relative z-10 space-y-6">
+          {/* Version banner title & stats */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <span className="text-xs font-mono uppercase text-accent-bright tracking-wider font-semibold">
+                {tHome("versionCurrent")}
+              </span>
+              <div className="flex items-baseline gap-3 flex-wrap">
+                <h3 className="font-display text-3xl sm:text-4xl font-extrabold text-text-primary mt-0.5 tracking-tight">
+                  {tHome("versionNumber", { version: latest })}
+                </h3>
+                {theme && (
+                  <span className="text-sm font-medium text-text-secondary/90 italic">
+                    — {theme.vi}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
 
         {/* Visual Spotlight: Newly Added Characters */}
         {newCharacters.length > 0 && (
@@ -170,6 +199,7 @@ export async function VersionHub() {
           >
             {tHome("viewAll")}
           </Link>
+        </div>
         </div>
       </div>
     </section>
