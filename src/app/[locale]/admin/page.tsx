@@ -14,6 +14,7 @@ import { StatsCards } from "@/features/admin/StatsCards";
 import { AgentControlPanel } from "@/features/admin/AgentControlPanel";
 import { DataHealth, type FixScanSummary } from "@/features/admin/DataHealth";
 import { RecentActivity } from "@/features/admin/RecentActivity";
+import { SwarmOpsDashboard } from "@/features/admin/SwarmOpsDashboard";
 
 const ADMIN_KEY_STORAGE = "leibo_admin_key";
 
@@ -137,6 +138,17 @@ export default function AdminPage() {
             </h2>
           </div>
           <StatsCards latestStatus={latestStatus} />
+        </div>
+
+        {/* AI Agent Swarm Autonomous Site Operations */}
+        <div className="mb-8">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-1 h-6 bg-accent-500 rounded-full" />
+            <h2 className="font-display text-xl font-semibold text-text-primary">
+              Đội Ngũ AI Agent Vận Hành Hệ Thống (Swarm Operations)
+            </h2>
+          </div>
+          <SwarmOpsDashboard adminKey={adminKey} />
         </div>
 
         {/* Main Grid */}
