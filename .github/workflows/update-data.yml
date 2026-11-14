@@ -23,6 +23,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      issues: write
     services:
       postgres:
         image: postgres:16
@@ -33,7 +34,7 @@ jobs:
         ports:
           - 5432:5432
         options: >-
-          --health-cmd pg_isready
+          --health-cmd "pg_isready -U postgres"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -55,16 +56,14 @@ jobs:
       - name: Apply migrations
         run: npx prisma migrate deploy
 
+      - name: Sync metadata & discover game versions
+        run: npx tsx scripts/sync/update-data.ts
+
       - name: Run data crawl
         run: npm run data:crawl
 
       - name: Run seed on test DB
-        # BUG ĐÃ SỬA (2026-09): `npm run db:seed` gọi kèm cờ
-        # `--env-file=.env` (định nghĩa trong package.json) — file .env
-        # không tồn tại trên CI (gitignore, biến môi trường đã được bơm
-        # qua `env:` cấp workflow ở đầu file rồi), khiến tsx thoát lỗi
-        # "node: .env: not found" trước khi seed.ts kịp chạy dòng nào.
-        # Gọi thẳng tsx bỏ qua cờ đó, không cần đụng package.json.
+        # Gọi trực tiếp tsx bỏ qua cờ --env-file=.env không có trên CI
         run: npx tsx scripts/seed/seed.ts
 
       - name: Run integrity verification
@@ -72,10 +71,10 @@ jobs:
         continue-on-error: true
         run: npx tsx scripts/seed/verify-seed-integrity.ts
 
-      - name: Check for changes in data/raw/
+      - name: Check for changes
         id: diff
         run: |
-          git add -f data/raw/
+          git add -f data/raw/ scripts/data/
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
@@ -87,9 +86,10 @@ jobs:
         id: create-pr
         uses: peter-evans/create-pull-request@v8
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "chore(data): update game data from genshin-db"
           title: "chore(data): update game data"
-          branch: "auto/update-data-$(date +'%Y%m%d')"
+          branch: "auto/update-data"
           delete-branch: true
           labels: "data-update"
           body: |
@@ -102,13 +102,14 @@ jobs:
             test/build/migrate) chạy lại và pass — xem workflow
             `update-data`._
 
-      # Yêu cầu: bật "Allow auto-merge" trong Settings → General của repo
-      # (1 lần duy nhất, ở GitHub UI — không thể bật qua workflow), và
-      # nên cấu hình branch protection cho `main` với ci.yml là required
-      # status check, nếu không auto-merge sẽ merge ngay không đợi CI.
+      # Bật auto-merge nếu repo cho phép, không làm fail workflow nếu tính năng chưa bật
       - name: Enable auto-merge
         if: steps.diff.outputs.changed == 'true' && steps.verify.outcome == 'success'
-        run: gh pr merge --auto --squash "${{ steps.create-pr.outputs.pull-request-number }}"
+        run: |
+          PR_NUM="${{ steps.create-pr.outputs.pull-request-number }}"
+          if [ -n "$PR_NUM" ]; then
+            gh pr merge --auto --squash "$PR_NUM" || echo "Auto-merge could not be set automatically (check repository settings)."
+          fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

@@ -15,11 +15,6 @@
  * Bản đồ Key Art độc quyền chính thức theo từng phiên bản
  */
 export const VERSION_KEY_ART_MAP: Record<string, string> = {
-  // ── 7.x Snezhnaya / Nod-Krai ──
-  "7.2": "/images/versions/7.2.jpg", // Official Version 7.2 Key Visual (Frostbound Horizon)
-  "7.1": "/local-genshin-assets/characters/splash/vesna.webp",
-  "7.0": "/local-genshin-assets/characters/splash/odette.webp",
-
   // ── 5.x Natlan ──
   "5.4": "/local-genshin-assets/characters/splash/yumemizuki-mizuki.webp",
   "5.3": "/local-genshin-assets/characters/splash/mavuika.webp",
@@ -74,11 +69,6 @@ export const VERSION_KEY_ART_MAP: Record<string, string> = {
  * Tên chủ đề chính thức của các phiên bản (Việt - Anh)
  */
 export const VERSION_THEMES: Record<string, { vi: string; en: string }> = {
-  // 7.x
-  "7.2": { vi: "Chân Trời Băng Đóng", en: "Frostbound Horizon" },
-  "7.1": { vi: "Vũ Điệu Băng Tuyết", en: "The Winter Queen's Waltz" },
-  "7.0": { vi: "Khúc Ca Snezhnaya", en: "The Snezhnayan Prelude" },
-
   // 5.x
   "5.4": { vi: "Giấc Mộng Mê Đắm", en: "Embrace of Enchanting Dreams" },
   "5.3": { vi: "Khúc Khải Hoàn Hồi Sinh", en: "Incandescent Ode of Resurrection" },
