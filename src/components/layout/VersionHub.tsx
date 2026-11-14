@@ -104,33 +104,43 @@ export async function VersionHub() {
                 <span>{tHome("latestCharacters")} ({newCharacters.length})</span>
               </h4>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5">
               {newCharacters.map((char) => (
                 <Link
                   key={char.id}
                   href={`/characters/${char.id}`}
-                  className="group flex items-center gap-3 p-3 rounded-xl bg-bg-elevated/60 border border-border/70 hover:border-accent-500 hover:bg-bg-elevated transition-all"
+                  className="group relative flex min-h-[140px] sm:min-h-[160px] flex-col items-center justify-center rounded-2xl bg-bg-card border border-border/80 p-3.5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-accent-bright overflow-hidden active:scale-[0.98]"
                 >
-                  <div className="relative w-12 h-12 rounded-xl bg-bg-card border border-border/60 overflow-hidden shrink-0 group-hover:scale-105 transition-transform">
-                    <SafeImage
-                      src={char.iconUrl}
-                      fallbackSrcs={[char.iconUrlOriginal]}
-                      alt={char.name}
-                      fill
-                      sizes="48px"
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="font-semibold text-sm text-text-primary group-hover:text-accent-bright transition-colors truncate">
+                  {/* Full Background Character Splash / Portrait */}
+                  <SafeImage
+                    src={char.iconUrl}
+                    fallbackSrcs={[char.iconUrlOriginal]}
+                    alt={char.name}
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 200px"
+                    className="absolute inset-0 h-full w-full object-cover opacity-90 transition-transform duration-500 ease-out group-hover:scale-110"
+                  />
+
+                  {/* Prydwen-style dark gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/30 transition-colors duration-300 group-hover:from-black/85 group-hover:via-black/50 group-hover:to-black/20" />
+                  <div className="absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/10 group-hover:ring-white/20 transition-all" />
+
+                  {/* Top Rarity Badge */}
+                  {char.meta && (
+                    <div className="absolute top-2.5 right-2.5 z-10 px-2 py-0.5 rounded-md bg-black/65 border border-white/15 backdrop-blur-md text-[11px] font-bold text-amber-400 drop-shadow">
+                      {char.meta}
+                    </div>
+                  )}
+
+                  {/* White Centered Text (Prydwen Style) */}
+                  <div className="relative z-10 flex flex-col items-center justify-center text-center w-full px-1 gap-1">
+                    <p className="font-display font-extrabold text-sm sm:text-base text-white tracking-wide group-hover:text-accent-bright transition-colors truncate max-w-full drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
                       {char.name}
                     </p>
-                    {char.meta && (
-                      <p className="text-xs text-amber-400 font-medium">
-                        {char.meta}
-                      </p>
-                    )}
                   </div>
+
+                  {/* Glowing bottom accent line */}
+                  <div className="absolute inset-x-0 bottom-0 h-1 bg-amber-400/80 opacity-60 transition-all duration-300 group-hover:h-1.5 group-hover:opacity-100" />
                 </Link>
               ))}
             </div>
@@ -153,31 +163,37 @@ export async function VersionHub() {
                 <span>{tHome("latestWeapons")} ({newWeapons.length})</span>
               </h4>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
               {newWeapons.map((wpn) => (
                 <Link
                   key={wpn.id}
                   href={`/weapons/${wpn.id}`}
-                  className="group flex flex-col items-center p-2.5 rounded-xl bg-bg-elevated/50 border border-border/70 hover:border-accent-500 hover:bg-bg-elevated transition-all text-center"
+                  className="group relative flex min-h-[120px] flex-col items-center justify-center rounded-2xl bg-bg-card border border-border/80 p-3 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-accent-bright overflow-hidden active:scale-[0.98]"
                 >
-                  <div className="relative w-11 h-11 rounded-lg bg-bg-card border border-border/50 overflow-hidden mb-1.5 group-hover:scale-105 transition-transform">
-                    <SafeImage
-                      src={wpn.iconUrl}
-                      fallbackSrcs={[wpn.iconUrlOriginal]}
-                      alt={wpn.name}
-                      fill
-                      sizes="44px"
-                      className="object-contain p-1"
-                    />
-                  </div>
-                  <p className="font-medium text-xs text-text-primary group-hover:text-accent-bright transition-colors truncate w-full">
-                    {wpn.name}
-                  </p>
+                  <SafeImage
+                    src={wpn.iconUrl}
+                    fallbackSrcs={[wpn.iconUrlOriginal]}
+                    alt={wpn.name}
+                    fill
+                    sizes="120px"
+                    className="absolute inset-0 h-full w-full object-contain p-2.5 opacity-85 transition-transform duration-500 ease-out group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-black/35 transition-colors duration-300" />
+                  <div className="absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/10" />
+
                   {wpn.meta && (
-                    <span className="text-[10px] text-amber-400 font-semibold mt-0.5">
+                    <div className="absolute top-2 right-2 z-10 px-1.5 py-0.2 rounded bg-black/60 border border-white/15 backdrop-blur-md text-[10px] font-bold text-amber-400">
                       {wpn.meta}
-                    </span>
+                    </div>
                   )}
+
+                  <div className="relative z-10 text-center w-full px-1 mt-auto">
+                    <p className="font-display font-extrabold text-xs text-white group-hover:text-accent-bright transition-colors truncate drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">
+                      {wpn.name}
+                    </p>
+                  </div>
+
+                  <div className="absolute inset-x-0 bottom-0 h-1 bg-accent-bright opacity-60 transition-all duration-300 group-hover:opacity-100" />
                 </Link>
               ))}
             </div>

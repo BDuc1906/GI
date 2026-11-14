@@ -267,53 +267,6 @@ const ITEM_BACKGROUNDS: Record<string, string> = {
   "serenitea-pot": "/images/home-cards/serenitea-pot.webp",
 };
 
-const ITEM_FEATURED_ARTWORK: Record<
-  string,
-  { src: string; background: string }
-> = {
-  weapons: {
-    src: "/local-genshin-assets/weapons/a-thousand-blazing-suns.png",
-    background:
-      "radial-gradient(ellipse at 76% 50%, rgba(245, 158, 11, 0.28), transparent 52%), linear-gradient(115deg, #171923, #30251d 58%, #131722)",
-  },
-  artifacts: {
-    src: "/local-genshin-assets/artifacts/sets/golden-troupe.png",
-    background:
-      "radial-gradient(ellipse at 76% 50%, rgba(167, 139, 250, 0.28), transparent 52%), linear-gradient(115deg, #171923, #282139 58%, #131722)",
-  },
-};
-
-const ELEMENT_ARTWORK = [
-  {
-    src: "/local-genshin-assets/elements/anemo.png",
-    className: "left-1/2 top-[5%]",
-  },
-  {
-    src: "/local-genshin-assets/elements/pyro.png",
-    className: "left-[14%] top-[15%]",
-  },
-  {
-    src: "/local-genshin-assets/elements/hydro.png",
-    className: "left-[86%] top-[15%]",
-  },
-  {
-    src: "/local-genshin-assets/elements/electro.png",
-    className: "left-[5%] top-[58%]",
-  },
-  {
-    src: "/local-genshin-assets/elements/cryo.png",
-    className: "left-[95%] top-[58%]",
-  },
-  {
-    src: "/local-genshin-assets/elements/geo.png",
-    className: "left-[30%] top-[92%]",
-  },
-  {
-    src: "/local-genshin-assets/elements/dendro.png",
-    className: "left-[70%] top-[92%]",
-  },
-] as const;
-
 type CategoryFilter = "all" | "combat" | "world" | "profile";
 
 export function TeyvatCompendium() {
@@ -404,94 +357,66 @@ export function TeyvatCompendium() {
         })}
       </div>
 
-      {/* Compendium Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+      {/* Compendium Grid — Chuẩn phong cách Gaming Database Prydwen */}
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5">
         {filteredItems.map((item) => {
-          const featuredArtwork = ITEM_FEATURED_ARTWORK[item.id];
-          const isElementArtwork = item.id === "elements";
+          const bgSrc = ITEM_BACKGROUNDS[item.id] ?? item.icon;
           return (
             <Link
               key={item.id}
               href={item.href}
-              className="group relative flex min-h-[112px] items-center justify-center rounded-xl bg-bg-card border border-border/80 p-3 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg overflow-hidden active:scale-[0.98] sm:min-h-[132px]"
+              className="group relative flex min-h-[128px] sm:min-h-[148px] flex-col items-center justify-center rounded-2xl bg-bg-card border border-border/80 p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl overflow-hidden active:scale-[0.98]"
               style={{
-                borderColor: item.accentColor ? `color-mix(in srgb, ${item.accentColor} 30%, var(--border-color))` : undefined,
+                borderColor: item.accentColor
+                  ? `color-mix(in srgb, ${item.accentColor} 40%, var(--border-color))`
+                  : undefined,
               }}
             >
-              {isElementArtwork ? (
-                <>
-                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_68%_50%,rgba(99,102,241,0.2),transparent_54%),linear-gradient(115deg,#10151f,#1b1b38_62%,#111522)]" />
-                  <div className="absolute right-[3%] top-1/2 aspect-square h-[90%] -translate-y-1/2 rounded-full border border-white/10 shadow-[0_0_40px_rgba(99,102,241,0.12)]" />
-                  <div className="absolute right-[12%] top-1/2 aspect-square h-[72%] -translate-y-1/2 rounded-full border border-white/5" />
-                  <div className="absolute right-[3%] top-1/2 aspect-square h-[90%] -translate-y-1/2">
-                    {ELEMENT_ARTWORK.map((element) => (
-                      <div
-                        key={element.src}
-                        className={`absolute h-6 w-6 -translate-x-1/2 -translate-y-1/2 sm:h-8 sm:w-8 ${element.className}`}
-                      >
-                        <div className="relative h-full w-full drop-shadow-[0_0_10px_currentColor]">
-                          <Image
-                            src={element.src}
-                            alt=""
-                            aria-hidden="true"
-                            fill
-                            unoptimized
-                            sizes="32px"
-                            className="object-contain"
-                          />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </>
-              ) : featuredArtwork ? (
-                <>
-                  <div
-                    className="absolute inset-0"
-                    style={{ backgroundImage: featuredArtwork.background }}
+              {/* Ảnh nền phủ kín thẻ với hiệu ứng zoom mượt mà khi hover */}
+              <Image
+                src={bgSrc}
+                alt=""
+                aria-hidden="true"
+                fill
+                unoptimized
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                className="absolute inset-0 h-full w-full object-cover opacity-90 transition-transform duration-500 ease-out group-hover:scale-110"
+              />
+
+              {/* Lớp phủ tối gradient điện ảnh (Cinematic dark gradient overlay) chuẩn Prydwen */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-black/35 transition-colors duration-300 group-hover:from-black/80 group-hover:via-black/45 group-hover:to-black/25" />
+              <div className="absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/10 group-hover:ring-white/25 transition-all" />
+
+              {/* Nội dung trung tâm: Icon huy hiệu & Chữ trắng nổi bật ở chính giữa thẻ */}
+              <div className="relative z-10 flex flex-col items-center justify-center text-center w-full px-2 gap-2">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-black/50 p-2 backdrop-blur-md shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:border-white/40">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={item.icon}
+                    alt=""
+                    width={24}
+                    height={24}
+                    className="h-6 w-6 object-contain drop-shadow"
                   />
-                  <div className="absolute inset-y-0 right-0 w-[58%]">
-                    <Image
-                      src={featuredArtwork.src}
-                      alt=""
-                      aria-hidden="true"
-                      fill
-                      unoptimized
-                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                      className="object-contain p-1 drop-shadow-[0_8px_18px_rgba(0,0,0,0.55)] transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                </>
-              ) : (
-                <Image
-                  src={ITEM_BACKGROUNDS[item.id] ?? item.icon}
-                  alt=""
-                  aria-hidden="true"
-                  fill
-                  unoptimized
-                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  className="absolute inset-0 h-full w-full object-cover opacity-100 transition-transform duration-500 group-hover:scale-105"
-                />
-              )}
-              <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-black/10 to-black/45 transition-colors group-hover:from-transparent group-hover:via-black/5 group-hover:to-black/40" />
-              <div className="absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/10" />
-              <div
-                className={`relative z-10 max-w-full px-1 ${
-                  isElementArtwork
-                    ? "w-[40%] text-center"
-                    : featuredArtwork
-                      ? "w-[58%] text-left"
-                      : "text-center"
-                }`}
-              >
-                <h3 className="font-display text-sm font-bold leading-snug text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] transition-colors group-hover:text-accent-bright sm:text-base">
+                </div>
+
+                <h3 className="font-display text-sm sm:text-base font-extrabold text-white tracking-wide leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] transition-colors duration-200 group-hover:text-accent-bright">
                   {localizedItems[item.id]?.title ?? item.title}
                 </h3>
+
+                {item.tag && (
+                  <span className="text-[10px] font-semibold text-white/80 bg-white/15 px-2 py-0.5 rounded-full backdrop-blur-xs drop-shadow-sm">
+                    {item.tag}
+                  </span>
+                )}
               </div>
+
+              {/* Dải sáng neon phát sáng ở đáy thẻ theo màu chủ đề */}
               <div
-                className="absolute inset-x-0 bottom-0 h-0.5 opacity-60 transition-opacity group-hover:opacity-100"
+                className="absolute inset-x-0 bottom-0 h-1 opacity-60 transition-all duration-300 group-hover:h-1.5 group-hover:opacity-100"
                 style={{
                   backgroundColor: item.accentColor ?? "var(--accent-bright)",
+                  boxShadow: `0 0 12px ${item.accentColor ?? "var(--accent-bright)"}`,
                 }}
               />
             </Link>
