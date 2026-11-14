@@ -51,6 +51,22 @@ export function planA2ACollaboration(userPrompt: string, forcedRoles?: AgentRole
     }
   }
 
+  // Nếu câu hỏi về quy trình dữ liệu liên tục (DataOps Swarm):
+  const isDataOpsQuery =
+    ((text.includes("lấy") || text.includes("thu thập")) &&
+     (text.includes("lọc") || text.includes("làm sạch")) &&
+     (text.includes("kiểm tra") || text.includes("chính xác"))) ||
+    text.includes("quy trình liên tục") ||
+    text.includes("data ops") ||
+    text.includes("pipeline dữ liệu") ||
+    text.includes("cập nhật dữ liệu");
+
+  if (isDataOpsQuery) {
+    selectedRoles.add("resource");     // Albedo: Lọc & Làm sạch
+    selectedRoles.add("theorycraft");  // Keqing: Kiểm tra chính xác
+    selectedRoles.add("mechanics");    // Zhongli: Cập nhật & Sổ cái
+  }
+
   // Nếu người dùng yêu cầu rõ "đội", "kết hợp", "cùng nhau", "agent to agent" hoặc chưa đủ chuyên gia:
   // Kích hoạt tối thiểu 2 chuyên gia trụ cột (Theorycraft + Resource hoặc Mechanics)
   if (selectedRoles.size < 2) {
@@ -76,25 +92,37 @@ export function planA2ACollaboration(userPrompt: string, forcedRoles?: AgentRole
       case "theorycraft":
         slices.push({
           role,
-          titleVi: persona.titleVi,
-          subtask: "Tính toán tối ưu hóa build đồ, vũ khí trấn/f2p, tỷ lệ CV thánh di vật và điểm ngắt Nạp ER.",
-          expectedDeliverable: "Bảng chỉ số mục tiêu chuẩn KQM và gợi ý trang bị tối ưu.",
+          titleVi: isDataOpsQuery ? "Kiểm Định Tính Toàn Vẹn & Bất Biến" : persona.titleVi,
+          subtask: isDataOpsQuery
+            ? "Kiểm tra bất biến game: đúng 6 cung mệnh, >=3 thiên phú, stats scaling và thẩm định tính xác thực của assets/ảnh (không nhầm avatar Kazuha)."
+            : "Tính toán tối ưu hóa build đồ, vũ khí trấn/f2p, tỷ lệ CV thánh di vật và điểm ngắt Nạp ER.",
+          expectedDeliverable: isDataOpsQuery
+            ? "Chứng nhận toàn vẹn dữ liệu 100% hợp lệ không có sai lệch."
+            : "Bảng chỉ số mục tiêu chuẩn KQM và gợi ý trang bị tối ưu.",
         });
         break;
       case "mechanics":
         slices.push({
           role,
-          titleVi: persona.titleVi,
-          subtask: "Giải mã cơ chế phản ứng, ICD, kháng nguyên tố của quái và điều kiện kích hoạt combo.",
-          expectedDeliverable: "Nguyên lý vận hành phản ứng nguyên tố, thứ tự ấn và mẹo phá khiên.",
+          titleVi: isDataOpsQuery ? "Sổ Cái & Xuất Bản Dữ Liệu" : persona.titleVi,
+          subtask: isDataOpsQuery
+            ? "Thực thi cập nhật cơ sở dữ liệu với ACID transaction, ghi nhật ký AuditLog chi tiết từng field và xác thực phiên bản game mới."
+            : "Giải mã cơ chế phản ứng, ICD, kháng nguyên tố của quái và điều kiện kích hoạt combo.",
+          expectedDeliverable: isDataOpsQuery
+            ? "Xác nhận đồng bộ cơ sở dữ liệu thành công và làm mới bộ đệm."
+            : "Nguyên lý vận hành phản ứng nguyên tố, thứ tự ấn và mẹo phá khiên.",
         });
         break;
       case "resource":
         slices.push({
           role,
-          titleVi: persona.titleVi,
-          subtask: "Tính toán tổng nguyên liệu thăng cấp, lượng Nhựa (Resin) tiêu hao và ngày mở bí cảnh theo tuần.",
-          expectedDeliverable: "Lộ trình farm tối ưu và ước tính số ngày hoàn thành với 180 Nhựa/ngày.",
+          titleVi: isDataOpsQuery ? "Lọc & Chuẩn Hóa Dữ Liệu" : persona.titleVi,
+          subtask: isDataOpsQuery
+            ? "Lọc bỏ NPC sự kiện/bản ghi rác, chuẩn hóa schema, làm sạch format URL wiki và đồng bộ talent book mapping."
+            : "Tính toán tổng nguyên liệu thăng cấp, lượng Nhựa (Resin) tiêu hao và ngày mở bí cảnh theo tuần.",
+          expectedDeliverable: isDataOpsQuery
+            ? "Bộ dữ liệu sạch đã được chuẩn hóa sẵn sàng kiểm định."
+            : "Lộ trình farm tối ưu và ước tính số ngày hoàn thành với 180 Nhựa/ngày.",
         });
         break;
       case "gacha":
