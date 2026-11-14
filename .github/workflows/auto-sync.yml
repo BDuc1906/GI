@@ -137,6 +137,12 @@ jobs:
           npm run data:crawl
           echo "✅ Game data crawled successfully"
 
+      - name: Sync authentic game assets
+        run: |
+          echo "🖼️ Syncing authentic game assets from CDN..."
+          npm run assets:sync
+          echo "✅ Game assets synced successfully"
+
       - name: Run tests
         run: npm run test
 
@@ -156,6 +162,7 @@ jobs:
         run: npm run build
 
       - name: Create, verify, and upload production database backup
+        if: "${{ secrets.BACKUP_S3_BUCKET != '' && secrets.AWS_ACCESS_KEY_ID != '' }}"
         env:
           BACKUP_S3_BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
           AWS_REGION: ${{ secrets.AWS_REGION }}

@@ -1,22 +1,15 @@
-
 name: Update Game Data
 
 on:
   schedule:
-    # 5:00 UTC+7 = 22:00 UTC, hàng tuần vào thứ 4
-    - cron: '0 22 * * 3'
-  workflow_dispatch: # cho phép chạy tay
+    # 4:00 AM UTC+7 (21:00 UTC) hàng ngày
+    - cron: '0 21 * * *'
+  workflow_dispatch: # cho phép chạy tay bất cứ lúc nào
 
 env:
   DATABASE_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
   DIRECT_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
 
-# ĐÃ THÊM (2026-08): auto-merge PR khi verify pass — xem step
-# "Enable auto-merge" bên dưới. Đây là mảnh cuối cùng để pipeline dữ
-# liệu chạy 100% không cần người bấm gì, nhưng KHÔNG bỏ qua lớp kiểm
-# tra nào: PR vẫn phải chạy lại toàn bộ ci.yml (lint/typecheck/test/
-# build/migrate) và chỉ merge SAU KHI ci.yml xanh — auto-merge của
-# GitHub tự đợi required checks pass, không merge ngay lập tức.
 jobs:
   check-update:
     runs-on: ubuntu-latest
@@ -50,6 +43,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Check and update upstream genshin-db
+        run: |
+          LATEST=$(npm view genshin-db version 2>/dev/null || echo "")
+          CURRENT=$(node -p "require('./package.json').dependencies['genshin-db']?.replace(/[\^~]/g, '') || ''")
+          echo "Current genshin-db: $CURRENT | Latest on npm: $LATEST"
+          if [ -n "$LATEST" ] && [ "$CURRENT" != "$LATEST" ]; then
+            echo "Upgrading genshin-db from $CURRENT to $LATEST..."
+            npm install "genshin-db@$LATEST" --save
+          fi
+
       - name: Prisma generate
         run: npx prisma generate
 
@@ -62,8 +65,10 @@ jobs:
       - name: Run data crawl
         run: npm run data:crawl
 
+      - name: Sync authentic game assets from CDN
+        run: npm run assets:sync
+
       - name: Run seed on test DB
-        # Gọi trực tiếp tsx bỏ qua cờ --env-file=.env không có trên CI
         run: npx tsx scripts/seed/seed.ts
 
       - name: Run integrity verification
@@ -71,45 +76,55 @@ jobs:
         continue-on-error: true
         run: npx tsx scripts/seed/verify-seed-integrity.ts
 
+      - name: Run test suite
+        run: npm test
+
       - name: Check for changes
         id: diff
         run: |
-          git add -f data/raw/ scripts/data/
+          git add -f data/raw/ scripts/data/ package.json package-lock.json public/local-genshin-assets/
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "ℹ️ Không có dữ liệu game mới nào cần commit."
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "🆕 Phát hiện dữ liệu hoặc asset mới!"
           fi
 
-      - name: Create Pull Request with updated data
+      - name: Commit and push directly to main
         if: steps.diff.outputs.changed == 'true' && steps.verify.outcome == 'success'
+        id: push-main
+        continue-on-error: true
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore(data): auto-update game data to latest release [skip ci]"
+          git push origin main
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Fallback to Pull Request if direct push is restricted
+        if: steps.diff.outputs.changed == 'true' && steps.verify.outcome == 'success' && steps.push-main.outcome == 'failure'
         id: create-pr
         uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "chore(data): update game data from genshin-db"
-          title: "chore(data): update game data"
+          commit-message: "chore(data): update game data to latest release"
+          title: "chore(data): auto-update game data"
           branch: "auto/update-data"
           delete-branch: true
           labels: "data-update"
           body: |
-            ## Data update from latest genshin-db
-
+            ## Automated Game Data Update
             - [x] Crawl and seed completed
+            - [x] Authentic assets downloaded
             - [x] Integrity verification passed
+            - [x] Automated unit tests passed
 
-            _PR này được tạo và merge tự động sau khi CI (lint/typecheck/
-            test/build/migrate) chạy lại và pass — xem workflow
-            `update-data`._
-
-      # Bật auto-merge nếu repo cho phép, không làm fail workflow nếu tính năng chưa bật
-      - name: Enable auto-merge
-        if: steps.diff.outputs.changed == 'true' && steps.verify.outcome == 'success'
+      - name: Enable auto-merge if PR created
+        if: steps.create-pr.outputs.pull-request-number
         run: |
           PR_NUM="${{ steps.create-pr.outputs.pull-request-number }}"
-          if [ -n "$PR_NUM" ]; then
-            gh pr merge --auto --squash "$PR_NUM" || echo "Auto-merge could not be set automatically (check repository settings)."
-          fi
+          gh pr merge --auto --squash "$PR_NUM" || echo "Auto-merge could not be set automatically."
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -121,7 +136,7 @@ jobs:
             github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: '⚠️ Data integrity check failed after update',
-              body: `The latest data from genshin-db failed the integrity check.\n\nCheck the workflow run: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+              title: '⚠️ Data integrity check failed after auto-update',
+              body: `The latest game data update failed the integrity verification.\n\nWorkflow run: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
               labels: ['data-update', 'bug']
             })

@@ -149,6 +149,20 @@ async function main() {
       if (!res.success) throw new Error("Crawl dữ liệu thất bại");
     }
 
+    // Bước 3.5: Đồng bộ & tự động tải ảnh/icon chính thức còn thiếu từ CDN về local
+    {
+      const stepStart = Date.now();
+      const res = await runCommand("npm run assets:sync");
+      result.steps.push({
+        step: "sync_authentic_assets",
+        success: res.success,
+        duration: Date.now() - stepStart,
+      });
+      if (!res.success) {
+        console.warn("⚠️ Tải assets ghi nhận cảnh báo, tiếp tục tiến trình.");
+      }
+    }
+
     // Bước 4: Đồng bộ mapping & phát hiện phiên bản mới
     {
       const stepStart = Date.now();
