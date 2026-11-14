@@ -1,10 +1,9 @@
-import { prisma } from "@/lib/db/prisma";
+import { getCachedAllPlayableCharacters } from "@/lib/db/cached-queries";
 import { SafeImage } from "@/components/ui/SafeImage";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { elementColorVar, rarityStars, rarityTextClass } from "@/lib/ui/theme";
 import { Link } from "@/i18n/navigation";
-import { PLAYABLE_CHARACTER_FILTER } from "@/core/game/character-catalog";
 import { buildCharacterTeamVariants } from "@/core/game/character-team-variants";
 import type { Character } from "@prisma/client";
 
@@ -15,18 +14,8 @@ interface Props {
 }
 
 export async function CharacterTeamVariants({ character, locale, elementColor }: Props) {
-  // Lấy dữ liệu toàn bộ nhân vật thật từ PostgreSQL DB
-  const dbCharacters = await prisma.character.findMany({
-    where: PLAYABLE_CHARACTER_FILTER,
-    select: {
-      id: true,
-      name: true,
-      nameTranslations: true,
-      vision: true,
-      rarity: true,
-      iconUrl: true,
-    },
-  });
+  // Lấy dữ liệu toàn bộ nhân vật từ Data Cache (đã cache trong RAM, 0ms latency)
+  const dbCharacters = await getCachedAllPlayableCharacters();
 
   const allCharactersMap = new Map(
     dbCharacters.map((c) => [

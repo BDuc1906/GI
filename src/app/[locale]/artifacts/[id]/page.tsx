@@ -1,4 +1,5 @@
 import { getArtifactSetById } from "@/lib/db/cached-queries";
+import { prisma } from "@/lib/db/prisma";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -16,6 +17,18 @@ import { createLocalizedMetadata } from "@/lib/seo/metadata";
 import { localArtifactPiece, localArtifactSetIcon } from "@/lib/ui/local-assets";
 
 export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  try {
+    const artifacts = await prisma.artifactSet.findMany({ select: { id: true } });
+    return artifacts.flatMap((a) => [
+      { locale: "vi", id: a.id },
+      { locale: "en", id: a.id },
+    ]);
+  } catch {
+    return [];
+  }
+}
 
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;

@@ -1,5 +1,5 @@
 import type { ReactNode, CSSProperties } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { SafeImage } from "./SafeImage";
 import { TiltCard } from "./TiltCard";
 import { RarityStars } from "./RarityStars";

@@ -1,5 +1,8 @@
-import { prisma } from "@/lib/db/prisma";
-import { getCharacterById } from "@/lib/db/cached-queries";
+import {
+  getCharacterById,
+  getCachedMaterialsByIds,
+  getCachedAllPlayableCharacters,
+} from "@/lib/db/cached-queries";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { elementColorVar } from "@/lib/ui/theme";
@@ -36,6 +39,18 @@ import { createLocalizedMetadata } from "@/lib/seo/metadata";
 import { getSimilarCharacters } from "@/features/similarity/similarity-service";
 
 export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  try {
+    const characters = await getCachedAllPlayableCharacters();
+    return characters.flatMap((c) => [
+      { locale: "vi", id: c.id },
+      { locale: "en", id: c.id },
+    ]);
+  } catch {
+    return [];
+  }
+}
 
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -124,10 +139,7 @@ export default async function CharacterDetail({ params }: PageProps) {
     }
   }
 
-  const materialRows = await prisma.material.findMany({
-    where: { id: { in: Array.from(materialIds) } },
-    select: { id: true, iconUrl: true, name: true, nameTranslations: true },
-  });
+  const materialRows = await getCachedMaterialsByIds(Array.from(materialIds).sort());
   const materialIconMap = new Map(
     materialRows.map((m) => [m.id, { iconUrl: m.iconUrl, localizedName: getLocalizedName(m, locale) }])
   );

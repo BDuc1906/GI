@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db/prisma";
+import { unstable_cache } from "next/cache";
 
 export interface SimilarCharacterSummary {
   id: string;
@@ -10,13 +11,13 @@ export interface SimilarCharacterSummary {
   shared: string;
 }
 
-export async function getSimilarCharacters(characterId: string): Promise<{
+async function computeSimilarCharacters(characterId: string): Promise<{
   sameElement: SimilarCharacterSummary[];
   all: SimilarCharacterSummary[];
 }> {
   const current = await prisma.character.findUnique({
     where: { id: characterId },
-    select: { id: true, vision: true }
+    select: { id: true, vision: true },
   });
 
   if (!current) {
@@ -58,3 +59,9 @@ export async function getSimilarCharacters(characterId: string): Promise<{
     all: matches.slice(0, 6).map(normalize),
   };
 }
+
+export const getSimilarCharacters = unstable_cache(
+  computeSimilarCharacters,
+  ["cached-similar-characters"],
+  { revalidate: 86400, tags: ["characters"] }
+);

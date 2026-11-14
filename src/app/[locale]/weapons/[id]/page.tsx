@@ -22,6 +22,18 @@ import { createLocalizedMetadata } from "@/lib/seo/metadata";
 
 export const revalidate = 3600;
 
+export async function generateStaticParams() {
+  try {
+    const weapons = await prisma.weapon.findMany({ select: { id: true } });
+    return weapons.flatMap((w) => [
+      { locale: "vi", id: w.id },
+      { locale: "en", id: w.id },
+    ]);
+  } catch {
+    return [];
+  }
+}
+
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
 }

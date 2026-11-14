@@ -169,6 +169,15 @@ const nextConfig: NextConfig = {
   // Tắt header "X-Powered-By: Next.js" — giảm fingerprinting, tiết kiệm ~30 bytes/request.
   poweredByHeader: false,
 
+  // Tối ưu Client Router Cache: giữ trang dynamic 120s, static 300s trong bộ nhớ trình duyệt.
+  // Khi người dùng bấm xem nhân vật/vũ khí lần 2, trang mở ngay lập tức (0ms) không cần tải lại.
+  experimental: {
+    staleTimes: {
+      dynamic: 120,
+      static: 300,
+    },
+  },
+
   images: {
     remotePatterns: resolveRemotePatterns(),
     // Phục vụ AVIF (tiết kiệm 50% so với WebP, 70% so với PNG) và WebP làm fallback.

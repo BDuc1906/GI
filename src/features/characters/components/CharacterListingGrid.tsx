@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import type { Character } from "@prisma/client";
 import { ElementIcon } from "@/features/characters/components/ElementIcon";
