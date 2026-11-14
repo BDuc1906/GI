@@ -41,6 +41,50 @@ interface RawTeamBlueprint {
 }
 
 /**
+ * Bản đồ alias ID nhân vật giữa mã nguồn và DB
+ */
+export const CHARACTER_ID_ALIASES: Record<string, string> = {
+  kazuha: "kaedehara-kazuha",
+  ayaka: "kamisato-ayaka",
+  ayato: "kamisato-ayato",
+  kokomi: "sangonomiya-kokomi",
+  itto: "arataki-itto",
+  raiden: "raiden-shogun",
+  sara: "kujou-sara",
+  shinobu: "kuki-shinobu",
+  heizou: "shikanoin-heizou",
+  mizuki: "yumemizuki-mizuki",
+};
+
+/**
+ * Kiểm tra xem ID nhân vật có phải là Nhà Lữ Hành (Aether / Lumine) hay không.
+ * Trong Genshin Impact, một đội hình tuyệt đối KHÔNG ĐƯỢC có quá 1 Nhà Lữ Hành!
+ */
+export function isTravelerCharacter(id: string): boolean {
+  const lower = id.toLowerCase();
+  return (
+    lower.startsWith("traveler-") ||
+    lower.startsWith("aether") ||
+    lower.startsWith("lumine") ||
+    lower.includes("traveler")
+  );
+}
+
+/**
+ * Danh sách ưu tiên nhân vật hỗ trợ/Sub-DPS hàng đầu theo từng hệ (Meta Supports).
+ * Dùng để thuật toán tự động KHÔNG BAO GIỜ bốc bừa Nhà Lữ Hành hoặc nhân vật không liên quan.
+ */
+const META_PRIORITY_BY_VISION: Record<string, string[]> = {
+  Pyro: ["bennett", "xiangling", "chevreuse", "thoma", "dehya", "yanfei"],
+  Hydro: ["furina", "xingqiu", "yelan", "sangonomiya-kokomi", "mona", "barbara"],
+  Anemo: ["kaedehara-kazuha", "sucrose", "xianyun", "faruzan", "venti", "jean"],
+  Geo: ["zhongli", "chiori", "albedo", "gorou", "kachina", "xilonen", "yun-jin", "ningguang"],
+  Electro: ["fischl", "raiden-shogun", "kuki-shinobu", "yae-miko", "beidou", "kujou-sara"],
+  Dendro: ["nahida", "baizhu", "emilie", "yaoyao", "kirara", "collei"],
+  Cryo: ["shenhe", "rosaria", "diona", "layla", "charlotte", "mika"],
+};
+
+/**
  * Bản thiết kế đội hình chiến thuật tiêu biểu (Canonical Meta Variants)
  * cho các nhân vật hàng đầu, bao quát đa dạng kịch bản và phản ứng.
  */
@@ -273,6 +317,289 @@ const CANONICAL_VARIANTS: Record<string, RawTeamBlueprint[]> = {
     },
   ],
 
+  // --- Nham (Geo) - Albedo, Zhongli, Itto ---
+  albedo: [
+    {
+      nameVi: "Thuần Nham Hoàng Kim (Itto Albedo Gorou Zhongli)",
+      situationVi: "Đội hình Thuần Nham tối thượng: Albedo cung cấp hoa sát thương phụ diện rộng mỗi 2s, hưởng trọn buff DEF của Gorou và khiên kháng giảm của Zhongli.",
+      archetypeVi: "Thuần Nham (Mono Geo)",
+      teammateIds: ["arataki-itto", "gorou", "zhongli"],
+      teammateRoles: ["Chủ lực (DPS)", "Hỗ trợ (Buffer)", "Bảo hộ / Khiên (Shielder)"],
+      reactionsVi: ["Kết Tinh Nham"],
+      resonancesVi: ["Kiên Định (+15% Sát Thương Khiên)"],
+    },
+    {
+      nameVi: "Song Nham Bốc Hơi Cổ Điển (Hu Tao Double Geo)",
+      situationVi: "Cặp bài trùng Albedo + Zhongli tạo cộng hưởng Nham và buff 125 Tinh Thông Nguyên Tố cho Hu Tao bốc hơi liên tục.",
+      archetypeVi: "Bốc Hơi / Song Nham",
+      teammateIds: ["hu-tao", "xingqiu", "zhongli"],
+      teammateRoles: ["Chủ lực (DPS)", "Phụ sát thương (Sub-DPS)", "Bảo hộ / Khiên (Shielder)"],
+      reactionsVi: ["Bốc Hơi (x1.5)", "Kết Tinh"],
+      resonancesVi: ["Kiên Định (+15% Sát Thương)"],
+    },
+    {
+      nameVi: "Pháo Kích Song Nham Song Hỏa (Navia Albedo Xiangling Bennett)",
+      situationVi: "Albedo nạp hạt Nham nhanh chóng và tạo mảnh Kết Tinh liên tục để Navia tích đạn bắn đại bác.",
+      archetypeVi: "Kết Tinh / Hỏa",
+      teammateIds: ["navia", "xiangling", "bennett"],
+      teammateRoles: ["Chủ lực (DPS)", "Phụ sát thương (Sub-DPS)", "Hồi máu (Healer)"],
+      reactionsVi: ["Kết Tinh Hỏa"],
+      resonancesVi: ["Kiên Định (+15% Sát Thương)", "Nhiệt Huyết (+25% ATK)"],
+    },
+  ],
+
+  zhongli: [
+    {
+      nameVi: "Bảo Hộ Khiên Bốc Hơi (Hu Tao Yelan Xingqiu Zhongli)",
+      situationVi: "Khiên ngọc bích giảm 20% toàn bộ kháng nguyên tố của địch, bảo vệ tuyệt đối cho Hu Tao dưới 50% HP.",
+      archetypeVi: "Bốc Hơi / Song Thủy",
+      teammateIds: ["hu-tao", "yelan", "xingqiu"],
+      teammateRoles: ["Chủ lực (DPS)", "Phụ sát thương (Sub-DPS)", "Phụ sát thương (Sub-DPS)"],
+      reactionsVi: ["Bốc Hơi (x1.5)", "Kết Tinh Thủy"],
+      resonancesVi: ["Kiên Định (+15% Sát Thương)", "Trị Liệu (+25% Max HP)"],
+    },
+    {
+      nameVi: "Thẩm Phán Kháng Đòn Tuyệt Đối (Neuvillette Zhongli Hypercarry)",
+      situationVi: "Cung cấp kháng gián đoạn 100% cho Neuvillette bắn tia nước trọng kích an toàn tối đa.",
+      archetypeVi: "Thuần Thủy / Kết Tinh",
+      teammateIds: ["neuvillette", "furina", "kaedehara-kazuha"],
+      teammateRoles: ["Chủ lực (DPS)", "Phụ sát thương (Sub-DPS)", "Hỗ trợ (Buffer)"],
+      reactionsVi: ["Khuếch Tán Thủy", "Kết Tinh Thủy"],
+      resonancesVi: ["Tán Râm (+15% Kháng)"],
+    },
+    {
+      nameVi: "Thuần Nham Bất Khả Chiến Bại (Itto Gorou Albedo Zhongli)",
+      situationVi: "Đội hình 4 Nham bất hoại, Itto vung chuỳ cuồng nộ dưới sự bảo hộ của Nham Thần.",
+      archetypeVi: "Thuần Nham (Mono Geo)",
+      teammateIds: ["arataki-itto", "gorou", "albedo"],
+      teammateRoles: ["Chủ lực (DPS)", "Hỗ trợ (Buffer)", "Phụ sát thương (Sub-DPS)"],
+      reactionsVi: ["Kết Tinh Nham"],
+      resonancesVi: ["Kiên Định (+15% Sát Thương Khiên)"],
+    },
+  ],
+
+  "arataki-itto": [
+    {
+      nameVi: "Thuần Nham Hoàng Kim (Mono Geo Hypercarry)",
+      situationVi: "Itto gánh vác toàn bộ sát thương với buff DEF từ Gorou, hoa Albedo và khiên Zhongli.",
+      archetypeVi: "Thuần Nham (Mono Geo)",
+      teammateIds: ["gorou", "albedo", "zhongli"],
+      teammateRoles: ["Hỗ trợ (Buffer)", "Phụ sát thương (Sub-DPS)", "Bảo hộ / Khiên (Shielder)"],
+      reactionsVi: ["Kết Tinh Nham"],
+      resonancesVi: ["Kiên Định (+15% Sát Thương Khiên)"],
+    },
+    {
+      nameVi: "Song Búp Bê Song Nham (Itto Chiori Gorou Zhongli)",
+      situationVi: "Tận dụng kết cấu Nham Ushi để Chiori triệu hồi 2 búp bê chém off-field cực mạnh.",
+      archetypeVi: "Thuần Nham (Mono Geo)",
+      teammateIds: ["chiori", "gorou", "zhongli"],
+      teammateRoles: ["Phụ sát thương (Sub-DPS)", "Hỗ trợ (Buffer)", "Bảo hộ / Khiên (Shielder)"],
+      reactionsVi: ["Kết Tinh Nham"],
+      resonancesVi: ["Kiên Định (+15% Sát Thương)"],
+    },
+  ],
+
+  // --- Phong (Anemo) - Kazuha & Xiao ---
+  "kaedehara-kazuha": [
+    {
+      nameVi: "Quốc Tế Childe (International Childe Vape)",
+      situationVi: "Đội hình AOE mạnh nhất game: Kazuha gom quái kép và khuếch tán kép Hỏa/Thủy cho Childe và Xiangling.",
+      archetypeVi: "Bốc Hơi (Vaporize)",
+      teammateIds: ["tartaglia", "xiangling", "bennett"],
+      teammateRoles: ["Chủ lực (DPS)", "Phụ sát thương (Sub-DPS)", "Hồi máu (Healer)"],
+      reactionsVi: ["Bốc Hơi (x2.0)", "Khuếch Tán Kép"],
+      resonancesVi: ["Nhiệt Huyết (+25% ATK)"],
+    },
+    {
+      nameVi: "Lôi Thần Siêu Cấp (Raiden Hypercarry)",
+      situationVi: "Kazuha buff 40% sát thương Lôi và giảm 40% kháng Lôi để Nhất Đao Đoạt Mạng của Raiden chém 500k+.",
+      archetypeVi: "Thuần Lôi Siêu Cấp",
+      teammateIds: ["raiden-shogun", "kujou-sara", "bennett"],
+      teammateRoles: ["Chủ lực (DPS)", "Hỗ trợ (Buffer)", "Hồi máu (Healer)"],
+      reactionsVi: ["Khuếch Tán Lôi", "Quá Tải"],
+      resonancesVi: ["Nhiệt Huyết (+25% ATK)"],
+    },
+    {
+      nameVi: "Đóng Băng Vĩnh Cửu (Ayaka Shenhe Kokomi)",
+      situationVi: "Gom quái và gia tăng sát thương Băng cho chiêu nộ bão tuyết của Ayaka.",
+      archetypeVi: "Đóng Băng (Frozen)",
+      teammateIds: ["kamisato-ayaka", "shenhe", "sangonomiya-kokomi"],
+      teammateRoles: ["Chủ lực (DPS)", "Hỗ trợ (Buffer)", "Hồi máu (Healer)"],
+      reactionsVi: ["Đóng Băng", "Khuếch Tán Băng"],
+      resonancesVi: ["Sương Giá (+15% CRIT Rate)"],
+    },
+  ],
+  kazuha: [
+    {
+      nameVi: "Quốc Tế Childe (International Childe Vape)",
+      situationVi: "Đội hình AOE mạnh nhất game: Kazuha gom quái kép và khuếch tán kép Hỏa/Thủy cho Childe và Xiangling.",
+      archetypeVi: "Bốc Hơi (Vaporize)",
+      teammateIds: ["tartaglia", "xiangling", "bennett"],
+      teammateRoles: ["Chủ lực (DPS)", "Phụ sát thương (Sub-DPS)", "Hồi máu (Healer)"],
+      reactionsVi: ["Bốc Hơi (x2.0)", "Khuếch Tán Kép"],
+      resonancesVi: ["Nhiệt Huyết (+25% ATK)"],
+    },
+    {
+      nameVi: "Lôi Thần Siêu Cấp (Raiden Hypercarry)",
+      situationVi: "Kazuha buff 40% sát thương Lôi và giảm 40% kháng Lôi để Nhất Đao Đoạt Mạng của Raiden chém 500k+.",
+      archetypeVi: "Thuần Lôi Siêu Cấp",
+      teammateIds: ["raiden-shogun", "kujou-sara", "bennett"],
+      teammateRoles: ["Chủ lực (DPS)", "Hỗ trợ (Buffer)", "Hồi máu (Healer)"],
+      reactionsVi: ["Khuếch Tán Lôi", "Quá Tải"],
+      resonancesVi: ["Nhiệt Huyết (+25% ATK)"],
+    },
+  ],
+
+  xiao: [
+    {
+      nameVi: "Phong Thần Đáp Siêu Cấp (FFXX Hyper Plunge)",
+      situationVi: "Xiao nhận buff tối thượng từ Faruzan C6, Furina Náo Nhiệt và Xianyun tăng sát thương khi đáp.",
+      archetypeVi: "Thuần Phong (Anemo Hypercarry)",
+      teammateIds: ["faruzan", "furina", "xianyun"],
+      teammateRoles: ["Hỗ trợ (Buffer)", "Phụ sát thương (Sub-DPS)", "Hồi máu (Healer)"],
+      reactionsVi: ["Khuếch Tán Thủy"],
+      resonancesVi: ["Nhanh Nhẹn (-Tiêu Hao Thể Lực)"],
+    },
+    {
+      nameVi: "Xiao Cổ Điển Bất Tử (Xiao Zhongli Bennett Faruzan)",
+      situationVi: "An toàn tuyệt đối dưới khiên ngọc bích và vùng buff tấn công khổng lồ của Bennett.",
+      archetypeVi: "Thuần Phong / Hỏa",
+      teammateIds: ["faruzan", "zhongli", "bennett"],
+      teammateRoles: ["Hỗ trợ (Buffer)", "Bảo hộ / Khiên (Shielder)", "Hồi máu (Healer)"],
+      reactionsVi: ["Khuếch Tán Hỏa"],
+      resonancesVi: ["Tán Râm (+15% Kháng)"],
+    },
+  ],
+
+  // --- Hỏa (Pyro) - Bennett & Xiangling ---
+  bennett: [
+    {
+      nameVi: "Quốc Dân Cổ Điển (Classic National)",
+      situationVi: "Bennett hồi máu siêu tốc và cấp 1200+ ATK cho toàn đội hình xả sát thương liên hoàn.",
+      archetypeVi: "Bốc Hơi / Khuếch Tán",
+      teammateIds: ["xiangling", "xingqiu", "kaedehara-kazuha"],
+      teammateRoles: ["Phụ sát thương (Sub-DPS)", "Phụ sát thương (Sub-DPS)", "Hỗ trợ (Buffer)"],
+      reactionsVi: ["Bốc Hơi (x1.5)", "Khuếch Tán Hỏa/Thủy"],
+      resonancesVi: ["Nhiệt Huyết (+25% ATK)"],
+    },
+    {
+      nameVi: "Lôi Thần Quốc Dân (Rational)",
+      situationVi: "Bennett sạc Hỏa cho Xiangling và buff nộ cực hạn cho Raiden Shogun chém.",
+      archetypeVi: "Bốc Hơi / Quá Tải / Điện Cảm",
+      teammateIds: ["raiden-shogun", "xiangling", "xingqiu"],
+      teammateRoles: ["Chủ lực (DPS)", "Phụ sát thương (Sub-DPS)", "Phụ sát thương (Sub-DPS)"],
+      reactionsVi: ["Bốc Hơi (x1.5)", "Quá Tải"],
+      resonancesVi: ["Nhiệt Huyết (+25% ATK)"],
+    },
+  ],
+
+  xiangling: [
+    {
+      nameVi: "Quốc Tế Childe (International Childe)",
+      situationVi: "Vòng lửa Thần Khí của Xiangling bốc hơi x2.0 liên tục trên trường trảm trảm của Childe.",
+      archetypeVi: "Bốc Hơi (Vaporize)",
+      teammateIds: ["tartaglia", "kaedehara-kazuha", "bennett"],
+      teammateRoles: ["Chủ lực (DPS)", "Hỗ trợ (Buffer)", "Hồi máu (Healer)"],
+      reactionsVi: ["Bốc Hơi (x2.0)", "Khuếch Tán Kép"],
+      resonancesVi: ["Nhiệt Huyết (+25% ATK)"],
+    },
+    {
+      nameVi: "Lôi Thần Quốc Dân (Rational)",
+      situationVi: "Xiangling nhận pin sạc vô tận từ Raiden Shogun, xả Thần Khí không bao giờ lo thiếu năng lượng.",
+      archetypeVi: "Bốc Hơi / Quá Tải",
+      teammateIds: ["raiden-shogun", "xingqiu", "bennett"],
+      teammateRoles: ["Chủ lực (DPS)", "Phụ sát thương (Sub-DPS)", "Hồi máu (Healer)"],
+      reactionsVi: ["Bốc Hơi (x1.5)", "Quá Tải"],
+      resonancesVi: ["Nhiệt Huyết (+25% ATK)"],
+    },
+  ],
+
+  // --- Thảo & Băng (Dendro & Cryo) ---
+  alhaitham: [
+    {
+      nameVi: "Thảo Nở Rộ Siêu Cấp (Alhaitham Quickbloom)",
+      situationVi: "Alhaitham duy trì 3 gương chém quang kiếm, vừa có sát thương Lan Truyền vừa có đạn Nở Rộ.",
+      archetypeVi: "Nở Rộ Siêu Cấp (Quickbloom)",
+      teammateIds: ["nahida", "furina", "kuki-shinobu"],
+      teammateRoles: ["Hỗ trợ (Buffer)", "Phụ sát thương (Sub-DPS)", "Hồi máu (Healer)"],
+      reactionsVi: ["Lan Truyền", "Nở Rộ Siêu Cấp", "Sinh Trưởng"],
+      resonancesVi: ["Cỏ Cây (+EM)"],
+    },
+    {
+      nameVi: "Lan Truyền Thuần Khiết (Alhaitham Pure Spread)",
+      situationVi: "Dồn sát thương nguyên tố Thảo nguyên chất với cộng hưởng Thảo và giảm kháng của Zhongli.",
+      archetypeVi: "Lan Truyền (Spread)",
+      teammateIds: ["nahida", "fischl", "zhongli"],
+      teammateRoles: ["Hỗ trợ (Buffer)", "Phụ sát thương (Sub-DPS)", "Bảo hộ / Khiên (Shielder)"],
+      reactionsVi: ["Lan Truyền", "Tăng Cường", "Sinh Trưởng"],
+      resonancesVi: ["Cỏ Cây (+EM)"],
+    },
+  ],
+
+  ganyu: [
+    {
+      nameVi: "Tan Chảy Khổng Lồ (Melt Ganyu)",
+      situationVi: "Tên Băng Nhụy bung hoa trúng mục tiêu đính kèm lửa của Xiangling và Bennett, gây 150k+ mỗi phát bắn.",
+      archetypeVi: "Tan Chảy (Melt)",
+      teammateIds: ["xiangling", "bennett", "zhongli"],
+      teammateRoles: ["Phụ sát thương (Sub-DPS)", "Hồi máu (Healer)", "Bảo hộ / Khiên (Shielder)"],
+      reactionsVi: ["Tan Chảy (x1.5)", "Kết Tinh Hỏa"],
+      resonancesVi: ["Nhiệt Huyết (+25% ATK)"],
+    },
+    {
+      nameVi: "Morgana Đóng Băng Cổ Điển (Ganyu Freeze)",
+      situationVi: "Đóng băng vĩnh cửu và nạp năng lượng liên tục, kiểm soát toàn diện quái đông trong La Hoàn.",
+      archetypeVi: "Đóng Băng (Frozen)",
+      teammateIds: ["mona", "venti", "diona"],
+      teammateRoles: ["Hỗ trợ (Buffer)", "Hỗ trợ (Buffer)", "Bảo hộ / Khiên (Shielder)"],
+      reactionsVi: ["Đóng Băng", "Khuếch Tán Băng"],
+      resonancesVi: ["Sương Giá (+15% CRIT Rate)"],
+    },
+  ],
+
+  // --- Thủy (Hydro) - Xingqiu & Yelan ---
+  xingqiu: [
+    {
+      nameVi: "Quốc Dân Lôi Thần (Rational Xingqiu)",
+      situationVi: "Xingqiu cung cấp mưa kiếm giảm sát thương nhận vào, kháng gián đoạn và cấp ấn Thủy liên tục.",
+      archetypeVi: "Bốc Hơi / Điện Cảm",
+      teammateIds: ["raiden-shogun", "xiangling", "bennett"],
+      teammateRoles: ["Chủ lực (DPS)", "Phụ sát thương (Sub-DPS)", "Hồi máu (Healer)"],
+      reactionsVi: ["Bốc Hơi (x1.5)", "Điện Cảm"],
+      resonancesVi: ["Nhiệt Huyết (+25% ATK)"],
+    },
+    {
+      nameVi: "Song Thủy Hu Tao (Double Hydro Hu Tao)",
+      situationVi: "Phối hợp cùng Yelan tạo lượng ấn Thủy khổng lồ để Hu Tao bốc hơi mượt mà.",
+      archetypeVi: "Bốc Hơi / Song Thủy",
+      teammateIds: ["hu-tao", "yelan", "zhongli"],
+      teammateRoles: ["Chủ lực (DPS)", "Phụ sát thương (Sub-DPS)", "Bảo hộ / Khiên (Shielder)"],
+      reactionsVi: ["Bốc Hơi (x1.5)"],
+      resonancesVi: ["Trị Liệu (+25% Max HP)"],
+    },
+  ],
+
+  yelan: [
+    {
+      nameVi: "Hu Tao Song Thủy Bảo Hộ",
+      situationVi: "Yelan buff gia tăng sát thương tăng dần theo thời gian cho Hu Tao xông xáo trên sân.",
+      archetypeVi: "Bốc Hơi / Song Thủy",
+      teammateIds: ["hu-tao", "xingqiu", "zhongli"],
+      teammateRoles: ["Chủ lực (DPS)", "Phụ sát thương (Sub-DPS)", "Bảo hộ / Khiên (Shielder)"],
+      reactionsVi: ["Bốc Hơi (x1.5)"],
+      resonancesVi: ["Trị Liệu (+25% Max HP)"],
+    },
+    {
+      nameVi: "Thảo Nở Rộ Siêu Tốc (Yelan Quickbloom)",
+      situationVi: "Tận dụng tốc độ bắn tên và cấp Thủy vượt trội để tạo hạt Nở Rộ liên tục.",
+      archetypeVi: "Nở Rộ Siêu Cấp",
+      teammateIds: ["alhaitham", "nahida", "kuki-shinobu"],
+      teammateRoles: ["Chủ lực (DPS)", "Hỗ trợ (Buffer)", "Hồi máu (Healer)"],
+      reactionsVi: ["Nở Rộ Siêu Cấp", "Sinh Trưởng"],
+      resonancesVi: ["Cỏ Cây (+EM)"],
+    },
+  ],
+
   // --- Phiên bản 7.2 & Snezhnaya ---
   mitya: [
     {
@@ -380,14 +707,45 @@ const CANONICAL_VARIANTS: Record<string, RawTeamBlueprint[]> = {
 /**
  * Thuật toán tự động sinh 3 biến thể chiến thuật tổng quát cho nhân vật
  * chưa có trong danh sách cấu hình tĩnh (bao phủ 100% nhân vật trong DB).
+ * TUYỆT ĐỐI KHÔNG GHÉP TRÙNG LẶP VÀ KHÔNG QUÁ 1 NHÀ LỮ HÀNH TRONG ĐỘI HÌNH!
  */
 function generateDynamicVariants(
   character: { id: string; name: string; vision: string },
   charactersByVision: Map<string, Array<{ id: string; name: string; vision: string; rarity: number }>>
 ): RawTeamBlueprint[] {
+  const isCharTraveler = isTravelerCharacter(character.id);
+
+  // Helper chọn nhân vật tối ưu, loại bỏ trùng lặp và TUYỆT ĐỐI không cho quá 1 Nhà Lữ Hành trong 1 đội
   const getTop = (vision: string, excludeIds: string[]) => {
     const list = charactersByVision.get(vision) ?? [];
-    return list.find((c) => !excludeIds.includes(c.id) && c.id !== character.id);
+    const metaList = META_PRIORITY_BY_VISION[vision] ?? [];
+
+    const isExcluded = (id: string) => {
+      if (id === character.id || excludeIds.includes(id)) return true;
+      // Nếu nhân vật chính đã là Nhà Lữ Hành HOẶC trong excludeIds đã có 1 Nhà Lữ Hành -> cấm mọi Nhà Lữ Hành khác
+      if (isTravelerCharacter(id)) {
+        if (isCharTraveler || excludeIds.some((exId) => isTravelerCharacter(exId))) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    // 1. Ưu tiên các nhân vật Meta hỗ trợ hàng đầu của hệ đó
+    for (const metaId of metaList) {
+      const resolved = CHARACTER_ID_ALIASES[metaId] ?? metaId;
+      const found = list.find((c) => c.id === resolved || c.id === metaId);
+      if (found && !isExcluded(found.id)) {
+        return found;
+      }
+    }
+
+    // 2. Fallback: Lấy các nhân vật không phải Nhà Lữ Hành trước
+    const nonTraveler = list.find((c) => !isTravelerCharacter(c.id) && !isExcluded(c.id));
+    if (nonTraveler) return nonTraveler;
+
+    // 3. Cuối cùng mới đến Nhà Lữ Hành (nếu đội chưa hề có ai là Nhà Lữ Hành)
+    return list.find((c) => !isExcluded(c.id));
   };
 
   const v = character.vision;
@@ -395,8 +753,8 @@ function generateDynamicVariants(
   if (v === "Pyro") {
     // 1. Vape, 2. Melt, 3. Overload
     const hydro1 = getTop("Hydro", []);
-    const hydro2 = getTop("Hydro", [hydro1?.id ?? ""]);
-    const anemo = getTop("Anemo", []);
+    const anemo = getTop("Anemo", [hydro1?.id ?? ""]);
+    const hydro2 = getTop("Hydro", [hydro1?.id ?? "", anemo?.id ?? ""]);
     const cryo1 = getTop("Cryo", []);
     const electro1 = getTop("Electro", []);
     const pyroBuffer = getTop("Pyro", []);
@@ -434,17 +792,20 @@ function generateDynamicVariants(
 
   if (v === "Hydro") {
     const pyro1 = getTop("Pyro", []);
+    const anemo = getTop("Anemo", [pyro1?.id ?? ""]);
+    const pyro2 = getTop("Pyro", [pyro1?.id ?? "", anemo?.id ?? ""]);
     const dendro1 = getTop("Dendro", []);
-    const electro1 = getTop("Electro", []);
+    const electro1 = getTop("Electro", [dendro1?.id ?? ""]);
+    const dendro2 = getTop("Dendro", [dendro1?.id ?? "", electro1?.id ?? ""]);
     const cryo1 = getTop("Cryo", []);
-    const anemo = getTop("Anemo", []);
+    const cryo2 = getTop("Cryo", [cryo1?.id ?? "", anemo?.id ?? ""]);
 
     return [
       {
         nameVi: "Biến thể 1: Đội Hình Bốc Hơi (Vaporize)",
         situationVi: "Tối ưu hóa sát thương Thủy/Hỏa diện rộng và gia tăng hệ số khuếch đại.",
         archetypeVi: "Bốc Hơi (Vaporize)",
-        teammateIds: [pyro1?.id ?? "xiangling", anemo?.id ?? "kazuha", getTop("Pyro", [pyro1?.id ?? ""])?.id ?? "bennett"],
+        teammateIds: [pyro1?.id ?? "xiangling", anemo?.id ?? "kazuha", pyro2?.id ?? "bennett"],
         teammateRoles: ["Phụ sát thương (Sub-DPS)", "Hỗ trợ (Buffer)", "Hồi máu (Healer)"],
         reactionsVi: ["Bốc Hơi (x2.0)", "Khuếch Tán"],
         resonancesVi: ["Nhiệt Huyết (+25% ATK)"],
@@ -453,7 +814,7 @@ function generateDynamicVariants(
         nameVi: "Biến thể 2: Nở Rộ Siêu Cấp (Hyperbloom)",
         situationVi: "Sinh hạt Thảo liên tục và kích nổ tự tìm diệt mục tiêu linh hoạt.",
         archetypeVi: "Nở Rộ Siêu Cấp (Hyperbloom)",
-        teammateIds: [dendro1?.id ?? "nahida", electro1?.id ?? "kuki-shinobu", getTop("Dendro", [dendro1?.id ?? ""])?.id ?? "baizhu"],
+        teammateIds: [dendro1?.id ?? "nahida", electro1?.id ?? "kuki-shinobu", dendro2?.id ?? "baizhu"],
         teammateRoles: ["Hỗ trợ (Buffer)", "Hồi máu (Healer)", "Hồi máu (Healer)"],
         reactionsVi: ["Nở Rộ Siêu Cấp", "Sinh Trưởng"],
         resonancesVi: ["Cỏ Cây (+EM)"],
@@ -462,7 +823,7 @@ function generateDynamicVariants(
         nameVi: "Biến thể 3: Đóng Băng Khống Chế (Permafrost Freeze)",
         situationVi: "Đóng băng toàn bộ kẻ địch cơ động, giữ an toàn và tăng Tỉ Lệ Bạo.",
         archetypeVi: "Đóng Băng (Frozen)",
-        teammateIds: [cryo1?.id ?? "ayaka", anemo?.id ?? "kazuha", getTop("Cryo", [cryo1?.id ?? ""])?.id ?? "diona"],
+        teammateIds: [cryo1?.id ?? "ayaka", anemo?.id ?? "kazuha", cryo2?.id ?? "diona"],
         teammateRoles: ["Chủ lực (DPS)", "Hỗ trợ (Buffer)", "Bảo hộ / Khiên (Shielder)"],
         reactionsVi: ["Đóng Băng", "Khuếch Tán Băng"],
         resonancesVi: ["Sương Giá (+15% CRIT Rate)"],
@@ -472,16 +833,20 @@ function generateDynamicVariants(
 
   if (v === "Dendro") {
     const electro1 = getTop("Electro", []);
+    const dendroBuffer = getTop("Dendro", [electro1?.id ?? ""]);
+    const geo1 = getTop("Geo", [electro1?.id ?? "", dendroBuffer?.id ?? ""]);
     const hydro1 = getTop("Hydro", []);
-    const _electro2 = getTop("Electro", [electro1?.id ?? ""]);
-    const dendroBuffer = getTop("Dendro", []);
+    const hydro2 = getTop("Hydro", [hydro1?.id ?? "", electro1?.id ?? ""]);
+    const pyroThoma = charactersByVision.get("Pyro")?.find((c) => c.id === "thoma") ?? getTop("Pyro", []);
+    const thomaId = pyroThoma?.id ?? "thoma";
+    const dendroHealer = getTop("Dendro", [hydro1?.id ?? "", thomaId]);
 
     return [
       {
         nameVi: "Biến thể 1: Sinh Trưởng & Lan Truyền (Quicken Spread)",
         situationVi: "Gia tăng sát thương nguyên chất Thảo và Lôi bằng trạng thái Sinh Trưởng.",
         archetypeVi: "Lan Truyền (Spread)",
-        teammateIds: [electro1?.id ?? "fischl", dendroBuffer?.id ?? "nahida", getTop("Geo", [])?.id ?? "zhongli"],
+        teammateIds: [electro1?.id ?? "fischl", dendroBuffer?.id ?? "nahida", geo1?.id ?? "zhongli"],
         teammateRoles: ["Phụ sát thương (Sub-DPS)", "Hỗ trợ (Buffer)", "Bảo hộ / Khiên (Shielder)"],
         reactionsVi: ["Sinh Trưởng", "Lan Truyền", "Tăng Cường"],
         resonancesVi: ["Cỏ Cây (+EM)"],
@@ -490,7 +855,7 @@ function generateDynamicVariants(
         nameVi: "Biến thể 2: Nở Rộ Siêu Cấp (Hyperbloom)",
         situationVi: "Tận dụng tối đa hạt Thảo và kích nổ tầm xa sát thương cao.",
         archetypeVi: "Nở Rộ Siêu Cấp (Hyperbloom)",
-        teammateIds: [hydro1?.id ?? "xingqiu", electro1?.id ?? "kuki-shinobu", getTop("Hydro", [hydro1?.id ?? ""])?.id ?? "yelan"],
+        teammateIds: [hydro1?.id ?? "xingqiu", electro1?.id ?? "kuki-shinobu", hydro2?.id ?? "yelan"],
         teammateRoles: ["Phụ sát thương (Sub-DPS)", "Hồi máu (Healer)", "Phụ sát thương (Sub-DPS)"],
         reactionsVi: ["Nở Rộ Siêu Cấp", "Sinh Trưởng"],
         resonancesVi: ["Trị Liệu (+25% Max HP)"],
@@ -499,7 +864,7 @@ function generateDynamicVariants(
         nameVi: "Biến thể 3: Bung Nở Diệt Quái (Burgeon)",
         situationVi: "Kích nổ hạt Thảo diện rộng bằng Hỏa, quét sạch quái đông nhanh chóng.",
         archetypeVi: "Bung Nở (Burgeon)",
-        teammateIds: [hydro1?.id ?? "xingqiu", getTop("Pyro", [])?.id ?? "thoma", getTop("Anemo", [])?.id ?? "baizhu"],
+        teammateIds: [hydro1?.id ?? "xingqiu", thomaId, dendroHealer?.id ?? "baizhu"],
         teammateRoles: ["Phụ sát thương (Sub-DPS)", "Bảo hộ / Khiên (Shielder)", "Hồi máu (Healer)"],
         reactionsVi: ["Bung Nở (x2.0)", "Thiêu Rụi"],
         resonancesVi: ["Tán Râm (+15% Kháng)"],
@@ -509,12 +874,12 @@ function generateDynamicVariants(
 
   if (v === "Electro") {
     const dendro1 = getTop("Dendro", []);
-    const anemo1 = getTop("Anemo", []);
-    const electroBattery = getTop("Electro", []);
+    const electroBattery = getTop("Electro", [dendro1?.id ?? ""]);
+    const anemo1 = getTop("Anemo", [dendro1?.id ?? "", electroBattery?.id ?? ""]);
     const hydro1 = getTop("Hydro", []);
     const pyroChevreuse = charactersByVision.get("Pyro")?.find((c) => c.id === "chevreuse") ?? getTop("Pyro", []);
     const chevreuseId = pyroChevreuse?.id ?? "chevreuse";
-    const pyroBuffer = getTop("Pyro", [chevreuseId]);
+    const pyroBuffer = getTop("Pyro", [chevreuseId, electroBattery?.id ?? ""]);
 
     return [
       {
@@ -549,8 +914,8 @@ function generateDynamicVariants(
 
   if (v === "Cryo") {
     const hydro1 = getTop("Hydro", []);
-    const anemo1 = getTop("Anemo", []);
-    const cryoSupport = getTop("Cryo", []);
+    const anemo1 = getTop("Anemo", [hydro1?.id ?? ""]);
+    const cryoSupport = getTop("Cryo", [hydro1?.id ?? "", anemo1?.id ?? ""]);
     const pyro1 = getTop("Pyro", []);
     const pyroBuffer = getTop("Pyro", [pyro1?.id ?? ""]);
 
@@ -579,16 +944,17 @@ function generateDynamicVariants(
   if (v === "Anemo") {
     const faruzan = charactersByVision.get("Anemo")?.find((c) => c.id === "faruzan") ?? getTop("Anemo", []);
     const faruzanId = faruzan?.id ?? "faruzan";
-    const hydro1 = getTop("Hydro", []);
+    const hydro1 = getTop("Hydro", [faruzanId]);
+    const geo1 = getTop("Geo", [faruzanId, hydro1?.id ?? ""]);
     const pyro1 = getTop("Pyro", []);
-    const pyroBuffer = getTop("Pyro", [pyro1?.id ?? ""]);
+    const pyroBuffer = getTop("Pyro", [pyro1?.id ?? "", hydro1?.id ?? ""]);
 
     return [
       {
         nameVi: "Biến thể 1: Thuần Phong Siêu Cấp (Anemo Hypercarry)",
         situationVi: "Tối đa hóa sát thương Phong nguyên chất với sự hỗ trợ giảm kháng và buff bạo kích.",
         archetypeVi: "Thuần Phong (Anemo Hypercarry)",
-        teammateIds: [faruzanId, hydro1?.id ?? "furina", getTop("Geo", [])?.id ?? "zhongli"],
+        teammateIds: [faruzanId, hydro1?.id ?? "furina", geo1?.id ?? "zhongli"],
         teammateRoles: ["Hỗ trợ (Buffer)", "Phụ sát thương (Sub-DPS)", "Bảo hộ / Khiên (Shielder)"],
         reactionsVi: ["Khuếch Tán"],
         resonancesVi: ["Nhanh Nhẹn (+Tốc Chạy, -Tiêu Hao Thể Lực)"],
@@ -607,15 +973,16 @@ function generateDynamicVariants(
 
   // Nham (Geo)
   const geoSupport = getTop("Geo", []);
-  const pyro1 = getTop("Pyro", []);
-  const pyroBuffer = getTop("Pyro", [pyro1?.id ?? ""]);
+  const geoSupport2 = getTop("Geo", [geoSupport?.id ?? ""]);
+  const pyro1 = getTop("Pyro", [geoSupport?.id ?? "", geoSupport2?.id ?? ""]);
+  const pyroBuffer = getTop("Pyro", [geoSupport?.id ?? "", pyro1?.id ?? ""]);
 
   return [
     {
       nameVi: "Biến thể 1: Thuần Nham Hoàng Kim (Mono Geo)",
       situationVi: "Tối đa hóa phòng ngự và sát thương Nham nguyên chất với buff Khiên Kiên Định.",
       archetypeVi: "Thuần Nham (Mono Geo)",
-      teammateIds: [geoSupport?.id ?? "gorou", getTop("Geo", [geoSupport?.id ?? ""])?.id ?? "zhongli", pyroBuffer?.id ?? "bennett"],
+      teammateIds: [geoSupport?.id ?? "gorou", geoSupport2?.id ?? "zhongli", pyroBuffer?.id ?? "bennett"],
       teammateRoles: ["Hỗ trợ (Buffer)", "Bảo hộ / Khiên (Shielder)", "Hồi máu (Healer)"],
       reactionsVi: ["Kết Tinh Nham"],
       resonancesVi: ["Kiên Định (+15% Sát Thương)"],
@@ -670,7 +1037,7 @@ export function buildCharacterTeamVariants(
       list.push(c);
       byVision.set(c.vision, list);
     }
-    // Sắp xếp ưu tiên 5 sao trước
+    // Sắp xếp ưu tiên 5 sao trước, sau đó là tên
     for (const list of byVision.values()) {
       list.sort((a, b) => b.rarity - a.rarity || a.name.localeCompare(b.name));
     }
@@ -688,11 +1055,77 @@ export function buildCharacterTeamVariants(
     roleVi: "Chủ lực (DPS)",
   };
 
+  const markSeen = (id: string, set: Set<string>) => {
+    set.add(id);
+    const alias = CHARACTER_ID_ALIASES[id];
+    if (alias) set.add(alias);
+    const rev = Object.keys(CHARACTER_ID_ALIASES).find((k) => CHARACTER_ID_ALIASES[k] === id);
+    if (rev) set.add(rev);
+  };
+
   return blueprints.map((bp, bIdx) => {
-    const teammates: TeamVariantMember[] = bp.teammateIds.map((tId, tIdx) => {
-      const dbChar = allCharactersMap.get(tId);
+    // Đảm bảo không trùng lặp thành viên và tối đa 1 Nhà Lữ Hành trong cả 4 vị trí
+    const seenIds = new Set<string>();
+    markSeen(thisMember.id, seenIds);
+    let hasTraveler = isTravelerCharacter(thisMember.id);
+
+    const teammates: TeamVariantMember[] = [];
+
+    for (let tIdx = 0; tIdx < bp.teammateIds.length; tIdx++) {
+      const rawId = bp.teammateIds[tIdx];
+      let resolvedId = rawId;
+
+      if (allCharactersMap.has(rawId)) {
+        resolvedId = rawId;
+      } else if (CHARACTER_ID_ALIASES[rawId] && allCharactersMap.has(CHARACTER_ID_ALIASES[rawId])) {
+        resolvedId = CHARACTER_ID_ALIASES[rawId];
+      } else {
+        const rev = Object.keys(CHARACTER_ID_ALIASES).find((k) => CHARACTER_ID_ALIASES[k] === rawId);
+        if (rev && allCharactersMap.has(rev)) {
+          resolvedId = rev;
+        } else {
+          resolvedId = CHARACTER_ID_ALIASES[rawId] ?? rawId;
+        }
+      }
+
+      let isTraveler = isTravelerCharacter(resolvedId);
+
+      // Nếu bị trùng ID hoặc bị vi phạm quy tắc nhiều Nhà Lữ Hành hoặc không có trong map
+      if (seenIds.has(resolvedId) || (isTraveler && hasTraveler) || !allCharactersMap.has(resolvedId)) {
+        // Tìm 1 nhân vật Meta thay thế an toàn
+        const fallbackCandidates = [
+          "bennett",
+          "zhongli",
+          "kaedehara-kazuha",
+          "kazuha",
+          "xingqiu",
+          "fischl",
+          "nahida",
+          "furina",
+          "xiangling",
+          "sucrose",
+        ];
+
+        const safeReplacement = fallbackCandidates.find(
+          (candId) =>
+            !seenIds.has(candId) &&
+            candId !== character.id &&
+            (!isTravelerCharacter(candId) || !hasTraveler) &&
+            allCharactersMap.has(candId)
+        );
+
+        if (safeReplacement) {
+          resolvedId = safeReplacement;
+          isTraveler = isTravelerCharacter(resolvedId);
+        }
+      }
+
+      markSeen(resolvedId, seenIds);
+      if (isTraveler) hasTraveler = true;
+
+      const dbChar = allCharactersMap.get(resolvedId);
       if (dbChar) {
-        return {
+        teammates.push({
           id: dbChar.id,
           name: dbChar.name,
           localizedName: dbChar.localizedName,
@@ -700,18 +1133,19 @@ export function buildCharacterTeamVariants(
           vision: dbChar.vision,
           rarity: dbChar.rarity,
           roleVi: bp.teammateRoles[tIdx],
-        };
+        });
+      } else {
+        teammates.push({
+          id: resolvedId,
+          name: resolvedId,
+          localizedName: resolvedId,
+          iconUrl: null,
+          vision: "Anemo",
+          rarity: 4,
+          roleVi: bp.teammateRoles[tIdx],
+        });
       }
-      return {
-        id: tId,
-        name: tId,
-        localizedName: tId,
-        iconUrl: null,
-        vision: "Anemo",
-        rarity: 4,
-        roleVi: bp.teammateRoles[tIdx],
-      };
-    });
+    }
 
     const fullTeam = [thisMember, ...teammates];
     const teamParam = fullTeam.map((m) => m.id).join(",");

@@ -75,4 +75,51 @@ describe("Character Team Variants System", () => {
       expect(v.teamBuilderUrl).toContain("custom-pyro");
     }
   });
+
+  it("TUYỆT ĐỐI không có quá 1 Nhà Lữ Hành và không có trùng lặp thành viên trong bất kỳ đội hình nào", () => {
+    const fullMockMap = new Map([
+      ...mockCharMap.entries(),
+      ["albedo", { id: "albedo", name: "Albedo", localizedName: "Albedo", vision: "Geo", rarity: 5, iconUrl: null }],
+      ["arataki-itto", { id: "arataki-itto", name: "Arataki Itto", localizedName: "Arataki Itto", vision: "Geo", rarity: 5, iconUrl: null }],
+      ["gorou", { id: "gorou", name: "Gorou", localizedName: "Gorou", vision: "Geo", rarity: 4, iconUrl: null }],
+      ["navia", { id: "navia", name: "Navia", localizedName: "Navia", vision: "Geo", rarity: 5, iconUrl: null }],
+      ["xiangling", { id: "xiangling", name: "Xiangling", localizedName: "Xiangling", vision: "Pyro", rarity: 4, iconUrl: null }],
+      ["aether-pyro", { id: "aether-pyro", name: "Aether (Pyro)", localizedName: "Aether (Pyro)", vision: "Pyro", rarity: 5, iconUrl: null }],
+      ["aether-geo", { id: "aether-geo", name: "Aether (Geo)", localizedName: "Aether (Geo)", vision: "Geo", rarity: 5, iconUrl: null }],
+      ["aether-anemo", { id: "aether-anemo", name: "Aether (Anemo)", localizedName: "Aether (Anemo)", vision: "Anemo", rarity: 5, iconUrl: null }],
+      ["aether-hydro", { id: "aether-hydro", name: "Aether (Hydro)", localizedName: "Aether (Hydro)", vision: "Hydro", rarity: 5, iconUrl: null }],
+      ["lumine-electro", { id: "lumine-electro", name: "Lumine (Electro)", localizedName: "Lumine (Electro)", vision: "Electro", rarity: 5, iconUrl: null }],
+    ]);
+
+    const testCharacters = [
+      { id: "albedo", name: "Albedo", vision: "Geo", rarity: 5 },
+      { id: "zhongli", name: "Zhongli", vision: "Geo", rarity: 5 },
+      { id: "aether-pyro", name: "Aether (Pyro)", vision: "Pyro", rarity: 5 },
+      { id: "custom-geo", name: "Custom Geo", vision: "Geo", rarity: 4 },
+      { id: "custom-pyro", name: "Custom Pyro", vision: "Pyro", rarity: 4 },
+      { id: "custom-hydro", name: "Custom Hydro", vision: "Hydro", rarity: 5 },
+    ];
+
+    for (const char of testCharacters) {
+      const variants = buildCharacterTeamVariants(char, fullMockMap, "vi");
+      for (const v of variants) {
+        expect(v.members.length).toBe(4);
+
+        // 1. Kiểm tra không có trùng lặp ID
+        const ids = v.members.map((m) => m.id);
+        const uniqueIds = new Set(ids);
+        expect(uniqueIds.size).toBe(4);
+
+        // 2. Kiểm tra tối đa 1 Nhà Lữ Hành
+        const travelerCount = ids.filter(
+          (id) =>
+            id.startsWith("aether") ||
+            id.startsWith("lumine") ||
+            id.startsWith("traveler") ||
+            id.includes("traveler")
+        ).length;
+        expect(travelerCount).toBeLessThanOrEqual(1);
+      }
+    }
+  });
 });

@@ -86,33 +86,33 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
   // Pyro Polearm
   arlecchino: {
     weapons: [
-      { weaponId: "staff-of-homa", tier: "S", noteVi: "Tốt nhất - HP% sub + passive HP bonus" },
-      { weaponId: "deathmatch", tier: "A", noteVi: "CR 36.8% sub-stat, tốt nhất 4-star" },
-      { weaponId: "primordial-jade-winged-spear", tier: "A", noteVi: "CRIT Rate 22.1% passive stack" },
-      { weaponId: "calamity-queller", tier: "A", noteVi: "ATK% cao sau Q" },
-      { weaponId: "blackcliff-pole", tier: "B", noteVi: "CD sub-stat tốt nếu có" },
+      { weaponId: "crimson-moon-s-semblance", tier: "S", noteVi: "Trấn tối thượng: CRIT Rate +22.1%, tăng 25% ATK và buff đến 36% sát thương khi có Khế Ước Sinh Mệnh" },
+      { weaponId: "primordial-jade-winged-spear", tier: "S", noteVi: "Hòa Phác Diên: CRIT Rate +22.1%, tích lũy ATK và buff 12% sát thương toàn phần" },
+      { weaponId: "staff-of-the-scarlet-sands", tier: "A", noteVi: "Quyền Trượng Cát Đỏ: CRIT Rate +44.1% cực lớn, chuyển hóa EM thành ATK trong đội Bốc Hơi" },
+      { weaponId: "deathmatch", tier: "A", noteVi: "Thương Quyết Đấu: Tốt nhất 4 sao - CRIT Rate +36.8% và buff ATK liên tục" },
+      { weaponId: "white-tassel", tier: "A", noteVi: "Bạch Anh Thương: Tuyệt phẩm 3 sao F2P - CRIT Rate +23.4% và tăng 48% sát thương Đòn Đánh Thường" },
     ],
     artifacts: [
-      { setIds: ["crimson-witch-of-flames"], mode: "4pc", priority: 1, noteVi: "4pc stack Pyro DMG + Vaporize/Melt bonus" },
-      { setIds: ["marechaussee-hunter"], mode: "4pc", priority: 2, noteVi: "CR +36% khi HP thay đổi - rất phù hợp passive Arlecchino" },
-      { setIds: ["crimson-witch-of-flames", "shimenawa-s-reminiscence"], mode: "2+2", priority: 3, noteVi: "2pc Pyro + 2pc ATK% thay the" },
+      { setIds: ["fragment-of-harmonic-whimsy"], mode: "4pc", priority: 1, noteVi: "Trấn thánh di vật: Tăng 18% ATK và buff đến 54% Sát Thương toàn diện qua Khế Ước Sinh Mệnh" },
+      { setIds: ["gladiator-s-finale"], mode: "4pc", priority: 2, noteVi: "Giác Đấu Sĩ: Tăng 18% ATK và 35% sát thương Đòn Đánh Thường, dễ farm và cực kỳ ổn định" },
+      { setIds: ["gilded-dreams"], mode: "4pc", priority: 3, noteVi: "Giấc Mộng Hoàng Kim: Tối ưu cho đội hình Bốc Hơi (Vaporize) và Tan Chảy (Melt)" },
     ],
     mainStats: {
-      sands: "ATK%",
+      sands: "ATK% (hoặc EM nếu đi đội Bốc Hơi)",
       goblet: "Pyro DMG%",
       circlet: "CRIT Rate hoặc CRIT DMG",
-      note: "Arlecchino lấy HP từ passive, không cần HP% artifacts. Tập trung ATK% + Pyro DMG% + CRIT. CR >= 70% trước khi stack CD.",
+      note: "Arlecchino lấy sát thương theo ATK và cơ chế Khế Ước Sinh Mệnh (Bond of Life). Cần duy trì CRIT Rate từ 70% trở lên.",
     },
     subStats: {
-      stats: ["CRIT Rate / CRIT DMG (1:2)", "ATK%", "Flat ATK", "Energy Recharge (ER <= 120%)", "Elemental Mastery (EM 80-100 nếu Vape)"],
-      note: "Arlecchino không nhận heal từ đội, nên HP pool từ passive rất quan trọng. EM nếu thường xuyên Vaporize. ER thấp vì Q cost 60.",
+      stats: ["CRIT Rate / CRIT DMG (1:2)", "ATK%", "Elemental Mastery (EM 80-120 nếu Vape)", "Energy Recharge (ER 110-120%)", "Flat ATK"],
+      note: "Arlecchino không nhận hồi máu từ đồng đội khi chiến đấu, tập trung tối đa chỉ số công kích. Q chỉ dùng khi cần hồi máu khẩn cấp.",
     },
     talentPriority: {
-      order: ["Đòn thường (NA)", "Nguyên tố bùng phát (Q)", "Kỹ năng nguyên tố (E)"],
-      note: "NA là nguồn DPS chính sau khi có Bond of Life. Q để reset Bond và gain. E để áp Pyro + tạo Bond.",
+      order: ["Đòn thường (NA)", "Kỹ năng nguyên tố (E)", "Nguyên tố bùng phát (Q)"],
+      note: "Đòn đánh thường (NA) là nguồn sát thương áp đảo (chiếm 85%+ DPS). Nâng E để tăng sát thương thu hồi Lệnh Thu Hoạch.",
     },
     playstyleNoteVi:
-      "Dùng E để áp Pyro lên địch và tạo Bond of Life. NA khi có Bond để gây Pyro DMG tăng theo HP. Q reset Bond và gain mới. Không nhận heal từ đồng đội - dùng Zhongli hoặc tự heal qua passive. Mục tiêu: Bond >= 100% để NA đánh Pyro.",
+      "Quy trình chiến đấu: Dùng E khắc dấu lên kẻ địch -> đổi sang đồng đội buff ấn (Kazuha/Yelan/Bennett) khoảng 5-6 giây để dấu chuyển thành 'Nợ Máu Huyết Đỏ' -> Đổi lại Arlecchino Trọng Kích để thu hồi 130-145% Khế Ước Sinh Mệnh -> Xả chuỗi đánh thường NA dồn sát thương Hỏa cực mạnh.",
   },
 
   // Cryo Sword
@@ -212,16 +212,16 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
   // Hydro Sword
   furina: {
     weapons: [
-      { weaponId: "splendor-of-tranquil-waters", tier: "S", noteVi: "Signature - HP% + Elemental Skill DMG bonus tuyệt vời" },
-      { weaponId: "primordial-jade-cutter", tier: "A", noteVi: "CR 44.1% + HP% passive thứ 2 tốt nhất" },
-      { weaponId: "key-of-khaj-nisut", tier: "A", noteVi: "HP% + EM team buff khi E hits" },
-      { weaponId: "favonius-sword", tier: "B", noteVi: "ER support build - tạo energy cho team" },
-      { weaponId: "sacrificial-sword", tier: "B", noteVi: "ER + E reset giữ Salon Members liên tục" },
+      { weaponId: "splendor-of-tranquil-waters", tier: "S", noteVi: "Trấn tối thượng: Sắc Nước Tĩnh Lặng - Tăng mạnh HP% và buff đến 24% Sát Thương Kỹ Năng Nguyên Tố" },
+      { weaponId: "fleuve-cendre-ferryman", tier: "S", noteVi: "Phà Fleuve Cendre (Ống Nước F2P): Vũ khí F2P số 1 - Cung cấp lượng lớn Hiệu Quả Nạp và tăng 16% CRIT Rate Kỹ Năng E" },
+      { weaponId: "favonius-sword", tier: "S", noteVi: "Kiếm Tây Phong: Tuyệt vời cho Furina solo Hydro (cần 180-200% ER), nạp năng lượng dồi dào cho toàn đội" },
+      { weaponId: "primordial-jade-cutter", tier: "A", noteVi: "Bàn Nham Kết Lục: CRIT Rate 44.1% cực lớn và chuyển hóa HP thành ATK" },
+      { weaponId: "key-of-khaj-nisut", tier: "A", noteVi: "Chìa Khóa Khaj-Nisut: Lượng HP% khổng lồ và buff EM cho toàn đội hình" },
     ],
     artifacts: [
-      { setIds: ["golden-troupe"], mode: "4pc", priority: 1, noteVi: "Off-field Skill DMG +70% - Salon Members liên tục" },
-      { setIds: ["marechaussee-hunter"], mode: "4pc", priority: 2, noteVi: "CR +36% khi HP thay đổi - rất phù hợp Furina mechanic" },
-      { setIds: ["tenacity-of-the-millelith"], mode: "4pc", priority: 3, noteVi: "Support build: +20% HP + ATK team buff" },
+      { setIds: ["golden-troupe"], mode: "4pc", priority: 1, noteVi: "Đoàn Kịch Hoàng Kim: Trấn thánh di vật tối thượng - Tăng 70% sát thương Salon Members từ ngoài sân" },
+      { setIds: ["marechaussee-hunter"], mode: "4pc", priority: 2, noteVi: "Thợ Săn Marechaussee: Dành riêng cho Furina C6 đứng sân dồn sát thương" },
+      { setIds: ["tenacity-of-the-millelith"], mode: "4pc", priority: 3, noteVi: "Thiên Nham Vững Chắc: Hỗ trợ tăng 20% HP và kích hoạt buff 20% ATK liên tục cho toàn đội" },
     ],
     mainStats: {
       sands: "HP%",
@@ -276,16 +276,18 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
   // Pyro Polearm
   "hu-tao": {
     weapons: [
-      { weaponId: "staff-of-homa", tier: "S", noteVi: "Tốt nhất - HP% + passive khi HP < 50%" },
-      { weaponId: "deathmatch", tier: "A", noteVi: "CR 36.8% sub - tốt nhất 4-star" },
-      { weaponId: "dragon-s-bane", tier: "A", noteVi: "EM 221 sub + passive Vaporize bonus" },
-      { weaponId: "blackcliff-pole", tier: "B", noteVi: "CD sub tốt nếu co" },
-      { weaponId: "white-tassel", tier: "C", noteVi: "Tốt nhất 3-star cho beginner" },
+      { weaponId: "staff-of-homa", tier: "S", noteVi: "Trượng Hộ Ma: Trấn tối thượng - CRIT DMG 66.2%, tăng 20% HP và chuyển hóa HP thành ATK khủng khiếp dưới 50% HP" },
+      { weaponId: "ballad-of-the-fjords", tier: "S", noteVi: "Khúc Ca Vịnh Hẹp (Nhật Ký Hành Trình): CRIT Rate 27.6% và tăng tới 240 EM khi đội hình có ít nhất 3 hệ nguyên tố" },
+      { weaponId: "dragon-s-bane", tier: "S", noteVi: "Tai Ương Của Rồng R5: Vũ khí 4 sao hoàn hảo - 221 EM và tăng đến 36% sát thương lên kẻ địch dính Thủy/Hỏa" },
+      { weaponId: "primordial-jade-winged-spear", tier: "A", noteVi: "Hòa Phác Diên: CRIT Rate 22.1% và tích lũy buff ATK" },
+      { weaponId: "deathmatch", tier: "A", noteVi: "Thương Quyết Đấu: CRIT Rate 36.8% dễ dàng cân bằng chỉ số bạo kích" },
+      { weaponId: "white-tassel", tier: "A", noteVi: "Bạch Anh Thương 3 sao F2P: CRIT Rate 23.4% và tăng 48% sát thương đòn đánh" },
     ],
     artifacts: [
-      { setIds: ["crimson-witch-of-flames"], mode: "4pc", priority: 1, noteVi: "4pc stack Pyro + Vaporize/Melt bonus, phù hợp E spam" },
-      { setIds: ["shimenawa-s-reminiscence"], mode: "4pc", priority: 2, noteVi: "ATK% sau E nhưng giảm Q DMG" },
-      { setIds: ["crimson-witch-of-flames", "tenacity-of-the-millelith"], mode: "2+2", priority: 3, noteVi: "2pc Pyro + 2pc HP% thay thế" },
+      { setIds: ["crimson-witch-of-flames"], mode: "4pc", priority: 1, noteVi: "Diệm Liệt Ma Nữ Cháy Rực: Bộ thánh di vật biểu tượng - Buff 15% Sát Thương Hỏa và tăng 15% sát thương Bốc Hơi" },
+      { setIds: ["marechaussee-hunter"], mode: "4pc", priority: 2, noteVi: "Thợ Săn Marechaussee: Lựa chọn tối thượng khi đi cùng Furina (tăng tới 36% CRIT Rate)" },
+      { setIds: ["shimenawa-s-reminiscence"], mode: "4pc", priority: 3, noteVi: "Dòng Hồi Ức Bất Tận: Tăng 18% ATK và buff 50% sát thương Trọng Kích (đổi lại tốn năng lượng nộ)" },
+      { setIds: ["gilded-dreams"], mode: "4pc", priority: 4, noteVi: "Giấc Mộng Hoàng Kim: Cung cấp lượng lớn Tinh Thông Nguyên Tố và Tấn Công trong đội phản ứng" },
     ],
     mainStats: {
       sands: "HP%",
@@ -308,15 +310,15 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
   // Anemo Sword
   "kaedehara-kazuha": {
     weapons: [
-      { weaponId: "freedom-sworn", tier: "S", noteVi: "Tốt nhất support - EM + team Elemental DMG + ATK buff" },
-      { weaponId: "primordial-jade-cutter", tier: "A", noteVi: "CR sub nếu muốn build DPS hybrid" },
-      { weaponId: "iron-sting", tier: "B", noteVi: "EM 165 sub - tốt nhất F2P nếu không có better" },
-      { weaponId: "favonius-sword", tier: "B", noteVi: "ER support - tạo energy cho đội" },
-      { weaponId: "sacrificial-sword", tier: "B", noteVi: "ER + E reset để Swirl nhiều hơn" },
+      { weaponId: "freedom-sworn", tier: "S", noteVi: "Lời Thề Tự Do Cổ Xưa: Trấn tối thượng - Cung cấp 198 EM và buff 20% ATK + 16% sát thương đòn đánh cho toàn đội" },
+      { weaponId: "xiphos-moonlight", tier: "S", noteVi: "Ánh Trăng Xiphos: Cung cấp 165 EM và chuyển hóa EM thành Hiệu Quả Nạp cho cả Kazuha lẫn toàn đội" },
+      { weaponId: "favonius-sword", tier: "S", noteVi: "Kiếm Tây Phong: Tuyệt phẩm năng lượng - Giúp Kazuha và toàn đội xoay tua chiêu nộ cực kỳ ổn định" },
+      { weaponId: "iron-sting", tier: "A", noteVi: "Thiết Phong Kích R1-R5 rèn F2P: Cung cấp 165 EM dễ dàng chế tạo cho người chơi F2P" },
+      { weaponId: "sacrificial-sword", tier: "A", noteVi: "Kiếm Tế Lễ: Reset hồi chiêu E để nhảy hút quái và nạp 2 lần liên tiếp" },
     ],
     artifacts: [
-      { setIds: ["viridescent-venerer"], mode: "4pc", priority: 1, noteVi: "Bắt buộc: giảm Element RES 40% + Swirl DMG tăng 60%" },
-      { setIds: ["viridescent-venerer", "wanderer-s-troupe"], mode: "2+2", priority: 2, noteVi: "VV 2pc + EM 80 nếu không đủ 4pc tốt" },
+      { setIds: ["viridescent-venerer"], mode: "4pc", priority: 1, noteVi: "Bóng Hình Màu Xanh: Trấn thánh di vật bắt buộc - Giảm 40% kháng nguyên tố được Khuếch Tán của kẻ địch trong 10s" },
+      { setIds: ["viridescent-venerer", "wanderer-s-troupe"], mode: "2+2", priority: 2, noteVi: "Tạm thời khi chưa đủ bộ 4 món chuẩn chỉ số EM" },
     ],
     mainStats: {
       sands: "EM (Elemental Mastery)",
@@ -371,16 +373,16 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
   // Geo Claymore
   navia: {
     weapons: [
-      { weaponId: "beacon-of-the-reed-sea", tier: "S", noteVi: "Tốt nhất - ATK + HP stack sau khi sử dụng skill" },
-      { weaponId: "wolf-s-gravestone", tier: "A", noteVi: "ATK% cao nhất game + party ATK buff" },
-      { weaponId: "the-unforged", tier: "A", noteVi: "ATK% + shield bonus DMG rất phù hợp" },
-      { weaponId: "serpent-spine", tier: "A", noteVi: "Tốt nhất 4-star - CR + stack DMG" },
-      { weaponId: "favonius-greatsword", tier: "B", noteVi: "ER support team - energy generation" },
+      { weaponId: "verdict", tier: "S", noteVi: "Trấn tối thượng: Base ATK 674, CRIT Rate 22.1%, tăng 20% ATK và buff đến 36% sát thương Kỹ Năng Nguyên Tố khi nhận mảnh Kết Tinh" },
+      { weaponId: "serpent-spine", tier: "S", noteVi: "Kiếm Ly Cốt: Tốt nhất 4 sao - CRIT Rate +27.6% và buff đến 50% toàn bộ sát thương của Navia" },
+      { weaponId: "beacon-of-the-reed-sea", tier: "S", noteVi: "Hải Đăng Bờ Biển: CRIT Rate 33.1% + buff ATK lớn khi dùng E và chịu đòn" },
+      { weaponId: "wolf-s-gravestone", tier: "A", noteVi: "Đường Cùng Của Sói: Cung cấp lượng ATK khổng lồ và buff tấn công cho toàn đội" },
+      { weaponId: "the-unforged", tier: "A", noteVi: "Kiếm Vô Công: Tăng mạnh ATK và sát thương khi luôn được bảo hộ bởi khiên Kết Tinh" },
     ],
     artifacts: [
-      { setIds: ["nighttime-whispers-in-the-echoing-woods"], mode: "4pc", priority: 1, noteVi: "Signature set: Geo DMG + Crystallize bonus" },
-      { setIds: ["golden-troupe"], mode: "4pc", priority: 2, noteVi: "Elemental Skill DMG +70% nếu off-field" },
-      { setIds: ["husk-of-opulent-dreams", "noblesse-oblige"], mode: "2+2", priority: 3, noteVi: "Geo DMG + ATK tăng thay thế" },
+      { setIds: ["nighttime-whispers-in-the-echoing-woods"], mode: "4pc", priority: 1, noteVi: "Trấn thánh di vật: Tiếng Đêm Trong Rừng Vang - Tăng 18% ATK và buff đến 50% Sát Thương Nham khi có khiên Kết Tinh" },
+      { setIds: ["golden-troupe"], mode: "4pc", priority: 2, noteVi: "Đoàn Kịch Hoàng Kim: Buff 70% sát thương đạn pháo Kỹ Năng Nguyên Tố khi đứng ngoài sân" },
+      { setIds: ["marechaussee-hunter"], mode: "4pc", priority: 3, noteVi: "Thợ Săn Marechaussee: Dành riêng cho đội hình kết hợp cùng Furina (tăng 36% CRIT Rate)" },
     ],
     mainStats: {
       sands: "ATK%",
@@ -403,16 +405,16 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
   // Hydro Catalyst
   neuvillette: {
     weapons: [
-      { weaponId: "tome-of-the-eternal-flow", tier: "S", noteVi: "Signature: HP% + bonus Charged DMG khi HP thay đổi" },
-      { weaponId: "kagura-s-verity", tier: "A", noteVi: "Skill DMG stack + CR tốt" },
-      { weaponId: "the-widsith", tier: "A", noteVi: "Burst buff mạnh khi switch-in" },
-      { weaponId: "skyward-atlas", tier: "A", noteVi: "ATK + Physical proc ok" },
-      { weaponId: "prototype-amber", tier: "B", noteVi: "ER + heal nhỏ hữu ích F2P" },
+      { weaponId: "tome-of-the-eternal-flow", tier: "S", noteVi: "Văn Thơ Khơi Nguồn Phù Hoa: Trấn tối thượng - CRIT DMG 88.2%, tăng 16% HP và buff đến 42% sát thương Trọng Kích" },
+      { weaponId: "sacrificial-jade", tier: "S", noteVi: "Ngọc Tế Lễ (Nhật Ký Hành Trình): CRIT Rate 36.8%, buff tới 64% Max HP khi off-field, sức mạnh tiệm cận trấn 5 sao" },
+      { weaponId: "prototype-amber", tier: "S", noteVi: "Mẫu Kim Phách R5 rèn F2P: Lựa chọn F2P số 1 - Cung cấp 41.3% HP, hồi 18 năng lượng nộ và hồi máu toàn đội sau Q" },
+      { weaponId: "lost-prayer-to-the-sacred-winds", tier: "A", noteVi: "Điển Tích Tây Phong: CRIT Rate 33.1%, tăng tốc độ di chuyển và tích lũy sát thương nguyên tố Thủy" },
+      { weaponId: "the-widsith", tier: "A", noteVi: "Chương Nhạc Lang Thang: CRIT DMG 55.1%, bùng nổ sát thương lớn khi nhận buff Hydro DMG hoặc Toàn Sát Thương" },
     ],
     artifacts: [
-      { setIds: ["marechaussee-hunter"], mode: "4pc", priority: 1, noteVi: "CRIT Rate +36% khi HP thay đổi - Neuvillette passive thay đổi HP liên tục" },
-      { setIds: ["heart-of-depth"], mode: "4pc", priority: 2, noteVi: "Hydro DMG + Charged Attack DMG tốt thay thế" },
-      { setIds: ["marechaussee-hunter", "heart-of-depth"], mode: "2+2", priority: 3, noteVi: "2pc mỗi bộ thay thế khi farm" },
+      { setIds: ["marechaussee-hunter"], mode: "4pc", priority: 1, noteVi: "Thợ Săn Marechaussee: Trấn thánh di vật độc quyền - Tăng 15% sát thương Trọng Kích và tự động nhận 36% CRIT Rate khi bắn tia nước tiêu hao HP" },
+      { setIds: ["heart-of-depth"], mode: "4pc", priority: 2, noteVi: "Trầm Luân Trái Tim: Tăng 15% Sát Thương Thủy và 30% sát thương Trọng Kích" },
+      { setIds: ["marechaussee-hunter", "heart-of-depth"], mode: "2+2", priority: 3, noteVi: "Tạm thời khi farm chỉ số tốt" },
     ],
     mainStats: {
       sands: "HP%",
@@ -435,15 +437,15 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
   // Electro Polearm
   "raiden-shogun": {
     weapons: [
-      { weaponId: "engulfing-lightning", tier: "S", noteVi: "Signature - ER -> ATK bonus + ER 30% vượt requirement" },
-      { weaponId: "staff-of-homa", tier: "A", noteVi: "HP% + ATK passive rất mạnh khi HP thấp" },
-      { weaponId: "primordial-jade-winged-spear", tier: "A", noteVi: "CRIT Rate + stack ATK tốt" },
-      { weaponId: "the-catch", tier: "B", noteVi: "Tốt nhất F2P - ER + Q DMG +16% và CRIT Rate +6%" },
-      { weaponId: "deathmatch", tier: "B", noteVi: "CR sub nếu không cần ER nhiều" },
+      { weaponId: "engulfing-lightning", tier: "S", noteVi: "Đoạn Thảo Trường Đao: Trấn tối thượng - Cung cấp 55.1% ER, chuyển hóa ER vượt 100% thành ATK% và buff thêm 30% ER sau khi nộ" },
+      { weaponId: "the-catch", tier: "S", noteVi: "Lao Câu Cá R5 F2P: Thần khí câu cá chuẩn mực - Tăng 45.9% ER, buff 32% sát thương chiêu Nộ Q và tăng 12% Tỷ Lệ Bạo Kích Q" },
+      { weaponId: "staff-of-homa", tier: "A", noteVi: "Trượng Hộ Ma: Cung cấp 66.2% CRIT DMG và lượng lớn ATK" },
+      { weaponId: "primordial-jade-winged-spear", tier: "A", noteVi: "Hòa Phác Diên: Cung cấp CRIT Rate và tích tầng tăng ATK%" },
+      { weaponId: "wavebreaker-s-fin", tier: "A", noteVi: "Vây Cá Chẻ Sóng R5: Tăng cực mạnh sát thương Q dựa trên tổng năng lượng nộ toàn đội" },
     ],
     artifacts: [
-      { setIds: ["emblem-of-severed-fate"], mode: "4pc", priority: 1, noteVi: "ER -> Q DMG +25% per 4% ER (tối đa 75%). Bắt buộc cho Raiden." },
-      { setIds: ["emblem-of-severed-fate", "thundering-fury"], mode: "2+2", priority: 2, noteVi: "2pc ER + 2pc Electro DMG thay thế farm" },
+      { setIds: ["emblem-of-severed-fate"], mode: "4pc", priority: 1, noteVi: "Dấu Ấn Ngăn Cách: Trấn thánh di vật bắt buộc - Chuyển hóa 25% Hiệu Quả Nạp thành Sát Thương Kỹ Năng Nộ Q (tối đa +75%)" },
+      { setIds: ["gilded-dreams"], mode: "4pc", priority: 2, noteVi: "Giấc Mộng Hoàng Kim: Dành riêng cho lối chơi Raiden kích hoạt Hạt Nở Rộ (Hyperbloom Full EM)" },
     ],
     mainStats: {
       sands: "ER% (Energy Recharge)",
@@ -561,79 +563,82 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
   // Geo Polearm
   zhongli: {
     weapons: [
-      { weaponId: "staff-of-homa", tier: "S", noteVi: "HP% + passive khi HP < 50% - max khiên và Q DMG" },
-      { weaponId: "primordial-jade-winged-spear", tier: "A", noteVi: "ATK% + stack passive - ok nếu không có Homa" },
-      { weaponId: "vortex-vanquisher", tier: "A", noteVi: "Signature: HP% + ATK stack - rất phù hợp Zhongli" },
-      { weaponId: "favonius-lance", tier: "B", noteVi: "ER support - tạo energy cho team liên tục" },
-      { weaponId: "the-catch", tier: "B", noteVi: "ER + Q DMG bonus tốt F2P" },
+      { weaponId: "black-tassel", tier: "S", noteVi: "Hắc Anh Thương 3 sao F2P: Vũ khí thuần khiên số 1 - Cung cấp +46.9% HP tối đa, đẩy độ dày của Khiên Ngọc Bích lên cực hạn" },
+      { weaponId: "favonius-lance", tier: "S", noteVi: "Thương Tây Phong: Lựa chọn hỗ trợ đa dụng tốt nhất - Tạo vô số hạt nguyên tố trắng nạp cho toàn bộ đồng đội" },
+      { weaponId: "staff-of-homa", tier: "S", noteVi: "Trượng Hộ Ma: Cung cấp 20% HP và 66.2% CRIT DMG - Lựa chọn số 1 cho phong cách Hybrid vừa có khiên dày vừa nuke chiêu nộ Thiên Thạch cực thốn" },
+      { weaponId: "vortex-vanquisher", tier: "A", noteVi: "Giáo Nịnh Thần: Vũ khí trấn thẩm mỹ của Nham Thần - Tăng 20% hiệu quả khiên và tích lũy lượng lớn ATK%" },
+      { weaponId: "the-catch", tier: "B", noteVi: "Lao Câu Cá: Cung cấp Hiệu Quả Nạp và buff sát thương nộ Q" },
     ],
     artifacts: [
-      { setIds: ["tenacity-of-the-millelith"], mode: "4pc", priority: 1, noteVi: "HP% + ATK team buff 20% khi E hits - bắt buộc nếu support" },
-      { setIds: ["noblesse-oblige"], mode: "4pc", priority: 2, noteVi: "ATK team buff 20% khi Q - thay thế tốt" },
-      { setIds: ["tenacity-of-the-millelith", "archaic-petra"], mode: "2+2", priority: 3, noteVi: "HP + Geo DMG thay thế" },
+      { setIds: ["tenacity-of-the-millelith"], mode: "4pc", priority: 1, noteVi: "Thiên Nham Vững Chắc: Trấn thánh di vật hỗ trợ - Tăng 20% HP và buff 20% ATK + 30% hiệu quả khiên cho toàn đội khi Cột Nham đánh trúng địch" },
+      { setIds: ["instructor"], mode: "4pc", priority: 2, noteVi: "Giáo Quan: Buff 120 Tinh Thông Nguyên Tố cho toàn đội trong các đội hình phản ứng mạnh (Hu Tao, Alhaitham, Tighnari)" },
+      { setIds: ["noblesse-oblige"], mode: "4pc", priority: 3, noteVi: "Nghi Thức Tông Thất Cổ: Buff 20% ATK cho toàn đội trong 12s sau khi thả Thiên Thạch Q" },
+      { setIds: ["archaic-petra"], mode: "4pc", priority: 4, noteVi: "Phiến Đá Lâu Đời: Nhặt mảnh Kết Tinh tăng 35% Sát Thương Nguyên Tố tương ứng cho toàn đội" },
     ],
     mainStats: {
       sands: "HP%",
       goblet: "HP%",
       circlet: "HP%",
-      note: "Zhongli support: 3x HP% để max Jade Shield (2.506% HP per sec, HP% scale). Shield strength = 12.96% HP + 1505. HP 50000+ là mục tiêu.",
+      note: "Zhongli thuần khiên (Shield Bot): 3x HP% để max Jade Shield. Mục tiêu đạt 50,000+ HP. Nếu chơi Hybrid Burst: Cát HP% / Ly Nham / Nón Bạo Kích.",
     },
     subStats: {
-      stats: ["HP%", "Flat HP", "Energy Recharge (ER 140%+)", "CRIT Rate (nếu DPS hybrid)", "ATK%"],
-      note: "Zhongli support: chỉ cần HP và ER. Shield scale HP nên HP% uu tiên tuyệt đối. Tenacity 4pc tự động buff khi E pillar hits.",
+      stats: ["HP%", "Flat HP", "Energy Recharge (ER 130-140%)", "CRIT Rate (kích hoạt Thương Tây Phong)", "ATK%"],
+      note: "Zhongli support thuần khiên: ưu tiên tuyệt đối HP% và Flat HP. Khi cầm Thương Tây Phong cần ~35-45% CRIT Rate để kích hạt nạp.",
     },
     talentPriority: {
       order: ["Kỹ năng nguyên tố (E)", "Nguyên tố bùng phát (Q)", "Đòn thường (NA)"],
-      note: "E tạo Jade Shield (HP scale) và Stone Stele gây sát thương + giảm ALL RES 20%. Q Petrify khống chế. NA ít quan trọng.",
+      note: "E tạo Khiên Ngọc Bích và giảm 20% toàn bộ kháng nguyên tố của địch quanh bản thân - nâng tối đa trước. Q hóa đá khống chế. NA không cần nâng.",
     },
     playstyleNoteVi:
-      "E Hold để tạo khiên Jade và giảm ALL Element RES 20% (bao gồm Physical). E Press tạo Stone Stele off-field. Q Petrify 3.6 giây. Khiên HP-based không phụ thuộc lvl địch. Tenacity 4pc buff ATK 20% cho team khi pillar hits. Support hoàn hảo nhất game.",
+      "Nhấn giữ E (Hold) tạo Khiên Ngọc Bích giảm 20% toàn bộ kháng nguyên tố và kháng vật lý của kẻ địch xung quanh. E nhấn để cắm Cột Nham kích hoạt 4 món Thiên Nham buff 20% ATK toàn đội. Q thả Thiên Thạch hóa đá khống chế địch 4 giây.",
   },
 
   // Electro Sword
   clorinde: {
     weapons: [
-      { weaponId: "absolution", tier: "S", noteVi: "Signature: CRIT DMG + bonus DMG khi Bond of Life" },
-      { weaponId: "primordial-jade-cutter", tier: "A", noteVi: "CR 44.1% + HP% passive tốt" },
-      { weaponId: "mistsplitter-reforged", tier: "A", noteVi: "Elemental DMG stack 3 lần" },
-      { weaponId: "light-of-foliar-incision", tier: "A", noteVi: "CRIT DMG + EM passive tốt" },
-      { weaponId: "the-black-sword", tier: "B", noteVi: "CR sub + NA healing nhỏ" },
+      { weaponId: "absolution", tier: "S", noteVi: "Xá Tội: Trấn tối thượng - CRIT DMG 44.1%, tăng 20% CRIT DMG và buff tới 48% sát thương toàn diện khi tăng Khế Ước Sinh Mệnh (Bond of Life)" },
+      { weaponId: "mistsplitter-reforged", tier: "S", noteVi: "Ánh Sương Đêm Sương Mù: Base ATK 674, CRIT DMG 44.1% và buff tới 28% Sát Thương Lôi" },
+      { weaponId: "primordial-jade-cutter", tier: "S", noteVi: "Bàn Nham Kết Lục: CRIT Rate 44.1% cực lớn và chuyển hóa HP thành ATK" },
+      { weaponId: "the-black-sword", tier: "A", noteVi: "Kiếm Đen (Nhật Ký Hành Trình): CRIT Rate 27.6% và tăng 40% sát thương đòn đánh thường" },
+      { weaponId: "finale-of-the-deep", tier: "A", noteVi: "Hải Uyên Điệu Cuối R5 rèn F2P: Tăng mạnh ATK% và tương tác hoàn hảo với cơ chế Khế Ước Sinh Mệnh" },
     ],
     artifacts: [
-      { setIds: ["thundering-fury"], mode: "4pc", priority: 1, noteVi: "Electro DMG + khi phản ứng giảm CD E -> combo liên tục" },
-      { setIds: ["marechaussee-hunter"], mode: "4pc", priority: 2, noteVi: "CR +36% khi HP thay đổi - Bond of Life trigger liên tục" },
-      { setIds: ["golden-troupe"], mode: "4pc", priority: 3, noteVi: "Skill DMG +70% nếu off-field" },
+      { setIds: ["fragment-of-harmonic-whimsy"], mode: "4pc", priority: 1, noteVi: "Mảnh Ghép Hài Hòa Mơ Hồ: Trấn thánh di vật độc quyền - Tăng 18% ATK và buff đến 54% toàn bộ sát thương khi giá trị Khế Ước Sinh Mệnh biến động" },
+      { setIds: ["thundering-fury"], mode: "4pc", priority: 2, noteVi: "Như Sấm Thịnh Nộ: Tăng 15% Sát Thương Lôi và giảm mạnh hồi chiêu E khi kích hoạt phản ứng Tăng Cường/Điện Cảm/Quá Tải" },
+      { setIds: ["marechaussee-hunter"], mode: "4pc", priority: 3, noteVi: "Thợ Săn Marechaussee: Lựa chọn tối ưu khi ghép đội cùng Furina (nhận trọn 36% CRIT Rate)" },
+      { setIds: ["gladiator-s-finale"], mode: "4pc", priority: 4, noteVi: "Lễ Bế Mạc Của Giác Đấu Sĩ: Tăng 18% ATK và buff 35% sát thương đòn đánh thường" },
     ],
     mainStats: {
       sands: "ATK%",
       goblet: "Electro DMG%",
       circlet: "CRIT Rate hoặc CRIT DMG",
-      note: "Clorinde DPS qua Bond of Life và E shots. ATK% + Electro DMG% + CRIT. Marechaussee 4pc: CD circlet vì CR tự cộng.",
+      note: "Clorinde tự nhận 20% CRIT Rate từ thiên phú nội tại A1, do đó cần cân bằng để không bị tràn tỷ lệ bạo kích khi kết hợp cùng vũ khí hoặc set Thợ Săn.",
     },
     subStats: {
-      stats: ["CRIT Rate / CRIT DMG (1:2)", "ATK%", "Energy Recharge (ER 140%+)", "Elemental Mastery (EM 100+ Quicken)", "Flat ATK"],
-      note: "Thundering Fury 4pc: khi Quicken Aggravate/Superconduct giảm E CD, cần EM 100+ để tăng Aggravate DMG. ER 140% cho Q.",
+      stats: ["CRIT Rate / CRIT DMG (1:2)", "ATK%", "Elemental Mastery (EM 80-120 cho Tăng Cường)", "Energy Recharge (120-130%)", "Flat ATK"],
+      note: "Trong đội hình Tăng Cường (Aggravate), Tinh Thông Nguyên Tố gia tăng mạnh sát thương đòn bắn súng xuyên thấu.",
     },
     talentPriority: {
       order: ["Kỹ năng nguyên tố (E)", "Nguyên tố bùng phát (Q)", "Đòn thường (NA)"],
-      note: "E là nguồn DPS chính: tạo Bond of Life -> gun shots. Q buff và reset. NA ít dùng khi E active.",
+      note: "E (Săn Đêm Đón Ánh Sáng) chuyển hóa đòn đánh thành bắn súng phóng điện và đâm kiếm lướt - nâng tối đa đầu tiên. Q nuke sát thương diện rộng. NA cơ bản không dùng.",
     },
     playstyleNoteVi:
-      "E tạo Bond of Life và switch sang gun mode. E shots tiêu thụ Bond để gây Electro DMG. Khi Bond full -> passive buff. Quicken team (Nahida + Fischl) làm Clorinde Aggravate DMG rất lớn. Q reset E và buff. Thundering Fury 4pc rất mạnh khi Aggravate.",
+      "Bấm E vào trạng thái Tuần Đêm: Bắn súng thường (3 phát) để tích đầy Khế Ước Sinh Mệnh (Bond of Life >= 100%), sau đó nhấn E đâm kiếm lướt xuyên thấu hồi máu và xả sát thương bùng nổ (vòng lặp 3 bắn + 1 lướt E). Q thi triển đầu hoặc cuối chu kỳ để dồn sát thương.",
   },
 
   // Geo Sword
   albedo: {
     weapons: [
-      { weaponId: "primordial-jade-cutter", tier: "S", noteVi: "CR 44.1% + HP% passive - Albedo scale DEF nhưng CR vẫn cần" },
-      { weaponId: "harbinger-of-dawn", tier: "S", noteVi: "Tốt nhất 3-star! CR 28% + CRIT DMG 46% khi HP > 90%" },
-      { weaponId: "mistsplitter-reforged", tier: "A", noteVi: "Elemental DMG stack tốt" },
-      { weaponId: "cinnabar-spindle", tier: "S", noteVi: "Signature: DEF% sub + Skill DMG bonus - bắt buộc nếu có" },
-      { weaponId: "iron-sting", tier: "B", noteVi: "EM sub + passive ok nếu không có better" },
+      { weaponId: "cinnabar-spindle", tier: "S", noteVi: "Trấn số 1 độc quyền: Thoi Châm Sinh Cọc - DEF +69% và tăng sát thương Kỹ Năng Nguyên Tố theo 80% DEF" },
+      { weaponId: "uraku-misugiri", tier: "S", noteVi: "Kiếm Uraku Misugiri: CRIT DMG +88.2%, tăng DEF và nhân đôi buff Kỹ Năng Nguyên Tố khi gây sát thương Nham" },
+      { weaponId: "harbinger-of-dawn", tier: "S", noteVi: "Thần kiếm 3 sao F2P: Kiếm Bình Minh - CRIT Rate +28% và CRIT DMG +46.9% khi giữ HP trên 90% (Albedo off-field bất tử buff)" },
+      { weaponId: "primordial-jade-cutter", tier: "A", noteVi: "Bàn Nham Kết Lục: CRIT Rate +44.1% khổng lồ, dễ dàng cân bằng chỉ số bạo kích" },
+      { weaponId: "mistsplitter-reforged", tier: "A", noteVi: "Ánh Sáng Đêm Sương Mù: Tăng sát thương nguyên tố toàn diện" },
     ],
     artifacts: [
-      { setIds: ["husk-of-opulent-dreams"], mode: "4pc", priority: 1, noteVi: "DEF% + Geo DMG stack passively - tối ưu cho Albedo" },
-      { setIds: ["husk-of-opulent-dreams", "archaic-petra"], mode: "2+2", priority: 2, noteVi: "DEF + Geo DMG thay thế" },
+      { setIds: ["husk-of-opulent-dreams"], mode: "4pc", priority: 1, noteVi: "Trấn thánh di vật: Giấc Mộng Phù Hoa - Tăng đến 54% DEF và 24% Sát Thương Nham khi đứng ngoài sân" },
+      { setIds: ["golden-troupe"], mode: "4pc", priority: 2, noteVi: "Đoàn Kịch Hoàng Kim: Buff 70% sát thương hoa Kỹ Năng Nguyên Tố (Transient Blossom) khi off-field" },
+      { setIds: ["archaic-petra"], mode: "4pc", priority: 3, noteVi: "Phiến Đá Lâu Đời: Hỗ trợ nhặt mảnh Kết Tinh để buff 35% Sát Thương Nguyên Tố tương ứng cho toàn đội" },
     ],
     mainStats: {
       sands: "DEF%",
