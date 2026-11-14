@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { WikiHero } from "../../components/layout/WikiHero";
 import { VersionHub } from "../../components/layout/VersionHub";
+import { TeyvatCompendium } from "../../components/layout/TeyvatCompendium";
 import type { Metadata } from "next";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
 
@@ -30,6 +31,7 @@ export default async function Home({ params }: HomePageProps) {
     <div className="min-h-screen bg-bg-primary">
       <WikiHero />
       <VersionHub />
+      <TeyvatCompendium />
 
       <footer className="max-w-7xl mx-auto px-4 md:px-8 py-12 border-t border-border/60 text-center text-sm text-text-muted">
         <p>{t("footerNote")}</p>
