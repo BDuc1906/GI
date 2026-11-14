@@ -40,14 +40,24 @@ export function PwaRegister() {
   const [showBanner, setShowBanner] = useState(false);
 
   useEffect(() => {
-    // 1. Register Service Worker
+    // Ở môi trường development: tự động gỡ bỏ Service Worker nếu có để tránh xung đột với Turbopack Fast Refresh / HMR
+    if (process.env.NODE_ENV !== "production") {
+      if (typeof window !== "undefined" && "serviceWorker" in navigator) {
+        navigator.serviceWorker.getRegistrations().then((registrations) => {
+          for (const reg of registrations) {
+            reg.unregister();
+          }
+        });
+      }
+      return;
+    }
+
+    // 1. Register Service Worker (chỉ chạy ở production)
     if (typeof window !== "undefined" && "serviceWorker" in navigator) {
       navigator.serviceWorker
         .register("/sw.js")
         .then((registration) => {
-          if (process.env.NODE_ENV === "development") {
-            console.log("[PWA] Service Worker registered with scope:", registration.scope);
-          }
+          console.log("[PWA] Service Worker registered with scope:", registration.scope);
         })
         .catch((err) => {
           console.warn("[PWA] Service Worker registration failed:", err);
