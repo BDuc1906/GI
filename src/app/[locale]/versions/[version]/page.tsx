@@ -15,7 +15,7 @@ import {
   summarize,
   type VersionView,
 } from "@/core/game/versions";
-import { resolveVersionBackgroundArt, VERSION_THEMES } from "@/core/game/version-art";
+import { resolveVersionBackgroundArt, getVersionTheme } from "@/core/game/version-art";
 
 export const revalidate = 3600;
 // dynamic = "force-dynamic" để mọi version URL đều render (không cần generateStaticParams)
@@ -82,7 +82,7 @@ export default async function VersionDetailPage({ params, searchParams }: PagePr
 
   const addedChars = pickEntries(index.entries["characters"] ?? [], version, "added");
   const backgroundArt = resolveVersionBackgroundArt(version, addedChars);
-  const theme = VERSION_THEMES[version];
+  const theme = getVersionTheme(version);
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">

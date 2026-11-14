@@ -79,6 +79,8 @@ const DOMAIN_CATEGORY_LABEL: Record<string, string> = {
   talent: "Sách thiên phú",
   weapon: "Nguyên liệu vũ khí",
   artifact: "Thánh di vật",
+  trounce: "Boss tuần",
+  challenge: "Thử thách",
 };
 
 export const VERSION_SOURCES: VersionSource[] = [

@@ -103,14 +103,25 @@ function getWeaponStatsByLevel(statsFn: unknown): unknown {
   }
 }
 
+async function processBatch<T>(
+  items: T[],
+  handler: (item: T) => Promise<void>,
+  batchSize = 20
+): Promise<void> {
+  for (let i = 0; i < items.length; i += batchSize) {
+    const chunk = items.slice(i, i + batchSize);
+    await Promise.all(chunk.map(handler));
+  }
+}
+
 export async function seedWeapons(): Promise<void> {
   const names = genshindb.weapons("names", { matchCategories: true }) as string[];
   let count = 0;
 
-  for (const name of names) {
+  await processBatch(names, async (name) => {
     try {
       const w = genshindb.weapons(name) as any;
-      if (!w || !w.name || !w.rarity) continue;
+      if (!w || !w.name || !w.rarity) return;
 
       const raw = w as Record<string, any>;
       const refinements = [raw.r1, raw.r2, raw.r3, raw.r4, raw.r5].filter(Boolean);
@@ -178,6 +189,6 @@ export async function seedWeapons(): Promise<void> {
     } catch (err) {
       console.warn(`⚠ Skipped weapon "${name}":`, (err as Error).message);
     }
-  }
+  }, 20);
   console.log(`✔ Seeded ${count} weapons with ascension materials`);
 }

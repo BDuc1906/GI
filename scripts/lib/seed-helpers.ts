@@ -58,6 +58,14 @@ export function printMissingIconSummary(): void {
 // để sửa 1 override không cần sửa code, chỉ cần sửa file JSON.
 export let MANUAL_ICON_OVERRIDES: Record<string, string> = {};
 
+// In-memory cache để tránh hàng ngàn query trùng lặp (Mora, đá nâng cấp, sách kĩ năng)
+// tới cơ sở dữ liệu từ xa (Neon PostgreSQL) trong mỗi chu trình seed.
+const resolvedMaterialCache = new Map<string, string>();
+
+export function clearMaterialCache(): void {
+  resolvedMaterialCache.clear();
+}
+
 export function loadManualOverrides(overrides: Record<string, string>) {
   MANUAL_ICON_OVERRIDES = overrides;
 }
@@ -99,6 +107,9 @@ export async function upsertMaterial(
   materialName: string
 ): Promise<string> {
   const id = slugify(materialName);
+  if (resolvedMaterialCache.has(id)) {
+    return id;
+  }
   let iconUrl: string | null = null;
 
   const tryLookup = (name: string): unknown => {
@@ -180,5 +191,6 @@ export async function upsertMaterial(
     console.warn(`⚠️ Không ghi được AuditLog cho material "${materialName}":`, (err as Error).message);
   });
 
+  resolvedMaterialCache.set(id, id);
   return id;
 }

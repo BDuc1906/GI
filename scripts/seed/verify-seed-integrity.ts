@@ -73,7 +73,7 @@ const RETAINED_NON_PLAYABLE_COMPANIONS = new Map([
   ["manekina", "Dữ liệu companion sự kiện được giữ lại theo yêu cầu."],
 ]);
 
-const VALID_DOMAIN_CATEGORIES = new Set(["artifact", "weapon", "talent"]);
+const VALID_DOMAIN_CATEGORIES = new Set(["artifact", "weapon", "talent", "trounce", "challenge"]);
 
 type Issue = { level: "FAIL" | "WARN"; message: string };
 const issues: Issue[] = [];
@@ -292,7 +292,7 @@ async function checkDomains(): Promise<void> {
   if (invalidCategory > 0)
     fail(
       `${invalidCategory} bí cảnh có category KHÔNG nằm trong ` +
-        `["artifact","weapon","talent"] — sẽ không khớp bộ lọc category trên UI/API.`
+        `["artifact","weapon","talent","trounce","challenge"] — sẽ không khớp bộ lọc category trên UI/API.`
     );
   if (missingImage > 0) warn(`${missingImage} bí cảnh thiếu imageUrl.`);
   if (weaponOrTalentMissingDays > 0)

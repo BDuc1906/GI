@@ -130,6 +130,19 @@ export const VERSION_THEMES: Record<string, { vi: string; en: string }> = {
 };
 
 /**
+ * Trả về chủ đề song ngữ của phiên bản — tự động sinh fallback cho các bản tương lai
+ */
+export function getVersionTheme(version: string): { vi: string; en: string } {
+  if (VERSION_THEMES[version]) {
+    return VERSION_THEMES[version];
+  }
+  return {
+    vi: `Cập Nhật Phiên Bản ${version}`,
+    en: `Version ${version} Update`,
+  };
+}
+
+/**
  * Trả về đường dẫn ảnh nền độc quyền cho phiên bản tương ứng
  */
 export function resolveVersionBackgroundArt(

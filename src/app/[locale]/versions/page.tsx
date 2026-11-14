@@ -5,7 +5,7 @@ import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
 import { countUnknown, getVersionIndex, summarize } from "@/core/game/versions";
-import { resolveVersionBackgroundArt, VERSION_THEMES } from "@/core/game/version-art";
+import { resolveVersionBackgroundArt, getVersionTheme } from "@/core/game/version-art";
 import { SafeImage } from "@/components/ui/SafeImage";
 
 export const revalidate = 3600;
@@ -61,7 +61,7 @@ export default async function VersionsPage({ params }: PageProps) {
         <ol className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {newestFirst.map((v) => {
             const s = summarize(index, v);
-            const theme = VERSION_THEMES[v];
+            const theme = getVersionTheme(v);
             const art = resolveVersionBackgroundArt(v);
             return (
               <li key={v}>

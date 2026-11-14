@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { getVersionIndex, pickEntries, type VersionEntry } from "@/core/game/versions";
-import { resolveVersionBackgroundArt, VERSION_THEMES } from "@/core/game/version-art";
+import { resolveVersionBackgroundArt, getVersionTheme } from "@/core/game/version-art";
 import { SafeImage } from "@/components/ui/SafeImage";
 import { getTranslations } from "next-intl/server";
 
@@ -29,7 +29,7 @@ export async function VersionHub() {
   if (!latest) return null;
 
   const backgroundArt = resolveVersionBackgroundArt(latest, newCharacters);
-  const theme = VERSION_THEMES[latest];
+  const theme = getVersionTheme(latest);
 
   return (
     <section className="max-w-7xl mx-auto px-4 md:px-8 py-6 md:py-8">

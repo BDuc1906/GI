@@ -5,9 +5,8 @@
  * 15 model Prisma mới tương ứng. Gọi từ scripts/seed.ts, giống cách
  * seedCharacters/seedWeapons/... đã hoạt động.
  *
- * Mỗi model chỉ trích vài field scalar hay dùng để lọc; toàn bộ object
- * gốc luôn được lưu nguyên vào cột `raw` — không mất field nào dù chưa
- * được liệt kê rõ ở đây.
+ * Tối ưu hoá xử lý theo lô (batch chunks of 25) để hoàn thành trong vài giây,
+ * tránh N+1 tuần tự làm nghẽn hoặc timeout kết nối DB.
  */
 
 import fs from "fs";
@@ -18,33 +17,23 @@ import { logDataSyncChange } from "../lib/audit-diff";
 const DATA_RAW_DIR = path.join(process.cwd(), "data", "raw");
 
 /**
- * BỔ SUNG (2026-09-22) — "chuẩn wiki lớn, làm tốt hơn": ghi lịch sử thay
- * đổi (giống pattern đã nối ở seed-characters.ts/seed-weapons.ts/
- * seed-artifacts.ts/seed-helpers.ts::upsertMaterial) cho MỌI model trong
- * file này, dùng CHUNG 1 helper thay vì lặp lại findUnique+upsert+
- * logDataSyncChange 15 lần — cả 15 model dưới đây đều theo đúng 1 khuôn
- * `upsert({where, create, update})` với `update` = `create` bỏ field
- * khoá, nên gộp logic chung an toàn (không phải suy đoán, đã đọc hết cả
- * 15 hàm gốc trước khi viết helper này).
- *
- * `whereKey` linh hoạt "id" hoặc "name" vì 2 model (ElementInfo, Rarity)
- * dùng `name` làm khoá chính thay vì `id`.
+ * Xử lý danh sách theo lô song song có kiểm soát để tăng tốc tối đa
  */
+async function processBatch<T>(
+  items: T[],
+  handler: (item: T) => Promise<void>,
+  batchSize = 25
+): Promise<void> {
+  for (let i = 0; i < items.length; i += batchSize) {
+    const chunk = items.slice(i, i + batchSize);
+    await Promise.all(chunk.map(handler));
+  }
+}
+
 async function upsertRawWithAudit(params: {
-  // `any` có chủ đích — ĐÃ THỬ THAY BẰNG GENERIC (2026-09-22) và xác nhận
-  // KHÔNG chạy được thật, không phải đoán: TypeScript báo lỗi cụ thể ở 7/15
-  // model (Food, Geography, Namecard, Outfit, Rarity, Talent, Windglider) vì
-  // `findUnique`/`upsert` của Prisma dùng generic có ràng buộc riêng từng
-  // model (`SelectSubset<T, FoodFindUniqueArgs>`...) — không unify được với
-  // 1 interface chung dù cấu trúc runtime giống hệt nhau. Đây là giới hạn đã
-  // biết khi viết wrapper generic quanh Prisma Client delegate mà không có
-  // codegen hỗ trợ riêng. File này vốn đã dùng `any` rộng rãi (readRaw() trả
-  // `any[]`) nên không phải giảm mức an toàn kiểu so với phần còn lại của
-  // file.
   model: any;
   whereKey: string;
   whereValue: string;
-  /** Payload ĐẦY ĐỦ (gồm cả field khoá) — helper tự bỏ field khoá ra khỏi `update`. */
   data: Record<string, unknown>;
   entityType: string;
 }): Promise<void> {
@@ -68,14 +57,6 @@ async function upsertRawWithAudit(params: {
   });
 }
 
-/**
- * Chuẩn hoá trường "source" (nguồn nhận được vật phẩm) về dạng chuỗi đơn.
- * Bản genshin-db mới đổi định dạng trường này từ string -> string[] cho
- * namecard/material (mỗi phần tử là 1 nguồn, vd quest khác nhau) — Prisma
- * schema (String?) không chấp nhận thẳng array nên phải join lại. Vẫn xử lý
- * được cả 2 dạng (string cũ, string[] mới) để không vỡ khi genshin-db đổi
- * định dạng lần nữa.
- */
 function normalizeSource(source: unknown): string | null {
   if (source == null) return null;
   if (Array.isArray(source)) {
@@ -100,9 +81,6 @@ function readRaw(folder: string): any[] {
   }
 }
 
-// Ép id gốc (thường là number bên genshin-db) về string để khớp @id String
-// của mọi model mới. Với vài folder không có field `id` sẵn (elements,
-// rarity), dùng `name` làm khóa thay thế.
 function toIdString(value: unknown, fallback: string): string {
   if (value === null || value === undefined || value === "") return fallback;
   return String(value);
@@ -110,7 +88,7 @@ function toIdString(value: unknown, fallback: string): string {
 
 async function seedAchievementGroups() {
   const items = readRaw("achievementgroups");
-  for (const item of items) {
+  await processBatch(items, async (item) => {
     const id = toIdString(item.id, item.name);
     await upsertRawWithAudit({
       model: prisma.achievementGroup,
@@ -119,13 +97,13 @@ async function seedAchievementGroups() {
       data: { id, name: item.name, sortOrder: item.sortOrder ?? null, version: item.version ?? null, raw: item },
       entityType: "achievementGroup",
     });
-  }
+  });
   console.log(`  📦 AchievementGroup: ${items.length}`);
 }
 
 async function seedAchievements() {
   const items = readRaw("achievements");
-  for (const item of items) {
+  await processBatch(items, async (item) => {
     const id = toIdString(item.id, item.name);
     await upsertRawWithAudit({
       model: prisma.achievement,
@@ -142,13 +120,13 @@ async function seedAchievements() {
       },
       entityType: "achievement",
     });
-  }
+  });
   console.log(`  📦 Achievement: ${items.length}`);
 }
 
 async function seedAdventureRanks() {
   const items = readRaw("adventureranks");
-  for (const item of items) {
+  await processBatch(items, async (item) => {
     const id = toIdString(item.id, item.name);
     await upsertRawWithAudit({
       model: prisma.adventureRank,
@@ -157,13 +135,13 @@ async function seedAdventureRanks() {
       data: { id, name: item.name, exp: item.exp ?? null, raw: item },
       entityType: "adventureRank",
     });
-  }
+  });
   console.log(`  📦 AdventureRank: ${items.length}`);
 }
 
 async function seedAnimals() {
   const items = readRaw("animals");
-  for (const item of items) {
+  await processBatch(items, async (item) => {
     const id = toIdString(item.id, item.name);
     await upsertRawWithAudit({
       model: prisma.animal,
@@ -179,13 +157,13 @@ async function seedAnimals() {
       },
       entityType: "animal",
     });
-  }
+  });
   console.log(`  📦 Animal: ${items.length}`);
 }
 
 async function seedConstellationsRaw() {
   const items = readRaw("constellations");
-  for (const item of items) {
+  await processBatch(items, async (item) => {
     const id = toIdString(item.id, item.name);
     await upsertRawWithAudit({
       model: prisma.constellation,
@@ -194,13 +172,13 @@ async function seedConstellationsRaw() {
       data: { id, name: item.name, raw: item },
       entityType: "constellation",
     });
-  }
+  });
   console.log(`  📦 Constellation (raw): ${items.length}`);
 }
 
 async function seedCrafts() {
   const items = readRaw("crafts");
-  for (const item of items) {
+  await processBatch(items, async (item) => {
     const id = toIdString(item.id, item.name);
     await upsertRawWithAudit({
       model: prisma.craft,
@@ -216,13 +194,13 @@ async function seedCrafts() {
       },
       entityType: "craft",
     });
-  }
+  });
   console.log(`  📦 Craft: ${items.length}`);
 }
 
 async function seedElements() {
   const items = readRaw("elements");
-  for (const item of items) {
+  await processBatch(items, async (item) => {
     await upsertRawWithAudit({
       model: prisma.elementInfo,
       whereKey: "name",
@@ -230,13 +208,13 @@ async function seedElements() {
       data: { name: item.name, type: item.type ?? null, archon: item.archon ?? null, raw: item },
       entityType: "elementInfo",
     });
-  }
+  });
   console.log(`  📦 ElementInfo: ${items.length}`);
 }
 
 async function seedEnemies() {
   const items = readRaw("enemies");
-  for (const item of items) {
+  await processBatch(items, async (item) => {
     const id = toIdString(item.id, item.name);
     await upsertRawWithAudit({
       model: prisma.enemy,
@@ -254,13 +232,13 @@ async function seedEnemies() {
       },
       entityType: "enemy",
     });
-  }
+  });
   console.log(`  📦 Enemy: ${items.length}`);
 }
 
 async function seedFoods() {
   const items = readRaw("foods");
-  for (const item of items) {
+  await processBatch(items, async (item) => {
     const id = toIdString(item.id, item.name);
     await upsertRawWithAudit({
       model: prisma.food,
@@ -276,13 +254,13 @@ async function seedFoods() {
       },
       entityType: "food",
     });
-  }
+  });
   console.log(`  📦 Food: ${items.length}`);
 }
 
 async function seedGeographies() {
   const items = readRaw("geographies");
-  for (const item of items) {
+  await processBatch(items, async (item) => {
     const id = toIdString(item.id, item.name);
     await upsertRawWithAudit({
       model: prisma.geography,
@@ -299,13 +277,13 @@ async function seedGeographies() {
       },
       entityType: "geography",
     });
-  }
+  });
   console.log(`  📦 Geography: ${items.length}`);
 }
 
 async function seedNamecards() {
   const items = readRaw("namecards");
-  for (const item of items) {
+  await processBatch(items, async (item) => {
     const id = toIdString(item.id, item.name);
     await upsertRawWithAudit({
       model: prisma.namecard,
@@ -314,13 +292,13 @@ async function seedNamecards() {
       data: { id, name: item.name, source: normalizeSource(item.source), version: item.version ?? null, raw: item },
       entityType: "namecard",
     });
-  }
+  });
   console.log(`  📦 Namecard: ${items.length}`);
 }
 
 async function seedOutfits() {
   const items = readRaw("outfits");
-  for (const item of items) {
+  await processBatch(items, async (item) => {
     const id = toIdString(item.id, item.name);
     await upsertRawWithAudit({
       model: prisma.outfit,
@@ -337,13 +315,13 @@ async function seedOutfits() {
       },
       entityType: "outfit",
     });
-  }
+  });
   console.log(`  📦 Outfit: ${items.length}`);
 }
 
 async function seedRarity() {
   const items = readRaw("rarity");
-  for (const item of items) {
+  await processBatch(items, async (item) => {
     await upsertRawWithAudit({
       model: prisma.rarity,
       whereKey: "name",
@@ -351,13 +329,13 @@ async function seedRarity() {
       data: { name: item.name, raw: item },
       entityType: "rarity",
     });
-  }
+  });
   console.log(`  📦 Rarity: ${items.length}`);
 }
 
 async function seedTalentsRaw() {
   const items = readRaw("talents");
-  for (const item of items) {
+  await processBatch(items, async (item) => {
     const id = toIdString(item.id, item.name);
     await upsertRawWithAudit({
       model: prisma.talent,
@@ -366,13 +344,13 @@ async function seedTalentsRaw() {
       data: { id, name: item.name, raw: item },
       entityType: "talent",
     });
-  }
+  });
   console.log(`  📦 Talent (raw): ${items.length}`);
 }
 
 async function seedWindgliders() {
   const items = readRaw("windgliders");
-  for (const item of items) {
+  await processBatch(items, async (item) => {
     const id = toIdString(item.id, item.name);
     await upsertRawWithAudit({
       model: prisma.windglider,
@@ -387,7 +365,7 @@ async function seedWindgliders() {
       },
       entityType: "windglider",
     });
-  }
+  });
   console.log(`  📦 Windglider: ${items.length}`);
 }
 

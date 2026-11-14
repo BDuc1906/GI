@@ -6,14 +6,25 @@ import { logDataSyncChange } from "../lib/audit-diff";
 const require = createRequire(import.meta.url);
 const genshindb = require("genshin-db") as typeof import("genshin-db");
 
+async function processBatch<T>(
+  items: T[],
+  handler: (item: T) => Promise<void>,
+  batchSize = 20
+): Promise<void> {
+  for (let i = 0; i < items.length; i += batchSize) {
+    const chunk = items.slice(i, i + batchSize);
+    await Promise.all(chunk.map(handler));
+  }
+}
+
 export async function seedArtifacts(): Promise<void> {
   const names = genshindb.artifacts("names", { matchCategories: true }) as string[];
   let count = 0;
 
-  for (const name of names) {
+  await processBatch(names, async (name) => {
     try {
       const a = genshindb.artifacts(name) as any;
-      if (!a || !a.name) continue;
+      if (!a || !a.name) return;
 
       // Lấy danh sách độ sao và loại bỏ các giá trị lỗi NaN
       const rarityRange: number[] = Array.isArray(a.rarityList)
@@ -88,6 +99,6 @@ export async function seedArtifacts(): Promise<void> {
     } catch (err) {
       console.warn(`⚠ Skipped artifact set "${name}":`, (err as Error).message);
     }
-  }
+  }, 20);
   console.log(`✔ Seeded ${count} artifact sets`);
 }
