@@ -15,6 +15,7 @@ import { AgentControlPanel } from "@/features/admin/AgentControlPanel";
 import { DataHealth, type FixScanSummary } from "@/features/admin/DataHealth";
 import { RecentActivity } from "@/features/admin/RecentActivity";
 import { SwarmOpsDashboard } from "@/features/admin/SwarmOpsDashboard";
+import { DataOpsSwarmDashboard } from "@/features/admin/DataOpsSwarmDashboard";
 
 const ADMIN_KEY_STORAGE = "leibo_admin_key";
 
@@ -138,6 +139,11 @@ export default function AdminPage() {
             </h2>
           </div>
           <StatsCards latestStatus={latestStatus} />
+        </div>
+
+        {/* AI Agent Continuous DataOps Pipeline (A2A Swarm) */}
+        <div className="mb-8">
+          <DataOpsSwarmDashboard adminKey={adminKey} />
         </div>
 
         {/* AI Agent Swarm Autonomous Site Operations */}
