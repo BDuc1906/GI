@@ -297,7 +297,7 @@ export async function runPublishingStep(params?: {
       });
       auditLogged = true;
     }
-  } catch (err) {
+  } catch {
     // Audit log bảng có thể chưa khởi tạo trong test
   }
 

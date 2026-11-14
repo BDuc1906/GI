@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { resolveVersionBackgroundArt, getVersionTheme, VERSION_KEY_ART_MAP, VERSION_THEMES } from "@/core/game/version-art";
+import { resolveVersionBackgroundArt, getVersionTheme, VERSION_THEMES } from "@/core/game/version-art";
 
 describe("version-art", () => {
   it("resolves official version key art for mapped versions", () => {

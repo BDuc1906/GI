@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
-import type { ContinuousDataOpsReport, DataOpsStepResult } from "@/agent/swarm/data-ops-swarm";
+import type { ContinuousDataOpsReport } from "@/agent/swarm/data-ops-swarm";
 
 interface DataOpsSwarmDashboardProps {
   adminKey?: string;
@@ -46,8 +46,32 @@ export function DataOpsSwarmDashboard({ adminKey }: DataOpsSwarmDashboardProps) 
   }, []);
 
   useEffect(() => {
-    fetchStatus();
-  }, [fetchStatus]);
+    let ignore = false;
+    async function init() {
+      try {
+        const res = await fetch("/api/admin/data-ops/pipeline");
+        const json = await res.json();
+        if (!ignore) {
+          if (!res.ok || !json.success) {
+            throw new Error(json?.error?.message || "Không thể tải báo cáo pipeline DataOps");
+          }
+          setReport(json.data);
+        }
+      } catch (err) {
+        if (!ignore) {
+          setError(err instanceof Error ? err.message : String(err));
+        }
+      } finally {
+        if (!ignore) {
+          setLoading(false);
+        }
+      }
+    }
+    init();
+    return () => {
+      ignore = true;
+    };
+  }, []);
 
   async function handleTriggerPipeline() {
     try {

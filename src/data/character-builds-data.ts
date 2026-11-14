@@ -118,95 +118,98 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
   // Cryo Sword
   ayaka: {
     weapons: [
-      { weaponId: "mistsplitter-reforged", tier: "S", noteVi: "Tốt nhất - Elemental DMG 3 stack rất mạnh" },
-      { weaponId: "haran-geppaku-futsu", tier: "A", noteVi: "CRIT Rate 66.2% + Skill DMG Bonus" },
-      { weaponId: "primordial-jade-cutter", tier: "A", noteVi: "CR 44.1% sub rất ổn" },
-      { weaponId: "amenoma-kageuchi", tier: "B", noteVi: "Tốt nhất F2P - ER passive hữu ích" },
-      { weaponId: "favonius-sword", tier: "B", noteVi: "Support build - tạo energy cho team" },
+      { weaponId: "mistsplitter-reforged", tier: "S", noteVi: "Ánh Sương Đêm Sương Mù - Trấn tối thượng của Ayaka, CRIT DMG 44.1% và buff tới 28-40% Sát Thương Nguyên Tố Băng" },
+      { weaponId: "haran-geppaku-futsu", tier: "S", noteVi: "Haran Geppaku Futsu - CRIT Rate 33.1% và tăng 12% sát thương nguyên tố Băng" },
+      { weaponId: "primordial-jade-cutter", tier: "S", noteVi: "Bàn Nham Kết Lục - 44.1% CRIT Rate cực lớn và tăng tấn công theo HP" },
+      { weaponId: "amenoma-kageuchi", tier: "S", noteVi: "Đoản Đao Amenoma R5 - Vũ khí rèn F2P số 1, giải quyết triệt để vấn đề sạc nạp Q 80 năng lượng" },
+      { weaponId: "finale-of-the-deep", tier: "A", noteVi: "Đoản Đao Hải Uyên - Kiếm rèn Fontaine tăng lượng lớn ATK% qua cơ chế Khế Ước Sinh Mệnh" },
+      { weaponId: "the-black-sword", tier: "A", noteVi: "Kiếm Đen - CRIT Rate và tăng 40% sát thương Trọng Kích ở R5" },
     ],
     artifacts: [
-      { setIds: ["blizzard-strayer"], mode: "4pc", priority: 1, noteVi: "CR +40% khi địch đóng băng - bá đạo với Freeze team" },
-      { setIds: ["blizzard-strayer", "noblesse-oblige"], mode: "2+2", priority: 2, noteVi: "Nếu không đủ CRIT để dùng 4pc hiệu quả" },
+      { setIds: ["blizzard-strayer"], mode: "4pc", priority: 1, noteVi: "Dũng Sĩ Băng Giá 4 món - Tăng 15% Cryo DMG và nhận tới 40% CRIT Rate khi kẻ địch bị Đóng Băng" },
+      { setIds: ["blizzard-strayer", "noblesse-oblige"], mode: "2+2", priority: 2, noteVi: "2pc Băng (+15%) + 2pc Tông Thất (+20% Nộ) - Lựa chọn tạm thời nếu chưa farm đủ bộ 4pc" },
     ],
     mainStats: {
-      sands: "ATK%",
-      goblet: "Cryo DMG%",
-      circlet: "CRIT DMG (vì 4pc Blizzard cho +40% CR)",
-      note: "Với 4pc Blizzard Strayer + Cryo resonance + Freeze: CR cộng thêm 40%+15%, dùng CD circlet. Không có Freeze team thì CR circlet.",
+      sands: "Tấn công (ATK%)",
+      goblet: "Sát thương Băng (Cryo DMG%)",
+      circlet: "Sát thương Bạo Kích (CRIT DMG)",
+      note: "Nhờ hiệu ứng 40% CRIT Rate từ bộ 4 Dũng Sĩ Băng Giá và 15% từ Cộng Hưởng Băng, Ayaka chỉ cần 35-45% CRIT Rate cơ bản và dồn toàn bộ vào CRIT DMG.",
     },
     subStats: {
-      stats: ["CRIT DMG", "CRIT Rate (đủ ~60% không tính set)", "ATK%", "Energy Recharge (ER 130-140%)", "Flat ATK"],
-      note: "Freeze team với Blizzard 4pc: uu tiên CD vì CR tự động rất cao. ER 130-140% để Q liên tục (80 cost). Ayaka cần ER khá nhiều.",
+      stats: ["Sát thương Bạo Kích (CRIT DMG)", "Hiệu Quả Nạp (ER 130-140%)", "Tấn công (ATK%)", "Tỷ lệ Bạo Kích (CRIT Rate 35-45%)", "Flat ATK"],
+      note: "Đảm bảo ER từ 130-140% (hoặc cầm Amenoma R5) để chiêu Nộ Q luôn sẵn sàng mỗi rotation.",
     },
     talentPriority: {
-      order: ["Đòn thường (NA)", "Nguyên tố bùng phát (Q)", "Kỹ năng nguyên tố (E)"],
-      note: "NA là nguồn DPS chính + Dash áp Cryo. Q là sát thương bột phát lớn nhất. E ít quan trọng nhất.",
+      order: ["Nguyên tố bùng phát (Q)", "Đòn thường (NA)", "Kỹ năng nguyên tố (E)"],
+      note: "Chiêu Nộ Soumetsu chiếm trên 70% tổng sát thương chu kỳ của Ayaka (xoáy bão tuyết 20 hit). Đòn đánh thường/trọng kích nâng thứ 2.",
     },
     playstyleNoteVi:
-      "Combo: Dash (áp Cryo) -> NA spam -> Q khi đủ energy. Dash không tốn stamina khi underwater. Q của Ayaka là snowstorm 20 hit trong 5 giây rất nguy hiểm. Cần Hydro/Cryo teammate để duy trì Freeze. Kazuha group + Kokomi wet là meta.",
+      "Lướt Dash áp ấn Băng và nhận buff sát thương Băng -> Đánh thường/Trọng kích kết hợp E hất tung tích hạt nạp -> Bật Q tung bão tuyết Soumetsu dồn sát thương khổng lồ. Kết hợp hoàn hảo cùng Hydro (Furina/Kokomi/Mona) và Anemo (Kazuha/Venti) đóng băng vĩnh cửu.",
   },
 
   // Electro Polearm
   cyno: {
     weapons: [
-      { weaponId: "staff-of-homa", tier: "S", noteVi: "Tốt nhất - HP% passive cộng ATK theo HP" },
-      { weaponId: "primordial-jade-winged-spear", tier: "A", noteVi: "CRIT Rate + passive stack ATK" },
-      { weaponId: "deathmatch", tier: "A", noteVi: "CR 36.8% sub - dùng solo hiệu quả" },
-      { weaponId: "the-catch", tier: "B", noteVi: "Tốt nhất F2P - ER + Q DMG bonus" },
-      { weaponId: "blackcliff-pole", tier: "B", noteVi: "CD sub, ok nếu có" },
+      { weaponId: "staff-of-the-scarlet-sands", tier: "S", noteVi: "Trượng Cát Đỏ - Trấn phái tối thượng của Cyno, 44.1% CRIT Rate và chuyển hóa tới 136% EM thành chỉ số Tấn Công" },
+      { weaponId: "primordial-jade-winged-spear", tier: "S", noteVi: "Hòa Phác Diên - CRIT Rate 22.1%, Base ATK cao và tích tầng tăng mạnh ATK cùng sát thương kỹ năng" },
+      { weaponId: "staff-of-homa", tier: "S", noteVi: "Trượng Homa - CRIT DMG 66.2% và tăng lượng lớn ATK theo HP" },
+      { weaponId: "ballad-of-the-fjords", tier: "A", noteVi: "Khúc Ca Vịnh Hẹp - 27.6% CRIT Rate và nhận tới 120-240 EM khi đội hình có từ 3 nguyên tố khác nhau" },
+      { weaponId: "deathmatch", tier: "A", noteVi: "Thương Quyết Chiến - CRIT Rate 36.8% cực ổn định và buff ATK" },
+      { weaponId: "white-tassel", tier: "A", noteVi: "Thương Trắng R5 - Vũ khí 3 sao F2P đỉnh cao, tăng tới 48% sát thương Đòn Đánh Thường trong trạng thái Q" },
     ],
     artifacts: [
-      { setIds: ["thundering-fury"], mode: "4pc", priority: 1, noteVi: "Giảm CD E 1 giây mỗi lần kích phản ứng - combo liên tục trong Q" },
-      { setIds: ["gilded-dreams"], mode: "4pc", priority: 2, noteVi: "EM cao + ATK bonus theo team vision" },
-      { setIds: ["gilded-dreams", "thundering-fury"], mode: "2+2", priority: 3, noteVi: "2pc mỗi set thay thế" },
+      { setIds: ["thundering-fury"], mode: "4pc", priority: 1, noteVi: "Như Sấm Thịnh Nộ 4 món - Giảm 1s hồi chiêu E mỗi khi kích hoạt phản ứng Lôi, cho phép E liên tục trong Q" },
+      { setIds: ["gilded-dreams"], mode: "4pc", priority: 2, noteVi: "Giấc Mộng Hoàng Kim 4 món - Cung cấp lượng lớn Tinh Thông Nguyên Tố (EM) và ATK% theo cấu trúc đội" },
+      { setIds: ["gladiator-s-finale"], mode: "4pc", priority: 3, noteVi: "Lễ Bế Mạc Của Giác Đấu Sĩ - Tăng 35% sát thương Đòn Đánh Thường NA trong trạng thái Nộ Q" },
     ],
     mainStats: {
-      sands: "ATK% hoặc EM",
-      goblet: "Electro DMG%",
+      sands: "Tinh Thông Nguyên Tố (EM) hoặc ATK%",
+      goblet: "Sát thương Lôi (Electro DMG%)",
       circlet: "CRIT Rate hoặc CRIT DMG",
-      note: "Cyno trong Quicken team: cân nhắc EM sands nếu muốn Aggravate lớn. ATK% sands nếu build DPS thuần.",
+      note: "Cyno trong đội hình Tăng Cường (Aggravate) hoặc Nở Rộ Nhanh (Quickbloom) ưu tiên Đồng Hồ EM để tối ưu cả phản ứng và nội tại Trấn.",
     },
     subStats: {
-      stats: ["CRIT Rate / CRIT DMG (1:2)", "Elemental Mastery (EM 100-200)", "ATK%", "Energy Recharge (ER >= 160%)", "Flat ATK"],
-      note: "Cyno cần ER rất cao (160%+) vì Q cost 80 và thường xuyên dùng. Aggravate team: EM quan trọng. CR/CD là uu tiên số 1.",
+      stats: ["CRIT Rate / CRIT DMG (1:2)", "Tinh Thông Nguyên Tố (EM 200-300)", "Hiệu Quả Nạp (ER 130-150%)", "Tấn công (ATK%)"],
+      note: "Cần đảm bảo đủ ER 130-150% (hoặc đi cùng Fischl pin Lôi) để Q nạp đầy liên tục vì Q tiêu tốn tới 80 năng lượng.",
     },
     talentPriority: {
       order: ["Nguyên tố bùng phát (Q)", "Kỹ năng nguyên tố (E)", "Đòn thường (NA)"],
-      note: "Trong trạng thái Q Pactsworn, tất cả đòn NA đều là Electro. Q scaling là nguồn chính. E giảm CD cho Q.",
+      note: "Chiêu Nộ Q biến hóa toàn bộ đòn đánh thành sát thương Lôi diện rộng và tăng cấp đòn E. Đòn thường NA ở ngoài sân không cần nâng.",
     },
     playstyleNoteVi:
-      "Cyno đặc biệt: Q kéo dài 18 giây và mọi đòn NA trong Q đều gây Electro DMG. Trong Q, dùng E liên tục để kéo dài hiệu ứng. Cần Dendro teammate (Nahida/Baizhu) để kích Quicken/Aggravate. Không nên dùng mà không có Dendro.",
+      "Cyno thi triển Q biến thân thành Sứ Giả Dẫn Linh kéo dài 18 giây, liên tục thi triển đòn đánh thường Lôi và canh đúng thời điểm 'Mắt Judication' xuất hiện trên màn hình để nhấn E tung Nghi Thức Giác Ngộ nhân đôi sát thương. Đi cùng Nahida/Baizhu và Furina/Yelan tạo thành đội Quickbloom hủy diệt.",
   },
 
   // Cryo Claymore
   eula: {
     weapons: [
-      { weaponId: "beacon-of-the-reed-sea", tier: "S", noteVi: "Tốt nhất - ATK + HP stack và Physical DMG" },
-      { weaponId: "wolf-s-gravestone", tier: "A", noteVi: "ATK% cao + party ATK buff" },
-      { weaponId: "redhorn-stonethresher", tier: "A", noteVi: "DEF% + NA/CA DMG bonus - ok nếu co" },
-      { weaponId: "serpent-spine", tier: "A", noteVi: "Tốt nhất 4-star BP - CRIT Rate + stack DMG" },
-      { weaponId: "skyward-pride", tier: "B", noteVi: "ER + Physical Blade proc 80% Physical DMG" },
+      { weaponId: "song-of-broken-pines", tier: "S", noteVi: "Tiếng Gió Trong Rừng Thông - Trấn phái của Eula, Base ATK 741 cao nhất game, tăng Physical DMG và buff 20% ATK + 12% Tốc độ đánh cho cả đội" },
+      { weaponId: "beacon-of-the-reed-sea", tier: "S", noteVi: "Hải Đăng Bờ Biển Lau - 33.1% CRIT Rate cực lớn cùng passive tăng mạnh ATK% sau khi trúng E và nhận sát thương" },
+      { weaponId: "wolf-s-gravestone", tier: "S", noteVi: "Đường Cùng Của Sói - Cung cấp chỉ số ATK% khổng lồ và buff thêm 40% ATK cho toàn đội khi địch dưới 30% HP" },
+      { weaponId: "serpent-spine", tier: "S", noteVi: "Kiếm Ly Cốt R5 - 27.6% CRIT Rate và gia tăng tới 50% toàn bộ sát thương gây ra" },
+      { weaponId: "snow-tombed-starsilver", tier: "A", noteVi: "Tuyết Vùi Tinh Ngân - Đại kiếm rèn F2P chuẩn Vật Lý, tăng sát thương Băng và rớt thạch anh tuyết" },
+      { weaponId: "tidal-shadow", tier: "A", noteVi: "Bóng Râm Thủy Triều - Đại kiếm rèn Fontaine tăng tới 48% ATK ở R5 mỗi khi nhận hồi máu" },
     ],
     artifacts: [
-      { setIds: ["pale-flame"], mode: "4pc", priority: 1, noteVi: "E proc mỗi hit - stack full ATK+Physical trong Q" },
-      { setIds: ["pale-flame", "bloodstained-chivalry"], mode: "2+2", priority: 2, noteVi: "2pc Physical mỗi set = +50% Physical DMG" },
+      { setIds: ["pale-flame"], mode: "4pc", priority: 1, noteVi: "Lửa Trắng Xám 4 món - Tích tầng hoàn hảo qua kỹ năng E, mang lại 50% Sát Thương Vật Lý và 18% Tấn Công ATK" },
+      { setIds: ["pale-flame", "bloodstained-chivalry"], mode: "2+2", priority: 2, noteVi: "2pc Lửa Trắng Xám + 2pc Kỵ Sĩ Đạo Nhuốm Máu - Nhận ngay 50% Sát Thương Vật Lý cố định không cần tích tầng" },
     ],
     mainStats: {
-      sands: "ATK%",
-      goblet: "Physical DMG%",
-      circlet: "CRIT Rate hoặc CRIT DMG",
-      note: "Eula build Physical hoàn toàn. Pale Flame 4pc khi E hit -> +9% ATK x2 stacks. Physical DMG% Goblet là bắt buộc.",
+      sands: "Tấn công (ATK%)",
+      goblet: "Sát thương Vật Lý (Physical DMG%)",
+      circlet: "Tỷ lệ Bạo Kích (CRIT Rate) hoặc Sát thương Bạo Kích (CRIT DMG)",
+      note: "Eula thuần túy là chủ lực Vật Lý. Ly Sát Thương Vật Lý (Physical DMG%) và Đồng Hồ ATK% là sự lựa chọn bắt buộc.",
     },
     subStats: {
-      stats: ["CRIT Rate / CRIT DMG (1:2)", "ATK%", "Energy Recharge (ER 140-160%)", "Flat ATK", "DEF% (ít cần)"],
-      note: "Eula Q cost 80 và cần dùng liên tục nên ER 140%+ quan trọng. Pale Flame 4pc full stack cho +18% ATK + +50% Physical.",
+      stats: ["CRIT Rate / CRIT DMG (1:2)", "Tấn công (ATK%)", "Hiệu Quả Nạp (ER 130-150%)", "Flat ATK"],
+      note: "Kiếm Ánh Sáng của chiêu Nộ Q chỉ nổ 1 lần duy nhất, nên cần duy trì CRIT Rate tối thiểu 65-75% để không bị hụt bạo kích.",
     },
     talentPriority: {
       order: ["Nguyên tố bùng phát (Q)", "Đòn thường (NA)", "Kỹ năng nguyên tố (E)"],
-      note: "Q là nguồn sát thương chính (Lightfall Sword). NA + E tạo Grimheart stacks và chia sẻ Physical bonus. E không scale nhiều.",
+      note: "Chiêu Nộ Q (Kiếm Ánh Sáng) tạo ra vụ nổ sát thương vật lý hàng triệu điểm. Đòn đánh thường NA của Eula có tỷ lệ sát thương rất cao.",
     },
     playstyleNoteVi:
-      "Q tạo Lightfall Sword, tích lũy stacks trong 7 giây rồi phát nổ Physical DMG cực lớn. Combo: E (2 charges) + Q + NA spam + E lại để max stacks trước khi Q hết hạn. Dùng Superconduct (Cryo + Electro) để giảm Physical RES 40%. Fischl + Eula là combo tốt.",
+      "Combo chu kỳ nộ chuẩn của Eula: Nhấn E -> Q -> Đánh thường 4 đòn (N4) -> Giữ E tung 2 mảnh kiếm băng hạ kháng -> Tiếp tục đánh thường N4 tích tối đa tầng Kiếm Ánh Sáng rồi bộc phá. Luôn kết hợp cùng Lôi (Raiden Shogun/Fischl) để kích Siêu Dẫn giảm 40% kháng vật lý của kẻ địch.",
   },
 
   // Hydro Sword
@@ -341,33 +344,34 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
   // Dendro Catalyst
   nahida: {
     weapons: [
-      { weaponId: "kagura-s-verity", tier: "S", noteVi: "Tốt nhất - Elemental Skill stack DMG bonus tuyệt vời" },
-      { weaponId: "a-thousand-floating-dreams", tier: "S", noteVi: "Signature - EM + team EM buff, tốt không kém" },
-      { weaponId: "solar-pearl", tier: "A", noteVi: "CR + NA DMG và Skill DMG bonus tốt" },
-      { weaponId: "the-widsith", tier: "A", noteVi: "Random buff mạnh khi switch-in" },
-      { weaponId: "mappa-mare", tier: "B", noteVi: "Tốt nhất F2P - EM 110 sub + passive EM stack" },
+      { weaponId: "a-thousand-floating-dreams", tier: "S", noteVi: "Cõi Mộng Ngàn Đêm - Trấn phái tối thượng của Nahida, EM 265 cực lớn, tăng sát thương nguyên tố cá nhân và buff EM cho toàn bộ đồng đội" },
+      { weaponId: "kagura-s-verity", tier: "S", noteVi: "Chân Ý Của Kagura - CRIT DMG 66.2% và buff tối đa 36% sát thương Kỹ Năng Nguyên Tố E cho Nahida đứng sân" },
+      { weaponId: "sacrificial-fragments", tier: "S", noteVi: "Mảnh Chương Tế Lễ - EM 221 cực cao, giúp reset hồi chiêu E ngay lập tức khi đánh trúng kẻ địch mới xuất hiện" },
+      { weaponId: "wandering-evenstar", tier: "A", noteVi: "Sao Đêm Dạo Bước - Tăng EM và chuyển hóa EM thành chỉ số Tấn Công buff cho cả Nahida lẫn đồng đội" },
+      { weaponId: "the-widsith", tier: "A", noteVi: "Chương Nhạc Lang Thang - Sát thương bạo kích lớn và các khúc nhạc buff bộc phá cực mạnh" },
+      { weaponId: "magic-guide", tier: "A", noteVi: "Tóm Tắt Ma Thuật R5 - Lựa chọn 3 sao F2P đỉnh cao, cung cấp 187 EM và tăng 24% sát thương lên kẻ địch dính ấn Thủy/Lôi" },
     ],
     artifacts: [
-      { setIds: ["deepwood-memories"], mode: "4pc", priority: 1, noteVi: "Bắt buộc nếu không có ai khác giảm Dendro RES -30%" },
-      { setIds: ["gilded-dreams"], mode: "4pc", priority: 2, noteVi: "Khi team đã có Deepwood: EM + ATK theo team composition" },
-      { setIds: ["deepwood-memories", "gilded-dreams"], mode: "2+2", priority: 3, noteVi: "2pc mỗi bộ thay thế" },
+      { setIds: ["deepwood-memories"], mode: "4pc", priority: 1, noteVi: "Ký Ức Rừng Sâu 4 món - Giảm 30% kháng Thảo của kẻ địch, bắt buộc phải có ít nhất 1 người trong đội hình mang set này" },
+      { setIds: ["gilded-dreams"], mode: "4pc", priority: 2, noteVi: "Giấc Mộng Hoàng Kim 4 món - Khi đồng đội khác đã mang Ký Ức Rừng Sâu, set này giúp Nahida tối đa hóa lượng EM cá nhân lên mốc 1000" },
+      { setIds: ["deepwood-memories", "gilded-dreams"], mode: "2+2", priority: 3, noteVi: "2pc Thảo (+15% ST Thảo) + 2pc EM (+80 Tinh Thông) - Lựa chọn kết hợp chỉ số hoàn hảo" },
     ],
     mainStats: {
-      sands: "EM (Elemental Mastery)",
-      goblet: "Dendro DMG% hoặc EM",
-      circlet: "CRIT Rate hoặc EM",
-      note: "Nahida DPS/Reaction: EM 3 slots để max Spread/Bloom/Hyperbloom. Nếu direct DPS: CR/CD + Dendro DMG%. EM 1000+ cho Reaction build.",
+      sands: "Tinh Thông Nguyên Tố (EM)",
+      goblet: "Tinh Thông Nguyên Tố (EM) hoặc Sát thương Thảo (Dendro DMG%)",
+      circlet: "Tinh Thông Nguyên Tố (EM) hoặc CRIT Rate / CRIT DMG",
+      note: "Mục tiêu quan trọng nhất là đạt mốc 800-1000 Tinh Thông Nguyên Tố (EM). Nếu chơi On-field đứng sân, có thể chọn Ly Sát Thương Thảo và Nón Bạo Kích.",
     },
     subStats: {
-      stats: ["Elemental Mastery (EM >= 800)", "CRIT Rate / CRIT DMG", "ATK%", "Energy Recharge (ER 130-140%)", "Flat ATK"],
-      note: "Nahida A1/A4 passive dựa vào EM và Q timer. EM quan trọng nhất cho Reaction team. CR/CD nếu direct Dendro DPS.",
+      stats: ["Tinh Thông Nguyên Tố (EM đến 800-1000)", "CRIT Rate / CRIT DMG (1:2)", "Hiệu Quả Nạp (ER 120-130%)", "Tấn công (ATK%)"],
+      note: "Thiên phú cố định của Nahida chuyển hóa EM thành tối đa 24% CRIT Rate và 80% sát thương cho đòn Diệt Tịnh Tam Nghiệp.",
     },
     talentPriority: {
       order: ["Kỹ năng nguyên tố (E)", "Nguyên tố bùng phát (Q)", "Đòn thường (NA)"],
-      note: "E All Schemes to Know là nguồn sát thương chính (seed DMG mỗi 2.5s). Q buff team và tăng EM. NA ít quan trọng.",
+      note: "Kỹ năng E (Lắng Nghe Tri Kiền) liên kết kẻ địch và gây sát thương Diệt Tịnh Tam Nghiệp là 90% sát thương của Nahida. Q buff EM toàn đội.",
     },
     playstyleNoteVi:
-      "E: Hold để select enemies và apply Dendro marker. Seed gây DMG mỗi 2.5 giây và kích phản ứng. Q: buff team theo Hydro/Electro/Pyro trong đội. A1 passive: EM/ATK/CR của Nahida tăng theo team. Đặc biệt mạnh làm buffer/reaction trigger off-field.",
+      "Giữ E lia một vòng liên kết tối đa 8 mục tiêu, sau đó nộ Q dựng nên Cung Điện Maya tăng tới 250 EM cho đồng đội đứng sân. Dấu ấn E sẽ liên tục kích hoạt gây sát thương Thảo mỗi khi kẻ địch chịu phản ứng nguyên tố hoặc hạt Nở Rộ.",
   },
 
   // Geo Claymore
@@ -499,33 +503,35 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
   // Anemo Polearm
   xiao: {
     weapons: [
-      { weaponId: "staff-of-homa", tier: "S", noteVi: "Tốt nhất - HP% + passive ATK khi HP thấp (Xiao thường < 50%)" },
-      { weaponId: "primordial-jade-winged-spear", tier: "S", noteVi: "Stack ATK passive khi hit - rất phù hợp Plunge spam" },
-      { weaponId: "calamity-queller", tier: "A", noteVi: "ATK% cao sau Q + off-field stack" },
-      { weaponId: "blackcliff-pole", tier: "A", noteVi: "CD sub-stat tốt sau kill" },
-      { weaponId: "favonius-lance", tier: "B", noteVi: "ER support nhưng Xiao không cần nhiều" },
+      { weaponId: "primordial-jade-winged-spear", tier: "S", noteVi: "Hòa Phác Diên - Trấn phái kinh điển của Xiao, Base ATK 674, CRIT Rate 22.1% và tích tối đa 7 tầng tăng 22.4% ATK + 12% toàn bộ sát thương khi cắm kích liên tục" },
+      { weaponId: "staff-of-homa", tier: "S", noteVi: "Trượng Homa - CRIT DMG 66.2% cực lớn và nhận thêm lượng ATK khổng lồ khi Xiao tự rút máu xuống dưới 50% HP" },
+      { weaponId: "calamity-queller", tier: "A", noteVi: "Hủy Diệt - Base ATK 741 cao nhất game và tăng mạnh sát thương nguyên tố Phong" },
+      { weaponId: "deathmatch", tier: "A", noteVi: "Thương Quyết Chiến - CRIT Rate 36.8% cực kỳ ổn định cho F2P/Vé Tháng" },
+      { weaponId: "blackcliff-pole", tier: "A", noteVi: "Thương Hắc Nham - Sát thương bạo kích CRIT DMG 55.1% hữu dụng mua từ Cửa Hàng Tinh Trần" },
+      { weaponId: "favonius-lance", tier: "B", noteVi: "Thương Tây Phong - Giải pháp sạc nạp F2P giúp Xiao luôn sẵn sàng nộ mỗi chu kỳ" },
     ],
     artifacts: [
-      { setIds: ["vermillion-hereafter"], mode: "4pc", priority: 1, noteVi: "ATK stack sau Q - tương tác hoàn hảo khi HP giảm" },
-      { setIds: ["desert-pavilion-chronicle"], mode: "4pc", priority: 2, noteVi: "Anemo DMG + Plunge DMG bonus sau Charged Attack" },
-      { setIds: ["viridescent-venerer", "vermillion-hereafter"], mode: "2+2", priority: 3, noteVi: "Anemo DMG + ATK% thay thế" },
+      { setIds: ["vermillion-hereafter"], mode: "4pc", priority: 1, noteVi: "Dư Âm Tế Lễ 4 món - Trấn thánh di vật riêng của Xiao, tăng tới 66% ATK khi Xiao mất máu liên tục trong chiêu Nộ Q" },
+      { setIds: ["marechaussee-hunter"], mode: "4pc", priority: 2, noteVi: "Thợ Săn Marechaussee 4 món - Tăng thẳng 36% CRIT Rate nhờ cơ chế tự tụt máu khi Xiao dậm nhảy (cực mạnh khi kẹp cùng Furina)" },
+      { setIds: ["desert-pavilion-chronicle"], mode: "4pc", priority: 3, noteVi: "Sử Ký Đình Các Sa Mạc 4 món - Tăng 15% Anemo DMG và 40% sát thương đòn Tấn Công Khi Rơi (Plunge)" },
+      { setIds: ["viridescent-venerer", "gladiator-s-finale"], mode: "2+2", priority: 4, noteVi: "2pc Phong (+15%) + 2pc ATK (+18%) - Bộ ghép quốc dân dễ kiếm với chỉ số phụ cực đẹp" },
     ],
     mainStats: {
-      sands: "ATK%",
-      goblet: "Anemo DMG%",
+      sands: "Tấn công (ATK%)",
+      goblet: "Sát thương Phong (Anemo DMG%) hoặc ATK%",
       circlet: "CRIT Rate hoặc CRIT DMG",
-      note: "Xiao Plunge DPS: ATK% sands. Anemo DMG% goblet bắt buộc vì Q convert NA -> Plunge Anemo. CR/CD 1:2 chuẩn.",
+      note: "Nếu dùng bộ Thợ Săn Marechaussee, Xiao đã có sẵn 36% CRIT Rate nên hãy ưu tiên Nón CRIT DMG. Cần đảm bảo ER 120-135% khi đi cùng Faruzan/Xianyun.",
     },
     subStats: {
-      stats: ["CRIT Rate / CRIT DMG (1:2)", "ATK%", "Energy Recharge (ER 140-160%)", "Flat ATK", "Elemental Mastery (EM nhỏ)"],
-      note: "Xiao Q drain HP liên tục trong 15 giây. ER 140%+ để Q liên tục. CRIT là uu tiên số 1. Xianyun làm Plunge buff rất mạnh.",
+      stats: ["CRIT Rate / CRIT DMG (1:2)", "Tấn công (ATK%)", "Hiệu Quả Nạp (ER 120-135%)", "Flat ATK"],
+      note: "Tập trung đẩy CRIT DMG lên 200%+ và duy trì CRIT Rate từ 70-85% để mọi cú dậm nhảy cắm kích đều nổ sát thương cực đại.",
     },
     talentPriority: {
       order: ["Đòn thường (NA)", "Nguyên tố bùng phát (Q)", "Kỹ năng nguyên tố (E)"],
-      note: "NA (Plunge Attack trong Q) là nguồn DPS chính. Q tăng DMG +5% mỗi stack và convert NA. E tạo energy và blink.",
+      note: "Đòn đánh thường NA quyết định tỷ lệ sát thương của Đòn Đánh Khi Rơi (Plunge) nên là ưu tiên số 1. Nâng Q để tăng hệ số chuyển hóa sát thương Phong. E nâng sau cùng.",
     },
     playstyleNoteVi:
-      "Q Bane of All Evil: tăng Plunge DMG, convert NA -> Anemo Plunge, drain HP. Combo: E x2 (energy) -> Q -> Plunge spam từ trên cao. Xianyun makes Xiao meta vì tăng Plunge DMG +200% và free heal. Faruzan giảm Anemo RES 30%.",
+      "Trước khi bật Q, tung 2 lần E lướt chém vào địch rồi nổ Q ngay lập tức để húp trọn hạt nguyên tố nạp. Trong trạng thái Mặt Nạ Dạ Xoa, Xiao dậm nhảy lên không trung và cắm kích liên tục (High Plunge). Đội hình tối thượng hiện tại là Xiao + Faruzan C6 + Xianyun + Furina.",
   },
 
   // Hydro Bow
@@ -1368,33 +1374,35 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
   // Xilonen: Geo support heal + RES shred — Sword
   xilonen: {
     weapons: [
-      { weaponId: "peak-patrol-song", tier: "S", noteVi: "Signature: DEF% + heal + Elemental RES shred — hoàn hảo cho Xilonen" },
-      { weaponId: "primordial-jade-cutter", tier: "A", noteVi: "CR + HP% passive — heal mạnh hơn" },
-      { weaponId: "festering-desire", tier: "A", noteVi: "Skill DMG + ER — tốt nhất 4-star" },
-      { weaponId: "favonius-sword", tier: "B", noteVi: "ER + energy cho team — budget support" },
-      { weaponId: "sacrificial-sword", tier: "B", noteVi: "ER + E reset — ok nếu cần E nhiều hơn" },
+      { weaponId: "peak-patrol-song", tier: "S", noteVi: "Bài Ca Tuần Đỉnh - Trấn phái tối thượng của Xilonen, DEF% cực cao, tăng mạnh phòng thủ và buff tới 25.6% Sát Thương Nguyên Tố cho toàn đội" },
+      { weaponId: "favonius-sword", tier: "S", noteVi: "Kiếm Tây Phong - Lựa chọn hỗ trợ chuẩn mực nhất, sạc năng lượng dồi dào cho Xilonen và toàn bộ đội hình" },
+      { weaponId: "flute-of-ezpitzal", tier: "S", noteVi: "Ống Sáo Của Ezpitzal - Đơn kiếm rèn Natlan F2P tốt nhất, tăng tới 69% DEF sau khi thi triển Kỹ Năng Nguyên Tố" },
+      { weaponId: "uraku-misugiri", tier: "A", noteVi: "Kiếm Uraku - Tăng DEF% và sát thương bạo kích CRIT DMG cho build Xilonen Sub-DPS" },
+      { weaponId: "cinnabar-spindle", tier: "A", noteVi: "Thoi Băng Chân Nhuận - Cung cấp 69% DEF khổng lồ cho các kỹ năng scale theo Phòng Thủ" },
+      { weaponId: "sacrificial-sword", tier: "B", noteVi: "Kiếm Tế Lễ - Hỗ trợ nạp ER và reset hồi chiêu E" },
     ],
     artifacts: [
-      { setIds: ["scroll-of-the-hero-of-cinder-city"], mode: "4pc", priority: 1, noteVi: "Signature set Xilonen: buff Elemental DMG team khi Crystallize — cực mạnh" },
-      { setIds: ["noblesse-oblige"], mode: "4pc", priority: 2, noteVi: "ATK team buff 20% sau Q" },
-      { setIds: ["maiden-beloved"], mode: "4pc", priority: 3, noteVi: "Healing Bonus +15%+20% — nếu ưu tiên heal hơn buff" },
+      { setIds: ["scroll-of-the-hero-of-cinder-city"], mode: "4pc", priority: 1, noteVi: "Bí Cảnh Dũng Sĩ Tro Tàn 4 món - Trấn thánh di vật tối thượng, buff tới 40% sát thương nguyên tố tương ứng cho cả đội trong 20s" },
+      { setIds: ["husk-of-opulent-dreams"], mode: "4pc", priority: 2, noteVi: "Giấc Mộng Phù Hoa 4 món - Tối ưu lượng Phòng Thủ DEF% và tăng cường tối đa khả năng hồi máu của chiêu Q" },
+      { setIds: ["instructor"], mode: "4pc", priority: 3, noteVi: "Giáo Quan 4 món - Hỗ trợ tăng 120 Tinh Thông Nguyên Tố cho toàn đội hình trong các team phản ứng Bốc Hơi / Tan Chảy" },
+      { setIds: ["noblesse-oblige"], mode: "4pc", priority: 4, noteVi: "Nghi Thức Tông Thất Cổ - Buff 20% ATK cho toàn đội sau khi dùng Q" },
     ],
     mainStats: {
-      sands: "HP% hoặc ER%",
-      goblet: "HP%",
-      circlet: "Healing Bonus hoặc HP%",
-      note: "Xilonen support heal + shred: HP% để max heal scale. ER% nếu thiếu năng lượng. Healing Bonus circlet tốt nhất thuần support. Scroll 4pc active khi Crystallize.",
+      sands: "Phòng thủ (DEF%) hoặc Hiệu Quả Nạp (ER)",
+      goblet: "Phòng thủ (DEF%) hoặc Sát thương Nham (Geo DMG%)",
+      circlet: "Tăng Trị Liệu (Healing Bonus), DEF% hoặc CRIT Rate (khi cầm Tây Phong)",
+      note: "Xilonen tỷ lệ thuận hoàn toàn theo Phòng thủ (DEF) để hồi máu, tăng cường khả năng sống còn và kích hoạt hiệu ứng vũ khí trấn. Đảm bảo ER từ 150-180% nếu không cầm Kiếm Tây Phong.",
     },
     subStats: {
-      stats: ["Energy Recharge (ER 180%+)", "HP%", "Flat HP", "DEF%", "CRIT Rate (nếu hybrid)"],
-      note: "Xilonen ưu tiên ER để Q liên tục (cost 70). HP% tăng heal. DEF% để sống dai. Scroll 4pc: khi tạo Crystallize, buff Elemental DMG cho team theo nguyên tố Crystallize.",
+      stats: ["Phòng thủ (DEF%)", "Hiệu Quả Nạp (ER 160-180%)", "Tỷ lệ Bạo Kích (CRIT Rate kích Tây Phong)", "DEF phẳng"],
+      note: "Xilonen là hỗ trợ đa năng hàng đầu: vừa giảm 36% kháng nguyên tố Hỏa/Thủy/Băng/Lôi của kẻ địch, vừa kích hoạt buff 40% DMG từ bộ Dũng Sĩ Tro Tàn và hồi phục lượng máu lớn theo DEF.",
     },
     talentPriority: {
       order: ["Kỹ năng nguyên tố (E)", "Nguyên tố bùng phát (Q)", "Đòn thường (NA)"],
-      note: "E tạo Ocelot Roller shred Elemental RES địch. Q heal + Geo aura. E level cao = shred nhiều hơn. NA ít quan trọng.",
+      note: "Kỹ năng E (Vũ Điệu Samac) giảm 36% kháng nguyên tố của kẻ địch theo Mẫu Ghi Âm Dạ Hồn là ưu tiên nâng tối đa. Chiêu Nộ Q hồi máu toàn đội theo DEF. Đòn thường NA không cần nâng.",
     },
     playstyleNoteVi:
-      "Xilonen E tạo Ocelot Roller shred Elemental RES địch (Pyro/Cryo/Hydro/Electro). Q heal team và Geo aura. Scroll 4pc: Crystallize tạo ra buff Elemental DMG cho team. Tối ưu với đội Pyro/Cryo/Hydro có Zhongli tạo Crystallize liên tục. Không cần vào field nhiều — on-field ngắn E+Q rồi swap.",
+      "Xilonen vào sân bấm E kích Dạ Hồn, đánh thường NA 2 lần để kích hoạt Mẫu Ghi Âm giảm 36% kháng nguyên tố của địch, sau đó bật Q hồi máu diện rộng rồi đổi sang chủ lực dồn sát thương. Bộ Dũng Sĩ Tro Tàn sẽ kích hoạt buff 40% sát thương nguyên tố cho toàn đội trong suốt 20 giây.",
   },
 
   // ─── Geo Polearm ───────────────────────────────────────────────────────────
@@ -1402,33 +1410,33 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
   // Kachina: Geo Sub-DPS off-field — Polearm
   kachina: {
     weapons: [
-      { weaponId: "staff-of-homa", tier: "S", noteVi: "HP% + passive DMG khi HP thấp — tốt nhất polearm" },
-      { weaponId: "primordial-jade-winged-spear", tier: "A", noteVi: "CRIT Rate + stack passive ATK" },
-      { weaponId: "missive-windspear", tier: "B", noteVi: "ATK% + EM buff sau reaction — tốt craft" },
-      { weaponId: "favonius-lance", tier: "B", noteVi: "ER + energy cho team" },
-      { weaponId: "black-tassel", tier: "C", noteVi: "HP% 3-star — budget nếu build HP" },
+      { weaponId: "footprint-of-the-rainbow", tier: "S", noteVi: "Dấu Chân Cầu Vồng - Vũ khí cán dài rèn Natlan trấn F2P cho Kachina, tăng tới 51.7% DEF và nhận thêm 32% DEF sau khi dùng E" },
+      { weaponId: "favonius-lance", tier: "S", noteVi: "Thương Tây Phong - Cung cấp lượng lớn hạt năng lượng trắng hỗ trợ sạc Nộ cho toàn đội" },
+      { weaponId: "dialogues-of-the-desert-sages", tier: "A", noteVi: "Đối Thoại Hiền Giả Sa Mạc - Cung cấp chỉ số Hiệu Quả Nạp và hồi phục năng lượng hữu ích" },
+      { weaponId: "deathmatch", tier: "A", noteVi: "Thương Quyết Chiến - CRIT Rate 36.8% và tăng thêm DEF% khi đối đầu với từ 2 kẻ địch trở lên" },
+      { weaponId: "the-catch", tier: "B", noteVi: "Lao Câu Cá - Tăng Hiệu Quả Nạp ER và bạo kích cho chiêu Nộ Q" },
     ],
     artifacts: [
-      { setIds: ["husk-of-opulent-dreams"], mode: "4pc", priority: 1, noteVi: "DEF% + Geo DMG stack off-field — nếu Kachina scale DEF" },
-      { setIds: ["golden-troupe"], mode: "4pc", priority: 2, noteVi: "Elemental Skill DMG +70% khi off-field" },
-      { setIds: ["archaic-petra", "husk-of-opulent-dreams"], mode: "2+2", priority: 3, noteVi: "Geo DMG + DEF thay thế" },
+      { setIds: ["scroll-of-the-hero-of-cinder-city"], mode: "4pc", priority: 1, noteVi: "Bí Cảnh Dũng Sĩ Tro Tàn 4 món - Kachina kích hoạt Dạ Hồn dễ dàng nhất để buff tới 40% sát thương nguyên tố cho chủ lực (Mualani, Kinich, Navia...)" },
+      { setIds: ["husk-of-opulent-dreams"], mode: "4pc", priority: 2, noteVi: "Giấc Mộng Phù Hoa 4 món - Tối ưu lượng DEF% và Geo DMG nếu build Kachina gây sát thương Nham ngoài sân" },
+      { setIds: ["golden-troupe"], mode: "4pc", priority: 3, noteVi: "Đoàn Kịch Hoàng Kim 4 món - Tăng tới 70% sát thương kỹ năng E của Turbo Twirly từ ngoài sân" },
     ],
     mainStats: {
-      sands: "ATK% hoặc DEF%",
-      goblet: "Geo DMG%",
-      circlet: "CRIT Rate hoặc CRIT DMG",
-      note: "Kachina Geo polearm: tùy kit scale ATK hay DEF, check ingame. Geo DMG% goblet. CRIT circlet 1:2.",
+      sands: "Phòng thủ (DEF%) hoặc Hiệu Quả Nạp (ER)",
+      goblet: "Sát thương Nham (Geo DMG%) hoặc Phòng thủ (DEF%)",
+      circlet: "CRIT Rate (kích Tây Phong), CRIT DMG hoặc DEF%",
+      note: "Toàn bộ sát thương Turbo Twirly và độ bền khiên Kết Tinh của Kachina đều tính theo Phòng Thủ (DEF). Duy trì ER 130-150% để luôn sẵn sàng nộ.",
     },
     subStats: {
-      stats: ["CRIT Rate / CRIT DMG (1:2)", "ATK%", "DEF%", "Energy Recharge (ER 140%+)", "Flat ATK"],
-      note: "ER để Q liên tục. Geo Resonance (+15% DMG khi shield). Team 2+ Geo tối ưu.",
+      stats: ["Phòng thủ (DEF%)", "Tỷ lệ Bạo Kích (CRIT Rate kích Tây Phong)", "Hiệu Quả Nạp (ER 130-150%)", "DEF phẳng", "Sát thương Bạo Kích (CRIT DMG)"],
+      note: "Ưu tiên DEF% và CRIT Rate để kích hoạt Thương Tây Phong sạc năng lượng mượt mà cho toàn đội.",
     },
     talentPriority: {
       order: ["Kỹ năng nguyên tố (E)", "Nguyên tố bùng phát (Q)", "Đòn thường (NA)"],
-      note: "E off-field Geo DMG là DPS chính. Q buff và Geo aura. NA ít quan trọng khi off-field.",
+      note: "Kỹ năng E triệu hồi Turbo Twirly gây sát thương Nham ngoài sân và kích hoạt Dạ Hồn là quan trọng nhất. Q tạo sàn đấu Nham mở rộng phạm vi. NA không cần nâng.",
     },
     playstyleNoteVi:
-      "Kachina Geo off-field sub-DPS. E tạo construct Geo off-field. Q tạo Geo field buff. Geo Resonance (2+ Geo char) +15% DMG và giảm Geo RES địch. Kết hợp với Gorou hoặc Zhongli để buff.",
+      "Kachina vào sân nhấn E thả Turbo Twirly độc lập ra sân (không cần cưỡi), thi triển Q tạo sàn đấu rồi swap ngay lập tức sang chủ lực. Cơ chế Dạ Hồn kích hoạt lập tức mang lại 40% sát thương nguyên tố cho đồng đội thông qua bộ Dũng Sĩ Tro Tàn.",
   },
 
   // Yun Jin: Geo Normal Attack flat DMG buffer — Polearm
