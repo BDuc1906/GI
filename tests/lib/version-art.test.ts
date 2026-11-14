@@ -11,8 +11,8 @@ describe("version-art", () => {
   });
 
   it("resolves Snezhnaya key visual for 7.x versions", () => {
-    const art = resolveVersionBackgroundArt("7.1");
-    expect(art).toBe("/images/versions/7.2.jpg");
+    expect(resolveVersionBackgroundArt("7.1")).toBe("/images/versions/7.1.jpg");
+    expect(resolveVersionBackgroundArt("7.9")).toBe("/images/versions/7.2.jpg");
   });
 
   it("falls back to default version cover if no version matches", () => {

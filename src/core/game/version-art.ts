@@ -16,10 +16,21 @@
 export const VERSION_KEY_ART_MAP: Record<string, string> = {
   // ── 7.x Snezhnaya / Nod-Krai ──
   "7.2": "/images/versions/7.2.jpg", // Official Version 7.2 Key Visual (Hour of Ruin)
-  "7.1": "/images/versions/7.2.jpg", // Snezhnaya default key art
-  "7.0": "/images/versions/7.2.jpg", // Snezhnaya default key art
+  "7.1": "/images/versions/7.1.jpg", // Official Version 7.1 Key Visual (Where Kristall Roots Run Deep)
+  "7.0": "/images/versions/7.0.jpg", // Official Version 7.0 Key Visual (A Traveler on a Winter's Night)
+
+  // ── 6.x Luna / Khaenri'ah Arc ──
+  "6.7": "/images/versions/6.7.jpg",
+  "6.6": "/images/versions/6.6.jpg",
+  "6.5": "/images/versions/6.5.jpg",
+  "6.4": "/images/versions/6.4.jpg",
+  "6.3": "/images/versions/6.3.jpg",
+  "6.2": "/images/versions/6.2.jpg", // Song of the Welkin Moon - Columbina
+  "6.1": "/images/versions/6.1.jpg", // Song of the Welkin Moon - Harbingers
+  "6.0": "/images/versions/6.0.jpg", // 5-Year Anniversary - 7 Archons Key Visual
 
   // ── 5.x Natlan ──
+  "5.8": "/images/versions/5.8.jpg",
   "5.4": "/images/versions/5.4.jpg", // Embrace of Enchanting Dreams
   "5.3": "/images/versions/5.3.jpg", // Incandescent Ode of Resurrection
   "5.2": "/images/versions/5.2.jpg", // Tapestry of Spirit and Flame
@@ -75,8 +86,18 @@ export const VERSION_KEY_ART_MAP: Record<string, string> = {
 export const VERSION_THEMES: Record<string, { vi: string; en: string }> = {
   // 7.x
   "7.2": { vi: "Giờ Khắc Diệt Vong", en: "Hour of Ruin" },
-  "7.1": { vi: "Vũ Điệu Băng Tuyết", en: "The Winter Queen's Waltz" },
-  "7.0": { vi: "Khúc Ca Snezhnaya", en: "The Snezhnayan Prelude" },
+  "7.1": { vi: "Nơi Gốc Rễ Pha Lê Lan Rộng", en: "Where Kristall Roots Run Deep" },
+  "7.0": { vi: "Lữ Khách Đêm Đông", en: "A Traveler on a Winter's Night" },
+
+  // 6.x
+  "6.7": { vi: "Khúc Ca Băng Giá", en: "The Frozen Symphony" },
+  "6.6": { vi: "Bóng Đêm Sắp Tàn", en: "Twilight of the Eclipse" },
+  "6.5": { vi: "Hồi Ức Khaenri'ah", en: "Echoes of the Underground" },
+  "6.4": { vi: "Tiếng Gió Phương Bắc", en: "The Northerly Wind" },
+  "6.3": { vi: "Màn Đêm Tỉnh Giấc", en: "Waking the Starlit Sleep" },
+  "6.2": { vi: "Bài Ca Chúc Phúc Của Mặt Trăng II", en: "Song of the Welkin Moon II" },
+  "6.1": { vi: "Bài Ca Chúc Phúc Của Mặt Trăng I", en: "Song of the Welkin Moon I" },
+  "6.0": { vi: "Khúc Hát Năm Thứ 5 — Bảy Vị Thần Tụ Hội", en: "5th Anniversary — Gathering of the Seven" },
 
   // 5.x
   "5.4": { vi: "Giấc Mộng Mê Đắm", en: "Embrace of Enchanting Dreams" },
@@ -153,10 +174,16 @@ export function resolveVersionBackgroundArt(
     return VERSION_KEY_ART_MAP[version];
   }
 
-  // 2. Với các phiên bản thuộc arc 7.x hoặc 6.x chưa có key visual riêng
+  // 2. Với các phiên bản chưa có key visual riêng trong map
   const major = version.split(".")[0];
   if (major === "7") {
     return "/images/versions/7.2.jpg";
+  }
+  if (major === "6") {
+    return "/images/versions/6.1.jpg";
+  }
+  if (major === "5") {
+    return "/images/versions/5.4.jpg";
   }
 
   // 3. Fallback mặc định

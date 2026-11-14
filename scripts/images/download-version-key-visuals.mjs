@@ -14,6 +14,16 @@ fs.mkdirSync(OUT_DIR, { recursive: true });
 
 // Bản đồ tên file Splashscreen trên Genshin Fandom theo từng phiên bản
 const VERSION_FILES = {
+  // 7.x Snezhnaya
+  "7.2": ["File:Splashscreen_Hour_of_Ruin.png"],
+  "7.1": ["File:Splashscreen_Where_Kristall_Roots_Run_Deep.png"],
+  "7.0": ["File:Splashscreen_A_Traveler_on_a_Winter's_Night.png"],
+
+  // 6.x Luna Arc
+  "6.2": ["File:Version_Luna_III_Wallpaper_1.png"],
+  "6.1": ["File:Version_Luna_II_Wallpaper_1.png"],
+  "6.0": ["File:Version_Luna_I_Wallpaper_3.png"],
+
   // 5.x Natlan
   "5.4": ["File:Version_5.4_Wallpaper_1.png", "File:Splashscreen_Embrace_of_Enchanting_Dreams.png", "File:Version_5.4_Special_Program_Announcement_1.png"],
   "5.3": ["File:Splashscreen_Incandescent_Ode_of_Resurrection.png", "File:Version_5.3_Wallpaper_1.png"],
