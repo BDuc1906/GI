@@ -272,6 +272,109 @@ const CANONICAL_VARIANTS: Record<string, RawTeamBlueprint[]> = {
       resonancesVi: ["Kiên Định (+15% Sát Thương)"],
     },
   ],
+
+  // --- Phiên bản 7.2 & Snezhnaya ---
+  mitya: [
+    {
+      nameVi: "Lôi Thảo Tăng Cường (Mitya Aggravate Hypercarry)",
+      situationVi: "Kích hoạt Tăng Cường liên tục giữa đòn đánh Pháp Khí hệ Lôi của Mitya và ấn Thảo của Nahida, khuếch đại sát thương cực lớn.",
+      archetypeVi: "Tăng Cường (Aggravate / Quicken)",
+      teammateIds: ["nahida", "fischl", "kazuha"],
+      teammateRoles: ["Hỗ trợ (Buffer)", "Phụ sát thương (Sub-DPS)", "Hỗ trợ (Buffer)"],
+      reactionsVi: ["Tăng Cường (Aggravate)", "Lan Truyền", "Khuếch Tán Lôi"],
+      resonancesVi: ["Năng Lượng (+Hạt Lôi)"],
+    },
+    {
+      nameVi: "Điện Cảm Siêu Sạc (Mitya Electro-Charged Furina)",
+      situationVi: "Sát thương dồn dập giữa trường điện từ của Mitya và thú cưng Thủy của Furina, càn quét La Hoàn đông quái.",
+      archetypeVi: "Điện Cảm (Electro-Charged)",
+      teammateIds: ["furina", "yelan", "baizhu"],
+      teammateRoles: ["Phụ sát thương (Sub-DPS)", "Phụ sát thương (Sub-DPS)", "Hồi máu (Healer)"],
+      reactionsVi: ["Điện Cảm", "Nở Rộ", "Siêu Nở Rộ"],
+      resonancesVi: ["Trị Liệu (+25% Max HP)"],
+    },
+    {
+      nameVi: "Lôi Hỏa Quá Tải Chevreuse (Mitya Overload)",
+      situationVi: "Chevreuse giảm 40% kháng Lôi và Hỏa, Mitya đứng sân xả sấm sét bùng nổ diệt Boss.",
+      archetypeVi: "Quá Tải (Overload)",
+      teammateIds: ["chevreuse", "xiangling", "bennett"],
+      teammateRoles: ["Hỗ trợ (Buffer)", "Phụ sát thương (Sub-DPS)", "Hồi máu (Healer)"],
+      reactionsVi: ["Quá Tải (x2.75)"],
+      resonancesVi: ["Nhiệt Huyết (+25% ATK)"],
+    },
+  ],
+
+  valeriy: [
+    {
+      nameVi: "Song Lôi Tác Chiến Tăng Cường (Clorinde Valeriy Aggravate)",
+      situationVi: "Valeriy hỗ trợ nạp và cấp ấn Lôi bổ trợ cho Clorinde hoặc Keqing, giữ vững nhịp độ tác chiến.",
+      archetypeVi: "Tăng Cường (Aggravate)",
+      teammateIds: ["clorinde", "nahida", "kazuha"],
+      teammateRoles: ["Chủ lực (DPS)", "Hỗ trợ (Buffer)", "Hỗ trợ (Buffer)"],
+      reactionsVi: ["Tăng Cường", "Sinh Trưởng", "Khuếch Tán"],
+      resonancesVi: ["Năng Lượng (+Hạt Lôi)"],
+    },
+    {
+      nameVi: "Tiểu Đoàn Quá Tải Snezhnaya (Valeriy Overload)",
+      situationVi: "Phối hợp cùng Chevreuse và Raiden Shogun kích hoạt Quá Tải giảm kháng liên tục.",
+      archetypeVi: "Quá Tải (Overload)",
+      teammateIds: ["raiden-shogun", "chevreuse", "bennett"],
+      teammateRoles: ["Chủ lực (DPS)", "Hỗ trợ (Buffer)", "Hồi máu (Healer)"],
+      reactionsVi: ["Quá Tải (x2.75)"],
+      resonancesVi: ["Nhiệt Huyết (+25% ATK)"],
+    },
+    {
+      nameVi: "Quốc Dân Sạc Năng Lượng (Valeriy National Support)",
+      situationVi: "Valeriy cầm Kiếm Tây Phong nạp năng lượng liên tục cho Xiangling và Xingqiu xả chiêu nộ.",
+      archetypeVi: "Điện Cảm / Bốc Hơi / Quá Tải",
+      teammateIds: ["xiangling", "xingqiu", "bennett"],
+      teammateRoles: ["Phụ sát thương (Sub-DPS)", "Phụ sát thương (Sub-DPS)", "Hồi máu (Healer)"],
+      reactionsVi: ["Bốc Hơi (x1.5)", "Điện Cảm", "Quá Tải"],
+      resonancesVi: ["Nhiệt Huyết (+25% ATK)"],
+    },
+  ],
+
+  vesna: [
+    {
+      nameVi: "Bão Kiếm Snezhnaya (Vesna Anemo Hypercarry)",
+      situationVi: "Tối đa hóa sát thương Phong nguyên chất của Vesna với sự hỗ trợ của Faruzan và Furina.",
+      archetypeVi: "Thuần Phong (Anemo Hypercarry)",
+      teammateIds: ["faruzan", "furina", "xianyun"],
+      teammateRoles: ["Hỗ trợ (Buffer)", "Phụ sát thương (Sub-DPS)", "Hồi máu (Healer)"],
+      reactionsVi: ["Khuếch Tán Thủy"],
+      resonancesVi: ["Nhanh Nhẹn (-Tiêu Hao Thể Lực, +Tốc Chạy)"],
+    },
+    {
+      nameVi: "Khuếch Tán Quốc Dân (Vesna National Driver)",
+      situationVi: "Vesna cầm kiếm bọc gió gom quái và kích hoạt Khuếch Tán liên hoàn cho Xiangling và Xingqiu.",
+      archetypeVi: "Khuếch Tán / Bốc Hơi",
+      teammateIds: ["xiangling", "xingqiu", "bennett"],
+      teammateRoles: ["Phụ sát thương (Sub-DPS)", "Phụ sát thương (Sub-DPS)", "Hồi máu (Healer)"],
+      reactionsVi: ["Khuếch Tán", "Bốc Hơi (x1.5)"],
+      resonancesVi: ["Nhiệt Huyết (+25% ATK)"],
+    },
+  ],
+
+  vodyanitsa: [
+    {
+      nameVi: "Thủy Triều Snezhnaya (Vodyanitsa Hydro DPS)",
+      situationVi: "Vodyanitsa tận dụng tối đa buff Náo Nhiệt của Furina và giảm kháng Thủy của Kazuha để dồn sát thương cực hạn.",
+      archetypeVi: "Thuần Thủy / Khuếch Tán",
+      teammateIds: ["furina", "kazuha", "baizhu"],
+      teammateRoles: ["Phụ sát thương (Sub-DPS)", "Hỗ trợ (Buffer)", "Hồi máu (Healer)"],
+      reactionsVi: ["Khuếch Tán Thủy", "Nở Rộ"],
+      resonancesVi: ["Trị Liệu (+25% Max HP)"],
+    },
+    {
+      nameVi: "Bốc Hơi Ca Kịch (Vodyanitsa Vaporize)",
+      situationVi: "Vodyanitsa tạo ấn Thủy liên tục kích hoạt Bốc Hơi cực mạnh cùng vòng lửa của Xiangling.",
+      archetypeVi: "Bốc Hơi (Vaporize)",
+      teammateIds: ["xiangling", "bennett", "kazuha"],
+      teammateRoles: ["Phụ sát thương (Sub-DPS)", "Hồi máu (Healer)", "Hỗ trợ (Buffer)"],
+      reactionsVi: ["Bốc Hơi (x2.0)", "Khuếch Tán Hỏa/Thủy"],
+      resonancesVi: ["Nhiệt Huyết (+25% ATK)"],
+    },
+  ],
 };
 
 /**
@@ -404,29 +507,127 @@ function generateDynamicVariants(
     ];
   }
 
-  // Mặc định cho Lôi, Băng, Phong, Nham
-  const sub1 = getTop(v === "Cryo" ? "Hydro" : v === "Electro" ? "Dendro" : "Pyro", []);
-  const sub2 = getTop(v === "Geo" ? "Geo" : "Anemo", []);
-  const healer = getTop("Pyro", []) ?? getTop("Hydro", []);
+  if (v === "Electro") {
+    const dendro1 = getTop("Dendro", []);
+    const anemo1 = getTop("Anemo", []);
+    const electroBattery = getTop("Electro", []);
+    const hydro1 = getTop("Hydro", []);
+    const pyroChevreuse = charactersByVision.get("Pyro")?.find((c) => c.id === "chevreuse") ?? getTop("Pyro", []);
+    const chevreuseId = pyroChevreuse?.id ?? "chevreuse";
+    const pyroBuffer = getTop("Pyro", [chevreuseId]);
+
+    return [
+      {
+        nameVi: "Biến thể 1: Lôi Thảo Tăng Cường (Aggravate)",
+        situationVi: "Kích hoạt phản ứng Tăng Cường gia tăng sát thương Lôi bộc phát liên tục.",
+        archetypeVi: "Tăng Cường (Aggravate / Quicken)",
+        teammateIds: [dendro1?.id ?? "nahida", electroBattery?.id ?? "fischl", anemo1?.id ?? "kazuha"],
+        teammateRoles: ["Hỗ trợ (Buffer)", "Phụ sát thương (Sub-DPS)", "Hỗ trợ (Buffer)"],
+        reactionsVi: ["Tăng Cường", "Sinh Trưởng", "Khuếch Tán Lôi"],
+        resonancesVi: ["Năng Lượng (+Hạt Lôi)"],
+      },
+      {
+        nameVi: "Biến thể 2: Điện Cảm Siêu Sạc (Electro-Charged)",
+        situationVi: "Sát thương Lôi và Thủy giật lan diện rộng dọn dẹp các phòng đông quái nhanh chóng.",
+        archetypeVi: "Điện Cảm (Electro-Charged)",
+        teammateIds: [hydro1?.id ?? "furina", electroBattery?.id ?? "fischl", anemo1?.id ?? "kazuha"],
+        teammateRoles: ["Phụ sát thương (Sub-DPS)", "Phụ sát thương (Sub-DPS)", "Hỗ trợ (Buffer)"],
+        reactionsVi: ["Điện Cảm", "Khuếch Tán Lôi/Thủy"],
+        resonancesVi: ["Năng Lượng (+Hạt Lôi)"],
+      },
+      {
+        nameVi: "Biến thể 3: Lôi Hỏa Quá Tải Chevreuse (Overload)",
+        situationVi: "Giảm 40% kháng Lôi và Hỏa, sát thương phá khiên và đẩy lùi kẻ địch hạng nặng.",
+        archetypeVi: "Quá Tải (Overload)",
+        teammateIds: [chevreuseId, pyroBuffer?.id ?? "bennett", electroBattery?.id ?? "fischl"],
+        teammateRoles: ["Hỗ trợ (Buffer)", "Hồi máu (Healer)", "Phụ sát thương (Sub-DPS)"],
+        reactionsVi: ["Quá Tải (x2.75)"],
+        resonancesVi: ["Nhiệt Huyết (+25% ATK)"],
+      },
+    ];
+  }
+
+  if (v === "Cryo") {
+    const hydro1 = getTop("Hydro", []);
+    const anemo1 = getTop("Anemo", []);
+    const cryoSupport = getTop("Cryo", []);
+    const pyro1 = getTop("Pyro", []);
+    const pyroBuffer = getTop("Pyro", [pyro1?.id ?? ""]);
+
+    return [
+      {
+        nameVi: "Biến thể 1: Đóng Băng Vĩnh Cửu (Permafrost Freeze)",
+        situationVi: "Khống chế cứng kẻ địch cơ động cao, nhận thêm 15% Tỉ Lệ Bạo Kích và an toàn tối đa.",
+        archetypeVi: "Đóng Băng (Frozen)",
+        teammateIds: [hydro1?.id ?? "furina", anemo1?.id ?? "kazuha", cryoSupport?.id ?? "shenhe"],
+        teammateRoles: ["Phụ sát thương (Sub-DPS)", "Hỗ trợ (Buffer)", "Hỗ trợ (Buffer)"],
+        reactionsVi: ["Đóng Băng", "Khuếch Tán Băng/Thủy"],
+        resonancesVi: ["Sương Giá (+15% CRIT Rate)"],
+      },
+      {
+        nameVi: "Biến thể 2: Tan Chảy Ngược (Reverse Melt)",
+        situationVi: "Nhân đôi sát thương nguyên tố Băng khi tấn công mục tiêu đính kèm ấn Hỏa.",
+        archetypeVi: "Tan Chảy (Melt)",
+        teammateIds: [pyro1?.id ?? "xiangling", pyroBuffer?.id ?? "bennett", anemo1?.id ?? "kazuha"],
+        teammateRoles: ["Phụ sát thương (Sub-DPS)", "Hồi máu (Healer)", "Hỗ trợ (Buffer)"],
+        reactionsVi: ["Tan Chảy (x1.5)", "Khuếch Tán Hỏa"],
+        resonancesVi: ["Nhiệt Huyết (+25% ATK)"],
+      },
+    ];
+  }
+
+  if (v === "Anemo") {
+    const faruzan = charactersByVision.get("Anemo")?.find((c) => c.id === "faruzan") ?? getTop("Anemo", []);
+    const faruzanId = faruzan?.id ?? "faruzan";
+    const hydro1 = getTop("Hydro", []);
+    const pyro1 = getTop("Pyro", []);
+    const pyroBuffer = getTop("Pyro", [pyro1?.id ?? ""]);
+
+    return [
+      {
+        nameVi: "Biến thể 1: Thuần Phong Siêu Cấp (Anemo Hypercarry)",
+        situationVi: "Tối đa hóa sát thương Phong nguyên chất với sự hỗ trợ giảm kháng và buff bạo kích.",
+        archetypeVi: "Thuần Phong (Anemo Hypercarry)",
+        teammateIds: [faruzanId, hydro1?.id ?? "furina", getTop("Geo", [])?.id ?? "zhongli"],
+        teammateRoles: ["Hỗ trợ (Buffer)", "Phụ sát thương (Sub-DPS)", "Bảo hộ / Khiên (Shielder)"],
+        reactionsVi: ["Khuếch Tán"],
+        resonancesVi: ["Nhanh Nhẹn (+Tốc Chạy, -Tiêu Hao Thể Lực)"],
+      },
+      {
+        nameVi: "Biến thể 2: Khuếch Tán Quốc Dân (Swirl National)",
+        situationVi: "Đứng sân gom quái và kích hoạt Khuếch Tán đa nguyên tố liên hoàn.",
+        archetypeVi: "Khuếch Tán / Bốc Hơi",
+        teammateIds: [pyro1?.id ?? "xiangling", hydro1?.id ?? "xingqiu", pyroBuffer?.id ?? "bennett"],
+        teammateRoles: ["Phụ sát thương (Sub-DPS)", "Phụ sát thương (Sub-DPS)", "Hồi máu (Healer)"],
+        reactionsVi: ["Khuếch Tán", "Bốc Hơi (x1.5)"],
+        resonancesVi: ["Nhiệt Huyết (+25% ATK)"],
+      },
+    ];
+  }
+
+  // Nham (Geo)
+  const geoSupport = getTop("Geo", []);
+  const pyro1 = getTop("Pyro", []);
+  const pyroBuffer = getTop("Pyro", [pyro1?.id ?? ""]);
 
   return [
     {
-      nameVi: "Biến thể 1: Đội Hình Tác Chiến Chủ Lực",
-      situationVi: "Tối ưu hóa khả năng gây sát thương kết hợp cùng các phản ứng nguyên tố chính.",
-      archetypeVi: "Phản Ứng Nguyên Tố Chính",
-      teammateIds: [sub1?.id ?? "xingqiu", sub2?.id ?? "kazuha", healer?.id ?? "bennett"],
-      teammateRoles: ["Phụ sát thương (Sub-DPS)", "Hỗ trợ (Buffer)", "Hồi máu (Healer)"],
-      reactionsVi: ["Phản Ứng Nguyên Tố", "Khuếch Tán"],
-      resonancesVi: ["Cộng Hưởng Đội"],
+      nameVi: "Biến thể 1: Thuần Nham Hoàng Kim (Mono Geo)",
+      situationVi: "Tối đa hóa phòng ngự và sát thương Nham nguyên chất với buff Khiên Kiên Định.",
+      archetypeVi: "Thuần Nham (Mono Geo)",
+      teammateIds: [geoSupport?.id ?? "gorou", getTop("Geo", [geoSupport?.id ?? ""])?.id ?? "zhongli", pyroBuffer?.id ?? "bennett"],
+      teammateRoles: ["Hỗ trợ (Buffer)", "Bảo hộ / Khiên (Shielder)", "Hồi máu (Healer)"],
+      reactionsVi: ["Kết Tinh Nham"],
+      resonancesVi: ["Kiên Định (+15% Sát Thương)"],
     },
     {
-      nameVi: "Biến thể 2: Đội Hình Phòng Thủ & Khiên",
-      situationVi: "Tối đa hóa khả năng sống sót trong các phòng La Hoàn quái đánh rát.",
-      archetypeVi: "Bảo Hộ Khiên",
-      teammateIds: [getTop("Geo", [])?.id ?? "zhongli", sub1?.id ?? "fischl", healer?.id ?? "bennett"],
+      nameVi: "Biến thể 2: Kết Tinh Song Hỏa (Double Geo Double Pyro)",
+      situationVi: "Cân bằng giữa phòng ngự khiên bất hoại và buff tấn công 25% ATK.",
+      archetypeVi: "Kết Tinh / Hỏa",
+      teammateIds: [geoSupport?.id ?? "zhongli", pyro1?.id ?? "xiangling", pyroBuffer?.id ?? "bennett"],
       teammateRoles: ["Bảo hộ / Khiên (Shielder)", "Phụ sát thương (Sub-DPS)", "Hồi máu (Healer)"],
-      reactionsVi: ["Kết Tinh / Bảo Hộ"],
-      resonancesVi: ["Kiên Định (+Khiên & Sát Thương)"],
+      reactionsVi: ["Kết Tinh Hỏa"],
+      resonancesVi: ["Kiên Định (+15% Sát Thương)", "Nhiệt Huyết (+25% ATK)"],
     },
   ];
 }
