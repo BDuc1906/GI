@@ -89,50 +89,56 @@ export default async function VersionDetailPage({ params, searchParams }: PagePr
       <BreadcrumbJsonLd locale={locale} items={breadcrumbItems} />
       <Breadcrumb items={breadcrumbItems} />
 
-      <header className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-bg-card via-bg-card/90 to-bg-card/40 border border-border/80 p-6 mb-6">
+      <header className="relative overflow-hidden rounded-3xl border border-white/10 p-6 sm:p-8 mb-8 min-h-[180px] sm:min-h-[220px] flex flex-col justify-end shadow-xl">
         {backgroundArt && (
           <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden select-none">
             <SafeImage
               src={backgroundArt}
               alt={`Phiên bản ${version}`}
               fill
-              className="object-cover object-right opacity-55"
+              className="object-cover object-center opacity-85"
               sizes="(max-width: 1280px) 100vw, 1280px"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-bg-card/95 via-bg-card/75 md:via-bg-card/55 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/30" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent" />
+            <div className="absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/15" />
           </div>
         )}
-        <div className="relative z-10 flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h1 className="font-display text-display-2 font-semibold text-text-primary">
+        <div className="relative z-10 flex flex-wrap items-end justify-between gap-4">
+          <div className="space-y-1">
+            <span className="text-xs font-mono font-bold tracking-widest text-accent-bright uppercase drop-shadow">
               Phiên bản {version}
+            </span>
+            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-black text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
+              {theme?.vi ?? `Cập Nhật Phiên Bản ${version}`}
             </h1>
-            {theme && (
-              <p className="text-sm font-medium text-text-secondary mt-1">
-                {theme.vi} ({theme.en})
+            {theme?.en && theme.en !== theme.vi && (
+              <p className="text-sm font-medium text-white/80 italic drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+                {theme.en}
               </p>
             )}
           </div>
-          <nav aria-label="Chuyển phiên bản" className="flex gap-2 text-sm">
+          <nav aria-label="Chuyển phiên bản" className="flex items-center gap-2 text-sm">
             {prev ? (
               <Link
                 href={`/versions/${prev}?view=${view}`}
-                className="text-text-secondary underline underline-offset-2 hover:text-accent-bright"
+                className="px-3 py-1.5 rounded-lg bg-black/60 hover:bg-black/80 border border-white/20 text-white font-semibold backdrop-blur-md transition-colors"
               >
-                ← {prev}
+                ← Bản {prev}
               </Link>
             ) : null}
             {next ? (
               <Link
                 href={`/versions/${next}?view=${view}`}
-                className="text-text-secondary underline underline-offset-2 hover:text-accent-bright"
+                className="px-3 py-1.5 rounded-lg bg-black/60 hover:bg-black/80 border border-white/20 text-white font-semibold backdrop-blur-md transition-colors"
               >
-                {next} →
+                Bản {next} →
               </Link>
             ) : null}
           </nav>
         </div>
+        <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-transparent via-accent-bright to-transparent opacity-80" />
       </header>
 
       {/* 3 chế độ xem: thêm ở bản này / đã có trước / thêm sau */}

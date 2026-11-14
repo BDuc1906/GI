@@ -1,26 +1,30 @@
 import { Link } from "@/i18n/navigation";
-import { getVersionIndex, pickEntries, type VersionEntry } from "@/core/game/versions";
+import { getVersionIndex, summarize } from "@/core/game/versions";
 import { resolveVersionBackgroundArt, getVersionTheme } from "@/core/game/version-art";
 import { SafeImage } from "@/components/ui/SafeImage";
 import { getTranslations } from "next-intl/server";
 
 /**
- * Khối "Cập Nhật Phiên Bản Genshin Impact" trên trang chủ
- * Hiển thị đầy đủ hình ảnh, icon game chuẩn và liên kết trực tiếp tới các nhân vật/vũ khí mới.
+ * Khối "Cập Nhật Phiên Bản Genshin Impact" trên trang chủ.
+ *
+ * Thiết kế chuẩn phong cách Key Visual điện ảnh:
+ * - Thẻ to (Hero Showcase) phủ kín bởi Key Visual chính thức độc quyền của phiên bản (miHoYo Special Program Livestream).
+ * - Bỏ hoàn toàn các icon nhân vật / vũ khí rải rác trên thẻ to để không che khuất background nghệ thuật.
+ * - Hiển thị tên phiên bản, tên chủ đề chính thức (Theme) và tổng số lượng nội dung mới.
+ * - Nút "Xem chi tiết bản {version}" dẫn trực tiếp vào trang chi tiết phiên bản để xem đầy đủ danh sách nhân vật, vũ khí, thánh di vật vừa cập nhật.
  */
 export async function VersionHub() {
   const t = await getTranslations("Version");
   const tHome = await getTranslations("Home");
   let latest: string | undefined;
-  let newCharacters: VersionEntry[] = [];
-  let newWeapons: VersionEntry[] = [];
+  let totalAdded = 0;
 
   try {
     const index = await getVersionIndex();
     latest = index.versions.at(-1);
     if (latest) {
-      newCharacters = pickEntries(index.entries["characters"] ?? [], latest, "added");
-      newWeapons = pickEntries(index.entries["weapons"] ?? [], latest, "added");
+      const summary = summarize(index, latest);
+      totalAdded = summary.added;
     }
   } catch {
     return null; // không để lỗi DB làm hỏng cả trang chủ
@@ -28,7 +32,7 @@ export async function VersionHub() {
 
   if (!latest) return null;
 
-  const backgroundArt = resolveVersionBackgroundArt(latest, newCharacters);
+  const backgroundArt = resolveVersionBackgroundArt(latest);
   const theme = getVersionTheme(latest);
 
   return (
@@ -49,174 +53,85 @@ export async function VersionHub() {
         </Link>
       </div>
 
-      {/* Main Version Showcase Card with Exclusive Key Art Background */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-bg-card via-bg-card/95 to-bg-elevated/60 border border-border/80 hover:border-accent-500/50 rounded-2xl p-6 transition-all shadow-sm group">
-        {/* Exclusive Version Background Art Layer */}
+      {/* Main Version Showcase Card with Full-Bleed Key Visual Wallpaper */}
+      <div className="relative overflow-hidden rounded-3xl border border-white/10 hover:border-accent-bright/50 transition-all duration-500 shadow-2xl group min-h-[300px] sm:min-h-[360px] md:min-h-[420px] flex flex-col justify-between">
+        {/* Full-bleed Official Key Visual Wallpaper */}
         {backgroundArt && (
-          <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden select-none">
+          <div className="absolute inset-0 z-0 overflow-hidden select-none pointer-events-none">
             <SafeImage
               src={backgroundArt}
               alt={`Version ${latest} Art`}
               fill
-              className="object-cover object-right md:object-right-top opacity-55 group-hover:opacity-75 group-hover:scale-105 transition-all duration-700 ease-out"
+              className="object-cover object-center opacity-85 group-hover:opacity-95 group-hover:scale-[1.03] transition-all duration-700 ease-out"
               sizes="(max-width: 1280px) 100vw, 1280px"
               priority
             />
-            {/* Cinematic dark gradients for crisp contrast and readability */}
-            <div className="absolute inset-0 bg-gradient-to-r from-bg-card/95 via-bg-card/75 md:via-bg-card/55 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-t from-bg-card via-transparent to-bg-card/30" />
+            {/* Multi-layer cinematic vignette for maximum legibility & atmosphere */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/25" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent" />
+            <div className="absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/15 group-hover:ring-white/30 transition-all" />
           </div>
         )}
 
-        <div className="relative z-10 space-y-6">
-          {/* Version banner title & stats */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div>
-              <span className="text-xs font-mono uppercase text-accent-bright tracking-wider font-semibold">
-                {tHome("versionCurrent")}
+        {/* Top badges bar */}
+        <div className="relative z-10 p-6 sm:p-8 md:p-10 pb-0 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent-bright/20 border border-accent-bright/40 text-accent-bright text-xs font-mono font-bold tracking-widest uppercase backdrop-blur-md">
+              <span className="w-2 h-2 rounded-full bg-accent-bright animate-pulse" />
+              {tHome("versionCurrent")}
+            </span>
+            {totalAdded > 0 && (
+              <span className="px-3 py-1 rounded-full bg-black/60 border border-white/15 text-white/90 text-xs font-semibold backdrop-blur-md">
+                +{totalAdded} nội dung mới
               </span>
-              <div className="flex items-baseline gap-3 flex-wrap">
-                <h3 className="font-display text-3xl sm:text-4xl font-extrabold text-text-primary mt-0.5 tracking-tight">
-                  {tHome("versionNumber", { version: latest })}
-                </h3>
-                {theme && (
-                  <span className="text-sm font-medium text-text-secondary/90 italic">
-                    — {theme.vi}
-                  </span>
-                )}
-              </div>
-            </div>
+            )}
           </div>
-
-        {/* Visual Spotlight: Newly Added Characters */}
-        {newCharacters.length > 0 && (
-          <div className="space-y-3 pt-2 border-t border-border/40">
-            <div className="flex items-center justify-between">
-              <h4 className="text-xs font-semibold text-text-secondary uppercase tracking-wider flex items-center gap-1.5">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/local-genshin-assets/ui/characters.png"
-                  alt=""
-                  width={16}
-                  height={16}
-                  className="w-4 h-4 object-contain"
-                />
-                <span>{tHome("latestCharacters")} ({newCharacters.length})</span>
-              </h4>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5">
-              {newCharacters.map((char) => (
-                <Link
-                  key={char.id}
-                  href={`/characters/${char.id}`}
-                  className="group relative flex min-h-[140px] sm:min-h-[160px] flex-col items-center justify-center rounded-2xl bg-bg-card border border-border/80 p-3.5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-accent-bright overflow-hidden active:scale-[0.98]"
-                >
-                  {/* Full Background Character Splash / Portrait */}
-                  <SafeImage
-                    src={char.iconUrl}
-                    fallbackSrcs={[char.iconUrlOriginal]}
-                    alt={char.name}
-                    fill
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 200px"
-                    className="absolute inset-0 h-full w-full object-cover opacity-90 transition-transform duration-500 ease-out group-hover:scale-110"
-                  />
-
-                  {/* Prydwen-style dark gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/30 transition-colors duration-300 group-hover:from-black/85 group-hover:via-black/50 group-hover:to-black/20" />
-                  <div className="absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/10 group-hover:ring-white/20 transition-all" />
-
-                  {/* Top Rarity Badge */}
-                  {char.meta && (
-                    <div className="absolute top-2.5 right-2.5 z-10 px-2 py-0.5 rounded-md bg-black/65 border border-white/15 backdrop-blur-md text-[11px] font-bold text-amber-400 drop-shadow">
-                      {char.meta}
-                    </div>
-                  )}
-
-                  {/* White Centered Text (Prydwen Style) */}
-                  <div className="relative z-10 flex flex-col items-center justify-center text-center w-full px-1 gap-1">
-                    <p className="font-display font-extrabold text-sm sm:text-base text-white tracking-wide group-hover:text-accent-bright transition-colors truncate max-w-full drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
-                      {char.name}
-                    </p>
-                  </div>
-
-                  {/* Glowing bottom accent line */}
-                  <div className="absolute inset-x-0 bottom-0 h-1 bg-amber-400/80 opacity-60 transition-all duration-300 group-hover:h-1.5 group-hover:opacity-100" />
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Visual Spotlight: Newly Added Weapons */}
-        {newWeapons.length > 0 && (
-          <div className="space-y-3 pt-2 border-t border-border/40">
-            <div className="flex items-center justify-between">
-              <h4 className="text-xs font-semibold text-text-secondary uppercase tracking-wider flex items-center gap-1.5">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/local-genshin-assets/ui/sword.png"
-                  alt=""
-                  width={16}
-                  height={16}
-                  className="w-4 h-4 object-contain"
-                />
-                <span>{tHome("latestWeapons")} ({newWeapons.length})</span>
-              </h4>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-              {newWeapons.map((wpn) => (
-                <Link
-                  key={wpn.id}
-                  href={`/weapons/${wpn.id}`}
-                  className="group relative flex min-h-[120px] flex-col items-center justify-center rounded-2xl bg-bg-card border border-border/80 p-3 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-accent-bright overflow-hidden active:scale-[0.98]"
-                >
-                  <SafeImage
-                    src={wpn.iconUrl}
-                    fallbackSrcs={[wpn.iconUrlOriginal]}
-                    alt={wpn.name}
-                    fill
-                    sizes="120px"
-                    className="absolute inset-0 h-full w-full object-contain p-2.5 opacity-85 transition-transform duration-500 ease-out group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-black/35 transition-colors duration-300" />
-                  <div className="absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/10" />
-
-                  {wpn.meta && (
-                    <div className="absolute top-2 right-2 z-10 px-1.5 py-0.2 rounded bg-black/60 border border-white/15 backdrop-blur-md text-[10px] font-bold text-amber-400">
-                      {wpn.meta}
-                    </div>
-                  )}
-
-                  <div className="relative z-10 text-center w-full px-1 mt-auto">
-                    <p className="font-display font-extrabold text-xs text-white group-hover:text-accent-bright transition-colors truncate drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">
-                      {wpn.name}
-                    </p>
-                  </div>
-
-                  <div className="absolute inset-x-0 bottom-0 h-1 bg-accent-bright opacity-60 transition-all duration-300 group-hover:opacity-100" />
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Action Buttons */}
-        <div className="flex flex-wrap gap-3 pt-2">
-          <Link
-            href={`/versions/${latest}`}
-            className="btn-anemo px-5 py-2.5 rounded-xl text-sm font-semibold shadow-sm inline-flex items-center gap-2"
-          >
-            <span>{tHome("versionViewDetails", { version: latest })}</span>
-            <span>&rarr;</span>
-          </Link>
-          <Link
-            href="/versions"
-            className="btn-secondary px-5 py-2.5 rounded-xl text-sm font-semibold"
-          >
-            {tHome("viewAll")}
-          </Link>
+          <span className="text-xs font-mono font-bold uppercase tracking-widest text-white/60 bg-black/40 px-2.5 py-1 rounded-md backdrop-blur-sm">
+            GENSHIN IMPACT
+          </span>
         </div>
+
+        {/* Center / Bottom Title and Actions */}
+        <div className="relative z-10 p-6 sm:p-8 md:p-10 pt-4 flex flex-col justify-end space-y-5">
+          <div className="space-y-2 max-w-2xl">
+            <span className="text-sm font-semibold tracking-wider text-accent-bright uppercase drop-shadow">
+              {tHome("versionNumber", { version: latest })}
+            </span>
+            <Link href={`/versions/${latest}`} className="group/title block">
+              <h3 className="font-display text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)] group-hover/title:text-accent-bright transition-colors">
+                {theme ? theme.vi : `Phiên bản ${latest}`}
+              </h3>
+            </Link>
+            {theme?.en && (
+              <p className="text-sm sm:text-base font-medium text-white/80 italic drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+                {theme.en}
+              </p>
+            )}
+            <p className="text-xs sm:text-sm text-white/75 max-w-xl leading-relaxed drop-shadow line-clamp-2 sm:line-clamp-none pt-1">
+              Khám phá toàn bộ nhân vật, vũ khí, thánh di vật, bí cảnh và nội dung cốt truyện mới được cập nhật trong phiên bản này.
+            </p>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex flex-wrap items-center gap-3 pt-2">
+            <Link
+              href={`/versions/${latest}`}
+              className="px-6 py-3 rounded-xl bg-accent-bright text-black font-bold text-sm sm:text-base hover:bg-accent-bright/90 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg shadow-accent-bright/25 inline-flex items-center gap-2"
+            >
+              <span>{tHome("versionViewDetails", { version: latest })}</span>
+              <span className="text-base font-black">&rarr;</span>
+            </Link>
+            <Link
+              href="/versions"
+              className="px-5 py-3 rounded-xl bg-black/60 hover:bg-black/80 border border-white/20 hover:border-white/40 text-white font-semibold text-sm sm:text-base backdrop-blur-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+            >
+              {tHome("viewAll")}
+            </Link>
+          </div>
         </div>
+
+        {/* Glowing bottom accent line */}
+        <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-transparent via-accent-bright to-transparent opacity-70 group-hover:opacity-100 group-hover:h-1.5 transition-all duration-300 shadow-[0_0_12px_var(--accent-bright)]" />
       </div>
     </section>
   );

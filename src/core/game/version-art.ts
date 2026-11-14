@@ -1,73 +1,72 @@
 /**
  * src/core/game/version-art.ts
  *
- * Quản lý Key Art / Banner nghệ thuật độc quyền theo từng phiên bản Genshin Impact.
- * Cung cấp background art cho VersionHub và trang chi tiết phiên bản /versions/[version].
+ * Quản lý Key Art / Banner nghệ thuật độc quyền chính thức theo từng phiên bản Genshin Impact.
+ * Cung cấp background art cho VersionHub, /versions và trang chi tiết phiên bản /versions/[version].
  *
- * Chiến lược phân giải ảnh (Resolution Strategy):
- * 1. Curated Key Art: Ảnh quảng bá / key art chính thức được map cho phiên bản.
- * 2. Signature 5★ Character Splash Art: Trích xuất splash art local (/local-genshin-assets/characters/splash/[id].webp)
- *    của nhân vật 5★ ra mắt trong bản đó (vd Mitya/Vesna ở 7.x, Mizuki ở 5.4, Mavuika ở 5.3, Furina ở 4.2).
- * 3. Fallback mặc định: /images/home-cards/versions.webp
+ * CHIẾN LƯỢC NGHỆ THUẬT:
+ * Sử dụng 100% hình ảnh Key Visual / Splashscreen quảng bá chính thức mỗi khi miHoYo phát sóng
+ * chương trình đặc biệt (Special Program Livestream) của từng phiên bản.
+ * KHÔNG sử dụng splash art nhân vật đơn lẻ thay thế cho background phiên bản.
  */
 
 /**
- * Bản đồ Key Art độc quyền chính thức theo từng phiên bản
+ * Bản đồ Key Art độc quyền chính thức theo từng phiên bản (miHoYo Special Program Key Visuals)
  */
 export const VERSION_KEY_ART_MAP: Record<string, string> = {
   // ── 7.x Snezhnaya / Nod-Krai ──
   "7.2": "/images/versions/7.2.jpg", // Official Version 7.2 Key Visual (Hour of Ruin)
-  "7.1": "/local-genshin-assets/characters/splash/vesna.webp",
-  "7.0": "/local-genshin-assets/characters/splash/odette.webp",
+  "7.1": "/images/versions/7.2.jpg", // Snezhnaya default key art
+  "7.0": "/images/versions/7.2.jpg", // Snezhnaya default key art
 
   // ── 5.x Natlan ──
-  "5.4": "/local-genshin-assets/characters/splash/yumemizuki-mizuki.webp",
-  "5.3": "/local-genshin-assets/characters/splash/mavuika.webp",
-  "5.2": "/local-genshin-assets/characters/splash/chasca.webp",
-  "5.1": "/local-genshin-assets/characters/splash/xilonen.webp",
-  "5.0": "/local-genshin-assets/characters/splash/mualani.webp",
+  "5.4": "/images/versions/5.4.jpg", // Embrace of Enchanting Dreams
+  "5.3": "/images/versions/5.3.jpg", // Incandescent Ode of Resurrection
+  "5.2": "/images/versions/5.2.jpg", // Tapestry of Spirit and Flame
+  "5.1": "/images/versions/5.1.jpg", // The Rainbow Destined to Burn
+  "5.0": "/images/versions/5.0.jpg", // Flowers Resplendent on the Sun-Drenched Track
 
   // ── 4.x Fontaine ──
-  "4.8": "/local-genshin-assets/characters/splash/emilie.webp",
-  "4.7": "/local-genshin-assets/characters/splash/clorinde.webp",
-  "4.6": "/local-genshin-assets/characters/splash/arlecchino.webp",
-  "4.5": "/local-genshin-assets/characters/splash/chiori.webp",
-  "4.4": "/local-genshin-assets/characters/splash/xianyun.webp",
-  "4.3": "/local-genshin-assets/characters/splash/navia.webp",
-  "4.2": "/local-genshin-assets/characters/splash/furina.webp",
-  "4.1": "/local-genshin-assets/characters/splash/neuvillette.webp",
-  "4.0": "/local-genshin-assets/characters/splash/lyney.webp",
+  "4.8": "/images/versions/4.8.jpg", // Summertide Scales and Tales
+  "4.7": "/images/versions/4.7.jpg", // An Everlasting Dream Intertwined
+  "4.6": "/images/versions/4.6.jpg", // Two Worlds Aflame, the Crimson Night's Fade
+  "4.5": "/images/versions/4.5.jpg", // Blades Weaving Betwixt the Brocade
+  "4.4": "/images/versions/4.4.jpg", // Vibrant Harriers Aloft in Spring Breeze
+  "4.3": "/images/versions/4.3.jpg", // Roses and Muskets
+  "4.2": "/images/versions/4.2.jpg", // Masquerade of the Guilty
+  "4.1": "/images/versions/4.1.jpg", // To the Stars Shining in the Depths
+  "4.0": "/images/versions/4.0.jpg", // As Light Rain Falls Without Reason
 
   // ── 3.x Sumeru ──
-  "3.8": "/local-genshin-assets/characters/splash/klee.webp",
-  "3.7": "/local-genshin-assets/characters/splash/kirara.webp",
-  "3.6": "/local-genshin-assets/characters/splash/baizhu.webp",
-  "3.5": "/local-genshin-assets/characters/splash/dehya.webp",
-  "3.4": "/local-genshin-assets/characters/splash/alhaitham.webp",
-  "3.3": "/local-genshin-assets/characters/splash/wanderer.webp",
-  "3.2": "/local-genshin-assets/characters/splash/nahida.webp",
-  "3.1": "/local-genshin-assets/characters/splash/cyno.webp",
-  "3.0": "/local-genshin-assets/characters/splash/tighnari.webp",
+  "3.8": "/images/versions/3.8.jpg", // Secret Summer Paradise
+  "3.7": "/images/versions/3.7.jpg", // Duel! The Summoners' Summit!
+  "3.6": "/images/versions/3.6.jpg", // A Parade of Providence
+  "3.5": "/images/versions/3.5.jpg", // Windblume's Breath
+  "3.4": "/images/versions/3.4.jpg", // The Exquisite Night Chimes
+  "3.3": "/images/versions/3.3.jpg", // All Senses Clear, All Existence Void
+  "3.2": "/images/versions/3.2.jpg", // Akasha Pulses, the Kalpa Flame Rises
+  "3.1": "/images/versions/3.1.jpg", // King Deshret and the Three Magi
+  "3.0": "/images/versions/3.0.jpg", // The Morn a Thousand Roses Brings
 
   // ── 2.x Inazuma ──
-  "2.8": "/local-genshin-assets/characters/splash/kaedehara-kazuha.webp",
-  "2.7": "/local-genshin-assets/characters/splash/yelan.webp",
-  "2.6": "/local-genshin-assets/characters/splash/kamisato-ayato.webp",
-  "2.5": "/local-genshin-assets/characters/splash/yae-miko.webp",
-  "2.4": "/local-genshin-assets/characters/splash/shenhe.webp",
-  "2.3": "/local-genshin-assets/characters/splash/arataki-itto.webp",
-  "2.2": "/local-genshin-assets/characters/splash/tartaglia.webp",
-  "2.1": "/local-genshin-assets/characters/splash/raiden-shogun.webp",
-  "2.0": "/local-genshin-assets/characters/splash/kamisato-ayaka.webp",
+  "2.8": "/images/versions/2.8.jpg", // Summer Fantasia
+  "2.7": "/images/versions/2.7.jpg", // Hidden Dreams in the Depths
+  "2.6": "/images/versions/2.6.jpg", // Zephyr of the Violet Garden
+  "2.5": "/images/versions/2.5.jpg", // When the Sakura Bloom
+  "2.4": "/images/versions/2.4.jpg", // Fleeting Colors in Flight
+  "2.3": "/images/versions/2.3.jpg", // Shadows Amidst Snowstorms
+  "2.2": "/images/versions/2.2.jpg", // Into the Perilous Labyrinth of Fog
+  "2.1": "/images/versions/2.1.jpg", // Floating World Under the Moonlight
+  "2.0": "/images/versions/2.0.jpg", // The Immovable God and the Eternal Euthymia
 
   // ── 1.x Mondstadt / Liyue ──
-  "1.6": "/local-genshin-assets/characters/splash/kaedehara-kazuha.webp",
-  "1.5": "/local-genshin-assets/characters/splash/eula.webp",
-  "1.4": "/local-genshin-assets/characters/splash/venti.webp",
-  "1.3": "/local-genshin-assets/characters/splash/xiao.webp",
-  "1.2": "/local-genshin-assets/characters/splash/albedo.webp",
-  "1.1": "/local-genshin-assets/characters/splash/zhongli.webp",
-  "1.0": "/local-genshin-assets/characters/splash/diluc.webp",
+  "1.6": "/images/versions/1.6.jpg", // Midsummer Island Adventure
+  "1.5": "/images/versions/1.5.jpg", // Beneath the Light of Jadeite
+  "1.4": "/images/versions/1.4.jpg", // Invitation of Windblume
+  "1.3": "/images/versions/1.3.jpg", // All That Glitters
+  "1.2": "/images/versions/1.2.jpg", // The Chalk Prince and the Dragon
+  "1.1": "/images/versions/1.1.jpg", // A New Star Approaches
+  "1.0": "/images/versions/1.0.jpg", // Welcome to Teyvat
 };
 
 /**
@@ -143,22 +142,21 @@ export function getVersionTheme(version: string): { vi: string; en: string } {
 }
 
 /**
- * Trả về đường dẫn ảnh nền độc quyền cho phiên bản tương ứng
+ * Trả về đường dẫn ảnh nền Key Visual độc quyền chính thức cho phiên bản tương ứng
  */
 export function resolveVersionBackgroundArt(
   version: string,
-  featuredCharacters: Array<{ id: string; meta?: string | null }> = []
+  _featuredCharacters: Array<{ id: string; meta?: string | null }> = []
 ): string {
-  // 1. Ưu tiên map thủ công đã kiểm định
+  // 1. Ưu tiên map Key Visual chính thức của phiên bản
   if (VERSION_KEY_ART_MAP[version]) {
     return VERSION_KEY_ART_MAP[version];
   }
 
-  // 2. Tìm nhân vật 5 sao mới nhất của phiên bản có splash local
-  const fiveStar = featuredCharacters.find((c) => c.meta?.includes("5★"));
-  const char = fiveStar ?? featuredCharacters[0];
-  if (char?.id) {
-    return `/local-genshin-assets/characters/splash/${char.id}.webp`;
+  // 2. Với các phiên bản thuộc arc 7.x hoặc 6.x chưa có key visual riêng
+  const major = version.split(".")[0];
+  if (major === "7") {
+    return "/images/versions/7.2.jpg";
   }
 
   // 3. Fallback mặc định
