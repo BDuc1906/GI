@@ -5877,6 +5877,773 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
       "Yumemizuki Mizuki (5 sao Pháp Khí hệ Phong từ Inazuma) chuyên gia ru ngủ ác mộng và trị liệu tâm lý. Đóng vai trò Driver đứng sân hoặc Hỗ Trợ Khuếch Tán giảm kháng diện rộng cực kỳ xuất sắc với bộ Bóng Hình Màu Xanh.",
   },
 
+  // ── skirk ──
+  "skirk": {
+    weapons: [
+      { weaponId: "mistsplitter-reforged", tier: "S", noteVi: "Ánh Sương Đêm Sương Mù - Trấn kiếm tối thượng, tăng 44.1% CRIT DMG và nhận tới 28-40% Sát Thương Nguyên Tố Băng" },
+      { weaponId: "uraku-misugiri", tier: "S", noteVi: "Kiếm Uraku - CRIT DMG 88.2% khổng lồ và buff mạnh sát thương đánh thường/kỹ năng" },
+      { weaponId: "primordial-jade-cutter", tier: "S", noteVi: "Bàn Nham Kết Lục - 44.1% CRIT Rate cực lớn và tăng tấn công theo lượng HP" },
+      { weaponId: "the-black-sword", tier: "A", noteVi: "Kiếm Đen - CRIT Rate 27.6% và tăng 40% sát thương đòn đánh ở R5" },
+      { weaponId: "finale-of-the-deep", tier: "A", noteVi: "Đoản Đao Hải Uyên - Đơn kiếm rèn Fontaine tăng lượng lớn ATK qua Khế Ước Sinh Mệnh" },
+      { weaponId: "amenoma-kageuchi", tier: "A", noteVi: "Đoản Đao Amenoma - Hồi năng lượng Q hữu hiệu cho lối chơi dồn sát thương" },
+    ],
+    artifacts: [
+      { setIds: ["blizzard-strayer"], mode: "4pc", priority: 1, noteVi: "Dũng Sĩ Băng Giá 4 món - Tăng 15% Cryo DMG và nhận tới 40% CRIT Rate khi kẻ địch bị Đóng Băng" },
+      { setIds: ["marechaussee-hunter"], mode: "4pc", priority: 2, noteVi: "Thợ Săn Marechaussee 4 món - Tăng 36% CRIT Rate khi biến động HP (kẹp cùng Furina)" },
+      { setIds: ["gladiator-s-finale"], mode: "4pc", priority: 3, noteVi: "Lễ Bế Mạc Của Giác Đấu Sĩ - Tăng 35% sát thương Đòn Đánh Thường chém nhanh" },
+    ],
+    mainStats: {
+      sands: "Tấn công (ATK%)",
+      goblet: "Sát thương Băng (Cryo DMG%)",
+      circlet: "Sát thương Bạo Kích (CRIT DMG)",
+      note: "Skirk là sư phụ Vực Sâu của Tartaglia, sử dụng kiếm thuật Băng tốc độ cao dồn sát thương bạo kích cực lớn.",
+    },
+    subStats: {
+      stats: ["CRIT Rate / CRIT DMG (1:2)","Tấn công (ATK%)","Hiệu Quả Nạp (ER 130-140%)","Flat ATK"],
+      note: "Tập trung đẩy CRIT DMG lên trên 220% và duy trì CRIT Rate ổn định từ 65-80%.",
+    },
+    talentPriority: {
+      order: ["Nguyên tố bùng phát (Q)","Đòn thường (NA)","Kỹ năng nguyên tố (E)"],
+      note: "Chiêu Nộ Q xé toạc không gian Vực Sâu là nguồn sát thương bùng nổ mạnh nhất. Đòn thường NA kiếm thuật nâng song song.",
+    },
+    playstyleNoteVi:
+      "Skirk áp sát chớp nhoáng bằng kiếm thuật Vực Sâu, lướt chém liên hoàn đóng băng kẻ địch rồi kích hoạt Q giáng đòn hủy diệt. Đội hình kết hợp tối ưu cùng Thủy (Furina/Yelan) và Phong (Kazuha) khống chế gom quái.",
+  },
+
+  // ── varka ──
+  "varka": {
+    weapons: [
+      { weaponId: "wolf-s-gravestone", tier: "S", noteVi: "Đường Cùng Của Sói - Biểu tượng Đại Đội Trưởng Bắc Phong, tăng ATK% khổng lồ và buff 40% ATK cho toàn đội" },
+      { weaponId: "beacon-of-the-reed-sea", tier: "S", noteVi: "Hải Đăng Bờ Biển Lau - 33.1% CRIT Rate cực lớn và tăng mạnh ATK% sau khi dùng kỹ năng" },
+      { weaponId: "serpent-spine", tier: "S", noteVi: "Kiếm Ly Cốt R5 - CRIT Rate 27.6% và tăng tới 50% toàn bộ sát thương" },
+      { weaponId: "verdict", tier: "A", noteVi: "Phán Quyết - Base ATK 674, CRIT Rate 22.1% và buff sát thương Kỹ Năng Nguyên Tố" },
+      { weaponId: "tidal-shadow", tier: "A", noteVi: "Bóng Râm Thủy Triều - Tăng tới 48% ATK ở R5 khi nhận hồi phục" },
+      { weaponId: "favonius-greatsword", tier: "B", noteVi: "Đại Kiếm Tây Phong - Sạc năng lượng liên tục cho các đòn nộ bão tố" },
+    ],
+    artifacts: [
+      { setIds: ["desert-pavilion-chronicle"], mode: "4pc", priority: 1, noteVi: "Sử Ký Đình Các Sa Mạc 4 món - Tăng 15% Anemo DMG, 10% tốc đánh và 40% sát thương đòn đánh" },
+      { setIds: ["viridescent-venerer"], mode: "4pc", priority: 2, noteVi: "Bóng Hình Màu Xanh 4 món - Khuếch Tán giảm 40% kháng nguyên tố của kẻ địch hỗ trợ đồng đội" },
+      { setIds: ["gladiator-s-finale"], mode: "4pc", priority: 3, noteVi: "Lễ Bế Mạc Của Giác Đấu Sĩ - Tăng 35% sát thương trọng kiếm uy lực" },
+    ],
+    mainStats: {
+      sands: "Tấn công (ATK%)",
+      goblet: "Sát thương Phong (Anemo DMG%) hoặc ATK%",
+      circlet: "CRIT Rate hoặc CRIT DMG",
+      note: "Varka - Hiệp Sĩ Bắc Phong huyền thoại của Mondstadt, vung đại kiếm cuồng phong dồn nén sức mạnh áp đảo kẻ địch.",
+    },
+    subStats: {
+      stats: ["CRIT Rate / CRIT DMG (1:2)","Tấn công (ATK%)","Hiệu Quả Nạp (ER 130-150%)","Tinh Thông Nguyên Tố (EM)"],
+      note: "Cân bằng giữa chỉ số công kích thuần túy và một lượng ER đủ để xoay tua nộ liên tục.",
+    },
+    talentPriority: {
+      order: ["Đòn thường (NA)","Nguyên tố bùng phát (Q)","Kỹ năng nguyên tố (E)"],
+      note: "Đòn đánh trọng kiếm vũ bão là nguồn sát thương cốt lõi. Chiêu Nộ Q hóa bão tuyết cuồng phong tăng phạm vi và uy lực.",
+    },
+    playstyleNoteVi:
+      "Varka chỉ huy trận địa với các cú vung đại kiếm cuốn gió diện rộng, phối hợp cùng chiêu Nộ Q triệu hồi linh hồn Bắc Phong càn quét chiến trường.",
+  },
+
+  // ── columbina ──
+  "columbina": {
+    weapons: [
+      { weaponId: "surf-s-up", tier: "S", noteVi: "Lướt Sóng Nào - CRIT DMG 88.2%, tăng 20% HP và tăng mạnh sát thương đòn đánh thường" },
+      { weaponId: "tome-of-the-eternal-flow", tier: "S", noteVi: "Giám Sát Khởi Nguyên - CRIT DMG 88.2%, buff HP và sát thương trọng kích bộc phá" },
+      { weaponId: "sacrificial-jade", tier: "S", noteVi: "Ngọc Tế Lễ - 36.8% CRIT Rate, tăng 64% HP tối đa và buff Tinh Thông Nguyên Tố" },
+      { weaponId: "the-widsith", tier: "A", noteVi: "Chương Nhạc Lang Thang - CRIT DMG và các khúc nhạc buff sát thương bộc phát" },
+      { weaponId: "prototype-amber", tier: "A", noteVi: "Mẫu Kim Phách - Pháp khí rèn F2P tăng HP% và hồi phục năng lượng/máu cho toàn đội" },
+    ],
+    artifacts: [
+      { setIds: ["golden-troupe"], mode: "4pc", priority: 1, noteVi: "Đoàn Kịch Hoàng Kim 4 món - Tăng tới 70% sát thương kỹ năng nguyên tố Thủy từ ngoài sân" },
+      { setIds: ["nymph-s-dream"], mode: "4pc", priority: 2, noteVi: "Giấc Mơ Thủy Tiên 4 món - Nhận tới 30% Hydro DMG và 25% ATK khi duy trì chuỗi tấn công" },
+      { setIds: ["heart-of-depth"], mode: "4pc", priority: 3, noteVi: "Trầm Luân Giữa Đại Dương 4 món - Tăng 15% Hydro DMG và 30% sát thương đòn đánh" },
+    ],
+    mainStats: {
+      sands: "HP%",
+      goblet: "Sát thương Thủy (Hydro DMG%) hoặc HP%",
+      circlet: "CRIT Rate hoặc CRIT DMG",
+      note: "Columbina - Quan Chấp Hành Fatui Thứ 3 Thiếu Nữ, pháp khí hệ Thủy triệu hồi khúc ca đại dương trừng phạt kẻ địch.",
+    },
+    subStats: {
+      stats: ["CRIT Rate / CRIT DMG (1:2)","HP%","Hiệu Quả Nạp (ER 130-150%)","Tinh Thông Nguyên Tố (EM)"],
+      note: "Sát thương và độ bền của Columbina tỷ lệ cao theo chỉ số HP tối đa.",
+    },
+    talentPriority: {
+      order: ["Kỹ năng nguyên tố (E)","Nguyên tố bùng phát (Q)","Đòn thường (NA)"],
+      note: "Kỹ năng E cất tiếng hát Thủy âm off-field liên tục. Q tạo đại hồng thủy dồn nén sát thương bùng nổ.",
+    },
+    playstyleNoteVi:
+      "Columbina thi triển khúc ca Thủy âm bao phủ sân đấu, duy trì ấn Thủy liên tục cho đồng đội kích hoạt Bốc Hơi hoặc Điện Cảm cực mạnh.",
+  },
+
+  // ── sandrone ──
+  "sandrone": {
+    weapons: [
+      { weaponId: "song-of-broken-pines", tier: "S", noteVi: "Tiếng Gió Trong Rừng Thông - Base ATK 741, tăng sát thương vật lý và buff tốc đánh toàn đội" },
+      { weaponId: "wolf-s-gravestone", tier: "S", noteVi: "Đường Cùng Của Sói - Tăng lượng lớn ATK% và hỗ trợ sát thương kết liễu" },
+      { weaponId: "redhorn-stonethresher", tier: "S", noteVi: "Xích Giác Phá Thạch Đao - 88.2% CRIT DMG và chuyển hóa DEF thành sát thương đòn đánh" },
+      { weaponId: "serpent-spine", tier: "S", noteVi: "Kiếm Ly Cốt - 27.6% CRIT Rate và gia tăng toàn bộ sát thương gây ra" },
+      { weaponId: "snow-tombed-starsilver", tier: "A", noteVi: "Tuyết Vùi Tinh Ngân - Đại kiếm rèn chuẩn Băng/Vật Lý F2P" },
+    ],
+    artifacts: [
+      { setIds: ["pale-flame"], mode: "4pc", priority: 1, noteVi: "Lửa Trắng Xám 4 món - Tối ưu 50% Sát Thương Vật Lý và 18% ATK khi người máy tấn công liên tục" },
+      { setIds: ["blizzard-strayer"], mode: "4pc", priority: 2, noteVi: "Dũng Sĩ Băng Giá 4 món - Nhận tới 40% CRIT Rate trong đội hình Đóng Băng" },
+      { setIds: ["husk-of-opulent-dreams"], mode: "4pc", priority: 3, noteVi: "Giấc Mộng Phù Hoa 4 món - Gia tăng lượng lớn DEF% củng cố giáp của cỗ máy" },
+    ],
+    mainStats: {
+      sands: "Tấn công (ATK%) hoặc Phòng thủ (DEF%)",
+      goblet: "Sát thương Vật Lý (Physical DMG%) hoặc Sát thương Băng (Cryo DMG%)",
+      circlet: "CRIT Rate hoặc CRIT DMG",
+      note: "Sandrone - Quan Chấp Hành Fatui Thứ 7 Marionette, chỉ huy cỗ máy cơ khí khổng lồ đè bẹp kẻ thù bằng uy lực Băng và cơ giới.",
+    },
+    subStats: {
+      stats: ["CRIT Rate / CRIT DMG (1:2)","Tấn công (ATK%)","Phòng thủ (DEF%)","Hiệu Quả Nạp (ER)"],
+      note: "Cân đối sát thương bạo kích và chỉ số cơ bản để tối ưu từng cú đấm nghiền nát của người máy.",
+    },
+    talentPriority: {
+      order: ["Kỹ năng nguyên tố (E)","Nguyên tố bùng phát (Q)","Đòn thường (NA)"],
+      note: "E kích hoạt chế độ cơ khí càn quét chiến trường. Q nã pháo băng giá diện rộng.",
+    },
+    playstyleNoteVi:
+      "Sandrone ngồi trên tay cỗ máy điều khiển thế trận từ xa, kích hoạt người máy lao vào hất tung và nghiền nát kẻ địch dưới áp lực Băng giá.",
+  },
+
+  // ── durin ──
+  "durin": {
+    weapons: [
+      { weaponId: "mistsplitter-reforged", tier: "S", noteVi: "Ánh Sương Đêm Sương Mù - Trấn kiếm hàng đầu, tăng CRIT DMG và buff toàn diện sát thương Hỏa" },
+      { weaponId: "freedom-sworn", tier: "S", noteVi: "Lời Thề Tự Do Cổ Xưa - Cung cấp EM cực lớn và buff 20% ATK cho toàn đội sau phản ứng" },
+      { weaponId: "festering-desire", tier: "S", noteVi: "Răng Rỉ Sét - Kiếm gắn liền với Durin, tăng 32% sát thương và 12% CRIT Rate cho Kỹ Năng Nguyên Tố E" },
+      { weaponId: "primordial-jade-cutter", tier: "S", noteVi: "Bàn Nham Kết Lục - 44.1% CRIT Rate và chuyển hóa máu thành chỉ số tấn công" },
+      { weaponId: "amenoma-kageuchi", tier: "A", noteVi: "Đoản Đao Amenoma - Vũ khí rèn F2P ổn định chu kỳ nộ rực lửa" },
+    ],
+    artifacts: [
+      { setIds: ["crimson-witch-of-flames"], mode: "4pc", priority: 1, noteVi: "Diệm Liệt Ma Nữ 4 món - Tăng 15% Pyro DMG và buff tới 15% sát thương Bốc Hơi / Tan Chảy" },
+      { setIds: ["fragment-of-harmonic-whimsy"], mode: "4pc", priority: 2, noteVi: "Mảnh Nghệ Thuật Hài Hòa 4 món - Tăng tới 54% sát thương khi kích hoạt Khế Ước Sinh Mệnh" },
+      { setIds: ["gladiator-s-finale"], mode: "4pc", priority: 3, noteVi: "Lễ Bế Mạc Của Giác Đấu Sĩ - Tăng 35% sát thương kiếm thuật đòn đánh thường" },
+    ],
+    mainStats: {
+      sands: "Tấn công (ATK%) hoặc Tinh Thông Nguyên Tố (EM)",
+      goblet: "Sát thương Hỏa (Pyro DMG%)",
+      circlet: "CRIT Rate hoặc CRIT DMG",
+      note: "Durin - Hóa thân rồng đỏ tái sinh với kiếm thuật lửa rực cháy, kết hợp hoàn hảo cùng Răng Rỉ Sét (Festering Desire).",
+    },
+    subStats: {
+      stats: ["CRIT Rate / CRIT DMG (1:2)","Tấn công (ATK%)","Tinh Thông Nguyên Tố (EM 100-200)","Hiệu Quả Nạp (ER)"],
+      note: "Ưu tiên cân bằng CRIT và EM để mỗi đòn chém lửa Bốc Hơi đều đạt sát thương cực đại.",
+    },
+    talentPriority: {
+      order: ["Kỹ năng nguyên tố (E)","Nguyên tố bùng phát (Q)","Đòn thường (NA)"],
+      note: "E phóng hỏa diễm long lướt chém là nguồn sát thương liên tục. Q triệu hồi hơi thở rồng hủy diệt.",
+    },
+    playstyleNoteVi:
+      "Durin thi triển kiếm kỹ lửa uyển chuyển lướt xuyên đội hình địch, kết hợp cùng Thủy (Xingqiu/Yelan) tạo phản ứng Bốc Hơi liên tục.",
+  },
+
+  // ── iansan ──
+  "iansan": {
+    weapons: [
+      { weaponId: "favonius-lance", tier: "S", noteVi: "Thương Tây Phong - Cung cấp hạt năng lượng trắng dồi dào sạc Nộ liên tục cho cả đội" },
+      { weaponId: "ballad-of-the-fjords", tier: "S", noteVi: "Khúc Ca Vịnh Hẹp - 27.6% CRIT Rate và nhận thêm 120-240 EM trong đội hình đa nguyên tố" },
+      { weaponId: "deathmatch", tier: "A", noteVi: "Thương Quyết Chiến - CRIT Rate 36.8% cực kỳ ổn định" },
+      { weaponId: "the-catch", tier: "A", noteVi: "Lao Câu Cá - Gia tăng ER và sát thương bạo kích cho chiêu Nộ Q" },
+      { weaponId: "footprint-of-the-rainbow", tier: "A", noteVi: "Dấu Chân Cầu Vồng - Tăng cường phòng thủ và độ trâu bò khi cận chiến" },
+    ],
+    artifacts: [
+      { setIds: ["scroll-of-the-hero-of-cinder-city"], mode: "4pc", priority: 1, noteVi: "Bí Cảnh Dũng Sĩ Tro Tàn 4 món - Kích Dạ Hồn buff 40% sát thương nguyên tố cho toàn đội trong 20s" },
+      { setIds: ["thundering-fury"], mode: "4pc", priority: 2, noteVi: "Như Sấm Thịnh Nộ 4 món - Giảm hồi chiêu E và tăng sát thương phản ứng Lôi" },
+      { setIds: ["noblesse-oblige"], mode: "4pc", priority: 3, noteVi: "Nghi Thức Tông Thất Cổ - Buff 20% ATK cho toàn đội sau khi dùng Q" },
+    ],
+    mainStats: {
+      sands: "Tấn công (ATK%) hoặc Hiệu Quả Nạp (ER)",
+      goblet: "Sát thương Lôi (Electro DMG%)",
+      circlet: "CRIT Rate hoặc CRIT DMG",
+      note: "Iansan - Huấn luyện viên thể thuật Natlan hệ Lôi, kích hoạt Dạ Hồn dũng mãnh và hỗ trợ buff toàn diện cho đồng đội.",
+    },
+    subStats: {
+      stats: ["CRIT Rate / CRIT DMG (1:2)","Hiệu Quả Nạp (ER 160%+)","Tấn công (ATK%)","Tinh Thông Nguyên Tố (EM)"],
+      note: "Cần đảm bảo ER trên 160% để luôn sẵn sàng nộ hỗ trợ đội hình.",
+    },
+    talentPriority: {
+      order: ["Kỹ năng nguyên tố (E)","Nguyên tố bùng phát (Q)","Đòn thường (NA)"],
+      note: "E kích hoạt thể thuật Dạ Hồn và buff đồng đội. Q tung đòn sấm sét bộc phát.",
+    },
+    playstyleNoteVi:
+      "Iansan lao vào giao tranh bằng các đòn thể thuật sấm sét chớp nhoáng, kích Dạ Hồn mang lại 40% buff sát thương nguyên tố cho đồng đội qua set Dũng Sĩ Tro Tàn.",
+  },
+
+  // ── ifa ──
+  "ifa": {
+    weapons: [
+      { weaponId: "sacrificial-fragments", tier: "S", noteVi: "Mảnh Chương Tế Lễ - 221 EM cực cao và reset hồi chiêu E ngay lập tức" },
+      { weaponId: "favonius-codex", tier: "S", noteVi: "Tây Phong Mật Truyền - Cung cấp năng lượng liên tục cho chiêu Nộ hồi phục" },
+      { weaponId: "a-thousand-floating-dreams", tier: "S", noteVi: "Cõi Mộng Ngàn Đêm - EM 265 và buff sát thương nguyên tố toàn đội" },
+      { weaponId: "hakushin-ring", tier: "A", noteVi: "Vòng Bạch Anh - Buff sát thương nguyên tố khi kích hoạt phản ứng hệ Lôi" },
+      { weaponId: "thrilling-tales-of-dragon-slayers", tier: "A", noteVi: "Câu Chuyện Diệt Rồng R5 - Buff thẳng 48% ATK cho chủ lực kế tiếp" },
+    ],
+    artifacts: [
+      { setIds: ["scroll-of-the-hero-of-cinder-city"], mode: "4pc", priority: 1, noteVi: "Bí Cảnh Dũng Sĩ Tro Tàn 4 món - Kích Dạ Hồn buff 40% sát thương nguyên tố cho toàn đội" },
+      { setIds: ["viridescent-venerer"], mode: "4pc", priority: 2, noteVi: "Bóng Hình Màu Xanh 4 món - Khuếch Tán giảm 40% kháng nguyên tố của kẻ địch" },
+      { setIds: ["song-of-days-past"], mode: "4pc", priority: 3, noteVi: "Khúc Ca Ngày Cũ 4 món - Ghi nhận lượng hồi máu để tăng sát thương phẳng cho chủ lực" },
+    ],
+    mainStats: {
+      sands: "Tinh Thông Nguyên Tố (EM) hoặc Hiệu Quả Nạp (ER)",
+      goblet: "Tinh Thông Nguyên Tố (EM) hoặc Sát thương Phong (Anemo DMG%)",
+      circlet: "Tinh Thông Nguyên Tố (EM), Tăng Trị Liệu hoặc CRIT Rate",
+      note: "Ifa - Bác sĩ thú y Natlan hệ Phong, điều khiển pháp khí hồi phục Dạ Hồn và khuếch tán nguyên tố bảo hộ đồng đội.",
+    },
+    subStats: {
+      stats: ["Tinh Thông Nguyên Tố (EM >= 600)","Hiệu Quả Nạp (ER 160%+)","Tỷ lệ Bạo Kích (CRIT Rate)","Tấn công (ATK%)"],
+      note: "Ưu tiên EM để tăng sát thương Khuếch Tán và trị liệu tối ưu.",
+    },
+    talentPriority: {
+      order: ["Kỹ năng nguyên tố (E)","Nguyên tố bùng phát (Q)","Đòn thường (NA)"],
+      note: "E trị liệu Dạ Hồn cho đồng đội. Q tạo gió lốc hồi phục diện rộng.",
+    },
+    playstyleNoteVi:
+      "Ifa thả các chú rồng Dạ Hồn trị liệu và áp ấn Phong liên tục, vừa giảm kháng nguyên tố địch vừa duy trì thanh máu an toàn cho cả đội.",
+  },
+
+  // ── dahlia ──
+  "dahlia": {
+    weapons: [
+      { weaponId: "favonius-sword", tier: "S", noteVi: "Kiếm Tây Phong - Sạc nạp mượt mà cho chiêu Nộ che chở và hồi phục" },
+      { weaponId: "fleuve-cendre-ferryman", tier: "S", noteVi: "Phà Fleuve Cendre - Tăng hiệu quả nạp và 16% CRIT Rate kỹ năng E" },
+      { weaponId: "sacrificial-sword", tier: "S", noteVi: "Kiếm Tế Lễ - Reset hồi chiêu E và cung cấp lượng lớn Hiệu Quả Nạp" },
+      { weaponId: "the-dockhand-s-assistant", tier: "A", noteVi: "Trợ Thủ Bến Tàu - Tăng lượng lớn HP% và cấp EM khi được hồi phục" },
+      { weaponId: "key-of-khaj-nisut", tier: "A", noteVi: "Chìa Khóa Khaj-Nisut - Lượng HP% khổng lồ và buff EM cho toàn đội" },
+    ],
+    artifacts: [
+      { setIds: ["noblesse-oblige"], mode: "4pc", priority: 1, noteVi: "Nghi Thức Tông Thất Cổ 4 món - Buff 20% ATK cho toàn đội sau khi thi triển Nộ" },
+      { setIds: ["ocean-hued-clam"], mode: "4pc", priority: 2, noteVi: "Xà Cừ Đại Dương 4 món - Tích tụ lượng hồi máu tạo bong bóng sát thương vật lý nổ diện rộng" },
+      { setIds: ["instructor"], mode: "4pc", priority: 3, noteVi: "Giáo Quan 4 món - Buff 120 EM cho toàn đội trong các đội hình phản ứng Bốc Hơi" },
+    ],
+    mainStats: {
+      sands: "HP% hoặc Hiệu Quả Nạp (ER)",
+      goblet: "HP%",
+      circlet: "Tăng Trị Liệu (Healing Bonus), HP% hoặc CRIT Rate (kích Tây Phong)",
+      note: "Dahlia - Phó tế giáo hội Tây Phong Mondstadt hệ Thủy, trị liệu che chở cho đồng đội và cấp ấn Thủy diện rộng.",
+    },
+    subStats: {
+      stats: ["HP%","Hiệu Quả Nạp (ER 180%+)","Tỷ lệ Bạo Kích (CRIT Rate)","Flat HP"],
+      note: "Toàn bộ khả năng tạo khiên và hồi máu của Dahlia đều tính theo chỉ số HP tối đa.",
+    },
+    talentPriority: {
+      order: ["Kỹ năng nguyên tố (E)","Nguyên tố bùng phát (Q)","Đòn thường (NA)"],
+      note: "E tạo màn nước bảo hộ che chắn sát thương. Q chúc phúc dòng nước hồi máu toàn đội.",
+    },
+    playstyleNoteVi:
+      "Dahlia vào sân bật E tạo lá chắn dòng nước bảo hộ, nổ Q hồi phục sinh mệnh rồi đổi sang chủ lực tiếp tục chu kỳ tấn công.",
+  },
+
+  // ── escoffier ──
+  "escoffier": {
+    weapons: [
+      { weaponId: "staff-of-homa", tier: "S", noteVi: "Trượng Homa - CRIT DMG 66.2% và tăng mạnh chỉ số ATK dựa trên lượng HP" },
+      { weaponId: "calamity-queller", tier: "S", noteVi: "Hủy Diệt - Base ATK 741 cao nhất game và buff mạnh sát thương nguyên tố Băng" },
+      { weaponId: "primordial-jade-winged-spear", tier: "S", noteVi: "Hòa Phác Diên - CRIT Rate 22.1% và tích tầng tấn công liên tục" },
+      { weaponId: "ballad-of-the-fjords", tier: "A", noteVi: "Khúc Ca Vịnh Hẹp - 27.6% CRIT Rate và nhận thêm 120-240 EM" },
+      { weaponId: "deathmatch", tier: "A", noteVi: "Thương Quyết Chiến - CRIT Rate 36.8% ổn định chỉ số" },
+      { weaponId: "the-catch", tier: "A", noteVi: "Lao Câu Cá - Gia tăng ER và sát thương bạo kích cho chiêu Nộ Q" },
+    ],
+    artifacts: [
+      { setIds: ["blizzard-strayer"], mode: "4pc", priority: 1, noteVi: "Dũng Sĩ Băng Giá 4 món - Tăng 15% Cryo DMG và nhận tới 40% CRIT Rate khi kẻ địch bị Đóng Băng" },
+      { setIds: ["golden-troupe"], mode: "4pc", priority: 2, noteVi: "Đoàn Kịch Hoàng Kim 4 món - Tăng 70% sát thương kỹ năng E ngoài sân" },
+      { setIds: ["noblesse-oblige"], mode: "4pc", priority: 3, noteVi: "Nghi Thức Tông Thất Cổ - Buff 20% ATK cho toàn đội sau khi thi triển Nộ" },
+    ],
+    mainStats: {
+      sands: "Tấn công (ATK%)",
+      goblet: "Sát thương Băng (Cryo DMG%)",
+      circlet: "CRIT Rate hoặc CRIT DMG",
+      note: "Escoffier - Đại sư ẩm thực Fontaine hệ Băng, sử dụng vũ khí cán dài đóng băng nguyên liệu và gây sát thương diện rộng.",
+    },
+    subStats: {
+      stats: ["CRIT Rate / CRIT DMG (1:2)","Tấn công (ATK%)","Hiệu Quả Nạp (ER 130-150%)","Tinh Thông Nguyên Tố (EM)"],
+      note: "Cân bằng sát thương bạo kích và ATK để tối đa hóa sát thương băng giá.",
+    },
+    talentPriority: {
+      order: ["Kỹ năng nguyên tố (E)","Nguyên tố bùng phát (Q)","Đòn thường (NA)"],
+      note: "E bày biện bàn tiệc băng giá gây sát thương liên tục. Q nổ ẩm thực tuyết sương diện rộng.",
+    },
+    playstyleNoteVi:
+      "Escoffier thả các đĩa băng ẩm thực tạo sát thương Cryo liên tục ngoài sân, kết hợp cùng Thủy đóng băng hoặc Hỏa kích Tan Chảy sát thương cực lớn.",
+  },
+
+  // ── varesa ──
+  "varesa": {
+    weapons: [
+      { weaponId: "kagura-s-verity", tier: "S", noteVi: "Chân Ý Của Kagura - 66.2% CRIT DMG và buff tối đa 36% sát thương Kỹ Năng Nguyên Tố E" },
+      { weaponId: "lost-prayer-to-the-sacred-winds", tier: "S", noteVi: "Điển Tích Tây Phong - CRIT Rate 33.1% và tăng tốc chạy cùng 32% sát thương nguyên tố" },
+      { weaponId: "the-widsith", tier: "S", noteVi: "Chương Nhạc Lang Thang R5 - CRIT DMG 55.1% cùng các khúc nhạc buff bộc phá cực mạnh" },
+      { weaponId: "sacrificial-jade", tier: "A", noteVi: "Ngọc Tế Lễ - 36.8% CRIT Rate, tăng 64% HP và tăng mạnh Tinh Thông Nguyên Tố" },
+      { weaponId: "flowing-purity", tier: "A", noteVi: "Dòng Chảy Thuần Khiết - Pháp khí rèn Fontaine tăng sát thương nguyên tố khi kích Khế Ước Sinh Mệnh" },
+    ],
+    artifacts: [
+      { setIds: ["obsidian-codex"], mode: "4pc", priority: 1, noteVi: "Bí Điển Obsidian 4 món - Tăng 15% sát thương Dạ Hồn và 40% CRIT Rate khi tiêu hao Dạ Hồn đứng sân" },
+      { setIds: ["thundering-fury"], mode: "4pc", priority: 2, noteVi: "Như Sấm Thịnh Nộ 4 món - Tăng mạnh sát thương phản ứng Lôi và giảm hồi chiêu E" },
+      { setIds: ["gilded-dreams"], mode: "4pc", priority: 3, noteVi: "Giấc Mộng Hoàng Kim 4 món - Nhận lượng lớn Tinh Thông Nguyên Tố cho các phản ứng Tăng Cường" },
+    ],
+    mainStats: {
+      sands: "Tấn công (ATK%) hoặc Tinh Thông Nguyên Tố (EM)",
+      goblet: "Sát thương Lôi (Electro DMG%)",
+      circlet: "Sát thương Bạo Kích (CRIT DMG)",
+      note: "Varesa - Pháp sư Lôi Natlan bộc phá Dạ Hồn lôi đình, giáng sấm sét diện rộng kết hợp hoàn hảo cùng Tăng Cường và Quá Tải.",
+    },
+    subStats: {
+      stats: ["CRIT Rate / CRIT DMG (1:2)","Tấn công (ATK%)","Tinh Thông Nguyên Tố (EM)","Hiệu Quả Nạp (ER)"],
+      note: "Nếu dùng bộ Bí Điển Obsidian đã có sẵn 40% CRIT Rate, hãy dồn tối đa chỉ số vào Nón CRIT DMG.",
+    },
+    talentPriority: {
+      order: ["Kỹ năng nguyên tố (E)","Nguyên tố bùng phát (Q)","Đòn thường (NA)"],
+      note: "E kích hoạt trạng thái Dạ Hồn giáng sét liên hoàn. Q giáng thiên lôi hủy diệt toàn sàn đấu.",
+    },
+    playstyleNoteVi:
+      "Varesa kích hoạt E bước vào trạng thái Dạ Hồn, liên tục xả đạn lôi giáng sét áp đảo kẻ thù rồi tung Q kết liễu đợt quái.",
+  },
+
+  // ── ineffa ──
+  "ineffa": {
+    weapons: [
+      { weaponId: "staff-of-the-scarlet-sands", tier: "S", noteVi: "Trượng Cát Đỏ - 44.1% CRIT Rate và chuyển hóa EM thành chỉ số Tấn Công cực lớn" },
+      { weaponId: "engulfing-lightning", tier: "S", noteVi: "Đoạn Thảo Trường Đao - ER cực cao và chuyển hóa ER thành chỉ số ATK" },
+      { weaponId: "staff-of-homa", tier: "S", noteVi: "Trượng Homa - CRIT DMG 66.2% và lượng lớn ATK cộng thêm" },
+      { weaponId: "ballad-of-the-fjords", tier: "A", noteVi: "Khúc Ca Vịnh Hẹp - 27.6% CRIT Rate và tăng 120-240 EM" },
+      { weaponId: "deathmatch", tier: "A", noteVi: "Thương Quyết Chiến - CRIT Rate 36.8% cực kỳ ổn định" },
+    ],
+    artifacts: [
+      { setIds: ["obsidian-codex"], mode: "4pc", priority: 1, noteVi: "Bí Điển Obsidian 4 món - Tăng 15% sát thương Dạ Hồn và 40% CRIT Rate khi kích hoạt Dạ Hồn" },
+      { setIds: ["thundering-fury"], mode: "4pc", priority: 2, noteVi: "Như Sấm Thịnh Nộ 4 món - Tăng sát thương phản ứng Lôi và giảm hồi chiêu" },
+      { setIds: ["scroll-of-the-hero-of-cinder-city"], mode: "4pc", priority: 3, noteVi: "Bí Cảnh Dũng Sĩ Tro Tàn 4 món - Buff 40% sát thương nguyên tố cho toàn đội" },
+    ],
+    mainStats: {
+      sands: "Tấn công (ATK%) hoặc Tinh Thông Nguyên Tố (EM)",
+      goblet: "Sát thương Lôi (Electro DMG%)",
+      circlet: "CRIT Rate hoặc CRIT DMG",
+      note: "Ineffa - Thợ săn sấm sét Natlan hệ Lôi, lướt kích Dạ Hồn xả đòn đâm thương liên hoàn cực nhanh.",
+    },
+    subStats: {
+      stats: ["CRIT Rate / CRIT DMG (1:2)","Tấn công (ATK%)","Hiệu Quả Nạp (ER 140%+)","Tinh Thông Nguyên Tố (EM)"],
+      note: "Ưu tiên cân bằng chỉ số bạo kích và ATK để duy trì sát thương đâm thương uy lực.",
+    },
+    talentPriority: {
+      order: ["Kỹ năng nguyên tố (E)","Nguyên tố bùng phát (Q)","Đòn thường (NA)"],
+      note: "E lướt đâm thương kích hoạt Dạ Hồn. Q phóng điện trường sấm sét ngoài sân.",
+    },
+    playstyleNoteVi:
+      "Ineffa áp sát kẻ địch bằng chiêu E lướt đâm thương Dạ Hồn, dồn ép đối thủ và kết hợp cùng Thảo để kích hoạt phản ứng Tăng Cường liên tục.",
+  },
+
+  // ── nicole ──
+  "nicole": {
+    weapons: [
+      { weaponId: "a-thousand-blazing-suns", tier: "S", noteVi: "Mặt Trời Rực Lửa - Tăng CRIT Rate, ATK% và sát thương bộc phát tối đa" },
+      { weaponId: "kagura-s-verity", tier: "S", noteVi: "Chân Ý Của Kagura - 66.2% CRIT DMG và buff 36% sát thương Kỹ Năng Nguyên Tố" },
+      { weaponId: "lost-prayer-to-the-sacred-winds", tier: "S", noteVi: "Điển Tích Tây Phong - 33.1% CRIT Rate và tích lũy sát thương nguyên tố khi đứng sân" },
+      { weaponId: "the-widsith", tier: "A", noteVi: "Chương Nhạc Lang Thang R5 - CRIT DMG 55.1% và buff bộc phát cực mạnh" },
+      { weaponId: "solar-pearl", tier: "A", noteVi: "Nhật Nguyệt Hạp - CRIT Rate và tương tác hoàn hảo giữa NA và Skill" },
+    ],
+    artifacts: [
+      { setIds: ["crimson-witch-of-flames"], mode: "4pc", priority: 1, noteVi: "Diệm Liệt Ma Nữ 4 món - Tăng 15% Pyro DMG và buff tới 15% sát thương Bốc Hơi / Tan Chảy" },
+      { setIds: ["golden-troupe"], mode: "4pc", priority: 2, noteVi: "Đoàn Kịch Hoàng Kim 4 món - Tăng 70% sát thương kỹ năng tiên tri từ ngoài sân" },
+      { setIds: ["noblesse-oblige"], mode: "4pc", priority: 3, noteVi: "Nghi Thức Tông Thất Cổ - Buff 20% ATK cho toàn đội sau khi thi triển Nộ" },
+    ],
+    mainStats: {
+      sands: "Tấn công (ATK%) hoặc Tinh Thông Nguyên Tố (EM)",
+      goblet: "Sát thương Hỏa (Pyro DMG%)",
+      circlet: "CRIT Rate hoặc CRIT DMG",
+      note: "Nicole - Ma Nữ Hexenzirkel thông thái hệ Hỏa (ký hiệu N), chỉ dẫn thế gian bằng ngọn lửa tiên tri bộc phá sát thương diện rộng.",
+    },
+    subStats: {
+      stats: ["CRIT Rate / CRIT DMG (1:2)","Tấn công (ATK%)","Tinh Thông Nguyên Tố (EM 100-200)","Hiệu Quả Nạp (ER)"],
+      note: "Tập trung đẩy CRIT Rate / CRIT DMG và bổ sung 100-200 EM cho phản ứng Bốc Hơi / Tan Chảy.",
+    },
+    talentPriority: {
+      order: ["Nguyên tố bùng phát (Q)","Kỹ năng nguyên tố (E)","Đòn thường (NA)"],
+      note: "Q giáng lời sấm truyền lửa tiên tri hủy diệt toàn sân đấu. E thắp sáng ngọn lửa Ma Nữ duy trì sát thương.",
+    },
+    playstyleNoteVi:
+      "Nicole xuất hiện ban phát lời tiên tri của Hội Ma Nữ, triệu hồi ngọn lửa ma thuật thiêu đốt kẻ thù trong biển lửa trừng phạt.",
+  },
+
+  // ── nefer ──
+  "nefer": {
+    weapons: [
+      { weaponId: "a-thousand-floating-dreams", tier: "S", noteVi: "Cõi Mộng Ngàn Đêm - EM 265 cực lớn, tăng sát thương nguyên tố và buff EM cho toàn đội" },
+      { weaponId: "kagura-s-verity", tier: "S", noteVi: "Chân Ý Của Kagura - CRIT DMG 66.2% và buff sát thương kỹ năng E" },
+      { weaponId: "sacrificial-fragments", tier: "S", noteVi: "Mảnh Chương Tế Lễ - 221 EM và reset hồi chiêu E ngay lập tức" },
+      { weaponId: "wandering-evenstar", tier: "A", noteVi: "Sao Đêm Dạo Bước - Chuyển hóa EM thành chỉ số ATK buff cho bản thân và đồng đội" },
+      { weaponId: "the-widsith", tier: "A", noteVi: "Chương Nhạc Lang Thang - Sát thương bạo kích và khúc nhạc buff bộc phá" },
+    ],
+    artifacts: [
+      { setIds: ["deepwood-memories"], mode: "4pc", priority: 1, noteVi: "Ký Ức Rừng Sâu 4 món - Giảm 30% kháng Thảo của kẻ địch, tối ưu cho mọi đội hình hệ Thảo" },
+      { setIds: ["gilded-dreams"], mode: "4pc", priority: 2, noteVi: "Giấc Mộng Hoàng Kim 4 món - Nhận lượng lớn Tinh Thông Nguyên Tố khi đội hình đã có người mang Ký Ức Rừng Sâu" },
+      { setIds: ["flower-of-paradise-lost"], mode: "4pc", priority: 3, noteVi: "Đóa Hoa Thiên Đường Đánh Mất 4 món - Tăng tối đa sát thương phản ứng Nở Rộ" },
+    ],
+    mainStats: {
+      sands: "Tinh Thông Nguyên Tố (EM)",
+      goblet: "Sát thương Thảo (Dendro DMG%) hoặc Tinh Thông Nguyên Tố (EM)",
+      circlet: "CRIT Rate, CRIT DMG hoặc Tinh Thông Nguyên Tố (EM)",
+      note: "Nefer - Học giả Sumeru hệ Thảo, thi triển cấm thuật cổ đại kích hoạt phản ứng Lan Tỏa và Nở Rộ liên tục.",
+    },
+    subStats: {
+      stats: ["Tinh Thông Nguyên Tố (EM >= 800)","CRIT Rate / CRIT DMG","Hiệu Quả Nạp (ER 130%+)","Tấn công (ATK%)"],
+      note: "Đạt mốc 800+ EM để tối đa hóa hiệu quả phản ứng hạt nguyên tố Thảo.",
+    },
+    talentPriority: {
+      order: ["Kỹ năng nguyên tố (E)","Nguyên tố bùng phát (Q)","Đòn thường (NA)"],
+      note: "E vẽ trận đồ Thảo cổ đại áp ấn diện rộng. Q bộc phá luồng năng lượng Sumeru thần bí.",
+    },
+    playstyleNoteVi:
+      "Nefer khai triển trận đồ học giả Sumeru, liên tục giải phóng hạt Thảo tạo chuỗi phản ứng Lan Tỏa và Sum Suê dồn dập.",
+  },
+
+  // ── lauma ──
+  "lauma": {
+    weapons: [
+      { weaponId: "a-thousand-floating-dreams", tier: "S", noteVi: "Cõi Mộng Ngàn Đêm - EM 265 và buff sát thương nguyên tố toàn đội" },
+      { weaponId: "sacrificial-fragments", tier: "S", noteVi: "Mảnh Chương Tế Lễ - 221 EM và reset hồi chiêu E" },
+      { weaponId: "favonius-codex", tier: "A", noteVi: "Tây Phong Mật Truyền - Sạc năng lượng liên tục cho chiêu Nộ trị liệu" },
+      { weaponId: "prototype-amber", tier: "A", noteVi: "Mẫu Kim Phách - Pháp khí rèn F2P tăng HP% và hồi phục năng lượng/máu cho toàn đội" },
+    ],
+    artifacts: [
+      { setIds: ["deepwood-memories"], mode: "4pc", priority: 1, noteVi: "Ký Ức Rừng Sâu 4 món - Giảm 30% kháng Thảo của kẻ địch hỗ trợ sát thương cho toàn đội" },
+      { setIds: ["ocean-hued-clam"], mode: "4pc", priority: 2, noteVi: "Xà Cừ Đại Dương 4 món - Tích tụ lượng hồi phục tạo bong bóng sát thương vật lý nổ diện rộng" },
+      { setIds: ["instructor"], mode: "4pc", priority: 3, noteVi: "Giáo Quan 4 món - Buff 120 EM cho toàn đội hình" },
+    ],
+    mainStats: {
+      sands: "Tinh Thông Nguyên Tố (EM) hoặc HP%",
+      goblet: "Sát thương Thảo (Dendro DMG%) hoặc HP%",
+      circlet: "Tăng Trị Liệu (Healing Bonus), EM hoặc HP%",
+      note: "Lauma - Pháp sư hiền triết hệ Thảo, bảo hộ và hồi phục sinh mệnh cho đồng đội đồng thời giảm kháng Thảo của địch.",
+    },
+    subStats: {
+      stats: ["Tinh Thông Nguyên Tố (EM)","Hiệu Quả Nạp (ER 160%+)","HP%","Tỷ lệ Bạo Kích (CRIT Rate)"],
+      note: "Ưu tiên EM và ER để vừa nộ liên tục vừa duy trì trị liệu dồi dào.",
+    },
+    talentPriority: {
+      order: ["Kỹ năng nguyên tố (E)","Nguyên tố bùng phát (Q)","Đòn thường (NA)"],
+      note: "E gieo mầm sinh mệnh hồi máu liên tục. Q tạo kết giới rừng rậm che chở đồng đội.",
+    },
+    playstyleNoteVi:
+      "Lauma dựng kết giới rừng xanh hồi phục sinh lực và áp ấn Thảo ổn định, biến mọi đội hình Sum Suê thành pháo đài bất khả xâm phạm.",
+  },
+
+  // ── linnea ──
+  "linnea": {
+    weapons: [
+      { weaponId: "the-first-great-magic", tier: "S", noteVi: "Ảo Thuật Đại Đầu Cương - 66.2% CRIT DMG, tăng sát thương Trọng Kích và tăng mạnh chỉ số ATK" },
+      { weaponId: "aqua-simulacra", tier: "S", noteVi: "Nhược Thủy - CRIT DMG 88.2% và tăng 20% sát thương toàn diện" },
+      { weaponId: "skyward-harp", tier: "S", noteVi: "Cánh Thiên Không - Cung cấp cả CRIT Rate lẫn CRIT DMG cân bằng tuyệt hảo" },
+      { weaponId: "scion-of-the-blazing-sun", tier: "A", noteVi: "Hậu Duệ Của Mặt Trời - 36.8% CRIT Rate và hiệu ứng Lửa Mặt Trời tăng sát thương Trọng Kích" },
+      { weaponId: "song-of-stillness", tier: "A", noteVi: "Giai Điệu Tĩnh Lặng - Cung rèn Fontaine tăng tới 32% sát thương khi được hồi máu" },
+    ],
+    artifacts: [
+      { setIds: ["nighttime-whispers-in-the-echoing-woods"], mode: "4pc", priority: 1, noteVi: "Tiếng Thì Thầm Về Đêm 4 món - Tăng 18% ATK và nhận tới 50% Geo DMG khi có khiên Kết Tinh" },
+      { setIds: ["husk-of-opulent-dreams"], mode: "4pc", priority: 2, noteVi: "Giấc Mộng Phù Hoa 4 món - Cung cấp lượng lớn DEF% và Geo DMG nếu kỹ năng scale theo Phòng Thủ" },
+      { setIds: ["golden-troupe"], mode: "4pc", priority: 3, noteVi: "Đoàn Kịch Hoàng Kim 4 món - Tăng 70% sát thương kỹ năng bắn đá từ ngoài sân" },
+    ],
+    mainStats: {
+      sands: "Tấn công (ATK%) hoặc Phòng thủ (DEF%)",
+      goblet: "Sát thương Nham (Geo DMG%)",
+      circlet: "CRIT Rate hoặc CRIT DMG",
+      note: "Linnea - Xạ thủ Nham thiện xạ, bắn tiễn thạch anh gây sát thương Nham xuyên phá từ cự ly xa.",
+    },
+    subStats: {
+      stats: ["CRIT Rate / CRIT DMG (1:2)","Tấn công (ATK%)","Phòng thủ (DEF%)","Hiệu Quả Nạp (ER)"],
+      note: "Cân đối chỉ số bạo kích 1:2 chuẩn để mọi phát bắn ngắm bắn đều đạt sát thương tối đa.",
+    },
+    talentPriority: {
+      order: ["Đòn thường (NA)","Kỹ năng nguyên tố (E)","Nguyên tố bùng phát (Q)"],
+      note: "Đòn ngắm bắn Trọng Kích tiễn thạch anh là nguồn sát thương chủ đạo. E bẫy đá khống chế đối phương.",
+    },
+    playstyleNoteVi:
+      "Linnea ngắm bắn các mũi tên thạch anh nổ tung gây sát thương Nham diện rộng, tận dụng mảnh Kết Tinh kích hoạt buff 50% Geo DMG từ bộ Tiếng Thì Thầm Về Đêm.",
+  },
+
+  // ── lohen ──
+  "lohen": {
+    weapons: [
+      { weaponId: "calamity-queller", tier: "S", noteVi: "Hủy Diệt - Base ATK 741 cao nhất game, tăng sát thương nguyên tố Băng và tăng mạnh ATK khi off-field" },
+      { weaponId: "staff-of-homa", tier: "S", noteVi: "Trượng Homa - CRIT DMG 66.2% và bonus ATK dồi dào" },
+      { weaponId: "primordial-jade-winged-spear", tier: "S", noteVi: "Hòa Phác Diên - CRIT Rate 22.1% và tích tầng tấn công uy lực" },
+      { weaponId: "deathmatch", tier: "A", noteVi: "Thương Quyết Chiến - CRIT Rate 36.8% cực kỳ ổn định" },
+      { weaponId: "the-catch", tier: "A", noteVi: "Lao Câu Cá - Gia tăng ER và sát thương bạo kích cho chiêu Nộ Q" },
+    ],
+    artifacts: [
+      { setIds: ["blizzard-strayer"], mode: "4pc", priority: 1, noteVi: "Dũng Sĩ Băng Giá 4 món - Tăng 15% Cryo DMG và nhận tới 40% CRIT Rate khi kẻ địch bị Đóng Băng" },
+      { setIds: ["noblesse-oblige"], mode: "4pc", priority: 2, noteVi: "Nghi Thức Tông Thất Cổ - Buff 20% ATK cho toàn đội sau khi thi triển Nộ" },
+      { setIds: ["emblem-of-severed-fate"], mode: "4pc", priority: 3, noteVi: "Dấu Ấn Ngăn Cách 4 món - Chuyển hóa toàn bộ ER thành sát thương Nộ tuyết băng" },
+    ],
+    mainStats: {
+      sands: "Tấn công (ATK%) hoặc Hiệu Quả Nạp (ER)",
+      goblet: "Sát thương Băng (Cryo DMG%)",
+      circlet: "Sát thương Bạo Kích (CRIT DMG) hoặc CRIT Rate",
+      note: "Lohen - Chiến binh Băng giá Snezhnaya, tung thương tuyết băng phong toàn trường và bộc phá chiêu Nộ dồn dập.",
+    },
+    subStats: {
+      stats: ["CRIT Rate / CRIT DMG (1:2)","Tấn công (ATK%)","Hiệu Quả Nạp (ER 140%+)","Flat ATK"],
+      note: "Ưu tiên CRIT DMG khi dùng set Dũng Sĩ Băng Giá trong đội hình Đóng Băng.",
+    },
+    talentPriority: {
+      order: ["Nguyên tố bùng phát (Q)","Kỹ năng nguyên tố (E)","Đòn thường (NA)"],
+      note: "Chiêu Nộ Q phóng mũi thương băng tuyết bộc phá là sát thương lớn nhất. E càn quét áp ấn Băng.",
+    },
+    playstyleNoteVi:
+      "Lohen phóng kích băng giá phong tỏa đường lui của kẻ địch, phối hợp cùng đồng đội Thủy đóng băng toàn bộ sàn đấu.",
+  },
+
+  // ── odette ──
+  "odette": {
+    weapons: [
+      { weaponId: "mistsplitter-reforged", tier: "S", noteVi: "Ánh Sương Đêm Sương Mù - Trấn kiếm Băng tối thượng, 44.1% CRIT DMG và buff 28-40% Cryo DMG" },
+      { weaponId: "uraku-misugiri", tier: "S", noteVi: "Kiếm Uraku - CRIT DMG 88.2% cực lớn và buff sát thương đòn đánh/kỹ năng" },
+      { weaponId: "primordial-jade-cutter", tier: "S", noteVi: "Bàn Nham Kết Lục - CRIT Rate 44.1% và tăng tấn công theo HP" },
+      { weaponId: "amenoma-kageuchi", tier: "A", noteVi: "Đoản Đao Amenoma R5 - Hồi năng lượng Q hữu hiệu cho lối chơi F2P" },
+      { weaponId: "finale-of-the-deep", tier: "A", noteVi: "Đoản Đao Hải Uyên - Đơn kiếm rèn Fontaine tăng lượng lớn ATK" },
+    ],
+    artifacts: [
+      { setIds: ["blizzard-strayer"], mode: "4pc", priority: 1, noteVi: "Dũng Sĩ Băng Giá 4 món - Tăng 15% Cryo DMG và nhận tới 40% CRIT Rate khi kẻ địch bị Đóng Băng" },
+      { setIds: ["golden-troupe"], mode: "4pc", priority: 2, noteVi: "Đoàn Kịch Hoàng Kim 4 món - Tăng 70% sát thương kỹ năng E thiên nga tuyết từ ngoài sân" },
+      { setIds: ["gladiator-s-finale"], mode: "4pc", priority: 3, noteVi: "Lễ Bế Mạc Của Giác Đấu Sĩ - Tăng 35% sát thương kiếm thuật đòn đánh thường" },
+    ],
+    mainStats: {
+      sands: "Tấn công (ATK%)",
+      goblet: "Sát thương Băng (Cryo DMG%)",
+      circlet: "Sát thương Bạo Kích (CRIT DMG)",
+      note: "Odette - Nữ kiếm sĩ Băng thanh tao, lướt kiếm hoa tuyết đóng băng kẻ địch và gây sát thương bạo kích liên hoàn.",
+    },
+    subStats: {
+      stats: ["CRIT Rate / CRIT DMG (1:2)","Tấn công (ATK%)","Hiệu Quả Nạp (ER 130%+)","Flat ATK"],
+      note: "Tập trung đẩy CRIT DMG lên mốc 220%+ và duy trì đủ ER xoay tua nộ.",
+    },
+    talentPriority: {
+      order: ["Nguyên tố bùng phát (Q)","Đòn thường (NA)","Kỹ năng nguyên tố (E)"],
+      note: "Chiêu Nộ vũ điệu thiên nga tuyết là tâm điểm dồn sát thương. Đòn thường kiếm pháp lả lướt nâng kế tiếp.",
+    },
+    playstyleNoteVi:
+      "Odette lướt kiếm tạo vũ điệu băng thanh thoát, đóng băng kẻ thù và kết thúc bằng chiêu Nộ Q xoáy bão tuyết tráng lệ.",
+  },
+
+  // ── zibai ──
+  "zibai": {
+    weapons: [
+      { weaponId: "uraku-misugiri", tier: "S", noteVi: "Kiếm Uraku - Trấn kiếm số 1 cho kiếm sĩ Nham scale DEF, CRIT DMG 88.2% và tăng mạnh sát thương đòn đánh" },
+      { weaponId: "cinnabar-spindle", tier: "S", noteVi: "Thoi Băng Chân Nhuận - Tăng tới 69% DEF và tăng mạnh sát thương kỹ năng E theo DEF" },
+      { weaponId: "primordial-jade-cutter", tier: "S", noteVi: "Bàn Nham Kết Lục - 44.1% CRIT Rate cực lớn cân bằng chỉ số" },
+      { weaponId: "mistsplitter-reforged", tier: "S", noteVi: "Ánh Sương Đêm Sương Mù - 44.1% CRIT DMG và buff sát thương nguyên tố Nham" },
+      { weaponId: "flute-of-ezpitzal", tier: "A", noteVi: "Ống Sáo Của Ezpitzal - Tăng lượng lớn DEF sau khi dùng Kỹ Năng Nguyên Tố" },
+    ],
+    artifacts: [
+      { setIds: ["husk-of-opulent-dreams"], mode: "4pc", priority: 1, noteVi: "Giấc Mộng Phù Hoa 4 món - Tối ưu 54% DEF và 24% Geo DMG cực mạnh" },
+      { setIds: ["nighttime-whispers-in-the-echoing-woods"], mode: "4pc", priority: 2, noteVi: "Tiếng Thì Thầm Về Đêm 4 món - Tăng 18% ATK và tới 50% Geo DMG khi có khiên Kết Tinh" },
+      { setIds: ["golden-troupe"], mode: "4pc", priority: 3, noteVi: "Đoàn Kịch Hoàng Kim 4 món - Tăng 70% sát thương Kỹ Năng Nguyên Tố E ngoài sân" },
+    ],
+    mainStats: {
+      sands: "Phòng thủ (DEF%)",
+      goblet: "Sát thương Nham (Geo DMG%)",
+      circlet: "CRIT Rate hoặc CRIT DMG",
+      note: "Zibai - Kiếm khách Nham Liyue, xuất kiếm hóa thạch chém nát phòng ngự đối phương theo chỉ số Phòng Thủ.",
+    },
+    subStats: {
+      stats: ["CRIT Rate / CRIT DMG (1:2)","Phòng thủ (DEF%)","Hiệu Quả Nạp (ER)","DEF phẳng"],
+      note: "Toàn bộ sát thương kiếm pháp của Zibai đều tỷ lệ thuận theo Phòng Thủ (DEF).",
+    },
+    talentPriority: {
+      order: ["Kỹ năng nguyên tố (E)","Nguyên tố bùng phát (Q)","Đòn thường (NA)"],
+      note: "E chém nham kiếm construct gây sát thương Nham ngoài sân. Q trảm thạch liên kích.",
+    },
+    playstyleNoteVi:
+      "Zibai rút kiếm vung nham khí chém nứt mặt đất, phối hợp cùng các trụ Nham (Zhongli/Albedo) tạo cộng hưởng địa chấn dồn sát thương.",
+  },
+
+  // ── flins ──
+  "flins": {
+    weapons: [
+      { weaponId: "staff-of-the-scarlet-sands", tier: "S", noteVi: "Trượng Cát Đỏ - 44.1% CRIT Rate và chuyển hóa EM sang chỉ số Tấn Công cực mạnh" },
+      { weaponId: "engulfing-lightning", tier: "S", noteVi: "Đoạn Thảo Trường Đao - ER cực cao và chuyển hóa ER thành chỉ số ATK" },
+      { weaponId: "staff-of-homa", tier: "S", noteVi: "Trượng Homa - CRIT DMG 66.2% và bonus ATK theo HP" },
+      { weaponId: "deathmatch", tier: "A", noteVi: "Thương Quyết Chiến - CRIT Rate 36.8% ổn định" },
+      { weaponId: "the-catch", tier: "A", noteVi: "Lao Câu Cá - Tăng ER và sát thương bạo kích cho chiêu Nộ Q" },
+    ],
+    artifacts: [
+      { setIds: ["thundering-fury"], mode: "4pc", priority: 1, noteVi: "Như Sấm Thịnh Nộ 4 món - Giảm hồi chiêu E liên tục và tăng sát thương phản ứng Lôi" },
+      { setIds: ["gilded-dreams"], mode: "4pc", priority: 2, noteVi: "Giấc Mộng Hoàng Kim 4 món - Cung cấp lượng lớn Tinh Thông Nguyên Tố và ATK%" },
+      { setIds: ["emblem-of-severed-fate"], mode: "4pc", priority: 3, noteVi: "Dấu Ấn Ngăn Cách 4 món - Chuyển hóa ER thành sát thương nộ sấm sét" },
+    ],
+    mainStats: {
+      sands: "Tấn công (ATK%) hoặc Tinh Thông Nguyên Tố (EM)",
+      goblet: "Sát thương Lôi (Electro DMG%)",
+      circlet: "CRIT Rate hoặc CRIT DMG",
+      note: "Flins - Thương thủ hệ Lôi dũng mãnh, phóng điện liên hoàn gây sát thương Lôi diện rộng và kích hoạt phản ứng thần tốc.",
+    },
+    subStats: {
+      stats: ["CRIT Rate / CRIT DMG (1:2)","Tấn công (ATK%)","Tinh Thông Nguyên Tố (EM)","Hiệu Quả Nạp (ER 140%+)"],
+      note: "Cân bằng giữa CRIT, ATK và EM để bộc phá phản ứng Tăng Cường.",
+    },
+    talentPriority: {
+      order: ["Nguyên tố bùng phát (Q)","Kỹ năng nguyên tố (E)","Đòn thường (NA)"],
+      note: "Q phóng lôi lao bộc phá sấm sét. E lướt đâm thương quét điện.",
+    },
+    playstyleNoteVi:
+      "Flins vung thương điện phóng tia sét càn quét kẻ thù, kết hợp cùng Thảo tạo vùng Tăng Cường liên tục bạo kích.",
+  },
+
+  // ── alyosha ──
+  "alyosha": {
+    weapons: [
+      { weaponId: "favonius-lance", tier: "S", noteVi: "Thương Tây Phong - Cung cấp lượng lớn hạt năng lượng trắng hỗ trợ sạc Nộ cho toàn đội" },
+      { weaponId: "the-catch", tier: "S", noteVi: "Lao Câu Cá - Gia tăng ER và sát thương bạo kích cho chiêu Nộ Q" },
+      { weaponId: "kitain-cross-spear", tier: "A", noteVi: "Thập Tự Thập Ngữ Khảm - Tăng EM và hoàn trả năng lượng sau khi dùng E" },
+      { weaponId: "ballad-of-the-fjords", tier: "A", noteVi: "Khúc Ca Vịnh Hẹp - 27.6% CRIT Rate và nhận thêm 120-240 EM" },
+    ],
+    artifacts: [
+      { setIds: ["noblesse-oblige"], mode: "4pc", priority: 1, noteVi: "Nghi Thức Tông Thất Cổ 4 món - Buff 20% ATK cho toàn đội sau khi dùng Q" },
+      { setIds: ["emblem-of-severed-fate"], mode: "4pc", priority: 2, noteVi: "Dấu Ấn Ngăn Cách 4 món - Chuyển hóa toàn bộ ER thành sát thương Nộ Lôi" },
+      { setIds: ["thundering-fury"], mode: "4pc", priority: 3, noteVi: "Như Sấm Thịnh Nộ 4 món - Tăng sát thương phản ứng Lôi và hỗ trợ cấp ấn" },
+    ],
+    mainStats: {
+      sands: "Hiệu Quả Nạp (ER) hoặc ATK%",
+      goblet: "Sát thương Lôi (Electro DMG%)",
+      circlet: "CRIT Rate (kích Tây Phong) hoặc CRIT DMG",
+      note: "Alyosha - Chiến sĩ Snezhnaya hệ Lôi, hỗ trợ nạp năng lượng và cấp ấn Lôi ngoài sân bền bỉ.",
+    },
+    subStats: {
+      stats: ["Hiệu Quả Nạp (ER 180%+)","Tỷ lệ Bạo Kích (CRIT Rate)","Tấn công (ATK%)","Tinh Thông Nguyên Tố (EM)"],
+      note: "Ưu tiên ER từ 180% trở lên và CRIT Rate để kích hoạt Thương Tây Phong.",
+    },
+    talentPriority: {
+      order: ["Nguyên tố bùng phát (Q)","Kỹ năng nguyên tố (E)","Đòn thường (NA)"],
+      note: "Q dựng điện trường ngoài sân là kỹ năng hỗ trợ chính. E phóng súng lôi tích hạt.",
+    },
+    playstyleNoteVi:
+      "Alyosha thi triển Q tạo từ trường sấm sét ngoài sân, cấp ấn Lôi liên tục cho chủ lực kích hoạt Siêu Dẫn hoặc Điện Cảm.",
+  },
+
+  // ── aino ──
+  "aino": {
+    weapons: [
+      { weaponId: "favonius-greatsword", tier: "S", noteVi: "Đại Kiếm Tây Phong - Sạc năng lượng liên tục cho chiêu Nộ hỗ trợ" },
+      { weaponId: "sacrificial-greatsword", tier: "S", noteVi: "Đại Kiếm Tế Lễ - Reset hồi chiêu E và cung cấp lượng lớn Hiệu Quả Nạp" },
+      { weaponId: "serpent-spine", tier: "A", noteVi: "Kiếm Ly Cốt - CRIT Rate 27.6% tăng sát thương toàn diện" },
+      { weaponId: "tidal-shadow", tier: "A", noteVi: "Bóng Râm Thủy Triều - Tăng tới 48% ATK khi nhận hồi phục" },
+      { weaponId: "rainslasher", tier: "A", noteVi: "Vũ Tài - Tăng 165 EM và tăng 36% sát thương lên kẻ địch dính ấn Thủy/Lôi" },
+    ],
+    artifacts: [
+      { setIds: ["noblesse-oblige"], mode: "4pc", priority: 1, noteVi: "Nghi Thức Tông Thất Cổ 4 món - Buff 20% ATK cho toàn đội sau khi thi triển Nộ" },
+      { setIds: ["emblem-of-severed-fate"], mode: "4pc", priority: 2, noteVi: "Dấu Ấn Ngăn Cách 4 món - Chuyển hóa ER thành sát thương chiêu Nộ sóng biển" },
+      { setIds: ["tenacity-of-the-millelith"], mode: "4pc", priority: 3, noteVi: "Thiên Nham Vững Chắc 4 món - Tăng 20% HP và buff 20% ATK liên tục cho đồng đội" },
+    ],
+    mainStats: {
+      sands: "HP% hoặc Hiệu Quả Nạp (ER)",
+      goblet: "Sát thương Thủy (Hydro DMG%) hoặc HP%",
+      circlet: "CRIT Rate hoặc Tăng Trị Liệu / HP%",
+      note: "Aino - Thủy thủ Đại Kiếm hệ Thủy, quét kiếm sóng biển tạo lá chắn và hỗ trợ hồi phục vững chắc.",
+    },
+    subStats: {
+      stats: ["Hiệu Quả Nạp (ER 180%+)","HP%","Tỷ lệ Bạo Kích (CRIT Rate)","Flat HP"],
+      note: "Đảm bảo ER trên 180% để chiêu Nộ tạo sóng luôn sẵn sàng.",
+    },
+    talentPriority: {
+      order: ["Nguyên tố bùng phát (Q)","Kỹ năng nguyên tố (E)","Đòn thường (NA)"],
+      note: "Q triệu hồi thủy triều che chở toàn đội. E chém sóng nước áp ấn Thủy.",
+    },
+    playstyleNoteVi:
+      "Aino quạt đại kiếm tạo sóng thần quét sạch kẻ địch, tạo lớp giáp nước bảo vệ và liên tục cấp ấn Thủy cho chuỗi phản ứng.",
+  },
+
+  // ── illuga ──
+  "illuga": {
+    weapons: [
+      { weaponId: "favonius-lance", tier: "S", noteVi: "Thương Tây Phong - Cung cấp hạt năng lượng trắng sạc Nộ liên tục cho toàn đội" },
+      { weaponId: "footprint-of-the-rainbow", tier: "S", noteVi: "Dấu Chân Cầu Vồng - Tăng tới 51.7% DEF và nhận thêm 32% DEF sau khi dùng E" },
+      { weaponId: "deathmatch", tier: "A", noteVi: "Thương Quyết Chiến - CRIT Rate 36.8% và tăng thêm DEF%" },
+      { weaponId: "black-tassel", tier: "B", noteVi: "Hắc Anh Thương - Lựa chọn 3 sao F2P tăng lượng HP cho khiên" },
+    ],
+    artifacts: [
+      { setIds: ["husk-of-opulent-dreams"], mode: "4pc", priority: 1, noteVi: "Giấc Mộng Phù Hoa 4 món - Tối ưu lượng Phòng Thủ DEF% và tăng cường tối đa độ bền khiên" },
+      { setIds: ["noblesse-oblige"], mode: "4pc", priority: 2, noteVi: "Nghi Thức Tông Thất Cổ 4 món - Buff 20% ATK cho toàn đội sau khi thi triển Nộ" },
+      { setIds: ["instructor"], mode: "4pc", priority: 3, noteVi: "Giáo Quan 4 món - Tăng 120 Tinh Thông Nguyên Tố cho đồng đội" },
+    ],
+    mainStats: {
+      sands: "Phòng thủ (DEF%) hoặc Hiệu Quả Nạp (ER)",
+      goblet: "Phòng thủ (DEF%) hoặc Sát thương Nham (Geo DMG%)",
+      circlet: "Phòng thủ (DEF%) hoặc CRIT Rate (kích Tây Phong)",
+      note: "Illuga - Hộ vệ Nham kiên cố, cắm thương dựng thành lũy che chở và gia tăng sát thương Nham đồng đội.",
+    },
+    subStats: {
+      stats: ["Phòng thủ (DEF%)","Hiệu Quả Nạp (ER 160%+)","Tỷ lệ Bạo Kích (CRIT Rate)","DEF phẳng"],
+      note: "Toàn bộ độ bền khiên và sát thương hộ vệ của Illuga đều tính theo Phòng Thủ (DEF).",
+    },
+    talentPriority: {
+      order: ["Kỹ năng nguyên tố (E)","Nguyên tố bùng phát (Q)","Đòn thường (NA)"],
+      note: "E cắm trụ đá tạo khiên bảo hộ kiên cố. Q chấn động nham thạch tăng cường kháng gián đoạn.",
+    },
+    playstyleNoteVi:
+      "Illuga cắm thương dựng rào chắn Nham vững chắc, bảo bọc chủ lực đứng sân an toàn xả sát thương mà không sợ bị quái đánh ngắt đòn.",
+  },
+
+  // ── jahoda ──
+  "jahoda": {
+    weapons: [
+      { weaponId: "favonius-warbow", tier: "S", noteVi: "Cung Tây Phong - Sạc năng lượng liên tục đảm bảo chiêu Nộ lốc xoáy luôn sẵn sàng" },
+      { weaponId: "the-stringless", tier: "S", noteVi: "Tuyệt Huyền R5 - 165 EM và tăng tới 48% sát thương Kỹ Năng Nguyên Tố và Nộ" },
+      { weaponId: "sacrificial-bow", tier: "A", noteVi: "Cung Tế Lễ - Reset hồi chiêu E và cung cấp lượng lớn Hiệu Quả Nạp" },
+      { weaponId: "elegy-for-the-end", tier: "A", noteVi: "Tiếng Thở Dài Vô Tận - Tăng EM và buff 20% ATK + 100 EM cho toàn đội" },
+    ],
+    artifacts: [
+      { setIds: ["viridescent-venerer"], mode: "4pc", priority: 1, noteVi: "Bóng Hình Màu Xanh 4 món - Khuếch Tán giảm 40% kháng nguyên tố của kẻ địch hỗ trợ đồng đội dồn sát thương" },
+      { setIds: ["noblesse-oblige"], mode: "4pc", priority: 2, noteVi: "Nghi Thức Tông Thất Cổ 4 món - Buff 20% ATK cho toàn đội sau khi thi triển Nộ" },
+      { setIds: ["instructor"], mode: "4pc", priority: 3, noteVi: "Giáo Quan 4 món - Buff 120 EM cho toàn đội hình" },
+    ],
+    mainStats: {
+      sands: "Tinh Thông Nguyên Tố (EM) hoặc Hiệu Quả Nạp (ER)",
+      goblet: "Tinh Thông Nguyên Tố (EM) hoặc Sát thương Phong (Anemo DMG%)",
+      circlet: "Tinh Thông Nguyên Tố (EM) hoặc CRIT Rate",
+      note: "Jahoda - Xạ thủ Phong nhanh nhẹn, bắn tên lốc xoáy gom quái và kích hoạt Khuếch Tán giảm kháng đối thủ.",
+    },
+    subStats: {
+      stats: ["Tinh Thông Nguyên Tố (EM >= 600)","Hiệu Quả Nạp (ER 170%+)","Tỷ lệ Bạo Kích (CRIT Rate)","Tấn công (ATK%)"],
+      note: "Ưu tiên tối đa EM để phản ứng Khuếch Tán nổ sát thương diện rộng mạnh nhất.",
+    },
+    talentPriority: {
+      order: ["Nguyên tố bùng phát (Q)","Kỹ năng nguyên tố (E)","Đòn thường (NA)"],
+      note: "Q bắn tên bão gió hút địch vào tâm và Swirl liên tục. E bắn lốc xoáy tích hạt nạp.",
+    },
+    playstyleNoteVi:
+      "Jahoda bắn tên lốc xoáy gom quái gom ấn, kích hoạt hiệu ứng giảm 40% kháng nguyên tố từ set Bóng Hình Màu Xanh rồi đổi sang chủ lực dọn dẹp chiến trường.",
+  },
+
+  // ── prune ──
+  "prune": {
+    weapons: [
+      { weaponId: "sacrificial-fragments", tier: "S", noteVi: "Mảnh Chương Tế Lễ - 221 EM cực cao và reset hồi chiêu E ngay lập tức" },
+      { weaponId: "favonius-codex", tier: "S", noteVi: "Tây Phong Mật Truyền - Cung cấp lượng lớn hạt năng lượng trắng hỗ trợ toàn đội" },
+      { weaponId: "wandering-evenstar", tier: "A", noteVi: "Sao Đêm Dạo Bước - Tăng EM và chuyển hóa EM thành chỉ số ATK buff cho cả đội" },
+      { weaponId: "thrilling-tales-of-dragon-slayers", tier: "A", noteVi: "Câu Chuyện Diệt Rồng R5 - Buff thẳng 48% ATK cho chủ lực kế tiếp" },
+    ],
+    artifacts: [
+      { setIds: ["viridescent-venerer"], mode: "4pc", priority: 1, noteVi: "Bóng Hình Màu Xanh 4 món - Khuếch Tán giảm 40% kháng nguyên tố tương ứng của kẻ địch trong 10s" },
+      { setIds: ["noblesse-oblige"], mode: "4pc", priority: 2, noteVi: "Nghi Thức Tông Thất Cổ 4 món - Buff 20% ATK cho toàn đội sau khi dùng Q" },
+      { setIds: ["song-of-days-past"], mode: "4pc", priority: 3, noteVi: "Khúc Ca Ngày Cũ 4 món - Cường hóa sát thương đòn đánh cho chủ lực" },
+    ],
+    mainStats: {
+      sands: "Tinh Thông Nguyên Tố (EM) hoặc Hiệu Quả Nạp (ER)",
+      goblet: "Tinh Thông Nguyên Tố (EM) hoặc Sát thương Phong (Anemo DMG%)",
+      circlet: "Tinh Thông Nguyên Tố (EM) hoặc CRIT Rate (kích Tây Phong)",
+      note: "Prune - Pháp giả hệ Phong, vận dụng gió cuốn khuếch tán diện rộng và cường hóa chỉ số cho toàn bộ đội hình.",
+    },
+    subStats: {
+      stats: ["Tinh Thông Nguyên Tố (EM >= 700)","Hiệu Quả Nạp (ER 160%+)","Tỷ lệ Bạo Kích (CRIT Rate)","Tấn công (ATK%)"],
+      note: "Mục tiêu đạt 700+ EM để tối ưu sát thương phản ứng Swirl và giảm kháng diện rộng.",
+    },
+    talentPriority: {
+      order: ["Kỹ năng nguyên tố (E)","Nguyên tố bùng phát (Q)","Đòn thường (NA)"],
+      note: "E phóng gió xoáy áp ấn Phong liên tục. Q tạo vùng bão Phong khuếch tán diện rộng.",
+    },
+    playstyleNoteVi:
+      "Prune thi triển ma pháp gió lốc khuếch tán đa nguyên tố, kích hoạt giảm kháng và buff chỉ số trước khi hoán đổi chủ lực vào sân bộc phá sát thương.",
+  },
+
+
 };
 
 
