@@ -267,7 +267,7 @@ async function buildVersionIndex(): Promise<VersionIndex> {
 }
 
 /** Cache 1 giờ — dữ liệu phiên bản chỉ đổi khi seed lại. */
-export const getVersionIndex = unstable_cache(buildVersionIndex, ["version-index-v2"], {
+export const getVersionIndex = unstable_cache(buildVersionIndex, ["version-index-v3"], {
   revalidate: 3600,
   tags: ["version-index"],
 });
