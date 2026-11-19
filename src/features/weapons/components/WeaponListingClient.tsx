@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { EntityCard } from "@/components/ui/EntityCard";
-import { rarityColorVar } from "@/lib/ui/theme";
+import { WeaponCard } from "./WeaponCard";
 import { translateStatName } from "@/core/game/stat-name-translations";
 import { WeaponIcon } from "@/features/weapons/components/WeaponIcon";
 
@@ -307,21 +306,18 @@ export function WeaponListingClient({ initialWeapons, locale, typeLabels }: Weap
         <div className={DENSE_GRID}>
           {filteredWeapons.map((w) => {
             const subLabel = w.subStatName ? translateStatName(w.subStatName, locale) : null;
-            const subtitleText = subLabel
-              ? `${subLabel} ${w.subStatValue ? `(${w.subStatValue})` : ""}`
-              : `${typeLabels[w.type] ?? w.type}`;
 
             return (
-              <div key={w.id} className="grid-card-item">
-                <EntityCard
-                  href={`/weapons/${w.id}`}
+              <div key={w.id} className="h-full">
+                <WeaponCard
+                  id={w.id}
                   name={w.localizedName || w.name}
-                  subtitle={subtitleText}
+                  type={typeLabels[w.type] ?? w.type}
                   rarity={w.rarity}
-                  imageSrc={w.iconUrl}
-                  imageFit="contain"
-                  compact
-                  elementColor={rarityColorVar(w.rarity)}
+                  baseAtk={w.baseAtk}
+                  subStatName={subLabel}
+                  subStatValue={w.subStatValue}
+                  iconUrl={w.iconUrl}
                 />
               </div>
             );

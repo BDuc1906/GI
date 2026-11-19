@@ -1,91 +1,104 @@
 "use client";
 
-import { Link } from "@/i18n/navigation";
+import { useState } from "react";
+import { Link, useRouter } from "@/i18n/navigation";
 import { KazuhaMapleLeaves } from "@/components/effects/KazuhaMapleLeaves";
-import { useTranslations } from "next-intl";
+
+const QUICK_LOOKUP_ITEMS = [
+  { label: "Nhân vật", icon: "👤", href: "/characters", count: "136+" },
+  { label: "Vũ khí", icon: "⚔️", href: "/weapons", count: "250+" },
+  { label: "Thánh di vật", icon: "🌸", href: "/artifacts", count: "60+ bộ" },
+  { label: "Bí cảnh", icon: "🏰", href: "/domains", count: "Teyvat" },
+];
 
 export function WikiHero() {
-  const tHome = useTranslations("Home");
-  const tNavigation = useTranslations("Navigation");
-  const tTools = useTranslations("Tools");
+  const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/characters?q=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      router.push("/characters");
+    }
+  };
 
   return (
     <section className="relative overflow-hidden border-b border-border/50 bg-bg-primary">
+      {/* Background ambient glows */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
-          className="absolute -top-40 left-1/4 h-[600px] w-[600px] rounded-full opacity-25 blur-[140px]"
+          className="absolute -top-40 left-1/2 -translate-x-1/2 h-[500px] w-[800px] rounded-full opacity-20 blur-[140px]"
           style={{ background: "radial-gradient(circle, var(--accent-500) 0%, transparent 70%)" }}
-        />
-        <div
-          className="absolute right-0 top-10 h-[550px] w-[550px] rounded-full opacity-20 blur-[150px]"
-          style={{ background: "radial-gradient(circle, var(--accent-bright) 0%, transparent 70%)" }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-bg-primary/50 to-bg-primary" />
       </div>
+
       <KazuhaMapleLeaves />
 
-      <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-10 px-4 py-12 md:grid-cols-[1.1fr_0.9fr] md:px-8 md:py-20">
-        <div className="max-w-2xl">
-          <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-accent-bright">
-            {tHome("toolEnkaTitle")}
-          </p>
-          <h1 className="font-display text-3xl font-bold leading-tight tracking-tight text-text-primary sm:text-4xl md:text-5xl">
-            {tHome("buildReviewTitle")}
-          </h1>
-          <p className="mt-5 max-w-xl text-base leading-relaxed text-text-secondary md:text-lg">
-            {tHome("buildReviewDescription")}
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link
-              href="/tools/enka-sync"
-              className="btn-primary inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold shadow-sm"
-            >
-              {tHome("toolEnkaTitle")}
-            </Link>
-            <Link
-              href="/tools/dps-calculator"
-              className="btn-secondary inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold hover:border-accent-500/60"
-            >
-              {tHome("toolDamageTitle")}
-            </Link>
-          </div>
-          <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-sm">
-            <Link href="/wiki" className="text-text-muted transition-colors hover:text-accent-bright">
-              {tNavigation("title")} →
-            </Link>
-            <Link href="/tools" className="text-text-muted transition-colors hover:text-accent-bright">
-              {tTools("title")} →
-            </Link>
-          </div>
+      <div className="relative z-10 mx-auto max-w-4xl px-4 py-16 sm:py-20 text-center">
+        {/* Eyebrow tag */}
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-accent-500/30 bg-accent-500/10 text-xs font-semibold text-accent-bright mb-4">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span>Hệ thống Build &amp; Dữ liệu chuẩn KeqingMains (KQM)</span>
         </div>
 
-        <div className="relative mx-auto w-full max-w-lg">
-          <div className="absolute -inset-5 rounded-[2rem] bg-accent-500/10 blur-2xl" />
-          <div className="relative overflow-hidden rounded-2xl border border-border/80 bg-bg-card/90 p-5 shadow-2xl backdrop-blur-sm sm:p-6">
-            <div className="mb-5 flex items-center justify-between border-b border-border/60 pb-4">
-              <span className="text-sm font-semibold text-text-primary">{tHome("toolEnkaTitle")}</span>
-              <span className="rounded-full border border-accent-500/30 bg-accent-500/10 px-2.5 py-1 text-[10px] font-semibold text-accent-bright">
-                UID
-              </span>
-            </div>
-            <div className="space-y-3">
-              <div className="flex items-center gap-3 rounded-xl border border-border/60 bg-bg-elevated/60 p-3">
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent-500/15 text-sm font-bold text-accent-bright">1</span>
-                <div>
-                  <p className="text-sm font-semibold text-text-primary">{tHome("toolEnkaTitle")}</p>
-                  <p className="text-xs text-text-muted">{tHome("toolEnkaDescription")}</p>
-                </div>
-              </div>
-              <div className="ml-7 h-4 border-l border-dashed border-accent-500/50" />
-              <div className="flex items-center gap-3 rounded-xl border border-border/60 bg-bg-elevated/60 p-3">
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent-500/15 text-sm font-bold text-accent-bright">2</span>
-                <div>
-                  <p className="text-sm font-semibold text-text-primary">{tHome("toolDamageTitle")}</p>
-                  <p className="text-xs text-text-muted">{tHome("toolDamageDescription")}</p>
-                </div>
-              </div>
-            </div>
+        {/* Main Title */}
+        <h1 className="font-display text-3xl font-bold tracking-tight text-text-primary sm:text-5xl md:text-6xl leading-[1.15]">
+          Cơ Sở Dữ Liệu &amp; Build <br className="hidden sm:inline" />
+          <span className="bg-gradient-to-r from-accent-bright via-text-primary to-accent-500 bg-clip-text text-transparent">
+            Genshin Impact
+          </span>
+        </h1>
+
+        {/* Subtitle */}
+        <p className="mt-4 text-sm sm:text-base text-text-secondary max-w-2xl mx-auto leading-relaxed">
+          Tra cứu dữ liệu chính xác, hướng dẫn build đa lối chơi đã kiểm định KQMS 20-Roll và bộ công cụ tính toán tối ưu cho Nhà Lữ Hành.
+        </p>
+
+        {/* ── GLOBAL SEARCH BAR (1 CTA CHÍNH DUY NHẤT) ── */}
+        <form onSubmit={handleSearchSubmit} className="mt-8 max-w-2xl mx-auto">
+          <div className="relative flex items-center rounded-2xl border border-border/80 bg-bg-card/90 p-1.5 shadow-xl backdrop-blur-md focus-within:border-accent-500 transition-all">
+            <span className="pl-3.5 pr-2 text-text-muted text-base select-none">
+              🔍
+            </span>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Tìm nhân vật, vũ khí, thánh di vật, nguyên liệu (Kazuha, Raiden, Homa...)..."
+              className="flex-1 bg-transparent px-2 py-2 text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
+            />
+            <button
+              type="submit"
+              className="rounded-xl bg-accent-500 px-5 py-2.5 text-xs font-bold text-bg-primary hover:bg-accent-400 transition-colors shadow-sm shrink-0 cursor-pointer"
+            >
+              Tra cứu
+            </button>
           </div>
+        </form>
+
+        {/* ── HÀNG NÚT TRA CỨU NHANH ── */}
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
+          <span className="text-xs text-text-muted mr-1 hidden sm:inline">
+            Tra cứu nhanh:
+          </span>
+          {QUICK_LOOKUP_ITEMS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl border border-border/70 bg-bg-elevated/70 hover:bg-bg-elevated hover:border-accent-500/60 text-xs font-semibold text-text-primary transition-all duration-150 group shadow-sm"
+            >
+              <span className="text-sm">{item.icon}</span>
+              <span className="group-hover:text-accent-bright transition-colors">
+                {item.label}
+              </span>
+              <span className="text-[10px] text-text-muted font-normal px-1.5 py-0.2 rounded bg-bg-secondary">
+                {item.count}
+              </span>
+            </Link>
+          ))}
         </div>
       </div>
     </section>

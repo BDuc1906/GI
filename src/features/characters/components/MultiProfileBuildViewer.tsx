@@ -8,6 +8,7 @@ import {
   localWeaponIcon,
   localArtifactSetIcon,
   localCharacterIcon,
+  localArtifactPiece,
 } from "@/lib/ui/local-assets";
 import { rarityTextClass } from "@/lib/ui/theme";
 import type {
@@ -549,33 +550,78 @@ export function MultiProfileBuildViewer({
 
       {/* ── LƯỚI DƯỚI: MAIN STATS + SUB STATS + THIÊN PHÚ & ROTATION ── */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* ── MAIN STATS ── */}
+        {/* ── MAIN STATS (3 Thẻ ngang chuẩn mockup KQM) ── */}
         <div>
-          <h3 className="font-semibold text-text-primary mb-3">Main Stat khuyên dùng</h3>
-          <div className="rounded-xl border border-border bg-bg-elevated overflow-hidden">
+          <h3 className="font-semibold text-text-primary mb-3 flex items-center justify-between">
+            <span>Main Stat khuyên dùng</span>
+            <span className="text-[11px] text-text-muted font-normal">Đồng hồ · Ly · Nón</span>
+          </h3>
+          <div className="grid grid-cols-3 gap-2.5">
             {[
-              { slot: "Đồng hồ (Sands)", icon: "⏱", value: profile.mainStats.sands.join(" / ") },
-              { slot: "Ly (Goblet)", icon: "🏆", value: profile.mainStats.goblet.join(" / ") },
-              { slot: "Nón (Circlet)", icon: "👑", value: profile.mainStats.circlet.join(" / ") },
-            ].map(({ slot, value }) => (
-              <div
-                key={slot}
-                className="flex flex-col px-4 py-3 border-b last:border-b-0 border-border"
-              >
-                <span className="text-[11px] text-text-muted uppercase tracking-wide">{slot}</span>
-                <span
-                  className="text-sm font-semibold mt-0.5"
-                  style={{ color: elementColor ?? "var(--accent-bright)" }}
+              {
+                slot: "Đồng hồ",
+                subLabel: "Sands",
+                piece: "sands" as const,
+                fallbackIcon: "/local-genshin-assets/artifacts/10001-sands.png",
+                value: profile.mainStats.sands.join(" / "),
+              },
+              {
+                slot: "Ly",
+                subLabel: "Goblet",
+                piece: "goblet" as const,
+                fallbackIcon: "/local-genshin-assets/artifacts/10001-goblet.png",
+                value: profile.mainStats.goblet.join(" / "),
+              },
+              {
+                slot: "Nón",
+                subLabel: "Circlet",
+                piece: "circlet" as const,
+                fallbackIcon: "/local-genshin-assets/artifacts/10001-circlet.png",
+                value: profile.mainStats.circlet.join(" / "),
+              },
+            ].map(({ slot, subLabel, piece, fallbackIcon, value }) => {
+              const primarySetId = fourPieceArtifacts[0]?.sets[0]?.id || "viridescent-venerer";
+              const pieceIcon = localArtifactPiece(primarySetId, piece);
+
+              return (
+                <div
+                  key={slot}
+                  className="p-3 rounded-xl border border-border/70 bg-bg-card flex flex-col items-center text-center justify-between gap-2 shadow-sm hover:border-border transition-colors"
                 >
-                  {value}
-                </span>
-              </div>
-            ))}
-            <div className="px-4 py-3 bg-bg-overlay/40 border-t border-border">
-              <p className="text-xs text-text-secondary leading-relaxed">
-                {profile.conditionsAndAssumptionsVi}
-              </p>
-            </div>
+                  <div className="relative w-12 h-12 rounded-lg bg-bg-elevated/70 border border-border/50 p-1 flex items-center justify-center">
+                    <SafeImage
+                      src={pieceIcon}
+                      fallbackSrcs={[fallbackIcon]}
+                      alt={slot}
+                      fill
+                      sizes="48px"
+                      className="object-contain p-0.5"
+                    />
+                  </div>
+                  <div className="w-full">
+                    <span className="text-xs font-bold text-text-primary block truncate">
+                      {slot}
+                    </span>
+                    <span className="text-[10px] text-text-muted block">
+                      {subLabel}
+                    </span>
+                    <span
+                      className="text-xs font-bold mt-1 block truncate px-1 py-0.5 rounded bg-bg-elevated/80 border border-border/40"
+                      style={{ color: elementColor ?? "var(--accent-bright)" }}
+                      title={value}
+                    >
+                      {value}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="mt-3 p-3 rounded-xl bg-bg-elevated/40 border border-border/60">
+            <p className="text-[11px] text-text-secondary leading-relaxed">
+              <strong className="text-text-primary">Lưu ý dòng chính:</strong>{" "}
+              {profile.conditionsAndAssumptionsVi}
+            </p>
           </div>
         </div>
 

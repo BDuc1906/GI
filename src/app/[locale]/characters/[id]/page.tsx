@@ -17,6 +17,7 @@ import { CharacterSimilarSection } from "@/features/characters/components/Charac
 import { RecommendedBuildTab } from "@/features/characters/components/RecommendedBuildTab";
 import { CharacterTeamVariants } from "@/features/characters/components/CharacterTeamVariants";
 import { CharacterStickerGallery } from "@/features/characters/components/CharacterStickerGallery";
+import { CharacterAnchorNav } from "@/features/characters/components/CharacterAnchorNav";
 import type { Metadata } from "next";
 import {
   resolveTravelerSibling,
@@ -160,65 +161,95 @@ export default async function CharacterDetail({ params }: PageProps) {
         ]}
       />
 
-      <CharacterHero
-        character={c}
-        isTraveler={isTraveler}
-        boySplash={boySplash}
-        girlSplash={girlSplash}
-        locale={locale}
-        elementColor={el}
-        localizedDescription={localizedDescription}
-        voiceActors={voiceActors}
-      />
+      <div id="hero">
+        <CharacterHero
+          character={c}
+          isTraveler={isTraveler}
+          boySplash={boySplash}
+          girlSplash={girlSplash}
+          locale={locale}
+          elementColor={el}
+          localizedDescription={localizedDescription}
+          voiceActors={voiceActors}
+        />
+      </div>
 
+      <CharacterAnchorNav elementColor={el} />
+
+      {/* 2. Build khuyên dùng (Đưa lên đầu ngay dưới Hero / Anchor) */}
+      <div id="build" className="scroll-mt-24">
+        <RecommendedBuildTab
+          character={c}
+          locale={locale}
+          elementColor={el}
+        />
+      </div>
+
+      {/* 3. Đội hình đề xuất */}
+      <div id="teams" className="scroll-mt-24">
+        <CharacterTeamVariants
+          character={c}
+          locale={locale}
+          elementColor={el}
+        />
+      </div>
+
+      {/* 4. Chỉ số nhân vật */}
       {statsByLevel.length > 0 && (
-        <section className="mb-10">
-          <SectionHeading elementColor={el}>{t("statsByLevel")}</SectionHeading>
-          <CharacterLevelSlider statsByLevel={statsByLevel} ascensionStat={c.ascensionStat} elementColor={el} />
-        </section>
+        <div id="stats" className="scroll-mt-24">
+          <section className="mb-10">
+            <SectionHeading elementColor={el}>{t("statsByLevel")}</SectionHeading>
+            <CharacterLevelSlider statsByLevel={statsByLevel} ascensionStat={c.ascensionStat} elementColor={el} />
+          </section>
+        </div>
       )}
 
-      <CharacterAscension
-        ascensionMaterials={ascensionMaterials}
-        materialIconMap={materialIconMap}
-        elementColor={el}
-        locale={locale}
-      />
 
-      <CharacterTalents
-        talents={talents}
-        talentMaterials={talentMaterials}
-        materialIconRecord={materialIconRecord}
-        elementColor={el}
-        locale={locale}
-        character={c}
-      />
 
-      <CharacterConstellations
-        constellations={constellations}
-        locale={locale}
-      />
+      {/* 5. Thiên phú */}
+      <div id="talents" className="scroll-mt-24">
+        <CharacterTalents
+          talents={talents}
+          talentMaterials={talentMaterials}
+          materialIconRecord={materialIconRecord}
+          elementColor={el}
+          locale={locale}
+          character={c}
+        />
+      </div>
 
-      <RecommendedBuildTab
-        character={c}
-        locale={locale}
-        elementColor={el}
-      />
+      {/* 6. Cung mệnh */}
+      <div id="constellations" className="scroll-mt-24">
+        <CharacterConstellations
+          constellations={constellations}
+          locale={locale}
+        />
+      </div>
 
-      <CharacterStickerGallery characterId={c.id} elementColor={el} />
+      {/* 7. Nguyên liệu nâng cấp */}
+      <div id="materials" className="scroll-mt-24">
+        <CharacterAscension
+          ascensionMaterials={ascensionMaterials}
+          materialIconMap={materialIconMap}
+          elementColor={el}
+          locale={locale}
+        />
+      </div>
 
-      <CharacterSimilarSection
-        similar={similar}
-        vision={c.vision}
-        elementColor={el}
-        locale={locale}
-      />
 
-      <CharacterTeamVariants
-        character={c}
-        locale={locale}
-        elementColor={el}
-      />
+
+      {/* 8. Nội dung bổ sung (Nhân vật tương tự & Sticker) */}
+      <div id="extras" className="scroll-mt-24 space-y-8">
+        <CharacterSimilarSection
+          similar={similar}
+          vision={c.vision}
+          elementColor={el}
+          locale={locale}
+        />
+        <CharacterStickerGallery characterId={c.id} elementColor={el} />
+      </div>
+
+
     </div>
   );
 }

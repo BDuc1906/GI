@@ -110,39 +110,50 @@ export async function CharacterTalents({
             )}
 
             {tal.attributes && tal.attributes.length > 0 && (
-              <div className="overflow-x-auto mb-1 rounded-lg border border-border">
-                <table className="w-full text-xs border-collapse">
-                  <thead>
-                    <tr>
-                      <th className="py-1.5 px-3 text-left font-semibold whitespace-nowrap border-r border-border">
-                        {t("level")}
-                      </th>
-                      {Array.from(
-                        { length: Math.max(...tal.attributes.map((r) => r.values.length)) },
-                        (_, i) => i + 1
-                      ).map((lv) => (
-                        <th key={lv} className="py-1.5 px-2 text-center font-semibold whitespace-nowrap tabular-nums">
-                          {lv}
+              <details className="group mb-3 border border-border/70 rounded-xl bg-bg-elevated/40 overflow-hidden">
+                <summary className="px-3.5 py-2.5 text-xs font-semibold text-text-secondary hover:text-text-primary cursor-pointer flex items-center justify-between transition-colors select-none">
+                  <span className="flex items-center gap-1.5">
+                    <span>📊</span>
+                    <span>Bảng chi tiết chỉ số theo cấp ({t("level")} 1–{Math.max(...tal.attributes.map((r) => r.values.length))})</span>
+                  </span>
+                  <span className="text-[10px] text-accent-bright font-mono group-open:rotate-180 transition-transform duration-200">
+                    ▼
+                  </span>
+                </summary>
+                <div className="overflow-x-auto border-t border-border/60 p-2">
+                  <table className="w-full text-xs border-collapse">
+                    <thead>
+                      <tr className="bg-bg-secondary/40">
+                        <th className="py-1.5 px-3 text-left font-semibold whitespace-nowrap border-r border-border">
+                          {t("level")}
                         </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {tal.attributes.map((row, i) => (
-                      <tr key={i}>
-                        <td className="py-1.5 px-3 text-text-muted whitespace-nowrap align-top border-r border-border">
-                          {row.label}
-                        </td>
-                        {row.values.map((v, j) => (
-                          <td key={j} className="py-1.5 px-2 text-center text-text-primary whitespace-nowrap tabular-nums">
-                            {v}
-                          </td>
+                        {Array.from(
+                          { length: Math.max(...tal.attributes.map((r) => r.values.length)) },
+                          (_, i) => i + 1
+                        ).map((lv) => (
+                          <th key={lv} className="py-1.5 px-2 text-center font-semibold whitespace-nowrap tabular-nums">
+                            {lv}
+                          </th>
                         ))}
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody>
+                      {tal.attributes.map((row, i) => (
+                        <tr key={i} className="hover:bg-bg-elevated/50 transition-colors">
+                          <td className="py-1.5 px-3 text-text-muted whitespace-nowrap align-top border-r border-border font-medium">
+                            {row.label}
+                          </td>
+                          {row.values.map((v, j) => (
+                            <td key={j} className="py-1.5 px-2 text-center text-text-primary whitespace-nowrap tabular-nums">
+                              {v}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </details>
             )}
 
             {talentMaterials.length > 0 &&

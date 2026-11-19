@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { EntityCard } from "@/components/ui/EntityCard";
-import { rarityColorVar } from "@/lib/ui/theme";
+import { ArtifactSetCard } from "./ArtifactSetCard";
 import {
   ARTIFACT_CATEGORIES,
   categorizeArtifactSet,
@@ -246,16 +245,14 @@ export function ArtifactListingClient({ initialSets, locale: _locale }: Artifact
       ) : (
         <div className={DENSE_GRID}>
           {filteredSets.map((a) => (
-            <div key={a.id} className="grid-card-item">
-              <EntityCard
-                href={`/artifacts/${a.id}`}
+            <div key={a.id} className="h-full">
+              <ArtifactSetCard
+                id={a.id}
                 name={a.localizedName || a.name}
-                subtitle={`${a.rarityRange.join("/")}★`}
-                rarity={a.maxRarity}
+                rarityRange={a.rarityRange}
+                twoPieceBonus={a.twoPieceBonus}
+                fourPieceBonus={a.fourPieceBonus}
                 imageSrc={a.imageSrc}
-                imageFit="contain"
-                compact
-                elementColor={rarityColorVar(a.maxRarity)}
               />
             </div>
           ))}

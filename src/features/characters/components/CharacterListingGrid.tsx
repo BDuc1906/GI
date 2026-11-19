@@ -1,32 +1,25 @@
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import type { Character } from "@prisma/client";
-import { ElementIcon } from "@/features/characters/components/ElementIcon";
-import { EntityCard } from "@/components/ui/EntityCard";
-import { elementColorVar } from "@/lib/ui/theme";
 import { resolveCharacterCardImage } from "@/core/game/character-helpers";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { getElementNameByKey } from "@/core/game/element-reactions-data";
 import type { CharacterGrouping, TravelerBucket } from "@/features/characters/listing";
 import { localCharacterIcon } from "@/lib/ui/local-assets";
+import { CharacterCard } from "@/features/characters/components/CharacterCard";
 
-// Class grid dùng chung cho cả nhóm Traveler và mọi nhóm rarity — mật độ
-// cao hơn bản cũ (dừng ở lg:6), tận dụng màn hình rộng thay vì để card
-// giãn to vô lý. Đi kèm compact=true trên EntityCard (icon vuông, không
-// tilt, text rút gọn) để phù hợp số lượng card lớn trên 1 màn hình.
-const DENSE_GRID = "grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3";
+// Mật độ chuẩn hóa theo yêu cầu:
+// - Điện thoại: 2-3 cột
+// - Tablet: 4-6 cột
+// - Desktop: 8 cột
+// - Màn hình rất rộng: 10 cột
+const DENSE_GRID = "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 gap-3 sm:gap-3.5";
 
 interface CharacterListingGridProps {
   locale: string;
   grouping: CharacterGrouping;
 }
 
-/**
- * Toàn bộ phần kết quả của trang /characters: nhóm Traveler theo nguyên
- * tố + các nhóm rarity còn lại, hoặc trạng thái rỗng. Chỉ nhận dữ liệu đã
- * gom nhóm sẵn (xem features/characters/listing/grouping.ts) — không tự
- * đụng Prisma hay filter logic.
- */
 export async function CharacterListingGrid({ locale, grouping }: CharacterListingGridProps) {
   const t = await getTranslations({ locale, namespace: "Characters" });
   const tWeaponType = await getTranslations({ locale, namespace: "WeaponType" });
@@ -46,22 +39,20 @@ export async function CharacterListingGrid({ locale, grouping }: CharacterListin
 
   return (
     <>
-        {travelerByElement.size > 0 && (
+      {/* Nhóm Nhà Lữ Hành (Traveler) */}
+      {travelerByElement.size > 0 && (
         <div className={`${DENSE_GRID} mb-8`}>
           {Array.from(travelerByElement.entries()).map(([el, { boy, girl }]: [string, TravelerBucket], index: number) => {
             const target = (boy ?? girl) as Character;
             const boyImg = boy ? resolveCharacterCardImage(boy) : null;
             const girlImg = girl ? resolveCharacterCardImage(girl) : null;
             return (
-              <div key={`traveler-${el}`} className="grid-card-item">
-                <EntityCard
-                  href={`/characters/${target.id}`}
-                  // "Traveler (Anemo)" v.v. — tên ghép cứng ở đây, KHÔNG
-                  // qua getLocalizedName (Character.name của 2 dòng
-                  // "Traveler (Boy/Girl)" trong DB không phải tên hiển
-                  // thị thật, chỉ dùng để phân biệt nội bộ).
+              <div key={`traveler-${el}`} className="h-full">
+                <CharacterCard
+                  id={target.id}
                   name={`${t("traveler")} (${getElementNameByKey(el, locale)})`}
-                  subtitle={tWeaponType("Sword")}
+                  vision={el}
+                  weaponType={tWeaponType("Sword")}
                   rarity={target.rarity}
                   imageSrc={boyImg || girlImg || "/local-genshin-assets/characters/icon/aether.png"}
                   fallbackSrcs={[
@@ -70,16 +61,8 @@ export async function CharacterListingGrid({ locale, grouping }: CharacterListin
                     "/local-genshin-assets/characters/icon/aether.png",
                     "/local-genshin-assets/characters/icon/lumine.png",
                   ]}
-                  aspect="square"
-                  imageFit="contain"
-                  compact
                   priority={index < 10}
-                  element={el}
-                  frameStyle="simple"
-                  backgroundType="elemental-gradient"
-                  useEnhancedStars={true}
-                  elementColor={elementColorVar(el)}
-                  cornerBadge={<ElementIcon vision={el} iconUrl={target.elementIcon} size={14} animated={true} glow={true} />}
+                  elementIcon={target.elementIcon}
                 />
               </div>
             );
@@ -87,36 +70,33 @@ export async function CharacterListingGrid({ locale, grouping }: CharacterListin
         </div>
       )}
 
+      {/* Nhóm theo Phẩm cấp sao (5★, 4★) */}
       {sortedRarities.map((r: number) => (
         <div key={r} className="mb-8">
-          {/* Tiêu đề nhóm rarity — sticky để không mất mốc khi cuộn dài,
-              thay cho ranh giới 5★/4★ vô hình như bản cũ. */}
           <div
-            className="sticky top-0 z-10 bg-bg-primary/90 backdrop-blur-sm py-2 mb-3 text-xs font-semibold tracking-wide"
+            className="sticky top-16 z-10 bg-bg-primary/95 backdrop-blur-md py-2 px-1 mb-3.5 text-xs font-bold tracking-wider uppercase border-b border-border/50 flex items-center justify-between"
             style={{ color: `var(--rarity-${r >= 5 ? 5 : r === 4 ? 4 : 3})` }}
           >
-            {"★".repeat(r)} · {t("rarityGroupCount", { count: rarityGroups.get(r)!.length })}
+            <span>
+              {"★".repeat(r)} · {t("rarityGroupCount", { count: rarityGroups.get(r)!.length })}
+            </span>
+            <span className="text-[10px] text-text-muted font-normal lowercase">
+              {r === 5 ? "Nhân vật 5 sao giới hạn & thường" : "Nhân vật 4 sao"}
+            </span>
           </div>
           <div className={DENSE_GRID}>
             {rarityGroups.get(r)!.map((c: Character, index: number) => (
-              <div key={c.id} className="grid-card-item">
-                <EntityCard
-                  href={`/characters/${c.id}`}
+              <div key={c.id} className="h-full">
+                <CharacterCard
+                  id={c.id}
                   name={getLocalizedName(c, locale)}
-                  subtitle={tWeaponType(c.weaponType as "Sword" | "Claymore" | "Polearm" | "Bow" | "Catalyst")}
+                  vision={c.vision}
+                  weaponType={tWeaponType(c.weaponType as "Sword" | "Claymore" | "Polearm" | "Bow" | "Catalyst")}
                   rarity={c.rarity}
                   imageSrc={resolveCharacterCardImage(c)}
                   fallbackSrcs={[localCharacterIcon(c.id), c.iconUrlOriginal]}
-                  aspect="square"
-                  imageFit="contain"
-                  compact
                   priority={index < 10}
-                  element={c.vision}
-                  frameStyle="simple"
-                  backgroundType="elemental-gradient"
-                  useEnhancedStars={true}
-                  elementColor={elementColorVar(c.vision)}
-                  cornerBadge={<ElementIcon vision={c.vision} iconUrl={c.elementIcon} size={14} animated={true} glow={true} />}
+                  elementIcon={c.elementIcon}
                 />
               </div>
             ))}
