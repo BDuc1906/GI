@@ -9,6 +9,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { StatsCards } from "@/features/admin/StatsCards";
 import { AgentControlPanel } from "@/features/admin/AgentControlPanel";
@@ -108,12 +109,21 @@ export default function AdminPage() {
               </h1>
               <p className="text-sm text-text-secondary font-medium">{t("subtitle")}</p>
             </div>
-            <button
-              onClick={() => setRefreshToken(Date.now())}
-              className="px-6 py-3 bg-bg-input border border-border rounded-lg hover:border-border-strong transition-colors text-sm font-semibold"
-            >
-              {t("refresh")}
-            </button>
+            <div className="flex items-center gap-3">
+              <Link
+                href="/admin/builds"
+                className="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-500/20 border border-emerald-500/40 text-emerald-200 rounded-lg hover:bg-emerald-500/30 transition-colors text-sm font-semibold"
+              >
+                <span>🛡️ Build Review &amp; Coverage</span>
+                <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/30 font-mono">KQM</span>
+              </Link>
+              <button
+                onClick={() => setRefreshToken(Date.now())}
+                className="px-6 py-3 bg-bg-input border border-border rounded-lg hover:border-border-strong transition-colors text-sm font-semibold"
+              >
+                {t("refresh")}
+              </button>
+            </div>
           </div>
         </div>
 

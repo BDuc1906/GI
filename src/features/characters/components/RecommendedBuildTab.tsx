@@ -25,6 +25,11 @@ import {
 } from "@/lib/ui/local-assets";
 import { rarityTextClass } from "@/lib/ui/theme";
 import { getCharacterBuild, getBuildSource } from "@/data/character-builds-data";
+import { MULTI_PROFILE_BUILDS } from "@/core/build-profile";
+import {
+  MultiProfileBuildViewer,
+  type ResolvedBuildProfile,
+} from "./MultiProfileBuildViewer";
 
 // ─── Tier system ────────────────────────────────────────────────────────────
 
@@ -421,6 +426,102 @@ function BuildSourceBadge({
 export async function RecommendedBuildTab({ character, locale: _locale, elementColor }: Props) {
   const vision = character.vision ?? "Anemo";
   const weaponType = character.weaponType ?? "Sword";
+
+  // ── 0. KIỂM TRA BỘ BUILD ĐA LỐI CHƠI (MULTI-PROFILE KQM STANDARD) ────────
+  const normalizedId = character.id.toLowerCase().trim();
+  const multiBuild = MULTI_PROFILE_BUILDS[normalizedId];
+  const multiProfiles = multiBuild?.profiles ?? [];
+
+  if (multiProfiles.length > 0) {
+    const allWeaponIds = Array.from(
+      new Set(multiProfiles.flatMap((p) => p.weapons.map((w) => w.weaponId)))
+    );
+    const dbWeapons = await prisma.weapon.findMany({
+      where: { id: { in: allWeaponIds } },
+      select: {
+        id: true,
+        name: true,
+        type: true,
+        rarity: true,
+        baseAtk: true,
+        subStatName: true,
+        subStatValue: true,
+        effectName: true,
+        iconUrl: true,
+        iconUrlOriginal: true,
+      },
+    });
+    const weaponMap = new Map(dbWeapons.map((w) => [w.id, w]));
+
+    const allSetIds = Array.from(
+      new Set(multiProfiles.flatMap((p) => p.artifacts.flatMap((a) => a.setIds)))
+    );
+    const dbSets = await prisma.artifactSet.findMany({
+      where: { id: { in: allSetIds } },
+      select: {
+        id: true,
+        name: true,
+        twoPieceBonus: true,
+        fourPieceBonus: true,
+        iconUrl: true,
+        iconUrlOriginal: true,
+      },
+    });
+    const setMap = new Map(dbSets.map((s) => [s.id, s]));
+
+    const allTeammateIds = Array.from(
+      new Set(multiProfiles.flatMap((p) => p.recommendedTeams.flatMap((t) => t.teammateIds)))
+    );
+    const dbTeammates = await prisma.character.findMany({
+      where: { id: { in: allTeammateIds } },
+      select: { id: true, name: true },
+    });
+    const teammateMap = new Map(dbTeammates.map((c) => [c.id, c]));
+
+    const resolvedProfiles: ResolvedBuildProfile[] = multiProfiles.map((prof) => ({
+      profile: prof,
+      weapons: prof.weapons
+        .map((w) => {
+          const data = weaponMap.get(w.weaponId);
+          if (!data) return null;
+          return { ranking: w, data };
+        })
+        .filter((item): item is NonNullable<typeof item> => item !== null),
+      artifacts: prof.artifacts.map((a) => ({
+        ranking: a,
+        sets: a.setIds
+          .map((id) => setMap.get(id))
+          .filter((s): s is NonNullable<typeof s> => s !== undefined),
+      })),
+      teams: prof.recommendedTeams.map((t) => ({
+        team: t,
+        teammates: t.teammateIds.map((tId, idx) => {
+          const tm = teammateMap.get(tId);
+          return {
+            id: tId,
+            name: tm ? tm.name : tId,
+            role: t.teammateRoles[idx] || "Hỗ trợ",
+          };
+        }),
+      })),
+    }));
+
+    return (
+      <section className="mb-10">
+        <SectionHeading elementColor={elementColor}>
+          Build Khuyên Dùng
+        </SectionHeading>
+        <MultiProfileBuildViewer
+          characterName={character.name}
+          characterId={character.id}
+          weaponType={weaponType}
+          elementColor={elementColor}
+          profiles={resolvedProfiles}
+          defaultProfileId={multiBuild.defaultProfileId}
+        />
+      </section>
+    );
+  }
 
   const specificBuild = getCharacterBuild(character.id);
   const buildSource = getBuildSource(character.id);

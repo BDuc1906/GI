@@ -1,5 +1,6 @@
 // src/data/character-builds-data.ts
 import { DRAFT_BUILDS } from "./character-builds-draft";
+import { getCharacterProfile, profileToLegacyBuildEntry } from "@/core/build-profile";
 // AUTO-MANAGED: Thêm/cập nhật build nhân vật ở đây.
 // Chạy `npm run builds:update` để validate sau khi sửa.
 
@@ -6707,11 +6708,20 @@ const ID_ALIASES: Record<string, string> = {
 
 /**
  * Lấy cấu hình build chuyên sâu của nhân vật, hỗ trợ cả alias và ID chuẩn.
- * Ưu tiên build viết tay (CHARACTER_BUILDS); nếu không có mới dùng bản nháp.
+ * Ưu tiên hồ sơ đa lối chơi đã kiểm định (Multi-Profile / KQM standard),
+ * sau đó đến build viết tay (CHARACTER_BUILDS), nếu không có mới dùng bản nháp.
  */
 export function getCharacterBuild(characterId: string): CharacterBuildEntry | undefined {
   const normalized = characterId.toLowerCase().trim();
   const alias = ID_ALIASES[normalized];
+
+  // 1. Ưu tiên Multi-Profile Build đã qua kiểm định KQM & KQMS
+  const profile = getCharacterProfile(normalized) ?? (alias ? getCharacterProfile(alias) : undefined);
+  if (profile) {
+    return profileToLegacyBuildEntry(profile);
+  }
+
+  // 2. Tiếp theo ưu tiên build viết tay
   return (
     CHARACTER_BUILDS[normalized] ??
     (alias ? CHARACTER_BUILDS[alias] : undefined) ??

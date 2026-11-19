@@ -1,4 +1,3 @@
-
 import { prisma } from "@/lib/db/prisma";
 import type { FullBuildPlan } from "./full-plan-types";
 import type { BuildRecommendation } from "./types";
@@ -7,7 +6,11 @@ import type { DomainRecommendation } from "./domain-types";
 import { BuildService } from "./service";
 import { ArtifactRecommendationService } from "./artifact-service";
 import { DomainRecommendationService } from "./domain-service";
+import { getCharacterBuild } from "@/data/character-builds-data";
 
+/**
+ * FullBuildPlanService - Dịch vụ tổng hợp bản kế hoạch build toàn diện từ cùng một nguồn dữ liệu đã xác minh.
+ */
 export class FullBuildPlanService {
   private buildService = new BuildService();
   private artifactService = new ArtifactRecommendationService();
@@ -29,11 +32,11 @@ export class FullBuildPlanService {
       throw new Error(`Không tìm thấy nhân vật với ID: ${characterId}`);
     }
 
-    // Fetch all recommendations in parallel
+    const curated = getCharacterBuild(character.id);
+
+    // Thu thập đề xuất từ các service đã kiểm định
     const [weaponRec, artifactRec, domainRec] = await Promise.allSettled([
-      this.buildService.recommend({
-        characterId,
-      }),
+      this.buildService.recommend({ characterId }),
       this.artifactService.recommend(characterId),
       this.domainService.recommend(characterId),
     ]);
@@ -44,6 +47,7 @@ export class FullBuildPlanService {
 
     const buildSummary = this.generateComprehensiveSummary(
       character.name,
+      curated?.playstyleNoteVi,
       weaponRecommendation,
       artifactRecommendation,
       domainRecommendation
@@ -66,14 +70,17 @@ export class FullBuildPlanService {
 
   private generateComprehensiveSummary(
     characterName: string,
+    roleVi: string | undefined,
     weaponRec: BuildRecommendation | null,
     artifactRec: ArtifactRecommendation | null,
     domainRec: DomainRecommendation | null
   ): string {
-    const parts: string[] = [`Bản đồ xây dựng hoàn chỉnh cho ${characterName}:`];
+    const parts: string[] = [
+      `Kế hoạch phát triển tối ưu cho ${characterName}${roleVi ? ` (Vai trò: ${roleVi})` : ""}:`,
+    ];
 
-    if (weaponRec) {
-      parts.push(`Vũ khí: ${weaponRec.recommendedWeapon?.name || "Chưa xác định"}`);
+    if (weaponRec?.recommendedWeapon) {
+      parts.push(`Vũ khí: ${weaponRec.recommendedWeapon.name}`);
     }
 
     if (artifactRec?.recommendedArtifacts?.[0]) {
@@ -86,6 +93,6 @@ export class FullBuildPlanService {
       parts.push(`Ưu tiên farm: ${topDomain}`);
     }
 
-    return parts.join(". ");
+    return parts.join(" | ");
   }
 }

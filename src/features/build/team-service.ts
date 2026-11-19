@@ -1,6 +1,16 @@
 import { prisma } from "@/lib/db/prisma";
+import { getCharacterBuild } from "@/data/character-builds-data";
+import { buildCharacterTeamVariants, CHARACTER_ID_ALIASES } from "@/core/game/character-team-variants";
 import type { TeamCompositionRecommendation, TeamMember } from "./team-types";
 
+/**
+ * TeamCompositionService - Dịch vụ gợi ý đội hình chiến thuật cho nhân vật.
+ *
+ * TUÂN THỦ NGUYÊN TẮC:
+ * - 100% sử dụng đội hình chiến thuật chuẩn phản ứng từ Meta Curated Teams.
+ * - TUYỆT ĐỐI KHÔNG tính synergy theo kiểu cùng nguyên tố +40%, khác nguyên tố +20%.
+ * - Khi chưa có dữ liệu kiểm định, thông báo rõ ràng, không tự ghép nhân vật bừa bãi.
+ */
 export class TeamCompositionService {
   async recommend(characterId: string): Promise<TeamCompositionRecommendation> {
     const mainChar = await prisma.character.findUnique({
@@ -17,92 +27,115 @@ export class TeamCompositionService {
       throw new Error(`Không tìm thấy nhân vật với ID: ${characterId}`);
     }
 
-    // Lấy các nhân vật khác để tạo đội hình
-    const teammates = await prisma.character.findMany({
-      where: {
-        NOT: {
-          id: characterId,
+    const curated = getCharacterBuild(mainChar.id);
+
+    // 1. Kiểm tra đội hình từ Curated Build
+    if (curated && curated.teams && curated.teams.length > 0) {
+      const topTeam = curated.teams[0];
+      const rawTeammateIds = topTeam.teammateIds;
+      const resolvedIds = rawTeammateIds.map((id) => CHARACTER_ID_ALIASES[id] ?? id);
+
+      const dbTeammates = await prisma.character.findMany({
+        where: { id: { in: resolvedIds } },
+        select: {
+          id: true,
+          name: true,
+          vision: true,
+          weaponType: true,
+          rarity: true,
         },
-      },
+      });
+
+      const teammateMap = new Map(dbTeammates.map((t) => [t.id, t]));
+
+      const recommendedTeamMembers: TeamMember[] = [];
+      for (let i = 0; i < resolvedIds.length; i++) {
+        const id = resolvedIds[i];
+        const dbChar = teammateMap.get(id);
+        const role = topTeam.teammateRoles[i] || "Hỗ trợ (Support)";
+
+        if (dbChar) {
+          recommendedTeamMembers.push({
+            id: dbChar.id,
+            name: dbChar.name,
+            vision: dbChar.vision,
+            weaponType: dbChar.weaponType,
+            rarity: dbChar.rarity,
+            synergy: 95 - i * 3,
+            role,
+            reason: `${dbChar.name} giữ vai trò ${role}, kết hợp cùng ${mainChar.name} kích hoạt phản ứng ${topTeam.reactionsVi.join(", ")}.`,
+          });
+        }
+      }
+
+      if (recommendedTeamMembers.length > 0) {
+        return {
+          mainCharacterId: mainChar.id,
+          mainCharacterName: mainChar.name,
+          mainCharacterVision: mainChar.vision,
+          recommendedTeamMembers,
+          teamComposition: `Đội hình: ${topTeam.nameVi} — ${topTeam.situationVi}`,
+          teamSynergy: `Phản ứng chủ lực: ${topTeam.reactionsVi.join(" & ")}. Cộng hưởng: ${topTeam.resonancesVi.join(", ")}.`,
+        };
+      }
+    }
+
+    // 2. Fallback sang Canonical Variants đã kiểm định
+    const allChars = await prisma.character.findMany({
       select: {
         id: true,
         name: true,
         vision: true,
-        weaponType: true,
         rarity: true,
+        iconUrl: true,
       },
-      orderBy: {
-        rarity: "desc",
-      },
-      take: 20,
     });
+    const map = new Map(allChars.map((c) => [c.id, { ...c, localizedName: c.name }]));
 
-    // Tính synergy và chọn top 3
-    const scoredTeammates = teammates
-      .map((tm) => ({
-        ...tm,
-        synergy: this.calculateSynergy(mainChar.vision, tm.vision),
-        role: this.assignRole(tm.vision, mainChar.vision),
-        reason: this.generateReason(tm.name, mainChar.name, tm.vision),
-      }))
-      .sort((a, b) => b.synergy - a.synergy)
-      .slice(0, 3);
+    const variants = buildCharacterTeamVariants(
+      {
+        id: mainChar.id,
+        name: mainChar.name,
+        vision: mainChar.vision || "Anemo",
+        rarity: mainChar.rarity || 5,
+      },
+      map,
+      "vi"
+    );
 
-    const recommendedTeamMembers: TeamMember[] = scoredTeammates.map((t) => ({
-      id: t.id,
-      name: t.name,
-      vision: t.vision,
-      weaponType: t.weaponType,
-      rarity: t.rarity,
-      synergy: t.synergy,
-      role: t.role,
-      reason: t.reason,
-    }));
+    if (variants.length > 0) {
+      const topVariant = variants[0];
+      const teammates = topVariant.members.slice(1);
 
-    if (recommendedTeamMembers.length === 0) {
-      throw new Error("Không tìm thấy nhân vật để tạo đội hình");
+      const recommendedTeamMembers: TeamMember[] = teammates.map((m, idx) => ({
+        id: m.id,
+        name: m.name,
+        vision: m.vision,
+        weaponType: null,
+        rarity: m.rarity,
+        synergy: 95 - idx * 3,
+        role: m.roleVi,
+        reason: `${m.name} (${m.roleVi}) phối hợp phản ứng ${topVariant.reactionsVi.join(", ")} cùng ${mainChar.name}.`,
+      }));
+
+      return {
+        mainCharacterId: mainChar.id,
+        mainCharacterName: mainChar.name,
+        mainCharacterVision: mainChar.vision,
+        recommendedTeamMembers,
+        teamComposition: `${topVariant.nameVi} (${topVariant.archetypeVi}) — ${topVariant.situationVi}`,
+        teamSynergy: `Phản ứng: ${topVariant.reactionsVi.join(" & ")}. Cộng hưởng: ${topVariant.resonancesVi.join(", ")}.`,
+      };
     }
 
-    const teamComposition = this.generateTeamComposition(mainChar.name, recommendedTeamMembers);
-    const teamSynergy = this.generateTeamSynergy(mainChar.vision, recommendedTeamMembers);
-
+    // 3. Nếu chưa có dữ liệu kiểm định -> Không tự ghép ngẫu nhiên theo nguyên tố!
     return {
       mainCharacterId: mainChar.id,
       mainCharacterName: mainChar.name,
       mainCharacterVision: mainChar.vision,
-      recommendedTeamMembers,
-      teamComposition,
-      teamSynergy,
+      recommendedTeamMembers: [],
+      teamComposition: `Hiện chưa có đội hình chiến thuật được xác minh cho ${mainChar.name}.`,
+      teamSynergy: `Hệ thống không tự tạo đội hình giả lập chỉ bằng so sánh nguyên tố.`,
     };
-  }
-
-  private calculateSynergy(mainVision: string | null, teamVision: string | null): number {
-    // Cơ bản: cùng nguyên tố +40, khác +20
-    // Có thể mở rộng với logic reaction sau
-    if (!mainVision || !teamVision) return 20;
-    if (mainVision === teamVision) return 40;
-    return 20;
-  }
-
-  private assignRole(vision: string | null, mainVision: string | null): string {
-    // Đơn giản: phân chia role dựa trên nguyên tố
-    if (!vision) return "Support";
-    if (vision === mainVision) return "Sub-DPS";
-    if (vision === "Hydro" || vision === "Dendro") return "Support";
-    return "Sub-DPS";
-  }
-
-  private generateReason(name: string, mainName: string, vision: string | null): string {
-    return `${name} hỗ trợ tốt cho ${mainName} với nguyên tố ${vision || "không xác định"}.`;
-  }
-
-  private generateTeamComposition(mainName: string, members: TeamMember[]): string {
-    const roles = members.map((m) => m.role).join(", ");
-    return `Đội hình: ${mainName} (Main DPS) + ${members.map((m) => m.name).join(", ")} (${roles})`;
-  }
-
-  private generateTeamSynergy(mainVision: string | null, members: TeamMember[]): string {
-    const avgSynergy = Math.round(members.reduce((sum, m) => sum + m.synergy, 0) / members.length);
-    return `Độ hỗ trợ trung bình: ${avgSynergy}%. Đội hình này phù hợp với ${mainVision} DPS.`;
   }
 }
