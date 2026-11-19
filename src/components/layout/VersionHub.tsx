@@ -1,17 +1,19 @@
 import { Link } from "@/i18n/navigation";
 import { getVersionIndex, summarize } from "@/core/game/versions";
-import { resolveVersionBackgroundArt, getVersionTheme } from "@/core/game/version-art";
+import { getVersionTheme } from "@/core/game/version-art";
+import { resolveValidatedAsset } from "@/core/assets/asset-resolver";
 import { SafeImage } from "@/components/ui/SafeImage";
 import { getTranslations } from "next-intl/server";
 
 /**
- * Khối "Cập Nhật Phiên Bản Genshin Impact" trên trang chủ.
+ * Khối "Cập Nhật Phiên Bản Genshin Impact" trên trang chủ (Version Showcase).
  *
- * Thiết kế chuẩn phong cách Key Visual điện ảnh:
- * - Thẻ to (Hero Showcase) phủ kín bởi Key Visual chính thức độc quyền của phiên bản (miHoYo Special Program Livestream).
- * - Bỏ hoàn toàn các icon nhân vật / vũ khí rải rác trên thẻ to để không che khuất background nghệ thuật.
- * - Hiển thị tên phiên bản, tên chủ đề chính thức (Theme) và tổng số lượng nội dung mới.
- * - Nút "Xem chi tiết bản {version}" dẫn trực tiếp vào trang chi tiết phiên bản để xem đầy đủ danh sách nhân vật, vũ khí, thánh di vật vừa cập nhật.
+ * Tiêu chuẩn hiển thị hình ảnh & bố cục:
+ * - Tuân thủ kiểm định Asset Validation: Sử dụng 100% Key Visual / Splashscreen 16:9 chính thức của phiên bản.
+ * - Tuyệt đối KHÔNG sử dụng splash art nhân vật cắt xén làm background.
+ * - Khung hình tỷ lệ điện ảnh thoáng đãng (min-h 400px - 500px), không cắt xén đầu hay nhân vật trong artwork.
+ * - Tắt nén giảm chất lượng (unoptimized: true) để giữ độ sắc nét tối đa, không bị vỡ hoặc mờ.
+ * - Lớp phủ gradient có định hướng (directional scrim) bảo vệ chữ dễ đọc ở bên trái mà không làm tối che khuất artwork ở trung tâm và bên phải.
  */
 export async function VersionHub() {
   const t = await getTranslations("Version");
@@ -27,13 +29,17 @@ export async function VersionHub() {
       totalAdded = summary.added;
     }
   } catch {
-    return null; // không để lỗi DB làm hỏng cả trang chủ
+    return null; // Không để lỗi DB làm hỏng trang chủ
   }
 
   if (!latest) return null;
 
-  const backgroundArt = resolveVersionBackgroundArt(latest);
   const theme = getVersionTheme(latest);
+  const validatedAsset = resolveValidatedAsset("version", latest, "keyArt", {
+    label: theme?.vi || `Phiên bản ${latest}`,
+  });
+
+  const backgroundArt = validatedAsset.src || "/images/home-cards/versions.webp";
 
   return (
     <section className="max-w-7xl mx-auto px-4 md:px-8 py-6 md:py-8">
@@ -53,22 +59,23 @@ export async function VersionHub() {
         </Link>
       </div>
 
-      {/* Main Version Showcase Card with Full-Bleed Key Visual Wallpaper */}
-      <div className="relative overflow-hidden rounded-3xl border border-white/10 hover:border-accent-bright/50 transition-all duration-500 shadow-2xl group min-h-[300px] sm:min-h-[360px] md:min-h-[420px] flex flex-col justify-between">
+      {/* Main Version Showcase Card with Verified 16:9 Key Visual Artwork */}
+      <div className="relative overflow-hidden rounded-3xl border border-white/15 hover:border-accent-bright/50 transition-all duration-500 shadow-2xl group min-h-[400px] sm:min-h-[460px] md:min-h-[500px] flex flex-col justify-between">
         {/* Full-bleed Official Key Visual Wallpaper */}
         {backgroundArt && (
           <div className="absolute inset-0 z-0 overflow-hidden select-none pointer-events-none">
             <SafeImage
               src={backgroundArt}
-              alt={`Version ${latest} Art`}
+              alt={`Version ${latest} Key Art`}
               fill
-              className="object-cover object-center opacity-85 group-hover:opacity-95 group-hover:scale-[1.03] transition-all duration-700 ease-out"
+              unoptimized
+              className="object-cover object-center sm:object-[center_25%] opacity-90 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-700 ease-out"
               sizes="(max-width: 1280px) 100vw, 1280px"
               priority
             />
-            {/* Multi-layer cinematic vignette for maximum legibility & atmosphere */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/25" />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent" />
+            {/* Directional scrim: Tối ưu vùng chữ bên trái, giữ nguyên độ sáng & chi tiết artwork ở trung tâm và bên phải */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent w-full md:w-3/4" />
+            <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
             <div className="absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/15 group-hover:ring-white/30 transition-all" />
           </div>
         )}
@@ -86,14 +93,14 @@ export async function VersionHub() {
               </span>
             )}
           </div>
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-white/60 bg-black/40 px-2.5 py-1 rounded-md backdrop-blur-sm">
+          <span className="text-xs font-mono font-bold uppercase tracking-widest text-white/70 bg-black/50 px-2.5 py-1 rounded-md border border-white/10 backdrop-blur-sm">
             GENSHIN IMPACT
           </span>
         </div>
 
         {/* Center / Bottom Title and Actions */}
         <div className="relative z-10 p-6 sm:p-8 md:p-10 pt-4 flex flex-col justify-end space-y-5">
-          <div className="space-y-2 max-w-2xl">
+          <div className="space-y-2 max-w-xl md:max-w-2xl">
             <span className="text-sm font-semibold tracking-wider text-accent-bright uppercase drop-shadow">
               {tHome("versionNumber", { version: latest })}
             </span>
@@ -107,7 +114,7 @@ export async function VersionHub() {
                 {theme.en}
               </p>
             )}
-            <p className="text-xs sm:text-sm text-white/75 max-w-xl leading-relaxed drop-shadow line-clamp-2 sm:line-clamp-none pt-1">
+            <p className="text-xs sm:text-sm text-white/80 max-w-xl leading-relaxed drop-shadow line-clamp-2 sm:line-clamp-none pt-1">
               Khám phá toàn bộ nhân vật, vũ khí, thánh di vật, bí cảnh và nội dung cốt truyện mới được cập nhật trong phiên bản này.
             </p>
           </div>

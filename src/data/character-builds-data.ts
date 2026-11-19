@@ -54,16 +54,17 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
   // Dendro Sword
   alhaitham: {
     weapons: [
-      { weaponId: "light-of-foliar-incision", tier: "S", noteVi: "Tốt nhất - CRIT DMG cao + passive EM Spread" },
-      { weaponId: "primordial-jade-cutter", tier: "S", noteVi: "CR bonus cao, stacking ATK tốt" },
-      { weaponId: "haran-geppaku-futsu", tier: "A", noteVi: "Elemental Skill DMG Bonus cao" },
-      { weaponId: "mistsplitter-reforged", tier: "A", noteVi: "Elemental DMG Bonus ngăn xếp" },
-      { weaponId: "iron-sting", tier: "B", noteVi: "Tốt nhất F2P - EM 165 sub-stat" },
+      { weaponId: "light-of-foliar-incision", tier: "S", noteVi: "Ánh Lá Phán Quyết - Vũ khí trấn phái tối thượng của Alhaitham: 88.2% CRIT DMG cực lớn, tăng 4% CRIT Rate và chuyển hóa tới 120% EM thành sát thương đòn đánh thường và kỹ năng E" },
+      { weaponId: "primordial-jade-cutter", tier: "S", noteVi: "Bàn Nham Kết Lục - 44.1% CRIT Rate cực lớn và tăng tấn công theo lượng HP" },
+      { weaponId: "mistsplitter-reforged", tier: "S", noteVi: "Ánh Sương Đêm Sương Mù - 44.1% CRIT DMG và buff lượng lớn sát thương nguyên tố Thảo" },
+      { weaponId: "haran-geppaku-futsu", tier: "A", noteVi: "Haran Geppaku Futsu - 33.1% CRIT Rate và tăng 40% sát thương Đòn Đánh Thường" },
+      { weaponId: "iron-sting", tier: "A", noteVi: "Thiết Phong Kích R5 - Lựa chọn rèn F2P số 1: Tăng 165 Tinh Thông Nguyên Tố và 24% toàn bộ sát thương" },
+      { weaponId: "toukabou-shigure", tier: "A", noteVi: "Toukabou Shigure - Vũ khí sự kiện tăng 165 EM và 32% sát thương đơn mục tiêu" },
     ],
     artifacts: [
       { setIds: ["gilded-dreams"], mode: "4pc", priority: 1, noteVi: "Tăng EM + ATK tự động theo thành viên team" },
       { setIds: ["deepwood-memories"], mode: "4pc", priority: 2, noteVi: "Giảm Dendro RES 30% nếu không có Nahida" },
-      { setIds: ["gilded-dreams", "deepwood-memories"], mode: "2+2", priority: 3, noteVi: "Thay thế khi thiếu 4pc" },
+      { setIds: ["gilded-dreams", "deepwood-memories"], mode: "2+2", priority: 3, noteVi: "Bộ ghép 2+2 linh hoạt tối ưu chỉ số phụ khi đang hoàn thiện bộ 4 món" },
     ],
     mainStats: {
       sands: "EM hoặc ATK%",
@@ -256,7 +257,7 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
     artifacts: [
       { setIds: ["wanderer-s-troupe"], mode: "4pc", priority: 1, noteVi: "Charged Attack DMG +35% - Ganyu CA chính" },
       { setIds: ["blizzard-strayer"], mode: "4pc", priority: 2, noteVi: "Freeze team - CR +40% khi địch đóng băng" },
-      { setIds: ["wanderer-s-troupe", "blizzard-strayer"], mode: "2+2", priority: 3, noteVi: "EM +80 + Cryo DMG 15% thay thế" },
+      { setIds: ["wanderer-s-troupe", "blizzard-strayer"], mode: "2+2", priority: 3, noteVi: "2pc Tinh Thông (+80 EM) + 2pc Sát Thương Băng (+15%) - Lựa chọn ghép linh hoạt" },
     ],
     mainStats: {
       sands: "ATK%",
@@ -480,7 +481,7 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
     ],
     artifacts: [
       { setIds: ["viridescent-venerer"], mode: "4pc", priority: 1, noteVi: "Bắt buộc: VV 4pc giảm RES 40% + Swirl DMG +60%" },
-      { setIds: ["viridescent-venerer", "wanderer-s-troupe"], mode: "2+2", priority: 2, noteVi: "VV 2pc + EM 80 thay thế khi farm" },
+      { setIds: ["viridescent-venerer", "wanderer-s-troupe"], mode: "2+2", priority: 2, noteVi: "2pc Bóng Hình (+15% Phong) + 2pc Tinh Thông (+80 EM) - Lựa chọn kết hợp chỉ số" },
     ],
     mainStats: {
       sands: "EM (Elemental Mastery)",
@@ -546,7 +547,7 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
     artifacts: [
       { setIds: ["emblem-of-severed-fate"], mode: "4pc", priority: 1, noteVi: "ER -> Q DMG bonus tuyệt vời cho Yelan high Q cost" },
       { setIds: ["heart-of-depth"], mode: "4pc", priority: 2, noteVi: "Hydro DMG + Charged Attack DMG tốt" },
-      { setIds: ["emblem-of-severed-fate", "tenacity-of-the-millelith"], mode: "2+2", priority: 3, noteVi: "ER + HP bonus thay thế" },
+      { setIds: ["emblem-of-severed-fate", "tenacity-of-the-millelith"], mode: "2+2", priority: 3, noteVi: "2pc Nạp (+20% ER) + 2pc HP (+20% Máu) - Tối ưu khả năng sinh tồn và nạp nộ" },
     ],
     mainStats: {
       sands: "HP%",
@@ -569,11 +570,10 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
   // Geo Polearm
   zhongli: {
     weapons: [
-      { weaponId: "black-tassel", tier: "S", noteVi: "Hắc Anh Thương 3 sao F2P: Vũ khí thuần khiên số 1 - Cung cấp +46.9% HP tối đa, đẩy độ dày của Khiên Ngọc Bích lên cực hạn" },
-      { weaponId: "favonius-lance", tier: "S", noteVi: "Thương Tây Phong: Lựa chọn hỗ trợ đa dụng tốt nhất - Tạo vô số hạt nguyên tố trắng nạp cho toàn bộ đồng đội" },
-      { weaponId: "staff-of-homa", tier: "S", noteVi: "Trượng Hộ Ma: Cung cấp 20% HP và 66.2% CRIT DMG - Lựa chọn số 1 cho phong cách Hybrid vừa có khiên dày vừa nuke chiêu nộ Thiên Thạch cực thốn" },
-      { weaponId: "vortex-vanquisher", tier: "A", noteVi: "Giáo Nịnh Thần: Vũ khí trấn thẩm mỹ của Nham Thần - Tăng 20% hiệu quả khiên và tích lũy lượng lớn ATK%" },
-      { weaponId: "the-catch", tier: "B", noteVi: "Lao Câu Cá: Cung cấp Hiệu Quả Nạp và buff sát thương nộ Q" },
+      { weaponId: "vortex-vanquisher", tier: "S", noteVi: "Giáo Nịnh Thần - Vũ khí trấn phái độc quyền của Nham Thần Zhongli: Tăng 20% hiệu quả khiên Ngọc Bích, tăng 40% ATK khi tích tầng và nhân đôi hiệu quả tăng công khi có khiên bảo hộ" },
+      { weaponId: "staff-of-homa", tier: "S", noteVi: "Trượng Homa - Vũ khí 5 sao tối thượng cho lối chơi Nham Thần: Tăng 20% HP và 66.2% CRIT DMG, vừa giữ khiên siêu dày vừa nuke chiêu Nộ Thiên Thạch gây sát thương khổng lồ" },
+      { weaponId: "favonius-lance", tier: "S", noteVi: "Thương Tây Phong - Vũ khí hỗ trợ nạp số 1 cho đội hình: Tạo lượng lớn hạt nguyên tố trắng sạc đầy Nộ cho toàn bộ đồng đội" },
+      { weaponId: "black-tassel", tier: "S", noteVi: "Hắc Anh Thương R5 - Vũ khí F2P thuần khiên số 1: Tăng tới 46.9% HP tối đa, đẩy độ bền của Khiên Ngọc Bích lên mốc 50,000+ HP bất tử" },
     ],
     artifacts: [
       { setIds: ["tenacity-of-the-millelith"], mode: "4pc", priority: 1, noteVi: "Thiên Nham Vững Chắc: Trấn thánh di vật hỗ trợ - Tăng 20% HP và buff 20% ATK + 30% hiệu quả khiên cho toàn đội khi Cột Nham đánh trúng địch" },
@@ -773,7 +773,7 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
     artifacts: [
       { setIds: ["noblesse-oblige"], mode: "4pc", priority: 1, noteVi: "Bắt buộc: Q -> ATK team +20%. Bennett làm tốt nhất với Noblesse." },
       { setIds: ["instructor"], mode: "4pc", priority: 2, noteVi: "EM +120 cho team khi trigger reaction - budget option" },
-      { setIds: ["noblesse-oblige", "tenacity-of-the-millelith"], mode: "2+2", priority: 3, noteVi: "ATK buff + HP thay thế" },
+      { setIds: ["noblesse-oblige", "tenacity-of-the-millelith"], mode: "2+2", priority: 3, noteVi: "2pc Nộ (+20% ATK) + 2pc HP (+20% Máu) - Cân bằng hỗ trợ" },
     ],
     mainStats: {
       sands: "ER% hoặc HP%",
@@ -869,7 +869,7 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
     artifacts: [
       { setIds: ["husk-of-opulent-dreams"], mode: "4pc", priority: 1, noteVi: "DEF% + Geo DMG stack off-field - tối ưu cho Noelle DPS" },
       { setIds: ["retracing-bolide"], mode: "4pc", priority: 2, noteVi: "NA/CA DMG +40% khi có shield - Noelle E shield liên tục" },
-      { setIds: ["husk-of-opulent-dreams", "archaic-petra"], mode: "2+2", priority: 3, noteVi: "DEF + Geo DMG thay thế farm" },
+      { setIds: ["husk-of-opulent-dreams", "archaic-petra"], mode: "2+2", priority: 3, noteVi: "2pc Phòng Thủ (+30% DEF) + 2pc Sát Thương Nham (+15% Geo) - Lựa chọn kết hợp chỉ số chuẩn" },
     ],
     mainStats: {
       sands: "DEF%",
@@ -901,7 +901,7 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
     artifacts: [
       { setIds: ["blizzard-strayer"], mode: "4pc", priority: 1, noteVi: "CRIT Rate +40% khi Freeze - DPS tốt hơn" },
       { setIds: ["noblesse-oblige"], mode: "4pc", priority: 2, noteVi: "Support: ATK 20% team buff sau Q" },
-      { setIds: ["blizzard-strayer", "noblesse-oblige"], mode: "2+2", priority: 3, noteVi: "CRIT + ATK buff thay thế" },
+      { setIds: ["blizzard-strayer", "noblesse-oblige"], mode: "2+2", priority: 3, noteVi: "2pc Băng (+15%) + 2pc Tông Thất (+20% Nộ) - Tối ưu sát thương cá nhân" },
     ],
     mainStats: {
       sands: "ATK% hoặc ER%",
@@ -933,7 +933,7 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
     artifacts: [
       { setIds: ["viridescent-venerer"], mode: "4pc", priority: 1, noteVi: "Bắt buộc: VV 4pc giảm RES 40% + Swirl DMG. Sucrose support." },
       { setIds: ["instructor"], mode: "4pc", priority: 2, noteVi: "EM +120 cho team khi reaction - budget alternative" },
-      { setIds: ["viridescent-venerer", "wanderer-s-troupe"], mode: "2+2", priority: 3, noteVi: "VV 2pc + EM 80 thay thế" },
+      { setIds: ["viridescent-venerer", "wanderer-s-troupe"], mode: "2+2", priority: 3, noteVi: "2pc Phong (+15%) + 2pc Tinh Thông (+80 EM) - Hỗ trợ Khuếch Tán" },
     ],
     mainStats: {
       sands: "EM (Elemental Mastery)",
@@ -965,7 +965,7 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
     artifacts: [
       { setIds: ["emblem-of-severed-fate"], mode: "4pc", priority: 1, noteVi: "ER -> Q DMG bonus. Xiangling Q cost 80 + off-field." },
       { setIds: ["crimson-witch-of-flames"], mode: "4pc", priority: 2, noteVi: "Pyro DMG + Vaporize/Melt bonus stack" },
-      { setIds: ["emblem-of-severed-fate", "crimson-witch-of-flames"], mode: "2+2", priority: 3, noteVi: "ER + Pyro DMG thay thế" },
+      { setIds: ["emblem-of-severed-fate", "crimson-witch-of-flames"], mode: "2+2", priority: 3, noteVi: "2pc Dấu Ấn (+20% ER) + 2pc Ma Nữ (+15% Hỏa) - Lựa chọn kết hợp" },
     ],
     mainStats: {
       sands: "ER% hoặc ATK%",
@@ -1029,7 +1029,7 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
     artifacts: [
       { setIds: ["emblem-of-severed-fate"], mode: "4pc", priority: 1, noteVi: "ER -> Q DMG bonus. Beidou Q cost 80 + off-field phụ thuộc Q." },
       { setIds: ["thundersoother"], mode: "4pc", priority: 2, noteVi: "+35% DMG khi địch dính Electro liên tục - tốt hơn trong Electro team" },
-      { setIds: ["thundering-fury", "emblem-of-severed-fate"], mode: "2+2", priority: 3, noteVi: "Electro DMG + ER thay thế" },
+      { setIds: ["thundering-fury", "emblem-of-severed-fate"], mode: "2+2", priority: 3, noteVi: "2pc Lôi (+15%) + 2pc Dấu Ấn (+20% ER) - Đảm bảo chu kỳ nộ" },
     ],
     mainStats: {
       sands: "ER% hoặc ATK%",
@@ -1092,7 +1092,7 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
     artifacts: [
       { setIds: ["blizzard-strayer"], mode: "4pc", priority: 1, noteVi: "CRIT Rate +40% khi Freeze - DPS build Kaeya" },
       { setIds: ["noblesse-oblige"], mode: "4pc", priority: 2, noteVi: "Support: ATK buff team sau Q" },
-      { setIds: ["blizzard-strayer", "noblesse-oblige"], mode: "2+2", priority: 3, noteVi: "CRIT + ATK buff thay thế" },
+      { setIds: ["blizzard-strayer", "noblesse-oblige"], mode: "2+2", priority: 3, noteVi: "2pc Băng (+15%) + 2pc Tông Thất (+20% Nộ) - Tối ưu sát thương cá nhân" },
     ],
     mainStats: {
       sands: "ATK% hoặc ER%",
@@ -1156,7 +1156,7 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
     artifacts: [
       { setIds: ["emblem-of-severed-fate"], mode: "4pc", priority: 1, noteVi: "ER -> Q DMG. Sara Q cost 80 + mạnh nhất khi instant cast." },
       { setIds: ["noblesse-oblige"], mode: "4pc", priority: 2, noteVi: "ATK 20% team buff sau Q - support role" },
-      { setIds: ["thundering-fury", "noblesse-oblige"], mode: "2+2", priority: 3, noteVi: "Electro DMG + ATK buff thay thế" },
+      { setIds: ["thundering-fury", "noblesse-oblige"], mode: "2+2", priority: 3, noteVi: "2pc Lôi (+15%) + 2pc Tông Thất (+20% Nộ) - Tối ưu nuke sát thương" },
     ],
     mainStats: {
       sands: "ATK% hoặc ER%",
@@ -1220,7 +1220,7 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
     artifacts: [
       { setIds: ["blizzard-strayer"], mode: "4pc", priority: 1, noteVi: "CRIT Rate +40% khi Freeze - Melt/Freeze team" },
       { setIds: ["noblesse-oblige"], mode: "4pc", priority: 2, noteVi: "ATK 20% team buff sau Q - support role" },
-      { setIds: ["blizzard-strayer", "noblesse-oblige"], mode: "2+2", priority: 3, noteVi: "CRIT + ATK buff thay thế" },
+      { setIds: ["blizzard-strayer", "noblesse-oblige"], mode: "2+2", priority: 3, noteVi: "2pc Băng (+15%) + 2pc Tông Thất (+20% Nộ) - Tối ưu sát thương cá nhân" },
     ],
     mainStats: {
       sands: "ATK%",
@@ -1252,7 +1252,7 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
     artifacts: [
       { setIds: ["archaic-petra"], mode: "4pc", priority: 1, noteVi: "Geo DMG + Crystallize element buff cho team (+35% Element DMG)" },
       { setIds: ["husk-of-opulent-dreams"], mode: "4pc", priority: 2, noteVi: "DEF + Geo DMG stack tốt cho Ningguang build DEF" },
-      { setIds: ["archaic-petra", "noblesse-oblige"], mode: "2+2", priority: 3, noteVi: "Geo DMG + ATK buff thay thế" },
+      { setIds: ["archaic-petra", "noblesse-oblige"], mode: "2+2", priority: 3, noteVi: "2pc Nham (+15%) + 2pc Tông Thất (+20% Nộ) - Tăng sát thương bộc phát" },
     ],
     mainStats: {
       sands: "ATK%",
@@ -1283,7 +1283,7 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
     ],
     artifacts: [
       { setIds: ["husk-of-opulent-dreams"], mode: "4pc", priority: 1, noteVi: "DEF% + Geo DMG stack passively - bắt buộc Itto" },
-      { setIds: ["husk-of-opulent-dreams", "archaic-petra"], mode: "2+2", priority: 2, noteVi: "DEF + Geo DMG thay thế farm" },
+      { setIds: ["husk-of-opulent-dreams", "archaic-petra"], mode: "2+2", priority: 2, noteVi: "2pc Phòng Thủ (+30% DEF) + 2pc Sát Thương Nham (+15% Geo) - Lựa chọn kết hợp chỉ số chuẩn" },
     ],
     mainStats: {
       sands: "DEF%",
@@ -1345,13 +1345,13 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
       { weaponId: "uraku-misugiri", tier: "S", noteVi: "Signature: DEF% + Elemental Skill DMG Bonus — tối ưu Chiori" },
       { weaponId: "primordial-jade-cutter", tier: "S", noteVi: "CR 44.1% + HP% — rất mạnh nếu có" },
       { weaponId: "haran-geppaku-futsu", tier: "A", noteVi: "Elemental DMG stack 3 lần + Skill DMG" },
-      { weaponId: "mistsplitter-reforged", tier: "A", noteVi: "Elemental DMG stack — ok thay thế" },
+      { weaponId: "mistsplitter-reforged", tier: "A", noteVi: "Ánh Sương Đêm Sương Mù - 44.1% CRIT DMG và lượng lớn buff Sát Thương Nguyên Tố" },
       { weaponId: "festering-desire", tier: "B", noteVi: "Skill DMG + ER — tốt nhất 4-star craft F2P" },
     ],
     artifacts: [
       { setIds: ["husk-of-opulent-dreams"], mode: "4pc", priority: 1, noteVi: "DEF% + Geo DMG stack passively off-field — tối ưu vì Chiori E scale DEF" },
       { setIds: ["golden-troupe"], mode: "4pc", priority: 2, noteVi: "Elemental Skill DMG +70% khi off-field — Chiori E mạnh off-field" },
-      { setIds: ["husk-of-opulent-dreams", "archaic-petra"], mode: "2+2", priority: 3, noteVi: "DEF% + Geo DMG thay thế" },
+      { setIds: ["husk-of-opulent-dreams", "archaic-petra"], mode: "2+2", priority: 3, noteVi: "2pc Phòng Thủ (+30% DEF) + 2pc Sát Thương Nham (+15% Geo) - Lựa chọn kết hợp" },
     ],
     mainStats: {
       sands: "DEF%",
@@ -1451,7 +1451,7 @@ export const CHARACTER_BUILDS: Record<string, CharacterBuildEntry> = {
     artifacts: [
       { setIds: ["husk-of-opulent-dreams"], mode: "4pc", priority: 1, noteVi: "DEF% stack — Q buff NA scale theo DEF Yun Jin" },
       { setIds: ["noblesse-oblige"], mode: "4pc", priority: 2, noteVi: "ATK team buff 20% sau Q — nếu không ai khác mang" },
-      { setIds: ["husk-of-opulent-dreams", "emblem-of-severed-fate"], mode: "2+2", priority: 3, noteVi: "DEF% + ER thay thế" },
+      { setIds: ["husk-of-opulent-dreams", "emblem-of-severed-fate"], mode: "2+2", priority: 3, noteVi: "2pc Phòng Thủ (+30% DEF) + 2pc Nạp (+20% ER) - Đảm bảo nạp Q liên tục" },
     ],
     mainStats: {
       sands: "ER% hoặc DEF%",

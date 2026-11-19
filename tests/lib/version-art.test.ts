@@ -3,16 +3,16 @@ import { resolveVersionBackgroundArt, getVersionTheme, VERSION_THEMES } from "@/
 
 describe("version-art", () => {
   it("resolves official version key art for mapped versions", () => {
-    expect(resolveVersionBackgroundArt("7.2")).toBe("/images/versions/7.2.jpg");
-    expect(resolveVersionBackgroundArt("5.3")).toBe("/images/versions/5.3.jpg");
-    expect(resolveVersionBackgroundArt("5.4")).toBe("/images/versions/5.4.jpg");
-    expect(resolveVersionBackgroundArt("4.2")).toBe("/images/versions/4.2.jpg");
-    expect(resolveVersionBackgroundArt("1.0")).toBe("/images/versions/1.0.jpg");
+    expect(resolveVersionBackgroundArt("7.2")).toBe("/images/versions/7.2.webp");
+    expect(resolveVersionBackgroundArt("5.3")).toBe("/images/versions/5.3.webp");
+    expect(resolveVersionBackgroundArt("5.4")).toBe("/images/versions/5.4.webp");
+    expect(resolveVersionBackgroundArt("4.2")).toBe("/images/versions/4.2.webp");
+    expect(resolveVersionBackgroundArt("1.0")).toBe("/images/versions/1.0.webp");
   });
 
   it("resolves Snezhnaya key visual for 7.x versions", () => {
-    expect(resolveVersionBackgroundArt("7.1")).toBe("/images/versions/7.1.jpg");
-    expect(resolveVersionBackgroundArt("7.9")).toBe("/images/versions/7.2.jpg");
+    expect(resolveVersionBackgroundArt("7.1")).toBe("/images/versions/7.1.webp");
+    expect(resolveVersionBackgroundArt("7.9")).toBe("/images/versions/7.2.webp");
   });
 
   it("falls back to default version cover if no version matches", () => {

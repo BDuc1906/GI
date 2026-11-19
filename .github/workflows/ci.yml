@@ -64,6 +64,10 @@ jobs:
         # chạy ngay trong job này, không cần service container Postgres.
         run: npm run test
 
+      - name: Validate Assets
+        # LEIBO Asset Validation CI Check
+        run: npm run assets:validate
+
   build:
     name: Migrate & Build
     runs-on: ubuntu-latest
