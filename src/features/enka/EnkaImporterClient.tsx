@@ -1,26 +1,17 @@
 "use client";
 
 import { useState, useCallback, useEffect, useSyncExternalStore } from "react";
-import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
-import type { EnkaShowcaseResult, EnkaShowcaseCharacter } from "@/app/api/tools/enka/[uid]/route";
+import type {
+  EnkaShowcaseResult,
+  EnkaShowcaseCharacter,
+  RecentUid,
+} from "./types";
+import { CharacterDetailModal } from "./components/CharacterDetailModal";
 import { WeaponIcon } from "@/features/weapons/components/WeaponIcon";
-
-// ---------------------------------------------------------------------------
-// localStorage hook & Recent UIDs (SSR-safe via useSyncExternalStore)
-// ---------------------------------------------------------------------------
 
 const STORAGE_KEY = "leibo-enka-last-uid";
 const RECENT_UIDS_KEY = "leibo-enka-recent-uids";
-
-export interface RecentUid {
-  uid: string;
-  nickname: string;
-  arLevel: number;
-  worldLevel: number;
-  avatarCount: number;
-  syncedAt: number;
-}
 
 function subscribe(cb: () => void) {
   window.addEventListener("storage", cb);
@@ -97,370 +88,29 @@ function removeRecentUid(targetUid: string) {
   }
 }
 
-function getGenshinServer(uid: string): { name: string; badgeColor: string } {
-  if (uid.startsWith("8") || uid.startsWith("18")) {
-    return { name: "Châu Á (Asia)", badgeColor: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30" };
+export function detectGenshinServer(uid: string): { name: string; region: string; badgeColor: string } | null {
+  const clean = uid.trim();
+  if (!clean) return null;
+
+  if (clean.startsWith("8") || clean.startsWith("18")) {
+    return { name: "Châu Á (Asia)", region: "Asia", badgeColor: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30" };
   }
-  if (uid.startsWith("6")) {
-    return { name: "Bắc Mỹ (America)", badgeColor: "bg-blue-500/10 text-blue-400 border-blue-500/30" };
+  if (clean.startsWith("6")) {
+    return { name: "Bắc Mỹ (America)", region: "NA", badgeColor: "bg-blue-500/10 text-blue-400 border-blue-500/30" };
   }
-  if (uid.startsWith("7")) {
-    return { name: "Châu Âu (Europe)", badgeColor: "bg-purple-500/10 text-purple-400 border-purple-500/30" };
+  if (clean.startsWith("7")) {
+    return { name: "Châu Âu (Europe)", region: "EU", badgeColor: "bg-purple-500/10 text-purple-400 border-purple-500/30" };
   }
-  if (uid.startsWith("9")) {
-    return { name: "TW / HK / MO", badgeColor: "bg-amber-500/10 text-amber-400 border-amber-500/30" };
+  if (clean.startsWith("9")) {
+    return { name: "TW / HK / MO", region: "SAR", badgeColor: "bg-amber-500/10 text-amber-400 border-amber-500/30" };
   }
-  if (uid.startsWith("1") || uid.startsWith("2")) {
-    return { name: "Trung Quốc (China)", badgeColor: "bg-rose-500/10 text-rose-400 border-rose-500/30" };
+  if (clean.startsWith("1") || clean.startsWith("2") || clean.startsWith("5")) {
+    return { name: "Trung Quốc (China)", region: "CN", badgeColor: "bg-rose-500/10 text-rose-400 border-rose-500/30" };
   }
-  return { name: "Máy chủ Teyvat", badgeColor: "bg-gray-500/10 text-gray-400 border-gray-500/30" };
+  return { name: "Máy chủ Teyvat", region: "Unknown", badgeColor: "bg-gray-500/10 text-gray-400 border-gray-500/30" };
 }
-
-// ---------------------------------------------------------------------------
-// Subcomponents
-// ---------------------------------------------------------------------------
-
-function StatValue({ label, value }: { label: string; value: string | number }) {
-  return (
-    <span className="inline-flex items-center gap-1 text-xs">
-      <span className="text-text-muted">{label}</span>
-      <span className="text-text-primary font-mono font-semibold">{value}</span>
-    </span>
-  );
-}
-
-function CharacterShowcaseCard({
-  char,
-  uid,
-  onUseBuild,
-}: {
-  char: EnkaShowcaseCharacter;
-  uid: string;
-  onUseBuild: (char: EnkaShowcaseCharacter) => void;
-}) {
-  const t = useTranslations("BuildAdvisor");
-  const fightProps = char.fightProps;
-  const [showArtifacts, setShowArtifacts] = useState(false);
-  const [advisorLoading, setAdvisorLoading] = useState(false);
-  const [advisorError, setAdvisorError] = useState<string | null>(null);
-  const [advice, setAdvice] = useState<string | null>(null);
-
-  async function handleGetAdvice() {
-    if (!char.characterId || advisorLoading) return;
-    setAdvisorLoading(true);
-    setAdvisorError(null);
-    setAdvice(null);
-
-    try {
-      const response = await fetch("/api/tools/build-advisor", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ uid, characterId: char.characterId }),
-      });
-      const payload = await response.json() as
-        | { success: true; data: { advice: string } }
-        | { success: false; error: { message: string } };
-
-      if (!response.ok || !payload.success) {
-        throw new Error(payload.success ? t("error") : payload.error.message);
-      }
-
-      setAdvice(payload.data.advice);
-    } catch (error) {
-      setAdvisorError(error instanceof Error ? error.message : t("error"));
-    } finally {
-      setAdvisorLoading(false);
-    }
-  }
-
-  return (
-    <div className="rounded-xl border border-border-default bg-bg-card p-4 flex flex-col gap-3">
-      {/* Header */}
-      <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-3 min-w-0">
-          {char.iconUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={char.iconUrl}
-              alt={char.characterName ?? `Avatar ${char.avatarId}`}
-              className="w-12 h-12 rounded-full object-cover bg-bg-elevated border border-border-default shrink-0"
-              loading="lazy"
-            />
-          ) : (
-            <div className="w-12 h-12 rounded-full bg-bg-elevated border border-border-default flex items-center justify-center text-text-muted text-xs shrink-0">
-              ?
-            </div>
-          )}
-          <div className="min-w-0">
-            <p className="font-semibold text-text-primary truncate">
-              {char.characterName ?? `ID: ${char.avatarId}`}
-            </p>
-            <p className="text-xs text-text-secondary">
-              Lv. {char.level} · C{char.constellations}
-            </p>
-          </div>
-        </div>
-
-        {char.totalCritValue > 0 && (
-          <div className="text-right shrink-0" title={`Tổng điểm CV: ${char.totalCritValue}`}>
-            <div className="text-xs font-bold font-mono text-text-primary">{char.totalCritValue} CV</div>
-            <div className="text-[10px] uppercase font-semibold text-text-muted">{char.totalCvRating}</div>
-          </div>
-        )}
-      </div>
-
-      {/* Weapon */}
-      {char.weapon && (
-        <div className="flex items-center gap-2.5 p-2 rounded-lg bg-bg-elevated/60 border border-border-default text-xs">
-          {char.weapon.iconUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={char.weapon.iconUrl}
-              alt={char.weapon.name}
-              className="w-8 h-8 rounded object-contain bg-bg-card border border-border-default shrink-0"
-              loading="lazy"
-            />
-          ) : (
-            <WeaponIcon type="Sword" size={20} className="shrink-0" />
-          )}
-          <div className="min-w-0 flex-1">
-            <div className="font-medium text-text-primary truncate">{char.weapon.name}</div>
-            <div className="text-[11px] text-text-secondary">
-              Lv. {char.weapon.level} · Tinh luyện {char.weapon.refinement}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Stats */}
-      <div className="flex flex-wrap gap-1.5">
-        <StatValue label="HP" value={fightProps.hp.toLocaleString()} />
-        <StatValue label="ATK" value={fightProps.atk.toLocaleString()} />
-        <StatValue label="DEF" value={fightProps.def.toLocaleString()} />
-        <StatValue label="CR" value={`${fightProps.critRate}%`} />
-        <StatValue label="CD" value={`${fightProps.critDmg}%`} />
-        <StatValue label="EM" value={fightProps.em} />
-        <StatValue label="ER" value={`${fightProps.er}%`} />
-      </div>
-
-      {/* Talent levels */}
-      {char.talentLevels.length > 0 && (
-        <div className="flex items-center gap-1 text-xs text-text-muted">
-          <span>Thiên phú:</span>
-          {char.talentLevels.map((lv, i) => (
-            <span
-              key={i}
-              className="bg-bg-elevated border border-border-default rounded px-1.5 py-0.5 font-mono text-text-primary"
-            >
-              {lv}
-            </span>
-          ))}
-        </div>
-      )}
-
-      {/* Toggle xem chi tiết Thánh di vật */}
-      {char.artifacts.length > 0 && (
-        <div className="mt-1">
-          <button
-            onClick={() => setShowArtifacts(!showArtifacts)}
-            className="w-full text-xs py-1.5 px-3 rounded-lg border border-border-default bg-bg-elevated hover:bg-bg-card transition-colors text-text-secondary flex items-center justify-between"
-          >
-            <span>Thánh di vật ({char.artifacts.length}/5 món)</span>
-            <span className="text-accent-bright font-mono font-semibold">
-              {showArtifacts ? "Thu gọn ▲" : "Chi tiết CV ▼"}
-            </span>
-          </button>
-
-          {showArtifacts && (
-            <div className="mt-2 space-y-2 border-t border-border-default pt-2">
-              {char.artifacts.map((art, idx) => {
-                const artColor =
-                  art.critValue >= 35
-                    ? "text-yellow-400 border-yellow-500/30 bg-yellow-500/5"
-                    : art.critValue >= 25
-                      ? "text-purple-400 border-purple-500/30 bg-purple-500/5"
-                      : "text-text-primary border-border-default bg-bg-elevated/40";
-
-                return (
-                  <div
-                    key={idx}
-                    className={`p-2 rounded-lg border text-xs flex flex-col gap-1 ${artColor}`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="font-semibold text-text-primary">
-                        {art.slotName} (+{art.level})
-                      </span>
-                      <span className="font-mono font-bold">
-                        {art.critValue > 0 ? `${art.critValue} CV` : "0 CV"}
-                        <span className="ml-1 text-[10px] font-normal opacity-80">({art.cvRating})</span>
-                      </span>
-                    </div>
-
-                    <div className="text-[11px] text-accent-bright/90">
-                      Chính: {art.mainStat.label} +{art.mainStat.value}
-                    </div>
-
-                    {art.substats.length > 0 && (
-                      <div className="grid grid-cols-2 gap-x-2 gap-y-0.5 text-[10px] text-text-secondary">
-                        {art.substats.map((sub, sIdx) => (
-                          <div key={sIdx} className="truncate">
-                            • {sub.label}: {sub.value}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* CTA */}
-      {char.characterId && (
-        <div className="mt-auto space-y-2">
-          <button
-            onClick={() => onUseBuild(char)}
-            className="w-full text-xs px-3 py-1.5 rounded-lg border border-accent-500/60 bg-bg-elevated text-accent-bright hover:border-accent-500 transition-colors font-medium"
-          >
-            Dùng build này cho DPS Calculator
-          </button>
-          <button
-            type="button"
-            onClick={handleGetAdvice}
-            disabled={advisorLoading}
-            aria-busy={advisorLoading}
-            className="w-full text-xs px-3 py-2 rounded-lg bg-accent-500 text-bg-primary hover:bg-accent-bright disabled:opacity-60 transition-colors font-semibold"
-          >
-            {advisorLoading ? t("loading") : t("button")}
-          </button>
-          <p className="text-[10px] leading-relaxed text-text-muted">{t("privacyNote")}</p>
-          {advisorError && (
-            <p role="alert" className="text-xs text-red-400">{advisorError}</p>
-          )}
-          {advice && (
-            <div aria-live="polite" className="max-h-80 overflow-y-auto rounded-lg border border-border-default bg-bg-elevated/60 p-3">
-              <h4 className="mb-2 text-xs font-semibold text-accent-bright">{t("title")}</h4>
-              <p className="whitespace-pre-wrap text-xs leading-relaxed text-text-secondary">{advice}</p>
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function ShowcaseGuideBanner({ onRetry }: { onRetry?: () => void }) {
-  return (
-    <div className="rounded-2xl border border-amber-500/30 bg-gradient-to-br from-amber-500/10 via-bg-card to-bg-card p-5 sm:p-6 space-y-4 animate-in fade-in duration-300">
-      <div className="flex items-start gap-3">
-        <div className="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-lg shrink-0">
-          💡
-        </div>
-        <div>
-          <h3 className="font-display font-bold text-text-primary text-base sm:text-lg">
-            Cách mở Trưng Bày Nhân Vật (Showcase) trong Game
-          </h3>
-          <p className="text-xs sm:text-sm text-text-secondary mt-0.5">
-            Mặc định game Genshin Impact có thể ẩn thông tin chi tiết. Hãy làm theo 4 bước sau để hệ thống soi được trang bị của bạn:
-          </p>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2">
-        <div className="p-3.5 rounded-xl border border-border-default bg-bg-elevated/60 flex flex-col gap-1.5">
-          <div className="flex items-center gap-2">
-            <span className="w-6 h-6 rounded-full bg-accent-500/20 text-accent-bright font-mono font-bold text-xs flex items-center justify-center">
-              1
-            </span>
-            <span className="font-semibold text-xs text-text-primary">Mở Menu Paimon</span>
-          </div>
-          <p className="text-[11px] text-text-muted leading-relaxed">
-            Nhấn phím <kbd className="px-1.5 py-0.5 rounded bg-bg-card border border-border-default font-mono text-[10px]">Esc</kbd> (PC) hoặc chạm biểu tượng Paimon góc trên bên trái màn hình.
-          </p>
-        </div>
-
-        <div className="p-3.5 rounded-xl border border-border-default bg-bg-elevated/60 flex flex-col gap-1.5">
-          <div className="flex items-center gap-2">
-            <span className="w-6 h-6 rounded-full bg-accent-500/20 text-accent-bright font-mono font-bold text-xs flex items-center justify-center">
-              2
-            </span>
-            <span className="font-semibold text-xs text-text-primary">Vào Sửa Hồ Sơ</span>
-          </div>
-          <p className="text-[11px] text-text-muted leading-relaxed">
-            Bấm vào biểu tượng cây bút cạnh Tên/Nickname của bạn và chọn <strong className="text-text-primary">Sửa Hồ Sơ</strong>.
-          </p>
-        </div>
-
-        <div className="p-3.5 rounded-xl border border-border-default bg-bg-elevated/60 flex flex-col gap-1.5">
-          <div className="flex items-center gap-2">
-            <span className="w-6 h-6 rounded-full bg-accent-500/20 text-accent-bright font-mono font-bold text-xs flex items-center justify-center">
-              3
-            </span>
-            <span className="font-semibold text-xs text-text-primary">Chọn Trưng Bày</span>
-          </div>
-          <p className="text-[11px] text-text-muted leading-relaxed">
-            Chọn mục <strong className="text-text-primary">Trưng bày nhân vật</strong>, thêm tối đa 8 nhân vật bạn muốn soi thánh di vật vào các ô trống.
-          </p>
-        </div>
-
-        <div className="p-3.5 rounded-xl border border-amber-500/40 bg-amber-500/10 flex flex-col gap-1.5">
-          <div className="flex items-center gap-2">
-            <span className="w-6 h-6 rounded-full bg-amber-500 text-bg-primary font-mono font-bold text-xs flex items-center justify-center">
-              4
-            </span>
-            <span className="font-semibold text-xs text-amber-400">Bật Công Tắc Chi Tiết</span>
-          </div>
-          <p className="text-[11px] text-text-secondary leading-relaxed">
-            <strong className="text-amber-300">Bắt buộc:</strong> Gạt BẬT công tắc <strong className="text-amber-200">&quot;Hiển thị chi tiết nhân vật&quot;</strong> ở góc dưới bên trái.
-          </p>
-        </div>
-      </div>
-
-      <div className="flex items-center justify-between gap-3 pt-2 border-t border-border-default/50 flex-wrap">
-        <p className="text-xs text-text-muted flex items-center gap-1.5">
-          <span>⏳</span>
-          Sau khi lưu trong game, vui lòng đợi 1–2 phút để server HoYoverse đồng bộ ra ngoài.
-        </p>
-        {onRetry && (
-          <button
-            onClick={onRetry}
-            className="px-4 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-bg-primary font-bold text-xs transition-colors shadow-sm"
-          >
-            🔄 Thử đồng bộ lại
-          </button>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function SkeletonCard() {
-  return (
-    <div className="rounded-xl border border-border-default bg-bg-card p-4 animate-pulse">
-      <div className="flex items-center gap-3 mb-3">
-        <div className="w-12 h-12 rounded-full bg-bg-elevated" />
-        <div className="flex-1 space-y-1.5">
-          <div className="h-4 bg-bg-elevated rounded w-24" />
-          <div className="h-3 bg-bg-elevated rounded w-16" />
-        </div>
-      </div>
-      <div className="flex flex-wrap gap-1.5">
-        {Array.from({ length: 7 }).map((_, i) => (
-          <div key={i} className="h-5 w-14 bg-bg-elevated rounded" />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Main component
-// ---------------------------------------------------------------------------
 
 interface EnkaImporterClientProps {
-  /** Callback khi người dùng muốn populate DPS Calculator */
   onUseBuild?: (char: EnkaShowcaseCharacter) => void;
 }
 
@@ -471,76 +121,108 @@ export function EnkaImporterClient({ onUseBuild }: EnkaImporterClientProps) {
 
   const [uid, setUid] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [staleWarning, setStaleWarning] = useState<string | null>(null);
   const [result, setResult] = useState<EnkaShowcaseResult | null>(null);
   const [resultUid, setResultUid] = useState<string | null>(null);
   const [showGuide, setShowGuide] = useState(false);
+  const [copiedUid, setCopiedUid] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [refreshCooldown, setRefreshCooldown] = useState(0);
 
-  // Khởi tạo UID từ localStorage khi mount (chỉ cần set 1 lần)
-  const initUid = useCallback((val: string) => {
-    if (!uid && val) setUid(val);
-  }, [uid]);
+  // Selected character for detailed view & build analysis modal
+  const [selectedCharacter, setSelectedCharacter] = useState<EnkaShowcaseCharacter | null>(null);
 
-  // Sync savedUid vào input khi dữ liệu từ localStorage load về
-  if (savedUid && !uid) {
-    initUid(savedUid);
-  }
+  // Khởi tạo UID từ localStorage
+  useEffect(() => {
+    if (savedUid && !uid) {
+      setUid(savedUid);
+    }
+  }, [savedUid, uid]);
+
+  // Cooldown timer cho nút Refresh
+  useEffect(() => {
+    if (refreshCooldown <= 0) return;
+    const timer = setInterval(() => {
+      setRefreshCooldown((prev) => Math.max(0, prev - 1));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [refreshCooldown]);
+
+  const liveServer = detectGenshinServer(uid);
 
   function validateUid(val: string): string | null {
-    if (!/^\d+$/.test(val)) return "UID chỉ được chứa chữ số.";
-    if (val.length < 9 || val.length > 10) return "UID phải có 9 hoặc 10 chữ số.";
+    if (!/^\d+$/.test(val)) return "UID chỉ được chứa các chữ số.";
+    if (val.length < 9 || val.length > 10) return "UID Genshin Impact phải gồm đúng 9 hoặc 10 chữ số.";
     return null;
   }
 
-  const handleSync = useCallback(async (targetUid?: string) => {
-    const rawUid = (targetUid ?? uid).trim();
-    const validationError = validateUid(rawUid);
-    if (validationError) {
-      setError(validationError);
-      return;
-    }
-
-    if (targetUid && targetUid !== uid) {
-      setUid(targetUid);
-    }
-
-    setLoading(true);
-    setError(null);
-    setResult(null);
-    setResultUid(null);
-
-    try {
-      const resp = await fetch(`/api/tools/enka/${rawUid}`);
-      const json = (await resp.json()) as
-        | { success: true; data: EnkaShowcaseResult }
-        | { success: false; error: { code: string; message: string } };
-
-      if (!json.success) {
-        setError(json.error.message);
+  const handleSync = useCallback(
+    async (targetUid?: string, isRefresh = false) => {
+      const rawUid = (targetUid ?? uid).trim();
+      const validationError = validateUid(rawUid);
+      if (validationError) {
+        setError(validationError);
         return;
       }
 
-      setResult(json.data);
-      setResultUid(rawUid);
-      setLocalStorageValue(STORAGE_KEY, rawUid);
+      if (targetUid && targetUid !== uid) {
+        setUid(targetUid);
+      }
 
-      saveRecentUid({
-        uid: rawUid,
-        nickname: json.data.playerInfo.nickname || "Nhà Lữ Hành",
-        arLevel: json.data.playerInfo.arLevel || 1,
-        worldLevel: json.data.playerInfo.worldLevel || 0,
-        avatarCount: json.data.showcaseCharacters.length,
-        syncedAt: Date.now(),
-      });
-    } catch {
-      setError("Lỗi kết nối mạng, vui lòng thử lại.");
-    } finally {
-      setLoading(false);
-    }
-  }, [uid]);
+      if (isRefresh) {
+        setRefreshing(true);
+      } else {
+        setLoading(true);
+        setError(null);
+      }
+      setStaleWarning(null);
 
-  // Tự động đồng bộ nếu có query ?uid=... trong URL
+      try {
+        const resp = await fetch(`/api/tools/enka/${rawUid}`);
+        const json = (await resp.json()) as
+          | { success: true; data: EnkaShowcaseResult }
+          | { success: false; error: { code: string; message: string } };
+
+        if (!json.success) {
+          if (result && isRefresh) {
+            // Giữ lại dữ liệu cũ khi refresh thất bại (Stale data protection)
+            setStaleWarning(`Không thể làm mới: ${json.error.message}. Đang hiển thị bản lưu trước đó.`);
+          } else {
+            setError(json.error.message);
+          }
+          return;
+        }
+
+        setResult(json.data);
+        setResultUid(rawUid);
+        setLocalStorageValue(STORAGE_KEY, rawUid);
+        setRefreshCooldown(30); // 30s cooldown
+
+        saveRecentUid({
+          uid: rawUid,
+          nickname: json.data.playerInfo.nickname || "Nhà Lữ Hành",
+          arLevel: json.data.playerInfo.arLevel || 1,
+          worldLevel: json.data.playerInfo.worldLevel || 0,
+          avatarCount: json.data.showcaseCharacters.length,
+          syncedAt: Date.now(),
+        });
+      } catch {
+        if (result && isRefresh) {
+          setStaleWarning("Lỗi kết nối máy chủ Enka, đang hiển thị dữ liệu đã lưu gần nhất.");
+        } else {
+          setError("Lỗi kết nối mạng hoặc máy chủ game, vui lòng thử lại sau.");
+        }
+      } finally {
+        setLoading(false);
+        setRefreshing(false);
+      }
+    },
+    [uid, result]
+  );
+
+  // Tự động fetch nếu có param ?uid=...
   useEffect(() => {
     if (typeof window === "undefined") return;
     const urlParams = new URLSearchParams(window.location.search);
@@ -552,6 +234,14 @@ export function EnkaImporterClient({ onUseBuild }: EnkaImporterClientProps) {
       return () => clearTimeout(timer);
     }
   }, [handleSync]);
+
+  const handleCopyUid = () => {
+    if (!resultUid || typeof window === "undefined") return;
+    void navigator.clipboard.writeText(resultUid).then(() => {
+      setCopiedUid(true);
+      setTimeout(() => setCopiedUid(false), 2000);
+    });
+  };
 
   const handleCopyLink = () => {
     if (!resultUid || typeof window === "undefined") return;
@@ -567,7 +257,6 @@ export function EnkaImporterClient({ onUseBuild }: EnkaImporterClientProps) {
       onUseBuild(char);
       return;
     }
-    // Chuyển dữ liệu showcase sang chế độ DPS đơn của máy tính.
     const params = new URLSearchParams({
       source: "enka",
       characterId: char.characterId ?? "",
@@ -590,25 +279,28 @@ export function EnkaImporterClient({ onUseBuild }: EnkaImporterClientProps) {
     router.push(`/tools/dps-calculator?${params.toString()}`);
   }
 
-  const serverInfo = resultUid ? getGenshinServer(resultUid) : null;
+  const pInfo = result?.playerInfo;
+  const serverInfo = resultUid ? detectGenshinServer(resultUid) : null;
 
   return (
     <div className="space-y-6">
-      {/* Input section */}
-      <div className="rounded-2xl border border-border-default bg-bg-card p-6 space-y-4">
+      {/* =========================================================================
+          1. INPUT & SERVER DETECTION BAR
+          ========================================================================= */}
+      <div className="rounded-3xl border border-border bg-bg-card p-6 md:p-8 space-y-5 shadow-sm">
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <div>
-            <h2 className="font-display text-xl font-semibold text-text-primary mb-1">
-              Nhập UID Genshin Impact
+            <h2 className="font-display text-2xl font-bold text-text-primary tracking-tight">
+              Tra Cứu Hồ Sơ &amp; Showcase Nhân Vật
             </h2>
-            <p className="text-sm text-text-secondary">
-              UID 9 hoặc 10 chữ số — tìm trong game: Menu → Góc dưới bên phải màn hình.
+            <p className="text-xs sm:text-sm text-text-secondary mt-1">
+              Nhập 9 hoặc 10 chữ số UID in-game để tải thông tin hồ sơ, thánh di vật và đối chiếu với build chuẩn KQM.
             </p>
           </div>
           <button
             type="button"
             onClick={() => setShowGuide((prev) => !prev)}
-            className="text-xs font-medium px-3 py-1.5 rounded-lg border border-border-default hover:border-amber-500/50 bg-bg-elevated text-text-secondary hover:text-amber-400 transition-colors flex items-center gap-1.5"
+            className="text-xs font-semibold px-3.5 py-2 rounded-xl border border-border hover:border-amber-500/50 bg-bg-elevated text-text-secondary hover:text-amber-400 transition-colors flex items-center gap-1.5 shrink-0"
           >
             <span>💡</span>
             <span>{showGuide ? "Đóng hướng dẫn" : "Hướng dẫn mở Showcase"}</span>
@@ -617,61 +309,108 @@ export function EnkaImporterClient({ onUseBuild }: EnkaImporterClientProps) {
 
         {/* Collapsible Guide */}
         {showGuide && (
-          <ShowcaseGuideBanner onRetry={() => void handleSync()} />
+          <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-5 space-y-3 text-xs leading-relaxed">
+            <h4 className="font-bold text-text-primary text-sm flex items-center gap-2">
+              <span>📌</span> Hướng dẫn mở hiển thị chi tiết trong game Genshin Impact:
+            </h4>
+            <ol className="list-decimal list-inside space-y-1 text-text-secondary">
+              <li>Mở Menu Paimon (phím Esc trên PC hoặc chạm góc trên bên trái).</li>
+              <li>Bấm vào biểu tượng cây bút cạnh Nickname và chọn <strong>Sửa Hồ Sơ</strong>.</li>
+              <li>Chọn mục <strong>Trưng bày nhân vật</strong> và thêm tối đa 8 nhân vật muốn soi trang bị.</li>
+              <li>
+                <strong className="text-amber-300">Bắt buộc:</strong> Gạt BẬT công tắc{" "}
+                <strong className="text-amber-200">&quot;Hiển thị chi tiết nhân vật&quot;</strong> ở góc dưới bên trái màn hình.
+              </li>
+            </ol>
+            <p className="text-[11px] text-text-muted italic pt-1">
+              * Sau khi lưu trong game, vui lòng đợi 1–2 phút để server HoYoverse cập nhật dữ liệu ra ngoài.
+            </p>
+          </div>
         )}
 
-        <div className="flex gap-3 flex-wrap">
-          <input
-            type="text"
-            inputMode="numeric"
-            pattern="\d{9,10}"
-            maxLength={10}
-            value={uid}
-            onChange={(e) => {
-              setUid(e.target.value.replace(/\D/g, ""));
-              setError(null);
-            }}
-            onKeyDown={(e) => e.key === "Enter" && void handleSync()}
-            placeholder="Ví dụ: 800000001 (9 hoặc 10 số)"
-            className="flex-1 min-w-[200px] px-4 py-2.5 rounded-xl border border-border-default bg-bg-elevated text-text-primary placeholder:text-text-muted font-mono focus:outline-none focus:ring-2 focus:ring-accent-500/50 focus:border-accent-500 transition-colors"
-          />
-          <button
-            onClick={() => void handleSync()}
-            disabled={loading || uid.length < 9 || uid.length > 10}
-            className="px-5 py-2.5 rounded-xl bg-accent-500 hover:bg-accent-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold transition-colors"
-          >
-            {loading ? "Đang đồng bộ…" : "Đồng bộ từ game"}
-          </button>
+        {/* Input box with live server badge */}
+        <div className="space-y-2">
+          <div className="flex flex-col sm:flex-row gap-3">
+            <div className="relative flex-1">
+              <input
+                type="text"
+                inputMode="numeric"
+                pattern="\d{9,10}"
+                maxLength={10}
+                value={uid}
+                onChange={(e) => {
+                  setUid(e.target.value.replace(/\D/g, ""));
+                  setError(null);
+                }}
+                onKeyDown={(e) => e.key === "Enter" && void handleSync()}
+                placeholder="Nhập UID Genshin (ví dụ: 800000001)"
+                className="w-full px-4 py-3 rounded-2xl border border-border bg-bg-elevated text-text-primary placeholder:text-text-muted font-mono text-sm focus:outline-none focus:ring-2 focus:ring-accent-500/50 focus:border-accent-500 transition-colors shadow-inner"
+              />
+              {uid && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setUid("");
+                    setError(null);
+                  }}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary text-xs"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => void handleSync()}
+              disabled={loading || uid.length < 9 || uid.length > 10}
+              className="px-6 py-3 rounded-2xl bg-accent-500 hover:bg-accent-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-xs sm:text-sm transition-all shadow-md shrink-0 flex items-center justify-center gap-2"
+            >
+              {loading ? (
+                <>
+                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <span>Đang tải dữ liệu…</span>
+                </>
+              ) : (
+                <span>Tra cứu Player Profile</span>
+              )}
+            </button>
+          </div>
+
+          {/* Live Server Indicator under input */}
+          {liveServer && uid.length > 0 && (
+            <div className="flex items-center gap-2 text-xs pt-0.5">
+              <span className="text-text-muted">Máy chủ nhận diện:</span>
+              <span className={`px-2 py-0.5 rounded-md font-semibold border ${liveServer.badgeColor}`}>
+                {liveServer.name}
+              </span>
+            </div>
+          )}
         </div>
 
-        {/* Recent UIDs chips */}
+        {/* Recent UIDs Chips */}
         {recentUids.length > 0 && (
-          <div className="flex items-center gap-2 flex-wrap pt-1">
-            <span className="text-xs text-text-muted">UID gần đây:</span>
+          <div className="flex items-center gap-2 flex-wrap pt-2 border-t border-border/50 text-xs">
+            <span className="text-text-muted">UID gần đây:</span>
             {recentUids.map((r) => (
               <div
                 key={r.uid}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-bg-elevated border border-border-default hover:border-accent-500/50 text-xs transition-colors group"
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-bg-elevated border border-border hover:border-accent-500/50 transition-colors group"
               >
                 <button
                   type="button"
                   onClick={() => void handleSync(r.uid)}
-                  className="text-text-primary hover:text-accent-bright font-mono font-medium flex items-center gap-1.5"
-                  title={`Đồng bộ ${r.nickname} (AR ${r.arLevel})`}
+                  className="text-text-primary hover:text-accent-bright font-mono font-medium flex items-center gap-1"
+                  title={`Tra cứu ${r.nickname} (AR ${r.arLevel})`}
                 >
-                  <span>{r.uid}</span>
-                  <span className="text-text-muted text-[11px] group-hover:text-accent-bright/80 font-sans">
-                    ({r.nickname} • AR {r.arLevel})
-                  </span>
+                  <span>{r.nickname}</span>
+                  <span className="text-[10px] text-text-muted">({r.uid})</span>
                 </button>
                 <button
                   type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    removeRecentUid(r.uid);
-                  }}
-                  className="text-text-muted hover:text-red-400 p-0.5 rounded text-[10px] leading-none transition-colors"
-                  title="Xóa khỏi lịch sử"
+                  onClick={() => removeRecentUid(r.uid)}
+                  className="text-text-muted hover:text-red-400 opacity-60 group-hover:opacity-100 transition-opacity ml-0.5"
+                  title="Xóa UID này"
                 >
                   ✕
                 </button>
@@ -680,118 +419,217 @@ export function EnkaImporterClient({ onUseBuild }: EnkaImporterClientProps) {
           </div>
         )}
 
+        {/* Error message */}
         {error && (
-          <p className="text-sm text-red-400 bg-red-500/10 rounded-lg px-3 py-2 border border-red-500/20">
-            {error}
-          </p>
+          <div className="p-4 rounded-2xl border border-red-500/30 bg-red-500/10 text-red-400 text-xs flex items-center gap-2.5">
+            <span>⚠️</span>
+            <span>{error}</span>
+          </div>
+        )}
+
+        {/* Stale data warning */}
+        {staleWarning && (
+          <div className="p-3.5 rounded-2xl border border-amber-500/30 bg-amber-500/10 text-amber-300 text-xs flex items-center gap-2">
+            <span>ℹ️</span>
+            <span>{staleWarning}</span>
+          </div>
         )}
       </div>
 
-      {/* Loading skeleton */}
-      {loading && (
-        <div>
-          <p className="text-sm text-text-muted mb-3">Đang tải dữ liệu showcase…</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <SkeletonCard key={i} />
-            ))}
+      {/* =========================================================================
+          2. PLAYER PROFILE HEADER
+          ========================================================================= */}
+      {result && pInfo && (
+        <div className="rounded-3xl border border-border bg-bg-card p-6 md:p-8 space-y-6 shadow-md">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 pb-6 border-b border-border">
+            <div className="flex items-start sm:items-center gap-4">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-500 to-indigo-600 flex items-center justify-center text-white font-display text-2xl font-bold shadow-lg shrink-0">
+                {pInfo.nickname.charAt(0)}
+              </div>
+              <div>
+                <div className="flex items-center gap-2.5 flex-wrap">
+                  <h3 className="font-display text-2xl font-bold text-text-primary">
+                    {pInfo.nickname}
+                  </h3>
+                  {serverInfo && (
+                    <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold border ${serverInfo.badgeColor}`}>
+                      {serverInfo.name}
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-3 text-xs text-text-secondary mt-1.5 flex-wrap">
+                  <span>
+                    Hạng Mạo Hiểm (AR): <strong className="text-text-primary font-mono">{pInfo.arLevel}</strong>
+                  </span>
+                  <span>•</span>
+                  <span>
+                    Cấp Thế Giới (WL): <strong className="text-text-primary font-mono">{pInfo.worldLevel}</strong>
+                  </span>
+                  {pInfo.achievements !== null && (
+                    <>
+                      <span>•</span>
+                      <span>
+                        Thành tựu: <strong className="text-accent-bright font-mono">{pInfo.achievements}</strong>
+                      </span>
+                    </>
+                  )}
+                  {pInfo.spiralAbyss && (
+                    <>
+                      <span>•</span>
+                      <span>
+                        La Hoàn: <strong className="text-purple-400 font-mono">{pInfo.spiralAbyss}</strong>
+                      </span>
+                    </>
+                  )}
+                </div>
+
+                {pInfo.signature && (
+                  <p className="text-xs text-text-muted italic mt-2 max-w-xl">
+                    &ldquo;{pInfo.signature}&rdquo;
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* Action buttons */}
+            <div className="flex items-center gap-2 flex-wrap self-start md:self-auto">
+              <button
+                type="button"
+                onClick={handleCopyUid}
+                className="px-3.5 py-2 rounded-xl border border-border bg-bg-elevated hover:bg-bg-card text-xs font-semibold text-text-secondary hover:text-text-primary transition-colors flex items-center gap-1.5"
+              >
+                <span>{copiedUid ? "✅ Đã chép" : "📋 Chép UID"}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleCopyLink}
+                className="px-3.5 py-2 rounded-xl border border-border bg-bg-elevated hover:bg-bg-card text-xs font-semibold text-text-secondary hover:text-text-primary transition-colors flex items-center gap-1.5"
+              >
+                <span>{copiedLink ? "✅ Đã chép link" : "🔗 Chia sẻ"}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => void handleSync(resultUid || undefined, true)}
+                disabled={refreshing || refreshCooldown > 0}
+                className="px-4 py-2 rounded-xl bg-accent-500 hover:bg-accent-600 disabled:opacity-50 text-white font-bold text-xs transition-colors flex items-center gap-1.5 shadow-sm"
+              >
+                <span className={refreshing ? "animate-spin" : ""}>🔄</span>
+                <span>{refreshCooldown > 0 ? `Làm mới (${refreshCooldown}s)` : "Làm mới"}</span>
+              </button>
+            </div>
+          </div>
+
+          {/* =========================================================================
+              3. CHARACTER SHOWCASE GRID
+              ========================================================================= */}
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <h4 className="font-display text-lg font-bold text-text-primary">
+                Trưng Bày Nhân Vật ({result.showcaseCharacters.length} nhân vật)
+              </h4>
+              <span className="text-xs text-text-muted">
+                Bấm vào thẻ để xem chi tiết và đối chiếu build KQM
+              </span>
+            </div>
+
+            {result.showcaseCharacters.length === 0 ? (
+              <div className="p-10 text-center rounded-2xl border border-dashed border-border text-xs text-text-muted space-y-2">
+                <div>Chưa có nhân vật nào được hiển thị trong Showcase của tài khoản này.</div>
+                <div>Vui lòng mở menu game và bật công tắc &quot;Hiển thị chi tiết nhân vật&quot;.</div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {result.showcaseCharacters.map((char, idx) => (
+                  <div
+                    key={idx}
+                    onClick={() => setSelectedCharacter(char)}
+                    className="p-4 rounded-2xl border border-border bg-bg-elevated hover:border-accent-500 transition-all cursor-pointer group flex flex-col justify-between shadow-sm hover:shadow-md"
+                  >
+                    <div>
+                      {/* Avatar header */}
+                      <div className="flex items-center gap-3 mb-3">
+                        {char.iconUrl ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={char.iconUrl}
+                            alt={char.characterName ?? `Avatar ${char.avatarId}`}
+                            className="w-12 h-12 rounded-xl object-cover bg-bg-card border border-border shrink-0 group-hover:scale-105 transition-transform"
+                          />
+                        ) : (
+                          <div className="w-12 h-12 rounded-xl bg-bg-card border border-border flex items-center justify-center font-bold text-text-muted text-sm shrink-0">
+                            ?
+                          </div>
+                        )}
+                        <div className="min-w-0 flex-1">
+                          <div className="font-bold text-sm text-text-primary truncate group-hover:text-accent-bright transition-colors">
+                            {char.characterName ?? `Avatar ${char.avatarId}`}
+                          </div>
+                          <div className="text-xs text-text-secondary mt-0.5">
+                            Lv. {char.level} · <span className="font-semibold text-accent-bright">C{char.constellations}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Weapon badge */}
+                      {char.weapon && (
+                        <div className="flex items-center gap-2 p-2 rounded-xl bg-bg-card border border-border/60 text-xs mb-3">
+                          {char.weapon.iconUrl ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
+                              src={char.weapon.iconUrl}
+                              alt={char.weapon.name}
+                              className="w-6 h-6 rounded object-contain shrink-0"
+                            />
+                          ) : (
+                            <WeaponIcon type="Sword" size={16} />
+                          )}
+                          <span className="truncate font-medium text-text-primary text-[11px]">
+                            {char.weapon.name} (R{char.weapon.refinement})
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Quick stats */}
+                      <div className="grid grid-cols-2 gap-1.5 text-[11px] text-text-muted mb-3 font-mono">
+                        <div>CR: <strong className="text-text-primary">{char.fightProps.critRate}%</strong></div>
+                        <div>CD: <strong className="text-text-primary">{char.fightProps.critDmg}%</strong></div>
+                        <div>ER: <strong className="text-text-primary">{char.fightProps.er}%</strong></div>
+                        <div>EM: <strong className="text-text-primary">{char.fightProps.em}</strong></div>
+                      </div>
+                    </div>
+
+                    {/* Bottom CV / Action */}
+                    <div className="pt-2.5 border-t border-border/50 flex items-center justify-between text-xs">
+                      <span className="text-[10px] uppercase font-bold text-accent-bright">
+                        {char.totalCritValue} CV
+                      </span>
+                      <span className="text-[11px] text-accent-bright font-semibold group-hover:underline">
+                        Xem chi tiết &rarr;
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}
 
-      {/* Result */}
-      {result && !loading && (
-        <div className="space-y-4 animate-in fade-in duration-300">
-          {/* Player info */}
-          <div className="rounded-xl border border-border-default bg-bg-card p-4 flex flex-wrap gap-4 items-center justify-between">
-            <div className="flex flex-wrap gap-4 items-center">
-              <div>
-                <p className="text-text-muted text-xs">Tên người chơi</p>
-                <p className="font-display text-lg font-bold text-text-primary">
-                  {result.playerInfo.nickname}
-                </p>
-              </div>
-              <div>
-                <p className="text-text-muted text-xs">Adventure Rank</p>
-                <p className="font-semibold text-text-primary">AR {result.playerInfo.arLevel}</p>
-              </div>
-              <div>
-                <p className="text-text-muted text-xs">World Level</p>
-                <p className="font-semibold text-text-primary">WL {result.playerInfo.worldLevel}</p>
-              </div>
-              {serverInfo && (
-                <div>
-                  <p className="text-text-muted text-xs">Máy chủ</p>
-                  <span className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold border ${serverInfo.badgeColor} mt-0.5`}>
-                    {serverInfo.name}
-                  </span>
-                </div>
-              )}
-              {result.playerInfo.signature && (
-                <div className="flex-1 min-w-[160px]">
-                  <p className="text-text-muted text-xs">Chữ ký</p>
-                  <p className="text-sm text-text-secondary italic truncate">
-                    {result.playerInfo.signature}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Actions: Share link & Refresh */}
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={handleCopyLink}
-                className="px-3 py-1.5 rounded-lg border border-border-default hover:border-accent-500 bg-bg-elevated text-xs font-medium text-text-secondary hover:text-accent-bright transition-colors flex items-center gap-1.5"
-                title="Sao chép liên kết chia sẻ hồ sơ"
-              >
-                <span>{copiedLink ? "✓" : "🔗"}</span>
-                <span>{copiedLink ? "Đã chép link!" : "Chia sẻ link"}</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => void handleSync(resultUid ?? uid)}
-                className="px-3 py-1.5 rounded-lg border border-border-default hover:border-accent-500 bg-bg-elevated text-xs font-medium text-text-secondary hover:text-accent-bright transition-colors flex items-center gap-1.5"
-                title="Làm mới dữ liệu từ game"
-              >
-                <span>🔄</span>
-                <span>Làm mới</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Characters grid or Guide if empty */}
-          {result.showcaseCharacters.length === 0 ? (
-            <div className="space-y-4">
-              <div className="p-4 rounded-xl border border-amber-500/30 bg-amber-500/5 text-amber-300 text-sm flex items-center gap-2">
-                <span>⚠️</span>
-                <span>Hồ sơ người chơi chưa hiển thị nhân vật nào trong Trưng Bày.</span>
-              </div>
-              <ShowcaseGuideBanner onRetry={() => void handleSync(resultUid ?? uid)} />
-            </div>
-          ) : (
-            <>
-              <div className="flex items-center justify-between">
-                <p className="text-sm text-text-secondary font-medium">
-                  {result.showcaseCharacters.length} nhân vật trong showcase:
-                </p>
-                <span className="text-xs text-text-muted">
-                  Bấm vào thẻ đồ để xem chi tiết từng mảnh hoặc xin tư vấn từ AI
-                </span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {result.showcaseCharacters.map((char) => (
-                  <CharacterShowcaseCard
-                    key={`${resultUid}:${char.avatarId}`}
-                    char={char}
-                    uid={resultUid ?? ""}
-                    onUseBuild={handleUseBuild}
-                  />
-                ))}
-              </div>
-            </>
-          )}
-        </div>
+      {/* =========================================================================
+          4. INTERACTIVE CHARACTER DETAIL & BUILD ANALYZER MODAL
+          ========================================================================= */}
+      {selectedCharacter && (
+        <CharacterDetailModal
+          char={selectedCharacter}
+          onClose={() => setSelectedCharacter(null)}
+          onUseForDpsCalculator={(c) => {
+            setSelectedCharacter(null);
+            handleUseBuild(c);
+          }}
+        />
       )}
     </div>
   );
