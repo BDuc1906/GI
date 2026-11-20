@@ -143,14 +143,56 @@
     "description": "Danh sách toàn bộ địa điểm và điểm ngắm cảnh trong game"
   },
   "Materials": {
-    "title": "Nguyên Liệu",
-    "description": "Danh sách toàn bộ nguyên liệu đột phá và nâng cấp"
+    "title": "Kho Nguyên Liệu",
+    "description": "Tra cứu toàn diện {count} nguyên liệu đột phá nhân vật, vũ khí và sách thiên phú.",
+    "breadcrumb": "Nguyên liệu",
+    "searchPlaceholder": "Tìm theo tên nguyên liệu (Việt, Anh, v.v.)...",
+    "filterCategoryLabel": "Phân loại nguyên liệu:",
+    "clearFilters": "✕ Xóa bộ lọc",
+    "showingCount": "Hiển thị {filtered} / {total} nguyên liệu",
+    "categories": {
+      "all": "Tất cả",
+      "allDesc": "Toàn bộ kho nguyên liệu",
+      "talent_book": "Sách Thiên Phú",
+      "talent_bookDesc": "Bài Giảng, Hướng Dẫn, Triết Học nâng cấp kỹ năng",
+      "weapon_mat": "Đột Phá Vũ Khí",
+      "weapon_matDesc": "Nguyên liệu rơi từ Bí cảnh vũ khí",
+      "gemstone": "Đá Nguyên Tố",
+      "gemstoneDesc": "Đá đột phá nhân vật (Vụn, Mảnh, Cục, Đá Hoàn Chỉnh)",
+      "weekly_boss": "Nguyên Liệu Boss Tuần",
+      "weekly_bossDesc": "Chiến lợi phẩm từ các Bí Cảnh Vùng (Trounce Domains)",
+      "local_specialty": "Đặc Sản Địa Phương",
+      "local_specialtyDesc": "Cây cỏ, hoa quả, khoáng sản thu thập trên bản đồ",
+      "common_drop": "Rơi Từ Quái",
+      "common_dropDesc": "Chiến lợi phẩm hạ gục quái thường và tinh anh",
+      "other": "Khác & Rèn",
+      "otherDesc": "Khoáng thạch, Mora, EXP và vật phẩm tiêu hao"
+    },
+    "emptyTitle": "Không tìm thấy nguyên liệu phù hợp",
+    "emptyDesc": "Hãy thử chọn danh mục khác hoặc xóa từ khóa tìm kiếm.",
+    "resetBtn": "Đặt lại bộ lọc"
   },
   "Navigation": {
     "title": "Thư viện Teyvat"
   },
   "Tools": {
-    "title": "Công cụ & Tiện ích"
+    "title": "Công cụ & Tiện ích",
+    "enkaSync": {
+      "title": "Đồng bộ Enka.Network qua UID",
+      "description": "Nhập 9 chữ số UID trong game để tự động kéo thông tin showcase nhân vật, cấp độ, thánh di vật và chỉ số chiến đấu thực tế."
+    },
+    "showcaseCard": {
+      "title": "Trình Tạo Thẻ Nhân Vật (Showcase Card)",
+      "description": "Tạo thẻ nhân vật đẹp mắt chuẩn tỉ lệ 1200x630 để chia sẻ lên mạng xã hội, Discord, hoặc lưu trữ kỷ niệm."
+    },
+    "teamBuilder": {
+      "title": "Dựng Đội Hình",
+      "description": "Chọn các nhân vật bạn đang có, ghim người bạn muốn giữ, công cụ gợi ý đội 4 người theo phản ứng nguyên tố và cộng hưởng, kèm phương án thay thế cho từng ô.",
+      "breadcrumbTools": "Công cụ",
+      "breadcrumbTitle": "Dựng đội hình",
+      "seoTitle": "Dựng đội hình Genshin Impact theo phản ứng nguyên tố | LEIBO",
+      "seoDescription": "Gợi ý đội hình theo phản ứng nguyên tố và cộng hưởng, chọn nhân vật bạn đang có và nhận phương án thay thế khi thiếu nhân vật."
+    }
   },
   "Version": {
     "title": "Cập nhật phiên bản mới"

@@ -122,6 +122,10 @@ jobs:
         if: steps.version-check.outputs.should_update == 'true'
         run: npm run builds:update
 
+      - name: Validate Translation Quality Gate (i18n)
+        if: steps.version-check.outputs.should_update == 'true'
+        run: npm run i18n:validate
+
       - name: Run unit & integration test suite
         if: steps.version-check.outputs.should_update == 'true'
         run: npm test
@@ -165,6 +169,7 @@ jobs:
             - [x] Xác minh toàn vẹn dữ liệu (Strict Integrity Check) đạt chuẩn
             - [x] Asset Validation Gate passed (`npm run assets:validate`)
             - [x] Character Build Validation Gate passed (`npm run builds:update`)
+            - [x] Translation Quality Gate passed (`npm run i18n:validate`)
             - [x] Unit test suite passed (Vitest)
 
             ### 🛡️ Nguyên tắc an toàn:

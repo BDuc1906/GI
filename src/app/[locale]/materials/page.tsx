@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { prisma } from "@/lib/db/prisma";
 import { withDbRetry } from "@/lib/db/db-retry";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
-import { createStaticPageMetadata } from "@/lib/seo/metadata";
+import { createLocalizedMetadata } from "@/lib/seo/metadata";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
 import {
@@ -17,7 +17,13 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  return createStaticPageMetadata(locale, "materials");
+  const t = await getTranslations({ locale, namespace: "Materials" });
+  return createLocalizedMetadata({
+    locale,
+    pathname: "materials",
+    title: `${t("title")} — LEIBO`,
+    description: t("description", { count: 300 }),
+  });
 }
 
 interface MaterialsPageProps {
@@ -27,6 +33,7 @@ interface MaterialsPageProps {
 export default async function MaterialsPage({ params }: MaterialsPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("Materials");
 
   // Tải toàn bộ nguyên liệu từ PostgreSQL Prisma DB
   const all = await withDbRetry(() =>
@@ -54,7 +61,7 @@ export default async function MaterialsPage({ params }: MaterialsPageProps) {
 
   const breadcrumbs = [
     { name: "LEIBO", path: "/" },
-    { name: "Nguyên liệu", path: "/materials" },
+    { name: t("breadcrumb"), path: "/materials" },
   ];
 
   return (
@@ -64,10 +71,10 @@ export default async function MaterialsPage({ params }: MaterialsPageProps) {
 
       <div>
         <h1 className="font-display text-display-2 font-semibold text-text-primary mb-2">
-          Kho Nguyên Liệu
+          {t("title")}
         </h1>
         <p className="text-sm text-text-secondary">
-          Tra cứu toàn diện {all.length} nguyên liệu đột phá nhân vật, vũ khí và sách thiên phú.
+          {t("description", { count: all.length })}
         </p>
       </div>
 

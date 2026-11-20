@@ -52,6 +52,9 @@ jobs:
       - name: Character Build Validation Gate (KQM 4-Layer)
         run: npm run builds:update
 
+      - name: Translation Quality Gate (i18n Coverage & Integrity)
+        run: npm run i18n:validate
+
   build-and-smoke:
     name: Build, API Smoke & Playwright E2E
     runs-on: ubuntu-latest

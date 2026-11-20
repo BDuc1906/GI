@@ -505,11 +505,53 @@
     "title": "Version actuelle"
   },
   "Tools": {
-    "title": "Tools & Utilities"
+    "title": "Outils & Utilitaires",
+    "enkaSync": {
+      "title": "Synchronisation Enka.Network par UID",
+      "description": "Entrez votre UID à 9 chiffres pour importer automatiquement la vitrine de vos personnages, niveaux, artéfacts et statistiques."
+    },
+    "showcaseCard": {
+      "title": "Générateur de Carte de Vitrine",
+      "description": "Créez de superbes fiches de personnages 1200x630 à partager sur Discord, les réseaux sociaux ou conserver en souvenir."
+    },
+    "teamBuilder": {
+      "title": "Générateur d'Équipes",
+      "description": "Sélectionnez vos personnages et épinglez vos favoris ; le moteur suggère des compositions de 4 héros optimisées par réactions élémentaires et résonances.",
+      "breadcrumbTools": "Outils",
+      "breadcrumbTitle": "Équipes",
+      "seoTitle": "Générateur d'Équipes Genshin Impact & Réactions Élémentaires | LEIBO",
+      "seoDescription": "Optimisez vos synergies d'équipe à 4 selon les réactions et résonances avec substituts recommandés."
+    }
   },
   "Materials": {
-    "title": "Materials",
-    "description": "Full list of ascension and upgrade materials"
+    "title": "Archives des Matériaux",
+    "description": "Base de données complète des {count} matériaux d'élévation, armes et livres d'aptitudes.",
+    "breadcrumb": "Matériaux",
+    "searchPlaceholder": "Rechercher par nom de matériau...",
+    "filterCategoryLabel": "Catégories de matériaux :",
+    "clearFilters": "✕ Réinitialiser les filtres",
+    "showingCount": "Affichage de {filtered} sur {total} matériaux",
+    "categories": {
+      "all": "Tous",
+      "allDesc": "Encyclopédie complète des matériaux",
+      "talent_book": "Livres d'aptitudes",
+      "talent_bookDesc": "Enseignements, Guides et Philosophies d'amélioration",
+      "weapon_mat": "Élévation d'armes",
+      "weapon_matDesc": "Matériaux de donjons pour l'élévation des armes",
+      "gemstone": "Pierres élémentaires",
+      "gemstoneDesc": "Éclats, fragments, morceaux et pierres d'élévation",
+      "weekly_boss": "Boss hebdomadaires",
+      "weekly_bossDesc": "Trophées des donjons de la conquête",
+      "local_specialty": "Produits locaux",
+      "local_specialtyDesc": "Plantes, fleurs et minéraux régionaux de Teyvat",
+      "common_drop": "Butins d'ennemis",
+      "common_dropDesc": "Objets obtenus sur les ennemis ordinaires et d'élite",
+      "other": "Forge & Divers",
+      "otherDesc": "Minerais, Moras, Leçons de héros et consommables"
+    },
+    "emptyTitle": "Aucun matériau correspondant trouvé",
+    "emptyDesc": "Essayez de choisir une autre catégorie ou de réinitialiser la recherche.",
+    "resetBtn": "Réinitialiser les filtres"
   },
   "Enemies": {
     "title": "Enemies",

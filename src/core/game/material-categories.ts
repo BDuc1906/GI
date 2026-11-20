@@ -25,18 +25,29 @@ export interface MaterialCategoryDef {
   key: MaterialCategoryKey;
   nameVi: string;
   descriptionVi: string;
+  nameEn: string;
+  descriptionEn: string;
 }
 
 export const MATERIAL_CATEGORIES: MaterialCategoryDef[] = [
-  { key: "all", nameVi: "Tất cả", descriptionVi: "Toàn bộ kho nguyên liệu" },
-  { key: "talent_book", nameVi: "Sách Thiên Phú", descriptionVi: "Bài Giảng, Hướng Dẫn, Triết Học nâng cấp kỹ năng" },
-  { key: "weapon_mat", nameVi: "Đột Phá Vũ Khí", descriptionVi: "Nguyên liệu rơi từ Bí cảnh vũ khí" },
-  { key: "gemstone", nameVi: "Đá Nguyên Tố", descriptionVi: "Đá đột phá nhân vật (Vụn, Mảnh, Cục, Đá Hoàn Chỉnh)" },
-  { key: "weekly_boss", nameVi: "Nguyên Liệu Boss Tuần", descriptionVi: "Chiến lợi phẩm từ các Bí Cảnh Vùng (Trounce Domains)" },
-  { key: "local_specialty", nameVi: "Đặc Sản Địa Phương", descriptionVi: "Cây cỏ, hoa quả, khoáng sản thu thập trên bản đồ" },
-  { key: "common_drop", nameVi: "Rơi Từ Quái", descriptionVi: "Chiến lợi phẩm hạ gục quái thường và tinh anh" },
-  { key: "other", nameVi: "Khác & Rèn", descriptionVi: "Khoáng thạch, Mora, EXP và vật phẩm tiêu hao" },
+  { key: "all", nameVi: "Tất cả", descriptionVi: "Toàn bộ kho nguyên liệu", nameEn: "All", descriptionEn: "Complete material compendium" },
+  { key: "talent_book", nameVi: "Sách Thiên Phú", descriptionVi: "Bài Giảng, Hướng Dẫn, Triết Học nâng cấp kỹ năng", nameEn: "Talent Books", descriptionEn: "Teachings, Guides, and Philosophies for skill ascension" },
+  { key: "weapon_mat", nameVi: "Đột Phá Vũ Khí", descriptionVi: "Nguyên liệu rơi từ Bí cảnh vũ khí", nameEn: "Weapon Ascension", descriptionEn: "Domain materials for ascending weapons" },
+  { key: "gemstone", nameVi: "Đá Nguyên Tố", descriptionVi: "Đá đột phá nhân vật (Vụn, Mảnh, Cục, Đá Hoàn Chỉnh)", nameEn: "Gemstones", descriptionEn: "Character elemental slivers, fragments, chunks, and gemstones" },
+  { key: "weekly_boss", nameVi: "Nguyên Liệu Boss Tuần", descriptionVi: "Chiến lợi phẩm từ các Bí Cảnh Vùng (Trounce Domains)", nameEn: "Weekly Boss Drops", descriptionEn: "Spoils and trophies from Trounce Domains" },
+  { key: "local_specialty", nameVi: "Đặc Sản Địa Phương", descriptionVi: "Cây cỏ, hoa quả, khoáng sản thu thập trên bản đồ", nameEn: "Local Specialties", descriptionEn: "Plants, flora, and regional minerals found across Teyvat" },
+  { key: "common_drop", nameVi: "Rơi Từ Quái", descriptionVi: "Chiến lợi phẩm hạ gục quái thường và tinh anh", nameEn: "Common Drops", descriptionEn: "Materials dropped by common enemies and elite monsters" },
+  { key: "other", nameVi: "Khác & Rèn", descriptionVi: "Khoáng thạch, Mora, EXP và vật phẩm tiêu hao", nameEn: "Others & Forging", descriptionEn: "Forging ores, Mora, Character EXP, and consumable items" },
 ];
+
+/**
+ * Lấy tên danh mục nguyên liệu theo locale (fallback về nameEn nếu không phải tiếng Việt).
+ */
+export function getMaterialCategoryName(key: MaterialCategoryKey, locale: string): string {
+  const cat = MATERIAL_CATEGORIES.find((c) => c.key === key);
+  if (!cat) return key;
+  return locale === "vi" ? cat.nameVi : cat.nameEn;
+}
 
 /**
  * Phân loại nguyên liệu tự động dựa trên tên và ID.

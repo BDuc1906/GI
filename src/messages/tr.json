@@ -505,11 +505,53 @@
     "title": "Mevcut sürüm"
   },
   "Tools": {
-    "title": "Tools & Utilities"
+    "title": "Araçlar ve Yardımcı Programlar",
+    "enkaSync": {
+      "title": "Enka.Network UID Senkronizasyonu",
+      "description": "Karakter vitrinini, seviyeleri, yadigarları ve gerçek savaş istatistiklerini içe aktarmak için 9 haneli UID'nizi girin."
+    },
+    "showcaseCard": {
+      "title": "Karakter Vitrin Kartı Oluşturucu",
+      "description": "Discord'da, sosyal medyada paylaşmak veya anı olarak saklamak için 1200x630 boyutunda kartlar oluşturun."
+    },
+    "teamBuilder": {
+      "title": "Takım Kurucu",
+      "description": "Sahip olduğunuz karakterleri seçin ve favorileri sabitleyin; sistem element tepkimelerine göre en uygun 4 kişilik takımları önerir.",
+      "breadcrumbTools": "Araçlar",
+      "breadcrumbTitle": "Takım Kurucu",
+      "seoTitle": "Genshin Impact Takım Kurucu ve Element Tepkimeleri | LEIBO",
+      "seoDescription": "Element tepkimeleri ve rezonanslarına göre 4 kişilik en iyi takımları yedek önerileriyle kurun."
+    }
   },
   "Materials": {
-    "title": "Materials",
-    "description": "Full list of ascension and upgrade materials"
+    "title": "Malzeme Arşivi",
+    "description": "{count} karakter yükseltme malzemesi, silah malzemesi ve yetenek kitabını içeren kapsamlı veritabanı.",
+    "breadcrumb": "Malzemeler",
+    "searchPlaceholder": "Malzeme adına göre ara...",
+    "filterCategoryLabel": "Malzeme Kategorileri:",
+    "clearFilters": "✕ Filtreleri temizle",
+    "showingCount": "{total} malzeme arasından {filtered} gösteriliyor",
+    "categories": {
+      "all": "Tümü",
+      "allDesc": "Eksiksiz malzeme rehberi",
+      "talent_book": "Yetenek Kitapları",
+      "talent_bookDesc": "Yetenek seviyesi artırmak için Öğretiler, Rehberler ve Felsefeler",
+      "weapon_mat": "Silah Yükseltme",
+      "weapon_matDesc": "Silah yükseltme zindanlarından düşen malzemeler",
+      "gemstone": "Element Taşları",
+      "gemstoneDesc": "Karakter yükseltme kıymıkları, parçaları ve taşları",
+      "weekly_boss": "Haftalık Boss Ganimetleri",
+      "weekly_bossDesc": "Haftalık boss zindanlarından kazanılan ödüller",
+      "local_specialty": "Yerel Ürünler",
+      "local_specialtyDesc": "Teyvat genelinde toplanan bitkiler ve bölgesel madenler",
+      "common_drop": "Canavar Ganimetleri",
+      "common_dropDesc": "Sıradan ve seçkin düşmanlardan düşen eşyalar",
+      "other": "Diğer ve Demircilik",
+      "otherDesc": "Demircilik cevherleri, Mora, Deneyim ve sarf malzemeleri"
+    },
+    "emptyTitle": "Eşleşen malzeme bulunamadı",
+    "emptyDesc": "Başka bir kategori seçmeyi veya arama terimini temizlemeyi deneyin.",
+    "resetBtn": "Filtreleri sıfırla"
   },
   "Enemies": {
     "title": "Enemies",

@@ -505,11 +505,53 @@
     "title": "Aktuelle Version"
   },
   "Tools": {
-    "title": "Tools & Utilities"
+    "title": "Werkzeuge & Hilfsprogramme",
+    "enkaSync": {
+      "title": "Enka.Network UID-Synchronisation",
+      "description": "Geben Sie Ihre 9-stellige UID ein, um Charakter-Showcase, Stufen, Artefakte und Attribute automatisch zu importieren."
+    },
+    "showcaseCard": {
+      "title": "Charakter-Showcase-Kartengenerator",
+      "description": "Erstellen Sie ansprechende 1200x630-Karten zum Teilen auf Discord, in sozialen Medien oder zum Festhalten Ihres Fortschritts."
+    },
+    "teamBuilder": {
+      "title": "Team-Zusammenstellung",
+      "description": "Wählen Sie verfügbare Charaktere und pinnen Sie Favoriten; die Engine empfiehlt optimierte 4er-Teams basierend auf Elementarreaktionen und Resonanzen.",
+      "breadcrumbTools": "Werkzeuge",
+      "breadcrumbTitle": "Team-Builder",
+      "seoTitle": "Genshin Impact Team-Builder & Elementarreaktionen | LEIBO",
+      "seoDescription": "Optimieren Sie Ihre 4er-Truppe nach Reaktionen und Resonanzen mit intelligenten Ersatz-Vorschlägen."
+    }
   },
   "Materials": {
-    "title": "Materials",
-    "description": "Full list of ascension and upgrade materials"
+    "title": "Materialarchiv",
+    "description": "Umfassende Datenbank aller {count} Aufstiegsmaterialien, Waffenmaterialien und Talentbücher.",
+    "breadcrumb": "Materialien",
+    "searchPlaceholder": "Materialien nach Name oder Kategorie suchen...",
+    "filterCategoryLabel": "Materialkategorien:",
+    "clearFilters": "✕ Filter zurücksetzen",
+    "showingCount": "{filtered} von {total} Materialien angezeigt",
+    "categories": {
+      "all": "Alle",
+      "allDesc": "Vollständige Materialübersicht",
+      "talent_book": "Talentbücher",
+      "talent_bookDesc": "Lehren, Anleitungen und Philosophien zur Talentaufstufung",
+      "weapon_mat": "Waffenaufstieg",
+      "weapon_matDesc": "Sphärenmaterialien zum Aufstieg von Waffen",
+      "gemstone": "Elementare Edelsteine",
+      "gemstoneDesc": "Splitter, Bruchstücke, Brocken und Edelsteine",
+      "weekly_boss": "Wöchentliche Bossbeute",
+      "weekly_bossDesc": "Beute aus den Sphären des Einprägens",
+      "local_specialty": "Regionale Besonderheiten",
+      "local_specialtyDesc": "Pflanzen und Mineralien aus ganz Teyvat",
+      "common_drop": "Beute gewöhnlicher Monster",
+      "common_dropDesc": "Beute gewöhnlicher und elitärer Gegner",
+      "other": "Sonstiges & Schmieden",
+      "otherDesc": "Erze, Mora, E-P-Bücher und Verbrauchsgüter"
+    },
+    "emptyTitle": "Keine passenden Materialien gefunden",
+    "emptyDesc": "Versuchen Sie eine andere Kategorie oder löschen Sie den Suchbegriff.",
+    "resetBtn": "Filter zurücksetzen"
   },
   "Enemies": {
     "title": "Enemies",

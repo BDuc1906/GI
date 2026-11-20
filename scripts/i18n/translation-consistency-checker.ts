@@ -327,7 +327,9 @@ async function checkCharacters(
       name: true,
       description: true,
       descriptionTranslations: true,
+      talents: true,
       talentsTranslations: true,
+      constellations: true,
       constellationsTranslations: true,
     },
   });
@@ -406,14 +408,16 @@ async function checkCharacters(
     
     // Check talents translations
     if (talentsTranslations) {
+      const originalTalents = (char.talents as Array<{ description?: string }> | null) ?? [];
       for (const locale of locales) {
         if (talentsTranslations[locale]) {
           const talents = talentsTranslations[locale] as Array<{ name: string; description: string }>;
           talents.forEach((talent, idx) => {
             if (options.checkFormatting) {
+              const originalText = originalTalents[idx]?.description || "";
               const formatIssues = checkFormattingConsistency(
                 talent.description,
-                talent.description, // Would need original text here
+                originalText,
                 locale,
                 "character",
                 char.id,
@@ -429,14 +433,16 @@ async function checkCharacters(
     
     // Check constellations translations
     if (constellationsTranslations) {
+      const originalConstellations = (char.constellations as Array<{ description?: string }> | null) ?? [];
       for (const locale of locales) {
         if (constellationsTranslations[locale]) {
           const constellations = constellationsTranslations[locale] as Array<{ name: string; description: string }>;
           constellations.forEach((constellation, idx) => {
             if (options.checkFormatting) {
+              const originalText = originalConstellations[idx]?.description || "";
               const formatIssues = checkFormattingConsistency(
                 constellation.description,
-                constellation.description, // Would need original text here
+                originalText,
                 locale,
                 "character",
                 char.id,

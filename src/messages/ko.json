@@ -505,11 +505,53 @@
     "title": "현재 버전"
   },
   "Tools": {
-    "title": "Tools & Utilities"
+    "title": "도구 및 유틸리티",
+    "enkaSync": {
+      "title": "Enka.Network UID 연동",
+      "description": "게임 내 9자리 UID를 입력하여 캐릭터 쇼케이스, 레벨, 성유물 및 실전 스탯을 자동으로 불러옵니다."
+    },
+    "showcaseCard": {
+      "title": "캐릭터 쇼케이스 카드 생성기",
+      "description": "SNS, 디스코드 공유 및 보관에 최적화된 1200x630 규격의 맞춤형 카드를 생성합니다."
+    },
+    "teamBuilder": {
+      "title": "파티 조합 빌더",
+      "description": "보유 캐릭터를 선택하고 필수 캐릭터를 고정하면 원소 반응 및 공명을 고려한 4인 파티와 대체 캐릭터를 추천합니다.",
+      "breadcrumbTools": "도구",
+      "breadcrumbTitle": "파티 조합",
+      "seoTitle": "원신 원소 반응 파티 조합 빌더 | LEIBO",
+      "seoDescription": "원소 반응과 원소 공명을 바탕으로 한 최적의 4인 파티 추천 및 대체 캐릭터 안내."
+    }
   },
   "Materials": {
-    "title": "Materials",
-    "description": "Full list of ascension and upgrade materials"
+    "title": "육성 소재 도감",
+    "description": "캐릭터 및 무기 돌파, 특성 강화에 필요한 {count}종의 모든 육성 소재를 검색하세요.",
+    "breadcrumb": "소재",
+    "searchPlaceholder": "소재 이름 또는 분류 검색...",
+    "filterCategoryLabel": "소재 분류:",
+    "clearFilters": "✕ 필터 초기화",
+    "showingCount": "총 {total}개 중 {filtered}개 표시 중",
+    "categories": {
+      "all": "전체",
+      "allDesc": "전체 육성 소재 도감",
+      "talent_book": "특성 육성 소재",
+      "talent_bookDesc": "스킬 레벨업에 필요한 가르침, 인도, 철학",
+      "weapon_mat": "무기 돌파 소재",
+      "weapon_matDesc": "무기 비경에서 획득 가능한 돌파 재료",
+      "gemstone": "원소 보석",
+      "gemstoneDesc": "캐릭터 돌파에 필요한 원소 가루, 조각, 덩이, 보석",
+      "weekly_boss": "주간 보스 소재",
+      "weekly_bossDesc": "영역 토벌 및 주간 보스 처치 전리품",
+      "local_specialty": "지역 특산물",
+      "local_specialtyDesc": "티바트 대륙 각지에서 채집 가능한 식물과 광물",
+      "common_drop": "몬스터 드롭 소재",
+      "common_dropDesc": "일반 및 정예 몬스터 처치 시 획득하는 전리품",
+      "other": "기타 및 단조",
+      "otherDesc": "단조용 광석, 모라, 경험치 소재 및 소모품"
+    },
+    "emptyTitle": "일치하는 소재를 찾을 수 없습니다",
+    "emptyDesc": "다른 카테고리를 선택하거나 검색어를 지워보세요.",
+    "resetBtn": "필터 재설정"
   },
   "Enemies": {
     "title": "Enemies",

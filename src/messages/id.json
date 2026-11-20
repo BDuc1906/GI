@@ -505,11 +505,53 @@
     "title": "Versi terbaru"
   },
   "Tools": {
-    "title": "Tools & Utilities"
+    "title": "Alat & Utilitas",
+    "enkaSync": {
+      "title": "Sinkronisasi Enka.Network via UID",
+      "description": "Masukkan 9 digit UID dalam game untuk mengimpor showcase karakter, level, artefak, dan atribut pertempuran."
+    },
+    "showcaseCard": {
+      "title": "Generator Kartu Showcase Karakter",
+      "description": "Buat kartu karakter berukuran 1200x630 yang memukau untuk dibagikan di Discord, media sosial, atau arsip pribadi."
+    },
+    "teamBuilder": {
+      "title": "Penyusun Tim",
+      "description": "Pilih karakter milikmu dan kunci karakter favorit; sistem akan menyarankan komposisi 4 karakter berbasis reaksi dan resonansi elemental.",
+      "breadcrumbTools": "Alat",
+      "breadcrumbTitle": "Penyusun Tim",
+      "seoTitle": "Penyusun Tim Genshin Impact & Reaksi Elemental | LEIBO",
+      "seoDescription": "Rekomendasi komposisi 4 karakter berdasarkan reaksi dan resonansi elemental dengan opsi pengganti."
+    }
   },
   "Materials": {
-    "title": "Materials",
-    "description": "Full list of ascension and upgrade materials"
+    "title": "Arsip Material",
+    "description": "Database lengkap dari {count} material ascension karakter, senjata, dan buku talenta.",
+    "breadcrumb": "Material",
+    "searchPlaceholder": "Cari nama material...",
+    "filterCategoryLabel": "Kategori Material:",
+    "clearFilters": "✕ Hapus filter",
+    "showingCount": "Menampilkan {filtered} dari {total} material",
+    "categories": {
+      "all": "Semua",
+      "allDesc": "Kompendium material lengkap",
+      "talent_book": "Buku Talenta",
+      "talent_bookDesc": "Teachings, Guides, dan Philosophies untuk upgrade talenta",
+      "weapon_mat": "Ascension Senjata",
+      "weapon_matDesc": "Material domain untuk ascension senjata",
+      "gemstone": "Batu Permata Elemental",
+      "gemstoneDesc": "Sliver, fragment, chunk, dan gemstone karakter",
+      "weekly_boss": "Material Bos Mingguan",
+      "weekly_bossDesc": "Piala dan jarahan dari Trounce Domain",
+      "local_specialty": "Spesialisasi Lokal",
+      "local_specialtyDesc": "Tumbuhan dan mineral regional di seluruh Teyvat",
+      "common_drop": "Drop Monster",
+      "common_dropDesc": "Material yang dijatuhkan musuh biasa dan elite",
+      "other": "Lainnya & Penempaan",
+      "otherDesc": "Bijih tempa, Mora, Buku EXP, dan konsumsi"
+    },
+    "emptyTitle": "Tidak ada material yang cocok ditemukan",
+    "emptyDesc": "Coba pilih kategori lain atau hapus kata kunci pencarian.",
+    "resetBtn": "Atur ulang filter"
   },
   "Enemies": {
     "title": "Enemies",

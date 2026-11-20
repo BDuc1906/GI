@@ -143,14 +143,56 @@
     "description": "Full list of locations and viewpoints in the game"
   },
   "Materials": {
-    "title": "Materials",
-    "description": "Full list of ascension and upgrade materials"
+    "title": "Materials Archive",
+    "description": "Comprehensive database of {count} ascension materials, weapon mats, and talent books.",
+    "breadcrumb": "Materials",
+    "searchPlaceholder": "Search materials by name or category...",
+    "filterCategoryLabel": "Material Categories:",
+    "clearFilters": "✕ Clear filters",
+    "showingCount": "Showing {filtered} of {total} materials",
+    "categories": {
+      "all": "All",
+      "allDesc": "Complete material compendium",
+      "talent_book": "Talent Books",
+      "talent_bookDesc": "Teachings, Guides, and Philosophies for skill ascension",
+      "weapon_mat": "Weapon Ascension",
+      "weapon_matDesc": "Domain materials for ascending weapons",
+      "gemstone": "Gemstones",
+      "gemstoneDesc": "Character elemental slivers, fragments, chunks, and gemstones",
+      "weekly_boss": "Weekly Boss Drops",
+      "weekly_bossDesc": "Spoils and trophies from Trounce Domains",
+      "local_specialty": "Local Specialties",
+      "local_specialtyDesc": "Plants, flora, and regional minerals found across Teyvat",
+      "common_drop": "Common Monster Drops",
+      "common_dropDesc": "Materials dropped by common enemies and elite monsters",
+      "other": "Others & Forging",
+      "otherDesc": "Forging ores, Mora, Character EXP, and consumable items"
+    },
+    "emptyTitle": "No matching materials found",
+    "emptyDesc": "Try choosing another category or clearing your search term.",
+    "resetBtn": "Reset filters"
   },
   "Navigation": {
     "title": "Quick lookup shortcuts"
   },
   "Tools": {
-    "title": "Tools & Utilities"
+    "title": "Tools & Utilities",
+    "enkaSync": {
+      "title": "Enka.Network UID Synchronization",
+      "description": "Enter your 9-digit in-game UID to automatically import character showcase, levels, artifacts, and verified battle attributes."
+    },
+    "showcaseCard": {
+      "title": "Character Showcase Card Generator",
+      "description": "Generate stunning 1200x630 character cards ready to share on Discord, social media, or archive your progression."
+    },
+    "teamBuilder": {
+      "title": "Team Builder",
+      "description": "Select available characters and pin favorites; the engine suggests optimized 4-character compositions based on elemental reactions and resonances, with contextual substitutes.",
+      "breadcrumbTools": "Tools",
+      "breadcrumbTitle": "Team Builder",
+      "seoTitle": "Genshin Impact Team Builder & Reaction Synergy | LEIBO",
+      "seoDescription": "Optimize 4-character compositions by elemental reaction and resonance, with smart substitute suggestions."
+    }
   },
   "Version": {
     "title": "Latest version updates"

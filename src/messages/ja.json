@@ -505,11 +505,53 @@
     "title": "現在のバージョン"
   },
   "Tools": {
-    "title": "Tools & Utilities"
+    "title": "ツール＆ユーティリティ",
+    "enkaSync": {
+      "title": "Enka.Network UID 同期",
+      "description": "ゲーム内の9桁のUIDを入力すると、キャラクターのショーケース、レベル、聖遺物、ステータスを自動取得します。"
+    },
+    "showcaseCard": {
+      "title": "キャラクターショーケースカード作成",
+      "description": "SNSやDiscordでの共有、成長の記念に最適な高画質1200x630カードを生成します。"
+    },
+    "teamBuilder": {
+      "title": "チーム編成ビルダー",
+      "description": "所持キャラクターを選択して固定すると、元素反応と元素共鳴に基づいた4人編成と代替キャラクターを提案します。",
+      "breadcrumbTools": "ツール",
+      "breadcrumbTitle": "チーム編成",
+      "seoTitle": "原神 元素反応チーム編成ビルダー | LEIBO",
+      "seoDescription": "元素反応と元素共鳴に基づく最適な4人パーティー提案および代替キャラ検索。"
+    }
   },
   "Materials": {
-    "title": "Materials",
-    "description": "Full list of ascension and upgrade materials"
+    "title": "素材図鑑",
+    "description": "キャラクター育成、武器突破、天賦強化に必要な全 {count} 種類の素材を網羅。",
+    "breadcrumb": "素材",
+    "searchPlaceholder": "素材名やカテゴリーで検索...",
+    "filterCategoryLabel": "素材カテゴリー：",
+    "clearFilters": "✕ フィルター解除",
+    "showingCount": "{total} 種中 {filtered} 種の素材を表示中",
+    "categories": {
+      "all": "すべて",
+      "allDesc": "全素材データ",
+      "talent_book": "天賦育成素材",
+      "talent_bookDesc": "天賦レベル強化に必要な「教え」「導き」「哲学」",
+      "weapon_mat": "武器突破素材",
+      "weapon_matDesc": "武器秘境で獲得できる強化素材",
+      "gemstone": "元素宝石",
+      "gemstoneDesc": "キャラ突破に必要な元素の欠片、塊、結晶",
+      "weekly_boss": "週ボス素材",
+      "weekly_bossDesc": "征討領域および週ボス討伐のドロップアイテム",
+      "local_specialty": "特産品",
+      "local_specialtyDesc": "テイワット各地で採取できる地域特有の植物や鉱物",
+      "common_drop": "魔物ドロップ素材",
+      "common_dropDesc": "一般魔物および精鋭魔物の討伐戦利品",
+      "other": "その他・鍛造",
+      "otherDesc": "鍛造鉱石、モラ、経験値素材、消費アイテム"
+    },
+    "emptyTitle": "一致する素材が見つかりません",
+    "emptyDesc": "別のカテゴリーを選択するか、検索ワードを削除してください。",
+    "resetBtn": "フィルターをリセット"
   },
   "Enemies": {
     "title": "Enemies",

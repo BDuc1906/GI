@@ -505,11 +505,53 @@
     "title": "Versión actual"
   },
   "Tools": {
-    "title": "Tools & Utilities"
+    "title": "Herramientas y Utilidades",
+    "enkaSync": {
+      "title": "Sincronización UID Enka.Network",
+      "description": "Ingresa tu UID de 9 dígitos para importar automáticamente la vitrina de personajes, niveles, artefactos y estadísticas de combate."
+    },
+    "showcaseCard": {
+      "title": "Generador de Tarjetas de Vitrina",
+      "description": "Crea elegantes tarjetas de 1200x630 para compartir en Discord, redes sociales o guardar tu progreso."
+    },
+    "teamBuilder": {
+      "title": "Creador de Equipos",
+      "description": "Elige tus personajes y fija tus favoritos; el generador recomienda composiciones de 4 personajes optimizadas por reacciones y consonancias elementales.",
+      "breadcrumbTools": "Herramientas",
+      "breadcrumbTitle": "Creador de Equipos",
+      "seoTitle": "Creador de Equipos de Genshin Impact y Reacciones | LEIBO",
+      "seoDescription": "Optimiza equipos de 4 personajes según reacciones elementales y consonancias con sustitutos inteligentes."
+    }
   },
   "Materials": {
-    "title": "Materials",
-    "description": "Full list of ascension and upgrade materials"
+    "title": "Archivo de Materiales",
+    "description": "Base de datos completa de {count} materiales de ascensión, armas y libros de talentos.",
+    "breadcrumb": "Materiales",
+    "searchPlaceholder": "Buscar materiales por nombre...",
+    "filterCategoryLabel": "Categorías de materiales:",
+    "clearFilters": "✕ Borrar filtros",
+    "showingCount": "Mostrando {filtered} de {total} materiales",
+    "categories": {
+      "all": "Todos",
+      "allDesc": "Compendio completo de materiales",
+      "talent_book": "Libros de talento",
+      "talent_bookDesc": "Enseñanzas, Guías y Filosofías de talentos",
+      "weapon_mat": "Ascensión de armas",
+      "weapon_matDesc": "Materiales de dominios para ascender armas",
+      "gemstone": "Gemas elementales",
+      "gemstoneDesc": "Pedacitos, fragmentos, trozos y gemas elementales",
+      "weekly_boss": "Jefes semanales",
+      "weekly_bossDesc": "Botines de dominios de la cruzada",
+      "local_specialty": "Especialidades locales",
+      "local_specialtyDesc": "Plantas, flores y minerales recolectables de Teyvat",
+      "common_drop": "Botín de monstruos",
+      "common_dropDesc": "Materiales obtenidos de enemigos comunes y élite",
+      "other": "Otros y forja",
+      "otherDesc": "Minerales de forja, Mora, EXP y consumibles"
+    },
+    "emptyTitle": "No se encontraron materiales coincidentes",
+    "emptyDesc": "Intenta seleccionar otra categoría o borrar el término de búsqueda.",
+    "resetBtn": "Restablecer filtros"
   },
   "Enemies": {
     "title": "Enemies",

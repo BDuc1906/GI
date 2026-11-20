@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { prisma } from "@/lib/db/prisma";
 import { withDbRetry } from "@/lib/db/db-retry";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
@@ -25,12 +25,12 @@ interface PageProps {
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Tools.teamBuilder" });
   return createLocalizedMetadata({
     locale,
     pathname: "tools/team-builder",
-    title: "Dựng đội hình Genshin Impact theo phản ứng nguyên tố | LEIBO",
-    description:
-      "Gợi ý đội hình theo phản ứng nguyên tố và cộng hưởng, chọn nhân vật bạn đang có và nhận phương án thay thế khi thiếu nhân vật.",
+    title: t("seoTitle"),
+    description: t("seoDescription"),
   });
 }
 
@@ -40,6 +40,7 @@ const SCORED = new Set(["amplifying", "transformative", "additive"]);
 export default async function TeamBuilderPage({ params, searchParams }: PageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("Tools.teamBuilder");
   const sp = await searchParams;
 
   const rows = await withDbRetry(() =>
@@ -76,8 +77,8 @@ export default async function TeamBuilderPage({ params, searchParams }: PageProp
 
   const breadcrumbItems = [
     { name: "LEIBO", path: "/" },
-    { name: "Công cụ", path: "/tools/team-builder" },
-    { name: "Dựng đội hình", path: "/tools/team-builder" },
+    { name: t("breadcrumbTools"), path: "/tools/team-builder" },
+    { name: t("breadcrumbTitle"), path: "/tools/team-builder" },
   ];
 
   return (
@@ -85,10 +86,11 @@ export default async function TeamBuilderPage({ params, searchParams }: PageProp
       <BreadcrumbJsonLd locale={locale} items={breadcrumbItems} />
       <Breadcrumb items={breadcrumbItems} />
 
-      <h1 className="font-display text-display-2 font-semibold text-text-primary mb-3">Dựng đội hình</h1>
+      <h1 className="font-display text-display-2 font-semibold text-text-primary mb-3">
+        {t("title")}
+      </h1>
       <p className="text-text-secondary mb-8 max-w-3xl">
-        Chọn các nhân vật bạn đang có, ghim người bạn muốn giữ, công cụ gợi ý đội 4 người theo phản ứng nguyên tố
-        và cộng hưởng, kèm phương án thay thế cho từng ô.
+        {t("description")}
       </p>
 
       <TeamBuilderClient

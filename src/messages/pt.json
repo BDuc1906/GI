@@ -505,11 +505,53 @@
     "title": "Versão atual"
   },
   "Tools": {
-    "title": "Tools & Utilities"
+    "title": "Ferramentas & Utilitários",
+    "enkaSync": {
+      "title": "Sincronização UID Enka.Network",
+      "description": "Insira seu UID de 9 dígitos para importar vitrine de personagens, níveis, artefatos e atributos de combate reais."
+    },
+    "showcaseCard": {
+      "title": "Gerador de Cartão de Vitrine",
+      "description": "Crie belos cartões 1200x630 para compartilhar no Discord, redes sociais ou salvar sua evolução."
+    },
+    "teamBuilder": {
+      "title": "Montador de Equipes",
+      "description": "Selecione seus personagens e fixe os favoritos; a ferramenta recomenda formações de 4 membros com base em reações e ressonâncias elementais.",
+      "breadcrumbTools": "Ferramentas",
+      "breadcrumbTitle": "Montador de Equipes",
+      "seoTitle": "Montador de Equipes de Genshin Impact & Reações | LEIBO",
+      "seoDescription": "Otimize composições de 4 personagens com reações elementais, ressonâncias e sugestões de substituição."
+    }
   },
   "Materials": {
-    "title": "Materials",
-    "description": "Full list of ascension and upgrade materials"
+    "title": "Arquivo de Materiais",
+    "description": "Banco de dados com {count} materiais de ascensão, armas e livros de talentos.",
+    "breadcrumb": "Materiais",
+    "searchPlaceholder": "Pesquisar materiais por nome...",
+    "filterCategoryLabel": "Categorias de materiais:",
+    "clearFilters": "✕ Limpar filtros",
+    "showingCount": "Exibindo {filtered} de {total} materiais",
+    "categories": {
+      "all": "Todos",
+      "allDesc": "Compêndio completo de materiais",
+      "talent_book": "Livros de Talento",
+      "talent_bookDesc": "Ensinamentos, Guias e Filosofias de talentos",
+      "weapon_mat": "Ascensão de Armas",
+      "weapon_matDesc": "Materiais de domínios para armas",
+      "gemstone": "Pedras Elementais",
+      "gemstoneDesc": "Lascas, fragmentos, pedaços e gemas de ascensão",
+      "weekly_boss": "Chefes Semanais",
+      "weekly_bossDesc": "Recompensas de Domínios Dizimados",
+      "local_specialty": "Especialidades Locais",
+      "local_specialtyDesc": "Plantas e minerais encontrados por Teyvat",
+      "common_drop": "Drops de Monstros",
+      "common_dropDesc": "Itens obtidos de inimigos comuns e de elite",
+      "other": "Outros e Forja",
+      "otherDesc": "Minérios de forja, Mora, EXP e consumíveis"
+    },
+    "emptyTitle": "Nenhum material correspondente encontrado",
+    "emptyDesc": "Tente escolher outra categoria ou limpar o termo de pesquisa.",
+    "resetBtn": "Redefinir filtros"
   },
   "Enemies": {
     "title": "Enemies",

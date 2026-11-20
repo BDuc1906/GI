@@ -505,11 +505,53 @@
     "title": "当前版本"
   },
   "Tools": {
-    "title": "Tools & Utilities"
+    "title": "工具与实用程序",
+    "enkaSync": {
+      "title": "Enka.Network UID 同步",
+      "description": "输入游戏内9位UID，即可自动导入角色展柜、等级、圣遗物和实战数值。"
+    },
+    "showcaseCard": {
+      "title": "角色展柜卡片生成器",
+      "description": "生成精美的1200x630标准比例角色卡片，适合在社交媒体、Discord上分享或留存纪念。"
+    },
+    "teamBuilder": {
+      "title": "配队构建器",
+      "description": "选择你拥有的角色，固定核心角色，系统将根据元素反应与共鸣推荐4人队伍，并提供替补方案。",
+      "breadcrumbTools": "工具",
+      "breadcrumbTitle": "配队构建",
+      "seoTitle": "原神元素反应配队推荐与队伍构建器 | LEIBO",
+      "seoDescription": "根据元素反应与元素共鸣智能推荐4人最佳阵容，支持角色替代方案推荐。"
+    }
   },
   "Materials": {
-    "title": "Materials",
-    "description": "Full list of ascension and upgrade materials"
+    "title": "素材图鉴",
+    "description": "全方位查阅 {count} 种角色突破、武器强化和天赋升级素材。",
+    "breadcrumb": "素材",
+    "searchPlaceholder": "搜索素材名称或分类...",
+    "filterCategoryLabel": "素材分类：",
+    "clearFilters": "✕ 清除筛选",
+    "showingCount": "显示 {filtered} / {total} 种素材",
+    "categories": {
+      "all": "全部",
+      "allDesc": "完整素材数据库",
+      "talent_book": "天赋培养素材",
+      "talent_bookDesc": "用于提升角色技能等级的教导、指引与哲学",
+      "weapon_mat": "武器突破素材",
+      "weapon_matDesc": "产自武器秘境的突破用材料",
+      "gemstone": "元素宝石",
+      "gemstoneDesc": "角色突破所需的元素碎屑、断片、块及宝玉",
+      "weekly_boss": "周本材料",
+      "weekly_bossDesc": "征讨领域与周常首领掉落物",
+      "local_specialty": "区域特产",
+      "local_specialtyDesc": "提瓦特各大区域产出的植物与特色矿物",
+      "common_drop": "怪物掉落物",
+      "common_dropDesc": "击败普通敌人和精英怪物掉落的战利品",
+      "other": "其他与锻造",
+      "otherDesc": "锻造矿石、摩拉、角色经验及消耗品"
+    },
+    "emptyTitle": "未找到匹配的素材",
+    "emptyDesc": "请尝试选择其他分类或清除搜索关键词。",
+    "resetBtn": "重置筛选"
   },
   "Enemies": {
     "title": "Enemies",

@@ -38,6 +38,7 @@
     "i18n:translate-with-glossary": "tsx --env-file=.env scripts/i18n/translate-with-glossary.ts",
     "i18n:review": "tsx --env-file=.env scripts/i18n/translation-review-system.ts",
     "i18n:consistency": "tsx --env-file=.env scripts/i18n/translation-consistency-checker.ts",
+    "i18n:validate": "tsx scripts/i18n/validate-i18n-quality.ts",
     "auto:sync": "tsx --env-file=.env scripts/sync/auto-sync-game-data.ts",
     "auto:sync:force": "tsx --env-file=.env scripts/sync/auto-sync-game-data.ts --force",
     "backup:create": "tsx --env-file=.env scripts/backup/database-backup.ts create",

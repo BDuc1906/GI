@@ -76,6 +76,22 @@ const STATIC_PAGE_METADATA: Record<string, { title: string; description: string 
     title: "Genshin Impact Material Calculator",
     description: "Calculate the materials needed to level Genshin Impact characters and talents.",
   },
+  "tools/enka-sync": {
+    title: "Enka.Network UID Synchronization",
+    description: "Import your Genshin Impact character showcase, artifacts, and stats via in-game UID.",
+  },
+  "tools/showcase-card": {
+    title: "Character Showcase Card Generator",
+    description: "Generate 1200x630 Genshin Impact showcase cards for social media and Discord.",
+  },
+  "tools/team-builder": {
+    title: "Genshin Impact Team Builder",
+    description: "Build synergistic 4-character teams by elemental reaction and resonance with substitutes.",
+  },
+  "tools/wish-history": {
+    title: "Genshin Impact Wish History & Pity Tracker",
+    description: "Track your Genshin Impact gacha history, pity counter, and pull statistics.",
+  },
 };
 
 export function getOpenGraphLocale(locale: string): string {
