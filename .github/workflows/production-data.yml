@@ -44,7 +44,7 @@ jobs:
           echo "✅ Confirmation token verified."
 
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node.js 24
         uses: actions/setup-node@v4
