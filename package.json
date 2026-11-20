@@ -76,7 +76,7 @@
     "@aws-sdk/client-s3": "^3.1166.0",
     "@eslint/eslintrc": "^3.3.7",
     "@next/eslint-plugin-next": "16.4.6",
-    "@playwright/test": "^1.65.0",
+    "@playwright/test": "^1.65.1",
     "@tailwindcss/postcss": "^4.3.5",
     "@types/node": "^26.6.6",
     "@types/pg": "^8.11.10",
