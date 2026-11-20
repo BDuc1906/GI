@@ -119,7 +119,10 @@ export function EnkaImporterClient({ onUseBuild }: EnkaImporterClientProps) {
   const savedUid = useLocalStorageValue(STORAGE_KEY);
   const recentUids = useSyncExternalStore(subscribe, getStoredRecentUids, getServerRecentUids);
 
-  const [uid, setUid] = useState<string>("");
+  const [inputUid, setInputUid] = useState<string | null>(null);
+  const uid = inputUid !== null ? inputUid : (savedUid || "");
+  const setUid = (val: string) => setInputUid(val);
+
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -133,13 +136,6 @@ export function EnkaImporterClient({ onUseBuild }: EnkaImporterClientProps) {
 
   // Selected character for detailed view & build analysis modal
   const [selectedCharacter, setSelectedCharacter] = useState<EnkaShowcaseCharacter | null>(null);
-
-  // Khởi tạo UID từ localStorage
-  useEffect(() => {
-    if (savedUid && !uid) {
-      setUid(savedUid);
-    }
-  }, [savedUid, uid]);
 
   // Cooldown timer cho nút Refresh
   useEffect(() => {

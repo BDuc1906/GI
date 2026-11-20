@@ -52,3 +52,15 @@ repomix-output.xml
 
 *.msi
 *.exe
+
+# Temporary & Generated Reports (CI artifacts & local diagnostic dumps)
+.tmp/
+*.report.json
+r2-check-report-*.json
+live-image-check.json
+consistency-report.json
+terminology-fix-queue.json
+quality-report.json
+audit-talent-*.json
+/public/local-genshin-assets/asset-validation-report.json
+/public/asset-audit-report.html

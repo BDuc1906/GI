@@ -6,9 +6,9 @@ này).
 
 ## Nguyên tắc
 
-1. **`main` luôn ở trạng thái deploy được** — mọi commit vào `main` sẽ tự
-   động deploy lên production (xem job `deploy-production` trong
-   `ci.yml`). KHÔNG bao giờ push thẳng vào `main`.
+1. **`main` luôn ở trạng thái deploy được** — mọi commit được merge vào `main` sẽ tự
+   động deploy lên Vercel Production (thông qua Vercel Git Integration). KHÔNG bao giờ
+   push trực tiếp vào `main`.
 2. Mọi thay đổi (tính năng, sửa lỗi, refactor) tạo **1 nhánh ngắn hạn**
    từ `main`:
    ```powershell
@@ -18,17 +18,18 @@ này).
    # hoặc: fix/ten-loi, refactor/ten-phan
    ```
 3. Commit, push nhánh, **mở Pull Request vào `main`**. Ngay khi mở/push
-   PR, 2 việc tự động xảy ra:
-   - `ci.yml` chạy lint + typecheck + test + build + API smoke test
-   - `preview.yml` (mới thêm) deploy 1 bản xem trước lên Vercel, comment
-     link thẳng vào PR
-4. Xem link preview để tự kiểm tra bằng mắt, đợi `ci.yml` xanh, rồi
+   PR, các luồng tự động được kích hoạt:
+   - `ci.yml` chạy kiểm định toàn diện:
+     * Code & Asset Validation Gate (Lint, TypeScript typecheck, Vitest unit tests, Asset Validation Gate, Character Build Validation Gate, Translation Quality Gate).
+     * Next.js Build, API Smoke Test với PostgreSQL test container và Playwright Chromium E2E.
+   - Vercel Git Integration tự động tạo một Preview Deployment riêng cho nhánh, cung cấp link xem trước ngay trên PR.
+4. Xem link preview để tự kiểm tra trực quan, đợi toàn bộ checks của `ci.yml` xanh, rồi
    **merge vào `main`** (khuyến nghị dùng "Squash and merge" trong
    GitHub UI để lịch sử `main` gọn, mỗi PR = 1 commit).
-5. Merge xong, job `deploy-production` trong `ci.yml` tự chạy migrate +
-   seed + deploy production — không cần làm gì thêm.
-6. Xoá nhánh sau khi merge (GitHub có nút "Delete branch" ngay sau khi
-   merge PR).
+5. Sau khi merge vào `main`, Vercel tự động build và deploy lên Production.
+6. Với các thay đổi liên quan đến dữ liệu production, chạy workflow `production-data.yml`
+   qua GitHub Environment `production` (yêu cầu phê duyệt thủ công và bắt buộc tạo snapshot `pg_dump` backup lên S3/R2 trước khi migrate/seed).
+7. Xoá nhánh sau khi merge (GitHub có nút "Delete branch" ngay sau khi merge PR).
 
 ## Các nhánh tự động (không phải bạn tạo tay)
 

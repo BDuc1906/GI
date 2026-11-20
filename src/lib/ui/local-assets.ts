@@ -2,8 +2,7 @@
  * Local asset URL helpers for Genshin Impact game icons.
  *
  * All icons are downloaded to public/local-genshin-assets/ by:
- *   scripts/download-all-icons-to-local.mjs (Phase 1)
- *   scripts/download-icons-phase2.mjs       (Phase 2)
+ *   scripts/images/download-all-genshin-assets.mjs (npm run assets:sync)
  *
  * Use these helpers to get local asset URLs — they never fail (worst case
  * the browser shows the fallback text initial in SafeImage).

@@ -59,7 +59,7 @@ Lỗi thật lúc audit: `src/components/layout/ServerTimersClient.tsx` nhận 2
 | `scripts/backup/database-backup.ts` | `$queryRaw` trả `unknown`, dùng `any` | Thêm generic `$queryRaw<Array<{ tablename: string }>>` |
 | `scripts/i18n/translation-review-system.ts` (×2) | Đọc `char.description`/`weapon.description` nhưng Prisma `select` thiếu field | Thêm `description: true` vào `select` |
 | `src/agent/core/continuous-learning.ts` (×2) | Ghi `Date` trực tiếp vào cột `Json` của Prisma (`AgentSession.metadata`) — Prisma không nhận `Date` trong `Json` | Serialize `timestamp` sang ISO string trước khi ghi |
-| `src/app/api/tools/dps/route.ts` | Gọi `calculateExpectedDPS(parsed.data)` — hàm thật cần **6 tham số** (`CharacterStats, WeaponStats, ArtifactStats, TalentLevels, DamageModifiers, rotation`), route chỉ truyền 1 DTO thô → luôn `TypeError` lúc runtime (500) | Map DTO→6 tham số cần tra `character`/`weapon` trong DB — CHƯA làm (xem mục P1 mới "API `/api/tools/dps`" bên dưới); tạm trả `501 NOT_IMPLEMENTED` tường minh thay vì crash mơ hồ |
+| `src/app/api/tools/dps/route.ts` | Gọi `calculateExpectedDPS(parsed.data)` — hàm thật cần **6 tham số** (`CharacterStats, WeaponStats, ArtifactStats, TalentLevels, DamageModifiers, rotation`) | ✅ **ĐÃ HOÀN THIỆN**: Route đã map đầy đủ dữ liệu từ request và tra DB `character`/`weapon` sang 6 tham số chuẩn của `DPSCalculator`, trả về kết quả DPS chi tiết theo rotation |
 
 ⚠️ **Về "Fix mẫu" trong bản gốc** — vài mẫu KHÔNG nên áp dụng máy móc:
 - `const _err = error;` (prefix underscore che unused var) chỉ nên dùng khi biến
@@ -163,11 +163,8 @@ code: "Default reaction, should be parameterized"). Kèm test mới
 reverse cho cả Vaporize/Melt, default = forward, và xác nhận reaction có EM
 scaling như Overload không bị ảnh hưởng bởi direction).
 
-**Còn thiếu (chưa làm — việc UI/API, không phải việc tính toán):** chưa có
-chỗ nào trong `/api/tools/dps` hay UI truyền `reaction`/`reactionDirection`
-vào — bản thân endpoint `/api/tools/dps` còn đang trả `501` (xem mục P0 #2
-ở trên) vì thiếu bước map input→6 tham số của `calculateExpectedDPS`. Khi
-làm route đó, nhớ expose 2 field mới này trong request schema (zod).
+**✅ ĐÃ HOÀN THIỆN: API `/api/tools/dps`:**
+Endpoint `/api/tools/dps` đã hoàn tất mapping đầy đủ dữ liệu từ request và tra DB sang 6 tham số của `calculateExpectedDPS`, hỗ trợ tính toán sát thương chính xác.
 
 **✅ ĐÃ SỬA THÊM (2026-09-22) — bug công thức Aggravate/Spread/Quicken:**
 Trong lúc audit độ chính xác dữ liệu game, phát hiện `calculateReactionMultiplier`
@@ -876,9 +873,7 @@ class SecurityFilter {
 Thứ tự đề xuất tiếp theo, ưu tiên việc rủi ro thấp/giá trị rõ trước:
 
 **Bước kế tiếp ngay (rủi ro thấp, không đổi kiến trúc):**
-1. Hoàn thiện `/api/tools/dps` — map request schema (zod) sang 6 tham số
-   thật của `calculateExpectedDPS()` (cần tra `character`/`weapon` trong
-   DB theo `characterId`/`weaponId` từ request). Route hiện trả `501`.
+1. ✅ `/api/tools/dps` đã hoàn thiện mapping và tính toán kỳ vọng DPS chuẩn xác.
 2. Mở rộng `unstable_cache` cho filter-option queries ở `weapons`/
    `artifacts`/`domains` — copy đúng pattern `get-character-listing.ts`,
    KHÔNG cache query chính có phân trang.
