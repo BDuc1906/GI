@@ -1,6 +1,6 @@
 {
   "manifestVersion": "2.0.0",
-  "generatedAt": "2026-11-19T18:13:26.302Z",
+  "generatedAt": "2026-11-19T18:21:08.927Z",
   "stats": {
     "total": 648,
     "verified": 566,
@@ -681,7 +681,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 33052
       },
-      "verifiedAt": "2026-11-19T18:13:23.474Z"
+      "verifiedAt": "2026-11-19T18:21:07.567Z"
     },
     "character:aloy:splash": {
       "key": "character:aloy:splash",
@@ -698,7 +698,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 231646
       },
-      "verifiedAt": "2026-11-19T18:13:23.483Z"
+      "verifiedAt": "2026-11-19T18:21:07.574Z"
     },
     "character:albedo:icon": {
       "key": "character:albedo:icon",
@@ -715,7 +715,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 34255
       },
-      "verifiedAt": "2026-11-19T18:13:23.489Z"
+      "verifiedAt": "2026-11-19T18:21:07.578Z"
     },
     "character:albedo:splash": {
       "key": "character:albedo:splash",
@@ -732,7 +732,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 404248
       },
-      "verifiedAt": "2026-11-19T18:13:23.494Z"
+      "verifiedAt": "2026-11-19T18:21:07.583Z"
     },
     "character:raiden-shogun:icon": {
       "key": "character:raiden-shogun:icon",
@@ -749,7 +749,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 37576
       },
-      "verifiedAt": "2026-11-19T18:13:23.498Z"
+      "verifiedAt": "2026-11-19T18:21:07.585Z"
     },
     "character:raiden-shogun:splash": {
       "key": "character:raiden-shogun:splash",
@@ -766,7 +766,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 254956
       },
-      "verifiedAt": "2026-11-19T18:13:23.504Z"
+      "verifiedAt": "2026-11-19T18:21:07.588Z"
     },
     "character:arlecchino:icon": {
       "key": "character:arlecchino:icon",
@@ -783,7 +783,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 80727
       },
-      "verifiedAt": "2026-11-19T18:13:23.510Z"
+      "verifiedAt": "2026-11-19T18:21:07.590Z"
     },
     "character:arlecchino:splash": {
       "key": "character:arlecchino:splash",
@@ -800,7 +800,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 344362
       },
-      "verifiedAt": "2026-11-19T18:13:23.515Z"
+      "verifiedAt": "2026-11-19T18:21:07.593Z"
     },
     "character:sayu:icon": {
       "key": "character:sayu:icon",
@@ -817,7 +817,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 36188
       },
-      "verifiedAt": "2026-11-19T18:13:23.520Z"
+      "verifiedAt": "2026-11-19T18:21:07.594Z"
     },
     "character:sayu:splash": {
       "key": "character:sayu:splash",
@@ -834,7 +834,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 194336
       },
-      "verifiedAt": "2026-11-19T18:13:23.525Z"
+      "verifiedAt": "2026-11-19T18:21:07.596Z"
     },
     "character:nicole:icon": {
       "key": "character:nicole:icon",
@@ -851,7 +851,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 94024
       },
-      "verifiedAt": "2026-11-19T18:13:23.530Z"
+      "verifiedAt": "2026-11-19T18:21:07.598Z"
     },
     "character:nicole:splash": {
       "key": "character:nicole:splash",
@@ -868,7 +868,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 380948
       },
-      "verifiedAt": "2026-11-19T18:13:23.535Z"
+      "verifiedAt": "2026-11-19T18:21:07.600Z"
     },
     "character:sucrose:icon": {
       "key": "character:sucrose:icon",
@@ -885,7 +885,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 83281
       },
-      "verifiedAt": "2026-11-19T18:13:23.540Z"
+      "verifiedAt": "2026-11-19T18:21:07.602Z"
     },
     "character:sucrose:splash": {
       "key": "character:sucrose:splash",
@@ -902,7 +902,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 274770
       },
-      "verifiedAt": "2026-11-19T18:13:23.546Z"
+      "verifiedAt": "2026-11-19T18:21:07.604Z"
     },
     "character:vodyanitsa:icon": {
       "key": "character:vodyanitsa:icon",
@@ -919,7 +919,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 102033
       },
-      "verifiedAt": "2026-11-19T18:13:23.551Z"
+      "verifiedAt": "2026-11-19T18:21:07.606Z"
     },
     "character:vodyanitsa:splash": {
       "key": "character:vodyanitsa:splash",
@@ -936,7 +936,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 382878
       },
-      "verifiedAt": "2026-11-19T18:13:23.557Z"
+      "verifiedAt": "2026-11-19T18:21:07.608Z"
     },
     "character:beidou:icon": {
       "key": "character:beidou:icon",
@@ -953,7 +953,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 34612
       },
-      "verifiedAt": "2026-11-19T18:13:23.563Z"
+      "verifiedAt": "2026-11-19T18:21:07.610Z"
     },
     "character:beidou:splash": {
       "key": "character:beidou:splash",
@@ -970,7 +970,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 376474
       },
-      "verifiedAt": "2026-11-19T18:13:23.569Z"
+      "verifiedAt": "2026-11-19T18:21:07.612Z"
     },
     "character:venti:icon": {
       "key": "character:venti:icon",
@@ -987,7 +987,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 32458
       },
-      "verifiedAt": "2026-11-19T18:13:23.574Z"
+      "verifiedAt": "2026-11-19T18:21:07.614Z"
     },
     "character:venti:splash": {
       "key": "character:venti:splash",
@@ -1004,7 +1004,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 302614
       },
-      "verifiedAt": "2026-11-19T18:13:23.579Z"
+      "verifiedAt": "2026-11-19T18:21:07.616Z"
     },
     "character:mitya:icon": {
       "key": "character:mitya:icon",
@@ -1021,7 +1021,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 99223
       },
-      "verifiedAt": "2026-11-19T18:13:23.584Z"
+      "verifiedAt": "2026-11-19T18:21:07.618Z"
     },
     "character:mitya:splash": {
       "key": "character:mitya:splash",
@@ -1038,7 +1038,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 310130
       },
-      "verifiedAt": "2026-11-19T18:13:23.589Z"
+      "verifiedAt": "2026-11-19T18:21:07.620Z"
     },
     "character:aether:icon": {
       "key": "character:aether:icon",
@@ -1055,7 +1055,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 28459
       },
-      "verifiedAt": "2026-11-19T18:13:23.594Z"
+      "verifiedAt": "2026-11-19T18:21:07.622Z"
     },
     "character:aether:splash": {
       "key": "character:aether:splash",
@@ -1076,7 +1076,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 18820
       },
-      "verifiedAt": "2026-11-19T18:13:23.600Z"
+      "verifiedAt": "2026-11-19T18:21:07.624Z"
     },
     "character:baizhu:icon": {
       "key": "character:baizhu:icon",
@@ -1093,7 +1093,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 35340
       },
-      "verifiedAt": "2026-11-19T18:13:23.604Z"
+      "verifiedAt": "2026-11-19T18:21:07.626Z"
     },
     "character:baizhu:splash": {
       "key": "character:baizhu:splash",
@@ -1110,7 +1110,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 338472
       },
-      "verifiedAt": "2026-11-19T18:13:23.610Z"
+      "verifiedAt": "2026-11-19T18:21:07.627Z"
     },
     "character:hu-tao:icon": {
       "key": "character:hu-tao:icon",
@@ -1127,7 +1127,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 78463
       },
-      "verifiedAt": "2026-11-19T18:13:23.615Z"
+      "verifiedAt": "2026-11-19T18:21:07.629Z"
     },
     "character:hu-tao:splash": {
       "key": "character:hu-tao:splash",
@@ -1144,7 +1144,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 377658
       },
-      "verifiedAt": "2026-11-19T18:13:23.622Z"
+      "verifiedAt": "2026-11-19T18:21:07.631Z"
     },
     "character:traveler-boy-electro:icon": {
       "key": "character:traveler-boy-electro:icon",
@@ -1177,7 +1177,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 18820
       },
-      "verifiedAt": "2026-11-19T18:13:23.628Z"
+      "verifiedAt": "2026-11-19T18:21:07.633Z"
     },
     "character:traveler-girl-dendro:icon": {
       "key": "character:traveler-girl-dendro:icon",
@@ -1210,7 +1210,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 19672
       },
-      "verifiedAt": "2026-11-19T18:13:23.636Z"
+      "verifiedAt": "2026-11-19T18:21:07.636Z"
     },
     "character:valeriy:icon": {
       "key": "character:valeriy:icon",
@@ -1227,7 +1227,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 100691
       },
-      "verifiedAt": "2026-11-19T18:13:23.640Z"
+      "verifiedAt": "2026-11-19T18:21:07.639Z"
     },
     "character:valeriy:splash": {
       "key": "character:valeriy:splash",
@@ -1244,7 +1244,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 288792
       },
-      "verifiedAt": "2026-11-19T18:13:23.645Z"
+      "verifiedAt": "2026-11-19T18:21:07.642Z"
     },
     "character:amber:icon": {
       "key": "character:amber:icon",
@@ -1261,7 +1261,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 62853
       },
-      "verifiedAt": "2026-11-19T18:13:23.649Z"
+      "verifiedAt": "2026-11-19T18:21:07.644Z"
     },
     "character:amber:splash": {
       "key": "character:amber:splash",
@@ -1278,7 +1278,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 193580
       },
-      "verifiedAt": "2026-11-19T18:13:23.654Z"
+      "verifiedAt": "2026-11-19T18:21:07.648Z"
     },
     "character:barbara:icon": {
       "key": "character:barbara:icon",
@@ -1295,7 +1295,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 81172
       },
-      "verifiedAt": "2026-11-19T18:13:23.658Z"
+      "verifiedAt": "2026-11-19T18:21:07.651Z"
     },
     "character:barbara:splash": {
       "key": "character:barbara:splash",
@@ -1312,7 +1312,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 257982
       },
-      "verifiedAt": "2026-11-19T18:13:23.664Z"
+      "verifiedAt": "2026-11-19T18:21:07.654Z"
     },
     "character:candace:icon": {
       "key": "character:candace:icon",
@@ -1329,7 +1329,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 83995
       },
-      "verifiedAt": "2026-11-19T18:13:23.669Z"
+      "verifiedAt": "2026-11-19T18:21:07.657Z"
     },
     "character:candace:splash": {
       "key": "character:candace:splash",
@@ -1346,7 +1346,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 318536
       },
-      "verifiedAt": "2026-11-19T18:13:23.673Z"
+      "verifiedAt": "2026-11-19T18:21:07.660Z"
     },
     "character:ifa:icon": {
       "key": "character:ifa:icon",
@@ -1363,7 +1363,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 96437
       },
-      "verifiedAt": "2026-11-19T18:13:23.678Z"
+      "verifiedAt": "2026-11-19T18:21:07.662Z"
     },
     "character:ifa:splash": {
       "key": "character:ifa:splash",
@@ -1380,7 +1380,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 385156
       },
-      "verifiedAt": "2026-11-19T18:13:23.683Z"
+      "verifiedAt": "2026-11-19T18:21:07.665Z"
     },
     "character:navia:icon": {
       "key": "character:navia:icon",
@@ -1397,7 +1397,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 112066
       },
-      "verifiedAt": "2026-11-19T18:13:23.687Z"
+      "verifiedAt": "2026-11-19T18:21:07.668Z"
     },
     "character:navia:splash": {
       "key": "character:navia:splash",
@@ -1414,7 +1414,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 279168
       },
-      "verifiedAt": "2026-11-19T18:13:23.693Z"
+      "verifiedAt": "2026-11-19T18:21:07.670Z"
     },
     "character:xiangling:icon": {
       "key": "character:xiangling:icon",
@@ -1431,7 +1431,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 59284
       },
-      "verifiedAt": "2026-11-19T18:13:23.697Z"
+      "verifiedAt": "2026-11-19T18:21:07.672Z"
     },
     "character:xiangling:splash": {
       "key": "character:xiangling:splash",
@@ -1448,7 +1448,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 185002
       },
-      "verifiedAt": "2026-11-19T18:13:23.703Z"
+      "verifiedAt": "2026-11-19T18:21:07.674Z"
     },
     "character:bennett:icon": {
       "key": "character:bennett:icon",
@@ -1465,7 +1465,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 68583
       },
-      "verifiedAt": "2026-11-19T18:13:23.707Z"
+      "verifiedAt": "2026-11-19T18:21:07.676Z"
     },
     "character:bennett:splash": {
       "key": "character:bennett:splash",
@@ -1482,7 +1482,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 321492
       },
-      "verifiedAt": "2026-11-19T18:13:23.711Z"
+      "verifiedAt": "2026-11-19T18:21:07.678Z"
     },
     "character:chiori:icon": {
       "key": "character:chiori:icon",
@@ -1499,7 +1499,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 86763
       },
-      "verifiedAt": "2026-11-19T18:13:23.715Z"
+      "verifiedAt": "2026-11-19T18:21:07.679Z"
     },
     "character:chiori:splash": {
       "key": "character:chiori:splash",
@@ -1516,7 +1516,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 351764
       },
-      "verifiedAt": "2026-11-19T18:13:23.721Z"
+      "verifiedAt": "2026-11-19T18:21:07.681Z"
     },
     "character:kaveh:icon": {
       "key": "character:kaveh:icon",
@@ -1533,7 +1533,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 90900
       },
-      "verifiedAt": "2026-11-19T18:13:23.725Z"
+      "verifiedAt": "2026-11-19T18:21:07.683Z"
     },
     "character:kaveh:splash": {
       "key": "character:kaveh:splash",
@@ -1550,7 +1550,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 353034
       },
-      "verifiedAt": "2026-11-19T18:13:23.731Z"
+      "verifiedAt": "2026-11-19T18:21:07.686Z"
     },
     "character:clorinde:icon": {
       "key": "character:clorinde:icon",
@@ -1567,7 +1567,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 94145
       },
-      "verifiedAt": "2026-11-19T18:13:23.736Z"
+      "verifiedAt": "2026-11-19T18:21:07.687Z"
     },
     "character:clorinde:splash": {
       "key": "character:clorinde:splash",
@@ -1584,7 +1584,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 531822
       },
-      "verifiedAt": "2026-11-19T18:13:23.742Z"
+      "verifiedAt": "2026-11-19T18:21:07.690Z"
     },
     "character:dahlia:icon": {
       "key": "character:dahlia:icon",
@@ -1601,7 +1601,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 76296
       },
-      "verifiedAt": "2026-11-19T18:13:23.746Z"
+      "verifiedAt": "2026-11-19T18:21:07.692Z"
     },
     "character:dahlia:splash": {
       "key": "character:dahlia:splash",
@@ -1618,7 +1618,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 207978
       },
-      "verifiedAt": "2026-11-19T18:13:23.751Z"
+      "verifiedAt": "2026-11-19T18:21:07.695Z"
     },
     "character:zhongli:icon": {
       "key": "character:zhongli:icon",
@@ -1635,7 +1635,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 26806
       },
-      "verifiedAt": "2026-11-19T18:13:23.756Z"
+      "verifiedAt": "2026-11-19T18:21:07.697Z"
     },
     "character:zhongli:splash": {
       "key": "character:zhongli:splash",
@@ -1652,7 +1652,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 222510
       },
-      "verifiedAt": "2026-11-19T18:13:23.762Z"
+      "verifiedAt": "2026-11-19T18:21:07.700Z"
     },
     "character:sigewinne:icon": {
       "key": "character:sigewinne:icon",
@@ -1669,7 +1669,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 38555
       },
-      "verifiedAt": "2026-11-19T18:13:23.767Z"
+      "verifiedAt": "2026-11-19T18:21:07.702Z"
     },
     "character:sigewinne:splash": {
       "key": "character:sigewinne:splash",
@@ -1686,7 +1686,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 365820
       },
-      "verifiedAt": "2026-11-19T18:13:23.773Z"
+      "verifiedAt": "2026-11-19T18:21:07.705Z"
     },
     "character:traveler-girl-pyro:icon": {
       "key": "character:traveler-girl-pyro:icon",
@@ -1719,7 +1719,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 19672
       },
-      "verifiedAt": "2026-11-19T18:13:23.779Z"
+      "verifiedAt": "2026-11-19T18:21:07.707Z"
     },
     "character:xiao:icon": {
       "key": "character:xiao:icon",
@@ -1736,7 +1736,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 33170
       },
-      "verifiedAt": "2026-11-19T18:13:23.784Z"
+      "verifiedAt": "2026-11-19T18:21:07.709Z"
     },
     "character:xiao:splash": {
       "key": "character:xiao:splash",
@@ -1753,7 +1753,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 402974
       },
-      "verifiedAt": "2026-11-19T18:13:23.791Z"
+      "verifiedAt": "2026-11-19T18:21:07.711Z"
     },
     "character:diluc:icon": {
       "key": "character:diluc:icon",
@@ -1770,7 +1770,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 81261
       },
-      "verifiedAt": "2026-11-19T18:13:23.795Z"
+      "verifiedAt": "2026-11-19T18:21:07.712Z"
     },
     "character:diluc:splash": {
       "key": "character:diluc:splash",
@@ -1787,7 +1787,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 395288
       },
-      "verifiedAt": "2026-11-19T18:13:23.801Z"
+      "verifiedAt": "2026-11-19T18:21:07.714Z"
     },
     "character:traveler-boy-geo:icon": {
       "key": "character:traveler-boy-geo:icon",
@@ -1820,7 +1820,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 18820
       },
-      "verifiedAt": "2026-11-19T18:13:23.806Z"
+      "verifiedAt": "2026-11-19T18:21:07.717Z"
     },
     "character:chongyun:icon": {
       "key": "character:chongyun:icon",
@@ -1837,7 +1837,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 63364
       },
-      "verifiedAt": "2026-11-19T18:13:23.810Z"
+      "verifiedAt": "2026-11-19T18:21:07.719Z"
     },
     "character:chongyun:splash": {
       "key": "character:chongyun:splash",
@@ -1854,7 +1854,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 288880
       },
-      "verifiedAt": "2026-11-19T18:13:23.816Z"
+      "verifiedAt": "2026-11-19T18:21:07.722Z"
     },
     "character:kamisato-ayato:icon": {
       "key": "character:kamisato-ayato:icon",
@@ -1871,7 +1871,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 78727
       },
-      "verifiedAt": "2026-11-19T18:13:23.821Z"
+      "verifiedAt": "2026-11-19T18:21:07.725Z"
     },
     "character:kamisato-ayato:splash": {
       "key": "character:kamisato-ayato:splash",
@@ -1888,7 +1888,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 304906
       },
-      "verifiedAt": "2026-11-19T18:13:23.825Z"
+      "verifiedAt": "2026-11-19T18:21:07.727Z"
     },
     "character:alhaitham:icon": {
       "key": "character:alhaitham:icon",
@@ -1905,7 +1905,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 83354
       },
-      "verifiedAt": "2026-11-19T18:13:23.829Z"
+      "verifiedAt": "2026-11-19T18:21:07.730Z"
     },
     "character:alhaitham:splash": {
       "key": "character:alhaitham:splash",
@@ -1922,7 +1922,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 411452
       },
-      "verifiedAt": "2026-11-19T18:13:23.835Z"
+      "verifiedAt": "2026-11-19T18:21:07.733Z"
     },
     "character:diona:icon": {
       "key": "character:diona:icon",
@@ -1939,7 +1939,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 72090
       },
-      "verifiedAt": "2026-11-19T18:13:23.839Z"
+      "verifiedAt": "2026-11-19T18:21:07.736Z"
     },
     "character:diona:splash": {
       "key": "character:diona:splash",
@@ -1956,7 +1956,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 178058
       },
-      "verifiedAt": "2026-11-19T18:13:23.843Z"
+      "verifiedAt": "2026-11-19T18:21:07.740Z"
     },
     "character:kaeya:icon": {
       "key": "character:kaeya:icon",
@@ -1973,7 +1973,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 32307
       },
-      "verifiedAt": "2026-11-19T18:13:23.848Z"
+      "verifiedAt": "2026-11-19T18:21:07.743Z"
     },
     "character:kaeya:splash": {
       "key": "character:kaeya:splash",
@@ -1990,7 +1990,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 173178
       },
-      "verifiedAt": "2026-11-19T18:13:23.855Z"
+      "verifiedAt": "2026-11-19T18:21:07.747Z"
     },
     "character:alyosha:icon": {
       "key": "character:alyosha:icon",
@@ -2007,7 +2007,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 92907
       },
-      "verifiedAt": "2026-11-19T18:13:23.859Z"
+      "verifiedAt": "2026-11-19T18:21:07.751Z"
     },
     "character:alyosha:splash": {
       "key": "character:alyosha:splash",
@@ -2024,7 +2024,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 288594
       },
-      "verifiedAt": "2026-11-19T18:13:23.865Z"
+      "verifiedAt": "2026-11-19T18:21:07.756Z"
     },
     "character:traveler-boy-dendro:icon": {
       "key": "character:traveler-boy-dendro:icon",
@@ -2057,7 +2057,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 18820
       },
-      "verifiedAt": "2026-11-19T18:13:23.871Z"
+      "verifiedAt": "2026-11-19T18:21:07.760Z"
     },
     "character:aino:icon": {
       "key": "character:aino:icon",
@@ -2074,7 +2074,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 92961
       },
-      "verifiedAt": "2026-11-19T18:13:23.875Z"
+      "verifiedAt": "2026-11-19T18:21:07.780Z"
     },
     "character:aino:splash": {
       "key": "character:aino:splash",
@@ -2091,7 +2091,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 272790
       },
-      "verifiedAt": "2026-11-19T18:13:23.881Z"
+      "verifiedAt": "2026-11-19T18:21:07.785Z"
     },
     "character:dori:icon": {
       "key": "character:dori:icon",
@@ -2108,7 +2108,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 91628
       },
-      "verifiedAt": "2026-11-19T18:13:23.886Z"
+      "verifiedAt": "2026-11-19T18:21:07.789Z"
     },
     "character:dori:splash": {
       "key": "character:dori:splash",
@@ -2125,7 +2125,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 207112
       },
-      "verifiedAt": "2026-11-19T18:13:23.890Z"
+      "verifiedAt": "2026-11-19T18:21:07.793Z"
     },
     "character:cyno:icon": {
       "key": "character:cyno:icon",
@@ -2142,7 +2142,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 82136
       },
-      "verifiedAt": "2026-11-19T18:13:23.895Z"
+      "verifiedAt": "2026-11-19T18:21:07.796Z"
     },
     "character:cyno:splash": {
       "key": "character:cyno:splash",
@@ -2159,7 +2159,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 288938
       },
-      "verifiedAt": "2026-11-19T18:13:23.901Z"
+      "verifiedAt": "2026-11-19T18:21:07.801Z"
     },
     "character:sangonomiya-kokomi:icon": {
       "key": "character:sangonomiya-kokomi:icon",
@@ -2176,7 +2176,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 68651
       },
-      "verifiedAt": "2026-11-19T18:13:23.906Z"
+      "verifiedAt": "2026-11-19T18:21:07.805Z"
     },
     "character:sangonomiya-kokomi:splash": {
       "key": "character:sangonomiya-kokomi:splash",
@@ -2193,7 +2193,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 262764
       },
-      "verifiedAt": "2026-11-19T18:13:23.910Z"
+      "verifiedAt": "2026-11-19T18:21:07.809Z"
     },
     "character:klee:icon": {
       "key": "character:klee:icon",
@@ -2210,7 +2210,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 83151
       },
-      "verifiedAt": "2026-11-19T18:13:23.915Z"
+      "verifiedAt": "2026-11-19T18:21:07.812Z"
     },
     "character:klee:splash": {
       "key": "character:klee:splash",
@@ -2227,7 +2227,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 142206
       },
-      "verifiedAt": "2026-11-19T18:13:23.920Z"
+      "verifiedAt": "2026-11-19T18:21:07.817Z"
     },
     "character:durin:icon": {
       "key": "character:durin:icon",
@@ -2244,7 +2244,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 95723
       },
-      "verifiedAt": "2026-11-19T18:13:23.924Z"
+      "verifiedAt": "2026-11-19T18:21:07.821Z"
     },
     "character:durin:splash": {
       "key": "character:durin:splash",
@@ -2261,7 +2261,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 411378
       },
-      "verifiedAt": "2026-11-19T18:13:23.930Z"
+      "verifiedAt": "2026-11-19T18:21:07.825Z"
     },
     "character:gorou:icon": {
       "key": "character:gorou:icon",
@@ -2278,7 +2278,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 36453
       },
-      "verifiedAt": "2026-11-19T18:13:23.935Z"
+      "verifiedAt": "2026-11-19T18:21:07.827Z"
     },
     "character:gorou:splash": {
       "key": "character:gorou:splash",
@@ -2295,7 +2295,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 224572
       },
-      "verifiedAt": "2026-11-19T18:13:23.940Z"
+      "verifiedAt": "2026-11-19T18:21:07.830Z"
     },
     "character:traveler-girl-anemo:icon": {
       "key": "character:traveler-girl-anemo:icon",
@@ -2328,7 +2328,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 19672
       },
-      "verifiedAt": "2026-11-19T18:13:23.945Z"
+      "verifiedAt": "2026-11-19T18:21:07.833Z"
     },
     "character:ganyu:icon": {
       "key": "character:ganyu:icon",
@@ -2345,7 +2345,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 80987
       },
-      "verifiedAt": "2026-11-19T18:13:23.951Z"
+      "verifiedAt": "2026-11-19T18:21:07.835Z"
     },
     "character:ganyu:splash": {
       "key": "character:ganyu:splash",
@@ -2362,7 +2362,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 322130
       },
-      "verifiedAt": "2026-11-19T18:13:23.956Z"
+      "verifiedAt": "2026-11-19T18:21:07.838Z"
     },
     "character:escoffier:icon": {
       "key": "character:escoffier:icon",
@@ -2379,7 +2379,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 95532
       },
-      "verifiedAt": "2026-11-19T18:13:23.961Z"
+      "verifiedAt": "2026-11-19T18:21:07.839Z"
     },
     "character:escoffier:splash": {
       "key": "character:escoffier:splash",
@@ -2396,7 +2396,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 325806
       },
-      "verifiedAt": "2026-11-19T18:13:23.966Z"
+      "verifiedAt": "2026-11-19T18:21:07.841Z"
     },
     "character:collei:icon": {
       "key": "character:collei:icon",
@@ -2413,7 +2413,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 79606
       },
-      "verifiedAt": "2026-11-19T18:13:23.971Z"
+      "verifiedAt": "2026-11-19T18:21:07.843Z"
     },
     "character:collei:splash": {
       "key": "character:collei:splash",
@@ -2430,7 +2430,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 246854
       },
-      "verifiedAt": "2026-11-19T18:13:23.975Z"
+      "verifiedAt": "2026-11-19T18:21:07.845Z"
     },
     "character:lumine:icon": {
       "key": "character:lumine:icon",
@@ -2447,7 +2447,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 29807
       },
-      "verifiedAt": "2026-11-19T18:13:23.979Z"
+      "verifiedAt": "2026-11-19T18:21:07.846Z"
     },
     "character:lumine:splash": {
       "key": "character:lumine:splash",
@@ -2468,7 +2468,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 19672
       },
-      "verifiedAt": "2026-11-19T18:13:23.983Z"
+      "verifiedAt": "2026-11-19T18:21:07.848Z"
     },
     "character:chasca:icon": {
       "key": "character:chasca:icon",
@@ -2485,7 +2485,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 117806
       },
-      "verifiedAt": "2026-11-19T18:13:23.987Z"
+      "verifiedAt": "2026-11-19T18:21:07.851Z"
     },
     "character:chasca:splash": {
       "key": "character:chasca:splash",
@@ -2502,7 +2502,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 539896
       },
-      "verifiedAt": "2026-11-19T18:13:23.991Z"
+      "verifiedAt": "2026-11-19T18:21:07.853Z"
     },
     "character:manekin:icon": {
       "key": "character:manekin:icon",
@@ -2519,7 +2519,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 64945
       },
-      "verifiedAt": "2026-11-19T18:13:23.995Z"
+      "verifiedAt": "2026-11-19T18:21:07.854Z"
     },
     "character:manekin:splash": {
       "key": "character:manekin:splash",
@@ -2536,7 +2536,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 79758
       },
-      "verifiedAt": "2026-11-19T18:13:24.001Z"
+      "verifiedAt": "2026-11-19T18:21:07.856Z"
     },
     "character:illuga:icon": {
       "key": "character:illuga:icon",
@@ -2553,7 +2553,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 79170
       },
-      "verifiedAt": "2026-11-19T18:13:24.006Z"
+      "verifiedAt": "2026-11-19T18:21:07.857Z"
     },
     "character:illuga:splash": {
       "key": "character:illuga:splash",
@@ -2570,7 +2570,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 211060
       },
-      "verifiedAt": "2026-11-19T18:13:24.012Z"
+      "verifiedAt": "2026-11-19T18:21:07.859Z"
     },
     "character:xingqiu:icon": {
       "key": "character:xingqiu:icon",
@@ -2587,7 +2587,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 24115
       },
-      "verifiedAt": "2026-11-19T18:13:24.017Z"
+      "verifiedAt": "2026-11-19T18:21:07.861Z"
     },
     "character:xingqiu:splash": {
       "key": "character:xingqiu:splash",
@@ -2604,7 +2604,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 214362
       },
-      "verifiedAt": "2026-11-19T18:13:24.023Z"
+      "verifiedAt": "2026-11-19T18:21:07.862Z"
     },
     "character:traveler-girl-geo:icon": {
       "key": "character:traveler-girl-geo:icon",
@@ -2637,7 +2637,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 19672
       },
-      "verifiedAt": "2026-11-19T18:13:24.029Z"
+      "verifiedAt": "2026-11-19T18:21:07.864Z"
     },
     "character:freminet:icon": {
       "key": "character:freminet:icon",
@@ -2654,7 +2654,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 82616
       },
-      "verifiedAt": "2026-11-19T18:13:24.034Z"
+      "verifiedAt": "2026-11-19T18:21:07.866Z"
     },
     "character:freminet:splash": {
       "key": "character:freminet:splash",
@@ -2671,7 +2671,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 385918
       },
-      "verifiedAt": "2026-11-19T18:13:24.039Z"
+      "verifiedAt": "2026-11-19T18:21:07.869Z"
     },
     "character:traveler-girl-cryo:icon": {
       "key": "character:traveler-girl-cryo:icon",
@@ -2704,7 +2704,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 19672
       },
-      "verifiedAt": "2026-11-19T18:13:24.043Z"
+      "verifiedAt": "2026-11-19T18:21:07.871Z"
     },
     "character:columbina:icon": {
       "key": "character:columbina:icon",
@@ -2721,7 +2721,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 98670
       },
-      "verifiedAt": "2026-11-19T18:13:24.047Z"
+      "verifiedAt": "2026-11-19T18:21:07.873Z"
     },
     "character:columbina:splash": {
       "key": "character:columbina:splash",
@@ -2738,7 +2738,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 471796
       },
-      "verifiedAt": "2026-11-19T18:13:24.053Z"
+      "verifiedAt": "2026-11-19T18:21:07.875Z"
     },
     "character:gaming:icon": {
       "key": "character:gaming:icon",
@@ -2755,7 +2755,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 82247
       },
-      "verifiedAt": "2026-11-19T18:13:24.058Z"
+      "verifiedAt": "2026-11-19T18:21:07.876Z"
     },
     "character:gaming:splash": {
       "key": "character:gaming:splash",
@@ -2772,7 +2772,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 315806
       },
-      "verifiedAt": "2026-11-19T18:13:24.063Z"
+      "verifiedAt": "2026-11-19T18:21:07.878Z"
     },
     "character:shenhe:icon": {
       "key": "character:shenhe:icon",
@@ -2789,7 +2789,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 74429
       },
-      "verifiedAt": "2026-11-19T18:13:24.068Z"
+      "verifiedAt": "2026-11-19T18:21:07.880Z"
     },
     "character:shenhe:splash": {
       "key": "character:shenhe:splash",
@@ -2806,7 +2806,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 346110
       },
-      "verifiedAt": "2026-11-19T18:13:24.075Z"
+      "verifiedAt": "2026-11-19T18:21:07.883Z"
     },
     "character:traveler-girl-electro:icon": {
       "key": "character:traveler-girl-electro:icon",
@@ -2839,7 +2839,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 19672
       },
-      "verifiedAt": "2026-11-19T18:13:24.081Z"
+      "verifiedAt": "2026-11-19T18:21:07.885Z"
     },
     "character:jahoda:icon": {
       "key": "character:jahoda:icon",
@@ -2856,7 +2856,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 90901
       },
-      "verifiedAt": "2026-11-19T18:13:24.085Z"
+      "verifiedAt": "2026-11-19T18:21:07.887Z"
     },
     "character:jahoda:splash": {
       "key": "character:jahoda:splash",
@@ -2873,7 +2873,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 214930
       },
-      "verifiedAt": "2026-11-19T18:13:24.089Z"
+      "verifiedAt": "2026-11-19T18:21:07.889Z"
     },
     "character:mavuika:icon": {
       "key": "character:mavuika:icon",
@@ -2890,7 +2890,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 102241
       },
-      "verifiedAt": "2026-11-19T18:13:24.093Z"
+      "verifiedAt": "2026-11-19T18:21:07.891Z"
     },
     "character:mavuika:splash": {
       "key": "character:mavuika:splash",
@@ -2907,7 +2907,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 519402
       },
-      "verifiedAt": "2026-11-19T18:13:24.098Z"
+      "verifiedAt": "2026-11-19T18:21:07.893Z"
     },
     "character:jean:icon": {
       "key": "character:jean:icon",
@@ -2924,7 +2924,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 62035
       },
-      "verifiedAt": "2026-11-19T18:13:24.102Z"
+      "verifiedAt": "2026-11-19T18:21:07.895Z"
     },
     "character:jean:splash": {
       "key": "character:jean:splash",
@@ -2941,7 +2941,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 292790
       },
-      "verifiedAt": "2026-11-19T18:13:24.108Z"
+      "verifiedAt": "2026-11-19T18:21:07.897Z"
     },
     "character:vesna:icon": {
       "key": "character:vesna:icon",
@@ -2958,7 +2958,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 98707
       },
-      "verifiedAt": "2026-11-19T18:13:24.112Z"
+      "verifiedAt": "2026-11-19T18:21:07.899Z"
     },
     "character:vesna:splash": {
       "key": "character:vesna:splash",
@@ -2975,7 +2975,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 449610
       },
-      "verifiedAt": "2026-11-19T18:13:24.118Z"
+      "verifiedAt": "2026-11-19T18:21:07.902Z"
     },
     "character:noelle:icon": {
       "key": "character:noelle:icon",
@@ -2992,7 +2992,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 86750
       },
-      "verifiedAt": "2026-11-19T18:13:24.123Z"
+      "verifiedAt": "2026-11-19T18:21:07.904Z"
     },
     "character:noelle:splash": {
       "key": "character:noelle:splash",
@@ -3009,7 +3009,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 226066
       },
-      "verifiedAt": "2026-11-19T18:13:24.129Z"
+      "verifiedAt": "2026-11-19T18:21:07.906Z"
     },
     "character:furina:icon": {
       "key": "character:furina:icon",
@@ -3026,7 +3026,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 100646
       },
-      "verifiedAt": "2026-11-19T18:13:24.134Z"
+      "verifiedAt": "2026-11-19T18:21:07.908Z"
     },
     "character:furina:splash": {
       "key": "character:furina:splash",
@@ -3043,7 +3043,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 487280
       },
-      "verifiedAt": "2026-11-19T18:13:24.139Z"
+      "verifiedAt": "2026-11-19T18:21:07.910Z"
     },
     "character:qiqi:icon": {
       "key": "character:qiqi:icon",
@@ -3060,7 +3060,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 72152
       },
-      "verifiedAt": "2026-11-19T18:13:24.142Z"
+      "verifiedAt": "2026-11-19T18:21:07.911Z"
     },
     "character:qiqi:splash": {
       "key": "character:qiqi:splash",
@@ -3077,7 +3077,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 342010
       },
-      "verifiedAt": "2026-11-19T18:13:24.148Z"
+      "verifiedAt": "2026-11-19T18:21:07.914Z"
     },
     "character:zibai:icon": {
       "key": "character:zibai:icon",
@@ -3094,7 +3094,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 93581
       },
-      "verifiedAt": "2026-11-19T18:13:24.152Z"
+      "verifiedAt": "2026-11-19T18:21:07.915Z"
     },
     "character:zibai:splash": {
       "key": "character:zibai:splash",
@@ -3111,7 +3111,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 470502
       },
-      "verifiedAt": "2026-11-19T18:13:24.157Z"
+      "verifiedAt": "2026-11-19T18:21:07.918Z"
     },
     "character:prune:icon": {
       "key": "character:prune:icon",
@@ -3128,7 +3128,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 96251
       },
-      "verifiedAt": "2026-11-19T18:13:24.161Z"
+      "verifiedAt": "2026-11-19T18:21:07.920Z"
     },
     "character:prune:splash": {
       "key": "character:prune:splash",
@@ -3145,7 +3145,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 222364
       },
-      "verifiedAt": "2026-11-19T18:13:24.165Z"
+      "verifiedAt": "2026-11-19T18:21:07.923Z"
     },
     "character:flins:icon": {
       "key": "character:flins:icon",
@@ -3162,7 +3162,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 89330
       },
-      "verifiedAt": "2026-11-19T18:13:24.170Z"
+      "verifiedAt": "2026-11-19T18:21:07.924Z"
     },
     "character:flins:splash": {
       "key": "character:flins:splash",
@@ -3179,7 +3179,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 259424
       },
-      "verifiedAt": "2026-11-19T18:13:24.175Z"
+      "verifiedAt": "2026-11-19T18:21:07.926Z"
     },
     "character:arataki-itto:icon": {
       "key": "character:arataki-itto:icon",
@@ -3196,7 +3196,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 87483
       },
-      "verifiedAt": "2026-11-19T18:13:24.178Z"
+      "verifiedAt": "2026-11-19T18:21:07.927Z"
     },
     "character:arataki-itto:splash": {
       "key": "character:arataki-itto:splash",
@@ -3213,7 +3213,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 268140
       },
-      "verifiedAt": "2026-11-19T18:13:24.182Z"
+      "verifiedAt": "2026-11-19T18:21:07.929Z"
     },
     "character:rosaria:icon": {
       "key": "character:rosaria:icon",
@@ -3230,7 +3230,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 31013
       },
-      "verifiedAt": "2026-11-19T18:13:24.186Z"
+      "verifiedAt": "2026-11-19T18:21:07.930Z"
     },
     "character:rosaria:splash": {
       "key": "character:rosaria:splash",
@@ -3247,7 +3247,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 275532
       },
-      "verifiedAt": "2026-11-19T18:13:24.192Z"
+      "verifiedAt": "2026-11-19T18:21:07.932Z"
     },
     "character:linnea:icon": {
       "key": "character:linnea:icon",
@@ -3264,7 +3264,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 103121
       },
-      "verifiedAt": "2026-11-19T18:13:24.196Z"
+      "verifiedAt": "2026-11-19T18:21:07.935Z"
     },
     "character:linnea:splash": {
       "key": "character:linnea:splash",
@@ -3281,7 +3281,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 445678
       },
-      "verifiedAt": "2026-11-19T18:13:24.203Z"
+      "verifiedAt": "2026-11-19T18:21:07.938Z"
     },
     "character:kachina:icon": {
       "key": "character:kachina:icon",
@@ -3298,7 +3298,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 36952
       },
-      "verifiedAt": "2026-11-19T18:13:24.207Z"
+      "verifiedAt": "2026-11-19T18:21:07.940Z"
     },
     "character:kachina:splash": {
       "key": "character:kachina:splash",
@@ -3315,7 +3315,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 290374
       },
-      "verifiedAt": "2026-11-19T18:13:24.213Z"
+      "verifiedAt": "2026-11-19T18:21:07.942Z"
     },
     "character:traveler-boy-pyro:icon": {
       "key": "character:traveler-boy-pyro:icon",
@@ -3348,7 +3348,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 18820
       },
-      "verifiedAt": "2026-11-19T18:13:24.219Z"
+      "verifiedAt": "2026-11-19T18:21:07.944Z"
     },
     "character:kirara:icon": {
       "key": "character:kirara:icon",
@@ -3365,7 +3365,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 88412
       },
-      "verifiedAt": "2026-11-19T18:13:24.224Z"
+      "verifiedAt": "2026-11-19T18:21:07.946Z"
     },
     "character:kirara:splash": {
       "key": "character:kirara:splash",
@@ -3382,7 +3382,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 355584
       },
-      "verifiedAt": "2026-11-19T18:13:24.230Z"
+      "verifiedAt": "2026-11-19T18:21:07.948Z"
     },
     "character:sandrone:icon": {
       "key": "character:sandrone:icon",
@@ -3399,7 +3399,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 89731
       },
-      "verifiedAt": "2026-11-19T18:13:24.234Z"
+      "verifiedAt": "2026-11-19T18:21:07.950Z"
     },
     "character:sandrone:splash": {
       "key": "character:sandrone:splash",
@@ -3416,7 +3416,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 298654
       },
-      "verifiedAt": "2026-11-19T18:13:24.240Z"
+      "verifiedAt": "2026-11-19T18:21:07.952Z"
     },
     "character:kujou-sara:icon": {
       "key": "character:kujou-sara:icon",
@@ -3433,7 +3433,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 66371
       },
-      "verifiedAt": "2026-11-19T18:13:24.245Z"
+      "verifiedAt": "2026-11-19T18:21:07.954Z"
     },
     "character:kujou-sara:splash": {
       "key": "character:kujou-sara:splash",
@@ -3450,7 +3450,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 169874
       },
-      "verifiedAt": "2026-11-19T18:13:24.251Z"
+      "verifiedAt": "2026-11-19T18:21:07.957Z"
     },
     "character:traveler-boy-hydro:icon": {
       "key": "character:traveler-boy-hydro:icon",
@@ -3483,7 +3483,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 18820
       },
-      "verifiedAt": "2026-11-19T18:13:24.255Z"
+      "verifiedAt": "2026-11-19T18:21:07.959Z"
     },
     "character:emilie:icon": {
       "key": "character:emilie:icon",
@@ -3500,7 +3500,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 101544
       },
-      "verifiedAt": "2026-11-19T18:13:24.259Z"
+      "verifiedAt": "2026-11-19T18:21:07.961Z"
     },
     "character:emilie:splash": {
       "key": "character:emilie:splash",
@@ -3517,7 +3517,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 461790
       },
-      "verifiedAt": "2026-11-19T18:13:24.263Z"
+      "verifiedAt": "2026-11-19T18:21:07.963Z"
     },
     "character:kinich:icon": {
       "key": "character:kinich:icon",
@@ -3534,7 +3534,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 78826
       },
-      "verifiedAt": "2026-11-19T18:13:24.267Z"
+      "verifiedAt": "2026-11-19T18:21:07.965Z"
     },
     "character:kinich:splash": {
       "key": "character:kinich:splash",
@@ -3551,7 +3551,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 320966
       },
-      "verifiedAt": "2026-11-19T18:13:24.273Z"
+      "verifiedAt": "2026-11-19T18:21:07.968Z"
     },
     "character:skirk:icon": {
       "key": "character:skirk:icon",
@@ -3568,7 +3568,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 96254
       },
-      "verifiedAt": "2026-11-19T18:13:24.278Z"
+      "verifiedAt": "2026-11-19T18:21:07.970Z"
     },
     "character:skirk:splash": {
       "key": "character:skirk:splash",
@@ -3585,7 +3585,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 343364
       },
-      "verifiedAt": "2026-11-19T18:13:24.284Z"
+      "verifiedAt": "2026-11-19T18:21:07.974Z"
     },
     "character:yanfei:icon": {
       "key": "character:yanfei:icon",
@@ -3602,7 +3602,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 43266
       },
-      "verifiedAt": "2026-11-19T18:13:24.289Z"
+      "verifiedAt": "2026-11-19T18:21:07.976Z"
     },
     "character:yanfei:splash": {
       "key": "character:yanfei:splash",
@@ -3619,7 +3619,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 289636
       },
-      "verifiedAt": "2026-11-19T18:13:24.295Z"
+      "verifiedAt": "2026-11-19T18:21:07.979Z"
     },
     "character:kuki-shinobu:icon": {
       "key": "character:kuki-shinobu:icon",
@@ -3636,7 +3636,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 90025
       },
-      "verifiedAt": "2026-11-19T18:13:24.300Z"
+      "verifiedAt": "2026-11-19T18:21:07.981Z"
     },
     "character:kuki-shinobu:splash": {
       "key": "character:kuki-shinobu:splash",
@@ -3653,7 +3653,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 194432
       },
-      "verifiedAt": "2026-11-19T18:13:24.306Z"
+      "verifiedAt": "2026-11-19T18:21:07.985Z"
     },
     "character:xilonen:icon": {
       "key": "character:xilonen:icon",
@@ -3670,7 +3670,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 107687
       },
-      "verifiedAt": "2026-11-19T18:13:24.310Z"
+      "verifiedAt": "2026-11-19T18:21:07.987Z"
     },
     "character:xilonen:splash": {
       "key": "character:xilonen:splash",
@@ -3687,7 +3687,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 386658
       },
-      "verifiedAt": "2026-11-19T18:13:24.316Z"
+      "verifiedAt": "2026-11-19T18:21:07.991Z"
     },
     "character:yelan:icon": {
       "key": "character:yelan:icon",
@@ -3704,7 +3704,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 29094
       },
-      "verifiedAt": "2026-11-19T18:13:24.320Z"
+      "verifiedAt": "2026-11-19T18:21:07.993Z"
     },
     "character:yelan:splash": {
       "key": "character:yelan:splash",
@@ -3721,7 +3721,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 382194
       },
-      "verifiedAt": "2026-11-19T18:13:24.325Z"
+      "verifiedAt": "2026-11-19T18:21:07.996Z"
     },
     "character:lan-yan:icon": {
       "key": "character:lan-yan:icon",
@@ -3738,7 +3738,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 88396
       },
-      "verifiedAt": "2026-11-19T18:13:24.328Z"
+      "verifiedAt": "2026-11-19T18:21:07.999Z"
     },
     "character:lan-yan:splash": {
       "key": "character:lan-yan:splash",
@@ -3755,7 +3755,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 328420
       },
-      "verifiedAt": "2026-11-19T18:13:24.334Z"
+      "verifiedAt": "2026-11-19T18:21:08.003Z"
     },
     "character:lauma:icon": {
       "key": "character:lauma:icon",
@@ -3772,7 +3772,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 90284
       },
-      "verifiedAt": "2026-11-19T18:13:24.339Z"
+      "verifiedAt": "2026-11-19T18:21:08.006Z"
     },
     "character:lauma:splash": {
       "key": "character:lauma:splash",
@@ -3789,7 +3789,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 504270
       },
-      "verifiedAt": "2026-11-19T18:13:24.346Z"
+      "verifiedAt": "2026-11-19T18:21:08.010Z"
     },
     "character:layla:icon": {
       "key": "character:layla:icon",
@@ -3806,7 +3806,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 77318
       },
-      "verifiedAt": "2026-11-19T18:13:24.351Z"
+      "verifiedAt": "2026-11-19T18:21:08.013Z"
     },
     "character:layla:splash": {
       "key": "character:layla:splash",
@@ -3823,7 +3823,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 330420
       },
-      "verifiedAt": "2026-11-19T18:13:24.357Z"
+      "verifiedAt": "2026-11-19T18:21:08.017Z"
     },
     "character:lohen:icon": {
       "key": "character:lohen:icon",
@@ -3840,7 +3840,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 91322
       },
-      "verifiedAt": "2026-11-19T18:13:24.362Z"
+      "verifiedAt": "2026-11-19T18:21:08.020Z"
     },
     "character:lohen:splash": {
       "key": "character:lohen:splash",
@@ -3857,7 +3857,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 354130
       },
-      "verifiedAt": "2026-11-19T18:13:24.368Z"
+      "verifiedAt": "2026-11-19T18:21:08.024Z"
     },
     "character:yae-miko:icon": {
       "key": "character:yae-miko:icon",
@@ -3874,7 +3874,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 37645
       },
-      "verifiedAt": "2026-11-19T18:13:24.372Z"
+      "verifiedAt": "2026-11-19T18:21:08.026Z"
     },
     "character:yae-miko:splash": {
       "key": "character:yae-miko:splash",
@@ -3891,7 +3891,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 265606
       },
-      "verifiedAt": "2026-11-19T18:13:24.377Z"
+      "verifiedAt": "2026-11-19T18:21:08.029Z"
     },
     "character:ororon:icon": {
       "key": "character:ororon:icon",
@@ -3908,7 +3908,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 110911
       },
-      "verifiedAt": "2026-11-19T18:13:24.381Z"
+      "verifiedAt": "2026-11-19T18:21:08.031Z"
     },
     "character:ororon:splash": {
       "key": "character:ororon:splash",
@@ -3925,7 +3925,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 244292
       },
-      "verifiedAt": "2026-11-19T18:13:24.385Z"
+      "verifiedAt": "2026-11-19T18:21:08.034Z"
     },
     "character:kamisato-ayaka:icon": {
       "key": "character:kamisato-ayaka:icon",
@@ -3942,7 +3942,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 60669
       },
-      "verifiedAt": "2026-11-19T18:13:24.390Z"
+      "verifiedAt": "2026-11-19T18:21:08.036Z"
     },
     "character:kamisato-ayaka:splash": {
       "key": "character:kamisato-ayaka:splash",
@@ -3959,7 +3959,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 620826
       },
-      "verifiedAt": "2026-11-19T18:13:24.396Z"
+      "verifiedAt": "2026-11-19T18:21:08.039Z"
     },
     "character:faruzan:icon": {
       "key": "character:faruzan:icon",
@@ -3976,7 +3976,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 89642
       },
-      "verifiedAt": "2026-11-19T18:13:24.401Z"
+      "verifiedAt": "2026-11-19T18:21:08.041Z"
     },
     "character:faruzan:splash": {
       "key": "character:faruzan:splash",
@@ -3993,7 +3993,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 219516
       },
-      "verifiedAt": "2026-11-19T18:13:24.406Z"
+      "verifiedAt": "2026-11-19T18:21:08.043Z"
     },
     "character:lynette:icon": {
       "key": "character:lynette:icon",
@@ -4010,7 +4010,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 83815
       },
-      "verifiedAt": "2026-11-19T18:13:24.409Z"
+      "verifiedAt": "2026-11-19T18:21:08.047Z"
     },
     "character:lynette:splash": {
       "key": "character:lynette:splash",
@@ -4027,7 +4027,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 182986
       },
-      "verifiedAt": "2026-11-19T18:13:24.414Z"
+      "verifiedAt": "2026-11-19T18:21:08.050Z"
     },
     "character:charlotte:icon": {
       "key": "character:charlotte:icon",
@@ -4044,7 +4044,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 34399
       },
-      "verifiedAt": "2026-11-19T18:13:24.417Z"
+      "verifiedAt": "2026-11-19T18:21:08.053Z"
     },
     "character:charlotte:splash": {
       "key": "character:charlotte:splash",
@@ -4061,7 +4061,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 323360
       },
-      "verifiedAt": "2026-11-19T18:13:24.423Z"
+      "verifiedAt": "2026-11-19T18:21:08.055Z"
     },
     "character:varka:icon": {
       "key": "character:varka:icon",
@@ -4078,7 +4078,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 97174
       },
-      "verifiedAt": "2026-11-19T18:13:24.428Z"
+      "verifiedAt": "2026-11-19T18:21:08.056Z"
     },
     "character:varka:splash": {
       "key": "character:varka:splash",
@@ -4095,7 +4095,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 413410
       },
-      "verifiedAt": "2026-11-19T18:13:24.435Z"
+      "verifiedAt": "2026-11-19T18:21:08.058Z"
     },
     "character:mualani:icon": {
       "key": "character:mualani:icon",
@@ -4112,7 +4112,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 80984
       },
-      "verifiedAt": "2026-11-19T18:13:24.440Z"
+      "verifiedAt": "2026-11-19T18:21:08.060Z"
     },
     "character:mualani:splash": {
       "key": "character:mualani:splash",
@@ -4129,7 +4129,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 435358
       },
-      "verifiedAt": "2026-11-19T18:13:24.446Z"
+      "verifiedAt": "2026-11-19T18:21:08.062Z"
     },
     "character:nahida:icon": {
       "key": "character:nahida:icon",
@@ -4146,7 +4146,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 101077
       },
-      "verifiedAt": "2026-11-19T18:13:24.451Z"
+      "verifiedAt": "2026-11-19T18:21:08.063Z"
     },
     "character:nahida:splash": {
       "key": "character:nahida:splash",
@@ -4163,7 +4163,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 342936
       },
-      "verifiedAt": "2026-11-19T18:13:24.456Z"
+      "verifiedAt": "2026-11-19T18:21:08.065Z"
     },
     "character:nefer:icon": {
       "key": "character:nefer:icon",
@@ -4180,7 +4180,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 92825
       },
-      "verifiedAt": "2026-11-19T18:13:24.461Z"
+      "verifiedAt": "2026-11-19T18:21:08.068Z"
     },
     "character:nefer:splash": {
       "key": "character:nefer:splash",
@@ -4197,7 +4197,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 376798
       },
-      "verifiedAt": "2026-11-19T18:13:24.467Z"
+      "verifiedAt": "2026-11-19T18:21:08.071Z"
     },
     "character:nilou:icon": {
       "key": "character:nilou:icon",
@@ -4214,7 +4214,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 88668
       },
-      "verifiedAt": "2026-11-19T18:13:24.472Z"
+      "verifiedAt": "2026-11-19T18:21:08.073Z"
     },
     "character:nilou:splash": {
       "key": "character:nilou:splash",
@@ -4231,7 +4231,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 391226
       },
-      "verifiedAt": "2026-11-19T18:13:24.477Z"
+      "verifiedAt": "2026-11-19T18:21:08.075Z"
     },
     "character:odette:icon": {
       "key": "character:odette:icon",
@@ -4248,7 +4248,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 89512
       },
-      "verifiedAt": "2026-11-19T18:13:24.481Z"
+      "verifiedAt": "2026-11-19T18:21:08.077Z"
     },
     "character:odette:splash": {
       "key": "character:odette:splash",
@@ -4265,7 +4265,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 511694
       },
-      "verifiedAt": "2026-11-19T18:13:24.487Z"
+      "verifiedAt": "2026-11-19T18:21:08.080Z"
     },
     "character:traveler-girl-hydro:icon": {
       "key": "character:traveler-girl-hydro:icon",
@@ -4298,7 +4298,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 19672
       },
-      "verifiedAt": "2026-11-19T18:13:24.493Z"
+      "verifiedAt": "2026-11-19T18:21:08.083Z"
     },
     "character:iansan:icon": {
       "key": "character:iansan:icon",
@@ -4315,7 +4315,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 32543
       },
-      "verifiedAt": "2026-11-19T18:13:24.498Z"
+      "verifiedAt": "2026-11-19T18:21:08.086Z"
     },
     "character:iansan:splash": {
       "key": "character:iansan:splash",
@@ -4332,7 +4332,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 216012
       },
-      "verifiedAt": "2026-11-19T18:13:24.503Z"
+      "verifiedAt": "2026-11-19T18:21:08.089Z"
     },
     "character:yumemizuki-mizuki:icon": {
       "key": "character:yumemizuki-mizuki:icon",
@@ -4349,7 +4349,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 107097
       },
-      "verifiedAt": "2026-11-19T18:13:24.508Z"
+      "verifiedAt": "2026-11-19T18:21:08.092Z"
     },
     "character:yumemizuki-mizuki:splash": {
       "key": "character:yumemizuki-mizuki:splash",
@@ -4366,7 +4366,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 234074
       },
-      "verifiedAt": "2026-11-19T18:13:24.513Z"
+      "verifiedAt": "2026-11-19T18:21:08.096Z"
     },
     "character:mika:icon": {
       "key": "character:mika:icon",
@@ -4383,7 +4383,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 33730
       },
-      "verifiedAt": "2026-11-19T18:13:24.517Z"
+      "verifiedAt": "2026-11-19T18:21:08.099Z"
     },
     "character:mika:splash": {
       "key": "character:mika:splash",
@@ -4400,7 +4400,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 250418
       },
-      "verifiedAt": "2026-11-19T18:13:24.524Z"
+      "verifiedAt": "2026-11-19T18:21:08.104Z"
     },
     "character:eula:icon": {
       "key": "character:eula:icon",
@@ -4417,7 +4417,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 90133
       },
-      "verifiedAt": "2026-11-19T18:13:24.529Z"
+      "verifiedAt": "2026-11-19T18:21:08.107Z"
     },
     "character:eula:splash": {
       "key": "character:eula:splash",
@@ -4434,7 +4434,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 352152
       },
-      "verifiedAt": "2026-11-19T18:13:24.536Z"
+      "verifiedAt": "2026-11-19T18:21:08.111Z"
     },
     "character:xinyan:icon": {
       "key": "character:xinyan:icon",
@@ -4451,7 +4451,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 35742
       },
-      "verifiedAt": "2026-11-19T18:13:24.541Z"
+      "verifiedAt": "2026-11-19T18:21:08.114Z"
     },
     "character:xinyan:splash": {
       "key": "character:xinyan:splash",
@@ -4468,7 +4468,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 477214
       },
-      "verifiedAt": "2026-11-19T18:13:24.545Z"
+      "verifiedAt": "2026-11-19T18:21:08.119Z"
     },
     "character:wriothesley:icon": {
       "key": "character:wriothesley:icon",
@@ -4485,7 +4485,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 84926
       },
-      "verifiedAt": "2026-11-19T18:13:24.549Z"
+      "verifiedAt": "2026-11-19T18:21:08.124Z"
     },
     "character:wriothesley:splash": {
       "key": "character:wriothesley:splash",
@@ -4502,7 +4502,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 530122
       },
-      "verifiedAt": "2026-11-19T18:13:24.554Z"
+      "verifiedAt": "2026-11-19T18:21:08.129Z"
     },
     "character:chevreuse:icon": {
       "key": "character:chevreuse:icon",
@@ -4519,7 +4519,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 98051
       },
-      "verifiedAt": "2026-11-19T18:13:24.559Z"
+      "verifiedAt": "2026-11-19T18:21:08.132Z"
     },
     "character:chevreuse:splash": {
       "key": "character:chevreuse:splash",
@@ -4536,7 +4536,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 260896
       },
-      "verifiedAt": "2026-11-19T18:13:24.564Z"
+      "verifiedAt": "2026-11-19T18:21:08.138Z"
     },
     "character:mona:icon": {
       "key": "character:mona:icon",
@@ -4553,7 +4553,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 103874
       },
-      "verifiedAt": "2026-11-19T18:13:24.568Z"
+      "verifiedAt": "2026-11-19T18:21:08.141Z"
     },
     "character:mona:splash": {
       "key": "character:mona:splash",
@@ -4570,7 +4570,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 404980
       },
-      "verifiedAt": "2026-11-19T18:13:24.575Z"
+      "verifiedAt": "2026-11-19T18:21:08.145Z"
     },
     "character:neuvillette:icon": {
       "key": "character:neuvillette:icon",
@@ -4587,7 +4587,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 85866
       },
-      "verifiedAt": "2026-11-19T18:13:24.580Z"
+      "verifiedAt": "2026-11-19T18:21:08.149Z"
     },
     "character:neuvillette:splash": {
       "key": "character:neuvillette:splash",
@@ -4604,7 +4604,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 443612
       },
-      "verifiedAt": "2026-11-19T18:13:24.586Z"
+      "verifiedAt": "2026-11-19T18:21:08.153Z"
     },
     "character:dehya:icon": {
       "key": "character:dehya:icon",
@@ -4621,7 +4621,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 34344
       },
-      "verifiedAt": "2026-11-19T18:13:24.590Z"
+      "verifiedAt": "2026-11-19T18:21:08.156Z"
     },
     "character:dehya:splash": {
       "key": "character:dehya:splash",
@@ -4638,7 +4638,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 440038
       },
-      "verifiedAt": "2026-11-19T18:13:24.596Z"
+      "verifiedAt": "2026-11-19T18:21:08.159Z"
     },
     "character:varesa:icon": {
       "key": "character:varesa:icon",
@@ -4655,7 +4655,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 47141
       },
-      "verifiedAt": "2026-11-19T18:13:24.601Z"
+      "verifiedAt": "2026-11-19T18:21:08.161Z"
     },
     "character:varesa:splash": {
       "key": "character:varesa:splash",
@@ -4672,7 +4672,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 332330
       },
-      "verifiedAt": "2026-11-19T18:13:24.608Z"
+      "verifiedAt": "2026-11-19T18:21:08.164Z"
     },
     "character:yoimiya:icon": {
       "key": "character:yoimiya:icon",
@@ -4689,7 +4689,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 83915
       },
-      "verifiedAt": "2026-11-19T18:13:24.613Z"
+      "verifiedAt": "2026-11-19T18:21:08.165Z"
     },
     "character:yoimiya:splash": {
       "key": "character:yoimiya:splash",
@@ -4706,7 +4706,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 385584
       },
-      "verifiedAt": "2026-11-19T18:13:24.619Z"
+      "verifiedAt": "2026-11-19T18:21:08.168Z"
     },
     "character:tartaglia:icon": {
       "key": "character:tartaglia:icon",
@@ -4723,7 +4723,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 83034
       },
-      "verifiedAt": "2026-11-19T18:13:24.623Z"
+      "verifiedAt": "2026-11-19T18:21:08.170Z"
     },
     "character:tartaglia:splash": {
       "key": "character:tartaglia:splash",
@@ -4740,7 +4740,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 342450
       },
-      "verifiedAt": "2026-11-19T18:13:24.627Z"
+      "verifiedAt": "2026-11-19T18:21:08.172Z"
     },
     "character:fischl:icon": {
       "key": "character:fischl:icon",
@@ -4757,7 +4757,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 33250
       },
-      "verifiedAt": "2026-11-19T18:13:24.632Z"
+      "verifiedAt": "2026-11-19T18:21:08.173Z"
     },
     "character:fischl:splash": {
       "key": "character:fischl:splash",
@@ -4774,7 +4774,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 261190
       },
-      "verifiedAt": "2026-11-19T18:13:24.638Z"
+      "verifiedAt": "2026-11-19T18:21:08.175Z"
     },
     "character:wanderer:icon": {
       "key": "character:wanderer:icon",
@@ -4791,7 +4791,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 82814
       },
-      "verifiedAt": "2026-11-19T18:13:24.643Z"
+      "verifiedAt": "2026-11-19T18:21:08.176Z"
     },
     "character:wanderer:splash": {
       "key": "character:wanderer:splash",
@@ -4808,7 +4808,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 280308
       },
-      "verifiedAt": "2026-11-19T18:13:24.649Z"
+      "verifiedAt": "2026-11-19T18:21:08.178Z"
     },
     "character:ineffa:icon": {
       "key": "character:ineffa:icon",
@@ -4825,7 +4825,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 86880
       },
-      "verifiedAt": "2026-11-19T18:13:24.654Z"
+      "verifiedAt": "2026-11-19T18:21:08.179Z"
     },
     "character:ineffa:splash": {
       "key": "character:ineffa:splash",
@@ -4842,7 +4842,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 468948
       },
-      "verifiedAt": "2026-11-19T18:13:24.660Z"
+      "verifiedAt": "2026-11-19T18:21:08.181Z"
     },
     "character:kaedehara-kazuha:icon": {
       "key": "character:kaedehara-kazuha:icon",
@@ -4859,7 +4859,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 72027
       },
-      "verifiedAt": "2026-11-19T18:13:24.664Z"
+      "verifiedAt": "2026-11-19T18:21:08.183Z"
     },
     "character:kaedehara-kazuha:splash": {
       "key": "character:kaedehara-kazuha:splash",
@@ -4876,7 +4876,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 212366
       },
-      "verifiedAt": "2026-11-19T18:13:24.671Z"
+      "verifiedAt": "2026-11-19T18:21:08.186Z"
     },
     "character:ningguang:icon": {
       "key": "character:ningguang:icon",
@@ -4893,7 +4893,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 78348
       },
-      "verifiedAt": "2026-11-19T18:13:24.676Z"
+      "verifiedAt": "2026-11-19T18:21:08.188Z"
     },
     "character:ningguang:splash": {
       "key": "character:ningguang:splash",
@@ -4910,7 +4910,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 290558
       },
-      "verifiedAt": "2026-11-19T18:13:24.681Z"
+      "verifiedAt": "2026-11-19T18:21:08.191Z"
     },
     "character:traveler-boy-anemo:icon": {
       "key": "character:traveler-boy-anemo:icon",
@@ -4943,7 +4943,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 18820
       },
-      "verifiedAt": "2026-11-19T18:13:24.687Z"
+      "verifiedAt": "2026-11-19T18:21:08.193Z"
     },
     "character:citlali:icon": {
       "key": "character:citlali:icon",
@@ -4960,7 +4960,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 98774
       },
-      "verifiedAt": "2026-11-19T18:13:24.692Z"
+      "verifiedAt": "2026-11-19T18:21:08.195Z"
     },
     "character:citlali:splash": {
       "key": "character:citlali:splash",
@@ -4977,7 +4977,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 449612
       },
-      "verifiedAt": "2026-11-19T18:13:24.699Z"
+      "verifiedAt": "2026-11-19T18:21:08.197Z"
     },
     "character:keqing:icon": {
       "key": "character:keqing:icon",
@@ -4994,7 +4994,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 80403
       },
-      "verifiedAt": "2026-11-19T18:13:24.703Z"
+      "verifiedAt": "2026-11-19T18:21:08.200Z"
     },
     "character:keqing:splash": {
       "key": "character:keqing:splash",
@@ -5011,7 +5011,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 331168
       },
-      "verifiedAt": "2026-11-19T18:13:24.709Z"
+      "verifiedAt": "2026-11-19T18:21:08.203Z"
     },
     "character:yaoyao:icon": {
       "key": "character:yaoyao:icon",
@@ -5028,7 +5028,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 85110
       },
-      "verifiedAt": "2026-11-19T18:13:24.714Z"
+      "verifiedAt": "2026-11-19T18:21:08.205Z"
     },
     "character:yaoyao:splash": {
       "key": "character:yaoyao:splash",
@@ -5045,7 +5045,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 147322
       },
-      "verifiedAt": "2026-11-19T18:13:24.720Z"
+      "verifiedAt": "2026-11-19T18:21:08.208Z"
     },
     "character:lisa:icon": {
       "key": "character:lisa:icon",
@@ -5062,7 +5062,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 38924
       },
-      "verifiedAt": "2026-11-19T18:13:24.725Z"
+      "verifiedAt": "2026-11-19T18:21:08.210Z"
     },
     "character:lisa:splash": {
       "key": "character:lisa:splash",
@@ -5079,7 +5079,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 183190
       },
-      "verifiedAt": "2026-11-19T18:13:24.731Z"
+      "verifiedAt": "2026-11-19T18:21:08.214Z"
     },
     "character:yun-jin:icon": {
       "key": "character:yun-jin:icon",
@@ -5096,7 +5096,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 71811
       },
-      "verifiedAt": "2026-11-19T18:13:24.736Z"
+      "verifiedAt": "2026-11-19T18:21:08.216Z"
     },
     "character:yun-jin:splash": {
       "key": "character:yun-jin:splash",
@@ -5113,7 +5113,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 159262
       },
-      "verifiedAt": "2026-11-19T18:13:24.742Z"
+      "verifiedAt": "2026-11-19T18:21:08.219Z"
     },
     "character:thoma:icon": {
       "key": "character:thoma:icon",
@@ -5130,7 +5130,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 67175
       },
-      "verifiedAt": "2026-11-19T18:13:24.747Z"
+      "verifiedAt": "2026-11-19T18:21:08.221Z"
     },
     "character:thoma:splash": {
       "key": "character:thoma:splash",
@@ -5147,7 +5147,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 236978
       },
-      "verifiedAt": "2026-11-19T18:13:24.752Z"
+      "verifiedAt": "2026-11-19T18:21:08.223Z"
     },
     "character:lyney:icon": {
       "key": "character:lyney:icon",
@@ -5164,7 +5164,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 75401
       },
-      "verifiedAt": "2026-11-19T18:13:24.756Z"
+      "verifiedAt": "2026-11-19T18:21:08.226Z"
     },
     "character:lyney:splash": {
       "key": "character:lyney:splash",
@@ -5181,7 +5181,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 418344
       },
-      "verifiedAt": "2026-11-19T18:13:24.761Z"
+      "verifiedAt": "2026-11-19T18:21:08.229Z"
     },
     "character:manekina:icon": {
       "key": "character:manekina:icon",
@@ -5198,7 +5198,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 69432
       },
-      "verifiedAt": "2026-11-19T18:13:24.766Z"
+      "verifiedAt": "2026-11-19T18:21:08.231Z"
     },
     "character:manekina:splash": {
       "key": "character:manekina:splash",
@@ -5215,7 +5215,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 69734
       },
-      "verifiedAt": "2026-11-19T18:13:24.772Z"
+      "verifiedAt": "2026-11-19T18:21:08.236Z"
     },
     "character:sethos:icon": {
       "key": "character:sethos:icon",
@@ -5232,7 +5232,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 87231
       },
-      "verifiedAt": "2026-11-19T18:13:24.777Z"
+      "verifiedAt": "2026-11-19T18:21:08.238Z"
     },
     "character:sethos:splash": {
       "key": "character:sethos:splash",
@@ -5249,7 +5249,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 421362
       },
-      "verifiedAt": "2026-11-19T18:13:24.782Z"
+      "verifiedAt": "2026-11-19T18:21:08.240Z"
     },
     "character:traveler-boy-cryo:icon": {
       "key": "character:traveler-boy-cryo:icon",
@@ -5282,7 +5282,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 18820
       },
-      "verifiedAt": "2026-11-19T18:13:24.790Z"
+      "verifiedAt": "2026-11-19T18:21:08.242Z"
     },
     "character:tighnari:icon": {
       "key": "character:tighnari:icon",
@@ -5299,7 +5299,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 82782
       },
-      "verifiedAt": "2026-11-19T18:13:24.795Z"
+      "verifiedAt": "2026-11-19T18:21:08.244Z"
     },
     "character:tighnari:splash": {
       "key": "character:tighnari:splash",
@@ -5316,7 +5316,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 359656
       },
-      "verifiedAt": "2026-11-19T18:13:24.800Z"
+      "verifiedAt": "2026-11-19T18:21:08.247Z"
     },
     "character:xianyun:icon": {
       "key": "character:xianyun:icon",
@@ -5333,7 +5333,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 87376
       },
-      "verifiedAt": "2026-11-19T18:13:24.804Z"
+      "verifiedAt": "2026-11-19T18:21:08.249Z"
     },
     "character:xianyun:splash": {
       "key": "character:xianyun:splash",
@@ -5350,7 +5350,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 484722
       },
-      "verifiedAt": "2026-11-19T18:13:24.809Z"
+      "verifiedAt": "2026-11-19T18:21:08.252Z"
     },
     "character:shikanoin-heizou:icon": {
       "key": "character:shikanoin-heizou:icon",
@@ -5367,7 +5367,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 69177
       },
-      "verifiedAt": "2026-11-19T18:13:24.814Z"
+      "verifiedAt": "2026-11-19T18:21:08.254Z"
     },
     "character:shikanoin-heizou:splash": {
       "key": "character:shikanoin-heizou:splash",
@@ -5384,7 +5384,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 223538
       },
-      "verifiedAt": "2026-11-19T18:13:24.819Z"
+      "verifiedAt": "2026-11-19T18:21:08.256Z"
     },
     "character:razor:icon": {
       "key": "character:razor:icon",
@@ -5401,7 +5401,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 67106
       },
-      "verifiedAt": "2026-11-19T18:13:24.823Z"
+      "verifiedAt": "2026-11-19T18:21:08.259Z"
     },
     "character:razor:splash": {
       "key": "character:razor:splash",
@@ -5418,7 +5418,7 @@
         "actualFormat": "webp",
         "fileSizeBytes": 285034
       },
-      "verifiedAt": "2026-11-19T18:13:24.829Z"
+      "verifiedAt": "2026-11-19T18:21:08.261Z"
     },
     "weapon:solar-pearl:icon": {
       "key": "weapon:solar-pearl:icon",
@@ -5435,7 +5435,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 47272
       },
-      "verifiedAt": "2026-11-19T18:13:24.834Z"
+      "verifiedAt": "2026-11-19T18:21:08.263Z"
     },
     "weapon:fillet-blade:icon": {
       "key": "weapon:fillet-blade:icon",
@@ -5452,7 +5452,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 22057
       },
-      "verifiedAt": "2026-11-19T18:13:24.839Z"
+      "verifiedAt": "2026-11-19T18:21:08.268Z"
     },
     "weapon:gest-of-the-mighty-wolf:icon": {
       "key": "weapon:gest-of-the-mighty-wolf:icon",
@@ -5469,7 +5469,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 63948
       },
-      "verifiedAt": "2026-11-19T18:13:24.844Z"
+      "verifiedAt": "2026-11-19T18:21:08.275Z"
     },
     "weapon:starcaller-s-watch:icon": {
       "key": "weapon:starcaller-s-watch:icon",
@@ -5486,7 +5486,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 55138
       },
-      "verifiedAt": "2026-11-19T18:13:24.849Z"
+      "verifiedAt": "2026-11-19T18:21:08.277Z"
     },
     "weapon:snare-hook:icon": {
       "key": "weapon:snare-hook:icon",
@@ -5503,7 +5503,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 42471
       },
-      "verifiedAt": "2026-11-19T18:13:24.853Z"
+      "verifiedAt": "2026-11-19T18:21:08.279Z"
     },
     "weapon:the-viridescent-hunt:icon": {
       "key": "weapon:the-viridescent-hunt:icon",
@@ -5520,7 +5520,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 49715
       },
-      "verifiedAt": "2026-11-19T18:13:24.858Z"
+      "verifiedAt": "2026-11-19T18:21:08.281Z"
     },
     "weapon:dodoco-tales:icon": {
       "key": "weapon:dodoco-tales:icon",
@@ -5537,7 +5537,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 53978
       },
-      "verifiedAt": "2026-11-19T18:13:24.862Z"
+      "verifiedAt": "2026-11-19T18:21:08.282Z"
     },
     "weapon:the-catch:icon": {
       "key": "weapon:the-catch:icon",
@@ -5554,7 +5554,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 27631
       },
-      "verifiedAt": "2026-11-19T18:13:24.867Z"
+      "verifiedAt": "2026-11-19T18:21:08.285Z"
     },
     "weapon:traveler-s-handy-sword:icon": {
       "key": "weapon:traveler-s-handy-sword:icon",
@@ -5571,7 +5571,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 12576
       },
-      "verifiedAt": "2026-11-19T18:13:24.871Z"
+      "verifiedAt": "2026-11-19T18:21:08.287Z"
     },
     "weapon:dragon-s-bane:icon": {
       "key": "weapon:dragon-s-bane:icon",
@@ -5588,7 +5588,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 22738
       },
-      "verifiedAt": "2026-11-19T18:13:24.875Z"
+      "verifiedAt": "2026-11-19T18:21:08.289Z"
     },
     "weapon:echoes-of-the-heart:icon": {
       "key": "weapon:echoes-of-the-heart:icon",
@@ -5605,7 +5605,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 46255
       },
-      "verifiedAt": "2026-11-19T18:13:24.878Z"
+      "verifiedAt": "2026-11-19T18:21:08.291Z"
     },
     "weapon:sturdy-bone:icon": {
       "key": "weapon:sturdy-bone:icon",
@@ -5622,7 +5622,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 26726
       },
-      "verifiedAt": "2026-11-19T18:13:24.882Z"
+      "verifiedAt": "2026-11-19T18:21:08.293Z"
     },
     "weapon:ash-graven-drinking-horn:icon": {
       "key": "weapon:ash-graven-drinking-horn:icon",
@@ -5639,7 +5639,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 44742
       },
-      "verifiedAt": "2026-11-19T18:13:24.886Z"
+      "verifiedAt": "2026-11-19T18:21:08.294Z"
     },
     "weapon:the-bell:icon": {
       "key": "weapon:the-bell:icon",
@@ -5656,7 +5656,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 40817
       },
-      "verifiedAt": "2026-11-19T18:13:24.891Z"
+      "verifiedAt": "2026-11-19T18:21:08.296Z"
     },
     "weapon:emerald-orb:icon": {
       "key": "weapon:emerald-orb:icon",
@@ -5673,7 +5673,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 44045
       },
-      "verifiedAt": "2026-11-19T18:13:24.896Z"
+      "verifiedAt": "2026-11-19T18:21:08.298Z"
     },
     "weapon:hunter-s-path:icon": {
       "key": "weapon:hunter-s-path:icon",
@@ -5690,7 +5690,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 45314
       },
-      "verifiedAt": "2026-11-19T18:13:24.903Z"
+      "verifiedAt": "2026-11-19T18:21:08.300Z"
     },
     "weapon:tidal-shadow:icon": {
       "key": "weapon:tidal-shadow:icon",
@@ -5707,7 +5707,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 37455
       },
-      "verifiedAt": "2026-11-19T18:13:24.908Z"
+      "verifiedAt": "2026-11-19T18:21:08.303Z"
     },
     "weapon:engulfing-lightning:icon": {
       "key": "weapon:engulfing-lightning:icon",
@@ -5724,7 +5724,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 23606
       },
-      "verifiedAt": "2026-11-19T18:13:24.912Z"
+      "verifiedAt": "2026-11-19T18:21:08.305Z"
     },
     "weapon:jade-vista:icon": {
       "key": "weapon:jade-vista:icon",
@@ -5741,7 +5741,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 47091
       },
-      "verifiedAt": "2026-11-19T18:13:24.916Z"
+      "verifiedAt": "2026-11-19T18:21:08.307Z"
     },
     "weapon:favonius-greatsword:icon": {
       "key": "weapon:favonius-greatsword:icon",
@@ -5758,7 +5758,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 17343
       },
-      "verifiedAt": "2026-11-19T18:13:24.921Z"
+      "verifiedAt": "2026-11-19T18:21:08.309Z"
     },
     "weapon:a-thousand-floating-dreams:icon": {
       "key": "weapon:a-thousand-floating-dreams:icon",
@@ -5775,7 +5775,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 56064
       },
-      "verifiedAt": "2026-11-19T18:13:24.925Z"
+      "verifiedAt": "2026-11-19T18:21:08.310Z"
     },
     "weapon:beginner-s-protector:icon": {
       "key": "weapon:beginner-s-protector:icon",
@@ -5792,7 +5792,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 7428
       },
-      "verifiedAt": "2026-11-19T18:13:24.930Z"
+      "verifiedAt": "2026-11-19T18:21:08.312Z"
     },
     "weapon:verdict:icon": {
       "key": "weapon:verdict:icon",
@@ -5809,7 +5809,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 52294
       },
-      "verifiedAt": "2026-11-19T18:13:24.936Z"
+      "verifiedAt": "2026-11-19T18:21:08.315Z"
     },
     "weapon:xiphos-moonlight:icon": {
       "key": "weapon:xiphos-moonlight:icon",
@@ -5826,7 +5826,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 30161
       },
-      "verifiedAt": "2026-11-19T18:13:24.941Z"
+      "verifiedAt": "2026-11-19T18:21:08.317Z"
     },
     "weapon:favonius-sword:icon": {
       "key": "weapon:favonius-sword:icon",
@@ -5843,7 +5843,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 27869
       },
-      "verifiedAt": "2026-11-19T18:13:24.945Z"
+      "verifiedAt": "2026-11-19T18:21:08.319Z"
     },
     "weapon:master-key:icon": {
       "key": "weapon:master-key:icon",
@@ -5860,7 +5860,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 64227
       },
-      "verifiedAt": "2026-11-19T18:13:24.949Z"
+      "verifiedAt": "2026-11-19T18:21:08.321Z"
     },
     "weapon:favonius-codex:icon": {
       "key": "weapon:favonius-codex:icon",
@@ -5877,7 +5877,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 54321
       },
-      "verifiedAt": "2026-11-19T18:13:24.953Z"
+      "verifiedAt": "2026-11-19T18:21:08.324Z"
     },
     "weapon:emberwell:icon": {
       "key": "weapon:emberwell:icon",
@@ -5894,7 +5894,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 27115
       },
-      "verifiedAt": "2026-11-19T18:13:24.957Z"
+      "verifiedAt": "2026-11-19T18:21:08.326Z"
     },
     "weapon:windblume-ode:icon": {
       "key": "weapon:windblume-ode:icon",
@@ -5911,7 +5911,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 16078
       },
-      "verifiedAt": "2026-11-19T18:13:24.961Z"
+      "verifiedAt": "2026-11-19T18:21:08.328Z"
     },
     "weapon:lion-s-roar:icon": {
       "key": "weapon:lion-s-roar:icon",
@@ -5928,7 +5928,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 24869
       },
-      "verifiedAt": "2026-11-19T18:13:24.964Z"
+      "verifiedAt": "2026-11-19T18:21:08.329Z"
     },
     "weapon:magic-guide:icon": {
       "key": "weapon:magic-guide:icon",
@@ -5945,7 +5945,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 45661
       },
-      "verifiedAt": "2026-11-19T18:13:24.969Z"
+      "verifiedAt": "2026-11-19T18:21:08.331Z"
     },
     "weapon:reliquary-of-truth:icon": {
       "key": "weapon:reliquary-of-truth:icon",
@@ -5962,7 +5962,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 57473
       },
-      "verifiedAt": "2026-11-19T18:13:24.972Z"
+      "verifiedAt": "2026-11-19T18:21:08.332Z"
     },
     "weapon:ferrous-shadow:icon": {
       "key": "weapon:ferrous-shadow:icon",
@@ -5979,7 +5979,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 45167
       },
-      "verifiedAt": "2026-11-19T18:13:24.977Z"
+      "verifiedAt": "2026-11-19T18:21:08.334Z"
     },
     "weapon:primordial-jade-winged-spear:icon": {
       "key": "weapon:primordial-jade-winged-spear:icon",
@@ -5996,7 +5996,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 30408
       },
-      "verifiedAt": "2026-11-19T18:13:24.982Z"
+      "verifiedAt": "2026-11-19T18:21:08.336Z"
     },
     "weapon:a-thousand-blazing-suns:icon": {
       "key": "weapon:a-thousand-blazing-suns:icon",
@@ -6013,7 +6013,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 63698
       },
-      "verifiedAt": "2026-11-19T18:13:24.986Z"
+      "verifiedAt": "2026-11-19T18:21:08.338Z"
     },
     "weapon:footprint-of-the-rainbow:icon": {
       "key": "weapon:footprint-of-the-rainbow:icon",
@@ -6030,7 +6030,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 27519
       },
-      "verifiedAt": "2026-11-19T18:13:24.991Z"
+      "verifiedAt": "2026-11-19T18:21:08.339Z"
     },
     "weapon:rainslasher:icon": {
       "key": "weapon:rainslasher:icon",
@@ -6047,7 +6047,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 54945
       },
-      "verifiedAt": "2026-11-19T18:13:24.996Z"
+      "verifiedAt": "2026-11-19T18:21:08.341Z"
     },
     "weapon:forged-by-the-golden-melody:icon": {
       "key": "weapon:forged-by-the-golden-melody:icon",
@@ -6064,7 +6064,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 46223
       },
-      "verifiedAt": "2026-11-19T18:13:25.000Z"
+      "verifiedAt": "2026-11-19T18:21:08.342Z"
     },
     "weapon:rightful-reward:icon": {
       "key": "weapon:rightful-reward:icon",
@@ -6081,7 +6081,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 26785
       },
-      "verifiedAt": "2026-11-19T18:13:25.004Z"
+      "verifiedAt": "2026-11-19T18:21:08.344Z"
     },
     "weapon:song-of-stillness:icon": {
       "key": "weapon:song-of-stillness:icon",
@@ -6098,7 +6098,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 48186
       },
-      "verifiedAt": "2026-11-19T18:13:25.009Z"
+      "verifiedAt": "2026-11-19T18:21:08.345Z"
     },
     "weapon:freedom-sworn:icon": {
       "key": "weapon:freedom-sworn:icon",
@@ -6115,7 +6115,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 12554
       },
-      "verifiedAt": "2026-11-19T18:13:25.014Z"
+      "verifiedAt": "2026-11-19T18:21:08.346Z"
     },
     "weapon:old-merc-s-pal:icon": {
       "key": "weapon:old-merc-s-pal:icon",
@@ -6132,7 +6132,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 38782
       },
-      "verifiedAt": "2026-11-19T18:13:25.020Z"
+      "verifiedAt": "2026-11-19T18:21:08.348Z"
     },
     "weapon:winter-s-heavy-heart:icon": {
       "key": "weapon:winter-s-heavy-heart:icon",
@@ -6149,7 +6149,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 39921
       },
-      "verifiedAt": "2026-11-19T18:13:25.025Z"
+      "verifiedAt": "2026-11-19T18:21:08.350Z"
     },
     "weapon:hakushin-ring:icon": {
       "key": "weapon:hakushin-ring:icon",
@@ -6166,7 +6166,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 51252
       },
-      "verifiedAt": "2026-11-19T18:13:25.029Z"
+      "verifiedAt": "2026-11-19T18:21:08.352Z"
     },
     "weapon:nightweaver-s-looking-glass:icon": {
       "key": "weapon:nightweaver-s-looking-glass:icon",
@@ -6183,7 +6183,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 66426
       },
-      "verifiedAt": "2026-11-19T18:13:25.033Z"
+      "verifiedAt": "2026-11-19T18:21:08.353Z"
     },
     "weapon:song-of-the-vigil:icon": {
       "key": "weapon:song-of-the-vigil:icon",
@@ -6200,7 +6200,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 28115
       },
-      "verifiedAt": "2026-11-19T18:13:25.038Z"
+      "verifiedAt": "2026-11-19T18:21:08.355Z"
     },
     "weapon:harbinger-of-dawn:icon": {
       "key": "weapon:harbinger-of-dawn:icon",
@@ -6217,7 +6217,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 30422
       },
-      "verifiedAt": "2026-11-19T18:13:25.042Z"
+      "verifiedAt": "2026-11-19T18:21:08.356Z"
     },
     "weapon:hunter-s-bow:icon": {
       "key": "weapon:hunter-s-bow:icon",
@@ -6234,7 +6234,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 34504
       },
-      "verifiedAt": "2026-11-19T18:13:25.046Z"
+      "verifiedAt": "2026-11-19T18:21:08.357Z"
     },
     "weapon:sharpshooter-s-oath:icon": {
       "key": "weapon:sharpshooter-s-oath:icon",
@@ -6251,7 +6251,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 35795
       },
-      "verifiedAt": "2026-11-19T18:13:25.051Z"
+      "verifiedAt": "2026-11-19T18:21:08.359Z"
     },
     "weapon:fleuve-cendre-ferryman:icon": {
       "key": "weapon:fleuve-cendre-ferryman:icon",
@@ -6268,7 +6268,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 25855
       },
-      "verifiedAt": "2026-11-19T18:13:25.056Z"
+      "verifiedAt": "2026-11-19T18:21:08.360Z"
     },
     "weapon:blade-of-atonement:icon": {
       "key": "weapon:blade-of-atonement:icon",
@@ -6285,7 +6285,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 31448
       },
-      "verifiedAt": "2026-11-19T18:13:25.061Z"
+      "verifiedAt": "2026-11-19T18:21:08.361Z"
     },
     "weapon:fractured-halo:icon": {
       "key": "weapon:fractured-halo:icon",
@@ -6302,7 +6302,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 60311
       },
-      "verifiedAt": "2026-11-19T18:13:25.065Z"
+      "verifiedAt": "2026-11-19T18:21:08.363Z"
     },
     "weapon:clash-of-kings:icon": {
       "key": "weapon:clash-of-kings:icon",
@@ -6319,7 +6319,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 50483
       },
-      "verifiedAt": "2026-11-19T18:13:25.070Z"
+      "verifiedAt": "2026-11-19T18:21:08.364Z"
     },
     "weapon:royal-bow:icon": {
       "key": "weapon:royal-bow:icon",
@@ -6336,7 +6336,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 11676
       },
-      "verifiedAt": "2026-11-19T18:13:25.074Z"
+      "verifiedAt": "2026-11-19T18:21:08.366Z"
     },
     "weapon:frostbreath:icon": {
       "key": "weapon:frostbreath:icon",
@@ -6353,7 +6353,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 34027
       },
-      "verifiedAt": "2026-11-19T18:13:25.078Z"
+      "verifiedAt": "2026-11-19T18:21:08.369Z"
     },
     "weapon:flower-wreathed-feathers:icon": {
       "key": "weapon:flower-wreathed-feathers:icon",
@@ -6370,7 +6370,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 51782
       },
-      "verifiedAt": "2026-11-19T18:13:25.083Z"
+      "verifiedAt": "2026-11-19T18:21:08.370Z"
     },
     "weapon:sacrificer-s-staff:icon": {
       "key": "weapon:sacrificer-s-staff:icon",
@@ -6387,7 +6387,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 27980
       },
-      "verifiedAt": "2026-11-19T18:13:25.089Z"
+      "verifiedAt": "2026-11-19T18:21:08.372Z"
     },
     "weapon:sequence-of-solitude:icon": {
       "key": "weapon:sequence-of-solitude:icon",
@@ -6404,7 +6404,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 58115
       },
-      "verifiedAt": "2026-11-19T18:13:25.093Z"
+      "verifiedAt": "2026-11-19T18:21:08.374Z"
     },
     "weapon:starsealed-edict:icon": {
       "key": "weapon:starsealed-edict:icon",
@@ -6433,7 +6433,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 37916
       },
-      "verifiedAt": "2026-11-19T18:13:25.097Z"
+      "verifiedAt": "2026-11-19T18:21:08.376Z"
     },
     "weapon:fruitful-hook:icon": {
       "key": "weapon:fruitful-hook:icon",
@@ -6450,7 +6450,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 31179
       },
-      "verifiedAt": "2026-11-19T18:13:25.103Z"
+      "verifiedAt": "2026-11-19T18:21:08.377Z"
     },
     "weapon:amenoma-kageuchi:icon": {
       "key": "weapon:amenoma-kageuchi:icon",
@@ -6467,7 +6467,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 19868
       },
-      "verifiedAt": "2026-11-19T18:13:25.107Z"
+      "verifiedAt": "2026-11-19T18:21:08.379Z"
     },
     "weapon:amos-bow:icon": {
       "key": "weapon:amos-bow:icon",
@@ -6484,7 +6484,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 22130
       },
-      "verifiedAt": "2026-11-19T18:13:25.111Z"
+      "verifiedAt": "2026-11-19T18:21:08.381Z"
     },
     "weapon:skyward-pride:icon": {
       "key": "weapon:skyward-pride:icon",
@@ -6501,7 +6501,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 48357
       },
-      "verifiedAt": "2026-11-19T18:13:25.116Z"
+      "verifiedAt": "2026-11-19T18:21:08.383Z"
     },
     "weapon:fruit-of-fulfillment:icon": {
       "key": "weapon:fruit-of-fulfillment:icon",
@@ -6518,7 +6518,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 46537
       },
-      "verifiedAt": "2026-11-19T18:13:25.121Z"
+      "verifiedAt": "2026-11-19T18:21:08.385Z"
     },
     "weapon:angelos-heptades:icon": {
       "key": "weapon:angelos-heptades:icon",
@@ -6535,7 +6535,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 74883
       },
-      "verifiedAt": "2026-11-19T18:13:25.126Z"
+      "verifiedAt": "2026-11-19T18:21:08.387Z"
     },
     "weapon:exaiphanes-blade:icon": {
       "key": "weapon:exaiphanes-blade:icon",
@@ -6552,7 +6552,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 33617
       },
-      "verifiedAt": "2026-11-19T18:13:25.129Z"
+      "verifiedAt": "2026-11-19T18:21:08.389Z"
     },
     "weapon:ballad-of-the-fjords:icon": {
       "key": "weapon:ballad-of-the-fjords:icon",
@@ -6569,7 +6569,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 30725
       },
-      "verifiedAt": "2026-11-19T18:13:25.133Z"
+      "verifiedAt": "2026-11-19T18:21:08.391Z"
     },
     "weapon:hymn-of-the-maelstrom:icon": {
       "key": "weapon:hymn-of-the-maelstrom:icon",
@@ -6586,7 +6586,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 59081
       },
-      "verifiedAt": "2026-11-19T18:13:25.138Z"
+      "verifiedAt": "2026-11-19T18:21:08.392Z"
     },
     "weapon:golden-frostbound-oath:icon": {
       "key": "weapon:golden-frostbound-oath:icon",
@@ -6603,7 +6603,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 50021
       },
-      "verifiedAt": "2026-11-19T18:13:25.142Z"
+      "verifiedAt": "2026-11-19T18:21:08.394Z"
     },
     "weapon:iron-point:icon": {
       "key": "weapon:iron-point:icon",
@@ -6620,7 +6620,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 8671
       },
-      "verifiedAt": "2026-11-19T18:13:25.145Z"
+      "verifiedAt": "2026-11-19T18:21:08.396Z"
     },
     "weapon:katsuragikiri-nagamasa:icon": {
       "key": "weapon:katsuragikiri-nagamasa:icon",
@@ -6637,7 +6637,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 40851
       },
-      "verifiedAt": "2026-11-19T18:13:25.150Z"
+      "verifiedAt": "2026-11-19T18:21:08.397Z"
     },
     "weapon:haran-geppaku-futsu:icon": {
       "key": "weapon:haran-geppaku-futsu:icon",
@@ -6654,7 +6654,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 26769
       },
-      "verifiedAt": "2026-11-19T18:13:25.169Z"
+      "verifiedAt": "2026-11-19T18:21:08.399Z"
     },
     "weapon:light-of-foliar-incision:icon": {
       "key": "weapon:light-of-foliar-incision:icon",
@@ -6671,7 +6671,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 35840
       },
-      "verifiedAt": "2026-11-19T18:13:25.176Z"
+      "verifiedAt": "2026-11-19T18:21:08.402Z"
     },
     "weapon:astral-vulture-s-crimson-plumage:icon": {
       "key": "weapon:astral-vulture-s-crimson-plumage:icon",
@@ -6688,7 +6688,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 55559
       },
-      "verifiedAt": "2026-11-19T18:13:25.182Z"
+      "verifiedAt": "2026-11-19T18:21:08.403Z"
     },
     "weapon:akuoumaru:icon": {
       "key": "weapon:akuoumaru:icon",
@@ -6705,7 +6705,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 31960
       },
-      "verifiedAt": "2026-11-19T18:13:25.187Z"
+      "verifiedAt": "2026-11-19T18:21:08.405Z"
     },
     "weapon:lithic-spear:icon": {
       "key": "weapon:lithic-spear:icon",
@@ -6722,7 +6722,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 9147
       },
-      "verifiedAt": "2026-11-19T18:13:25.192Z"
+      "verifiedAt": "2026-11-19T18:21:08.406Z"
     },
     "weapon:flame-forged-insight:icon": {
       "key": "weapon:flame-forged-insight:icon",
@@ -6739,7 +6739,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 51504
       },
-      "verifiedAt": "2026-11-19T18:13:25.197Z"
+      "verifiedAt": "2026-11-19T18:21:08.408Z"
     },
     "weapon:iron-sting:icon": {
       "key": "weapon:iron-sting:icon",
@@ -6756,7 +6756,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 9067
       },
-      "verifiedAt": "2026-11-19T18:13:25.202Z"
+      "verifiedAt": "2026-11-19T18:21:08.409Z"
     },
     "weapon:lost-prayer-to-the-sacred-winds:icon": {
       "key": "weapon:lost-prayer-to-the-sacred-winds:icon",
@@ -6773,7 +6773,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 19454
       },
-      "verifiedAt": "2026-11-19T18:13:25.207Z"
+      "verifiedAt": "2026-11-19T18:21:08.411Z"
     },
     "weapon:luxurious-sea-lord:icon": {
       "key": "weapon:luxurious-sea-lord:icon",
@@ -6790,7 +6790,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 13057
       },
-      "verifiedAt": "2026-11-19T18:13:25.212Z"
+      "verifiedAt": "2026-11-19T18:21:08.412Z"
     },
     "weapon:aqua-simulacra:icon": {
       "key": "weapon:aqua-simulacra:icon",
@@ -6807,7 +6807,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 50664
       },
-      "verifiedAt": "2026-11-19T18:13:25.216Z"
+      "verifiedAt": "2026-11-19T18:21:08.413Z"
     },
     "weapon:silver-sword:icon": {
       "key": "weapon:silver-sword:icon",
@@ -6824,7 +6824,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 26958
       },
-      "verifiedAt": "2026-11-19T18:13:25.222Z"
+      "verifiedAt": "2026-11-19T18:21:08.415Z"
     },
     "weapon:mailed-flower:icon": {
       "key": "weapon:mailed-flower:icon",
@@ -6841,7 +6841,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 16718
       },
-      "verifiedAt": "2026-11-19T18:13:25.226Z"
+      "verifiedAt": "2026-11-19T18:21:08.417Z"
     },
     "weapon:azurelight:icon": {
       "key": "weapon:azurelight:icon",
@@ -6858,7 +6858,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 42866
       },
-      "verifiedAt": "2026-11-19T18:13:25.230Z"
+      "verifiedAt": "2026-11-19T18:21:08.419Z"
     },
     "weapon:apprentice-s-notes:icon": {
       "key": "weapon:apprentice-s-notes:icon",
@@ -6875,7 +6875,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 52247
       },
-      "verifiedAt": "2026-11-19T18:13:25.235Z"
+      "verifiedAt": "2026-11-19T18:21:08.422Z"
     },
     "weapon:the-unforged:icon": {
       "key": "weapon:the-unforged:icon",
@@ -6892,7 +6892,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 56345
       },
-      "verifiedAt": "2026-11-19T18:13:25.240Z"
+      "verifiedAt": "2026-11-19T18:21:08.424Z"
     },
     "weapon:mappa-mare:icon": {
       "key": "weapon:mappa-mare:icon",
@@ -6909,7 +6909,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 20606
       },
-      "verifiedAt": "2026-11-19T18:13:25.245Z"
+      "verifiedAt": "2026-11-19T18:21:08.426Z"
     },
     "weapon:new-bough:icon": {
       "key": "weapon:new-bough:icon",
@@ -6926,7 +6926,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 31761
       },
-      "verifiedAt": "2026-11-19T18:13:25.250Z"
+      "verifiedAt": "2026-11-19T18:21:08.428Z"
     },
     "weapon:beacon-of-the-reed-sea:icon": {
       "key": "weapon:beacon-of-the-reed-sea:icon",
@@ -6943,7 +6943,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 40094
       },
-      "verifiedAt": "2026-11-19T18:13:25.255Z"
+      "verifiedAt": "2026-11-19T18:21:08.430Z"
     },
     "weapon:otherworldly-story:icon": {
       "key": "weapon:otherworldly-story:icon",
@@ -6960,7 +6960,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 15482
       },
-      "verifiedAt": "2026-11-19T18:13:25.260Z"
+      "verifiedAt": "2026-11-19T18:21:08.433Z"
     },
     "weapon:prized-isshin-blade:icon": {
       "key": "weapon:prized-isshin-blade:icon",
@@ -6977,7 +6977,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 21555
       },
-      "verifiedAt": "2026-11-19T18:13:25.264Z"
+      "verifiedAt": "2026-11-19T18:21:08.436Z"
     },
     "weapon:surf-s-up:icon": {
       "key": "weapon:surf-s-up:icon",
@@ -6994,7 +6994,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 58747
       },
-      "verifiedAt": "2026-11-19T18:13:25.269Z"
+      "verifiedAt": "2026-11-19T18:21:08.439Z"
     },
     "weapon:beyond-the-chrysalis:icon": {
       "key": "weapon:beyond-the-chrysalis:icon",
@@ -7011,7 +7011,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 42728
       },
-      "verifiedAt": "2026-11-19T18:13:25.274Z"
+      "verifiedAt": "2026-11-19T18:21:08.441Z"
     },
     "weapon:white-iron-greatsword:icon": {
       "key": "weapon:white-iron-greatsword:icon",
@@ -7028,7 +7028,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 16046
       },
-      "verifiedAt": "2026-11-19T18:13:25.278Z"
+      "verifiedAt": "2026-11-19T18:21:08.443Z"
     },
     "weapon:blackcliff-agate:icon": {
       "key": "weapon:blackcliff-agate:icon",
@@ -7045,7 +7045,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 37802
       },
-      "verifiedAt": "2026-11-19T18:13:25.283Z"
+      "verifiedAt": "2026-11-19T18:21:08.445Z"
     },
     "weapon:disaster-and-remorse:icon": {
       "key": "weapon:disaster-and-remorse:icon",
@@ -7062,7 +7062,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 34373
       },
-      "verifiedAt": "2026-11-19T18:13:25.289Z"
+      "verifiedAt": "2026-11-19T18:21:08.446Z"
     },
     "weapon:kagura-s-verity:icon": {
       "key": "weapon:kagura-s-verity:icon",
@@ -7079,7 +7079,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 42325
       },
-      "verifiedAt": "2026-11-19T18:13:25.293Z"
+      "verifiedAt": "2026-11-19T18:21:08.448Z"
     },
     "weapon:prototype-amber:icon": {
       "key": "weapon:prototype-amber:icon",
@@ -7096,7 +7096,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 40960
       },
-      "verifiedAt": "2026-11-19T18:13:25.297Z"
+      "verifiedAt": "2026-11-19T18:21:08.451Z"
     },
     "weapon:silver-light:icon": {
       "key": "weapon:silver-light:icon",
@@ -7113,7 +7113,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 38614
       },
-      "verifiedAt": "2026-11-19T18:13:25.303Z"
+      "verifiedAt": "2026-11-19T18:21:08.453Z"
     },
     "weapon:hamayumi:icon": {
       "key": "weapon:hamayumi:icon",
@@ -7130,7 +7130,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 29649
       },
-      "verifiedAt": "2026-11-19T18:13:25.307Z"
+      "verifiedAt": "2026-11-19T18:21:08.455Z"
     },
     "weapon:ballad-of-the-boundless-blue:icon": {
       "key": "weapon:ballad-of-the-boundless-blue:icon",
@@ -7147,7 +7147,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 55900
       },
-      "verifiedAt": "2026-11-19T18:13:25.312Z"
+      "verifiedAt": "2026-11-19T18:21:08.458Z"
     },
     "weapon:memory-of-dust:icon": {
       "key": "weapon:memory-of-dust:icon",
@@ -7164,7 +7164,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 19701
       },
-      "verifiedAt": "2026-11-19T18:13:25.317Z"
+      "verifiedAt": "2026-11-19T18:21:08.460Z"
     },
     "weapon:key-of-khaj-nisut:icon": {
       "key": "weapon:key-of-khaj-nisut:icon",
@@ -7181,7 +7181,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 33944
       },
-      "verifiedAt": "2026-11-19T18:13:25.322Z"
+      "verifiedAt": "2026-11-19T18:21:08.462Z"
     },
     "weapon:prototype-archaic:icon": {
       "key": "weapon:prototype-archaic:icon",
@@ -7198,7 +7198,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 14897
       },
-      "verifiedAt": "2026-11-19T18:13:25.327Z"
+      "verifiedAt": "2026-11-19T18:21:08.465Z"
     },
     "weapon:prototype-rancour:icon": {
       "key": "weapon:prototype-rancour:icon",
@@ -7215,7 +7215,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 28218
       },
-      "verifiedAt": "2026-11-19T18:13:25.332Z"
+      "verifiedAt": "2026-11-19T18:21:08.468Z"
     },
     "weapon:splendor-of-tranquil-waters:icon": {
       "key": "weapon:splendor-of-tranquil-waters:icon",
@@ -7232,7 +7232,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 50384
       },
-      "verifiedAt": "2026-11-19T18:13:25.337Z"
+      "verifiedAt": "2026-11-19T18:21:08.471Z"
     },
     "weapon:blackcliff-pole:icon": {
       "key": "weapon:blackcliff-pole:icon",
@@ -7249,7 +7249,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 21235
       },
-      "verifiedAt": "2026-11-19T18:13:25.342Z"
+      "verifiedAt": "2026-11-19T18:21:08.473Z"
     },
     "weapon:blackcliff-slasher:icon": {
       "key": "weapon:blackcliff-slasher:icon",
@@ -7266,7 +7266,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 46667
       },
-      "verifiedAt": "2026-11-19T18:13:25.347Z"
+      "verifiedAt": "2026-11-19T18:21:08.476Z"
     },
     "weapon:forest-regalia:icon": {
       "key": "weapon:forest-regalia:icon",
@@ -7283,7 +7283,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 39208
       },
-      "verifiedAt": "2026-11-19T18:13:25.352Z"
+      "verifiedAt": "2026-11-19T18:21:08.478Z"
     },
     "weapon:prospector-s-shovel:icon": {
       "key": "weapon:prospector-s-shovel:icon",
@@ -7300,7 +7300,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 32357
       },
-      "verifiedAt": "2026-11-19T18:13:25.357Z"
+      "verifiedAt": "2026-11-19T18:21:08.481Z"
     },
     "weapon:blackcliff-warbow:icon": {
       "key": "weapon:blackcliff-warbow:icon",
@@ -7317,7 +7317,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 29155
       },
-      "verifiedAt": "2026-11-19T18:13:25.362Z"
+      "verifiedAt": "2026-11-19T18:21:08.484Z"
     },
     "weapon:prototype-crescent:icon": {
       "key": "weapon:prototype-crescent:icon",
@@ -7334,7 +7334,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 35073
       },
-      "verifiedAt": "2026-11-19T18:13:25.366Z"
+      "verifiedAt": "2026-11-19T18:21:08.487Z"
     },
     "weapon:prototype-starglitter:icon": {
       "key": "weapon:prototype-starglitter:icon",
@@ -7351,7 +7351,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 9578
       },
-      "verifiedAt": "2026-11-19T18:13:25.371Z"
+      "verifiedAt": "2026-11-19T18:21:08.489Z"
     },
     "weapon:rainbow-serpent-s-rain-bow:icon": {
       "key": "weapon:rainbow-serpent-s-rain-bow:icon",
@@ -7368,7 +7368,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 40190
       },
-      "verifiedAt": "2026-11-19T18:13:25.375Z"
+      "verifiedAt": "2026-11-19T18:21:08.491Z"
     },
     "weapon:ibis-piercer:icon": {
       "key": "weapon:ibis-piercer:icon",
@@ -7385,7 +7385,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 46001
       },
-      "verifiedAt": "2026-11-19T18:13:25.378Z"
+      "verifiedAt": "2026-11-19T18:21:08.493Z"
     },
     "weapon:blackmarrow-lantern:icon": {
       "key": "weapon:blackmarrow-lantern:icon",
@@ -7402,7 +7402,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 54535
       },
-      "verifiedAt": "2026-11-19T18:13:25.382Z"
+      "verifiedAt": "2026-11-19T18:21:08.495Z"
     },
     "weapon:ring-of-yaxche:icon": {
       "key": "weapon:ring-of-yaxche:icon",
@@ -7419,7 +7419,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 51698
       },
-      "verifiedAt": "2026-11-19T18:13:25.387Z"
+      "verifiedAt": "2026-11-19T18:21:08.497Z"
     },
     "weapon:tamayuratei-no-ohanashi:icon": {
       "key": "weapon:tamayuratei-no-ohanashi:icon",
@@ -7436,7 +7436,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 37542
       },
-      "verifiedAt": "2026-11-19T18:13:25.391Z"
+      "verifiedAt": "2026-11-19T18:21:08.500Z"
     },
     "weapon:black-tassel:icon": {
       "key": "weapon:black-tassel:icon",
@@ -7453,7 +7453,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 8621
       },
-      "verifiedAt": "2026-11-19T18:13:25.394Z"
+      "verifiedAt": "2026-11-19T18:21:08.502Z"
     },
     "weapon:rust:icon": {
       "key": "weapon:rust:icon",
@@ -7470,7 +7470,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 55856
       },
-      "verifiedAt": "2026-11-19T18:13:25.398Z"
+      "verifiedAt": "2026-11-19T18:21:08.504Z"
     },
     "weapon:mouun-s-moon:icon": {
       "key": "weapon:mouun-s-moon:icon",
@@ -7487,7 +7487,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 33180
       },
-      "verifiedAt": "2026-11-19T18:13:25.402Z"
+      "verifiedAt": "2026-11-19T18:21:08.506Z"
     },
     "weapon:the-daybreak-chronicles:icon": {
       "key": "weapon:the-daybreak-chronicles:icon",
@@ -7504,7 +7504,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 54599
       },
-      "verifiedAt": "2026-11-19T18:13:25.406Z"
+      "verifiedAt": "2026-11-19T18:21:08.508Z"
     },
     "weapon:bloodsoaked-ruins:icon": {
       "key": "weapon:bloodsoaked-ruins:icon",
@@ -7521,7 +7521,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 130066
       },
-      "verifiedAt": "2026-11-19T18:13:25.411Z"
+      "verifiedAt": "2026-11-19T18:21:08.511Z"
     },
     "weapon:elegy-for-the-end:icon": {
       "key": "weapon:elegy-for-the-end:icon",
@@ -7538,7 +7538,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 56566
       },
-      "verifiedAt": "2026-11-19T18:13:25.416Z"
+      "verifiedAt": "2026-11-19T18:21:08.513Z"
     },
     "weapon:sapwood-blade:icon": {
       "key": "weapon:sapwood-blade:icon",
@@ -7555,7 +7555,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 27651
       },
-      "verifiedAt": "2026-11-19T18:13:25.421Z"
+      "verifiedAt": "2026-11-19T18:21:08.514Z"
     },
     "weapon:breezeborne-refrain:icon": {
       "key": "weapon:breezeborne-refrain:icon",
@@ -7572,7 +7572,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 42336
       },
-      "verifiedAt": "2026-11-19T18:13:25.425Z"
+      "verifiedAt": "2026-11-19T18:21:08.517Z"
     },
     "weapon:end-of-the-line:icon": {
       "key": "weapon:end-of-the-line:icon",
@@ -7589,7 +7589,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 52335
       },
-      "verifiedAt": "2026-11-19T18:13:25.429Z"
+      "verifiedAt": "2026-11-19T18:21:08.520Z"
     },
     "weapon:calamity-of-eshu:icon": {
       "key": "weapon:calamity-of-eshu:icon",
@@ -7606,7 +7606,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 30783
       },
-      "verifiedAt": "2026-11-19T18:13:25.433Z"
+      "verifiedAt": "2026-11-19T18:21:08.522Z"
     },
     "weapon:range-gauge:icon": {
       "key": "weapon:range-gauge:icon",
@@ -7623,7 +7623,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 52390
       },
-      "verifiedAt": "2026-11-19T18:13:25.439Z"
+      "verifiedAt": "2026-11-19T18:21:08.525Z"
     },
     "weapon:lightbearing-moonshard:icon": {
       "key": "weapon:lightbearing-moonshard:icon",
@@ -7640,7 +7640,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 38747
       },
-      "verifiedAt": "2026-11-19T18:13:25.444Z"
+      "verifiedAt": "2026-11-19T18:21:08.527Z"
     },
     "weapon:calamity-queller:icon": {
       "key": "weapon:calamity-queller:icon",
@@ -7657,7 +7657,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 26019
       },
-      "verifiedAt": "2026-11-19T18:13:25.448Z"
+      "verifiedAt": "2026-11-19T18:21:08.529Z"
     },
     "weapon:favonius-lance:icon": {
       "key": "weapon:favonius-lance:icon",
@@ -7674,7 +7674,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 7892
       },
-      "verifiedAt": "2026-11-19T18:13:25.453Z"
+      "verifiedAt": "2026-11-19T18:21:08.531Z"
     },
     "weapon:dull-blade:icon": {
       "key": "weapon:dull-blade:icon",
@@ -7691,7 +7691,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 26322
       },
-      "verifiedAt": "2026-11-19T18:13:25.458Z"
+      "verifiedAt": "2026-11-19T18:21:08.534Z"
     },
     "weapon:athame-artis:icon": {
       "key": "weapon:athame-artis:icon",
@@ -7708,7 +7708,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 38288
       },
-      "verifiedAt": "2026-11-19T18:13:25.463Z"
+      "verifiedAt": "2026-11-19T18:21:08.536Z"
     },
     "weapon:etherlight-spindlelute:icon": {
       "key": "weapon:etherlight-spindlelute:icon",
@@ -7725,7 +7725,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 49615
       },
-      "verifiedAt": "2026-11-19T18:13:25.467Z"
+      "verifiedAt": "2026-11-19T18:21:08.538Z"
     },
     "weapon:chain-breaker:icon": {
       "key": "weapon:chain-breaker:icon",
@@ -7742,7 +7742,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 43822
       },
-      "verifiedAt": "2026-11-19T18:13:25.471Z"
+      "verifiedAt": "2026-11-19T18:21:08.540Z"
     },
     "weapon:redhorn-stonethresher:icon": {
       "key": "weapon:redhorn-stonethresher:icon",
@@ -7759,7 +7759,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 29762
       },
-      "verifiedAt": "2026-11-19T18:13:25.476Z"
+      "verifiedAt": "2026-11-19T18:21:08.542Z"
     },
     "weapon:compound-bow:icon": {
       "key": "weapon:compound-bow:icon",
@@ -7776,7 +7776,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 15936
       },
-      "verifiedAt": "2026-11-19T18:13:25.480Z"
+      "verifiedAt": "2026-11-19T18:21:08.544Z"
     },
     "weapon:raven-bow:icon": {
       "key": "weapon:raven-bow:icon",
@@ -7793,7 +7793,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 34692
       },
-      "verifiedAt": "2026-11-19T18:13:25.486Z"
+      "verifiedAt": "2026-11-19T18:21:08.546Z"
     },
     "weapon:covenant-of-frost-and-snow:icon": {
       "key": "weapon:covenant-of-frost-and-snow:icon",
@@ -7810,7 +7810,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 47675
       },
-      "verifiedAt": "2026-11-19T18:13:25.491Z"
+      "verifiedAt": "2026-11-19T18:21:08.548Z"
     },
     "weapon:crescent-pike:icon": {
       "key": "weapon:crescent-pike:icon",
@@ -7827,7 +7827,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 20277
       },
-      "verifiedAt": "2026-11-19T18:13:25.494Z"
+      "verifiedAt": "2026-11-19T18:21:08.550Z"
     },
     "weapon:messenger:icon": {
       "key": "weapon:messenger:icon",
@@ -7844,7 +7844,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 29955
       },
-      "verifiedAt": "2026-11-19T18:13:25.498Z"
+      "verifiedAt": "2026-11-19T18:21:08.552Z"
     },
     "weapon:moonweaver-s-dawn:icon": {
       "key": "weapon:moonweaver-s-dawn:icon",
@@ -7861,7 +7861,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 29287
       },
-      "verifiedAt": "2026-11-19T18:13:25.502Z"
+      "verifiedAt": "2026-11-19T18:21:08.554Z"
     },
     "weapon:crimson-moon-s-semblance:icon": {
       "key": "weapon:crimson-moon-s-semblance:icon",
@@ -7878,7 +7878,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 32558
       },
-      "verifiedAt": "2026-11-19T18:13:25.506Z"
+      "verifiedAt": "2026-11-19T18:21:08.556Z"
     },
     "weapon:dawning-frost:icon": {
       "key": "weapon:dawning-frost:icon",
@@ -7895,7 +7895,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 44488
       },
-      "verifiedAt": "2026-11-19T18:13:25.511Z"
+      "verifiedAt": "2026-11-19T18:21:08.558Z"
     },
     "weapon:predator:icon": {
       "key": "weapon:predator:icon",
@@ -7912,7 +7912,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 37540
       },
-      "verifiedAt": "2026-11-19T18:13:25.516Z"
+      "verifiedAt": "2026-11-19T18:21:08.561Z"
     },
     "weapon:bloodtainted-greatsword:icon": {
       "key": "weapon:bloodtainted-greatsword:icon",
@@ -7929,7 +7929,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 33306
       },
-      "verifiedAt": "2026-11-19T18:13:25.522Z"
+      "verifiedAt": "2026-11-19T18:21:08.563Z"
     },
     "weapon:royal-grimoire:icon": {
       "key": "weapon:royal-grimoire:icon",
@@ -7946,7 +7946,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 68156
       },
-      "verifiedAt": "2026-11-19T18:13:25.526Z"
+      "verifiedAt": "2026-11-19T18:21:08.565Z"
     },
     "weapon:cool-steel:icon": {
       "key": "weapon:cool-steel:icon",
@@ -7963,7 +7963,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 30977
       },
-      "verifiedAt": "2026-11-19T18:13:25.529Z"
+      "verifiedAt": "2026-11-19T18:21:08.568Z"
     },
     "weapon:heretic-s-molten-blade:icon": {
       "key": "weapon:heretic-s-molten-blade:icon",
@@ -7980,7 +7980,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 35335
       },
-      "verifiedAt": "2026-11-19T18:13:25.533Z"
+      "verifiedAt": "2026-11-19T18:21:08.569Z"
     },
     "weapon:royal-longsword:icon": {
       "key": "weapon:royal-longsword:icon",
@@ -7997,7 +7997,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 25253
       },
-      "verifiedAt": "2026-11-19T18:13:25.537Z"
+      "verifiedAt": "2026-11-19T18:21:08.571Z"
     },
     "weapon:dialogues-of-the-desert-sages:icon": {
       "key": "weapon:dialogues-of-the-desert-sages:icon",
@@ -8014,7 +8014,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 41213
       },
-      "verifiedAt": "2026-11-19T18:13:25.541Z"
+      "verifiedAt": "2026-11-19T18:21:08.573Z"
     },
     "weapon:sacrificial-greatsword:icon": {
       "key": "weapon:sacrificial-greatsword:icon",
@@ -8031,7 +8031,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 52441
       },
-      "verifiedAt": "2026-11-19T18:13:25.545Z"
+      "verifiedAt": "2026-11-19T18:21:08.574Z"
     },
     "weapon:skyward-blade:icon": {
       "key": "weapon:skyward-blade:icon",
@@ -8048,7 +8048,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 35574
       },
-      "verifiedAt": "2026-11-19T18:13:25.550Z"
+      "verifiedAt": "2026-11-19T18:21:08.576Z"
     },
     "weapon:everlasting-moonglow:icon": {
       "key": "weapon:everlasting-moonglow:icon",
@@ -8065,7 +8065,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 47357
       },
-      "verifiedAt": "2026-11-19T18:13:25.554Z"
+      "verifiedAt": "2026-11-19T18:21:08.577Z"
     },
     "weapon:frostbearer:icon": {
       "key": "weapon:frostbearer:icon",
@@ -8082,7 +8082,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 18311
       },
-      "verifiedAt": "2026-11-19T18:13:25.558Z"
+      "verifiedAt": "2026-11-19T18:21:08.580Z"
     },
     "weapon:royal-greatsword:icon": {
       "key": "weapon:royal-greatsword:icon",
@@ -8099,7 +8099,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 19108
       },
-      "verifiedAt": "2026-11-19T18:13:25.563Z"
+      "verifiedAt": "2026-11-19T18:21:08.582Z"
     },
     "weapon:staff-of-the-scarlet-sands:icon": {
       "key": "weapon:staff-of-the-scarlet-sands:icon",
@@ -8116,7 +8116,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 32619
       },
-      "verifiedAt": "2026-11-19T18:13:25.568Z"
+      "verifiedAt": "2026-11-19T18:21:08.585Z"
     },
     "weapon:pocket-grimoire:icon": {
       "key": "weapon:pocket-grimoire:icon",
@@ -8133,7 +8133,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 54776
       },
-      "verifiedAt": "2026-11-19T18:13:25.574Z"
+      "verifiedAt": "2026-11-19T18:21:08.587Z"
     },
     "weapon:slingshot:icon": {
       "key": "weapon:slingshot:icon",
@@ -8150,7 +8150,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 33298
       },
-      "verifiedAt": "2026-11-19T18:13:25.579Z"
+      "verifiedAt": "2026-11-19T18:21:08.588Z"
     },
     "weapon:summit-shaper:icon": {
       "key": "weapon:summit-shaper:icon",
@@ -8167,7 +8167,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 28637
       },
-      "verifiedAt": "2026-11-19T18:13:25.586Z"
+      "verifiedAt": "2026-11-19T18:21:08.590Z"
     },
     "weapon:tome-of-the-eternal-flow:icon": {
       "key": "weapon:tome-of-the-eternal-flow:icon",
@@ -8184,7 +8184,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 68179
       },
-      "verifiedAt": "2026-11-19T18:13:25.591Z"
+      "verifiedAt": "2026-11-19T18:21:08.591Z"
     },
     "weapon:dark-iron-sword:icon": {
       "key": "weapon:dark-iron-sword:icon",
@@ -8201,7 +8201,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 21475
       },
-      "verifiedAt": "2026-11-19T18:13:25.596Z"
+      "verifiedAt": "2026-11-19T18:21:08.593Z"
     },
     "weapon:mountain-bracing-bolt:icon": {
       "key": "weapon:mountain-bracing-bolt:icon",
@@ -8218,7 +8218,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 35782
       },
-      "verifiedAt": "2026-11-19T18:13:25.600Z"
+      "verifiedAt": "2026-11-19T18:21:08.594Z"
     },
     "weapon:dragonspine-spear:icon": {
       "key": "weapon:dragonspine-spear:icon",
@@ -8235,7 +8235,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 23377
       },
-      "verifiedAt": "2026-11-19T18:13:25.605Z"
+      "verifiedAt": "2026-11-19T18:21:08.596Z"
     },
     "weapon:whitelake-frostfeather:icon": {
       "key": "weapon:whitelake-frostfeather:icon",
@@ -8252,7 +8252,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 36965
       },
-      "verifiedAt": "2026-11-19T18:13:25.611Z"
+      "verifiedAt": "2026-11-19T18:21:08.597Z"
     },
     "weapon:nocturne-s-curtain-call:icon": {
       "key": "weapon:nocturne-s-curtain-call:icon",
@@ -8269,7 +8269,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 65680
       },
-      "verifiedAt": "2026-11-19T18:13:25.616Z"
+      "verifiedAt": "2026-11-19T18:21:08.599Z"
     },
     "weapon:peak-patrol-song:icon": {
       "key": "weapon:peak-patrol-song:icon",
@@ -8286,7 +8286,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 41727
       },
-      "verifiedAt": "2026-11-19T18:13:25.621Z"
+      "verifiedAt": "2026-11-19T18:21:08.602Z"
     },
     "weapon:scion-of-the-blazing-sun:icon": {
       "key": "weapon:scion-of-the-blazing-sun:icon",
@@ -8303,7 +8303,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 55768
       },
-      "verifiedAt": "2026-11-19T18:13:25.626Z"
+      "verifiedAt": "2026-11-19T18:21:08.603Z"
     },
     "weapon:prospector-s-drill:icon": {
       "key": "weapon:prospector-s-drill:icon",
@@ -8320,7 +8320,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 28491
       },
-      "verifiedAt": "2026-11-19T18:13:25.632Z"
+      "verifiedAt": "2026-11-19T18:21:08.605Z"
     },
     "weapon:the-dockhand-s-assistant:icon": {
       "key": "weapon:the-dockhand-s-assistant:icon",
@@ -8337,7 +8337,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 32233
       },
-      "verifiedAt": "2026-11-19T18:13:25.636Z"
+      "verifiedAt": "2026-11-19T18:21:08.606Z"
     },
     "weapon:ultimate-overlord-s-mega-magic-sword:icon": {
       "key": "weapon:ultimate-overlord-s-mega-magic-sword:icon",
@@ -8354,7 +8354,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 53065
       },
-      "verifiedAt": "2026-11-19T18:13:25.640Z"
+      "verifiedAt": "2026-11-19T18:21:08.607Z"
     },
     "weapon:skyrider-sword:icon": {
       "key": "weapon:skyrider-sword:icon",
@@ -8371,7 +8371,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 8178
       },
-      "verifiedAt": "2026-11-19T18:13:25.645Z"
+      "verifiedAt": "2026-11-19T18:21:08.609Z"
     },
     "weapon:sword-of-descension:icon": {
       "key": "weapon:sword-of-descension:icon",
@@ -8388,7 +8388,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 25248
       },
-      "verifiedAt": "2026-11-19T18:13:25.650Z"
+      "verifiedAt": "2026-11-19T18:21:08.610Z"
     },
     "weapon:lumidouce-elegy:icon": {
       "key": "weapon:lumidouce-elegy:icon",
@@ -8405,7 +8405,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 45369
       },
-      "verifiedAt": "2026-11-19T18:13:25.656Z"
+      "verifiedAt": "2026-11-19T18:21:08.612Z"
     },
     "weapon:moonpiercer:icon": {
       "key": "weapon:moonpiercer:icon",
@@ -8422,7 +8422,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 24662
       },
-      "verifiedAt": "2026-11-19T18:13:25.661Z"
+      "verifiedAt": "2026-11-19T18:21:08.613Z"
     },
     "weapon:skyward-harp:icon": {
       "key": "weapon:skyward-harp:icon",
@@ -8439,7 +8439,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 44275
       },
-      "verifiedAt": "2026-11-19T18:13:25.665Z"
+      "verifiedAt": "2026-11-19T18:21:08.615Z"
     },
     "weapon:eye-of-perception:icon": {
       "key": "weapon:eye-of-perception:icon",
@@ -8456,7 +8456,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 49218
       },
-      "verifiedAt": "2026-11-19T18:13:25.671Z"
+      "verifiedAt": "2026-11-19T18:21:08.617Z"
     },
     "weapon:festering-desire:icon": {
       "key": "weapon:festering-desire:icon",
@@ -8473,7 +8473,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 12271
       },
-      "verifiedAt": "2026-11-19T18:13:25.676Z"
+      "verifiedAt": "2026-11-19T18:21:08.619Z"
     },
     "weapon:blackcliff-longsword:icon": {
       "key": "weapon:blackcliff-longsword:icon",
@@ -8490,7 +8490,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 27082
       },
-      "verifiedAt": "2026-11-19T18:13:25.681Z"
+      "verifiedAt": "2026-11-19T18:21:08.621Z"
     },
     "weapon:the-first-great-magic:icon": {
       "key": "weapon:the-first-great-magic:icon",
@@ -8507,7 +8507,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 44093
       },
-      "verifiedAt": "2026-11-19T18:13:25.694Z"
+      "verifiedAt": "2026-11-19T18:21:08.623Z"
     },
     "weapon:uraku-misugiri:icon": {
       "key": "weapon:uraku-misugiri:icon",
@@ -8524,7 +8524,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 29744
       },
-      "verifiedAt": "2026-11-19T18:13:25.698Z"
+      "verifiedAt": "2026-11-19T18:21:08.624Z"
     },
     "weapon:kagotsurube-isshin:icon": {
       "key": "weapon:kagotsurube-isshin:icon",
@@ -8541,7 +8541,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 21025
       },
-      "verifiedAt": "2026-11-19T18:13:25.704Z"
+      "verifiedAt": "2026-11-19T18:21:08.626Z"
     },
     "weapon:fang-of-the-mountain-king:icon": {
       "key": "weapon:fang-of-the-mountain-king:icon",
@@ -8558,7 +8558,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 37703
       },
-      "verifiedAt": "2026-11-19T18:13:25.707Z"
+      "verifiedAt": "2026-11-19T18:21:08.627Z"
     },
     "weapon:the-alley-flash:icon": {
       "key": "weapon:the-alley-flash:icon",
@@ -8575,7 +8575,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 25368
       },
-      "verifiedAt": "2026-11-19T18:13:25.713Z"
+      "verifiedAt": "2026-11-19T18:21:08.629Z"
     },
     "weapon:a-teaspoon-of-transcendence:icon": {
       "key": "weapon:a-teaspoon-of-transcendence:icon",
@@ -8592,7 +8592,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 61300
       },
-      "verifiedAt": "2026-11-19T18:13:25.719Z"
+      "verifiedAt": "2026-11-19T18:21:08.630Z"
     },
     "weapon:sacrificial-fragments:icon": {
       "key": "weapon:sacrificial-fragments:icon",
@@ -8609,7 +8609,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 20119
       },
-      "verifiedAt": "2026-11-19T18:13:25.723Z"
+      "verifiedAt": "2026-11-19T18:21:08.632Z"
     },
     "weapon:tulaytullah-s-remembrance:icon": {
       "key": "weapon:tulaytullah-s-remembrance:icon",
@@ -8626,7 +8626,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 35407
       },
-      "verifiedAt": "2026-11-19T18:13:25.728Z"
+      "verifiedAt": "2026-11-19T18:21:08.634Z"
     },
     "weapon:waveriding-whirl:icon": {
       "key": "weapon:waveriding-whirl:icon",
@@ -8643,7 +8643,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 46352
       },
-      "verifiedAt": "2026-11-19T18:13:25.732Z"
+      "verifiedAt": "2026-11-19T18:21:08.636Z"
     },
     "weapon:wandering-evenstar:icon": {
       "key": "weapon:wandering-evenstar:icon",
@@ -8660,7 +8660,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 51924
       },
-      "verifiedAt": "2026-11-19T18:13:25.738Z"
+      "verifiedAt": "2026-11-19T18:21:08.638Z"
     },
     "weapon:wine-and-song:icon": {
       "key": "weapon:wine-and-song:icon",
@@ -8677,7 +8677,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 57335
       },
-      "verifiedAt": "2026-11-19T18:13:25.741Z"
+      "verifiedAt": "2026-11-19T18:21:08.640Z"
     },
     "weapon:sword-of-narzissenkreuz:icon": {
       "key": "weapon:sword-of-narzissenkreuz:icon",
@@ -8694,7 +8694,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 36855
       },
-      "verifiedAt": "2026-11-19T18:13:25.744Z"
+      "verifiedAt": "2026-11-19T18:21:08.642Z"
     },
     "weapon:vortex-vanquisher:icon": {
       "key": "weapon:vortex-vanquisher:icon",
@@ -8711,7 +8711,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 14293
       },
-      "verifiedAt": "2026-11-19T18:13:25.748Z"
+      "verifiedAt": "2026-11-19T18:21:08.643Z"
     },
     "weapon:twin-nephrite:icon": {
       "key": "weapon:twin-nephrite:icon",
@@ -8728,7 +8728,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 47328
       },
-      "verifiedAt": "2026-11-19T18:13:25.753Z"
+      "verifiedAt": "2026-11-19T18:21:08.645Z"
     },
     "weapon:alley-hunter:icon": {
       "key": "weapon:alley-hunter:icon",
@@ -8745,7 +8745,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 17253
       },
-      "verifiedAt": "2026-11-19T18:13:25.757Z"
+      "verifiedAt": "2026-11-19T18:21:08.647Z"
     },
     "weapon:kitain-cross-spear:icon": {
       "key": "weapon:kitain-cross-spear:icon",
@@ -8762,7 +8762,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 28602
       },
-      "verifiedAt": "2026-11-19T18:13:25.761Z"
+      "verifiedAt": "2026-11-19T18:21:08.649Z"
     },
     "weapon:crane-s-echoing-call:icon": {
       "key": "weapon:crane-s-echoing-call:icon",
@@ -8779,7 +8779,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 74456
       },
-      "verifiedAt": "2026-11-19T18:13:25.764Z"
+      "verifiedAt": "2026-11-19T18:21:08.651Z"
     },
     "weapon:earth-shaker:icon": {
       "key": "weapon:earth-shaker:icon",
@@ -8796,7 +8796,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 32234
       },
-      "verifiedAt": "2026-11-19T18:13:25.768Z"
+      "verifiedAt": "2026-11-19T18:21:08.653Z"
     },
     "weapon:song-of-broken-pines:icon": {
       "key": "weapon:song-of-broken-pines:icon",
@@ -8813,7 +8813,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 37100
       },
-      "verifiedAt": "2026-11-19T18:13:25.773Z"
+      "verifiedAt": "2026-11-19T18:21:08.655Z"
     },
     "weapon:the-flute:icon": {
       "key": "weapon:the-flute:icon",
@@ -8830,7 +8830,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 23918
       },
-      "verifiedAt": "2026-11-19T18:13:25.777Z"
+      "verifiedAt": "2026-11-19T18:21:08.656Z"
     },
     "weapon:cashflow-supervision:icon": {
       "key": "weapon:cashflow-supervision:icon",
@@ -8847,7 +8847,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 48651
       },
-      "verifiedAt": "2026-11-19T18:13:25.781Z"
+      "verifiedAt": "2026-11-19T18:21:08.658Z"
     },
     "weapon:sacrificial-jade:icon": {
       "key": "weapon:sacrificial-jade:icon",
@@ -8864,7 +8864,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 48729
       },
-      "verifiedAt": "2026-11-19T18:13:25.787Z"
+      "verifiedAt": "2026-11-19T18:21:08.659Z"
     },
     "weapon:skyrider-greatsword:icon": {
       "key": "weapon:skyrider-greatsword:icon",
@@ -8881,7 +8881,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 19343
       },
-      "verifiedAt": "2026-11-19T18:13:25.792Z"
+      "verifiedAt": "2026-11-19T18:21:08.660Z"
     },
     "weapon:sacrificial-sword:icon": {
       "key": "weapon:sacrificial-sword:icon",
@@ -8898,7 +8898,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 9371
       },
-      "verifiedAt": "2026-11-19T18:13:25.797Z"
+      "verifiedAt": "2026-11-19T18:21:08.662Z"
     },
     "weapon:seasoned-hunter-s-bow:icon": {
       "key": "weapon:seasoned-hunter-s-bow:icon",
@@ -8915,7 +8915,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 31639
       },
-      "verifiedAt": "2026-11-19T18:13:25.801Z"
+      "verifiedAt": "2026-11-19T18:21:08.663Z"
     },
     "weapon:serpent-spine:icon": {
       "key": "weapon:serpent-spine:icon",
@@ -8932,7 +8932,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 20841
       },
-      "verifiedAt": "2026-11-19T18:13:25.805Z"
+      "verifiedAt": "2026-11-19T18:21:08.665Z"
     },
     "weapon:cloudforged:icon": {
       "key": "weapon:cloudforged:icon",
@@ -8949,7 +8949,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 16875
       },
-      "verifiedAt": "2026-11-19T18:13:25.809Z"
+      "verifiedAt": "2026-11-19T18:21:08.667Z"
     },
     "weapon:aquila-favonia:icon": {
       "key": "weapon:aquila-favonia:icon",
@@ -8966,7 +8966,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 27574
       },
-      "verifiedAt": "2026-11-19T18:13:25.813Z"
+      "verifiedAt": "2026-11-19T18:21:08.669Z"
     },
     "weapon:skyward-atlas:icon": {
       "key": "weapon:skyward-atlas:icon",
@@ -8983,7 +8983,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 50488
       },
-      "verifiedAt": "2026-11-19T18:13:25.818Z"
+      "verifiedAt": "2026-11-19T18:21:08.670Z"
     },
     "weapon:king-s-squire:icon": {
       "key": "weapon:king-s-squire:icon",
@@ -9000,7 +9000,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 48332
       },
-      "verifiedAt": "2026-11-19T18:13:25.822Z"
+      "verifiedAt": "2026-11-19T18:21:08.672Z"
     },
     "weapon:wavebreaker-s-fin:icon": {
       "key": "weapon:wavebreaker-s-fin:icon",
@@ -9017,7 +9017,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 25378
       },
-      "verifiedAt": "2026-11-19T18:13:25.827Z"
+      "verifiedAt": "2026-11-19T18:21:08.673Z"
     },
     "weapon:lithic-blade:icon": {
       "key": "weapon:lithic-blade:icon",
@@ -9034,7 +9034,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 48501
       },
-      "verifiedAt": "2026-11-19T18:13:25.832Z"
+      "verifiedAt": "2026-11-19T18:21:08.675Z"
     },
     "weapon:makhaira-aquamarine:icon": {
       "key": "weapon:makhaira-aquamarine:icon",
@@ -9051,7 +9051,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 33452
       },
-      "verifiedAt": "2026-11-19T18:13:25.837Z"
+      "verifiedAt": "2026-11-19T18:21:08.676Z"
     },
     "weapon:polar-star:icon": {
       "key": "weapon:polar-star:icon",
@@ -9068,7 +9068,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 44771
       },
-      "verifiedAt": "2026-11-19T18:13:25.842Z"
+      "verifiedAt": "2026-11-19T18:21:08.677Z"
     },
     "weapon:flowing-purity:icon": {
       "key": "weapon:flowing-purity:icon",
@@ -9085,7 +9085,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 45395
       },
-      "verifiedAt": "2026-11-19T18:13:25.846Z"
+      "verifiedAt": "2026-11-19T18:21:08.679Z"
     },
     "weapon:wolf-s-gravestone:icon": {
       "key": "weapon:wolf-s-gravestone:icon",
@@ -9102,7 +9102,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 18224
       },
-      "verifiedAt": "2026-11-19T18:13:25.850Z"
+      "verifiedAt": "2026-11-19T18:21:08.682Z"
     },
     "weapon:white-tassel:icon": {
       "key": "weapon:white-tassel:icon",
@@ -9119,7 +9119,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 21686
       },
-      "verifiedAt": "2026-11-19T18:13:25.855Z"
+      "verifiedAt": "2026-11-19T18:21:08.685Z"
     },
     "weapon:thrilling-tales-of-dragon-slayers:icon": {
       "key": "weapon:thrilling-tales-of-dragon-slayers:icon",
@@ -9136,7 +9136,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 54190
       },
-      "verifiedAt": "2026-11-19T18:13:25.860Z"
+      "verifiedAt": "2026-11-19T18:21:08.687Z"
     },
     "weapon:whiteblind:icon": {
       "key": "weapon:whiteblind:icon",
@@ -9153,7 +9153,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 54665
       },
-      "verifiedAt": "2026-11-19T18:13:25.864Z"
+      "verifiedAt": "2026-11-19T18:21:08.689Z"
     },
     "weapon:mistsplitter-reforged:icon": {
       "key": "weapon:mistsplitter-reforged:icon",
@@ -9170,7 +9170,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 91466
       },
-      "verifiedAt": "2026-11-19T18:13:25.869Z"
+      "verifiedAt": "2026-11-19T18:21:08.691Z"
     },
     "weapon:fading-twilight:icon": {
       "key": "weapon:fading-twilight:icon",
@@ -9187,7 +9187,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 14674
       },
-      "verifiedAt": "2026-11-19T18:13:25.874Z"
+      "verifiedAt": "2026-11-19T18:21:08.693Z"
     },
     "weapon:toukabou-shigure:icon": {
       "key": "weapon:toukabou-shigure:icon",
@@ -9204,7 +9204,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 27457
       },
-      "verifiedAt": "2026-11-19T18:13:25.880Z"
+      "verifiedAt": "2026-11-19T18:21:08.695Z"
     },
     "weapon:serenity-s-call:icon": {
       "key": "weapon:serenity-s-call:icon",
@@ -9221,7 +9221,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 34217
       },
-      "verifiedAt": "2026-11-19T18:13:25.884Z"
+      "verifiedAt": "2026-11-19T18:21:08.698Z"
     },
     "weapon:portable-power-saw:icon": {
       "key": "weapon:portable-power-saw:icon",
@@ -9238,7 +9238,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 46906
       },
-      "verifiedAt": "2026-11-19T18:13:25.889Z"
+      "verifiedAt": "2026-11-19T18:21:08.701Z"
     },
     "weapon:snow-tombed-starsilver:icon": {
       "key": "weapon:snow-tombed-starsilver:icon",
@@ -9255,7 +9255,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 49261
       },
-      "verifiedAt": "2026-11-19T18:13:25.893Z"
+      "verifiedAt": "2026-11-19T18:21:08.703Z"
     },
     "weapon:debate-club:icon": {
       "key": "weapon:debate-club:icon",
@@ -9272,7 +9272,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 41432
       },
-      "verifiedAt": "2026-11-19T18:13:25.897Z"
+      "verifiedAt": "2026-11-19T18:21:08.705Z"
     },
     "weapon:the-stringless:icon": {
       "key": "weapon:the-stringless:icon",
@@ -9289,7 +9289,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 51629
       },
-      "verifiedAt": "2026-11-19T18:13:25.902Z"
+      "verifiedAt": "2026-11-19T18:21:08.707Z"
     },
     "weapon:jadefall-s-splendor:icon": {
       "key": "weapon:jadefall-s-splendor:icon",
@@ -9306,7 +9306,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 68289
       },
-      "verifiedAt": "2026-11-19T18:13:25.905Z"
+      "verifiedAt": "2026-11-19T18:21:08.709Z"
     },
     "weapon:sacrificial-bow:icon": {
       "key": "weapon:sacrificial-bow:icon",
@@ -9323,7 +9323,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 33520
       },
-      "verifiedAt": "2026-11-19T18:13:25.909Z"
+      "verifiedAt": "2026-11-19T18:21:08.711Z"
     },
     "weapon:oathsworn-eye:icon": {
       "key": "weapon:oathsworn-eye:icon",
@@ -9340,7 +9340,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 36498
       },
-      "verifiedAt": "2026-11-19T18:13:25.914Z"
+      "verifiedAt": "2026-11-19T18:21:08.713Z"
     },
     "weapon:sunny-morning-sleep-in:icon": {
       "key": "weapon:sunny-morning-sleep-in:icon",
@@ -9357,7 +9357,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 49487
       },
-      "verifiedAt": "2026-11-19T18:13:25.919Z"
+      "verifiedAt": "2026-11-19T18:21:08.715Z"
     },
     "weapon:deathmatch:icon": {
       "key": "weapon:deathmatch:icon",
@@ -9374,7 +9374,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 26862
       },
-      "verifiedAt": "2026-11-19T18:13:25.923Z"
+      "verifiedAt": "2026-11-19T18:21:08.718Z"
     },
     "weapon:primordial-jade-cutter:icon": {
       "key": "weapon:primordial-jade-cutter:icon",
@@ -9391,7 +9391,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 25041
       },
-      "verifiedAt": "2026-11-19T18:13:25.927Z"
+      "verifiedAt": "2026-11-19T18:21:08.720Z"
     },
     "weapon:staff-of-homa:icon": {
       "key": "weapon:staff-of-homa:icon",
@@ -9408,7 +9408,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 12659
       },
-      "verifiedAt": "2026-11-19T18:13:25.930Z"
+      "verifiedAt": "2026-11-19T18:21:08.722Z"
     },
     "weapon:skyward-spine:icon": {
       "key": "weapon:skyward-spine:icon",
@@ -9425,7 +9425,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 11389
       },
-      "verifiedAt": "2026-11-19T18:13:25.934Z"
+      "verifiedAt": "2026-11-19T18:21:08.724Z"
     },
     "weapon:halberd:icon": {
       "key": "weapon:halberd:icon",
@@ -9442,7 +9442,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 25792
       },
-      "verifiedAt": "2026-11-19T18:13:25.939Z"
+      "verifiedAt": "2026-11-19T18:21:08.726Z"
     },
     "weapon:royal-spear:icon": {
       "key": "weapon:royal-spear:icon",
@@ -9459,7 +9459,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 30362
       },
-      "verifiedAt": "2026-11-19T18:13:25.944Z"
+      "verifiedAt": "2026-11-19T18:21:08.728Z"
     },
     "weapon:recurve-bow:icon": {
       "key": "weapon:recurve-bow:icon",
@@ -9476,7 +9476,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 12353
       },
-      "verifiedAt": "2026-11-19T18:13:25.949Z"
+      "verifiedAt": "2026-11-19T18:21:08.730Z"
     },
     "weapon:symphonist-of-scents:icon": {
       "key": "weapon:symphonist-of-scents:icon",
@@ -9493,7 +9493,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 48348
       },
-      "verifiedAt": "2026-11-19T18:13:25.954Z"
+      "verifiedAt": "2026-11-19T18:21:08.732Z"
     },
     "weapon:talking-stick:icon": {
       "key": "weapon:talking-stick:icon",
@@ -9510,7 +9510,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 43149
       },
-      "verifiedAt": "2026-11-19T18:13:25.958Z"
+      "verifiedAt": "2026-11-19T18:21:08.734Z"
     },
     "weapon:waster-greatsword:icon": {
       "key": "weapon:waster-greatsword:icon",
@@ -9527,7 +9527,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 31977
       },
-      "verifiedAt": "2026-11-19T18:13:25.963Z"
+      "verifiedAt": "2026-11-19T18:21:08.737Z"
     },
     "weapon:the-black-sword:icon": {
       "key": "weapon:the-black-sword:icon",
@@ -9544,7 +9544,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 27724
       },
-      "verifiedAt": "2026-11-19T18:13:25.967Z"
+      "verifiedAt": "2026-11-19T18:21:08.740Z"
     },
     "weapon:the-widsith:icon": {
       "key": "weapon:the-widsith:icon",
@@ -9561,7 +9561,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 47253
       },
-      "verifiedAt": "2026-11-19T18:13:25.970Z"
+      "verifiedAt": "2026-11-19T18:21:08.742Z"
     },
     "weapon:thundering-pulse:icon": {
       "key": "weapon:thundering-pulse:icon",
@@ -9578,7 +9578,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 49376
       },
-      "verifiedAt": "2026-11-19T18:13:25.974Z"
+      "verifiedAt": "2026-11-19T18:21:08.746Z"
     },
     "weapon:silvershower-heartstrings:icon": {
       "key": "weapon:silvershower-heartstrings:icon",
@@ -9595,7 +9595,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 56056
       },
-      "verifiedAt": "2026-11-19T18:13:25.980Z"
+      "verifiedAt": "2026-11-19T18:21:08.749Z"
     },
     "weapon:mitternachts-waltz:icon": {
       "key": "weapon:mitternachts-waltz:icon",
@@ -9612,7 +9612,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 49238
       },
-      "verifiedAt": "2026-11-19T18:13:25.985Z"
+      "verifiedAt": "2026-11-19T18:21:08.752Z"
     },
     "weapon:missive-windspear:icon": {
       "key": "weapon:missive-windspear:icon",
@@ -9629,7 +9629,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 27648
       },
-      "verifiedAt": "2026-11-19T18:13:25.988Z"
+      "verifiedAt": "2026-11-19T18:21:08.755Z"
     },
     "weapon:vivid-notions:icon": {
       "key": "weapon:vivid-notions:icon",
@@ -9646,7 +9646,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 22260
       },
-      "verifiedAt": "2026-11-19T18:13:25.993Z"
+      "verifiedAt": "2026-11-19T18:21:08.757Z"
     },
     "weapon:wolf-fang:icon": {
       "key": "weapon:wolf-fang:icon",
@@ -9663,7 +9663,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 33551
       },
-      "verifiedAt": "2026-11-19T18:13:25.999Z"
+      "verifiedAt": "2026-11-19T18:21:08.759Z"
     },
     "weapon:cinnabar-spindle:icon": {
       "key": "weapon:cinnabar-spindle:icon",
@@ -9680,7 +9680,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 24127
       },
-      "verifiedAt": "2026-11-19T18:13:26.003Z"
+      "verifiedAt": "2026-11-19T18:21:08.762Z"
     },
     "weapon:favonius-warbow:icon": {
       "key": "weapon:favonius-warbow:icon",
@@ -9697,7 +9697,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 13903
       },
-      "verifiedAt": "2026-11-19T18:13:26.006Z"
+      "verifiedAt": "2026-11-19T18:21:08.764Z"
     },
     "weapon:finale-of-the-deep:icon": {
       "key": "weapon:finale-of-the-deep:icon",
@@ -9714,7 +9714,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 26756
       },
-      "verifiedAt": "2026-11-19T18:13:26.012Z"
+      "verifiedAt": "2026-11-19T18:21:08.766Z"
     },
     "weapon:flute-of-ezpitzal:icon": {
       "key": "weapon:flute-of-ezpitzal:icon",
@@ -9731,7 +9731,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 29115
       },
-      "verifiedAt": "2026-11-19T18:13:26.017Z"
+      "verifiedAt": "2026-11-19T18:21:08.770Z"
     },
     "artifact:echoes-of-an-offering:set": {
       "key": "artifact:echoes-of-an-offering:set",
@@ -9748,7 +9748,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 178648
       },
-      "verifiedAt": "2026-11-19T18:13:26.021Z"
+      "verifiedAt": "2026-11-19T18:21:08.772Z"
     },
     "artifact:berserker:set": {
       "key": "artifact:berserker:set",
@@ -9765,7 +9765,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 20634
       },
-      "verifiedAt": "2026-11-19T18:13:26.023Z"
+      "verifiedAt": "2026-11-19T18:21:08.774Z"
     },
     "artifact:defender-s-will:set": {
       "key": "artifact:defender-s-will:set",
@@ -9782,7 +9782,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 20008
       },
-      "verifiedAt": "2026-11-19T18:13:26.028Z"
+      "verifiedAt": "2026-11-19T18:21:08.777Z"
     },
     "artifact:adventurer:set": {
       "key": "artifact:adventurer:set",
@@ -9799,7 +9799,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 22462
       },
-      "verifiedAt": "2026-11-19T18:13:26.031Z"
+      "verifiedAt": "2026-11-19T18:21:08.781Z"
     },
     "artifact:fragment-of-harmonic-whimsy:set": {
       "key": "artifact:fragment-of-harmonic-whimsy:set",
@@ -9816,7 +9816,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 60653
       },
-      "verifiedAt": "2026-11-19T18:13:26.036Z"
+      "verifiedAt": "2026-11-19T18:21:08.784Z"
     },
     "artifact:heart-of-the-furnace:set": {
       "key": "artifact:heart-of-the-furnace:set",
@@ -9833,7 +9833,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 59751
       },
-      "verifiedAt": "2026-11-19T18:13:26.040Z"
+      "verifiedAt": "2026-11-19T18:21:08.788Z"
     },
     "artifact:instructor:set": {
       "key": "artifact:instructor:set",
@@ -9850,7 +9850,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 20994
       },
-      "verifiedAt": "2026-11-19T18:13:26.045Z"
+      "verifiedAt": "2026-11-19T18:21:08.791Z"
     },
     "artifact:long-night-s-oath:set": {
       "key": "artifact:long-night-s-oath:set",
@@ -9867,7 +9867,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 21091
       },
-      "verifiedAt": "2026-11-19T18:13:26.049Z"
+      "verifiedAt": "2026-11-19T18:21:08.795Z"
     },
     "artifact:scarlet-proof:set": {
       "key": "artifact:scarlet-proof:set",
@@ -9884,7 +9884,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 64075
       },
-      "verifiedAt": "2026-11-19T18:13:26.054Z"
+      "verifiedAt": "2026-11-19T18:21:08.798Z"
     },
     "artifact:resolution-of-sojourner:set": {
       "key": "artifact:resolution-of-sojourner:set",
@@ -9901,7 +9901,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 21594
       },
-      "verifiedAt": "2026-11-19T18:13:26.058Z"
+      "verifiedAt": "2026-11-19T18:21:08.803Z"
     },
     "artifact:thundering-fury:set": {
       "key": "artifact:thundering-fury:set",
@@ -9918,7 +9918,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 40135
       },
-      "verifiedAt": "2026-11-19T18:13:26.061Z"
+      "verifiedAt": "2026-11-19T18:21:08.807Z"
     },
     "artifact:deepwood-memories:set": {
       "key": "artifact:deepwood-memories:set",
@@ -9935,7 +9935,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 62511
       },
-      "verifiedAt": "2026-11-19T18:13:26.064Z"
+      "verifiedAt": "2026-11-19T18:21:08.811Z"
     },
     "artifact:gilded-dreams:set": {
       "key": "artifact:gilded-dreams:set",
@@ -9952,7 +9952,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 53761
       },
-      "verifiedAt": "2026-11-19T18:13:26.068Z"
+      "verifiedAt": "2026-11-19T18:21:08.815Z"
     },
     "artifact:archaic-petra:set": {
       "key": "artifact:archaic-petra:set",
@@ -9969,7 +9969,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 36835
       },
-      "verifiedAt": "2026-11-19T18:13:26.073Z"
+      "verifiedAt": "2026-11-19T18:21:08.819Z"
     },
     "artifact:gladiator-s-finale:set": {
       "key": "artifact:gladiator-s-finale:set",
@@ -9986,7 +9986,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 36091
       },
-      "verifiedAt": "2026-11-19T18:13:26.077Z"
+      "verifiedAt": "2026-11-19T18:21:08.822Z"
     },
     "artifact:husk-of-opulent-dreams:set": {
       "key": "artifact:husk-of-opulent-dreams:set",
@@ -10003,7 +10003,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 31596
       },
-      "verifiedAt": "2026-11-19T18:13:26.082Z"
+      "verifiedAt": "2026-11-19T18:21:08.824Z"
     },
     "artifact:viridescent-venerer:set": {
       "key": "artifact:viridescent-venerer:set",
@@ -10020,7 +10020,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 35304
       },
-      "verifiedAt": "2026-11-19T18:13:26.087Z"
+      "verifiedAt": "2026-11-19T18:21:08.826Z"
     },
     "artifact:vourukasha-s-glow:set": {
       "key": "artifact:vourukasha-s-glow:set",
@@ -10037,7 +10037,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 60130
       },
-      "verifiedAt": "2026-11-19T18:13:26.092Z"
+      "verifiedAt": "2026-11-19T18:21:08.828Z"
     },
     "artifact:marechaussee-hunter:set": {
       "key": "artifact:marechaussee-hunter:set",
@@ -10054,7 +10054,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 62579
       },
-      "verifiedAt": "2026-11-19T18:13:26.096Z"
+      "verifiedAt": "2026-11-19T18:21:08.830Z"
     },
     "artifact:gambler:set": {
       "key": "artifact:gambler:set",
@@ -10071,7 +10071,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 25945
       },
-      "verifiedAt": "2026-11-19T18:13:26.099Z"
+      "verifiedAt": "2026-11-19T18:21:08.832Z"
     },
     "artifact:crimson-witch-of-flames:set": {
       "key": "artifact:crimson-witch-of-flames:set",
@@ -10088,7 +10088,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 41243
       },
-      "verifiedAt": "2026-11-19T18:13:26.104Z"
+      "verifiedAt": "2026-11-19T18:21:08.834Z"
     },
     "artifact:maiden-beloved:set": {
       "key": "artifact:maiden-beloved:set",
@@ -10105,7 +10105,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 40946
       },
-      "verifiedAt": "2026-11-19T18:13:26.109Z"
+      "verifiedAt": "2026-11-19T18:21:08.836Z"
     },
     "artifact:retracing-bolide:set": {
       "key": "artifact:retracing-bolide:set",
@@ -10122,7 +10122,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 43539
       },
-      "verifiedAt": "2026-11-19T18:13:26.112Z"
+      "verifiedAt": "2026-11-19T18:21:08.838Z"
     },
     "artifact:celestial-gift:set": {
       "key": "artifact:celestial-gift:set",
@@ -10139,7 +10139,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 62562
       },
-      "verifiedAt": "2026-11-19T18:13:26.117Z"
+      "verifiedAt": "2026-11-19T18:21:08.840Z"
     },
     "artifact:a-day-carved-from-rising-winds:set": {
       "key": "artifact:a-day-carved-from-rising-winds:set",
@@ -10156,7 +10156,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 60624
       },
-      "verifiedAt": "2026-11-19T18:13:26.122Z"
+      "verifiedAt": "2026-11-19T18:21:08.842Z"
     },
     "artifact:disenchantment-in-deep-shadow:set": {
       "key": "artifact:disenchantment-in-deep-shadow:set",
@@ -10173,7 +10173,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 61523
       },
-      "verifiedAt": "2026-11-19T18:13:26.127Z"
+      "verifiedAt": "2026-11-19T18:21:08.844Z"
     },
     "artifact:desert-pavilion-chronicle:set": {
       "key": "artifact:desert-pavilion-chronicle:set",
@@ -10190,7 +10190,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 58135
       },
-      "verifiedAt": "2026-11-19T18:13:26.132Z"
+      "verifiedAt": "2026-11-19T18:21:08.846Z"
     },
     "artifact:martial-artist:set": {
       "key": "artifact:martial-artist:set",
@@ -10207,7 +10207,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 20546
       },
-      "verifiedAt": "2026-11-19T18:13:26.137Z"
+      "verifiedAt": "2026-11-19T18:21:08.848Z"
     },
     "artifact:brave-heart:set": {
       "key": "artifact:brave-heart:set",
@@ -10224,7 +10224,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 21468
       },
-      "verifiedAt": "2026-11-19T18:13:26.141Z"
+      "verifiedAt": "2026-11-19T18:21:08.851Z"
     },
     "artifact:heart-of-depth:set": {
       "key": "artifact:heart-of-depth:set",
@@ -10241,7 +10241,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 37742
       },
-      "verifiedAt": "2026-11-19T18:13:26.146Z"
+      "verifiedAt": "2026-11-19T18:21:08.854Z"
     },
     "artifact:lavawalker:set": {
       "key": "artifact:lavawalker:set",
@@ -10258,7 +10258,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 36058
       },
-      "verifiedAt": "2026-11-19T18:13:26.151Z"
+      "verifiedAt": "2026-11-19T18:21:08.857Z"
     },
     "artifact:thundersoother:set": {
       "key": "artifact:thundersoother:set",
@@ -10275,7 +10275,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 42793
       },
-      "verifiedAt": "2026-11-19T18:13:26.156Z"
+      "verifiedAt": "2026-11-19T18:21:08.860Z"
     },
     "artifact:golden-troupe:set": {
       "key": "artifact:golden-troupe:set",
@@ -10292,7 +10292,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 57918
       },
-      "verifiedAt": "2026-11-19T18:13:26.160Z"
+      "verifiedAt": "2026-11-19T18:21:08.863Z"
     },
     "artifact:prayers-for-destiny:set": {
       "key": "artifact:prayers-for-destiny:set",
@@ -10309,7 +10309,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 24936
       },
-      "verifiedAt": "2026-11-19T18:13:26.165Z"
+      "verifiedAt": "2026-11-19T18:21:08.866Z"
     },
     "artifact:prayers-for-illumination:set": {
       "key": "artifact:prayers-for-illumination:set",
@@ -10326,7 +10326,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 24847
       },
-      "verifiedAt": "2026-11-19T18:13:26.172Z"
+      "verifiedAt": "2026-11-19T18:21:08.869Z"
     },
     "artifact:prayers-for-wisdom:set": {
       "key": "artifact:prayers-for-wisdom:set",
@@ -10343,7 +10343,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 24998
       },
-      "verifiedAt": "2026-11-19T18:13:26.177Z"
+      "verifiedAt": "2026-11-19T18:21:08.872Z"
     },
     "artifact:prayers-to-springtime:set": {
       "key": "artifact:prayers-to-springtime:set",
@@ -10360,7 +10360,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 24947
       },
-      "verifiedAt": "2026-11-19T18:13:26.182Z"
+      "verifiedAt": "2026-11-19T18:21:08.875Z"
     },
     "artifact:noblesse-oblige:set": {
       "key": "artifact:noblesse-oblige:set",
@@ -10377,7 +10377,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 34664
       },
-      "verifiedAt": "2026-11-19T18:13:26.187Z"
+      "verifiedAt": "2026-11-19T18:21:08.877Z"
     },
     "artifact:silken-moon-s-serenade:set": {
       "key": "artifact:silken-moon-s-serenade:set",
@@ -10394,7 +10394,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 65008
       },
-      "verifiedAt": "2026-11-19T18:13:26.192Z"
+      "verifiedAt": "2026-11-19T18:21:08.880Z"
     },
     "artifact:obsidian-codex:set": {
       "key": "artifact:obsidian-codex:set",
@@ -10411,7 +10411,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 87108
       },
-      "verifiedAt": "2026-11-19T18:13:26.197Z"
+      "verifiedAt": "2026-11-19T18:21:08.884Z"
     },
     "artifact:shimenawa-s-reminiscence:set": {
       "key": "artifact:shimenawa-s-reminiscence:set",
@@ -10428,7 +10428,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 32267
       },
-      "verifiedAt": "2026-11-19T18:13:26.202Z"
+      "verifiedAt": "2026-11-19T18:21:08.888Z"
     },
     "artifact:the-exile:set": {
       "key": "artifact:the-exile:set",
@@ -10445,7 +10445,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 27409
       },
-      "verifiedAt": "2026-11-19T18:13:26.206Z"
+      "verifiedAt": "2026-11-19T18:21:08.890Z"
     },
     "artifact:scholar:set": {
       "key": "artifact:scholar:set",
@@ -10462,7 +10462,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 22918
       },
-      "verifiedAt": "2026-11-19T18:13:26.211Z"
+      "verifiedAt": "2026-11-19T18:21:08.892Z"
     },
     "artifact:traveling-doctor:set": {
       "key": "artifact:traveling-doctor:set",
@@ -10479,7 +10479,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 24529
       },
-      "verifiedAt": "2026-11-19T18:13:26.216Z"
+      "verifiedAt": "2026-11-19T18:21:08.895Z"
     },
     "artifact:tiny-miracle:set": {
       "key": "artifact:tiny-miracle:set",
@@ -10496,7 +10496,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 23906
       },
-      "verifiedAt": "2026-11-19T18:13:26.221Z"
+      "verifiedAt": "2026-11-19T18:21:08.897Z"
     },
     "artifact:unfinished-reverie:set": {
       "key": "artifact:unfinished-reverie:set",
@@ -10513,7 +10513,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 63953
       },
-      "verifiedAt": "2026-11-19T18:13:26.225Z"
+      "verifiedAt": "2026-11-19T18:21:08.899Z"
     },
     "artifact:pale-flame:set": {
       "key": "artifact:pale-flame:set",
@@ -10530,7 +10530,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 38595
       },
-      "verifiedAt": "2026-11-19T18:13:26.229Z"
+      "verifiedAt": "2026-11-19T18:21:08.902Z"
     },
     "artifact:bloodstained-chivalry:set": {
       "key": "artifact:bloodstained-chivalry:set",
@@ -10547,7 +10547,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 36458
       },
-      "verifiedAt": "2026-11-19T18:13:26.233Z"
+      "verifiedAt": "2026-11-19T18:21:08.903Z"
     },
     "artifact:emblem-of-severed-fate:set": {
       "key": "artifact:emblem-of-severed-fate:set",
@@ -10564,7 +10564,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 31948
       },
-      "verifiedAt": "2026-11-19T18:13:26.238Z"
+      "verifiedAt": "2026-11-19T18:21:08.905Z"
     },
     "artifact:finale-of-the-deep-galleries:set": {
       "key": "artifact:finale-of-the-deep-galleries:set",
@@ -10581,7 +10581,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 21435
       },
-      "verifiedAt": "2026-11-19T18:13:26.242Z"
+      "verifiedAt": "2026-11-19T18:21:08.907Z"
     },
     "artifact:wanderer-s-troupe:set": {
       "key": "artifact:wanderer-s-troupe:set",
@@ -10598,7 +10598,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 34210
       },
-      "verifiedAt": "2026-11-19T18:13:26.247Z"
+      "verifiedAt": "2026-11-19T18:21:08.908Z"
     },
     "artifact:blizzard-strayer:set": {
       "key": "artifact:blizzard-strayer:set",
@@ -10615,7 +10615,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 38141
       },
-      "verifiedAt": "2026-11-19T18:13:26.252Z"
+      "verifiedAt": "2026-11-19T18:21:08.909Z"
     },
     "artifact:song-of-days-past:set": {
       "key": "artifact:song-of-days-past:set",
@@ -10632,7 +10632,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 66667
       },
-      "verifiedAt": "2026-11-19T18:13:26.257Z"
+      "verifiedAt": "2026-11-19T18:21:08.911Z"
     },
     "artifact:nymph-s-dream:set": {
       "key": "artifact:nymph-s-dream:set",
@@ -10649,7 +10649,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 59905
       },
-      "verifiedAt": "2026-11-19T18:13:26.261Z"
+      "verifiedAt": "2026-11-19T18:21:08.912Z"
     },
     "artifact:tenacity-of-the-millelith:set": {
       "key": "artifact:tenacity-of-the-millelith:set",
@@ -10666,7 +10666,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 30486
       },
-      "verifiedAt": "2026-11-19T18:13:26.266Z"
+      "verifiedAt": "2026-11-19T18:21:08.914Z"
     },
     "artifact:vermillion-hereafter:set": {
       "key": "artifact:vermillion-hereafter:set",
@@ -10683,7 +10683,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 60254
       },
-      "verifiedAt": "2026-11-19T18:13:26.270Z"
+      "verifiedAt": "2026-11-19T18:21:08.915Z"
     },
     "artifact:lucky-dog:set": {
       "key": "artifact:lucky-dog:set",
@@ -10700,7 +10700,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 19798
       },
-      "verifiedAt": "2026-11-19T18:13:26.275Z"
+      "verifiedAt": "2026-11-19T18:21:08.918Z"
     },
     "artifact:nighttime-whispers-in-the-echoing-woods:set": {
       "key": "artifact:nighttime-whispers-in-the-echoing-woods:set",
@@ -10717,7 +10717,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 55919
       },
-      "verifiedAt": "2026-11-19T18:13:26.279Z"
+      "verifiedAt": "2026-11-19T18:21:08.920Z"
     },
     "artifact:flower-of-paradise-lost:set": {
       "key": "artifact:flower-of-paradise-lost:set",
@@ -10734,7 +10734,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 65229
       },
-      "verifiedAt": "2026-11-19T18:13:26.283Z"
+      "verifiedAt": "2026-11-19T18:21:08.921Z"
     },
     "artifact:night-of-the-sky-s-unveiling:set": {
       "key": "artifact:night-of-the-sky-s-unveiling:set",
@@ -10751,7 +10751,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 58155
       },
-      "verifiedAt": "2026-11-19T18:13:26.288Z"
+      "verifiedAt": "2026-11-19T18:21:08.922Z"
     },
     "artifact:aubade-of-morningstar-and-moon:set": {
       "key": "artifact:aubade-of-morningstar-and-moon:set",
@@ -10768,7 +10768,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 63282
       },
-      "verifiedAt": "2026-11-19T18:13:26.293Z"
+      "verifiedAt": "2026-11-19T18:21:08.924Z"
     },
     "artifact:ocean-hued-clam:set": {
       "key": "artifact:ocean-hued-clam:set",
@@ -10785,7 +10785,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 31362
       },
-      "verifiedAt": "2026-11-19T18:13:26.298Z"
+      "verifiedAt": "2026-11-19T18:21:08.925Z"
     },
     "artifact:scroll-of-the-hero-of-cinder-city:set": {
       "key": "artifact:scroll-of-the-hero-of-cinder-city:set",
@@ -10802,7 +10802,7 @@
         "actualFormat": "png",
         "fileSizeBytes": 55655
       },
-      "verifiedAt": "2026-11-19T18:13:26.302Z"
+      "verifiedAt": "2026-11-19T18:21:08.927Z"
     }
   }
 }

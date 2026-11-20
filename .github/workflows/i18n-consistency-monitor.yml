@@ -1,24 +1,8 @@
 name: Translation Consistency Monitor
 
-# Lấp khoảng trống đã audit ngày 2026-09-22: 3 script i18n (translate-with-
-# glossary / translation-review-system / translation-consistency-checker)
-# không hề được workflow nào gọi — chỉ chạy tay. Workflow này nối
-# translation-consistency-checker.ts (đã xác nhận CHỈ ĐỌC DB, không có
-# .update()/.create() nào — an toàn 100% để chạy tự động không cần review)
-# vào lịch, tự báo qua GitHub Issue khi có vấn đề.
-#
-# CHỦ Ý KHÔNG nối translate-with-glossary.ts (script SINH bản dịch mới
-# bằng Azure Translator rồi ghi thẳng vào DB) vào workflow tự động này —
-# khác với dữ liệu số liệu (ATK/HP/...) có thể verify khách quan bằng
-# verify-seed-integrity.ts, CHẤT LƯỢNG bản dịch máy mới sinh ra KHÔNG có
-# cách nào CI tự kiểm chứng được (không có "đúng/sai" nhị phân như số
-# liệu) — nên KHÔNG auto-merge được an toàn theo đúng pattern đã có ở
-# update-data.yml. Xem mục "Hướng cải thiện tiếp theo" trong
-# LEIBO_IMPROVEMENT_PLAN.md để biết thiết kế đề xuất cho bước này (xuất
-# bản dịch mới ra PR để review, thay vì ghi thẳng DB không ai xem).
 on:
   schedule:
-    # 6:30 UTC+7 = 23:30 UTC — chạy sau data-quality-monitor.yml (23:00 UTC)
+    # 6:30 UTC+7 = 23:30 UTC
     - cron: '30 23 * * *'
   workflow_dispatch:
 
@@ -36,9 +20,9 @@ jobs:
       DATABASE_URL: ${{ secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
       DIRECT_URL: ${{ secrets.PROD_DIRECT_URL || secrets.DIRECT_URL || secrets.DATABASE_URL }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
@@ -64,9 +48,9 @@ jobs:
           ERRORS=$(node -e "console.log(JSON.parse(require('fs').readFileSync('scripts/i18n/consistency-report.json','utf-8')).bySeverity.error || 0)")
           echo "errors=$ERRORS" >> "$GITHUB_OUTPUT"
 
-      - name: Create/update issue if consistency errors found (tránh trùng lặp)
+      - name: Create or update issue if consistency errors found
         if: steps.report.outputs.errors != '0'
-        uses: actions/github-script@v9
+        uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');

@@ -1,0 +1,189 @@
+name: Data Update Pipeline
+
+on:
+  schedule:
+    # 4:00 AM UTC+7 (21:00 UTC) hàng ngày
+    - cron: '0 21 * * *'
+  workflow_dispatch:
+    inputs:
+      force_update:
+        description: 'Force update even if genshin-db version is unchanged'
+        required: false
+        default: false
+        type: boolean
+  repository_dispatch:
+    types: [genshin-db-update]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+env:
+  DATABASE_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
+  DIRECT_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
+
+concurrency:
+  group: leibo-data-update-pipeline
+  cancel-in-progress: false
+
+jobs:
+  check-and-update-data:
+    name: Crawl, Validate & Open PR
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: leibo_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check genshin-db version
+        id: version-check
+        run: |
+          LATEST=$(npm view genshin-db version 2>/dev/null || echo "")
+          CURRENT=$(node -p "require('./package.json').dependencies['genshin-db']?.replace(/[\^~]/g, '') || ''")
+          echo "current_version=$CURRENT" >> "$GITHUB_OUTPUT"
+          echo "latest_version=$LATEST" >> "$GITHUB_OUTPUT"
+          
+          echo "Current: $CURRENT | Latest npm: $LATEST"
+          
+          if [ "${{ github.event.inputs.force_update }}" = "true" ] || ([ -n "$LATEST" ] && [ "$CURRENT" != "$LATEST" ]); then
+            echo "should_update=true" >> "$GITHUB_OUTPUT"
+            echo "Upgrade required: $CURRENT -> $LATEST"
+          else
+            echo "should_update=false" >> "$GITHUB_OUTPUT"
+            echo "Already up-to-date: $CURRENT"
+          fi
+
+      - name: Upgrade genshin-db package
+        if: steps.version-check.outputs.should_update == 'true'
+        run: |
+          LATEST="${{ steps.version-check.outputs.latest_version }}"
+          if [ -n "$LATEST" ]; then
+            npm install "genshin-db@$LATEST" --save
+          fi
+
+      - name: Apply schema migrations to test database
+        if: steps.version-check.outputs.should_update == 'true'
+        run: |
+          npx prisma generate
+          npx prisma migrate deploy
+
+      - name: Sync metadata & discover game versions
+        if: steps.version-check.outputs.should_update == 'true'
+        run: npx tsx scripts/sync/update-data.ts
+
+      - name: Crawl game data from genshin-db
+        if: steps.version-check.outputs.should_update == 'true'
+        run: npm run data:crawl
+
+      - name: Sync authentic game assets from CDN
+        if: steps.version-check.outputs.should_update == 'true'
+        run: npm run assets:sync
+
+      - name: Seed test database
+        if: steps.version-check.outputs.should_update == 'true'
+        run: npx tsx scripts/seed/seed.ts
+
+      - name: Verify data integrity (Strict - No False Positives)
+        if: steps.version-check.outputs.should_update == 'true'
+        # KHÔNG DÙNG continue-on-error: true. Bất kỳ lỗi dữ liệu nào phải dừng ngay tại đây!
+        run: npx tsx scripts/seed/verify-seed-integrity.ts
+
+      - name: Validate Asset Manifest & Mapping
+        if: steps.version-check.outputs.should_update == 'true'
+        run: npm run assets:validate
+
+      - name: Validate Character Build Profiles
+        if: steps.version-check.outputs.should_update == 'true'
+        run: npm run builds:update
+
+      - name: Run unit & integration test suite
+        if: steps.version-check.outputs.should_update == 'true'
+        run: npm test
+
+      - name: Check for staged modifications
+        if: steps.version-check.outputs.should_update == 'true'
+        id: git-diff
+        run: |
+          git add -f package.json package-lock.json data/raw/ scripts/data/ public/local-genshin-assets/
+          if git diff --cached --quiet; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            echo "No file changes detected."
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            echo "New data and assets detected."
+          fi
+
+      - name: Create Pull Request for data review (Zero Direct Push to main)
+        if: steps.version-check.outputs.should_update == 'true' && steps.git-diff.outputs.has_changes == 'true'
+        id: cpr
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore(data): auto-update game data to genshin-db v${{ steps.version-check.outputs.latest_version }}"
+          title: "chore(data): auto-update game data to genshin-db v${{ steps.version-check.outputs.latest_version }}"
+          branch: "data-update/genshin-db-v${{ steps.version-check.outputs.latest_version }}"
+          delete-branch: true
+          labels: |
+            data-update
+            automated-pr
+            needs-review
+          body: |
+            ## 🔄 Automated Game Data Update
+
+            Hệ thống đã tự động crawl và kiểm định dữ liệu phiên bản mới từ `genshin-db` (v${{ steps.version-check.outputs.latest_version }}).
+
+            ### ✅ Kết quả kiểm định tự động (CI Gate Pass):
+            - [x] Crawl raw data hoàn tất (`data/raw/`)
+            - [x] Sync authentic CDN assets hoàn tất (`public/local-genshin-assets/`)
+            - [x] Seed test database thành công 100%
+            - [x] Xác minh toàn vẹn dữ liệu (Strict Integrity Check) đạt chuẩn
+            - [x] Asset Validation Gate passed (`npm run assets:validate`)
+            - [x] Character Build Validation Gate passed (`npm run builds:update`)
+            - [x] Unit test suite passed (Vitest)
+
+            ### 🛡️ Nguyên tắc an toàn:
+            - **Không push trực tiếp vào main:** Dữ liệu bắt buộc phải qua Pull Request này.
+            - **Không bỏ qua CI:** Khi PR được tạo, workflow `ci.yml` sẽ tự động kích hoạt để build và smoke test trên Vercel Preview.
+            - **Không ghi production tự động:** Database Production chỉ được cập nhật sau khi PR này được merge vào `main` và phê duyệt thủ công qua `production-data.yml`.
+
+      - name: Create GitHub Issue on Pipeline Failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🚨 Data Update Pipeline Failure: Automated check did not pass',
+              body: `The automated data update pipeline encountered an error during crawl, seed, or integrity verification.\n\n` +
+                    `- **Workflow Run:** ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}\n` +
+                    `- **Event:** ${context.eventName}\n\n` +
+                    `_Dữ liệu lỗi đã bị chặn hoàn toàn, không tạo Pull Request và không ảnh hưởng đến Production._`,
+              labels: ['data-update', 'bug']
+            });

@@ -1,16 +1,8 @@
 name: Data Quality Monitor
 
-# Lấp khoảng trống đã audit ngày 2026-09-22: monitor:dashboard tồn tại
-# nhưng KHÔNG có workflow nào gọi nó — chỉ chạy tay. Nối vào lịch tự động,
-# theo ĐÚNG pattern đã có ở update-data.yml (chạy xong → nếu có vấn đề →
-# tự tạo GitHub Issue, không cần ai bấm gì trên đường happy-path; nếu có
-# vấn đề thật, Issue hiện ra để người duy nhất của dự án tự quyết định xử
-# lý — không tự "sửa" data theo phỏng đoán ở bước kiểm tra chất lượng).
 on:
   schedule:
-    # 6:00 UTC+7 = 23:00 UTC — chạy 1h SAU auto-fix.yml (21:00 UTC) và
-    # update-data.yml (thứ 4, 22:00 UTC), để luôn đo trên dữ liệu MỚI
-    # NHẤT vừa được các workflow kia cập nhật, không đo trên data cũ.
+    # 6:00 UTC+7 = 23:00 UTC
     - cron: '0 23 * * *'
   workflow_dispatch:
 
@@ -28,9 +20,9 @@ jobs:
       DATABASE_URL: ${{ secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
       DIRECT_URL: ${{ secrets.PROD_DIRECT_URL || secrets.DIRECT_URL || secrets.DATABASE_URL }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
@@ -55,17 +47,14 @@ jobs:
           echo "critical=$CRITICAL" >> "$GITHUB_OUTPUT"
           echo "score=$SCORE" >> "$GITHUB_OUTPUT"
 
-      - name: Create issue if critical alerts found (tránh trùng lặp)
+      - name: Create or update issue if critical alerts found
         if: steps.report.outputs.critical != '0'
-        uses: actions/github-script@v9
+        uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
             const report = JSON.parse(fs.readFileSync('scripts/monitoring/quality-report.json', 'utf-8'));
 
-            // Tránh spam issue mỗi ngày cho CÙNG 1 vấn đề chưa xử lý —
-            // tìm issue "data-quality" đang mở, nếu có thì comment thêm
-            // vào đó thay vì tạo issue mới.
             const existing = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,

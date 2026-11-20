@@ -1,0 +1,188 @@
+name: Production Data Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Action to execute on Production'
+        required: true
+        default: 'migrate-and-seed'
+        type: choice
+        options:
+          - 'migrate-and-seed'
+          - 'seed-only'
+          - 'backup-only'
+          - 'mirror-images-only'
+      confirmation:
+        description: 'Type "DEPLOY_PROD" to confirm execution'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: leibo-production-database
+  cancel-in-progress: false
+
+jobs:
+  deploy-production:
+    name: Execute Production Deployment
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    # Bắt buộc qua GitHub Environment "production" (yêu cầu Reviewer Approval trên GitHub Settings)
+    environment: production
+
+    steps:
+      - name: Validate Confirmation Token
+        run: |
+          if [ "${{ github.event.inputs.confirmation }}" != "DEPLOY_PROD" ]; then
+            echo "::error::Confirmation token mismatch. Expected 'DEPLOY_PROD', received '${{ github.event.inputs.confirmation }}'."
+            exit 1
+          fi
+          echo "✅ Confirmation token verified."
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate Production Secrets
+        run: |
+          : "${DATABASE_URL:?Missing production database secret (PROD_DATABASE_URL or DATABASE_URL)}"
+          : "${DIRECT_URL:?Missing direct database secret (PROD_DIRECT_URL, DIRECT_URL, PROD_DATABASE_URL or DATABASE_URL)}"
+          echo "✅ Production database credentials located."
+        env:
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL || secrets.DIRECT_URL || secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
+
+      # P0 Gate: Bắt buộc tạo và kiểm tra backup thành công TRƯỚC KHI thực hiện bất kỳ lệnh ghi nào
+      - name: Mandatory Pre-Flight Backup & Verification
+        if: "${{ github.event.inputs.action == 'migrate-and-seed' || github.event.inputs.action == 'seed-only' || github.event.inputs.action == 'backup-only' }}"
+        env:
+          BACKUP_S3_BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL || secrets.DIRECT_URL || secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${BACKUP_S3_BUCKET:-}" ] || [ -z "${AWS_ACCESS_KEY_ID:-}" ]; then
+            echo "::error::Missing AWS/S3 backup credentials. Cannot proceed with production writes without verified backup!"
+            exit 1
+          fi
+
+          echo "📦 Initiating database snapshot via pg_dump..."
+          backup_name="leibo-prod-$(date -u +%Y%m%dT%H%M%SZ)-run${GITHUB_RUN_ID}.dump"
+          backup_file="$(mktemp --suffix=.dump)"
+          checksum_file="${backup_file}.sha256"
+          backup_key="database-backups/${backup_name}"
+          trap 'rm -f "$backup_file" "$checksum_file"' EXIT
+
+          pg_dump --format=custom --no-owner --no-acl --file="$backup_file" "$DIRECT_URL"
+          test -s "$backup_file"
+          pg_restore --list "$backup_file" > /dev/null
+          sha256sum "$backup_file" > "$checksum_file"
+
+          echo "☁️ Uploading verified snapshot to S3 bucket ${BACKUP_S3_BUCKET}..."
+          aws s3 cp "$backup_file" "s3://${BACKUP_S3_BUCKET}/${backup_key}" \
+            --region "$AWS_REGION" --only-show-errors
+          aws s3 cp "$checksum_file" "s3://${BACKUP_S3_BUCKET}/${backup_key}.sha256" \
+            --region "$AWS_REGION" --only-show-errors
+
+          uploaded_size=$(aws s3api head-object \
+            --bucket "$BACKUP_S3_BUCKET" \
+            --key "$backup_key" \
+            --region "$AWS_REGION" \
+            --query ContentLength --output text)
+          
+          local_size=$(stat -c %s "$backup_file")
+          if [ "$uploaded_size" != "$local_size" ]; then
+            echo "::error::Uploaded size mismatch: $uploaded_size != $local_size"
+            exit 1
+          fi
+
+          echo "✅ Production database snapshot verified and stored: ${backup_key}"
+          printf '### 🛡️ Pre-Flight Backup Verified\n- Key: `%s`\n- Size: %s bytes\n\n' "$backup_key" "$local_size" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Apply Prisma Migrations to Production
+        if: "${{ github.event.inputs.action == 'migrate-and-seed' }}"
+        env:
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL || secrets.DIRECT_URL || secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
+        run: |
+          echo "🚀 Applying pending migrations to production..."
+          npx prisma migrate deploy
+          echo "✅ Migrations deployed successfully."
+
+      - name: Seed Production Database
+        if: "${{ github.event.inputs.action == 'migrate-and-seed' || github.event.inputs.action == 'seed-only' }}"
+        env:
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL || secrets.DIRECT_URL || secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
+        run: |
+          echo "🌱 Seeding production database..."
+          npx tsx scripts/seed/seed.ts
+          echo "✅ Seeding finished."
+
+      - name: Verify Production Database Integrity
+        if: "${{ github.event.inputs.action == 'migrate-and-seed' || github.event.inputs.action == 'seed-only' }}"
+        env:
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL || secrets.DIRECT_URL || secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
+        run: |
+          echo "🔍 Verifying production database integrity..."
+          npx tsx scripts/seed/verify-seed-integrity.ts
+          echo "✅ Production integrity verified."
+
+      - name: Mirror Game Assets to Cloudflare R2
+        if: "${{ github.event.inputs.action == 'migrate-and-seed' || github.event.inputs.action == 'mirror-images-only' }}"
+        env:
+          DATABASE_URL: ${{ secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.PROD_DIRECT_URL || secrets.DIRECT_URL || secrets.PROD_DATABASE_URL || secrets.DATABASE_URL }}
+          R2_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET_NAME: ${{ secrets.CLOUDFLARE_R2_BUCKET }}
+          R2_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_R2_ACCOUNT_ID }}
+          R2_PUBLIC_URL: ${{ secrets.R2_PUBLIC_URL }}
+        run: |
+          if [ -n "${R2_ACCESS_KEY_ID:-}" ]; then
+            echo "🖼️ Mirroring assets to Cloudflare R2..."
+            npx tsx scripts/images/mirror-images-to-r2.ts
+            echo "✅ Asset mirror complete."
+          else
+            echo "ℹ️ Cloudflare R2 credentials not configured. Skipping mirror."
+          fi
+
+      - name: Production Deployment Summary
+        run: |
+          echo "### 🚀 Production Deployment Report" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Action:** ${{ github.event.inputs.action }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Status:** ✅ Completed successfully" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Operator:** ${{ github.actor }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Timestamp:** $(date -u)" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Alert on Failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🚨 CRITICAL: Production Data Deployment Failed',
+              body: `Execution of action "${context.payload.inputs ? context.payload.inputs.action : 'unknown'}" on Production database failed.\n\n` +
+                    `- **Run URL:** ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}\n` +
+                    `- **Triggered by:** ${context.actor}\n\n` +
+                    `_Vui lòng kiểm tra log ngay lập tức và khôi phục từ snapshot nếu cần thiết._`,
+              labels: ['production', 'bug', 'critical']
+            });

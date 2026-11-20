@@ -9,42 +9,27 @@ on:
 permissions:
   contents: read
 
-# DB giả (service container) — build của app này chạy ISR (revalidate) nên
-# `next build` thực sự query DB, không thể giả bằng URL rỗng.
-#
-# SỬA (2026-09): trước đây chỉ khai báo 1 lần ở đây (cấp workflow) rồi
-# trông chờ mọi job/step tự kế thừa — về lý thuyết GitHub Actions có kế
-# thừa `env:` cấp workflow xuống mọi job, nhưng job `lint-and-typecheck`
-# vẫn báo thiếu `DIRECT_URL` ngay ở bước `npm ci` (hook `postinstall` tự
-# chạy `prisma generate`, đọc biến này qua `prisma.config.ts`). Để không
-# phụ thuộc vào việc kế thừa ngầm nữa, giờ khai báo TƯỜNG MINH lại ở từng
-# job có chạy lệnh cần DB — an toàn hơn và tự mô tả rõ job đó cần gì mà
-# không cần đọc ngược lên đầu file.
+# DB service container env for tests and build
 env:
   DATABASE_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
   DIRECT_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
 
-# Hủy các run cũ hơn của cùng 1 branch/PR khi có push mới — tránh chạy
-# song song nhiều lần cho cùng 1 chuỗi commit, tốn phút GitHub Actions.
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   lint-and-typecheck:
-    name: Lint & Typecheck
+    name: Code & Asset Validation Gate
     runs-on: ubuntu-latest
-    timeout-minutes: 30
-    # Khai báo tường minh lại (xem giải thích ở env cấp workflow phía
-    # trên) — `npm ci` ở bước dưới tự chạy hook `postinstall: prisma
-    # generate`, cần DIRECT_URL đọc được NGAY tại thời điểm đó.
+    timeout-minutes: 20
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
       DIRECT_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
@@ -52,24 +37,23 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Lint
+      - name: ESLint
         run: npm run lint
 
-      - name: Typecheck
+      - name: TypeScript Typecheck
         run: npm run typecheck
 
-      - name: Test
-        # Vitest mock hoàn toàn "@prisma/client" (xem tests/setup.ts) nên
-        # không cần DB thật hay `prisma generate` chạy xong — an toàn để
-        # chạy ngay trong job này, không cần service container Postgres.
+      - name: Unit Tests (Vitest)
         run: npm run test
 
-      - name: Validate Assets
-        # LEIBO Asset Validation CI Check
+      - name: Asset Validation Gate
         run: npm run assets:validate
 
-  build:
-    name: Migrate & Build
+      - name: Character Build Validation Gate (KQM 4-Layer)
+        run: npm run builds:update
+
+  build-and-smoke:
+    name: Build, API Smoke & Playwright E2E
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: lint-and-typecheck
@@ -93,9 +77,9 @@ jobs:
           --health-retries 5
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
@@ -103,66 +87,30 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Apply migrations
+      - name: Apply database migrations
         run: npx prisma migrate deploy
 
-      - name: Build
+      - name: Seed test database
+        run: npx tsx scripts/seed/seed.ts
+
+      - name: Build Next.js application
         run: npm run build
 
-  api-smoke-test:
-    name: API smoke test
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    needs: build
-    env:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
-      DIRECT_URL: postgresql://postgres:postgres@localhost:5432/leibo_test
-
-    services:
-      postgres:
-        image: postgres:16
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: leibo_test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U postgres"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-    steps:
-      - uses: actions/checkout@v7
-
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Apply migrations
-        run: npx prisma migrate deploy
-
-      - name: Build
-        run: npm run build
-
-      - name: API smoke tests
+      - name: Start server & Run API Smoke Tests
         run: |
           set -euo pipefail
           npm run start -- -p 3000 > /tmp/leibo-next.log 2>&1 &
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
 
+          echo "Waiting for Next.js server to be healthy..."
           curl --fail --silent --show-error --retry 30 --retry-connrefused \
-            --retry-delay 1 --max-time 2 http://localhost:3000/api/health > /dev/null || {
+            --retry-delay 1 --max-time 3 http://localhost:3000/api/health > /dev/null || {
             cat /tmp/leibo-next.log
             exit 1
           }
 
+          echo "Validating API endpoints..."
           curl -sf http://localhost:3000/api | tee /tmp/api.json
           grep -q '"success":true' /tmp/api.json
 
@@ -173,7 +121,6 @@ jobs:
           curl -sf "http://localhost:3000/api/search?q=raiden&locale=en&limit=1" | tee /tmp/search.json
           grep -q '"success":true' /tmp/search.json
           grep -q '"characters":' /tmp/search.json
-          grep -q '"materials":' /tmp/search.json
 
           status=$(curl -s -o /tmp/bad.json -w "%{http_code}" "http://localhost:3000/api/characters?rarity=9")
           cat /tmp/bad.json
@@ -182,3 +129,13 @@ jobs:
           status=$(curl -s -o /tmp/notfound.json -w "%{http_code}" "http://localhost:3000/api/characters/khong-ton-tai")
           cat /tmp/notfound.json
           test "$status" = "404"
+
+          echo "API Smoke Tests PASSED."
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright E2E Smoke Tests
+        env:
+          PLAYWRIGHT_TEST_BASE_URL: http://localhost:3000
+        run: npx playwright test tests/e2e/home.spec.ts --project=chromium

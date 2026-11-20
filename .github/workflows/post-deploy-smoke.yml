@@ -1,0 +1,73 @@
+name: Post-Deploy Smoke Test
+
+on:
+  deployment_status:
+  workflow_dispatch:
+    inputs:
+      target_url:
+        description: 'URL to smoke test (e.g., https://leibo.vn or preview URL)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  smoke-test:
+    name: Production / Preview Health Smoke
+    # Run only if triggered manually or when deployment_status is success
+    if: github.event_name == 'workflow_dispatch' || github.event.deployment_status.state == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Determine Target URL
+        id: target
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            URL="${{ github.event.inputs.target_url }}"
+          else
+            URL="${{ github.event.deployment_status.target_url || github.event.deployment_status.environment_url }}"
+          fi
+          # Strip trailing slash
+          URL="${URL%/}"
+          echo "target_url=$URL" >> "$GITHUB_OUTPUT"
+          echo "Testing Target URL: $URL"
+
+      - name: Verify Health and Essential Endpoints
+        run: |
+          set -euo pipefail
+          BASE_URL="${{ steps.target.outputs.target_url }}"
+
+          echo "Checking Health endpoint: $BASE_URL/api/health"
+          curl --fail --silent --show-error --retry 10 --retry-connrefused \
+            --retry-delay 2 --max-time 10 "$BASE_URL/api/health" | grep -q '"status":"ok"'
+
+          echo "Checking API index: $BASE_URL/api"
+          curl --fail --silent --show-error "$BASE_URL/api" | grep -q '"success":true'
+
+          echo "Checking Characters listing API: $BASE_URL/api/characters?limit=1"
+          curl --fail --silent --show-error "$BASE_URL/api/characters?limit=1" | grep -q '"success":true'
+
+          echo "Checking Web UI Home (HTTP 200): $BASE_URL"
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$BASE_URL")
+          test "$HTTP_STATUS" = "200" || test "$HTTP_STATUS" = "307" || test "$HTTP_STATUS" = "308"
+
+          echo "✅ All Post-Deployment Smoke Tests PASSED."
+
+      - name: Alert on Post-Deployment Failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🚨 Post-Deployment Smoke Test Failed',
+              body: `Deployment health check failed for URL: ${{ steps.target.outputs.target_url }}\n\n` +
+                    `- **Run:** ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}\n` +
+                    `- **Event:** ${context.eventName}\n\n` +
+                    `_Vui lòng kiểm tra Vercel deployment logs và xem xét rollback nếu cần thiết._`,
+              labels: ['production', 'bug', 'critical']
+            });

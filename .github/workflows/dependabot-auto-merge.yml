@@ -10,24 +10,55 @@ permissions:
 
 jobs:
   auto-merge:
+    name: Evaluate & Auto-Merge Patch devDependencies
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
     steps:
       - name: Fetch Dependabot metadata
         id: metadata
-        uses: dependabot/fetch-metadata@v3
+        uses: dependabot/fetch-metadata@v2
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
 
+      # Chỉ auto-merge nếu là patch version của devDependencies (KHÔNG auto-merge direct runtime dependencies)
+      - name: Check Eligibility (Safe Patch Updates Only)
+        id: check-eligibility
+        run: |
+          PACKAGE_NAME="${{ steps.metadata.outputs.dependency-names }}"
+          UPDATE_TYPE="${{ steps.metadata.outputs.update-type }}"
+          DEP_TYPE="${{ steps.metadata.outputs.dependency-type }}"
+
+          echo "Evaluating package: $PACKAGE_NAME"
+          echo "Update type: $UPDATE_TYPE"
+          echo "Dependency type: $DEP_TYPE"
+
+          # Blacklist critical frameworks from automated merge
+          if echo "$PACKAGE_NAME" | grep -Eq '^(next|react|react-dom|@prisma/client|prisma|zod|genshin-db)'; then
+            echo "::notice::Core framework $PACKAGE_NAME requires manual code review and verification."
+            echo "eligible=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Only allow patch updates for devDependencies
+          if [ "$UPDATE_TYPE" = "version-update:semver-patch" ] && [ "$DEP_TYPE" = "direct:development" ]; then
+            echo "✅ Eligible for automated merge."
+            echo "eligible=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::Update is not a safe devDependency patch. Manual approval required."
+            echo "eligible=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Approve Dependabot PR
-        run: gh pr review --approve "$PR_URL" || echo "Auto-approval skipped or already approved"
+        if: steps.check-eligibility.outputs.eligible == 'true'
+        run: gh pr review --approve "$PR_URL"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Enable Auto-Merge
+        if: steps.check-eligibility.outputs.eligible == 'true'
         run: |
-          gh pr merge --auto --squash "$PR_URL" || gh pr merge --auto --merge "$PR_URL"
+          gh pr merge --auto --squash "$PR_URL"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -32,22 +32,19 @@ này).
 
 ## Các nhánh tự động (không phải bạn tạo tay)
 
-- `auto/update-data-YYYYMMDD` — do `update-data.yml` tự tạo hàng tuần
-  (thứ 4), tự mở PR, tự merge nếu `db:verify` + `ci.yml` đều pass. Không
-  cần đụng vào, chỉ cần theo dõi Issues nếu có báo lỗi.
-- `auto-fix.yml` **không tạo nhánh** — nó ghi thẳng vào DB production
-  (không phải code), nên không đi qua PR.
+- `data-update/genshin-db-v<version>` — do `data-update.yml` tự tạo khi có dữ liệu
+  game mới (hàng ngày 4:00 AM VN), crawl, sync asset, seed test DB, verify integrity
+  nghiêm ngặt và tự động mở PR. Không commit/push thẳng vào `main`.
+  Khi PR được mở, `ci.yml` và Vercel Preview sẽ tự động kiểm thử.
+- `production-data.yml` — triển khai dữ liệu đã duyệt lên Production DB có kiểm soát
+  qua GitHub Environment `production` (yêu cầu review) và backup S3 bắt buộc.
 
 ## Nên bật thêm (làm 1 lần trong GitHub UI, không phải file)
 
-Vào **Settings → Branches → Add branch protection rule** cho `main`:
+Vào **Settings → Rules → Rulesets** (hoặc **Branches → Add branch protection rule**) cho `main`:
 - ✅ Require a pull request before merging
-- ✅ Require status checks to pass before merging → chọn các job của
-  `ci.yml` (`Lint & Typecheck`, `Migrate & Build`, `API smoke test`)
+- ✅ Require status checks to pass before merging → chọn 2 check của `ci.yml`:
+  1. `Code & Asset Validation Gate`
+  2. `Build, API Smoke & Playwright E2E`
 - ✅ Require branches to be up to date before merging
-- ❌ Không cần "Require approvals" vì làm 1 mình — nhưng vẫn nên bắt buộc
-  PR (không cho push thẳng) để giữ lịch sử rõ ràng và luôn có preview
-  trước khi lên production.
-
-Sau khi bật rule này, kể cả bạn cũng **không thể** push thẳng vào `main`
-nữa — bắt buộc qua nhánh + PR, đúng như quy trình ở trên.
+- ✅ Do not allow bypassing the above settings
