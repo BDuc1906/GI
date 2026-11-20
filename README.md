@@ -312,13 +312,18 @@ npm run test
 npm run build
 ```
 
-## 📄 Giấy phép
+## 📄 Giấy phép & Tuyên bố bản quyền (Multi-tiered Licensing)
 
-Phát hành theo giấy phép [MIT](./LICENSE). Dữ liệu game thuộc bản quyền của **miHoYo/HoYoverse**; dự án này chỉ nhằm mục đích tra cứu phi thương mại.
+Dự án áp dụng mô hình phân tách giấy phép rõ ràng theo từng loại tài nguyên:
+
+1. **Mã nguồn (Source Code):** Phát hành theo giấy phép [MIT](./LICENSE). Bạn có quyền tự do fork, sửa đổi, đóng góp và triển khai.
+2. **Tài nguyên Game & Sở hữu trí tuệ:** Hình ảnh, artwork, icon, sprite và nội dung game Genshin Impact thuộc bản quyền và nhãn hiệu của **COGNOSPHERE PTE. LTD. / miHoYo / HoYoverse** và **KHÔNG** nằm trong phạm vi cấp phép của MIT License. Chi tiết xem tại [ASSET-LICENSE.md](./public/local-genshin-assets/ASSET-LICENSE.md).
+3. **Attribution & Third-Party:** Danh mục bản quyền bên thứ ba và các thư viện mã nguồn mở được ghi nhận đầy đủ tại [NOTICE](./NOTICE) và [THIRD-PARTY-LICENSES.md](./THIRD-PARTY-LICENSES.md).
+
+> **Disclaimer:** LEIBO là ứng dụng phi thương mại do người hâm mộ phát triển (fan-made), phục vụ mục đích tra cứu và tính toán cộng đồng. LEIBO không liên kết, không được tài trợ và không thuộc sở hữu của HoYoverse hay COGNOSPHERE.
 
 ---
 
 <div align="center">
   <sub>Xây dựng với ❤️ bằng Next.js, Prisma và dữ liệu từ cộng đồng Genshin Impact.</sub>
 </div>
-# Tóm tắt các lỗi đã sửa

@@ -1,0 +1,86 @@
+# NOTICE — LEIBO
+
+LEIBO (Genshin Impact Database & Companion)
+Copyright (c) 2026 Bui Anh Duc and LEIBO Contributors.
+
+This product includes software developed as part of the LEIBO open-source project,
+licensed under the MIT License (see LICENSE).
+
+---
+
+## 1. Legal Disclaimer & Fan-Made Non-Commercial Notice
+
+LEIBO is an **unofficial, fan-made Genshin Impact database and companion website**.
+It is not affiliated with, endorsed by, sponsored by, or officially connected to:
+- **COGNOSPHERE PTE. LTD.**
+- **miHoYo Co., Ltd.**
+- **HoYoverse**
+
+Genshin Impact™, its characters, game mechanics, artwork, character illustrations,
+splash arts, icons, sprites, audio, names, and logos are the registered trademarks
+and copyrighted intellectual property of COGNOSPHERE PTE. LTD. and/or miHoYo Co., Ltd.
+
+All game assets, textual content, and intellectual property originating from Genshin Impact
+are used strictly under community fair-use and fan-made content principles for non-commercial,
+informational, and educational purposes.
+
+---
+
+## 2. Open-Source Scope & Asset Exclusions
+
+The open-source MIT License provided in this repository applies strictly to:
+- The website source code (Next.js, React, TypeScript).
+- Original calculation logic (DPS calculation, multi-profile evaluation, optimizer heuristics).
+- Custom database schemas and automation workflows.
+
+The MIT License **DOES NOT** apply to:
+- Any game assets, artwork, icons, or textures located in `public/local-genshin-assets/`
+  or served via content delivery networks (Cloudflare R2 mirrors).
+- Any proprietary text, lore, talent descriptions, or skill data originating from the game.
+- Any trademarks or trade dress of HoYoverse / miHoYo / COGNOSPHERE.
+
+Refer to `public/local-genshin-assets/ASSET-LICENSE.md` for specific game asset terms.
+
+---
+
+## 3. Community Acknowledgements & Third-Party Attributions
+
+LEIBO gratefully acknowledges the following open-source projects, APIs, and theorycrafting
+communities whose work makes this database possible:
+
+1. **genshin-db** (by the-Bow-Brothers)
+   - Primary data extraction and multilingual game database package.
+   - Website: https://github.com/the-Bow-Brothers/genshin-db
+   - License: MIT License
+
+2. **Enka.Network**
+   - Public player profile and character showcase API.
+   - Website: https://enka.network
+   - Creator: Algorithman / Enka.Network community
+
+3. **KeqingMains (KQM & KQMS)**
+   - Theorycrafting standards, character guides, rotation assumptions, and the 20-Roll Standard (KQMS).
+   - Website: https://keqingmains.com
+
+4. **Project Amber (Ambr.top)**
+   - Genshin Impact game data and UI asset reference.
+   - Website: https://ambr.top
+
+5. **Genshin Optimizer**
+   - Community-standard stat calculation methodologies.
+   - Website: https://genshin-optimizer.com
+
+---
+
+## 4. Contact & Rights Holder Inquiries
+
+If you are a copyright or trademark holder and believe that any content hosted on or
+accessible through this project infringes upon your rights, or if you have any questions
+regarding content usage, please submit an issue on the GitHub repository or contact:
+
+- Project Maintainer: Bui Anh Duc
+- Repository: https://github.com/BDuc1906/GI
+- Legal Inquiries: admin@leibo.gg (or via GitHub issue)
+
+We take intellectual property rights seriously and will respond promptly to legitimate
+requests regarding rights attribution or content removal.

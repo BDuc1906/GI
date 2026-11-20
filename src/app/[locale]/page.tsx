@@ -26,18 +26,13 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
 export default async function Home({ params }: HomePageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations({ locale, namespace: "Home" });
 
   return (
-    <div className="min-h-screen bg-bg-primary">
+    <div className="min-h-screen bg-bg-primary pb-8">
       <WikiHero />
       <VersionHub />
       <ServerTimers />
       <TeyvatCompendium />
-
-      <footer className="max-w-7xl mx-auto px-4 md:px-8 py-12 border-t border-border/60 text-center text-sm text-text-muted">
-        <p>{t("footerNote")}</p>
-      </footer>
     </div>
   );
 }

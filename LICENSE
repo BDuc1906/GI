@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2026 <Bui Anh Duc>
+Copyright (c) 2026 Bui Anh Duc (LEIBO Project Contributors)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +19,32 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+================================================================================
+EXCLUSIONS & INTELLECTUAL PROPERTY RESERVATION (TÁCH BIỆT QUYỀN SỞ HỮU)
+================================================================================
+
+This MIT License applies SOLELY to the original software source code, database
+schemas, computation algorithms, and custom documentation authored as part of the
+LEIBO project.
+
+This License DOES NOT grant, convey, or imply any license, right, title, or
+interest in:
+
+1. Genshin Impact Game Intellectual Property:
+   All characters, character artwork, splash arts, icons, sprites, weapon images,
+   artifact images, materials, elemental emblems, 3D assets, in-game audio, lore,
+   skill descriptions, and names are the copyrighted intellectual property and
+   trademarks of COGNOSPHERE PTE. LTD. / miHoYo / HoYoverse.
+
+2. Trademarks & Brand Assets:
+   "Genshin Impact", "HoYoverse", "miHoYo", and all associated logos, product
+   names, and marks are registered trademarks of their respective owners. The
+   LEIBO brand mark and name are fan-made and independent.
+
+3. Third-Party Game Assets & Communities:
+   All media assets stored under `public/local-genshin-assets/` and Cloudflare R2
+   mirrors are excluded from this MIT License. Please refer to:
+   - `NOTICE` (Repository root)
+   - `public/local-genshin-assets/ASSET-LICENSE.md`
+   - `THIRD-PARTY-LICENSES.md`
