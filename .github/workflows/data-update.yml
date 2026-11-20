@@ -146,7 +146,7 @@ jobs:
       - name: Create Pull Request for data review (Zero Direct Push to main)
         if: steps.version-check.outputs.should_update == 'true' && steps.git-diff.outputs.has_changes == 'true'
         id: cpr
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "chore(data): auto-update game data to genshin-db v${{ steps.version-check.outputs.latest_version }}"
