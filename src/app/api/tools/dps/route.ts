@@ -328,5 +328,5 @@ export const POST = withErrorHandling(
       weaponName: weapon.name,
       ...result,
     });
-  }, { prefix: "dps-calculator", limit: 30 })
+  }, { prefix: "dps-calculator", limit: 30, failClosed: true })
 );

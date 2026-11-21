@@ -10,11 +10,12 @@ import { NextRequest } from "next/server";
 import { getAuditLogs } from "@/agent/audit/AuditLogger";
 import { requireAdmin } from "@/agent/utils/auth";
 import { ok, fail } from "@/lib/api/response";
+import { withRateLimit } from "@/lib/api/rate-limit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export async function GET(req: NextRequest) {
+async function handler(req: NextRequest) {
   try {
     await requireAdmin(req);
 
@@ -33,3 +34,5 @@ export async function GET(req: NextRequest) {
     return fail(500, "AUDIT_LOGS_ERROR", error instanceof Error ? error.message : "Lỗi không xác định");
   }
 }
+
+export const GET = withRateLimit(handler, { prefix: "admin-audit-logs", limit: 30, failClosed: true });

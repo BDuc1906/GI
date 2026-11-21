@@ -46,4 +46,5 @@ export const POST = withRateLimit(handler, {
   prefix: "build-advisor",
   limit: 5,
   window: "60 s",
+  failClosed: true,
 });

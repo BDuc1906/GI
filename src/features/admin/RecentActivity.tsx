@@ -17,8 +17,9 @@ interface AuditLogEntry {
 }
 
 interface RecentActivityProps {
-  adminKey: string;
+  adminKey?: string;
   refreshToken: number; // đổi giá trị này (vd Date.now()) để ép re-fetch từ component cha
+  isAuthenticated?: boolean;
 }
 
 /**
@@ -27,7 +28,7 @@ interface RecentActivityProps {
  * "hộp đen" bắt buộc phải có trước khi tin tưởng FixTool/AutoFixEngine
  * chạy thật trên production (xem docs/SECURITY-agent-addendum.md).
  */
-export function RecentActivity({ adminKey, refreshToken }: RecentActivityProps) {
+export function RecentActivity({ adminKey, refreshToken, isAuthenticated = true }: RecentActivityProps) {
   const t = useTranslations("Admin");
   const locale = useLocale();
   const [logs, setLogs] = useState<AuditLogEntry[]>([]);
@@ -35,15 +36,19 @@ export function RecentActivity({ adminKey, refreshToken }: RecentActivityProps) 
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!adminKey) return;
+    if (!isAuthenticated && !adminKey) return;
 
     let cancelled = false;
     async function load() {
       setLoading(true);
       setError(null);
       try {
+        const headers: Record<string, string> = {};
+        if (adminKey) headers["Authorization"] = `Bearer ${adminKey}`;
+
         const res = await fetch("/api/admin/audit-logs?limit=20", {
-          headers: { Authorization: `Bearer ${adminKey}` },
+          headers,
+          credentials: "same-origin",
         });
         const json = await res.json();
         if (!res.ok || !json.success) throw new Error(json?.error?.message || `HTTP ${res.status}`);
@@ -58,9 +63,9 @@ export function RecentActivity({ adminKey, refreshToken }: RecentActivityProps) 
     return () => {
       cancelled = true;
     };
-  }, [adminKey, refreshToken, t]);
+  }, [adminKey, refreshToken, t, isAuthenticated]);
 
-  if (!adminKey) {
+  if (!isAuthenticated && !adminKey) {
     return (
       <div className="bg-bg-card border border-border rounded-xl p-6 text-center text-text-muted text-sm">
         {t("enterAdminKeyToViewHistory")}

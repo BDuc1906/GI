@@ -401,7 +401,7 @@
     "themeChoiceTitle": "Themenauswahl (hell/dunkel)",
     "themeChoiceBody": "Wenn du das Hell/Dunkel-Thema änderst, wird es direkt im Browser mit <code>localStorage</code> gespeichert – diese Daten werden nicht an den Server gesendet und können von niemand anderem gelesen werden.",
     "rateLimitTitle": "Ratenbegrenzung",
-    "rateLimitBody": "Um Spam oder Überlastung zu verhindern, zählen die öffentlichen APIs von LEIBO Aufrufe nach IP-Adresse in kurzer Zeit. Diese Anzahl wird nur vorübergehend im Serverspeicher gespeichert, nicht lange gespeichert und nicht an eine andere Identität gebunden.",
+    "rateLimitBody": "Um Spam und eine Überlastung der Serverinfrastruktur zu verhindern, zählen die öffentlichen APIs von LEIBO Aufrufe nach IP-Adresse über Upstash Redis in einem kurzen gleitenden Zeitfenster (bis zu 60 Sekunden). Diese Zählung verfällt automatisch, wird vollständig gelöscht, nicht langfristig gespeichert und niemals mit personenbezogenen Daten verknüpft.",
     "noAdsTitle": "Keine Werbung, kein Drittanbieter-Tracking",
     "noAdsBody": "Die aktuelle Seite enthält keine Drittanbieter-Analyse-, Werbe- oder Tracking-Tools. Falls sich das in Zukunft ändert, werden wir diese Seite zuerst erneut aktualisieren.",
     "contactTitle": "Kontaktieren Sie uns",

@@ -401,7 +401,7 @@
     "themeChoiceTitle": "Selezione dei temi (chiaro/scuro)",
     "themeChoiceBody": "Quando cambi il tema chiaro/oscuro, viene salvato con <code>localStorage</code> direttamente sul browser — questi dati non vengono inviati al server e non possono essere letti da nessun altro.",
     "rateLimitTitle": "Limite di tasso",
-    "rateLimitBody": "Per prevenire spam/sovraccarichi, le API pubbliche di LEIBO conteggiano le chiamate per indirizzo IP in una breve finestra temporale. Questo conteggio viene memorizzato solo temporaneamente nella memoria del server, non memorizzato per molto tempo, non legato a nessun'altra identità.",
+    "rateLimitBody": "Per prevenire lo spam e proteggere l'infrastruttura del server da sovraccarichi, le API pubbliche di LEIBO conteggiano le richieste per indirizzo IP tramite Upstash Redis in una breve finestra mobile (fino a 60 secondi). Questo conteggio scade automaticamente e viene cancellato del tutto, non è archiviato a lungo termine e non è mai collegato ad alcuna informazione di identificazione personale.",
     "noAdsTitle": "Niente pubblicità, niente tracciamento da parte di terze parti",
     "noAdsBody": "L'attuale sito non incorpora alcun strumento di analisi di terze parti, pubblicità o tracciamento. Se questo dovesse cambiare in futuro, aggiorneremo prima questa pagina.",
     "contactTitle": "Contattaci",

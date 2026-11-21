@@ -17,8 +17,8 @@ import { DataHealth, type FixScanSummary } from "@/features/admin/DataHealth";
 import { RecentActivity } from "@/features/admin/RecentActivity";
 import { SwarmOpsDashboard } from "@/features/admin/SwarmOpsDashboard";
 import { DataOpsSwarmDashboard } from "@/features/admin/DataOpsSwarmDashboard";
-
-const ADMIN_KEY_STORAGE = "leibo_admin_key";
+import { useAdminAuth } from "@/features/admin/useAdminAuth";
+import { AdminLoginForm } from "@/features/admin/AdminLoginForm";
 
 interface PipelineRun {
   id: string;
@@ -43,6 +43,7 @@ function formatDuration(ms: number | null): string {
 export default function AdminPage() {
   const t = useTranslations("Admin");
   const locale = useLocale();
+  const { isAuthenticated, loading: authLoading, error: authError, login, logout } = useAdminAuth();
 
   const PIPELINE_LABELS: Record<string, string> = {
     crawl: t("pipelineCrawl"),
@@ -52,7 +53,6 @@ export default function AdminPage() {
     "agent-sync": t("pipelineAgentSync"),
   };
 
-  const [adminKey, setAdminKey] = useState("");
   const [runs, setRuns] = useState<PipelineRun[]>([]);
   const [latestStatus, setLatestStatus] = useState<LatestStatus>({});
   const [loading, setLoading] = useState(false);
@@ -60,24 +60,13 @@ export default function AdminPage() {
   const [lastFixResult, setLastFixResult] = useState<FixScanSummary | null>(null);
   const [refreshToken, setRefreshToken] = useState(0);
 
-  useEffect(() => {
-    const saved = window.localStorage.getItem(ADMIN_KEY_STORAGE);
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (saved) setAdminKey(saved);
-  }, []);
-
-  const handleAdminKeyChange = useCallback((key: string) => {
-    setAdminKey(key);
-    window.localStorage.setItem(ADMIN_KEY_STORAGE, key);
-  }, []);
-
   const fetchPipelineStatus = useCallback(async () => {
-    if (!adminKey) return;
+    if (!isAuthenticated) return;
     setLoading(true);
     setError(null);
     try {
       const res = await fetch("/api/admin/pipeline-status?limit=50", {
-        headers: { Authorization: `Bearer ${adminKey}` },
+        credentials: "same-origin",
       });
       const body = await res.json();
       if (!res.ok || !body.success) throw new Error(body?.error?.message || `HTTP ${res.status}`);
@@ -88,7 +77,7 @@ export default function AdminPage() {
     } finally {
       setLoading(false);
     }
-  }, [adminKey]);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -97,6 +86,31 @@ export default function AdminPage() {
     return () => clearInterval(interval);
   }, [fetchPipelineStatus, refreshToken]);
 
+  if (authLoading && isAuthenticated === null) {
+    return (
+      <div className="min-h-screen bg-bg-primary flex items-center justify-center p-4">
+        <div className="flex items-center gap-3 text-text-secondary text-sm">
+          <div className="w-5 h-5 border-2 border-gold-bright border-t-transparent rounded-full animate-spin" />
+          <span>Đang kiểm tra phiên quản trị bảo mật...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-bg-primary text-text-primary p-4 md:p-8 flex items-center justify-center">
+        <div className="w-full max-w-md">
+          <div className="text-center mb-6">
+            <h1 className="font-display text-3xl font-bold text-gold-bright mb-1">{t("title")}</h1>
+            <p className="text-sm text-text-secondary">{t("subtitle")}</p>
+          </div>
+          <AdminLoginForm onLogin={login} loading={authLoading} error={authError} />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-bg-primary text-text-primary p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
@@ -104,12 +118,25 @@ export default function AdminPage() {
         <div className="bg-bg-card border border-border rounded-xl p-6 md:p-8 mb-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-xs uppercase tracking-wider font-mono text-emerald-400 font-semibold">
+                  Secure Admin Session Active
+                </span>
+              </div>
               <h1 className="font-display text-3xl md:text-4xl font-bold text-gold-bright mb-2">
                 {t("title")}
               </h1>
               <p className="text-sm text-text-secondary font-medium">{t("subtitle")}</p>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
+              <Link
+                href="/admin/data-quality"
+                className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-500/20 border border-blue-500/40 text-blue-200 rounded-lg hover:bg-blue-500/30 transition-colors text-sm font-semibold"
+              >
+                <span>📊 Data Quality</span>
+                <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/30 font-mono">Trust</span>
+              </Link>
               <Link
                 href="/admin/builds"
                 className="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-500/20 border border-emerald-500/40 text-emerald-200 rounded-lg hover:bg-emerald-500/30 transition-colors text-sm font-semibold"
@@ -119,20 +146,19 @@ export default function AdminPage() {
               </Link>
               <button
                 onClick={() => setRefreshToken(Date.now())}
-                className="px-6 py-3 bg-bg-input border border-border rounded-lg hover:border-border-strong transition-colors text-sm font-semibold"
+                className="px-4 py-2.5 bg-bg-input border border-border rounded-lg hover:border-border-strong transition-colors text-sm font-semibold"
               >
                 {t("refresh")}
+              </button>
+              <button
+                onClick={logout}
+                className="px-4 py-2.5 bg-danger/10 border border-danger/30 text-danger hover:bg-danger/20 rounded-lg transition-colors text-sm font-semibold"
+              >
+                Đăng xuất
               </button>
             </div>
           </div>
         </div>
-
-        {/* Alert Messages */}
-        {!adminKey && (
-          <div className="bg-bg-card border border-border rounded-xl p-4 mb-6 text-sm text-text-secondary">
-            {t("enterAdminKeyHint")}
-          </div>
-        )}
 
         {error && (
           <div className="bg-danger/10 border border-danger/30 rounded-xl p-4 mb-6 text-sm text-danger">
@@ -153,7 +179,7 @@ export default function AdminPage() {
 
         {/* AI Agent Continuous DataOps Pipeline (A2A Swarm) */}
         <div className="mb-8">
-          <DataOpsSwarmDashboard adminKey={adminKey} />
+          <DataOpsSwarmDashboard />
         </div>
 
         {/* AI Agent Swarm Autonomous Site Operations */}
@@ -164,7 +190,7 @@ export default function AdminPage() {
               Đội Ngũ AI Agent Vận Hành Hệ Thống (Swarm Operations)
             </h2>
           </div>
-          <SwarmOpsDashboard adminKey={adminKey} />
+          <SwarmOpsDashboard />
         </div>
 
         {/* Main Grid */}
@@ -177,8 +203,7 @@ export default function AdminPage() {
               </h2>
             </div>
             <AgentControlPanel
-              adminKey={adminKey}
-              onAdminKeyChange={handleAdminKeyChange}
+              isAuthenticated={isAuthenticated}
               onActionComplete={() => setRefreshToken(Date.now())}
               onFixResult={setLastFixResult}
             />
@@ -202,7 +227,7 @@ export default function AdminPage() {
               {t("agentAuditHistory")}
             </h2>
           </div>
-          <RecentActivity adminKey={adminKey} refreshToken={refreshToken} />
+          <RecentActivity isAuthenticated={isAuthenticated} refreshToken={refreshToken} />
         </div>
 
         {/* Pipeline History */}
@@ -260,7 +285,7 @@ export default function AdminPage() {
                   {!loading && runs.length === 0 && (
                     <tr>
                       <td colSpan={4} className="px-4 py-8 text-center text-text-muted font-medium">
-                        {adminKey ? t("noRunsYet") : t("enterAdminKeyToView")}
+                        {t("noRunsYet")}
                       </td>
                     </tr>
                   )}

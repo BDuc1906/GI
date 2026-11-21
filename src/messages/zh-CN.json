@@ -401,7 +401,7 @@
     "themeChoiceTitle": "主题选择（明/暗）",
     "themeChoiceBody": "当你更改明暗主题时，选择会保存在浏览器的 <code>localStorage</code> 中——这些数据不会发送到服务器，也无法被其他人读取。",
     "rateLimitTitle": "访问频率限制",
-    "rateLimitBody": "为防止滥用/过载，LEIBO的公共API会在短时间窗口内按IP地址统计请求次数。该计数仅临时存储在服务器内存中，不会长期保存，也不会与其他身份关联。",
+    "rateLimitBody": "为防止滥用并保护服务器基础设施免受过载，LEIBO 的公共 API 会通过 Upstash Redis 在短期滑动窗口（最多 60 秒）内按 IP 地址统计请求频率。该计数会自动过期并彻底清除，不会长期存储，也绝不与任何个人身份信息关联。",
     "noAdsTitle": "无广告，无第三方追踪",
     "noAdsBody": "当前网站未嵌入任何第三方分析、广告或追踪工具。如果未来有变化，我们会提前更新本页面。",
     "contactTitle": "联系我们",

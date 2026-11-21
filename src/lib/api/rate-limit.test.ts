@@ -14,7 +14,7 @@ describe("withRateLimit — chưa cấu hình Upstash", () => {
     delete process.env.UPSTASH_REDIS_REST_TOKEN;
   });
 
-  it("cho request đi qua bình thường khi thiếu env, không đụng tới Redis", async () => {
+  it("cho request đi qua bình thường khi thiếu env, không đụng tới Redis (fail-open mặc định)", async () => {
     const { withRateLimit } = await import("@/lib/api/rate-limit");
     const handler = withRateLimit(async () => new Response("ok", { status: 200 }));
 
@@ -22,6 +22,25 @@ describe("withRateLimit — chưa cấu hình Upstash", () => {
 
     expect(res.status).toBe(200);
     expect(await res.text()).toBe("ok");
+  });
+
+  it("chặn request và trả 503 khi thiếu env nếu failClosed: true", async () => {
+    const { withRateLimit } = await import("@/lib/api/rate-limit");
+    const innerHandler = vi.fn(async () => new Response("ok", { status: 200 }));
+    const handler = withRateLimit(innerHandler, { failClosed: true, prefix: "admin-test" });
+
+    const res = await handler(req(), dummyCtx);
+    const body = await res.json();
+
+    expect(res.status).toBe(503);
+    expect(innerHandler).not.toHaveBeenCalled();
+    expect(body).toEqual({
+      success: false,
+      error: {
+        code: "SERVICE_UNAVAILABLE",
+        message: "Hệ thống bảo vệ quá tải tạm thời gián đoạn. Vui lòng thử lại sau.",
+      },
+    });
   });
 });
 
@@ -96,6 +115,29 @@ describe("withRateLimit — đã cấu hình Upstash", () => {
     const res = await handler(req(), dummyCtx);
 
     expect(res.status).toBe(200);
+    consoleErrorSpy.mockRestore();
+  });
+
+  it("fail-closed: nếu ratelimit.limit() throw (Upstash down) và failClosed: true, trả 503 và chặn request", async () => {
+    limitMock.mockRejectedValue(new Error("upstash timeout"));
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    const { withRateLimit } = await import("@/lib/api/rate-limit");
+    const innerHandler = vi.fn(async () => new Response("ok", { status: 200 }));
+    const handler = withRateLimit(innerHandler, { failClosed: true, prefix: "admin-sensitive" });
+
+    const res = await handler(req(), dummyCtx);
+    const body = await res.json();
+
+    expect(res.status).toBe(503);
+    expect(innerHandler).not.toHaveBeenCalled();
+    expect(body).toEqual({
+      success: false,
+      error: {
+        code: "SERVICE_UNAVAILABLE",
+        message: "Hệ thống bảo vệ quá tải tạm thời gián đoạn. Vui lòng thử lại sau.",
+      },
+    });
     consoleErrorSpy.mockRestore();
   });
 

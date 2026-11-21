@@ -40,6 +40,32 @@ describe("getAuthenticatedUser", () => {
     const user = await getAuthenticatedUser(makeReq({ authorization: "Bearer anything" }));
     expect(user.role).toBe("user");
   });
+
+  it("nhận diện admin khi có valid HttpOnly session cookie", async () => {
+    const { createAdminSessionToken, ADMIN_SESSION_COOKIE_NAME } = await import("@/lib/auth/admin-session");
+    process.env.ADMIN_API_KEY = "real-secret-key-123";
+    const sessionToken = createAdminSessionToken("real-secret-key-123");
+
+    const reqWithCookie = makeReq({
+      cookie: `${ADMIN_SESSION_COOKIE_NAME}=${sessionToken}`,
+    });
+
+    const user = await getAuthenticatedUser(reqWithCookie);
+    expect(user.role).toBe("admin");
+    expect(user.id).toBe("admin");
+  });
+
+  it("không cấp quyền admin khi session cookie bị sai chữ ký", async () => {
+    const { ADMIN_SESSION_COOKIE_NAME } = await import("@/lib/auth/admin-session");
+    process.env.ADMIN_API_KEY = "real-secret-key-123";
+
+    const reqWithCookie = makeReq({
+      cookie: `${ADMIN_SESSION_COOKIE_NAME}=invalid-session-token`,
+    });
+
+    const user = await getAuthenticatedUser(reqWithCookie);
+    expect(user.role).toBe("user");
+  });
 });
 
 describe("requireAdmin", () => {

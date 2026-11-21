@@ -8,12 +8,13 @@ import { NextRequest } from "next/server";
 import { AutoFixEngine } from "@/agent/tools/AutoFixEngine";
 import { requireAdmin } from "@/agent/utils/auth";
 import { ok, fail } from "@/lib/api/response";
+import { withRateLimit } from "@/lib/api/rate-limit";
 import { EntityTypeSchema } from "@/agent/core/schemas";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export async function POST(req: NextRequest) {
+async function handler(req: NextRequest) {
   try {
     const user = await requireAdmin(req);
 
@@ -46,3 +47,5 @@ export async function POST(req: NextRequest) {
     return fail(500, "FIX_ERROR", error instanceof Error ? error.message : "Lỗi không xác định");
   }
 }
+
+export const POST = withRateLimit(handler, { prefix: "admin-fix", limit: 10, failClosed: true });

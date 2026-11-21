@@ -300,5 +300,5 @@ export const POST = withErrorHandling(
       weaponBName: weaponB.name,
       showdown,
     });
-  }, { prefix: "dps-compare", limit: 30 })
+  }, { prefix: "dps-compare", limit: 30, failClosed: true })
 );

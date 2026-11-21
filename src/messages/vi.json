@@ -476,7 +476,7 @@
     "themeChoiceTitle": "Lựa chọn giao diện (sáng/tối)",
     "themeChoiceBody": "Khi bạn đổi giao diện sáng/tối, lựa chọn đó được lưu bằng <code>localStorage</code> ngay trên trình duyệt của bạn — dữ liệu này không gửi lên server và không ai khác đọc được.",
     "rateLimitTitle": "Giới hạn tần suất truy cập (rate limit)",
-    "rateLimitBody": "Để chống spam/quá tải, các API công khai của LEIBO đếm số lượt gọi theo địa chỉ IP trong một cửa sổ thời gian ngắn. Số đếm này chỉ giữ tạm trong bộ nhớ server, không lưu trữ lâu dài, không gắn với danh tính nào khác.",
+    "rateLimitBody": "Để chống spam và bảo vệ hạ tầng máy chủ khỏi quá tải, các API công khai của LEIBO đếm tần suất gọi theo địa chỉ IP thông qua hạ tầng Upstash Redis trong cửa sổ trượt ngắn hạn (tối đa 60 giây). Dữ liệu này tự động hết hạn và xóa hoàn toàn, không lưu trữ lâu dài và không bao giờ gắn kết với bất kỳ thông tin định danh cá nhân nào.",
     "noAdsTitle": "Không có quảng cáo, không theo dõi bên thứ ba",
     "noAdsBody": "Trang web hiện tại không nhúng bất kỳ công cụ phân tích lượt truy cập (analytics), quảng cáo, hay theo dõi bên thứ ba nào. Nếu điều này thay đổi trong tương lai, chúng tôi sẽ cập nhật lại trang này trước.",
     "contactTitle": "Liên hệ",

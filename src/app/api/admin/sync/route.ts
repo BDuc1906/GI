@@ -9,11 +9,12 @@ import { NextRequest } from "next/server";
 import { DataSyncPipeline } from "@/lib/sync/DataSyncPipeline";
 import { requireAdmin } from "@/agent/utils/auth";
 import { ok, fail } from "@/lib/api/response";
+import { withRateLimit } from "@/lib/api/rate-limit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export async function POST(req: NextRequest) {
+async function handler(req: NextRequest) {
   try {
     const user = await requireAdmin(req);
 
@@ -39,3 +40,5 @@ export async function POST(req: NextRequest) {
     return fail(500, "SYNC_ERROR", error instanceof Error ? error.message : "Lỗi không xác định");
   }
 }
+
+export const POST = withRateLimit(handler, { prefix: "admin-sync", limit: 10, failClosed: true });

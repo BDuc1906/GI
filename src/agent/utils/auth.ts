@@ -18,6 +18,7 @@
 
 import { NextRequest } from "next/server";
 import { timingSafeEqual, randomUUID } from "node:crypto";
+import { getAdminSessionTokenFromRequest, verifyAdminSessionToken } from "@/lib/auth/admin-session";
 
 export interface AuthenticatedUser {
   id: string;
@@ -58,10 +59,19 @@ export async function getAuthenticatedUser(
 ): Promise<AuthenticatedUser> {
   const sessionId = sessionIdFrom(req);
   const adminKey = process.env.ADMIN_API_KEY;
-  const provided = req.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
 
-  if (adminKey && provided && safeEqual(provided, adminKey)) {
-    return { id: "admin", role: "admin", sessionId };
+  if (adminKey) {
+    // 1. Kiểm tra header Authorization: Bearer <ADMIN_API_KEY> (cho API/scripts/CLI)
+    const provided = req.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
+    if (provided && safeEqual(provided, adminKey)) {
+      return { id: "admin", role: "admin", sessionId };
+    }
+
+    // 2. Kiểm tra HttpOnly session cookie (cho Web Admin UI bảo mật, chống XSS)
+    const sessionToken = getAdminSessionTokenFromRequest(req);
+    if (sessionToken && verifyAdminSessionToken(sessionToken, adminKey)) {
+      return { id: "admin", role: "admin", sessionId };
+    }
   }
 
   return { id: "guest", role: "user", sessionId };

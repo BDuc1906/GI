@@ -11,6 +11,7 @@
 import type { NextRequest } from "next/server";
 import { prisma } from "@/lib/db/prisma";
 import { ok, fail } from "@/lib/api/response";
+import { withRateLimit } from "@/lib/api/rate-limit";
 import { requireAdmin } from "@/agent/utils/auth";
 import { NON_PLAYABLE_CHARACTER_IDS } from "@/core/game/character-catalog";
 import { MULTI_PROFILE_BUILDS } from "@/core/build-profile";
@@ -62,7 +63,7 @@ export interface AdminBuildsResponse {
   characters: AdminCharacterBuildSummary[];
 }
 
-export async function GET(req: NextRequest) {
+async function getHandler(req: NextRequest) {
   try {
     await requireAdmin(req);
   } catch (error) {
@@ -269,7 +270,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-export async function POST(req: NextRequest) {
+async function postHandler(req: NextRequest) {
   try {
     await requireAdmin(req);
   } catch (error) {
@@ -332,3 +333,6 @@ export async function POST(req: NextRequest) {
     return fail(500, "INTERNAL_ERROR", "Lỗi cập nhật trạng thái kiểm định build");
   }
 }
+
+export const GET = withRateLimit(getHandler, { prefix: "admin-builds-get", limit: 30, failClosed: true });
+export const POST = withRateLimit(postHandler, { prefix: "admin-builds-post", limit: 20, failClosed: true });

@@ -476,7 +476,7 @@
     "themeChoiceTitle": "Theme selection (light/dark)",
     "themeChoiceBody": "When you change the light/dark theme, it's saved with <code>localStorage</code> right on your browser — this data isn't sent to the server and can't be read by anyone else.",
     "rateLimitTitle": "Rate Limit",
-    "rateLimitBody": "To prevent spam/overloading, LEIBO's public APIs count calls by IP address in a short time window. This count is only temporarily stored in the server memory, not stored for a long time, not tied to any other identity.",
+    "rateLimitBody": "To prevent spam and protect server infrastructure from overloading, LEIBO's public APIs count call frequency by IP address via Upstash Redis in a short sliding window (up to 60 seconds). This count automatically expires and is completely erased, is not stored long-term, and is never linked to any personally identifiable information.",
     "noAdsTitle": "No ads, no third-party tracking",
     "noAdsBody": "The current site does not embed any third-party analytics, advertising, or tracking tools. If this changes in the future, we will update this page again first.",
     "contactTitle": "Contact us",

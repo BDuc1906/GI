@@ -64,4 +64,4 @@ async function handler(req: NextRequest) {
   return ok({ runs, stats: statsMap, latestStatus, meta: { total, limit } }, { maxAgeSec: 10 });
 }
 
-export const GET = withRateLimit(handler, { prefix: "admin-pipeline", limit: 30 });
+export const GET = withRateLimit(handler, { prefix: "admin-pipeline", limit: 30, failClosed: true });

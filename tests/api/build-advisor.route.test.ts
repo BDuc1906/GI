@@ -9,6 +9,10 @@ vi.mock("@/agent/build-advisor", () => ({
   generateBuildAdvice: mocks.generateBuildAdvice,
 }));
 
+vi.mock("@/lib/api/rate-limit", () => ({
+  withRateLimit: <T>(fn: T) => fn,
+}));
+
 const { POST } = await import("@/app/api/tools/build-advisor/route");
 const ctx = { params: Promise.resolve({}) };
 

@@ -6,10 +6,11 @@ import { useTranslations } from "next-intl";
 import type { FixScanSummary } from "./DataHealth";
 
 interface AgentControlPanelProps {
-  adminKey: string;
-  onAdminKeyChange: (key: string) => void;
+  adminKey?: string;
+  onAdminKeyChange?: (key: string) => void;
   onActionComplete: () => void;
   onFixResult: (result: FixScanSummary) => void;
+  isAuthenticated?: boolean;
 }
 
 interface ActionResult {
@@ -18,16 +19,20 @@ interface ActionResult {
   detail?: string;
 }
 
-export function AgentControlPanel({ adminKey, onAdminKeyChange, onActionComplete, onFixResult }: AgentControlPanelProps) {
+export function AgentControlPanel({ adminKey = "", onAdminKeyChange, onActionComplete, onFixResult, isAuthenticated = true }: AgentControlPanelProps) {
   const t = useTranslations("Admin");
   const [running, setRunning] = useState<"fix" | "sync" | null>(null);
   const [result, setResult] = useState<ActionResult | null>(null);
 
   async function callAdminApi(path: string, body: Record<string, unknown> = {}) {
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (adminKey) headers["Authorization"] = `Bearer ${adminKey}`;
+
     const res = await fetch(path, {
       method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${adminKey}` },
+      headers,
       body: JSON.stringify(body),
+      credentials: "same-origin",
     });
     const json = await res.json().catch(() => null);
     if (!res.ok || !json?.success) {
@@ -37,10 +42,6 @@ export function AgentControlPanel({ adminKey, onAdminKeyChange, onActionComplete
   }
 
   async function runFix() {
-    if (!adminKey) {
-      setResult({ ok: false, message: t("enterAdminKeyFirst") });
-      return;
-    }
     setRunning("fix");
     setResult(null);
     try {
@@ -60,10 +61,6 @@ export function AgentControlPanel({ adminKey, onAdminKeyChange, onActionComplete
   }
 
   async function runSync() {
-    if (!adminKey) {
-      setResult({ ok: false, message: t("enterAdminKeyFirst") });
-      return;
-    }
     setRunning("sync");
     setResult(null);
     try {
@@ -87,21 +84,33 @@ export function AgentControlPanel({ adminKey, onAdminKeyChange, onActionComplete
         {t("agentControlTitle")}
       </h2>
 
-      <div className="mb-6">
-        <label className="block text-xs text-text-muted mb-2 font-medium" htmlFor="admin-key-input">
-          {t("adminKeyLabel")}
-        </label>
-        <input
-          id="admin-key-input"
-          type="password"
-          value={adminKey}
-          onChange={(e) => onAdminKeyChange(e.target.value)}
-          placeholder={t("adminKeyPlaceholder")}
-          className="w-full px-4 py-3 rounded-lg bg-bg-input border border-border text-text-primary text-sm outline-none focus:border-border-strong transition-all"
-          autoComplete="off"
-        />
-        <p className="text-[10px] text-text-muted mt-2 font-medium">{t("adminKeyStorageNote")}</p>
-      </div>
+      {isAuthenticated ? (
+        <div className="mb-6 p-3 rounded-lg border border-emerald-500/30 bg-emerald-500/10 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="text-emerald-400 text-sm">✓</span>
+            <span className="text-xs text-emerald-200 font-medium">
+              Phiên quản trị đã kích hoạt (HttpOnly Session)
+            </span>
+          </div>
+          <span className="text-[10px] text-emerald-300/70 font-mono">Bảo mật</span>
+        </div>
+      ) : (
+        <div className="mb-6">
+          <label className="block text-xs text-text-muted mb-2 font-medium" htmlFor="admin-key-input">
+            {t("adminKeyLabel")}
+          </label>
+          <input
+            id="admin-key-input"
+            type="password"
+            value={adminKey}
+            onChange={(e) => onAdminKeyChange?.(e.target.value)}
+            placeholder={t("adminKeyPlaceholder")}
+            className="w-full px-4 py-3 rounded-lg bg-bg-input border border-border text-text-primary text-sm outline-none focus:border-border-strong transition-all"
+            autoComplete="off"
+          />
+          <p className="text-[10px] text-text-muted mt-2 font-medium">{t("adminKeyStorageNote")}</p>
+        </div>
+      )}
 
       <div className="flex flex-wrap gap-3">
         <button

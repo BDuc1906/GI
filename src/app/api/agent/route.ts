@@ -68,7 +68,7 @@ async function handler(req: NextRequest) {
 // trong khi mỗi request ở đây tốn 1+ lần gọi LLM thật (tiền thật),
 // khác hẳn rủi ro của 1 API đọc DB thông thường.
 const cfg = getConfig().rateLimit;
-export const POST = withRateLimit(handler, { prefix: "agent", limit: cfg.limit, window: cfg.window });
+export const POST = withRateLimit(handler, { prefix: "agent", limit: cfg.limit, window: cfg.window, failClosed: true });
 
 export async function OPTIONS() {
   return new Response(null, {

@@ -74,32 +74,51 @@ export interface RateLimitOptions {
   limit?: number;
   /** Độ dài window theo cú pháp Upstash (vd "60 s", "1 m"). Mặc định "60 s". */
   window?: string;
+  /**
+   * Chế độ xử lý khi Redis chưa cấu hình hoặc gặp sự cố runtime:
+   * - failClosed = false (mặc định): fail-open cho API public đọc dữ liệu,
+   *   request vẫn được cho qua để tránh downtime toàn trang khi Redis phụ trợ trục trặc.
+   * - failClosed = true: fail-closed cho các API nhạy cảm / tốn tài nguyên
+   *   (Admin actions, AI Agent, DPS Simulator, Build Advisor), trả về 503
+   *   để bảo vệ hệ thống khỏi bị tấn công hoặc lạm dụng khi mất lớp phòng thủ.
+   */
+  failClosed?: boolean;
 }
 
 /**
  * Bọc route handler bằng rate limit theo IP (Upstash Redis, sliding window).
  *
- * - Chưa cấu hình UPSTASH_REDIS_REST_URL/TOKEN: rate limiting TẮT, request đi
- *   qua bình thường — chỉ log cảnh báo 1 lần (không spam log mỗi request).
- *   Phù hợp dev/test local, nhưng BẮT BUỘC set 2 biến này ở production
- *   (xem .env.example).
- * - Upstash lỗi/timeout lúc runtime: fail OPEN (cho request đi qua, chỉ log
- *   lỗi) thay vì fail closed — rate limiting là lớp bảo vệ chống lạm dụng,
- *   không phải nghiệp vụ cốt lõi, một API đọc dữ liệu công khai không nên
- *   sập 100% chỉ vì Redis phụ trợ gặp sự cố.
+ * - Chưa cấu hình UPSTASH_REDIS_REST_URL/TOKEN:
+ *   + Nếu failClosed = true: trả 503 SERVICE_UNAVAILABLE ngay lập tức để bảo vệ API nhạy cảm.
+ *   + Nếu failClosed = false: rate limiting TẮT, request đi qua bình thường — chỉ log cảnh báo 1 lần.
+ * - Upstash lỗi/timeout lúc runtime:
+ *   + Nếu failClosed = true: trả 503 SERVICE_UNAVAILABLE.
+ *   + Nếu failClosed = false: fail OPEN (cho request đi qua, chỉ log lỗi).
  * - Vượt quota: trả 429 đúng envelope chuẩn (`fail()`), kèm header
  *   `Retry-After` + `X-RateLimit-*`, và KHÔNG gọi tới handler thật (không
- *   chạm DB) — đây là mục đích chính của tầng này.
+ *   chạm DB).
  */
 export function withRateLimit(handler: Handler, options: RateLimitOptions = {}): Handler {
   const prefix = options.prefix ?? "default";
   const limit = options.limit ?? DEFAULT_LIMIT;
   const window = options.window ?? DEFAULT_WINDOW;
+  const failClosed = options.failClosed ?? false;
 
   return async (req, ctx) => {
     const ratelimit = getLimiter(prefix, limit, window);
 
     if (!ratelimit) {
+      if (failClosed) {
+        console.warn(
+          `[API] Rate limit fail-closed kích hoạt: Redis chưa được cấu hình cho endpoint bảo vệ [${prefix}]. Chặn request.`
+        );
+        return fail(
+          503,
+          "SERVICE_UNAVAILABLE",
+          "Hệ thống bảo vệ quá tải tạm thời gián đoạn. Vui lòng thử lại sau."
+        );
+      }
+
       if (!warnedMissingConfig) {
         console.warn(
           "[API] UPSTASH_REDIS_REST_URL/TOKEN chưa được cấu hình — rate limiting đang TẮT. " +
@@ -126,6 +145,18 @@ export function withRateLimit(handler: Handler, options: RateLimitOptions = {}):
       const res = await handler(req, ctx);
       return applyRateLimitHeaders(res, { limit: cap, remaining, reset });
     } catch (err) {
+      if (failClosed) {
+        console.error(
+          `[API] Rate limit check thất bại cho route nhạy cảm [${prefix}] (fail-closed, chặn request):`,
+          err
+        );
+        return fail(
+          503,
+          "SERVICE_UNAVAILABLE",
+          "Hệ thống bảo vệ quá tải tạm thời gián đoạn. Vui lòng thử lại sau."
+        );
+      }
+
       console.error("[API] Rate limit check thất bại (fail-open, request vẫn được xử lý):", err);
       return handler(req, ctx);
     }

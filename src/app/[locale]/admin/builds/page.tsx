@@ -7,8 +7,8 @@ import { localCharacterIcon } from "@/lib/ui/local-assets";
 import { rarityTextClass } from "@/lib/ui/theme";
 import type { AdminBuildsResponse, AdminCharacterBuildSummary } from "@/app/api/admin/builds/route";
 import type { BuildReviewStatus } from "@/core/build-profile/types";
-
-const ADMIN_KEY_STORAGE = "leibo_admin_key";
+import { useAdminAuth } from "@/features/admin/useAdminAuth";
+import { AdminLoginForm } from "@/features/admin/AdminLoginForm";
 
 const STATUS_CONFIG: Record<
   BuildReviewStatus | "MISSING",
@@ -54,7 +54,7 @@ const STATUS_CONFIG: Record<
 const STAR = "★";
 
 export default function AdminBuildsPage() {
-  const [adminKey, setAdminKey] = useState("");
+  const { isAuthenticated, loading: authLoading, error: authError, login, logout } = useAdminAuth();
   const [data, setData] = useState<AdminBuildsResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -68,24 +68,13 @@ export default function AdminBuildsPage() {
   const [selectedChar, setSelectedChar] = useState<AdminCharacterBuildSummary | null>(null);
   const [actionLoading, setActionLoading] = useState(false);
 
-  useEffect(() => {
-    const saved = window.localStorage.getItem(ADMIN_KEY_STORAGE);
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (saved) setAdminKey(saved);
-  }, []);
-
-  const handleAdminKeyChange = (key: string) => {
-    setAdminKey(key);
-    window.localStorage.setItem(ADMIN_KEY_STORAGE, key);
-  };
-
   const fetchBuilds = useCallback(async () => {
-    if (!adminKey) return;
+    if (!isAuthenticated) return;
     setLoading(true);
     setError(null);
     try {
       const res = await fetch("/api/admin/builds", {
-        headers: { Authorization: `Bearer ${adminKey}` },
+        credentials: "same-origin",
       });
       const body = await res.json();
       if (!res.ok || !body.success) {
@@ -97,7 +86,7 @@ export default function AdminBuildsPage() {
     } finally {
       setLoading(false);
     }
-  }, [adminKey]);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -116,8 +105,8 @@ export default function AdminBuildsPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${adminKey}`,
         },
+        credentials: "same-origin",
         body: JSON.stringify({
           characterId,
           profileId,
@@ -160,6 +149,35 @@ export default function AdminBuildsPage() {
     });
   }, [characters, searchTerm, statusFilter, visionFilter]);
 
+  if (authLoading && isAuthenticated === null) {
+    return (
+      <div className="min-h-screen bg-bg-primary flex items-center justify-center p-4">
+        <div className="flex items-center gap-3 text-text-secondary text-sm">
+          <div className="w-5 h-5 border-2 border-emerald-400 border-t-transparent rounded-full animate-spin" />
+          <span>Đang kiểm tra quyền quản trị build...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-bg-primary text-text-primary p-4 md:p-8 flex items-center justify-center">
+        <div className="w-full max-w-md">
+          <div className="text-center mb-6">
+            <h1 className="font-display text-2xl font-bold text-emerald-300 mb-1">
+              LEIBO Build Review Hub
+            </h1>
+            <p className="text-xs text-text-secondary">
+              Vui lòng xác thực quyền quản trị để truy cập Build Database &amp; KQM Review Engine
+            </p>
+          </div>
+          <AdminLoginForm onLogin={login} loading={authLoading} error={authError} />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-bg-primary text-text-primary p-4 md:p-8">
       {/* ── HEADER NAVIGATION ── */}
@@ -186,21 +204,26 @@ export default function AdminBuildsPage() {
           </p>
         </div>
 
-        {/* Admin key input */}
-        <div className="flex items-center gap-2">
-          <input
-            type="password"
-            value={adminKey}
-            onChange={(e) => handleAdminKeyChange(e.target.value)}
-            placeholder="Nhập ADMIN_API_KEY..."
-            className="px-3 py-1.5 rounded-lg border border-border bg-bg-elevated text-xs text-text-primary placeholder:text-text-muted w-52 focus:outline-none focus:border-accent-500"
-          />
+        {/* Action Controls */}
+        <div className="flex items-center gap-2.5">
+          <Link
+            href="/admin/data-quality"
+            className="px-3 py-1.5 rounded-lg border border-blue-500/40 bg-blue-500/10 text-blue-200 text-xs font-semibold hover:bg-blue-500/20 transition-colors"
+          >
+            📊 Data Quality
+          </Link>
           <button
             onClick={fetchBuilds}
             disabled={loading}
             className="px-3 py-1.5 rounded-lg bg-accent-500 text-bg-primary font-bold text-xs hover:bg-accent-400 transition-colors disabled:opacity-50 cursor-pointer"
           >
-            {loading ? "Đang tải..." : "Tải dữ liệu"}
+            {loading ? "Đang tải..." : "Làm mới"}
+          </button>
+          <button
+            onClick={logout}
+            className="px-3 py-1.5 rounded-lg bg-danger/10 border border-danger/30 text-danger text-xs font-semibold hover:bg-danger/20 transition-colors cursor-pointer"
+          >
+            Đăng xuất
           </button>
         </div>
       </div>

@@ -401,7 +401,7 @@
     "themeChoiceTitle": "Tema seçimi (ışık/koyu)",
     "themeChoiceBody": "Açık/koyu temasını değiştirdiğinizde, <code>localStorage</code> ile doğrudan tarayıcınızda kaydedilir — bu veriler sunucuya gönderilmez ve başka kimse tarafından okunamaz.",
     "rateLimitTitle": "Oran Sınırı",
-    "rateLimitBody": "Spam/aşırı yüklenmeyi önlemek için, LEIBO'nun genel API'leri çağrıları kısa bir zaman aralığında IP adresine göre sayar. Bu sayı sadece geçici olarak sunucu belleğinde saklanır, uzun süre saklanmaz, başka bir kimliğe bağlı değildir.",
+    "rateLimitBody": "Spamı önlemek ve sunucu altyapısını aşırı yüklenmeden korumak için, LEIBO'nun genel API'leri Upstash Redis üzerinden kısa bir kayan pencerede (en fazla 60 saniye) IP adresine göre istek sıklığını sayar. Bu sayaç otomatik olarak sona erer, tamamen silinir, uzun süreli saklanmaz ve hiçbir zaman kişisel kimlik bilgileriyle ilişkilendirilmez.",
     "noAdsTitle": "Reklam yok, üçüncü taraf takibi yok",
     "noAdsBody": "Mevcut site, üçüncü taraf analitik, reklam veya takip araçları eklememektedir. Eğer bu gelecekte değişirse, önce bu sayfayı tekrar güncelleyeceğiz.",
     "contactTitle": "Bizimle iletişime geçin",

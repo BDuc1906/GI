@@ -401,7 +401,7 @@
     "themeChoiceTitle": "Pemilihan tema (terang/gelap)",
     "themeChoiceBody": "Saat Anda mengubah tema terang/gelap, data tersebut disimpan dengan <code>localStorage</code> langsung di browser Anda — data ini tidak dikirim ke server dan tidak dapat dibaca oleh orang lain.",
     "rateLimitTitle": "batas tarif",
-    "rateLimitBody": "Untuk mencegah spam/kelebihan beban, API publik LEIBO menghitung panggilan berdasarkan alamat IP dalam waktu singkat. Jumlah ini hanya disimpan sementara di memori server, tidak disimpan dalam waktu lama, tidak terikat pada identitas lain.",
+    "rateLimitBody": "Untuk mencegah spam dan melindungi infrastruktur server dari beban berlebih, API publik LEIBO menghitung frekuensi permintaan berdasarkan alamat IP melalui Upstash Redis dalam jendela geser singkat (hingga 60 detik). Hitungan ini otomatis kedaluwarsa dan dihapus seluruhnya, tidak disimpan jangka panjang, dan tidak pernah ditautkan ke informasi pengenal pribadi.",
     "noAdsTitle": "Tidak ada iklan, tidak ada pelacakan pihak ketiga",
     "noAdsBody": "Situs saat ini tidak menyematkan analitik, iklan, atau alat pelacakan pihak ketiga. Jika ini berubah di masa depan, kami akan memperbarui halaman ini lagi terlebih dahulu.",
     "contactTitle": "Hubungi kami",
