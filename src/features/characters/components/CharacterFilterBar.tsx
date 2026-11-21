@@ -1,14 +1,13 @@
-﻿import { Link } from "@/i18n/navigation";
-import { getTranslations } from "next-intl/server";
+﻿import { getTranslations } from "next-intl/server";
 import { ElementIcon } from "@/features/characters/components/ElementIcon";
 import { WeaponIcon } from "@/features/weapons/components/WeaponIcon";
 import { RarityStars } from "@/components/ui/RarityStars";
 import { getElementNameByKey } from "@/core/game/element-reactions-data";
 import {
   buildFilterQuery,
-  hasActiveFilters,
   type CharacterListingFilters,
 } from "@/features/characters/listing";
+import { ListFilterToolbar, FilterChip } from "@/components/list-layout";
 
 interface CharacterFilterBarProps {
   locale: string;
@@ -18,21 +17,19 @@ interface CharacterFilterBarProps {
   weaponTypes: readonly string[];
 }
 
-/** Một nhóm bộ lọc — label cố định bên trái, chip cuộn ngang trên mobile
- *  thay vì wrap tự do, để 4 nhóm liên tiếp không biến thành khối dài vô tận. */
+/** Một nhóm bộ lọc — label cố định bên trái, danh sách FilterChip dạng hàng cuộn/wrap mượt mà */
 function FilterGroup({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="flex items-start gap-3 py-2.5 border-b border-border last:border-b-0">
-      <span className="text-xs text-text-muted font-medium w-24 shrink-0 pt-1.5">{label}</span>
+    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 py-2 border-b border-border/40 last:border-b-0">
+      <span className="text-xs text-text-muted font-semibold w-24 shrink-0">{label}:</span>
       <div className="flex flex-wrap items-center gap-1.5">{children}</div>
     </div>
   );
 }
 
 /**
- * Thanh tìm kiếm + toàn bộ nhóm filter (vision/weapon/region/rarity) của
- * trang /characters. Server Component riêng — chỉ nhận filter đã parse
- * sẵn + data tra cứu (visionRows/regionRows), không tự đụng Prisma.
+ * Thanh công cụ tìm kiếm và bộ lọc đa chiều trang Nhân vật.
+ * Tích hợp ListFilterToolbar chuẩn LEIBO v1.0, tự động thu gọn trên mobile và hiển thị rõ ràng trên desktop.
  */
 export async function CharacterFilterBar({
   locale,
@@ -45,94 +42,122 @@ export async function CharacterFilterBar({
   const tWeaponType = await getTranslations({ locale, namespace: "WeaponType" });
   const tRegion = await getTranslations({ locale, namespace: "Region" });
 
-  const activeFilters = hasActiveFilters(filters);
+  const activeCount =
+    filters.vision.length +
+    filters.weapon.length +
+    filters.region.length +
+    filters.rarity.length +
+    (filters.q ? 1 : 0);
 
-  return (
-    <>
-      <form method="GET" className="flex gap-2 mb-5">
-        {filters.vision.length > 0 && <input type="hidden" name="vision" value={filters.vision.join(",")} />}
-        {filters.weapon.length > 0 && <input type="hidden" name="weapon" value={filters.weapon.join(",")} />}
-        {filters.region.length > 0 && <input type="hidden" name="region" value={filters.region.join(",")} />}
-        {filters.rarity.length > 0 && <input type="hidden" name="rarity" value={filters.rarity.join(",")} />}
+  const searchSlot = (
+    <form method="GET" action="" className="flex gap-2 w-full">
+      {filters.vision.length > 0 && <input type="hidden" name="vision" value={filters.vision.join(",")} />}
+      {filters.weapon.length > 0 && <input type="hidden" name="weapon" value={filters.weapon.join(",")} />}
+      {filters.region.length > 0 && <input type="hidden" name="region" value={filters.region.join(",")} />}
+      {filters.rarity.length > 0 && <input type="hidden" name="rarity" value={filters.rarity.join(",")} />}
+      <div className="relative flex-1">
         <input
-          type="text"
+          type="search"
           name="q"
           defaultValue={filters.q || ""}
           placeholder={t("searchPlaceholder")}
-          className="flex-1 rounded-lg border border-border px-3 py-2 text-sm placeholder:text-text-muted focus:outline-none focus:border-border-strong transition-colors"
+          aria-label={t("searchPlaceholder")}
+          className="w-full rounded-xl border border-border bg-bg-input px-3.5 py-2 text-xs sm:text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-500 transition-colors"
         />
-        <button type="submit" className="btn-accent rounded-lg px-4 py-2 text-sm">
-          {t("searchButton")}
-        </button>
-      </form>
+      </div>
+      <button
+        type="submit"
+        className="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-accent-500 text-bg-primary hover:bg-accent-bright transition-colors shrink-0"
+      >
+        {t("searchButton")}
+      </button>
+    </form>
+  );
 
-      <div className="surface-glass border border-border rounded-xl mb-8 px-4">
-        <FilterGroup label={t("filterVision")}>
-          {visionRows.map(({ vision: v, elementIcon }) => {
-            const isActive = filters.vision.includes(v);
-            return (
-              <Link
-                key={v}
-                href={`/characters?${buildFilterQuery(filters, { vision: v }, { toggle: true })}`}
-                aria-pressed={isActive}
-                className="chip px-2.5 py-1 rounded-full flex items-center gap-1.5 text-xs"
-              >
-                <ElementIcon vision={v} iconUrl={elementIcon} size={14}  glow={isActive} />
-                {v === "None" ? t("noElement") : getElementNameByKey(v, locale)}
-              </Link>
-            );
-          })}
-        </FilterGroup>
+  return (
+    <ListFilterToolbar
+      searchSlot={searchSlot}
+      activeCount={activeCount}
+      clearHref="/characters"
+      clearLabel={t("clearAllFilters")}
+      mobileFilterLabel="Bộ lọc"
+      className="mb-8"
+    >
+      {/* ── BỘ LỌC NGUYÊN TỐ (VISION) ── */}
+      <FilterGroup label={t("filterVision")}>
+        {visionRows.map(({ vision: v, elementIcon }) => {
+          const isActive = filters.vision.includes(v);
+          return (
+            <FilterChip
+              key={v}
+              href={`/characters?${buildFilterQuery(filters, { vision: v }, { toggle: true })}`}
+              active={isActive}
+              size="sm"
+              icon={<ElementIcon vision={v} iconUrl={elementIcon} size={15} glow={isActive} />}
+              label={v === "None" ? t("noElement") : getElementNameByKey(v, locale)}
+            />
+          );
+        })}
+      </FilterGroup>
 
-        <FilterGroup label={t("filterWeapon")}>
-          {weaponTypes.map((w) => (
-            <Link
+      {/* ── BỘ LỌC LOẠI VŨ KHÍ ── */}
+      <FilterGroup label={t("filterWeapon")}>
+        {weaponTypes.map((w) => {
+          const isActive = filters.weapon.includes(w);
+          return (
+            <FilterChip
               key={w}
               href={`/characters?${buildFilterQuery(filters, { weapon: w }, { toggle: true })}`}
-              aria-pressed={filters.weapon.includes(w)}
-              className="chip px-2.5 py-1 rounded-full flex items-center gap-1.5 text-xs"
-            >
-              <WeaponIcon type={w} size={14} />
-              {tWeaponType(w as "Sword" | "Claymore" | "Polearm" | "Bow" | "Catalyst")}
-            </Link>
-          ))}
-        </FilterGroup>
+              active={isActive}
+              size="sm"
+              icon={<WeaponIcon type={w} size={15} />}
+              label={tWeaponType(w as "Sword" | "Claymore" | "Polearm" | "Bow" | "Catalyst")}
+            />
+          );
+        })}
+      </FilterGroup>
 
-        <FilterGroup label={t("filterRegion")}>
-          {regionRows.map((r) => (
-            <Link
+      {/* ── BỘ LỌC KHU VỰC / QUỐC GIA ── */}
+      <FilterGroup label={t("filterRegion")}>
+        {regionRows.map((r) => {
+          const isActive = filters.region.includes(r);
+          return (
+            <FilterChip
               key={r}
               href={`/characters?${buildFilterQuery(filters, { region: r }, { toggle: true })}`}
-              aria-pressed={filters.region.includes(r)}
-              className="chip px-2.5 py-1 rounded-full text-xs"
-            >
-              {tRegion(r as "Mondstadt" | "Liyue" | "Inazuma" | "Sumeru" | "Fontaine" | "Natlan" | "Snezhnaya" | "Nod-Krai")}
-            </Link>
-          ))}
-        </FilterGroup>
+              active={isActive}
+              size="sm"
+              label={tRegion(r as "Mondstadt" | "Liyue" | "Inazuma" | "Sumeru" | "Fontaine" | "Natlan" | "Snezhnaya" | "Nod-Krai")}
+            />
+          );
+        })}
+      </FilterGroup>
 
-        <FilterGroup label={t("filterRarity")}>
-          {[5, 4].map((r) => (
-            <Link
+      {/* ── BỘ LỌC PHẨM CẤP SAO (RARITY) ── */}
+      <FilterGroup label={t("filterRarity")}>
+        {[5, 4].map((r) => {
+          const isActive = filters.rarity.includes(r);
+          return (
+            <FilterChip
               key={r}
               href={`/characters?${buildFilterQuery(filters, { rarity: String(r) }, { toggle: true })}`}
-              aria-pressed={filters.rarity.includes(r)}
-              className="chip px-2.5 py-1 rounded-full text-xs font-semibold"
-              style={filters.rarity.includes(r) ? { color: r >= 5 ? 'var(--rarity-5)' : 'var(--rarity-4)', borderColor: r >= 5 ? 'var(--rarity-5)' : 'var(--rarity-4)' } : undefined}
-            >
-              <RarityStars count={r} size="sm"  />
-            </Link>
-          ))}
-          {activeFilters && (
-            <Link
-              href="/characters"
-              className="ml-auto text-xs text-text-muted hover:text-text-primary transition-colors underline underline-offset-2"
-            >
-              {t("clearAllFilters")}
-            </Link>
-          )}
-        </FilterGroup>
-      </div>
-    </>
+              active={isActive}
+              size="sm"
+              icon={<RarityStars count={r} size="sm" />}
+              label={`${r}★`}
+              style={
+                isActive
+                  ? {
+                      backgroundColor: r >= 5 ? "rgba(245, 158, 11, 0.15)" : "rgba(167, 136, 212, 0.15)",
+                      color: r >= 5 ? "var(--rarity-5)" : "var(--rarity-4)",
+                      borderColor: r >= 5 ? "var(--rarity-5)" : "var(--rarity-4)",
+                    }
+                  : undefined
+              }
+            />
+          );
+        })}
+      </FilterGroup>
+    </ListFilterToolbar>
   );
 }

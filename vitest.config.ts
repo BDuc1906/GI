@@ -13,7 +13,7 @@ export default defineConfig({
     // src/lib/api/rate-limit.test.ts) bị bỏ sót hoàn toàn khỏi `npm run
     // test` dù file vẫn tồn tại và pass khi chạy trực tiếp — mở rộng glob
     // để không còn test nào bị "mồ côi" theo kiểu này.
-    include: ["tests/**/*.test.ts", "src/**/*.test.ts"],
+    include: ["tests/**/*.test.{ts,tsx}", "src/**/*.test.{ts,tsx}"],
   },
   resolve: {
     alias: {

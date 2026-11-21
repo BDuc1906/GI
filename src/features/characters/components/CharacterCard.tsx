@@ -19,6 +19,10 @@ interface CharacterCardProps {
 
 const STAR = "★";
 
+/**
+ * Thẻ nhân vật LEIBO v1.0 — Chuẩn hóa tỷ lệ chân dung 3:4, góc nhận diện nguyên tố cố định,
+ * tên đồng đều 2 dòng, sao và loại vũ khí sắc nét, tương tác hover mượt mà.
+ */
 export function CharacterCard({
   id,
   name,
@@ -33,7 +37,7 @@ export function CharacterCard({
   return (
     <Link
       href={`/characters/${id}`}
-      className="group relative flex flex-col h-full rounded-2xl border border-border/80 bg-bg-card hover:bg-bg-elevated/80 hover:border-border-strong hover:shadow-md transition-all duration-200 overflow-hidden"
+      className="group relative flex flex-col h-full rounded-2xl border border-border/80 bg-bg-card hover:bg-bg-elevated/90 hover:border-border-strong hover:shadow-md transition-all duration-200 overflow-hidden focus:outline-none focus:ring-2 focus:ring-accent-500/40"
     >
       {/* ── ICON NGUYÊN TỐ CỐ ĐỊNH Ở GÓC TRÊN BÊN TRÁI ── */}
       {vision && (
@@ -42,7 +46,7 @@ export function CharacterCard({
         </div>
       )}
 
-      {/* ── ẢNH ICON CHÂN DUNG VUÔNG CHIẾM PHẦN LỚN DIỆN TÍCH ── */}
+      {/* ── ẢNH CHÂN DUNG TỶ LỆ DỌC 3:4 CHUẨN THẺ GAME (SPEC V1.0) ── */}
       <EntityVisual
         entityType="character"
         entityId={id}
@@ -51,14 +55,14 @@ export function CharacterCard({
         fallbackSrcs={fallbackSrcs}
         priority={priority}
         size="fill"
-        aspectRatio="square"
+        aspectRatio="portrait"
         fit="cover"
-        sizes="(max-width: 640px) 45vw, (max-width: 1024px) 22vw, 140px"
-        wrapperClassName="w-full aspect-square bg-bg-elevated/50 p-2 overflow-hidden flex items-center justify-center"
-        className="p-1 group-hover:scale-105 transition-transform duration-300 ease-out"
+        sizes="(max-width: 640px) 45vw, (max-width: 1024px) 25vw, 180px"
+        wrapperClassName="w-full aspect-[3/4] bg-bg-elevated/50 overflow-hidden flex items-center justify-center relative"
+        className="group-hover:scale-105 transition-transform duration-300 ease-out"
       />
 
-      {/* ── KHỐI THÔNG TIN: TÊN ĐỒNG NHẤT 2 DÒNG + SỐ SAO CỐ ĐỊNH ── */}
+      {/* ── KHỐI THÔNG TIN: TÊN ĐỒNG NHẤT 2 DÒNG + SỐ SAO CỐ ĐỊNH + VŨ KHÍ ── */}
       <div className="p-2.5 sm:p-3 flex flex-col justify-between flex-1 bg-bg-card/95 border-t border-border/40 text-center">
         {/* Tên nhân vật tối đa 2 dòng, cùng chiều cao giữa các thẻ */}
         <div className="h-[2.4rem] sm:h-[2.6rem] flex items-center justify-center">
@@ -71,7 +75,7 @@ export function CharacterCard({
         </div>
 
         {/* Số sao đặt cùng một vị trí trên tất cả thẻ */}
-        <div className="mt-1.5 flex items-center justify-center gap-1">
+        <div className="mt-1 flex items-center justify-center gap-1">
           <span className={`text-xs tracking-tight ${rarityTextClass(rarity)}`}>
             {STAR.repeat(rarity)}
           </span>
