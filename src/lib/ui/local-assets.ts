@@ -10,16 +10,22 @@
 
 /** Character icon (face icon, square) */
 export function localCharacterIcon(id: string): string {
+  if (id.startsWith("traveler-boy")) return "/local-genshin-assets/characters/icon/aether.png";
+  if (id.startsWith("traveler-girl")) return "/local-genshin-assets/characters/icon/lumine.png";
   return `/local-genshin-assets/characters/icon/${id}.png`;
 }
 
 /** Character side icon (smaller, used in party/team views) */
 export function localCharacterSide(id: string): string {
+  if (id.startsWith("traveler-boy")) return "/local-genshin-assets/characters/side/aether.png";
+  if (id.startsWith("traveler-girl")) return "/local-genshin-assets/characters/side/lumine.png";
   return `/local-genshin-assets/characters/side/${id}.png`;
 }
 
 /** Character splash art (gacha/portrait) */
 export function localCharacterSplash(id: string): string {
+  if (id.startsWith("traveler-boy")) return "/local-genshin-assets/characters/splash/aether.webp";
+  if (id.startsWith("traveler-girl")) return "/local-genshin-assets/characters/splash/lumine.webp";
   return `/local-genshin-assets/characters/splash/${id}.webp`;
 }
 

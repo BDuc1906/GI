@@ -89,7 +89,7 @@ export function TeamRotationERAdvisor({ memberIds, characterMap }: TeamRotationE
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2.5">
             {rotationSteps.map((step) => {
               const charInfo = characterMap[step.characterId];
-              const iconUrl = charInfo?.icons?.[0] || "/local-genshin-assets/ui/character_default.png";
+              const iconUrl = charInfo?.icons?.[0] || "/local-genshin-assets/ui/characters.png";
 
               return (
                 <div
@@ -151,7 +151,7 @@ export function TeamRotationERAdvisor({ memberIds, characterMap }: TeamRotationE
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {erEvaluations.map((evalItem) => {
               const charInfo = characterMap[evalItem.id];
-              const iconUrl = charInfo?.icons?.[0] || "/local-genshin-assets/ui/character_default.png";
+              const iconUrl = charInfo?.icons?.[0] || "/local-genshin-assets/ui/characters.png";
               const isHighCost = evalItem.burstCost >= 80;
 
               return (

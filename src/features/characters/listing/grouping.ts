@@ -1,13 +1,24 @@
-import type { Character } from "@prisma/client";
+export type CharacterListingItem = {
+  id: string;
+  name: string;
+  nameTranslations?: unknown;
+  vision: string;
+  weaponType: string;
+  rarity: number;
+  iconUrl?: string | null;
+  iconUrlOriginal?: string | null;
+  splashUrl?: string | null;
+  elementIcon?: string | null;
+};
 
 export interface TravelerBucket {
-  boy?: Character;
-  girl?: Character;
+  boy?: CharacterListingItem;
+  girl?: CharacterListingItem;
 }
 
 export interface CharacterGrouping {
   travelerByElement: Map<string, TravelerBucket>;
-  rarityGroups: Map<number, Character[]>;
+  rarityGroups: Map<number, CharacterListingItem[]>;
   sortedRarities: number[];
   hasResults: boolean;
   /** Số lượng hiển thị trên UI: mỗi cặp Traveler (boy+girl) tính là 1. */
@@ -19,9 +30,9 @@ export interface CharacterGrouping {
  * boy/girl) + nhóm nhân vật thường theo rarity (dùng để chèn tiêu đề
  * sticky "★★★★★" giữa các nhóm, thay vì để ranh giới 5★/4★ vô hình).
  */
-export function groupCharactersForListing(characters: Character[]): CharacterGrouping {
+export function groupCharactersForListing(characters: CharacterListingItem[]): CharacterGrouping {
   const travelerByElement = new Map<string, TravelerBucket>();
-  const nonTraveler: Character[] = [];
+  const nonTraveler: CharacterListingItem[] = [];
 
   for (const c of characters) {
     if (c.id.startsWith("traveler-boy-")) {
@@ -40,7 +51,7 @@ export function groupCharactersForListing(characters: Character[]): CharacterGro
     }
   }
 
-  const rarityGroups = new Map<number, Character[]>();
+  const rarityGroups = new Map<number, CharacterListingItem[]>();
   for (const c of nonTraveler) {
     const list = rarityGroups.get(c.rarity) ?? [];
     list.push(c);

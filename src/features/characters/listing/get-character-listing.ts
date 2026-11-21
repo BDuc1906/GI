@@ -60,6 +60,18 @@ export async function getCharacterListing(filters: CharacterListingFilters): Pro
       prisma.character.findMany({
         where,
         orderBy: [{ rarity: "desc" }, { name: "asc" }],
+        select: {
+          id: true,
+          name: true,
+          nameTranslations: true,
+          vision: true,
+          weaponType: true,
+          rarity: true,
+          iconUrl: true,
+          iconUrlOriginal: true,
+          splashUrl: true,
+          elementIcon: true,
+        },
       })
     ),
     getVisionRows(),

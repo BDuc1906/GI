@@ -7,6 +7,10 @@ import { prisma } from "@/lib/db/prisma";
 export const revalidate = 60;
 export const dynamic = "force-dynamic";
 
+// In-memory TTL cache để tăng tốc sub-20ms cho các lần tra cứu UID liên tiếp
+const uidMemoryCache = new Map<string, { timestamp: number; payload: unknown }>();
+const UID_CACHE_TTL_MS = 60 * 1000;
+
 // ---------------------------------------------------------------------------
 // Enka.Network API types
 // ---------------------------------------------------------------------------
@@ -428,6 +432,12 @@ export const GET = withErrorHandling(
         throw ApiError.badRequest("UID không hợp lệ. Vui lòng nhập 9 hoặc 10 chữ số.");
       }
 
+      // ── BỘ ĐỆM BỘ NHỚ NHANH SUB-20MS CHO CÙNG 1 UID ──
+      const cached = uidMemoryCache.get(uid);
+      if (cached && Date.now() - cached.timestamp < UID_CACHE_TTL_MS) {
+        return ok(cached.payload, { maxAgeSec: 60 });
+      }
+
       const enkaUrl = `https://enka.network/api/uid/${uid}`;
       let enkaData: EnkaApiResponse;
       try {
@@ -538,6 +548,12 @@ export const GET = withErrorHandling(
         ttl: enkaData.ttl ?? 60,
         fetchedAt: new Date().toISOString(),
       };
+
+      uidMemoryCache.set(uid, { timestamp: Date.now(), payload: result });
+      if (uidMemoryCache.size > 200) {
+        const oldestKey = uidMemoryCache.keys().next().value;
+        if (oldestKey) uidMemoryCache.delete(oldestKey);
+      }
 
       return ok(result, { maxAgeSec: 60 });
     },

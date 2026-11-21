@@ -1,9 +1,8 @@
 import { getTranslations } from "next-intl/server";
-import type { Character } from "@prisma/client";
 import { resolveCharacterCardImage } from "@/core/game/character-helpers";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { getElementNameByKey } from "@/core/game/element-reactions-data";
-import type { CharacterGrouping, TravelerBucket } from "@/features/characters/listing";
+import type { CharacterGrouping, TravelerBucket, CharacterListingItem } from "@/features/characters/listing";
 import { localCharacterIcon } from "@/lib/ui/local-assets";
 import { CharacterCard } from "@/features/characters/components/CharacterCard";
 import { EntityGrid, ListEmptyState } from "@/components/list-layout";
@@ -54,7 +53,7 @@ export async function CharacterListingGrid({ locale, grouping }: CharacterListin
           <EntityGrid variant="character">
             {Array.from(travelerByElement.entries()).map(
               ([el, { boy, girl }]: [string, TravelerBucket], index: number) => {
-                const target = (boy ?? girl) as Character;
+                const target = (boy ?? girl) as CharacterListingItem;
                 const boyImg = boy ? resolveCharacterCardImage(boy) : null;
                 const girlImg = girl ? resolveCharacterCardImage(girl) : null;
                 return (
@@ -103,7 +102,7 @@ export async function CharacterListingGrid({ locale, grouping }: CharacterListin
             </div>
 
             <EntityGrid variant="character">
-              {characters.map((c: Character, index: number) => (
+              {characters.map((c: CharacterListingItem, index: number) => (
                 <div key={c.id} className="h-full">
                   <CharacterCard
                     id={c.id}
