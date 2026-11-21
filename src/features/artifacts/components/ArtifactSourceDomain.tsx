@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/db/prisma";
-import { SafeImage } from "@/components/ui/SafeImage";
+import { EntityVisual } from "@/components/ui/EntityVisual";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { Link } from "@/i18n/navigation";
@@ -48,18 +48,18 @@ export async function ArtifactSourceDomain({ artifactSetId, locale, rarityColor 
     <section className="mb-10">
       <SectionHeading elementColor={rarityColor}>Nơi thu thập (Bí Cảnh Chúc Phúc)</SectionHeading>
       <div className="surface-card p-5 flex flex-col md:flex-row items-center gap-6">
-        {sourceDomain.imageUrl && (
-          <div className="relative w-full md:w-56 h-32 rounded-xl bg-bg-elevated border border-border shrink-0 overflow-hidden">
-            <SafeImage
-              src={sourceDomain.imageUrl}
-              fallbackSrcs={[sourceDomain.imageUrlOriginal]}
-              alt={localizedDomainName}
-              fill
-              sizes="(max-width: 768px) 100vw, 224px"
-              className="object-cover"
-            />
-          </div>
-        )}
+        <EntityVisual
+          entityType="domain"
+          entityId={sourceDomain.id}
+          alt={localizedDomainName}
+          initialSrc={sourceDomain.imageUrl}
+          fallbackSrcs={[sourceDomain.imageUrlOriginal, "/local-genshin-assets/ui/domain.png"]}
+          size="fill"
+          aspectRatio="landscape"
+          fit="cover"
+          sizes="(max-width: 768px) 100vw, 224px"
+          wrapperClassName="w-full md:w-56 h-32 rounded-xl bg-bg-elevated border border-border shrink-0 overflow-hidden"
+        />
 
         <div className="flex-1 min-w-0 w-full">
           <div className="flex flex-wrap items-center gap-2 mb-1">

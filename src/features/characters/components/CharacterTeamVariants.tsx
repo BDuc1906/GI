@@ -1,5 +1,5 @@
 import { getCachedAllPlayableCharacters } from "@/lib/db/cached-queries";
-import { SafeImage } from "@/components/ui/SafeImage";
+import { EntityVisual } from "@/components/ui/EntityVisual";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { elementColorVar, rarityStars, rarityTextClass } from "@/lib/ui/theme";
@@ -93,21 +93,14 @@ export async function CharacterTeamVariants({ character, locale, elementColor }:
                     }`}
                     style={{ borderTop: `3px solid ${el}` }}
                   >
-                    <div className="relative w-16 h-16 rounded-xl bg-bg-elevated border border-border shrink-0 overflow-hidden mb-2">
-                      {member.iconUrl ? (
-                        <SafeImage
-                          src={member.iconUrl}
-                          alt={member.localizedName}
-                          fill
-                          sizes="64px"
-                          className="object-contain p-1"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-text-muted text-xs">
-                          {member.vision}
-                        </div>
-                      )}
-                    </div>
+                    <EntityVisual
+                      entityType="character"
+                      entityId={member.id}
+                      alt={member.localizedName}
+                      initialSrc={member.iconUrl}
+                      size="lg"
+                      wrapperClassName="rounded-xl border border-border bg-bg-elevated shrink-0 mb-2"
+                    />
 
                     <div className="font-semibold text-xs sm:text-sm text-text-primary group-hover:text-accent-bright transition-colors truncate w-full">
                       {member.localizedName}

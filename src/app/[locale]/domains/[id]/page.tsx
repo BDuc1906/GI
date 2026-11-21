@@ -4,7 +4,8 @@ import { prisma } from "@/lib/db/prisma";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { SafeImage } from "@/components/ui/SafeImage";
+import { EntityVisual } from "@/components/ui/EntityVisual";
+import { ReportIssueModal } from "@/components/ui/ReportIssueModal";
 import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { ElementalFrame } from "@/components/ui/ElementalFrame";
@@ -149,25 +150,18 @@ export default async function DomainDetail({ params }: PageProps) {
         className="mb-8"
       >
         <div className="flex flex-col sm:flex-row gap-5 sm:gap-6 p-4 sm:p-6">
-            <div className="relative w-full sm:w-72 aspect-[16/10] sm:aspect-auto sm:h-44 rounded-xl border border-border/80 bg-bg-card shrink-0 overflow-hidden shadow-lg">
-              <SafeImage
-                src={d.imageUrl || "/local-genshin-assets/ui/domain.png"}
-                fallbackSrcs={[d.imageUrlOriginal, "/local-genshin-assets/ui/domain.png"]}
-                alt={d.name}
-                fill
-                sizes="(max-width: 640px) 100vw, 288px"
-                className="object-cover"
-                fallbackClassName="w-full h-full flex items-center justify-center text-text-muted text-[10px]"
-                fallback={
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src="/local-genshin-assets/ui/domain.png"
-                    alt=""
-                    className="w-16 h-16 object-contain opacity-80 m-auto"
-                  />
-                }
-              />
-            </div>
+            <EntityVisual
+              entityType="domain"
+              entityId={d.id}
+              alt={d.name}
+              initialSrc={d.imageUrl}
+              fallbackSrcs={[d.imageUrlOriginal, "/local-genshin-assets/ui/domain.png"]}
+              size="fill"
+              aspectRatio="landscape"
+              fit="cover"
+              sizes="(max-width: 640px) 100vw, 288px"
+              wrapperClassName="w-full sm:w-72 aspect-[16/10] sm:aspect-auto sm:h-44 rounded-xl border border-border/80 bg-bg-card shrink-0 overflow-hidden shadow-lg"
+            />
           <div>
             <div className="text-xs uppercase tracking-wider text-text-secondary font-medium mb-1">
               {CATEGORY_LABEL[d.category] ?? d.category}
@@ -239,11 +233,14 @@ export default async function DomainDetail({ params }: PageProps) {
 
                 const content = (
                   <>
-                    <span className="relative w-8 h-8 shrink-0 rounded bg-bg-secondary border border-border overflow-hidden group-hover:scale-105 transition-transform">
-                      {iconUrl ? (
-                        <SafeImage src={iconUrl} alt={m.name} fill sizes="32px" className="object-contain" />
-                      ) : null}
-                    </span>
+                    <EntityVisual
+                      entityType={m.artifactSetId ? "artifact" : "material"}
+                      entityId={m.artifactSetId || m.materialId || m.name}
+                      alt={m.name}
+                      initialSrc={iconUrl}
+                      size="sm"
+                      wrapperClassName="rounded bg-bg-secondary border border-border group-hover:scale-105 transition-transform shrink-0"
+                    />
                     <span className="text-text-secondary group-hover:text-accent-bright truncate transition-colors">{m.name}</span>
                   </>
                 );
@@ -278,6 +275,12 @@ export default async function DomainDetail({ params }: PageProps) {
           </ul>
         </section>
       )}
+
+      {/* Footer data provenance & report issue */}
+      <div className="mt-12 pt-6 border-t border-border/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-text-muted">
+        <span>Dữ liệu lịch mở và phần thưởng bí cảnh được đối chiếu theo thời gian thực máy chủ.</span>
+        <ReportIssueModal entityType="domain" entityId={d.id} entityName={getLocalizedName(d, locale)} />
+      </div>
     </div>
   );
 }

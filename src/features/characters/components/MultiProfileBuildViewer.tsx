@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { SafeImage } from "@/components/ui/SafeImage";
+import { EntityVisual } from "@/components/ui/EntityVisual";
 import { WeaponIcon } from "@/features/weapons/components/WeaponIcon";
 import {
   localWeaponIcon,
@@ -319,16 +319,15 @@ export function MultiProfileBuildViewer({
                   </div>
 
                   {/* Weapon icon */}
-                  <div className="relative w-12 h-12 shrink-0 rounded-lg overflow-hidden bg-bg-elevated border border-border">
-                    <SafeImage
-                      src={localIcon}
-                      fallbackSrcs={[data.iconUrl, data.iconUrlOriginal]}
-                      alt={data.name}
-                      fill
-                      sizes="48px"
-                      className="object-contain p-0.5"
-                    />
-                  </div>
+                  <EntityVisual
+                    entityType="weapon"
+                    entityId={data.id}
+                    alt={data.name}
+                    initialSrc={localIcon}
+                    fallbackSrcs={[data.iconUrl, data.iconUrlOriginal]}
+                    size="md"
+                    wrapperClassName="rounded-lg overflow-hidden bg-bg-elevated border border-border shrink-0"
+                  />
 
                   {/* Info */}
                   <div className="flex-1 min-w-0">
@@ -410,16 +409,15 @@ export function MultiProfileBuildViewer({
                     #{idx + 1}
                   </span>
 
-                  <div className="relative w-12 h-12 shrink-0 rounded-lg overflow-hidden bg-bg-secondary border border-border mt-0.5">
-                    <SafeImage
-                      src={localIcon}
-                      fallbackSrcs={[art.iconUrl, art.iconUrlOriginal]}
-                      alt={art.name}
-                      fill
-                      sizes="48px"
-                      className="object-contain p-0.5"
-                    />
-                  </div>
+                  <EntityVisual
+                    entityType="artifact"
+                    entityId={art.id}
+                    alt={art.name}
+                    initialSrc={localIcon}
+                    fallbackSrcs={[art.iconUrl, art.iconUrlOriginal]}
+                    size="md"
+                    wrapperClassName="rounded-lg overflow-hidden bg-bg-secondary border border-border mt-0.5 shrink-0"
+                  />
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
@@ -478,16 +476,15 @@ export function MultiProfileBuildViewer({
 
                           {/* Set A */}
                           <div className="flex items-center gap-2 bg-bg-card px-2.5 py-1.5 rounded-lg border border-border/50 shrink-0">
-                            <div className="relative w-7 h-7 rounded overflow-hidden bg-bg-secondary shrink-0">
-                              <SafeImage
-                                src={iconA}
-                                fallbackSrcs={[setA.iconUrl, setA.iconUrlOriginal]}
-                                alt={setA.name}
-                                fill
-                                sizes="28px"
-                                className="object-contain"
-                              />
-                            </div>
+                            <EntityVisual
+                              entityType="artifact"
+                              entityId={setA.id}
+                              alt={setA.name}
+                              initialSrc={iconA}
+                              fallbackSrcs={[setA.iconUrl, setA.iconUrlOriginal]}
+                              size="custom"
+                              wrapperClassName="w-7 h-7 rounded overflow-hidden bg-bg-secondary shrink-0"
+                            />
                             <span className="text-xs font-semibold text-text-primary truncate max-w-[140px]">
                               {setA.name}
                             </span>
@@ -498,16 +495,15 @@ export function MultiProfileBuildViewer({
 
                           {/* Set B */}
                           <div className="flex items-center gap-2 bg-bg-card px-2.5 py-1.5 rounded-lg border border-border/50 shrink-0">
-                            <div className="relative w-7 h-7 rounded overflow-hidden bg-bg-secondary shrink-0">
-                              <SafeImage
-                                src={iconB}
-                                fallbackSrcs={[setB.iconUrl, setB.iconUrlOriginal]}
-                                alt={setB.name}
-                                fill
-                                sizes="28px"
-                                className="object-contain"
-                              />
-                            </div>
+                            <EntityVisual
+                              entityType="artifact"
+                              entityId={setB.id}
+                              alt={setB.name}
+                              initialSrc={iconB}
+                              fallbackSrcs={[setB.iconUrl, setB.iconUrlOriginal]}
+                              size="custom"
+                              wrapperClassName="w-7 h-7 rounded overflow-hidden bg-bg-secondary shrink-0"
+                            />
                             <span className="text-xs font-semibold text-text-primary truncate max-w-[140px]">
                               {setB.name}
                             </span>
@@ -588,16 +584,16 @@ export function MultiProfileBuildViewer({
                   key={slot}
                   className="p-3 rounded-xl border border-border/70 bg-bg-card flex flex-col items-center text-center justify-between gap-2 shadow-sm hover:border-border transition-colors"
                 >
-                  <div className="relative w-12 h-12 rounded-lg bg-bg-elevated/70 border border-border/50 p-1 flex items-center justify-center">
-                    <SafeImage
-                      src={pieceIcon}
-                      fallbackSrcs={[fallbackIcon]}
-                      alt={slot}
-                      fill
-                      sizes="48px"
-                      className="object-contain p-0.5"
-                    />
-                  </div>
+                  <EntityVisual
+                    entityType="artifact"
+                    entityId={primarySetId}
+                    piece={piece}
+                    alt={slot}
+                    initialSrc={pieceIcon}
+                    fallbackSrcs={[fallbackIcon]}
+                    size="md"
+                    wrapperClassName="rounded-lg bg-bg-elevated/70 border border-border/50 p-1 flex items-center justify-center shrink-0"
+                  />
                   <div className="w-full">
                     <span className="text-xs font-bold text-text-primary block truncate">
                       {slot}
@@ -765,16 +761,14 @@ export function MultiProfileBuildViewer({
                   <div className="grid grid-cols-4 gap-2 mb-3">
                     {/* Bản thân nhân vật */}
                     <div className="flex flex-col items-center text-center p-2 rounded-lg bg-bg-card border border-accent-500/40">
-                      <div className="relative w-10 h-10 rounded-full overflow-hidden bg-bg-secondary border border-accent-500 mb-1">
-                        <SafeImage
-                          src={localCharacterIcon(characterId)}
-                          fallbackSrcs={[]}
-                          alt={characterName}
-                          fill
-                          sizes="40px"
-                          className="object-cover"
-                        />
-                      </div>
+                      <EntityVisual
+                        entityType="character"
+                        entityId={characterId}
+                        alt={characterName}
+                        initialSrc={localCharacterIcon(characterId)}
+                        size="custom"
+                        wrapperClassName="w-10 h-10 rounded-full overflow-hidden bg-bg-secondary border border-accent-500 mb-1"
+                      />
                       <span className="text-xs font-semibold text-text-primary truncate w-full">
                         {characterName}
                       </span>
@@ -788,16 +782,14 @@ export function MultiProfileBuildViewer({
                         href={`/characters/${tm.id}`}
                         className="flex flex-col items-center text-center p-2 rounded-lg bg-bg-card border border-border/60 hover:border-accent-500/50 transition-colors group"
                       >
-                        <div className="relative w-10 h-10 rounded-full overflow-hidden bg-bg-secondary border border-border group-hover:border-accent-500 mb-1">
-                          <SafeImage
-                            src={localCharacterIcon(tm.id)}
-                            fallbackSrcs={[]}
-                            alt={tm.name}
-                            fill
-                            sizes="40px"
-                            className="object-cover"
-                          />
-                        </div>
+                        <EntityVisual
+                          entityType="character"
+                          entityId={tm.id}
+                          alt={tm.name}
+                          initialSrc={localCharacterIcon(tm.id)}
+                          size="custom"
+                          wrapperClassName="w-10 h-10 rounded-full overflow-hidden bg-bg-secondary border border-border group-hover:border-accent-500 mb-1"
+                        />
                         <span className="text-xs font-medium text-text-primary group-hover:text-accent-bright truncate w-full">
                           {tm.name}
                         </span>

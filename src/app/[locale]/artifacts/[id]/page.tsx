@@ -3,7 +3,8 @@ import { prisma } from "@/lib/db/prisma";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { SafeImage } from "@/components/ui/SafeImage";
+import { EntityVisual } from "@/components/ui/EntityVisual";
+import { ReportIssueModal } from "@/components/ui/ReportIssueModal";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
@@ -107,22 +108,16 @@ export default async function ArtifactDetail({ params }: PageProps) {
 
       <div className="surface-card overflow-hidden mb-10" style={{ borderTop: `2.5px solid ${rc}` }}>
         <div className="p-6 flex flex-col sm:flex-row gap-6">
-          {a.iconUrl && (
-            <div
-              className="relative w-40 h-40 rounded-xl bg-bg-elevated shrink-0"
-              style={{ border: `1px solid color-mix(in srgb, ${rc} 35%, var(--border-color))` }}
-            >
-              <SafeImage
-                src={a.iconUrl}
-                fallbackSrcs={[localArtifactSetIcon(a.id), "/local-genshin-assets/ui/artifacts.png"]}
-                alt={a.name}
-                fill
-                sizes="160px"
-                className="object-contain p-3"
-                fallbackClassName="w-full h-full flex items-center justify-center text-text-muted text-[10px]"
-              />
-            </div>
-          )}
+          <EntityVisual
+            entityType="artifact"
+            entityId={a.id}
+            alt={a.name}
+            initialSrc={a.iconUrl}
+            fallbackSrcs={[localArtifactSetIcon(a.id), "/local-genshin-assets/ui/artifacts.png"]}
+            size="custom"
+            wrapperClassName="w-36 h-36 sm:w-40 sm:h-40 rounded-xl bg-bg-elevated shrink-0 p-2 border"
+            elementColor={rc}
+          />
           <div className="flex flex-col justify-center">
             <span className="text-eyebrow mb-2" style={{ color: rc }}>{t("artifactSetLabel")}</span>
             <h1 className="font-display text-display-2 font-semibold text-text-primary mb-2">{getLocalizedName(a, locale)}</h1>
@@ -166,21 +161,20 @@ export default async function ArtifactDetail({ params }: PageProps) {
 
             return (
               <div key={key} className="surface-card p-4 flex flex-col items-center text-center group">
-                <div className="relative w-16 h-16 mb-3 bg-bg-elevated rounded-lg overflow-hidden flex items-center justify-center p-1 group-hover:scale-105 transition-transform">
-                  <SafeImage
-                    src={imgUrl}
-                    fallbackSrcs={[
-                      localArtifactPiece(a.id, pieceKey),
-                      localArtifactSetIcon(a.id),
-                      "/local-genshin-assets/ui/artifacts.png",
-                    ]}
-                    alt={pieceName}
-                    fill
-                    sizes="64px"
-                    className="object-contain"
-                    fallbackClassName="w-full h-full flex items-center justify-center text-text-muted text-[10px]"
-                  />
-                </div>
+                <EntityVisual
+                  entityType="artifact"
+                  entityId={a.id}
+                  piece={pieceKey}
+                  alt={pieceName}
+                  initialSrc={imgUrl}
+                  fallbackSrcs={[
+                    localArtifactPiece(a.id, pieceKey),
+                    localArtifactSetIcon(a.id),
+                    "/local-genshin-assets/ui/artifacts.png",
+                  ]}
+                  size="lg"
+                  wrapperClassName="mb-3 bg-bg-elevated rounded-lg p-1 group-hover:scale-105 transition-transform shrink-0"
+                />
                 <div className="text-eyebrow mb-1">{PIECE_LABELS[key] ?? key}</div>
                 <div className="font-semibold text-text-primary line-clamp-2 text-xs" title={pieceName}>
                   {pieceName}
@@ -196,6 +190,12 @@ export default async function ArtifactDetail({ params }: PageProps) {
       <ArtifactSourceDomain artifactSetId={a.id} locale={locale} rarityColor={rc} />
 
       <ArtifactRecommendedCharacters artifact={a} locale={locale} rarityColor={rc} />
+
+      {/* Footer data provenance & report issue */}
+      <div className="mt-12 pt-6 border-t border-border/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-text-muted">
+        <span>Dữ liệu bộ thánh di vật được cập nhật theo cơ sở dữ liệu Genshin Impact chính thức.</span>
+        <ReportIssueModal entityType="artifact" entityId={a.id} entityName={getLocalizedName(a, locale)} />
+      </div>
     </div>
   );
 }

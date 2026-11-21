@@ -28,8 +28,8 @@ export interface EntityVisualProps {
   initialSrc?: string | null;
   /** Danh sách URL dự phòng bổ sung (vd: iconUrlOriginal) */
   fallbackSrcs?: Array<string | null | undefined>;
-  /** Kích thước chuẩn định sẵn */
-  size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "fill";
+  /** Kích thước chuẩn định sẵn hoặc custom (dùng wrapperClassName) */
+  size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "fill" | "custom";
   /** Tỷ lệ khung hình cố định chống layout shift */
   aspectRatio?: "square" | "portrait" | "landscape" | "auto";
   /** Kiểu lấp đầy ảnh: cover hoặc contain */
@@ -144,8 +144,8 @@ export function EntityVisual({
           ? "aspect-square"
           : "";
 
-  const sizeClass = size === "fill" ? "w-full h-full" : SIZE_MAP[size].class;
-  const computedSizes = sizes ?? (size === "fill" ? "100vw" : SIZE_MAP[size].px);
+  const sizeClass = size === "fill" ? "w-full h-full" : size === "custom" ? "" : SIZE_MAP[size].class;
+  const computedSizes = sizes ?? (size === "fill" ? "100vw" : size === "custom" ? "48px" : SIZE_MAP[size].px);
 
   // 6. Placeholder đặc trưng theo từng loại thực thể (Entity-Type SVG Silhouette)
   const renderPlaceholder = () => {

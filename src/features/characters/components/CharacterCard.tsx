@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { SafeImage } from "@/components/ui/SafeImage";
+import { EntityVisual } from "@/components/ui/EntityVisual";
 import { ElementIcon } from "@/features/characters/components/ElementIcon";
 import { rarityTextClass } from "@/lib/ui/theme";
 
@@ -43,23 +43,20 @@ export function CharacterCard({
       )}
 
       {/* ── ẢNH ICON CHÂN DUNG VUÔNG CHIẾM PHẦN LỚN DIỆN TÍCH ── */}
-      <div className="relative w-full aspect-square bg-bg-elevated/50 p-2 overflow-hidden flex items-center justify-center">
-        {imageSrc ? (
-          <SafeImage
-            src={imageSrc}
-            fallbackSrcs={fallbackSrcs}
-            alt={name}
-            fill
-            priority={priority}
-            sizes="(max-width: 640px) 45vw, (max-width: 1024px) 22vw, 140px"
-            className="object-contain p-1 group-hover:scale-105 transition-transform duration-300 ease-out"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-text-muted text-xs">
-            Không có ảnh
-          </div>
-        )}
-      </div>
+      <EntityVisual
+        entityType="character"
+        entityId={id}
+        alt={name}
+        initialSrc={imageSrc}
+        fallbackSrcs={fallbackSrcs}
+        priority={priority}
+        size="fill"
+        aspectRatio="square"
+        fit="cover"
+        sizes="(max-width: 640px) 45vw, (max-width: 1024px) 22vw, 140px"
+        wrapperClassName="w-full aspect-square bg-bg-elevated/50 p-2 overflow-hidden flex items-center justify-center"
+        className="p-1 group-hover:scale-105 transition-transform duration-300 ease-out"
+      />
 
       {/* ── KHỐI THÔNG TIN: TÊN ĐỒNG NHẤT 2 DÒNG + SỐ SAO CỐ ĐỊNH ── */}
       <div className="p-2.5 sm:p-3 flex flex-col justify-between flex-1 bg-bg-card/95 border-t border-border/40 text-center">

@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/db/prisma";
-import { SafeImage } from "@/components/ui/SafeImage";
+import { EntityVisual } from "@/components/ui/EntityVisual";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { elementColorVar, rarityStars, rarityTextClass } from "@/lib/ui/theme";
@@ -197,21 +197,14 @@ export async function ArtifactRecommendedCharacters({ artifact, locale, rarityCo
                 borderLeft: `3px solid ${el}`,
               }}
             >
-              <div className="relative w-14 h-14 rounded-xl bg-bg-elevated border border-border shrink-0 overflow-hidden group-hover:scale-105 transition-transform">
-                {c.iconUrl ? (
-                  <SafeImage
-                    src={c.iconUrl}
-                    alt={localizedName}
-                    fill
-                    sizes="56px"
-                    className="object-contain"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-text-muted text-xs">
-                    {c.vision}
-                  </div>
-                )}
-              </div>
+              <EntityVisual
+                entityType="character"
+                entityId={c.id}
+                alt={localizedName}
+                initialSrc={c.iconUrl}
+                size="custom"
+                wrapperClassName="w-14 h-14 rounded-xl bg-bg-elevated border border-border shrink-0 overflow-hidden group-hover:scale-105 transition-transform"
+              />
 
               <div className="min-w-0 flex-1">
                 <div className="font-medium text-sm text-text-primary group-hover:text-accent-bright transition-colors truncate mb-0.5">

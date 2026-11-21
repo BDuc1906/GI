@@ -7,7 +7,8 @@
 
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { SafeImage } from "@/components/ui/SafeImage";
+import { EntityVisual } from "@/components/ui/EntityVisual";
+import { ReportIssueModal } from "@/components/ui/ReportIssueModal";
 import { SectionHeading } from "@/components/layout/SectionHeading";
 import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
@@ -49,23 +50,15 @@ export function WeaponDetailView({ data, locale }: WeaponDetailViewProps) {
         style={{ borderTop: `2.5px solid ${rc}` }}
       >
         <div className="p-6 flex flex-col sm:flex-row gap-6">
-          {w.iconUrl && (
-            <div
-              className="relative w-40 h-40 rounded-xl bg-bg-elevated shrink-0"
-              style={{
-                border: `1px solid color-mix(in srgb, ${rc} 35%, var(--border-color))`,
-              }}
-            >
-              <SafeImage
-                src={w.iconUrl}
-                alt={w.name}
-                fill
-                sizes="160px"
-                className="object-contain p-3"
-                fallbackClassName="w-full h-full flex items-center justify-center text-text-muted text-[10px]"
-              />
-            </div>
-          )}
+          <EntityVisual
+            entityType="weapon"
+            entityId={w.id}
+            alt={w.name}
+            initialSrc={w.iconUrl}
+            size="custom"
+            wrapperClassName="w-36 h-36 sm:w-40 sm:h-40 rounded-xl bg-bg-elevated shrink-0 p-2 border"
+            elementColor={rc}
+          />
           <div className="flex flex-col justify-center min-w-0">
             <span className="text-eyebrow mb-2">{weaponTypeLabel}</span>
             <h1 className="font-display text-display-2 font-semibold text-text-primary mb-2">
@@ -134,34 +127,28 @@ export function WeaponDetailView({ data, locale }: WeaponDetailViewProps) {
                             href={`/materials/${m.materialId}`}
                             className="group/mat flex items-center gap-2 min-w-0 hover:text-accent-bright transition-colors"
                           >
-                            <span className="relative w-6 h-6 shrink-0 rounded bg-bg-elevated border border-border overflow-hidden group-hover/mat:border-accent-500 transition-colors">
-                              {material?.iconUrl ? (
-                                <SafeImage
-                                  src={material.iconUrl}
-                                  alt={material?.localizedName ?? m.name ?? ""}
-                                  fill
-                                  sizes="24px"
-                                  className="object-contain"
-                                />
-                              ) : null}
-                            </span>
+                            <EntityVisual
+                              entityType="material"
+                              entityId={m.materialId}
+                              alt={material?.localizedName ?? m.name ?? ""}
+                              initialSrc={material?.iconUrl}
+                              size="xs"
+                              wrapperClassName="rounded bg-bg-elevated border border-border group-hover/mat:border-accent-500 transition-colors shrink-0"
+                            />
                             <span className="text-text-secondary group-hover/mat:text-accent-bright truncate transition-colors">
                               {material?.localizedName ?? m.name}
                             </span>
                           </Link>
                         ) : (
                           <span className="flex items-center gap-2 min-w-0">
-                            <span className="relative w-6 h-6 shrink-0 rounded bg-bg-elevated border border-border overflow-hidden">
-                              {material?.iconUrl ? (
-                                <SafeImage
-                                  src={material.iconUrl}
-                                  alt={material?.localizedName ?? m.name ?? ""}
-                                  fill
-                                  sizes="24px"
-                                  className="object-contain"
-                                />
-                              ) : null}
-                            </span>
+                            <EntityVisual
+                              entityType="material"
+                              entityId={m.name ?? "material"}
+                              alt={material?.localizedName ?? m.name ?? ""}
+                              initialSrc={material?.iconUrl}
+                              size="xs"
+                              wrapperClassName="rounded bg-bg-elevated border border-border shrink-0"
+                            />
                             <span className="text-text-secondary truncate">
                               {material?.localizedName ?? m.name}
                             </span>
@@ -204,6 +191,12 @@ export function WeaponDetailView({ data, locale }: WeaponDetailViewProps) {
 
       {/* ── 5. Nhân vật khuyên dùng ── */}
       <WeaponRecommendedCharacters weapon={w} locale={locale} weaponColor={rc} />
+
+      {/* Footer data provenance & report issue */}
+      <div className="mt-12 pt-6 border-t border-border/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-text-muted">
+        <span>Dữ liệu vũ khí được đồng bộ trực tiếp từ cơ sở dữ liệu Genshin Impact.</span>
+        <ReportIssueModal entityType="weapon" entityId={w.id} entityName={localizedName} />
+      </div>
     </div>
   );
 }

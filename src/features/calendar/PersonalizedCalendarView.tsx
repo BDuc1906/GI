@@ -3,7 +3,7 @@
 import { useMemo, useState, useCallback } from "react";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { SafeImage } from "@/components/ui/SafeImage";
+import { EntityVisual } from "@/components/ui/EntityVisual";
 import { useFarmRoster, type PinnedTargetItem } from "./roster-storage";
 
 export interface CalendarDomainItem {
@@ -334,18 +334,18 @@ export function PersonalizedCalendarView({
                             <li
                               key={`${d.id}-${m.name}`}
                               title={m.name}
-                              className={`relative w-10 h-10 rounded-lg overflow-hidden ${
-                                isNeeded
-                                  ? "bg-gold/20 ring-2 ring-gold"
-                                  : "bg-bg-elevated"
-                              }`}
                             >
-                              <SafeImage
-                                src={m.iconUrl}
+                              <EntityVisual
+                                entityType="material"
+                                entityId={m.name}
                                 alt={m.name}
-                                fill
-                                sizes="40px"
-                                className="object-contain p-0.5"
+                                initialSrc={m.iconUrl}
+                                size="custom"
+                                wrapperClassName={`w-10 h-10 rounded-lg overflow-hidden ${
+                                  isNeeded
+                                    ? "bg-gold/20 ring-2 ring-gold"
+                                    : "bg-bg-elevated"
+                                }`}
                               />
                             </li>
                           );

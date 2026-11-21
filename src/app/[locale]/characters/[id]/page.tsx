@@ -17,6 +17,7 @@ import { RecommendedBuildTab } from "@/features/characters/components/Recommende
 import { CharacterTeamVariants } from "@/features/characters/components/CharacterTeamVariants";
 import { CharacterStickerGallery } from "@/features/characters/components/CharacterStickerGallery";
 import { CharacterAnchorNav } from "@/features/characters/components/CharacterAnchorNav";
+import { ReportIssueModal } from "@/components/ui/ReportIssueModal";
 import type { Metadata } from "next";
 import {
   resolveTravelerSibling,
@@ -238,6 +239,12 @@ export default async function CharacterDetail({ params }: PageProps) {
       {/* 8. Nội dung bổ sung (Bộ sưu tập Sticker) */}
       <div id="extras" className="scroll-mt-24 space-y-8">
         <CharacterStickerGallery characterId={c.id} elementColor={el} />
+
+        {/* Footer data provenance & report issue */}
+        <div className="mt-12 pt-6 border-t border-border/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-text-muted">
+          <span>Dữ liệu được đối chiếu với cơ sở dữ liệu Genshin Impact chính thức.</span>
+          <ReportIssueModal entityType="character" entityId={c.id} entityName={c.name} />
+        </div>
       </div>
 
 

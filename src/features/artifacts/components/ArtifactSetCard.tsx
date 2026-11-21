@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { SafeImage } from "@/components/ui/SafeImage";
+import { EntityVisual } from "@/components/ui/EntityVisual";
 import { localArtifactSetIcon } from "@/lib/ui/local-assets";
 
 interface ArtifactSetCardProps {
@@ -42,16 +42,19 @@ export function ArtifactSetCard({
       )}
 
       {/* ── ẢNH ĐẠI DIỆN CHÍNH BỘ THÁNH DI VẬT ── */}
-      <div className="relative w-full aspect-square bg-bg-elevated/50 p-2 overflow-hidden flex items-center justify-center">
-        <SafeImage
-          src={localIcon}
-          fallbackSrcs={[imageSrc]}
-          alt={name}
-          fill
-          sizes="(max-width: 640px) 45vw, (max-width: 1024px) 22vw, 140px"
-          className="object-contain p-1 group-hover:scale-105 transition-transform duration-300 ease-out"
-        />
-      </div>
+      <EntityVisual
+        entityType="artifact"
+        entityId={id}
+        alt={name}
+        initialSrc={localIcon}
+        fallbackSrcs={[imageSrc]}
+        size="fill"
+        aspectRatio="square"
+        fit="contain"
+        sizes="(max-width: 640px) 45vw, (max-width: 1024px) 22vw, 140px"
+        wrapperClassName="w-full aspect-square bg-bg-elevated/50 p-2 overflow-hidden flex items-center justify-center"
+        className="p-1 group-hover:scale-105 transition-transform duration-300 ease-out"
+      />
 
       {/* ── KHỐI THÔNG TIN: TÊN ĐỒNG NHẤT 2 DÒNG + HIỆU ỨNG 2 MÓN ── */}
       <div className="p-2.5 sm:p-3 flex flex-col justify-between flex-1 bg-bg-card/95 border-t border-border/40 text-center">

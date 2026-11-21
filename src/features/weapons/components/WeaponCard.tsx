@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { SafeImage } from "@/components/ui/SafeImage";
+import { EntityVisual } from "@/components/ui/EntityVisual";
 import { localWeaponIcon } from "@/lib/ui/local-assets";
 import { rarityTextClass } from "@/lib/ui/theme";
 
@@ -41,16 +41,19 @@ export function WeaponCard({
       </div>
 
       {/* ── ICON VŨ KHÍ VUÔNG CHIẾM PHẦN LỚN DIỆN TÍCH ── */}
-      <div className="relative w-full aspect-square bg-bg-elevated/50 p-2 overflow-hidden flex items-center justify-center">
-        <SafeImage
-          src={localIcon}
-          fallbackSrcs={[iconUrl]}
-          alt={name}
-          fill
-          sizes="(max-width: 640px) 45vw, (max-width: 1024px) 22vw, 140px"
-          className="object-contain p-1 group-hover:scale-105 transition-transform duration-300 ease-out"
-        />
-      </div>
+      <EntityVisual
+        entityType="weapon"
+        entityId={id}
+        alt={name}
+        initialSrc={localIcon}
+        fallbackSrcs={[iconUrl]}
+        size="fill"
+        aspectRatio="square"
+        fit="contain"
+        sizes="(max-width: 640px) 45vw, (max-width: 1024px) 22vw, 140px"
+        wrapperClassName="w-full aspect-square bg-bg-elevated/50 p-2 overflow-hidden flex items-center justify-center"
+        className="p-1 group-hover:scale-105 transition-transform duration-300 ease-out"
+      />
 
       {/* ── KHỐI THÔNG TIN: TÊN ĐỒNG NHẤT 2 DÒNG + SỐ SAO + CHỈ SỐ ── */}
       <div className="p-2.5 sm:p-3 flex flex-col justify-between flex-1 bg-bg-card/95 border-t border-border/40 text-center">

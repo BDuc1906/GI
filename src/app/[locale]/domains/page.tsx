@@ -3,7 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { Prisma } from "@prisma/client";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { prisma } from "@/lib/db/prisma";
-import { SafeImage } from "@/components/ui/SafeImage";
+import { EntityVisual } from "@/components/ui/EntityVisual";
 import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
 import { Pagination } from "@/components/ui/Pagination";
 import { LIST_PAGE_SIZE, parsePageParam, totalPagesFor } from "@/lib/ui/pagination";
@@ -307,25 +307,20 @@ export default async function DomainsPage({ params, searchParams }: PageProps) {
               >
                 {/* Art full ô - tràn viền phần trên thẻ */}
                 <div className="relative w-full aspect-[16/9] sm:h-44 bg-bg-elevated overflow-hidden">
-                  <SafeImage
-                    src={d.imageUrl || "/local-genshin-assets/ui/domain.png"}
-                    fallbackSrcs={[d.imageUrlOriginal, "/local-genshin-assets/ui/domain.png"]}
+                  <EntityVisual
+                    entityType="domain"
+                    entityId={d.id}
                     alt={getLocalizedName(d, locale)}
-                    fill
+                    initialSrc={d.imageUrl}
+                    fallbackSrcs={[d.imageUrlOriginal, "/local-genshin-assets/ui/domain.png"]}
+                    size="fill"
+                    aspectRatio="landscape"
+                    fit="cover"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    fallback={
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src="/local-genshin-assets/ui/domain.png"
-                        alt=""
-                        className="w-12 h-12 object-contain opacity-70 m-auto mt-12"
-                      />
-                    }
+                    className="group-hover:scale-105 transition-transform duration-500"
                   />
                   {/* Lớp phủ gradient tối dần xuống dưới */}
                   <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/90 via-bg-primary/20 to-black/25 pointer-events-none" />
-
                 </div>
 
                 {/* Nội dung thông tin bí cảnh */}
@@ -347,13 +342,29 @@ export default async function DomainsPage({ params, searchParams }: PageProps) {
 
                   {previewMats.length > 0 && (
                     <div className="flex flex-wrap items-center gap-1.5 pt-2 border-t border-border/40">
-                      <span className="text-[11px] text-text-muted">Rớt:</span>
-                      {previewMats.map((m, idx) => (
-                        <span key={idx} className="text-[11px] text-text-secondary">
-                          {idx > 0 && " · "}
-                          {m.name}
-                        </span>
-                      ))}
+                      <span className="text-[11px] text-text-muted shrink-0">Rớt:</span>
+                      <div className="flex flex-wrap items-center gap-1.5 overflow-hidden">
+                        {previewMats.map((m, idx) => {
+                          const isArt = Boolean(m.artifactSetId);
+                          const entId = m.artifactSetId || m.materialId || m.name;
+                          return (
+                            <div
+                              key={idx}
+                              className="flex items-center gap-1 bg-bg-elevated/70 px-1.5 py-0.5 rounded border border-border/40 text-[11px] text-text-secondary"
+                              title={m.name}
+                            >
+                              <EntityVisual
+                                entityType={isArt ? "artifact" : "material"}
+                                entityId={entId}
+                                alt={m.name}
+                                size="xs"
+                                wrapperClassName="w-4 h-4 rounded overflow-hidden shrink-0"
+                              />
+                              <span className="truncate max-w-[90px]">{m.name}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
                   )}
                 </div>
