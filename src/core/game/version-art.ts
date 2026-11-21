@@ -16,69 +16,69 @@ import { resolveValidatedAsset } from "@/core/assets/asset-resolver";
  */
 export const VERSION_KEY_ART_MAP: Record<string, string> = {
   // ── 7.x Snezhnaya / Nod-Krai ──
-  "7.2": "/images/versions/.webp", // Official Version 7.2 Key Visual (Hour of Ruin)
-  "7.1": "/images/versions/.webp", // Official Version 7.1 Key Visual (Where Kristall Roots Run Deep)
-  "7.0": "/images/versions/.webp", // Official Version 7.0 Key Visual (A Traveler on a Winter's Night)
+  "7.2": "/images/versions/7.2.webp", // Official Version 7.2 Key Visual (Hour of Ruin)
+  "7.1": "/images/versions/7.1.webp", // Official Version 7.1 Key Visual (Where Kristall Roots Run Deep)
+  "7.0": "/images/versions/7.0.webp", // Official Version 7.0 Key Visual (A Traveler on a Winter's Night)
 
   // ── 6.x Luna / Khaenri'ah Arc ──
-  "6.7": "/images/versions/.webp",
-  "6.6": "/images/versions/.webp",
-  "6.5": "/images/versions/.webp",
-  "6.4": "/images/versions/.webp",
-  "6.3": "/images/versions/.webp",
-  "6.2": "/images/versions/.webp", // Song of the Welkin Moon - Columbina
-  "6.1": "/images/versions/.webp", // Song of the Welkin Moon - Harbingers
-  "6.0": "/images/versions/.webp", // 5-Year Anniversary - 7 Archons Key Visual
+  "6.7": "/images/versions/6.7.webp",
+  "6.6": "/images/versions/6.6.webp",
+  "6.5": "/images/versions/6.5.webp",
+  "6.4": "/images/versions/6.4.webp",
+  "6.3": "/images/versions/6.3.webp",
+  "6.2": "/images/versions/6.2.webp", // Song of the Welkin Moon - Columbina
+  "6.1": "/images/versions/6.1.webp", // Song of the Welkin Moon - Harbingers
+  "6.0": "/images/versions/6.0.webp", // 5-Year Anniversary - 7 Archons Key Visual
 
   // ── 5.x Natlan ──
-  "5.8": "/images/versions/.webp",
-  "5.4": "/images/versions/.webp", // Embrace of Enchanting Dreams
-  "5.3": "/images/versions/.webp", // Incandescent Ode of Resurrection
-  "5.2": "/images/versions/.webp", // Tapestry of Spirit and Flame
-  "5.1": "/images/versions/.webp", // The Rainbow Destined to Burn
-  "5.0": "/images/versions/.webp", // Flowers Resplendent on the Sun-Drenched Track
+  "5.8": "/images/versions/5.8.webp",
+  "5.4": "/images/versions/5.4.webp", // Embrace of Enchanting Dreams
+  "5.3": "/images/versions/5.3.webp", // Incandescent Ode of Resurrection
+  "5.2": "/images/versions/5.2.webp", // Tapestry of Spirit and Flame
+  "5.1": "/images/versions/5.1.webp", // The Rainbow Destined to Burn
+  "5.0": "/images/versions/5.0.webp", // Flowers Resplendent on the Sun-Drenched Track
 
   // ── 4.x Fontaine ──
-  "4.8": "/images/versions/.webp", // Summertide Scales and Tales
-  "4.7": "/images/versions/.webp", // An Everlasting Dream Intertwined
-  "4.6": "/images/versions/.webp", // Two Worlds Aflame, the Crimson Night's Fade
-  "4.5": "/images/versions/.webp", // Blades Weaving Betwixt the Brocade
-  "4.4": "/images/versions/.webp", // Vibrant Harriers Aloft in Spring Breeze
-  "4.3": "/images/versions/.webp", // Roses and Muskets
-  "4.2": "/images/versions/.webp", // Masquerade of the Guilty
-  "4.1": "/images/versions/.webp", // To the Stars Shining in the Depths
-  "4.0": "/images/versions/.webp", // As Light Rain Falls Without Reason
+  "4.8": "/images/versions/4.8.webp", // Summertide Scales and Tales
+  "4.7": "/images/versions/4.7.webp", // An Everlasting Dream Intertwined
+  "4.6": "/images/versions/4.6.webp", // Two Worlds Aflame, the Crimson Night's Fade
+  "4.5": "/images/versions/4.5.webp", // Blades Weaving Betwixt the Brocade
+  "4.4": "/images/versions/4.4.webp", // Vibrant Harriers Aloft in Spring Breeze
+  "4.3": "/images/versions/4.3.webp", // Roses and Muskets
+  "4.2": "/images/versions/4.2.webp", // Masquerade of the Guilty
+  "4.1": "/images/versions/4.1.webp", // To the Stars Shining in the Depths
+  "4.0": "/images/versions/4.0.webp", // As Light Rain Falls Without Reason
 
   // ── 3.x Sumeru ──
-  "3.8": "/images/versions/.webp", // Secret Summer Paradise
-  "3.7": "/images/versions/.webp", // Duel! The Summoners' Summit!
-  "3.6": "/images/versions/.webp", // A Parade of Providence
-  "3.5": "/images/versions/.webp", // Windblume's Breath
-  "3.4": "/images/versions/.webp", // The Exquisite Night Chimes
-  "3.3": "/images/versions/.webp", // All Senses Clear, All Existence Void
-  "3.2": "/images/versions/.webp", // Akasha Pulses, the Kalpa Flame Rises
-  "3.1": "/images/versions/.webp", // King Deshret and the Three Magi
-  "3.0": "/images/versions/.webp", // The Morn a Thousand Roses Brings
+  "3.8": "/images/versions/3.8.webp", // Secret Summer Paradise
+  "3.7": "/images/versions/3.7.webp", // Duel! The Summoners' Summit!
+  "3.6": "/images/versions/3.6.webp", // A Parade of Providence
+  "3.5": "/images/versions/3.5.webp", // Windblume's Breath
+  "3.4": "/images/versions/3.4.webp", // The Exquisite Night Chimes
+  "3.3": "/images/versions/3.3.webp", // All Senses Clear, All Existence Void
+  "3.2": "/images/versions/3.2.webp", // Akasha Pulses, the Kalpa Flame Rises
+  "3.1": "/images/versions/3.1.webp", // King Deshret and the Three Magi
+  "3.0": "/images/versions/3.0.webp", // The Morn a Thousand Roses Brings
 
   // ── 2.x Inazuma ──
-  "2.8": "/images/versions/.webp", // Summer Fantasia
-  "2.7": "/images/versions/.webp", // Hidden Dreams in the Depths
-  "2.6": "/images/versions/.webp", // Zephyr of the Violet Garden
-  "2.5": "/images/versions/.webp", // When the Sakura Bloom
-  "2.4": "/images/versions/.webp", // Fleeting Colors in Flight
-  "2.3": "/images/versions/.webp", // Shadows Amidst Snowstorms
-  "2.2": "/images/versions/.webp", // Into the Perilous Labyrinth of Fog
-  "2.1": "/images/versions/.webp", // Floating World Under the Moonlight
-  "2.0": "/images/versions/.webp", // The Immovable God and the Eternal Euthymia
+  "2.8": "/images/versions/2.8.webp", // Summer Fantasia
+  "2.7": "/images/versions/2.7.webp", // Hidden Dreams in the Depths
+  "2.6": "/images/versions/2.6.webp", // Zephyr of the Violet Garden
+  "2.5": "/images/versions/2.5.webp", // When the Sakura Bloom
+  "2.4": "/images/versions/2.4.webp", // Fleeting Colors in Flight
+  "2.3": "/images/versions/2.3.webp", // Shadows Amidst Snowstorms
+  "2.2": "/images/versions/2.2.webp", // Into the Perilous Labyrinth of Fog
+  "2.1": "/images/versions/2.1.webp", // Floating World Under the Moonlight
+  "2.0": "/images/versions/2.0.webp", // The Immovable God and the Eternal Euthymia
 
   // ── 1.x Mondstadt / Liyue ──
-  "1.6": "/images/versions/.webp", // Midsummer Island Adventure
-  "1.5": "/images/versions/.webp", // Beneath the Light of Jadeite
-  "1.4": "/images/versions/.webp", // Invitation of Windblume
-  "1.3": "/images/versions/.webp", // All That Glitters
-  "1.2": "/images/versions/.webp", // The Chalk Prince and the Dragon
-  "1.1": "/images/versions/.webp", // A New Star Approaches
-  "1.0": "/images/versions/.webp", // Welcome to Teyvat
+  "1.6": "/images/versions/1.6.webp", // Midsummer Island Adventure
+  "1.5": "/images/versions/1.5.webp", // Beneath the Light of Jadeite
+  "1.4": "/images/versions/1.4.webp", // Invitation of Windblume
+  "1.3": "/images/versions/1.3.webp", // All That Glitters
+  "1.2": "/images/versions/1.2.webp", // The Chalk Prince and the Dragon
+  "1.1": "/images/versions/1.1.webp", // A New Star Approaches
+  "1.0": "/images/versions/1.0.webp", // Welcome to Teyvat
 };
 
 /**
@@ -170,24 +170,17 @@ export function resolveVersionBackgroundArt(
   version: string,
   _featuredCharacters: Array<{ id: string; meta?: string | null }> = []
 ): string {
-  // 1. Uu tien bo phan giai Asset da qua kiem dinh (Asset Validation)
+  // 1. Ưu tiên bộ phân giải Asset đã qua kiểm định (Asset Validation)
   const resolved = resolveValidatedAsset("version", version, "keyArt");
   if (resolved.src && !resolved.isPlaceholder) {
     return resolved.src;
   }
 
-  // 2. Voi cac phien ban cung Arc
-  const major = version.split(".")[0];
-  if (major === "7") {
-    return "/images/versions/7.2.webp";
-  }
-  if (major === "6") {
-    return "/images/versions/6.1.webp";
-  }
-  if (major === "5") {
-    return "/images/versions/5.4.webp";
+  // 2. Tra cứu trực tiếp bản đồ Key Art chính thức
+  if (VERSION_KEY_ART_MAP[version]) {
+    return VERSION_KEY_ART_MAP[version];
   }
 
-  // 3. Fallback mac dinh (TUYET DOI KHONG DUNG SPLASH ART NHAN VAT)
+  // 3. Fallback mặc định trung tính (TUYỆT ĐỐI KHÔNG DÙNG ẢNH BẢN KHÁC HOẶC SPLASH ART NHÂN VẬT)
   return "/images/home-cards/versions.webp";
 }

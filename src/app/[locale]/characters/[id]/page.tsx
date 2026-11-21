@@ -13,7 +13,6 @@ import { CharacterHero } from "@/features/characters/components/CharacterHero";
 import { CharacterAscension } from "@/features/characters/components/CharacterAscension";
 import { CharacterTalents } from "@/features/characters/components/CharacterTalents";
 import { CharacterConstellations } from "@/features/characters/components/CharacterConstellations";
-import { CharacterSimilarSection } from "@/features/characters/components/CharacterSimilarSection";
 import { RecommendedBuildTab } from "@/features/characters/components/RecommendedBuildTab";
 import { CharacterTeamVariants } from "@/features/characters/components/CharacterTeamVariants";
 import { CharacterStickerGallery } from "@/features/characters/components/CharacterStickerGallery";
@@ -37,7 +36,6 @@ import {
 } from "@/lib/i18n/localized-content";
 import { isNonPlayableCharacterId } from "@/core/game/character-catalog";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
-import { getSimilarCharacters } from "@/features/similarity/similarity-service";
 
 export const revalidate = 3600;
 
@@ -108,7 +106,6 @@ export default async function CharacterDetail({ params }: PageProps) {
 
   const { isTraveler, boySplash, girlSplash } = await resolveTravelerSibling(c);
   const el = elementColorVar(c.vision);
-  const similar = await getSimilarCharacters(c.id);
 
   const constellations = getLocalizedConstellations(
     (c.constellations as unknown as Constellation[]) ?? [],
@@ -238,14 +235,8 @@ export default async function CharacterDetail({ params }: PageProps) {
 
 
 
-      {/* 8. Nội dung bổ sung (Nhân vật tương tự & Sticker) */}
+      {/* 8. Nội dung bổ sung (Bộ sưu tập Sticker) */}
       <div id="extras" className="scroll-mt-24 space-y-8">
-        <CharacterSimilarSection
-          similar={similar}
-          vision={c.vision}
-          elementColor={el}
-          locale={locale}
-        />
         <CharacterStickerGallery characterId={c.id} elementColor={el} />
       </div>
 

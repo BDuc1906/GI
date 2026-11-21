@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ElementIcon } from "@/features/characters/components/ElementIcon";
 import { rarityStars, elementColorVar, rarityColorVar } from "@/lib/ui/theme";
+import { EntityVisual, type EntityType } from "@/components/ui/EntityVisual";
 
 interface SearchCharacter {
   id: string;
@@ -218,6 +219,8 @@ export function CommandPalette() {
                       href={`/characters/${c.id}`}
                       onNavigate={close}
                       name={c.name}
+                      entityType="character"
+                      entityId={c.id}
                       iconUrl={c.iconUrl}
                       elementColor={elementColorVar(c.vision)}
                       meta={
@@ -240,6 +243,8 @@ export function CommandPalette() {
                       href={`/weapons/${w.id}`}
                       onNavigate={close}
                       name={w.name}
+                      entityType="weapon"
+                      entityId={w.id}
                       iconUrl={w.iconUrl}
                       elementColor={rarityColorVar(w.rarity)}
                       meta={<span>{tWeaponType(w.type)}</span>}
@@ -257,6 +262,8 @@ export function CommandPalette() {
                       href={`/artifacts/${a.id}`}
                       onNavigate={close}
                       name={a.name}
+                      entityType="artifact"
+                      entityId={a.id}
                       iconUrl={a.iconUrl}
                       elementColor={rarityColorVar(Math.max(...a.rarityRange, 4))}
                       meta={<span>{a.rarityRange.join("–")}★</span>}
@@ -273,6 +280,8 @@ export function CommandPalette() {
                       href={`/domains/${d.id}`}
                       onNavigate={close}
                       name={d.name}
+                      entityType="domain"
+                      entityId={d.id}
                       iconUrl={d.imageUrl}
                       meta={<span>{domainCategoryLabel[d.category] ?? d.category}</span>}
                     />
@@ -288,7 +297,10 @@ export function CommandPalette() {
                       href={`/materials/${m.id}`}
                       onNavigate={close}
                       name={m.name}
+                      entityType="material"
+                      entityId={m.id}
                       iconUrl={m.iconUrl}
+                      fallbackSrcs={[m.iconUrlOriginal]}
                       meta={<span>{t("sectionMaterials")}</span>}
                     />
                   ))}
@@ -315,7 +327,10 @@ function ResultRow({
   href,
   onNavigate,
   name,
+  entityType,
+  entityId,
   iconUrl,
+  fallbackSrcs,
   meta,
   rarity,
   elementColor,
@@ -323,7 +338,10 @@ function ResultRow({
   href: string;
   onNavigate: () => void;
   name: string;
+  entityType: EntityType;
+  entityId: string;
   iconUrl: string | null;
+  fallbackSrcs?: Array<string | null | undefined>;
   meta: React.ReactNode;
   rarity?: number;
   elementColor?: string;
@@ -334,15 +352,16 @@ function ResultRow({
       onClick={onNavigate}
       className="flex items-center gap-3 px-4 py-2 hover:bg-bg-elevated transition-colors"
     >
-      <div
-        className="relative w-8 h-8 rounded-md bg-bg-elevated shrink-0 overflow-hidden"
-        style={elementColor ? { border: `1px solid color-mix(in srgb, ${elementColor} 40%, var(--border-color))` } : undefined}
-      >
-        {iconUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={iconUrl} alt="" className="w-full h-full object-contain p-1" />
-        ) : null}
-      </div>
+      <EntityVisual
+        entityType={entityType}
+        entityId={entityId}
+        initialSrc={iconUrl}
+        fallbackSrcs={fallbackSrcs}
+        alt={name}
+        size="sm"
+        elementColor={elementColor}
+        wrapperClassName="rounded-md border border-border"
+      />
       <div className="min-w-0 flex-1">
         <div className="text-sm text-text-primary truncate">{name}</div>
         <div className="flex items-center gap-1.5 text-[11px] text-text-muted">{meta}</div>

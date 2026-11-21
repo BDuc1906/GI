@@ -78,8 +78,15 @@ export function SafeImage({
   src: srcProp,
   ...props
 }: SafeImageProps) {
+  const resolvedSrcProp =
+    typeof srcProp === "object" && srcProp !== null && "src" in srcProp
+      ? (srcProp as { src: string }).src
+      : typeof srcProp === "string"
+        ? srcProp
+        : null;
+
   const candidates = [
-    ...(typeof srcProp === "string" ? [srcProp] : []),
+    ...(resolvedSrcProp ? [resolvedSrcProp] : []),
     ...(fallbackSrc ? [fallbackSrc] : []),
     ...(fallbackSrcs ?? []),
   ]

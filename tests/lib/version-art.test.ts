@@ -10,9 +10,9 @@ describe("version-art", () => {
     expect(resolveVersionBackgroundArt("1.0")).toBe("/images/versions/1.0.webp");
   });
 
-  it("resolves Snezhnaya key visual for 7.x versions", () => {
+  it("resolves Snezhnaya key visual for mapped 7.x versions and falls back neutrally for unmapped", () => {
     expect(resolveVersionBackgroundArt("7.1")).toBe("/images/versions/7.1.webp");
-    expect(resolveVersionBackgroundArt("7.9")).toBe("/images/versions/7.2.webp");
+    expect(resolveVersionBackgroundArt("7.9")).toBe("/images/home-cards/versions.webp");
   });
 
   it("falls back to default version cover if no version matches", () => {

@@ -47,8 +47,8 @@ export const ASSET_RULES: Partial<Record<`${AssetCategory}:${AssetType}`, AssetR
   },
   "character:splash": {
     allowedExtensions: [".webp", ".png", ".jpg", ".jpeg"],
-    minWidth: 500,
-    minHeight: 500,
+    minWidth: 256, // Protagonist traveler portraits are 256px, standard character splashes are 1024px+
+    minHeight: 256,
     prohibitedSubstrings: ["/weapons/", "/materials/"],
   },
 

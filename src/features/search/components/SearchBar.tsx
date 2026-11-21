@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
 import { SearchIcon } from "@/components/ui/UiIcon";
+import { EntityVisual, type EntityType } from "@/components/ui/EntityVisual";
 
 interface SearchResultItem {
   id: string;
@@ -183,16 +183,17 @@ export function SearchBar() {
 
           {hasResults && (
             <>
-              <SuggestionGroup title={t("sectionCharacters")} items={data!.characters} basePath="/characters" onNavigate={() => setOpen(false)} />
-              <SuggestionGroup title={t("sectionWeapons")} items={data!.weapons} basePath="/weapons" onNavigate={() => setOpen(false)} />
-              <SuggestionGroup title={t("sectionArtifacts")} items={data!.artifacts} basePath="/artifacts" onNavigate={() => setOpen(false)} />
+              <SuggestionGroup title={t("sectionCharacters")} items={data!.characters} basePath="/characters" entityType="character" onNavigate={() => setOpen(false)} />
+              <SuggestionGroup title={t("sectionWeapons")} items={data!.weapons} basePath="/weapons" entityType="weapon" onNavigate={() => setOpen(false)} />
+              <SuggestionGroup title={t("sectionArtifacts")} items={data!.artifacts} basePath="/artifacts" entityType="artifact" onNavigate={() => setOpen(false)} />
               <SuggestionGroup
                 title={t("sectionDomains")}
                 items={data!.domains.map(({ id, name, imageUrl }) => ({ id, name, iconUrl: imageUrl }))}
                 basePath="/domains"
+                entityType="domain"
                 onNavigate={() => setOpen(false)}
               />
-              <SuggestionGroup title={t("sectionMaterials")} items={data!.materials} basePath="/materials" onNavigate={() => setOpen(false)} />
+              <SuggestionGroup title={t("sectionMaterials")} items={data!.materials} basePath="/materials" entityType="material" onNavigate={() => setOpen(false)} />
 
               <button
                 type="button"
@@ -213,11 +214,13 @@ function SuggestionGroup({
   title,
   items,
   basePath,
+  entityType,
   onNavigate,
 }: {
   title: string;
   items: SearchResultItem[];
   basePath: string;
+  entityType: EntityType;
   onNavigate: () => void;
 }) {
   if (items.length === 0) return null;
@@ -234,11 +237,14 @@ function SuggestionGroup({
           onClick={onNavigate}
           className="flex items-center gap-2.5 px-3 py-2 hover:bg-[color:var(--bg-table-alt)] transition-colors"
         >
-          <span className="relative w-7 h-7 shrink-0 rounded bg-[color:var(--bg-table-alt)] overflow-hidden">
-            {item.iconUrl && (
-              <Image src={item.iconUrl} alt={item.name} fill sizes="28px" className="object-cover" />
-            )}
-          </span>
+          <EntityVisual
+            entityType={entityType}
+            entityId={item.id}
+            initialSrc={item.iconUrl}
+            alt={item.name}
+            size="xs"
+            wrapperClassName="rounded border border-border/60"
+          />
           <span className="text-sm text-text-primary truncate">{item.name}</span>
         </Link>
       ))}

@@ -6,8 +6,8 @@ import { notFound } from "next/navigation";
 import { routing, type AppLocale } from "@/i18n/routing";
 import { elementColorVar, rarityColorVar } from "@/lib/ui/theme";
 import { ElementIcon } from "@/features/characters/components/ElementIcon";
-import { SafeImage } from "@/components/ui/SafeImage";
 import { EntityCard } from "@/components/ui/EntityCard";
+import { EntityVisual } from "@/components/ui/EntityVisual";
 import { SearchService } from "@/features/search/service";
 import { searchRepository } from "@/features/search/repository";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -155,13 +155,15 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {domains.map((d) => (
               <Link key={d.id} href={`/domains/${d.id}`} className="surface-card overflow-hidden group flex gap-3 p-3">
-                <div className="relative w-14 h-14 shrink-0 rounded-lg bg-bg-elevated overflow-hidden">
-                  {d.imageUrl ? (
-                    <SafeImage src={d.imageUrl} fallbackSrcs={[d.imageUrlOriginal]} alt={d.name} fill sizes="56px" className="object-cover" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-text-muted text-[10px]">—</div>
-                  )}
-                </div>
+                <EntityVisual
+                  entityType="domain"
+                  entityId={d.id}
+                  initialSrc={d.imageUrl}
+                  fallbackSrcs={[d.imageUrlOriginal]}
+                  alt={getLocalizedName(d, locale)}
+                  size="md"
+                  wrapperClassName="rounded-lg border border-border"
+                />
                 <div className="min-w-0 flex flex-col justify-center">
                   <div className="font-semibold truncate text-text-primary group-hover:text-accent-bright transition-colors text-sm">{getLocalizedName(d, locale)}</div>
                   <div className="text-eyebrow mt-1">{d.category}</div>
@@ -184,18 +186,15 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
                 href={`/materials/${material.id}`}
                 className="surface-card flex items-center gap-3 p-3 hover:border-accent-500/60 transition-colors"
               >
-                <span className="relative w-12 h-12 shrink-0 rounded-lg bg-bg-elevated overflow-hidden">
-                  {material.iconUrl && (
-                    <SafeImage
-                      src={material.iconUrl}
-                      fallbackSrcs={[material.iconUrlOriginal]}
-                      alt={getLocalizedName(material, locale)}
-                      fill
-                      sizes="48px"
-                      className="object-contain"
-                    />
-                  )}
-                </span>
+                <EntityVisual
+                  entityType="material"
+                  entityId={material.id}
+                  initialSrc={material.iconUrl}
+                  fallbackSrcs={[material.iconUrlOriginal]}
+                  alt={getLocalizedName(material, locale)}
+                  size="md"
+                  wrapperClassName="rounded-lg border border-border"
+                />
                 <span className="min-w-0 text-sm font-medium text-text-primary line-clamp-2">
                   {getLocalizedName(material, locale)}
                 </span>

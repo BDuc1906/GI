@@ -140,7 +140,7 @@ export function EntityCard({
       >
         {imageSlot ? (
           imageSlot
-        ) : imageSrc ? (
+        ) : imageSrc || (fallbackSrcs && fallbackSrcs.length > 0) ? (
           <SafeImage
             src={imageSrc}
             alt={name}
@@ -151,10 +151,17 @@ export function EntityCard({
             className={`${
               imageFit === "contain" ? "object-contain p-1" : "object-cover"
             } group-hover:scale-105 transition-transform duration-300 ease-out`}
+            fallback={
+              <div className="w-full h-full flex flex-col items-center justify-center p-2 text-center text-text-muted/60 select-none bg-black/20">
+                <span className="text-[10px] font-semibold uppercase tracking-wider">{subtitle || "LEIBO"}</span>
+                <span className="text-xs font-bold text-text-primary/70 truncate max-w-[90%]">{name}</span>
+              </div>
+            }
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-text-muted text-xs">
-            Không có ảnh
+          <div className="w-full h-full flex flex-col items-center justify-center p-2 text-center text-text-muted/60 select-none bg-black/20">
+            <span className="text-[10px] font-semibold uppercase tracking-wider">{subtitle || "LEIBO"}</span>
+            <span className="text-xs font-bold text-text-primary/70 truncate max-w-[90%]">{name}</span>
           </div>
         )}
 
