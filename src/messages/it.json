@@ -232,7 +232,9 @@
     "wednesday": "Mercoledì",
     "thursday": "Giovedì",
     "friday": "Venerdì",
-    "saturday": "Sabato"
+    "saturday": "Sabato",
+    "categoryTrounce": "Dominio della punizione / Boss settimanale",
+    "categoryChallenge": "Sfida ed esplorazione"
   },
   "Search": {
     "metaTitleQuery": "Cerca \"{query}\" — LEIBO",

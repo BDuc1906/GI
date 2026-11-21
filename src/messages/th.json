@@ -232,7 +232,9 @@
     "wednesday": "วันพุธ",
     "thursday": "วันพฤหัสบดี",
     "friday": "วันศุกร์",
-    "saturday": "วันเสาร์"
+    "saturday": "วันเสาร์",
+    "categoryTrounce": "ดันเจี้ยนแห่งการลงทัณฑ์ / บอสรายสัปดาห์",
+    "categoryChallenge": "การท้าทายและการสำรวจ"
   },
   "Search": {
     "metaTitleQuery": "ค้นหา \"{query}\" — LEIBO",

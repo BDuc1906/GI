@@ -232,7 +232,9 @@
     "wednesday": "수요일",
     "thursday": "목요일",
     "friday": "금요일",
-    "saturday": "토요일"
+    "saturday": "토요일",
+    "categoryTrounce": "토벌 영역 / 주간 보스",
+    "categoryChallenge": "탐색 및 도전 비경"
   },
   "Search": {
     "metaTitleQuery": "\"{query}\" 검색 — LEIBO",

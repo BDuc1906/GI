@@ -232,7 +232,9 @@
     "wednesday": "Çarşamba",
     "thursday": "Perşembe",
     "friday": "Cuma",
-    "saturday": "Cumartesi"
+    "saturday": "Cumartesi",
+    "categoryTrounce": "Haftalık Baş Düşman Zindanı",
+    "categoryChallenge": "Meydan Okuma ve Keşif"
   },
   "Search": {
     "metaTitleQuery": "\"{query}\" araması — LEIBO",

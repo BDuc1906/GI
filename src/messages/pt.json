@@ -232,7 +232,9 @@
     "wednesday": "Quarta-feira",
     "thursday": "Quinta-feira",
     "friday": "Sexta-feira",
-    "saturday": "Sábado"
+    "saturday": "Sábado",
+    "categoryTrounce": "Dizimação / Chefe Semanal",
+    "categoryChallenge": "Desafio e Exploração"
   },
   "Search": {
     "metaTitleQuery": "Buscar \"{query}\" — LEIBO",

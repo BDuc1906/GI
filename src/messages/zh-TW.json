@@ -232,7 +232,9 @@
     "wednesday": "星期三",
     "thursday": "星期四",
     "friday": "星期五",
-    "saturday": "星期六"
+    "saturday": "星期六",
+    "categoryTrounce": "征討領域 / 週本",
+    "categoryChallenge": "探索 / 挑戰領域"
   },
   "Search": {
     "metaTitleQuery": "搜尋「{query}」 — LEIBO",

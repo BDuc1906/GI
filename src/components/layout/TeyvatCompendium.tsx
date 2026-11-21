@@ -281,7 +281,7 @@ export function TeyvatCompendium() {
     enemies: { title: t("Enemies.title"), description: t("Enemies.description") },
     domains: { title: t("Domains.title"), description: t("Domains.metaDescription") },
     elements: { title: t("Elements.title"), description: t("Elements.metaDescription") },
-    materials: { title: t("Materials.title"), description: t("Materials.description") },
+    materials: { title: t("Materials.title"), description: t("Materials.description", { count: 300 }) },
     food: { title: t("Food.title"), description: t("Food.description") },
     geography: { title: t("Geography.title"), description: t("Geography.description") },
     achievements: { title: t("Achievements.title"), description: t("Achievements.description") },

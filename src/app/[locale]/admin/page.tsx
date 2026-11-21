@@ -131,6 +131,13 @@ export default function AdminPage() {
             </div>
             <div className="flex flex-wrap items-center gap-3">
               <Link
+                href="/admin/agents"
+                className="inline-flex items-center gap-2 px-4 py-2.5 bg-accent-500/20 border border-accent-500/40 text-accent-bright rounded-lg hover:bg-accent-500/30 transition-colors text-sm font-semibold"
+              >
+                <span>🤖 Agent Control Center</span>
+                <span className="text-xs px-2 py-0.5 rounded-full bg-accent-500/30 font-mono">Harness</span>
+              </Link>
+              <Link
                 href="/admin/data-quality"
                 className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-500/20 border border-blue-500/40 text-blue-200 rounded-lg hover:bg-blue-500/30 transition-colors text-sm font-semibold"
               >

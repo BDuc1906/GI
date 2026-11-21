@@ -232,7 +232,9 @@
     "wednesday": "Среда",
     "thursday": "Четверг",
     "friday": "Пятница",
-    "saturday": "Суббота"
+    "saturday": "Суббота",
+    "categoryTrounce": "Подземелье наказания / Еженедельный босс",
+    "categoryChallenge": "Исследование и испытания"
   },
   "Search": {
     "metaTitleQuery": "Поиск \"{query}\" — LEIBO",

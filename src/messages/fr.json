@@ -232,7 +232,9 @@
     "wednesday": "Mercredi",
     "thursday": "Jeudi",
     "friday": "Vendredi",
-    "saturday": "Samedi"
+    "saturday": "Samedi",
+    "categoryTrounce": "Donjon de la conquête / Boss hebdo",
+    "categoryChallenge": "Défi et exploration"
   },
   "Search": {
     "metaTitleQuery": "Recherche \"{query}\" — LEIBO",

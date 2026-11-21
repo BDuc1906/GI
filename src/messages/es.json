@@ -232,7 +232,9 @@
     "wednesday": "Miércoles",
     "thursday": "Jueves",
     "friday": "Viernes",
-    "saturday": "Sábado"
+    "saturday": "Sábado",
+    "categoryTrounce": "Cruzada / Jefe semanal",
+    "categoryChallenge": "Desafío y exploración"
   },
   "Search": {
     "metaTitleQuery": "Buscar \"{query}\" — LEIBO",

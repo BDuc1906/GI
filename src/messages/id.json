@@ -232,7 +232,9 @@
     "wednesday": "Rabu",
     "thursday": "Kamis",
     "friday": "Jumat",
-    "saturday": "Sabtu"
+    "saturday": "Sabtu",
+    "categoryTrounce": "Domain Trounce / Bos Mingguan",
+    "categoryChallenge": "Tantangan & Eksplorasi"
   },
   "Search": {
     "metaTitleQuery": "Cari \"{query}\" — LEIBO",
