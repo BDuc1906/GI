@@ -37,22 +37,22 @@ export function getCanonicalAssetPath(
 
   switch (category) {
     case "character": {
-      const normalizedIconId = cleanId.startsWith("traveler-boy-")
+      const normalizedId = cleanId.startsWith("traveler-boy-")
         ? "aether"
         : cleanId.startsWith("traveler-girl-")
           ? "lumine"
           : cleanId;
 
       if (assetType === "icon") {
-        return `/local-genshin-assets/characters/icon/${normalizedIconId}.png`;
+        return `/local-genshin-assets/characters/icon/${normalizedId}.png`;
       }
       if (assetType === "side") {
-        return `/local-genshin-assets/characters/side/${normalizedIconId}.png`;
+        return `/local-genshin-assets/characters/side/${normalizedId}.png`;
       }
       if (assetType === "splash") {
-        return `/local-genshin-assets/characters/splash/${cleanId}.webp`;
+        return `/local-genshin-assets/characters/splash/${normalizedId}.webp`;
       }
-      return `/local-genshin-assets/characters/icon/${normalizedIconId}.png`;
+      return `/local-genshin-assets/characters/icon/${normalizedId}.png`;
     }
 
     case "version": {

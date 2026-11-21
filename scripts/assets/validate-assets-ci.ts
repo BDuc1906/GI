@@ -140,6 +140,45 @@ async function main() {
     );
   }
 
+  // 5. Ánh xạ Game UI Icons đại diện nội dung (List Page Headers & Nav)
+  const uiIcons = [
+    { id: "characters", label: "UI Icon: Characters" },
+    { id: "sword", label: "UI Icon: Weapons / Sword" },
+    { id: "claymore", label: "UI Icon: Claymore" },
+    { id: "polearm", label: "UI Icon: Polearm" },
+    { id: "bow", label: "UI Icon: Bow" },
+    { id: "catalyst", label: "UI Icon: Catalyst" },
+    { id: "artifacts", label: "UI Icon: Artifacts" },
+    { id: "items", label: "UI Icon: Materials" },
+    { id: "enemy", label: "UI Icon: Enemies" },
+    { id: "domain", label: "UI Icon: Domains" },
+    { id: "food", label: "UI Icon: Food" },
+  ];
+
+  for (const u of uiIcons) {
+    const key = buildAssetKey("ui", u.id, "uiIcon");
+    entries[key] = createAssetEntry(
+      "ui",
+      u.id,
+      "uiIcon",
+      u.label,
+      getCanonicalAssetPath("ui", u.id, "uiIcon")
+    );
+  }
+
+  // 6. Ánh xạ 7 Nguyên tố (Elements)
+  const elements = ["pyro", "hydro", "anemo", "electro", "dendro", "cryo", "geo"];
+  for (const el of elements) {
+    const key = buildAssetKey("element", el, "elementIcon");
+    entries[key] = createAssetEntry(
+      "element",
+      el,
+      "elementIcon",
+      `Element Icon: ${el.toUpperCase()}`,
+      getCanonicalAssetPath("element", el, "elementIcon")
+    );
+  }
+
   console.log(`=> Đã tạo ánh xạ cho tổng cộng: ${Object.keys(entries).length} assets.`);
 
   // ── BƯỚC 4 & 6: Kiểm tra file, metadata và đánh dấu xác minh tự động ──
