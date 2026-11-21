@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { prisma } from "@/lib/db/prisma";
 import { withDbRetry } from "@/lib/db/db-retry";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
-import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
+import { ListPageLayout, ListPageHeader } from "@/components/list-layout";
 import {
   WeaponListingClient,
   type WeaponListingItem,
@@ -83,32 +84,40 @@ export default async function WeaponsPage({ params }: PageProps) {
     { name: t("title"), path: "/weapons" },
   ];
 
-  return (
-    <div className="max-w-7xl mx-auto px-4 py-8 space-y-6">
-      <BreadcrumbJsonLd locale={locale} items={breadcrumbs} />
-      <Breadcrumb items={breadcrumbs} />
+  const weaponIcon = (
+    <Image
+      src="/local-genshin-assets/ui/sword.png"
+      alt=""
+      width={24}
+      height={24}
+      className="w-5 h-5 sm:w-6 sm:h-6 object-contain"
+    />
+  );
 
-      <div>
-        <h1 className="font-display text-display-2 font-semibold text-text-primary mb-2">
-          {t("title")}
-        </h1>
-        <p className="text-sm text-text-secondary">
-          {t.rich("foundCount", {
-            count: weapons.length,
-            b: (chunks) => (
-              <span className="text-accent-bright font-semibold tabular-nums">
-                {chunks}
-              </span>
-            ),
-          })}
-        </p>
-      </div>
+  return (
+    <ListPageLayout>
+      <BreadcrumbJsonLd locale={locale} items={breadcrumbs} />
+
+      <ListPageHeader
+        icon={weaponIcon}
+        title={t("title")}
+        description={t.rich("foundCount", {
+          count: weapons.length,
+          b: (chunks) => (
+            <span className="text-accent-bright font-semibold tabular-nums">
+              {chunks}
+            </span>
+          ),
+        })}
+        totalCount={weapons.length}
+        countLabel={t("title")}
+      />
 
       <WeaponListingClient
         initialWeapons={listingItems}
         locale={locale}
         typeLabels={typeLabels}
       />
-    </div>
+    </ListPageLayout>
   );
 }

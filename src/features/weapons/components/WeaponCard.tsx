@@ -33,7 +33,7 @@ export function WeaponCard({
   return (
     <Link
       href={`/weapons/${id}`}
-      className="group relative flex flex-col h-full rounded-2xl border border-border/80 bg-bg-card hover:bg-bg-elevated/80 hover:border-border-strong hover:shadow-md transition-all duration-200 overflow-hidden"
+      className="group relative flex flex-col h-full rounded-2xl border border-border/80 bg-bg-card hover:bg-bg-elevated/80 hover:border-border-strong hover:shadow-md transition-all duration-200 overflow-hidden focus:outline-none focus:ring-2 focus:ring-accent-500/40"
     >
       {/* ── LOẠI VŨ KHÍ GÓC TRÊN BÊN TRÁI ── */}
       <div className="absolute top-2 left-2 z-10 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/10 text-[10px] font-semibold text-text-secondary shadow pointer-events-none">

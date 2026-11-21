@@ -4,6 +4,12 @@ import { useState, useMemo } from "react";
 import { WeaponCard } from "./WeaponCard";
 import { translateStatName } from "@/core/game/stat-name-translations";
 import { WeaponIcon } from "@/features/weapons/components/WeaponIcon";
+import {
+  ListFilterToolbar,
+  FilterChip,
+  EntityGrid,
+  ListEmptyState,
+} from "@/components/list-layout";
 
 export interface WeaponListingItem {
   id: string;
@@ -45,8 +51,6 @@ const SUBSTAT_FILTERS = [
 ];
 
 type SortOption = "rarity_desc" | "atk_desc" | "name_asc";
-
-const DENSE_GRID = "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3";
 
 export function WeaponListingClient({ initialWeapons, locale, typeLabels }: WeaponListingClientProps) {
   const [selectedType, setSelectedType] = useState<string>("all");
@@ -105,8 +109,11 @@ export function WeaponListingClient({ initialWeapons, locale, typeLabels }: Weap
     return result;
   }, [initialWeapons, selectedType, selectedRarity, selectedSubstat, sortBy, searchQuery]);
 
-  const hasActiveFilters =
-    selectedType !== "all" || selectedRarity !== "all" || selectedSubstat !== "all" || searchQuery.trim().length > 0;
+  const activeFiltersCount =
+    (selectedType !== "all" ? 1 : 0) +
+    (selectedRarity !== "all" ? 1 : 0) +
+    (selectedSubstat !== "all" ? 1 : 0) +
+    (searchQuery.trim().length > 0 ? 1 : 0);
 
   const resetFilters = () => {
     setSelectedType("all");
@@ -119,191 +126,154 @@ export function WeaponListingClient({ initialWeapons, locale, typeLabels }: Weap
   return (
     <div className="space-y-6">
       {/* =========================================================================
-          TOOLBAR BỘ LỌC VŨ KHÍ NÂNG CAO
+          TOOLBAR BỘ LỌC VŨ KHÍ NÂNG CAO (LEIBO DESIGN SYSTEM V1.0)
           ========================================================================= */}
-      <div className="surface-card p-5 rounded-2xl border border-border bg-bg-card/90 backdrop-blur-sm space-y-4 shadow-sm">
-        {/* Hàng 1: Ô tìm kiếm + Sắp xếp */}
-        <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
-          <div className="relative flex-1 max-w-md">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Tìm kiếm vũ khí theo tên hoặc nội tại..."
-              className="w-full text-xs px-3 py-2.5 rounded-xl bg-bg-elevated border border-border focus:border-accent-500 focus:outline-none transition-colors"
-            />
-            {searchQuery && (
-              <button
-                type="button"
-                onClick={() => setSearchQuery("")}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary text-xs"
-              >
-                ✕
-              </button>
-            )}
-          </div>
-
-          {/* Sắp xếp */}
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] font-semibold text-text-muted shrink-0">Sắp xếp:</span>
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as SortOption)}
-              className="text-xs bg-bg-elevated border border-border rounded-xl px-3 py-2 text-text-primary focus:outline-none focus:border-accent-500"
-            >
-              <option value="rarity_desc">Phẩm cấp (5★ &rarr; 1★)</option>
-              <option value="atk_desc">Tấn Công Căn Bản cao nhất</option>
-              <option value="name_asc">Tên (A &rarr; Z)</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Hàng 2: Loại vũ khí + Phẩm cấp sao */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pt-2 border-t border-border/60">
-          {/* 5 Loại vũ khí */}
-          <div className="flex items-center gap-1.5 flex-wrap">
-            <span className="text-[11px] font-semibold text-text-muted mr-1">Loại:</span>
-            <button
-              type="button"
-              onClick={() => setSelectedType("all")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all border ${
-                selectedType === "all"
-                  ? "bg-accent-500 text-white border-accent-500 font-semibold shadow-sm"
-                  : "bg-bg-elevated text-text-secondary border-border hover:border-accent-500/40"
-              }`}
-            >
-              Tất cả
-            </button>
-            {WEAPON_TYPES.map((wt) => {
-              const active = selectedType.toLowerCase() === wt.key.toLowerCase();
-              return (
+      <ListFilterToolbar
+        activeCount={activeFiltersCount}
+        onClear={resetFilters}
+        clearLabel="Xóa bộ lọc"
+        mobileFilterLabel="Bộ lọc"
+        searchSlot={
+          <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between w-full">
+            <div className="relative flex-1 max-w-md">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Tìm kiếm vũ khí theo tên hoặc nội tại..."
+                className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl bg-bg-elevated border border-border focus:border-accent-500 focus:outline-none transition-colors"
+              />
+              {searchQuery && (
                 <button
+                  type="button"
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary text-xs"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+
+            {/* Sắp xếp */}
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold text-text-muted shrink-0">Sắp xếp:</span>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as SortOption)}
+                className="text-xs bg-bg-elevated border border-border rounded-xl px-3 py-2 text-text-primary focus:outline-none focus:border-accent-500"
+              >
+                <option value="rarity_desc">Phẩm cấp (5★ &rarr; 1★)</option>
+                <option value="atk_desc">Tấn công căn bản cao nhất</option>
+                <option value="name_asc">Tên (A &rarr; Z)</option>
+              </select>
+            </div>
+          </div>
+        }
+      >
+        <div className="space-y-4 pt-2">
+          {/* Hàng: Loại vũ khí */}
+          <div>
+            <div className="text-[11px] font-semibold text-text-muted uppercase tracking-wider mb-2">
+              Loại vũ khí:
+            </div>
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <FilterChip
+                label="Tất cả"
+                active={selectedType === "all"}
+                onClick={() => setSelectedType("all")}
+                size="sm"
+              />
+              {WEAPON_TYPES.map((wt) => (
+                <FilterChip
                   key={wt.key}
-                  type="button"
+                  label={typeLabels[wt.key] ?? wt.key}
+                  icon={<WeaponIcon type={wt.key} size={15} />}
+                  active={selectedType.toLowerCase() === wt.key.toLowerCase()}
                   onClick={() => setSelectedType(wt.key)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-all border ${
-                    active
-                      ? "bg-accent-500 text-white border-accent-500 font-semibold shadow-sm"
-                      : "bg-bg-elevated text-text-secondary border-border hover:border-accent-500/40 hover:text-text-primary"
-                  }`}
-                >
-                  <WeaponIcon type={wt.key} size={16} />
-                  <span>{typeLabels[wt.key] ?? wt.key}</span>
-                </button>
-              );
-            })}
+                  size="sm"
+                />
+              ))}
+            </div>
           </div>
 
-          {/* Phẩm cấp 5★, 4★, 3★ */}
-          <div className="flex items-center gap-1 p-1 rounded-xl bg-bg-elevated border border-border shrink-0 self-start lg:self-auto">
-            <button
-              type="button"
-              onClick={() => setSelectedRarity("all")}
-              className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
-                selectedRarity === "all"
-                  ? "bg-accent-500 text-white font-semibold shadow-sm"
-                  : "text-text-secondary hover:text-text-primary"
-              }`}
-            >
-              Tất cả
-            </button>
-            {[5, 4, 3, 2, 1].map((r) => {
-              const active = selectedRarity === r;
-              return (
-                <button
+          {/* Hàng: Phẩm cấp sao */}
+          <div>
+            <div className="text-[11px] font-semibold text-text-muted uppercase tracking-wider mb-2">
+              Độ hiếm (Sao):
+            </div>
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <FilterChip
+                label="Tất cả"
+                active={selectedRarity === "all"}
+                onClick={() => setSelectedRarity("all")}
+                size="sm"
+              />
+              {[5, 4, 3, 2, 1].map((r) => (
+                <FilterChip
                   key={r}
-                  type="button"
+                  label={`${r}★`}
+                  active={selectedRarity === r}
                   onClick={() => setSelectedRarity(r)}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
-                    active
-                      ? r === 5
-                        ? "bg-amber-500 text-white shadow-sm"
-                        : r === 4
-                          ? "bg-purple-500 text-white shadow-sm"
-                          : "bg-blue-500 text-white shadow-sm"
+                  size="sm"
+                  className={
+                    selectedRarity === r
+                      ? ""
                       : r === 5
-                        ? "text-amber-400 hover:text-amber-300"
-                        : r === 4
-                          ? "text-purple-400 hover:text-purple-300"
-                          : "text-blue-400 hover:text-blue-300"
-                  }`}
-                >
-                  {r}★
-                </button>
-              );
-            })}
+                      ? "!text-amber-400"
+                      : r === 4
+                      ? "!text-purple-400"
+                      : "!text-blue-400"
+                  }
+                />
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Hàng 3: Lọc theo Chỉ số phụ (Substat) */}
-        <div>
-          <div className="text-[11px] font-semibold text-text-muted uppercase tracking-wider mb-2 flex items-center justify-between">
-            <span>Chỉ số phụ (Substat):</span>
-            {hasActiveFilters && (
-              <button
-                type="button"
-                onClick={resetFilters}
-                className="text-accent-bright hover:underline font-medium lowercase"
-              >
-                ✕ Xóa bộ lọc
-              </button>
-            )}
-          </div>
-          <div className="flex flex-wrap gap-1.5">
-            {SUBSTAT_FILTERS.map((sub) => {
-              const active = selectedSubstat === sub.key;
-              return (
-                <button
+          {/* Hàng: Lọc theo Chỉ số phụ (Substat) */}
+          <div>
+            <div className="text-[11px] font-semibold text-text-muted uppercase tracking-wider mb-2">
+              Chỉ số phụ (Substat):
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {SUBSTAT_FILTERS.map((sub) => (
+                <FilterChip
                   key={sub.key}
-                  type="button"
+                  label={sub.labelVi}
+                  active={selectedSubstat === sub.key}
                   onClick={() => setSelectedSubstat(sub.key)}
-                  className={`px-2.5 py-1 rounded-lg text-xs transition-all border ${
-                    active
-                      ? "bg-accent-500 text-white border-accent-500 font-semibold shadow-sm"
-                      : "bg-bg-elevated/70 text-text-secondary border-border hover:border-accent-500/50 hover:text-text-primary"
-                  }`}
-                >
-                  <span>{sub.labelVi}</span>
-                </button>
-              );
-            })}
+                  size="sm"
+                />
+              ))}
+            </div>
           </div>
         </div>
+      </ListFilterToolbar>
 
-        {/* Thống kê số lượng */}
-        <div className="pt-2 border-t border-border/60 flex items-center justify-between text-xs text-text-muted">
-          <span>
-            Hiển thị <strong className="text-accent-bright font-semibold">{filteredWeapons.length}</strong> / {initialWeapons.length} vũ khí
+      {/* =========================================================================
+          THỐNG KÊ KẾT QUẢ
+          ========================================================================= */}
+      <div className="flex items-center justify-between text-xs text-text-muted px-1">
+        <span>
+          Hiển thị <strong className="text-accent-bright font-semibold tabular-nums">{filteredWeapons.length}</strong> / {initialWeapons.length} vũ khí
+        </span>
+        {selectedSubstat !== "all" && (
+          <span className="text-[11px] text-accent-bright">
+            Chỉ số phụ: {SUBSTAT_FILTERS.find((s) => s.key === selectedSubstat)?.labelVi}
           </span>
-          {selectedSubstat !== "all" && (
-            <span className="text-[11px] text-accent-bright">
-              Chỉ số phụ: {SUBSTAT_FILTERS.find((s) => s.key === selectedSubstat)?.labelVi}
-            </span>
-          )}
-        </div>
+        )}
       </div>
 
       {/* =========================================================================
-          LƯỚI HIỂN THỊ VŨ KHÍ
+          LƯỚI HIỂN THỊ VŨ KHÍ (ENTITY GRID COMPACT — NO 10 COLUMNS)
           ========================================================================= */}
       {filteredWeapons.length === 0 ? (
-        <div className="text-center py-16 surface-card rounded-2xl border border-dashed border-border p-8">
-          <div className="text-base font-semibold text-text-primary mb-1">
-            Không tìm thấy vũ khí phù hợp
-          </div>
-          <p className="text-xs text-text-muted mb-4 max-w-sm mx-auto">
-            Hãy thử nới lỏng bộ lọc hoặc xóa từ khóa tìm kiếm.
-          </p>
-          <button
-            type="button"
-            onClick={resetFilters}
-            className="px-4 py-2 rounded-lg text-xs font-semibold bg-accent-500 text-white hover:bg-accent-bright transition-colors"
-          >
-            Đặt lại bộ lọc
-          </button>
-        </div>
+        <ListEmptyState
+          title="Không tìm thấy vũ khí phù hợp"
+          description="Hãy thử nới lỏng bộ lọc hoặc xóa từ khóa tìm kiếm."
+          onReset={resetFilters}
+        />
       ) : (
-        <div className={DENSE_GRID}>
+        <EntityGrid variant="compact">
           {filteredWeapons.map((w) => {
             const subLabel = w.subStatName ? translateStatName(w.subStatName, locale) : null;
 
@@ -322,7 +292,7 @@ export function WeaponListingClient({ initialWeapons, locale, typeLabels }: Weap
               </div>
             );
           })}
-        </div>
+        </EntityGrid>
       )}
     </div>
   );
