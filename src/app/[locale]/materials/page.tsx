@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { prisma } from "@/lib/db/prisma";
 import { withDbRetry } from "@/lib/db/db-retry";
 import { getLocalizedName } from "@/lib/i18n/entity-name";
 import { createLocalizedMetadata } from "@/lib/seo/metadata";
-import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { BreadcrumbJsonLd } from "@/components/layout/BreadcrumbJsonLd";
+import { ListPageLayout, ListPageHeader } from "@/components/list-layout";
 import {
   MaterialListingClient,
   type MaterialListingItem,
@@ -64,21 +65,29 @@ export default async function MaterialsPage({ params }: MaterialsPageProps) {
     { name: t("breadcrumb"), path: "/materials" },
   ];
 
-  return (
-    <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 space-y-6">
-      <BreadcrumbJsonLd locale={locale} items={breadcrumbs} />
-      <Breadcrumb items={breadcrumbs} />
+  const materialIcon = (
+    <Image
+      src="/local-genshin-assets/ui/items.png"
+      alt=""
+      width={24}
+      height={24}
+      className="w-5 h-5 sm:w-6 sm:h-6 object-contain"
+    />
+  );
 
-      <div>
-        <h1 className="font-display text-display-2 font-semibold text-text-primary mb-2">
-          {t("title")}
-        </h1>
-        <p className="text-sm text-text-secondary">
-          {t("description", { count: all.length })}
-        </p>
-      </div>
+  return (
+    <ListPageLayout>
+      <BreadcrumbJsonLd locale={locale} items={breadcrumbs} />
+
+      <ListPageHeader
+        icon={materialIcon}
+        title={t("title")}
+        description={t("description", { count: all.length })}
+        totalCount={all.length}
+        countLabel={t("title")}
+      />
 
       <MaterialListingClient initialMaterials={listingItems} locale={locale} />
-    </div>
+    </ListPageLayout>
   );
 }

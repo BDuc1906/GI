@@ -1,14 +1,19 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { SafeImage } from "@/components/ui/SafeImage";
+import { MaterialCard } from "./MaterialCard";
 import {
   MATERIAL_CATEGORIES,
   classifyMaterial,
   type MaterialCategoryKey,
 } from "@/core/game/material-categories";
+import {
+  ListFilterToolbar,
+  FilterChip,
+  EntityGrid,
+  ListEmptyState,
+} from "@/components/list-layout";
 
 export interface MaterialListingItem {
   id: string;
@@ -23,8 +28,6 @@ interface MaterialListingClientProps {
   initialMaterials: MaterialListingItem[];
   locale: string;
 }
-
-const DENSE_GRID = "grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3";
 
 export function MaterialListingClient({ initialMaterials, locale: _locale }: MaterialListingClientProps) {
   const t = useTranslations("Materials");
@@ -70,7 +73,8 @@ export function MaterialListingClient({ initialMaterials, locale: _locale }: Mat
     return counts;
   }, [enrichedMaterials, initialMaterials.length]);
 
-  const hasActiveFilters = selectedCategory !== "all" || searchQuery.trim().length > 0;
+  const activeFiltersCount =
+    (selectedCategory !== "all" ? 1 : 0) + (searchQuery.trim().length > 0 ? 1 : 0);
 
   const resetFilters = () => {
     setSelectedCategory("all");
@@ -80,141 +84,98 @@ export function MaterialListingClient({ initialMaterials, locale: _locale }: Mat
   return (
     <div className="space-y-6">
       {/* =========================================================================
-          TOOLBAR BỘ LỌC NGUYÊN LIỆU ĐA NGÔN NGỮ
+          TOOLBAR BỘ LỌC NGUYÊN LIỆU ĐA NGÔN NGỮ (LEIBO DESIGN SYSTEM V1.0)
           ========================================================================= */}
-      <div className="surface-card p-5 rounded-2xl border border-border bg-bg-card/90 backdrop-blur-sm space-y-4 shadow-sm">
-        {/* Hàng 1: Ô tìm kiếm */}
-        <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
-          <div className="relative flex-1 max-w-md">
+      <ListFilterToolbar
+        activeCount={activeFiltersCount}
+        onClear={resetFilters}
+        clearLabel={t("clearFilters")}
+        mobileFilterLabel="Bộ lọc"
+        searchSlot={
+          <div className="relative w-full max-w-md">
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={t("searchPlaceholder")}
-              className="w-full text-xs px-3 py-2.5 rounded-xl bg-bg-elevated border border-border focus:border-accent-500 focus:outline-none transition-colors"
+              className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl bg-bg-elevated border border-border focus:border-accent-500 focus:outline-none transition-colors"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery("")}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary text-xs"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary text-xs"
               >
                 ✕
               </button>
             )}
           </div>
-
-          {hasActiveFilters && (
-            <button
-              type="button"
-              onClick={resetFilters}
-              className="text-accent-bright hover:underline text-xs font-medium self-start sm:self-auto"
-            >
-              {t("clearFilters")}
-            </button>
-          )}
-        </div>
-
-        {/* Hàng 2: Danh mục nguyên liệu Pills */}
-        <div>
-          <div className="text-[11px] font-semibold text-text-muted uppercase tracking-wider mb-2">
-            {t("filterCategoryLabel")}
-          </div>
-          <div className="flex flex-wrap gap-1.5">
-            {MATERIAL_CATEGORIES.map((cat) => {
-              const active = selectedCategory === cat.key;
-              const count = categoryCounts[cat.key] ?? 0;
-              return (
-                <button
-                  key={cat.key}
-                  type="button"
-                  onClick={() => setSelectedCategory(cat.key)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-all border ${
-                    active
-                      ? "bg-accent-500 text-white border-accent-500 font-semibold shadow-sm"
-                      : "bg-bg-elevated/70 text-text-secondary border-border hover:border-accent-500/50 hover:text-text-primary"
-                  }`}
-                >
-                  <span>{t(`categories.${cat.key}`)}</span>
-                  <span className={`text-[10px] font-medium ${active ? "text-white/80" : "text-text-muted"}`}>
-                    ({count})
-                  </span>
-                </button>
-              );
-            })}
+        }
+      >
+        <div className="space-y-4 pt-2">
+          {/* Danh mục nguyên liệu Pills */}
+          <div>
+            <div className="text-[11px] font-semibold text-text-muted uppercase tracking-wider mb-2">
+              {t("filterCategoryLabel")}
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {MATERIAL_CATEGORIES.map((cat) => {
+                const active = selectedCategory === cat.key;
+                const count = categoryCounts[cat.key] ?? 0;
+                return (
+                  <FilterChip
+                    key={cat.key}
+                    label={t(`categories.${cat.key}`)}
+                    count={count}
+                    active={active}
+                    onClick={() => setSelectedCategory(cat.key)}
+                    size="sm"
+                  />
+                );
+              })}
+            </div>
           </div>
         </div>
+      </ListFilterToolbar>
 
-        {/* Thống kê kết quả */}
-        <div className="pt-2 border-t border-border/60 flex items-center justify-between text-xs text-text-muted">
-          <span>
-            {t("showingCount", { filtered: filteredMaterials.length, total: initialMaterials.length })}
+      {/* Thống kê kết quả */}
+      <div className="flex items-center justify-between text-xs text-text-muted px-1">
+        <span>
+          {t("showingCount", { filtered: filteredMaterials.length, total: initialMaterials.length })}
+        </span>
+        {selectedCategory !== "all" && (
+          <span className="text-[11px] text-accent-bright italic">
+            {t(`categories.${selectedCategory}Desc`)}
           </span>
-          {selectedCategory !== "all" && (
-            <span className="text-[11px] text-text-secondary italic">
-              {t(`categories.${selectedCategory}Desc`)}
-            </span>
-          )}
-        </div>
+        )}
       </div>
 
       {/* =========================================================================
-          LƯỚI HIỂN THỊ NGUYÊN LIỆU
+          LƯỚI HIỂN THỊ NGUYÊN LIỆU (ENTITY GRID COMPACT — NO 10 COLUMNS)
           ========================================================================= */}
       {filteredMaterials.length === 0 ? (
-        <div className="text-center py-16 surface-card rounded-2xl border border-dashed border-border p-8">
-          <div className="text-base font-semibold text-text-primary mb-1">
-            {t("emptyTitle")}
-          </div>
-          <p className="text-xs text-text-muted mb-4 max-w-sm mx-auto">
-            {t("emptyDesc")}
-          </p>
-          <button
-            type="button"
-            onClick={resetFilters}
-            className="px-4 py-2 rounded-lg text-xs font-semibold bg-accent-500 text-white hover:bg-accent-bright transition-colors"
-          >
-            {t("resetBtn")}
-          </button>
-        </div>
+        <ListEmptyState
+          title={t("emptyTitle")}
+          description={t("emptyDesc")}
+          resetLabel={t("resetBtn")}
+          onReset={resetFilters}
+        />
       ) : (
-        <div className={DENSE_GRID}>
-          {filteredMaterials.map((m) => {
-            return (
-              <div key={m.id} className="grid-card-item">
-                <Link
-                  href={`/materials/${m.id}`}
-                  className="surface-card flex flex-col items-center p-3 rounded-xl hover:border-accent-500 transition-all group h-full text-center"
-                >
-                  <div className="relative w-14 h-14 mb-2 rounded-lg overflow-hidden bg-bg-elevated p-1 group-hover:scale-105 transition-transform">
-                    {m.iconUrl ? (
-                      <SafeImage
-                        src={m.iconUrl}
-                        alt={m.name}
-                        fallbackSrcs={[m.iconUrlOriginal]}
-                        fill
-                        sizes="56px"
-                        className="object-contain"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-[10px] text-text-muted">
-                        {m.name.charAt(0)}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="font-semibold text-xs text-text-primary line-clamp-2 mb-1 group-hover:text-accent-bright transition-colors">
-                    {m.localizedName || m.name}
-                  </div>
-
-                  <span className="text-[10px] text-text-muted mt-auto pt-1 border-t border-border/40 w-full truncate">
-                    {t(`categories.${m.category}`)}
-                  </span>
-                </Link>
-              </div>
-            );
-          })}
-        </div>
+        <EntityGrid variant="compact">
+          {filteredMaterials.map((m) => (
+            <div key={m.id} className="h-full">
+              <MaterialCard
+                id={m.id}
+                name={m.localizedName || m.name}
+                category={m.category}
+                categoryLabel={t(`categories.${m.category}`)}
+                iconUrl={m.iconUrl}
+                iconUrlOriginal={m.iconUrlOriginal}
+                gameVersion={m.gameVersion}
+              />
+            </div>
+          ))}
+        </EntityGrid>
       )}
     </div>
   );

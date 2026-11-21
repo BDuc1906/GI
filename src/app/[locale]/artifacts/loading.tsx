@@ -1,12 +1,20 @@
+import { ListPageLayout, ListLoadingSkeleton } from "@/components/list-layout";
+
 export default function Loading() {
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="h-8 w-52 rounded-lg bg-bg-elevated animate-pulse mb-8" />
-      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3">
-        {Array.from({ length: 20 }).map((_, i) => (
-          <div key={i} className="aspect-square rounded-[var(--radius-card)] bg-bg-elevated animate-pulse" />
-        ))}
+    <ListPageLayout>
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-border/40 animate-pulse">
+        <div className="space-y-2">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-bg-elevated" />
+            <div className="h-8 w-48 rounded-xl bg-bg-elevated" />
+            <div className="h-6 w-12 rounded-full bg-bg-elevated" />
+          </div>
+          <div className="h-4 w-60 rounded bg-bg-elevated/60" />
+        </div>
       </div>
-    </div>
+      <div className="h-28 w-full rounded-2xl bg-bg-elevated/50 animate-pulse border border-border/60" />
+      <ListLoadingSkeleton variant="compact" count={24} />
+    </ListPageLayout>
   );
 }
