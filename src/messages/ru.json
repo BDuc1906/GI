@@ -128,6 +128,22 @@
     "home": "На главную",
     "viewCharacters": "Смотреть персонажей"
   },
+  "Enemies": {
+    "title": "Враги",
+    "description": "Полный список врагов в игре. Просматривайте характеристики, трофеи и связанные подземелья.",
+    "metaTitle": "Враги — LEIBO",
+    "metaDescription": "Полный список врагов Genshin Impact: категории, трофеи и подземелья.",
+    "foundCount": "Найдено <b>{count}</b> врагов",
+    "searchPlaceholder": "Поиск врагов по названию...",
+    "searchButton": "Найти",
+    "filterType": "Уровень",
+    "filterCategory": "Группа",
+    "allTypes": "Все",
+    "allCategories": "Все группы",
+    "clearAllFilters": "Сбросить фильтры",
+    "noResults": "Нет врагов, соответствующих фильтрам.",
+    "resetFilters": "Сбросить фильтры"
+  },
   "Characters": {
     "metaTitle": "Персонажи — LEIBO",
     "metaDescription": "Полный список персонажей Genshin Impact: стихия, оружие, редкость.",

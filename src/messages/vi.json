@@ -126,7 +126,19 @@
   },
   "Enemies": {
     "title": "Kẻ Địch",
-    "description": "Danh sách toàn bộ kẻ địch trong game"
+    "description": "Toàn bộ kẻ địch trong sách tra cứu của game. Bấm vào một kẻ địch để xem mô tả, vật phẩm rớt và bí cảnh liên quan.",
+    "metaTitle": "Kẻ địch — LEIBO",
+    "metaDescription": "Danh sách toàn bộ kẻ địch Genshin Impact: cấp độ, nhóm kẻ địch, vật phẩm rớt và bí cảnh liên quan.",
+    "foundCount": "Tìm thấy <b>{count}</b> kẻ địch",
+    "searchPlaceholder": "Tìm kẻ địch theo tên...",
+    "searchButton": "Tìm kiếm",
+    "filterType": "Cấp độ",
+    "filterCategory": "Nhóm kẻ địch",
+    "allTypes": "Tất cả",
+    "allCategories": "Mọi nhóm",
+    "clearAllFilters": "Xóa bộ lọc",
+    "noResults": "Không có kẻ địch nào khớp bộ lọc.",
+    "resetFilters": "Đặt lại bộ lọc"
   },
   "Achievements": {
     "title": "Thành Tựu",

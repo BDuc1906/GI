@@ -126,7 +126,19 @@
   },
   "Enemies": {
     "title": "Enemies",
-    "description": "Full list of enemies in the game"
+    "description": "Comprehensive list of enemies in the game. View detailed stats, drops, and associated domains.",
+    "metaTitle": "Enemies — LEIBO",
+    "metaDescription": "Full list of Genshin Impact enemies: types, categories, drops, and associated domains.",
+    "foundCount": "Found <b>{count}</b> enemies",
+    "searchPlaceholder": "Search enemies by name...",
+    "searchButton": "Search",
+    "filterType": "Type",
+    "filterCategory": "Category",
+    "allTypes": "All",
+    "allCategories": "All Categories",
+    "clearAllFilters": "Clear all filters",
+    "noResults": "No enemies match the current filters.",
+    "resetFilters": "Reset filters"
   },
   "Achievements": {
     "title": "Achievements",
